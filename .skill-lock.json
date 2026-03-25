@@ -1,0 +1,108 @@
+{
+  "version": 3,
+  "skills": {
+    "microsoft-foundry": {
+      "source": "microsoft/azure-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/microsoft/azure-skills.git",
+      "skillPath": ".github/plugins/azure-skills/skills/microsoft-foundry/SKILL.md",
+      "skillFolderHash": "5e0c2d401c82021e1d180c89cf3233ddfbb5fbc9",
+      "installedAt": "2026-03-18T13:21:03.937Z",
+      "updatedAt": "2026-03-20T16:33:41.662Z"
+    }
+  },
+  "dismissed": {},
+  "_kpihx_skills": {
+    "kpihx/soul": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/soul/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/duties": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/duties/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/workspace": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/workspace/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/git": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/git/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/whatsapp": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/whatsapp/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/mail": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/mail/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/linkedin": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/linkedin/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "kpihx/ticktick": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/ticktick/SKILL.md",
+      "installedAt": "2026-03-25T00:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "agents/claude": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/agents/claude/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "agents/gemini": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/agents/gemini/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "agents/codex": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/agents/codex/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "agents/vibe": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/agents/vibe/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-03-25T02:00:00.000Z"
+    },
+    "agents/copilot": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/agents/copilot/SKILL.md",
+      "installedAt": "2026-03-25T03:00:00.000Z",
+      "updatedAt": "2026-03-25T03:00:00.000Z"
+    }
+  }
+}

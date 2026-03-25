@@ -1,0 +1,10 @@
+# QMD vector database (local, not versioned)
+lancedb/
+
+# SQLite indexes
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# OS artifacts
+.DS_Store
