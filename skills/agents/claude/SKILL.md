@@ -49,26 +49,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 After editing `~/.claude.json` → restart Claude Code for MCPs to load. Verify with `/mcp`.
 
-## Installed MCPs
-
-| Name | Transport | Endpoint / Command | Notes |
-|------|-----------|-------------------|-------|
-| `bw-mcp` | stdio | `/home/kpihx/.local/bin/bw-mcp serve` | zenity GUI unlock — no login shell needed |
-| `tick-mcp` | HTTP | `https://tick.kpihx-labs.com/mcp` | Primary |
-| `tick-mcp--fallback` | stdio | `zsh -l -c "tick-mcp serve"` | stdio fallback |
-| `whats-mcp` | HTTP | `https://whats.kpihx-labs.com/mcp` | Primary |
-| `whats-mcp--fallback` | stdio | `/home/kpihx/.npm-global/bin/whats-mcp` | stdio fallback |
-| `desk-mcp` | stdio | `/home/kpihx/.local/bin/desk-mcp serve` | Needs DISPLAY env vars |
-| `mail-mcp` | HTTP | `https://mail.kpihx-labs.com/mcp` | Primary |
-| `mail-mcp--fallback` | stdio | `zsh -l -c "mail-mcp serve"` | stdio fallback |
-| `linkedin-mcp` | HTTP | `https://linkedin.kpihx-labs.com/mcp` | Primary |
-| `linkedin-mcp--fallback` | stdio | `/home/kpihx/.bun/bin/linkedin-mcp serve` | stdio fallback |
-| `rag-mcp` | stdio | `npx -y @yikizi/mcp-local-rag` | Local hybrid RAG |
-| `sequential-thinking` | stdio | `npx -y @modelcontextprotocol/server-sequential-thinking` | — |
-| `memory` | stdio | `npx -y @modelcontextprotocol/server-memory` | Knowledge Graph |
-| `exa` | HTTP | `https://mcp.exa.ai/mcp` | `EXA_API_KEY` header |
-| `puppeteer` | stdio | `npx -y @modelcontextprotocol/server-puppeteer` | Browser automation |
-| `claude-in-chrome` | browser ext | Chrome 146 | claude-in-chrome extension installed |
+**Current MCP list:** read `~/.claude.json` directly — it is the source of truth.
 
 ## bw-mcp Auth Specifics
 

@@ -51,22 +51,7 @@ XAUTHORITY = "$XAUTHORITY"
 ```
 **WARNING:** Do NOT add `[mcp_servers.<name>.env]` blocks by default — can break Codex startup.
 
-## Installed MCPs (Codex)
-
-| Name | Command | Notes |
-|------|---------|-------|
-| `bw_mcp` | direct (no subcommand) | zenity; needs desktop env vars block |
-| `tick_mcp` | HTTP `tick.kpihx-labs.com/mcp` | Primary |
-| `tick_mcp_fallback` | `zsh -l -c "tick-mcp serve"` | stdio fallback |
-| `whats_mcp` | HTTP `whats.kpihx-labs.com/mcp` | Primary |
-| `whats_mcp_fallback` | direct (no subcommand) | stdio fallback |
-| `desk_mcp` | `desk-mcp serve` | needs display env vars |
-| `rag_mcp` | `npx -y @yikizi/mcp-local-rag` | local RAG |
-| `memory_mcp` | `npx -y @modelcontextprotocol/server-memory` | Knowledge Graph |
-| `sequential_thinking_mcp` | `npx -y @modelcontextprotocol/server-sequential-thinking` | — |
-| `exa_mcp` | HTTP `https://mcp.exa.ai/mcp` | `EXA_API_KEY` required |
-| `puppeteer_mcp` | `npx -y @modelcontextprotocol/server-puppeteer` | browser |
-| `n8n_mcp` | `zsh -l -c "n8n-mcp"` | `N8N_API_KEY` via login shell |
+**Current MCP list:** read `~/.codex/config.toml` directly — it is the source of truth.
 
 ## Codex-Specific Rules
 

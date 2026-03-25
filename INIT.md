@@ -12,7 +12,7 @@ Bootstrap for any agent joining the KπX workspace. Read once on first session.
 | GEMINI | `~/.gemini/` | `~/.gemini/GEMINI.md` → `~/.agents/KERNEL.md` | `~/.gemini/settings.json` | Yes (extensions) |
 | CODEX | `~/.codex/` | `~/.codex/AGENTS.md` → `~/.agents/KERNEL.md` | `~/.codex/config.toml` | Yes |
 | COPILOT | `~/.copilot/` | `~/.copilot/COPILOT.md` → `~/.agents/KERNEL.md` | `~/.copilot/mcp-config.json` | Yes |
-| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md` | `~/.vibe/config.toml` | No — see §IV |
+| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md` | `~/.vibe/config.toml` | No ? see §IV |
 
 ---
 
@@ -57,7 +57,7 @@ Create `~/.agents/skills/agents/<name>/SKILL.md` with YAML frontmatter:
 ```yaml
 ---
 name: agent-runtime-<name>
-description: "<Agent> runtime — config format, installed MCPs, agent-specific rules."
+description: "<Agent> runtime — config file path + format, MCP install procedure, agent-specific rules."
 license: private
 metadata:
   author: KpihX
@@ -67,28 +67,51 @@ metadata:
 allowed-tools: Bash, Read, Write, Edit
 ---
 ```
-Body must document: config file format (with example), installed MCP stack, agent-specific rules.
+Body must document: config file path + format (with example), MCP install procedure, agent-specific rules.
+Do NOT list installed MCPs — the config file is the source of truth for what's currently installed.
 
 **2. Link the global kernel**
 
 ```bash
 ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>
-# Examples:
-#   Claude:  ln -sf ~/.agents/KERNEL.md ~/.claude/CLAUDE.md
-#   Codex:   ln -sf ~/.agents/KERNEL.md ~/.codex/AGENTS.md
 ```
+
+**Known configurations — add your entry when onboarding:**
+- **Claude:** `ln -sf ~/.agents/KERNEL.md ~/.claude/CLAUDE.md`
+- **Codex:** `ln -sf ~/.agents/KERNEL.md ~/.codex/AGENTS.md`
+- **Copilot:** `ln -sf ~/.agents/KERNEL.md ~/.copilot/COPILOT.md`
+- **Gemini:** `ln -sf ~/.agents/KERNEL.md ~/.gemini/GEMINI.md`
 
 **3. Configure skills path**
 
-Point the agent's skills discovery to `~/.agents/skills/`. Method varies per agent:
-- **Claude:** namespace-level symlinks in `~/.claude/skills/` → `~/.agents/skills/<namespace>/`
-- **Codex:** `skill_paths = ["/home/kpihx/.agents/skills"]` in `config.toml`
-- **Copilot/Gemini:** equivalent skills path setting in respective config
+Point the agent's skills discovery to `~/.agents/skills/`. Method varies per agent.
+
+**Known configurations — add your entry when onboarding:**
+
+- **Claude:** `~/.claude/skills/` pre-existed as a directory with entries — a top-level `ln -sf` would nest a symlink *inside* it rather than replacing it, so namespace-level symlinks are required instead:
+  ```bash
+  ln -sf ~/.agents/skills/kpihx ~/.claude/skills/kpihx
+  ln -sf ~/.agents/skills/agents ~/.claude/skills/agents
+  ```
+- **Codex:** `skill_paths` array in `~/.codex/config.toml`:
+  ```toml
+  skill_paths = ["/home/kpihx/.agents/skills"]
+  ```
+- **Copilot:** *(fill in when onboarding)*
+- **Gemini:** *(fill in when onboarding)*
+
+> Only create a §IV-style dedicated section if your setup is fundamentally different (e.g. no skills support at all).
 
 **4. Inject HOT memory at boot**
 
-Load `~/.agents/memory/context.md` at session start via the agent's available mechanism
-(`bootstrap-extra-files`, `extraFiles`, hook, or equivalent).
+Load `~/.agents/memory/context.md` at session start via the agent's available mechanism.
+
+**Known configurations — add your entry when onboarding:**
+
+- **Claude:** `bootstrap-extra-files` hook in `~/.claude/settings.json` → `["/home/kpihx/.agents/memory/context.md"]`
+- **Codex:** *(fill in when onboarding)*
+- **Copilot:** *(fill in when onboarding)*
+- **Gemini:** *(fill in when onboarding)*
 
 ### What is NOT needed in the standard procedure
 
@@ -203,13 +226,19 @@ After a successful init (all checklist items green), **do this proactively** wit
    - Which memory injection mechanism did you use, and does it have limits?
    - Any non-obvious MCP config constraints (env vars, restart required, auth)?
 
-2. **Propose concrete adjustments**:
+2. **Complete the INIT.md example lists** (steps 2, 3, 4 of §II):
+   - Add your concrete kernel link command to the step 2 list (if not already present)
+   - Add your skills path configuration to the step 3 list
+   - Add your HOT memory injection method to the step 4 list
+   - Only create a new §IV-style section if your case is fundamentally different from existing agents
+
+3. **Propose concrete adjustments**:
    - Suggest edits to `skills/agents/<name>/SKILL.md` to capture your specifics
    - If INIT.md has inaccuracies for your agent, propose a correction
 
-3. **Update `~/.agents/memory/dailylog.md`** with the init session entry.
+4. **Update `~/.agents/memory/dailylog.md`** with the init session entry.
 
-4. **Propose `git commit` + `make push`** so the registry stays versioned.
+5. **Propose `git commit` + `make push`** so the registry stays versioned.
 
 ---
 

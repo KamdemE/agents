@@ -39,10 +39,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 HTTP servers: use `"type": "http"`. Restart Copilot + verify via `/mcp` after any config edit.
 
-## Installed MCPs (Copilot)
-
-Same stack as Codex (see `agents/codex` for full command details):
-`bw_mcp` · `tick_mcp` (HTTP+fallback) · `whats_mcp` (HTTP+fallback) · `desk_mcp` · `rag_mcp` · `memory_mcp` · `sequential_thinking_mcp` · `exa_mcp` · `puppeteer_mcp` · `n8n_mcp`
+**Current MCP list:** read `~/.copilot/mcp-config.json` directly — it is the source of truth.
 
 ## Changelog
 

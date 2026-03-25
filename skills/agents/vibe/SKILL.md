@@ -42,18 +42,7 @@ api_key_header = "<header_name>"
 api_key_format = "{token}"
 ```
 
-## Installed MCPs (VIBE)
-
-| Name | Transport | Endpoint / Command | Notes |
-|------|-----------|-------------------|-------|
-| `tick` | HTTP | `https://tick.kpihx-labs.com/mcp` | Primary |
-| `tick_fallback` | stdio | `zsh -l -c "tick-mcp serve"` | stdio fallback |
-| `whats` | HTTP | `https://whats.kpihx-labs.com/mcp` | Primary |
-| `whats_fallback` | stdio | `/home/kpihx/.npm-global/bin/whats-mcp` | stdio fallback |
-| `desk` | stdio | `/home/kpihx/.local/bin/desk-mcp serve` | Desktop automation |
-| `bw` | stdio | `zsh -l -c "bw-mcp serve"` | zenity GUI unlock |
-| `mail` | stdio | `zsh -l -c "mail-mcp serve"` | Zimbra/poly |
-| `exa` | HTTP | `https://mcp.exa.ai/mcp` | `EXA_API_KEY` env var |
+**Current MCP list:** read `~/.vibe/config.toml` directly (`[[mcp_servers]]` array) — it is the source of truth.
 
 ## Changelog
 

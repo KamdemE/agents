@@ -55,22 +55,7 @@ Must explicitly declare in `gemini-extension.json`:
 "env": { "MY_TOKEN": "$MY_TOKEN", "MY_API_KEY": "$MY_API_KEY" }
 ```
 
-## Installed Extensions
-
-| Extension | Transport | Source | Notes |
-|-----------|-----------|--------|-------|
-| `bw-mcp` | stdio | `~/Work/AI/gemini_mcps/bw_mcp/` | v1.7.1 |
-| `tick-mcp` | HTTP | `~/Work/AI/gemini_mcps/tick_mcp/` | Primary |
-| `tick-mcp-fallback` | stdio | `~/Work/AI/gemini_mcps/tick_mcp_fallback/` | login-shell + explicit env |
-| `whats-mcp` | HTTP | `~/Work/AI/gemini_mcps/whats_mcp/` | Primary |
-| `whats-mcp-fallback` | stdio | `~/Work/AI/gemini_mcps/whats_mcp_fallback/` | direct binary |
-| `desk-mcp` | stdio | `~/Work/AI/gemini_mcps/desk_mcp/` | XDG screenshot + xdotool |
-| `seq-mcp` | stdio | `~/Work/AI/gemini_mcps/seq_mcp/` | Sequential reasoning |
-| `puppeteer-mcp` | stdio | `~/Work/AI/gemini_mcps/puppeteer_mcp/` | Edge-compatible |
-| `graph-mcp` | stdio | `~/Work/AI/gemini_mcps/graph_mcp/` | Knowledge Graph |
-| `rag-mcp` | stdio | `~/Work/AI/gemini_mcps/rag_mcp/` | Hybrid local RAG |
-| `mail-mcp` | HTTP | `~/Work/AI/gemini_mcps/mail_mcp/` | Primary |
-| `mail-mcp-fallback` | stdio | `~/Work/AI/gemini_mcps/mail_mcp_fallback/` | zsh -l -c + explicit env |
+**Current extension list:** read `~/.gemini/extension-enablement.json` and browse `~/Work/AI/gemini_mcps/` — they are the source of truth.
 
 ## Key Rules
 
