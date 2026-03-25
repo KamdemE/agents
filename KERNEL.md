@@ -53,7 +53,8 @@ All detailed knowledge lives in `~/.agents/skills/`. Load on demand via progress
 
 ## Critical Cross-Agent Rules
 
-- **Language:** All `~/.agents/` files → English only by default.
+- **Response language:** Always respond in the language KπX used in their current message. Switch naturally per message — no need to be told.
+- **File language:** All `~/.agents/` files → English only by default.
 - **Memory home:** `~/.agents/` is the git-versioned agent repo.
 - **TODOs:** Centralized in `~/.agents/memory/context.md`. Only KπX adds them; agents execute + remove.
 - **Session end mandate:** Update `context.md` + append to `dailylog.md` before closing. Stop hook enforces.
