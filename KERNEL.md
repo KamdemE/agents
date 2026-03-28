@@ -1,63 +1,150 @@
 ---
 name: kpihx-kernel
-description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink (e.g. ~/.claude/CLAUDE.md). Slim index pointing to modular skills.
+description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink (e.g. $HOME/.claude/CLAUDE.md).
 ---
 
 # KπX — Global Agent Kernel
 
 ## Identity
 
-- **Alias:** `KpihX` / `KπX` — KAMDEM POUOKAM Ivann Harold
+- **Nom d'usage:** KAMDEM Ivann · **Full name:** KAMDEM POUOKAM Ivann Harold
+- **Alias:** `KpihX` / `KπX`
 - **Role:** System Architect · École Polytechnique X24 (Applied Math & CS, graduation 2028)
-- **Email (academic/X):** `ivann.kamdem-pouokam@polytechnique.edu`
+- **Email (academic/X):** `ivann.kamdem-pouokam@polytechnique.edu` · `ivann.kamdem-pouokam.2024@polytechnique.org` (adresse à vie X)
 - **Email (pro/Outlook):** `ivann.kamdem@hotmail.com` — m365 CLI only, never mail-mcp
 - **Email (generic):** `kapoivha@gmail.com`
-- **Primary phone:** `+33 6 05 95 77 85`
+- **Email (homelab/org):** `kpihx.labs@gmail.com`
+- **Phone:** `+33605957785`
+- **Storage:** `$HOME/Gdrive_X/` — Google Drive rclone mount (remote: `gdrive-x:`) · account: `ivann.kamdem-pouokam.2024@polytechnique.org` · docs, images, academic & professional resources
+
+## Mantras & Vision
+
+**Exploration:** Problem First → Why before How → Visualization
+**Architecture:** 0 Trust · 100% Control | 0 Magic · 100% Transparency | 0 Hardcoding · 100% Flexibility
+
+Build a sovereign **Personal OS / Homelab** — independent of any platform or AI provider. Knowledge in local Markdown, zero vendor lock-in. Agents are tools, KπX stays sovereign.
+→ Infrastructure & projects: `k-homelab` (`$HOME/.agents/skills/k-homelab/`)
+
+## Language Rules
+
+- **English** — ALL code, comments, docs
+- **Response language:** match KπX's language in the current message
 
 ## Skills Map
 
-All detailed knowledge lives in `~/.agents/skills/`. Load on demand via progressive disclosure.
+All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on demand.
+**Auto-update:** skill dir exists but absent here → add immediately.
 
-| Skill path | Load when |
-|------------|-----------|
-| `kpihx/soul` | Every session — identity, mantras, collaboration protocol |
-| `kpihx/duties` | Every session — mandatory rules, security, MCP protocol |
-| `kpihx/workspace` | Dev / infra tasks — ~/Work/ layout, MCPs, tools, shell arch |
-| `kpihx/git` | Any git or repo operation |
-| `kpihx/whatsapp` | Before any whats-mcp tool call |
-| `kpihx/mail` | Before any mail-mcp tool call (Zimbra/poly ONLY — NOT Outlook/Hotmail) |
-| `kpihx/linkedin` | Before any linkedin-mcp tool call |
-| `kpihx/ticktick` | Before any tick-mcp tool call |
-| `agents/claude` | Installing/configuring MCPs for Claude; Claude-specific tasks |
-| `agents/gemini` | Installing/configuring MCPs for Gemini; Gemini-specific tasks |
-| `agents/codex` | Installing/configuring MCPs for Codex |
-| `agents/copilot` | Installing/configuring MCPs for Copilot |
-| `agents/vibe` | Installing/configuring MCPs for VIBE |
+| Skill | Load when |
+|-------|-----------|
+| `k-context` ($HOME/.agents/skills/k-context/) | **HOT — every session start** |
+| `k-workspace` ($HOME/.agents/skills/k-workspace/) | Dev / infra — $HOME/Work/, tools, shell, MCPs |
+| `k-homelab` ($HOME/.agents/skills/k-homelab/) | Homelab infra, projects, SSH, tutos_live |
+| `k-git` ($HOME/.agents/skills/k-git/) | Any git / repo operation |
+| `k-whatsapp` ($HOME/.agents/skills/k-whatsapp/) | Before any whats-mcp call |
+| `k-mail` ($HOME/.agents/skills/k-mail/) | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
+| `k-linkedin` ($HOME/.agents/skills/k-linkedin/) | Before any linkedin-mcp call |
+| `k-ticktick` ($HOME/.agents/skills/k-ticktick/) | Before any tick-mcp call |
+| `k-claude` ($HOME/.agents/skills/k-claude/) | MCPs for Claude; Claude-specific tasks |
+| `k-gemini` ($HOME/.agents/skills/k-gemini/) | MCPs for Gemini; Gemini-specific tasks |
+| `k-codex` ($HOME/.agents/skills/k-codex/) | MCPs for Codex |
+| `k-copilot` ($HOME/.agents/skills/k-copilot/) | MCPs for Copilot |
+| `k-vibe` ($HOME/.agents/skills/k-vibe/) | MCPs for VIBE |
+| `qmd` ($HOME/.agents/skills/qmd/) | Search notes/docs via qmd |
+| `skill-creator` ($HOME/.agents/skills/skill-creator/) | Create / improve / eval a skill |
 
-## Session Memory
-
-- **HOT (inject at boot):** `~/.agents/memory/context.md` — TODOs + active projects
-- **LOG:** `~/.agents/memory/dailylog.md` — chronological, newest-first; max 10 entries — condense oldest into fixed-width `[SUMMARY]` row when full
-- **WARM:** `~/.agents/memory/MEMORY.md` — distilled cross-session facts
-
-## File Routing Contract
+## File Routing
 
 | KπX says | Agent writes to |
 |----------|----------------|
-| "save/update in KERNEL" | `~/.agents/KERNEL.md` |
-| "save/update in CLAUDE" | `~/.agents/skills/agents/claude/SKILL.md` |
-| "save/update in GEMINI" | `~/.agents/skills/agents/gemini/SKILL.md` |
-| "save/update in CODEX" | `~/.agents/skills/agents/codex/SKILL.md` |
-| "save/update in COPILOT" | `~/.agents/skills/agents/copilot/SKILL.md` |
-| "save/update in VIBE" | `~/.agents/skills/agents/vibe/SKILL.md` |
+| "save/update in KERNEL" | `$HOME/.agents/KERNEL.md` |
+| "save/update in CLAUDE" | `$HOME/.agents/skills/k-claude/SKILL.md` |
+| "save/update in GEMINI" | `$HOME/.agents/skills/k-gemini/SKILL.md` |
+| "save/update in CODEX" | `$HOME/.agents/skills/k-codex/SKILL.md` |
+| "save/update in COPILOT" | `$HOME/.agents/skills/k-copilot/SKILL.md` |
+| "save/update in VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
+| "save/update in OPENCLAW" | `$HOME/.agents/skills/k-openclaw/SKILL.md` |
 
-## Critical Cross-Agent Rules
+## Working with KπX
 
-- **Response language:** Always respond in the language KπX used in their current message. Switch naturally per message — no need to be told.
-- **File language:** All `~/.agents/` files → English only by default.
-- **Memory home:** `~/.agents/` is the git-versioned agent repo.
-- **TODOs:** Centralized in `~/.agents/memory/context.md`. Only KπX adds them; agents execute + remove.
-- **Session end mandate:** Update `context.md` + append to `dailylog.md` before closing. Stop hook enforces.
-- **Kernel sync:** After any `~/.agents/` change → propose `git commit` + `make push` (see `~/.agents/Makefile`).
-- **Agent provenance:** Lines edited in this file → tag with `[CLAUDE]`, `[GEMINI]`, etc. (last writer wins).
-- **MCP fallback:** HTTP MCP unreachable → immediately suggest its `--fallback` stdio counterpart.
+> **📝 tutos_live reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/`. This is a living knowledge base — document as it happens.
+
+### Knowledge Base — qmd
+
+qmd is the core memory of everything KπX does. All activity, knowledge, and workflows are indexed and searchable via hybrid BM25 + vector search. **Always load the `qmd` skill before querying.**
+
+**Main collections:**
+
+| Collection | Path | Scope |
+|------------|------|-------|
+| `tutos_live` | `$HOME/Work/tutos_live/` | Ubuntu tools, fixes, patterns documented live |
+| `presentation` | `$HOME/Work/Homelab/presentation/` | Homelab architecture, projects, research, vision |
+| `agents` | `$HOME/.agents/` | Agent workflows, KERNEL, skills, session history |
+| `k-ai` | `$HOME/.k-ai/` | KπX AI agent project (in dev) |
+| `claude` | `$HOME/.claude/` | Claude Code — settings, MCP config, session history (JSONL) |
+| `codex` | `$HOME/.codex/` | Codex CLI — config.toml, memories, rules |
+| `gemini` | `$HOME/.gemini/` | Gemini CLI — extensions, settings, MCP enablement |
+| `copilot` | `$HOME/.copilot/` | GitHub Copilot — mcp-config.json, settings |
+| `vibe` | `$HOME/.vibe/` | VIBE — config.toml, prompts |
+| `openclaw` | `$HOME/.openclaw/` | OpenClaw — openclaw.json, agents, memory |
+
+**When to query:**
+- Unsure how something is done or where it lives → query qmd (collection-specific if scope is known, generic otherwise)
+- Asked to do something without full spec → **first** check `$HOME/Work/tutos_live/templates/` and query qmd to match existing patterns before inventing a new approach
+- Ubuntu/system fix → `tutos_live` · Homelab/project → `presentation` · Agent/workflow → `agents`
+- Inspect another agent's config/history → query the corresponding agent collection (claude/codex/gemini/copilot/vibe/openclaw)
+
+### Style
+
+- **Brainstorm first** — propose strategy, wait for "go ahead" before acting
+- **Constructive debate** — challenge bad approaches proactively; never be a yes-man
+- **Proactive** — never end passively; always suggest next paths
+- **Visualize** — Unicode/ASCII diagrams liberally
+- **Airy style** — well-spaced, meaningful emojis (ON by default), no walls of text
+- **Non-deletion** — augment progressively; NEVER compress/delete without explicit request
+- **Communication gate** — in doubt during a task: STOP and clarify
+
+### Tool Discipline
+
+- **Read before Edit.** Write = new files only.
+- **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
+- **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
+- **Security check** — env vars: key names only: `env | grep -E "API|TOKEN" | cut -d= -f1`
+- **Project scope** — `$HOME/` is not a project root. Projects live in `$HOME/Work/`.
+- **Post-write verification** — read back after every file write.
+- **Workspace troubleshooting** — unknown error → load `k-workspace` first.
+- **New tool/skill detected** → propose updating / creating the corresponding `k-*` skill or general immediately.
+
+### Session & Memory
+
+- TODOs in `k-context` — only KπX adds; agents execute + remove.
+- Every response end: remind KπX of open TODOs.
+- **k-context live updates (agent-owned):** The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit or even just a new evolution not committed (non-trivial), issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
+- **Session end mandate:** Stop hook enforces a final k-context check before closing.
+
+### Provenance & Quality
+
+- **Single source of truth** — never duplicate content across files. Every duplication is a future desync.
+- **No live-queryable lists** — MCP lists, tool versions, collections → `!<cmd>` or "read X directly".
+- **Concise writing** — tables/bullets over prose; one line if possible; no filler.
+- **Changelog:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`.
+- **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
+- **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
+- **`.skill-lock.json` sync** — skill added/removed/moved → update `$HOME/.agents/.skill-lock.json`.
+- **Agent provenance** — tag edits with `[CLAUDE]`, `[GEMINI]`, etc. (last writer wins).
+- **Context save gate** — propose → WAIT for KπX approval before writing KERNEL.
+- **Kernel sync** — after any `$HOME/.agents/` change → propose `git commit` + `make push`.
+
+### MCP Protocol
+
+- **KπX MCPs:** source in `$HOME/Work/AI/MCPs/` · HTTP at `<name>.kpihx-labs.com/mcp` · stdio via `uv tool list` / `npm list -g` / `bun pm ls -g` · configs are source of truth.
+- **Fallback** — HTTP unreachable → suggest `--fallback` stdio counterpart immediately.
+- **Load k-* skill before any tool MCP call** (see Skills Map above).
+
+### Security
+
+- Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
+- Secrets: **Vaultwarden** + `bw-env` (RAM injection). Never hardcode or commit.
+- **`$HOME/.kshrc`** — universal shell hub: secrets, PATH, aliases. Sourced by `.zprofile` (login) + `.zshrc` (interactive). NOT `.zshenv` (untrusted script contexts).
+- MCP wrap: `{"command": "zsh", "args": ["-l", "-c", "<binary> serve"]}`.
+- `bw-env` guard: `BW_ENV_LOADED=$$` (PID-scoped reload).

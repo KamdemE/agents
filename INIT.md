@@ -11,8 +11,9 @@ Bootstrap for any agent joining the KπX workspace. Read once on first session.
 | CLAUDE | `~/.claude/` | `~/.claude/CLAUDE.md` → `~/.agents/KERNEL.md` | `~/.claude.json` | Yes |
 | GEMINI | `~/.gemini/` | `~/.gemini/GEMINI.md` → `~/.agents/KERNEL.md` | `~/.gemini/settings.json` | Yes (extensions) |
 | CODEX | `~/.codex/` | `~/.codex/AGENTS.md` → `~/.agents/KERNEL.md` | `~/.codex/config.toml` | Yes |
-| COPILOT | `~/.copilot/` | `~/.copilot/COPILOT.md` → `~/.agents/KERNEL.md` | `~/.copilot/mcp-config.json` | Yes |
-| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md` | `~/.vibe/config.toml` | No ? see §IV |
+| COPILOT | `~/.copilot/` | `~/.copilot/copilot-instructions.md` → `~/.agents/KERNEL.md` | `~/.copilot/mcp-config.json` | Yes |
+| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md` | `~/.vibe/config.toml` | Yes |
+| OPENCLAW | `~/.openclaw/` | `~/.openclaw/workspace/AGENTS.md` → `~/.agents/KERNEL.md` | `~/.openclaw/openclaw.json` | Yes (workspace/skills/) |
 
 ---
 
@@ -44,16 +45,9 @@ If you detect **any divergence** between this protocol and your actual capabilit
 
 ---
 
-## ② Standard Procedure — Skills-capable agents
+## ② Create Your Runtime Skill
 
-For agents that support the [agentskills.io](https://agentskills.io) standard
-(YAML frontmatter SKILL.md, configurable skills path discovery).
-
-### Setup (4 steps)
-
-**1. Create your runtime skill**
-
-Create `~/.agents/skills/agents/<name>/SKILL.md` with YAML frontmatter:
+This step is mandatory for all agents. Create `~/.agents/skills/agents/<name>/SKILL.md` with YAML frontmatter:
 ```yaml
 ---
 name: agent-runtime-<name>
@@ -67,195 +61,128 @@ metadata:
 allowed-tools: Bash, Read, Write, Edit
 ---
 ```
-Body must document: config file path + format (with example), MCP install procedure, agent-specific rules.
-Do NOT list installed MCPs — the config file is the source of truth for what's currently installed.
+The body must document:
+1.  The path to your configuration file(s).
+2.  The procedure for installing/configuring new MCPs.
+3.  Any agent-specific rules or constraints.
 
-**2. Link the global kernel**
+**Do NOT list installed MCPs** — the config file is the source of truth.
 
-```bash
-ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>
-```
+---
 
-**Known configurations — add your entry when onboarding:**
+## ③ Link the Global Kernel
+
+Find the correct approach for your architecture and add your entry if missing.
+
+### Approach 1: Symlink to `<AGENT_HOME>/<kernel_link_name>`
+
+This is the most common approach. The target filename inside the agent's home directory (`~/.<agent_name>/`) can vary.
+
+**Known Configurations:**
 - **Claude:** `ln -sf ~/.agents/KERNEL.md ~/.claude/CLAUDE.md`
 - **Codex:** `ln -sf ~/.agents/KERNEL.md ~/.codex/AGENTS.md`
-- **Copilot:** `ln -sf ~/.agents/KERNEL.md ~/.copilot/COPILOT.md`
+- **Copilot:** `ln -sf ~/.agents/KERNEL.md ~/.copilot/copilot-instructions.md`
 - **Gemini:** `ln -sf ~/.agents/KERNEL.md ~/.gemini/GEMINI.md`
+- **OpenClaw:** `ln -sf ~/.agents/KERNEL.md ~/.openclaw/workspace/AGENTS.md`
 
-**3. Configure skills path**
+### Approach 2: Symlink with `config.toml` modification
 
-Point the agent's skills discovery to `~/.agents/skills/`. Method varies per agent.
+This approach is for agents that require both a symlink and a corresponding change in their main configuration file.
 
-**Known configurations — add your entry when onboarding:**
-
-- **Claude:** `~/.claude/skills/` pre-existed as a directory with entries — a top-level `ln -sf` would nest a symlink *inside* it rather than replacing it, so namespace-level symlinks are required instead:
+**Known Configurations:**
+- **Vibe (Mistral):** Vibe loads its system prompt based on the `system_prompt_id` key. The procedure is to first create a symlink for the kernel to a file named `global.md` in the prompts directory, and then edit `config.toml` to point to it.
   ```bash
-  ln -sf ~/.agents/skills/kpihx ~/.claude/skills/kpihx
-  ln -sf ~/.agents/skills/agents ~/.claude/skills/agents
+  # Step 1: Create the symlink
+  ln -sf ~/.agents/KERNEL.md ~/.vibe/prompts/global.md
+  # Step 2: Edit ~/.vibe/config.toml to set system_prompt_id = "global"
   ```
-- **Codex:** `skill_paths` array in `~/.codex/config.toml`:
-  ```toml
-  skill_paths = ["/home/kpihx/.agents/skills"]
+
+---
+
+## ④ Configure Skills Path
+
+Find the correct approach for your architecture and add your entry if missing.
+
+### Approach 1: Native Discovery from `~/.agents/skills/` (1 level deep)
+
+These agents scan `~/.agents/skills/` directly with no config. Only 1 level deep — all KπX skills use flat `k-` prefixed names to match this constraint.
+
+**Known Configurations:**
+- **Gemini:** Natively scans `~/.agents/skills/` — all `k-*`, `qmd`, `microsoft-foundry` discovered directly.
+
+### Approach 2: Symlink agent's private skills directory → `~/.agents/skills/`
+
+These agents scan their own `~/.<agent>/skills/`. Point it at `~/.agents/skills/` via symlink.
+
+**Standard procedure** (for agents whose skills dir can be replaced wholesale):
+```bash
+ln -sf ~/.agents/skills ~/.<agent>/skills
+```
+
+**Loop procedure** (for agents with a pre-existing managed dir — e.g. Codex has `.system/`):
+```bash
+for d in ~/.agents/skills/*/; do
+  ln -sf "$d" <agent_home_skills_dir>/"$(basename $d)"
+done
+```
+
+**Known Configurations:**
+- **Claude:** `ln -sf ~/.agents/skills ~/.claude/skills` *(direct replacement)*
+- **Codex:** loop into `~/.codex/skills/` *(has `.system/` managed by Codex — cannot replace wholesale)*
+- **Copilot:** `ln -sf ~/.agents/skills ~/.copilot/skills` *(create if absent)*
+- **OpenClaw:** loop into `~/.openclaw/workspace/skills/` *(workspace-native dir)*
+
+### Approach 3: Configuration via `skill_paths` key
+
+This approach is for agents that support a `skill_paths` key in their configuration file to explicitly define skill directories.
+
+**Known Configurations:**
+- **Vibe (Mistral):** Edit `~/.vibe/config.toml` and set `skill_paths = ["$HOME/.agents/skills"]`.
+
+---
+
+## ⑤ Inject HOT Memory (`context.md`)
+
+Find the correct approach for your architecture and add your entry if missing.
+
+### Approach 1: Bootstrap Hook in Config File
+
+These agents support a configuration key that automatically loads extra files into the context at session start.
+
+**Known Configurations:**
+- **Claude:** *(Undetermined. Add your entry here after investigation.)*
+- **Codex:** *(Undetermined. Add your entry here after investigation.)*
+- **Copilot:** *(Undetermined. Add your entry here after investigation.)*
+- **Gemini:** *(Undetermined. Add your entry here after investigation.)*
+- **Vibe (Mistral):** *(Undetermined. Add your entry here after investigation.)*
+- **OpenClaw:** `boot-md` internal hook (enabled in `openclaw.json`) loads workspace `.md` files at boot — symlink context.md into workspace:
+  ```bash
+  ln -sf ~/.agents/memory/context.md ~/.openclaw/workspace/CONTEXT.md
   ```
-- **Copilot:** *(fill in when onboarding)*
-- **Gemini:** *(fill in when onboarding)*
-
-> Only create a §IV-style dedicated section if your setup is fundamentally different (e.g. no skills support at all).
-
-**4. Inject HOT memory at boot**
-
-Load `~/.agents/memory/context.md` at session start via the agent's available mechanism.
-
-**Known configurations — add your entry when onboarding:**
-
-- **Claude:** `bootstrap-extra-files` hook in `~/.claude/settings.json` → `["/home/kpihx/.agents/memory/context.md"]`
-- **Codex:** *(fill in when onboarding)*
-- **Copilot:** *(fill in when onboarding)*
-- **Gemini:** *(fill in when onboarding)*
-
-### What is NOT needed in the standard procedure
-
-- No `~/AGENT_NAME.md` shortcut — the skill is discovered via the skills path directly
-- No copy of KERNEL.md — symlink only
-
-### Validation checklist
-
-- [ ] `~/.agents/skills/agents/<name>/SKILL.md` exists with valid YAML frontmatter
-- [ ] `<AGENT_HOME>/<KERNEL_LINK>` → `~/.agents/KERNEL.md` (verify: `ls -la`)
-- [ ] Agent's skills path resolves to `~/.agents/skills/`
-- [ ] `~/.agents/memory/context.md` loaded at session start
-- [ ] File routing contract understood (see KERNEL.md)
 
 ---
 
-## ③ Fallback Procedure — Agents without skills support (deprecated)
+## ⑥ Post-Init: Agent Self-Adaptation
 
-Use **only** when:
-- The agent does not support agentskills.io (no SKILL.md discovery)
-- Skills setup fails and a working session is urgently needed
+After a successful init, **do this proactively** without waiting to be asked:
 
-> Deprecated — always prefer Standard (§II) when possible.
-
-### Fallback setup (4 steps)
-
-**1. Link the global kernel**
-```bash
-ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>
-```
-
-**2. Create a runtime shortcut** (only case where `~/AGENT_NAME.md` is used)
-```bash
-ln -sf ~/.agents/skills/agents/<name>/SKILL.md ~/<AGENT_NAME>.md
-```
-
-**3. Skills discovery via symlink**
-```bash
-# If agent home skills/ does not exist:
-ln -sf ~/.agents/skills <AGENT_HOME>/skills
-# If it already exists as a directory, add namespace-level symlinks:
-ln -sf ~/.agents/skills/kpihx <AGENT_HOME>/skills/kpihx
-ln -sf ~/.agents/skills/agents <AGENT_HOME>/skills/agents
-```
-
-**4. Inject HOT memory**
-
-Inject `~/.agents/memory/context.md` via any available mechanism
-(file bootstrap, session hook, or manual read at session start).
-
-### Fallback validation checklist
-
-- [ ] `<AGENT_HOME>/<KERNEL_LINK>` → `~/.agents/KERNEL.md`
-- [ ] `~/<AGENT_NAME>.md` → `~/.agents/skills/agents/<name>/SKILL.md`
-- [ ] Skills symlink resolves correctly
-- [ ] `~/.agents/memory/context.md` loaded
+1. **Audit & Update:** For each setup step above (§III, §IV, §V), add your agent's specific configuration command/path to the appropriate "Approach" list. If your mechanism represents a new approach, create a new "Approach X" section for it.
+2. **Propose Adjustments:** Suggest edits to your own runtime skill at `skills/agents/<name>/SKILL.md` to capture any other specifics about your runtime.
+3. **Log & Push:** Update `~/.agents/memory/dailylog.md` with an entry for the init session, then propose a `git commit` and `make push` to save the updated `INIT.md`.
 
 ---
 
-## ④ VIBE — Special Case
+## ⑦ Deprecated Procedures
 
-VIBE uses a **prompts injection system**, not agentskills.io.
-`skill_paths = []` in `config.toml` — no skills discovery. Uses Fallback (§III) by default,
-but with a VIBE-specific kernel injection mechanism.
+The following sections are kept for historical reference but should no longer be used for new agent onboarding.
 
-### How VIBE loads context
+### Fallback Procedure — Agents without skills support
 
-| Mechanism | File | When loaded |
-|-----------|------|-------------|
-| `system_prompt_id = "global"` in config.toml | `~/.vibe/prompts/global.md` | Injected as system prompt every session |
-| Model instructions mandate explicit read | `~/.vibe/prompts/vibe.md` | Agent reads it at session start |
+Use **only** when an agent does not support `agentskills.io`.
 
-Both files are symlinks — update their **targets**, never their content.
+**Setup (4 steps):**
+1. Link global kernel: `ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>`
+2. Create runtime shortcut: `ln -sf ~/.agents/skills/agents/<name>/SKILL.md ~/<AGENT_NAME>.md`
+3. Symlink skills dirs: `for folder in ~/.agents/skills/*/; do ln -sf "$folder" <AGENT_HOME>/skills/"$(basename "$folder")"; done`
+4. Inject HOT memory via any available mechanism.
 
-### VIBE setup
-
-```bash
-# 1. Link global kernel as system prompt
-ln -sf ~/.agents/KERNEL.md ~/.vibe/prompts/global.md
-
-# 2. Link VIBE runtime skill as the session-start read file
-ln -sf ~/.agents/skills/agents/vibe/SKILL.md ~/.vibe/prompts/vibe.md
-```
-
-No skills path configuration. No `~/VIBE.md` shortcut (VIBE reads `vibe.md` from `prompts/` directly).
-
-### VIBE-specific constraints (from config.toml)
-
-- **Active model:** `devstral-2` (Mistral, `mistral-vibe-cli-latest`) — temperature 0.2
-- **Bash:** permission = `ask`; allowlisted safe commands only (`ls`, `cat`, `git status/diff/log`, etc.)
-- **Bash denylist:** interactive shells, debuggers, editors (vim, nano, emacs...)
-- **Write / search_replace:** permission = `ask`
-- **Read / grep / todo / ask_user_question:** permission = `always`
-- **MCP config:** `[[mcp_servers]]` TOML array in `~/.vibe/config.toml`
-- **Session logging:** saved to `~/.vibe/logs/session/`
-
-### VIBE validation checklist
-
-- [ ] `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md`
-- [ ] `~/.vibe/prompts/vibe.md` → `~/.agents/skills/agents/vibe/SKILL.md`
-- [ ] `~/.vibe/config.toml` MCP stack up to date
-- [ ] Model instructions in config.toml still mandate reading `vibe.md`
-
----
-
-## ⑤ Post-Init — Agent-Specific Adaptation
-
-After a successful init (all checklist items green), **do this proactively** without waiting to be asked:
-
-1. **Audit your own capabilities** against what the standard procedure assumes:
-   - How does your agent actually resolve skill paths? Any caveats?
-   - Which memory injection mechanism did you use, and does it have limits?
-   - Any non-obvious MCP config constraints (env vars, restart required, auth)?
-
-2. **Complete the INIT.md example lists** (steps 2, 3, 4 of §II):
-   - Add your concrete kernel link command to the step 2 list (if not already present)
-   - Add your skills path configuration to the step 3 list
-   - Add your HOT memory injection method to the step 4 list
-   - Only create a new §IV-style section if your case is fundamentally different from existing agents
-
-3. **Propose concrete adjustments**:
-   - Suggest edits to `skills/agents/<name>/SKILL.md` to capture your specifics
-   - If INIT.md has inaccuracies for your agent, propose a correction
-
-4. **Update `~/.agents/memory/dailylog.md`** with the init session entry.
-
-5. **Propose `git commit` + `make push`** so the registry stays versioned.
-
----
-
-## Memory Architecture
-
-```
-~/.agents/                 git-versioned repo
-├── KERNEL.md              slim global kernel
-├── INIT.md                this file
-├── Makefile               push/log/status targets
-├── skills/
-│   ├── kpihx/             cross-agent KπX knowledge (8 skills)
-│   ├── agents/            agent runtime skills — cross-accessible by ALL agents
-│   ├── microsoft-foundry/ external skill
-│   └── qmd/               QMD search skill
-└── memory/
-    ├── context.md         HOT: TODOs + active projects (inject at boot)
-    ├── dailylog.md        LOG: chronological, max 10 entries
-    └── MEMORY.md          WARM: distilled cross-session facts
-```

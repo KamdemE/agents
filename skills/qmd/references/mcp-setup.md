@@ -3,21 +3,57 @@
 ## Install
 
 ```bash
+# Use npm (NOT bun) — better-sqlite3 is a native module.
+# With a custom npm prefix (e.g. ~/.npm-global), use the full binary path
+# in all MCP configs instead of bare `qmd`.
 npm install -g @tobilu/qmd
-qmd collection add ~/path/to/markdown --name myknowledge
-qmd embed
+
+# Add a collection — path first, --name and --mask are flags (NOT positional)
+# Default mask: **/*.md  |  Override with --mask for other file types
+qmd collection add ~/path/to/docs --name myknowledge
+qmd collection add ~/notes --name notes --mask "**/*.{md,txt,yml}"
+
+# ⚠️ Hidden dirs must use --name:
+#   CORRECT: qmd collection add ~/.agents --name agents
+#   WRONG:   qmd collection add agents /home/user/.agents
+
+# ALWAYS add context right after (improves reranking & relevance)
+qmd context add qmd://myknowledge/ "What this collection contains"
+
+# Verify then embed
+qmd collection show myknowledge
+qmd embed         # all collections
+qmd embed myknowledge  # single collection
 ```
+
+### Alternative: YAML config (`~/.config/qmd/index.yml`)
+
+```yaml
+collections:
+  notes:
+    path: ~/Documents/notes
+    pattern: "**/*.md"
+    context:
+      "/": "Personal notes"
+```
+
+---
 
 ## Configure MCP Client
 
-**Claude Code** (`~/.claude/settings.json`):
+**Claude Code** (`~/.claude.json`, NOT `~/.claude/settings.json`):
 ```json
 {
   "mcpServers": {
-    "qmd": { "command": "qmd", "args": ["mcp"] }
+    "qmd-mcp": {
+      "command": "/full/path/to/qmd",
+      "args": ["mcp"]
+    }
   }
 }
 ```
+> Use full binary path if npm prefix is non-standard (e.g. `~/.npm-global/bin/qmd`).
+> Restart Claude Code after editing. Verify with `/mcp`.
 
 **Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 ```json
@@ -39,6 +75,8 @@ qmd embed
 }
 ```
 
+---
+
 ## HTTP Mode
 
 ```bash
@@ -47,11 +85,22 @@ qmd mcp --http --daemon     # Background
 qmd mcp stop                # Stop daemon
 ```
 
-## Tools
+---
 
-### structured_search
+## Post-commit Hook (auto re-index on commit)
 
-Search with pre-expanded queries.
+Copy the template and customize:
+```bash
+cp ~/.agents/skills/qmd/references/post-commit-hook.sh .git/hooks/post-commit
+# Edit COLLECTION and PATTERN variables inside
+chmod +x .git/hooks/post-commit
+```
+
+---
+
+## MCP Tools Reference
+
+### `query`
 
 ```json
 {
@@ -60,21 +109,14 @@ Search with pre-expanded queries.
     { "type": "vec", "query": "natural language question" },
     { "type": "hyde", "query": "hypothetical answer passage..." }
   ],
+  "intent": "optional disambiguation",
   "limit": 10,
-  "collection": "optional",
+  "collections": ["optional"],
   "minScore": 0.0
 }
 ```
 
-| Type | Method | Input |
-|------|--------|-------|
-| `lex` | BM25 | Keywords (2-5 terms) |
-| `vec` | Vector | Question |
-| `hyde` | Vector | Answer passage (50-100 words) |
-
-### get
-
-Retrieve document by path or `#docid`.
+### `get`
 
 | Param | Type | Description |
 |-------|------|-------------|
@@ -82,21 +124,24 @@ Retrieve document by path or `#docid`.
 | `full` | bool? | Return full content |
 | `lineNumbers` | bool? | Add line numbers |
 
-### multi_get
-
-Retrieve multiple documents.
+### `multi_get`
 
 | Param | Type | Description |
 |-------|------|-------------|
 | `pattern` | string | Glob or comma-separated list |
 | `maxBytes` | number? | Skip large files (default 10KB) |
 
-### status
+### `status`
 
 Index health and collections. No params.
 
+---
+
 ## Troubleshooting
 
-- **Not starting**: `which qmd`, `qmd mcp` manually
-- **No results**: `qmd collection list`, `qmd embed`
-- **Slow first search**: Normal, models loading (~3GB)
+| Symptom | Fix |
+|---------|-----|
+| `ERR_DLOPEN_FAILED` / MODULE_VERSION mismatch | Reinstall via `npm` (not bun); use full binary path |
+| Not starting | `which qmd`, then `qmd mcp` manually to see errors |
+| No results | `qmd collection list`, `qmd embed` |
+| Slow first search | Normal — models loading (~3 GB) |
