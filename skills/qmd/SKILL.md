@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.4.0"
+  version: "2.5.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -181,5 +181,5 @@ qmd multi-get "journals/2026-*.md" -l 40  # batch snippets by glob
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-28 | [CLAUDE] | v2.4.0 — added "Before Searching" section (update reflex); collection scoping docs + scope reflex table; gitignore template ref |
-| [SUMMARY] | — | v2.0–2.3: install, --mask, YAML config, update-cmd, full query docs |
+| 2026-03-28 | [CLAUDE] | v2.5.0 — embed scope hygiene: claude→claude-memory (258→6 files), openclaw→workspace/** (105→77); heavy JSONL/sessions excluded |
+| [SUMMARY] | — | v2.0–2.4: install, --mask, YAML config, update-cmd, query docs, collection scoping, gitignore template |

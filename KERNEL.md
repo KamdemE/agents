@@ -81,12 +81,12 @@ qmd is the core memory of everything KπX does. All activity, knowledge, and wor
 | `presentation` | `$HOME/Work/Homelab/presentation/` | Homelab architecture, projects, research, vision |
 | `agents` | `$HOME/.agents/` | Agent workflows, KERNEL, skills, session history |
 | `k-ai` | `$HOME/.k-ai/` | KπX AI agent project (in dev) |
-| `claude` | `$HOME/.claude/` | Claude Code — settings, MCP config, session history (JSONL) |
+| `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude auto-memory — persistent facts saved across sessions (6 .md) |
 | `codex` | `$HOME/.codex/` | Codex CLI — config.toml, memories, rules |
 | `gemini` | `$HOME/.gemini/` | Gemini CLI — extensions, settings, MCP enablement |
 | `copilot` | `$HOME/.copilot/` | GitHub Copilot — mcp-config.json, settings |
 | `vibe` | `$HOME/.vibe/` | VIBE — config.toml, prompts |
-| `openclaw` | `$HOME/.openclaw/` | OpenClaw — openclaw.json, agents, memory |
+| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw workspace — knowledge base, research docs, skill definitions |
 
 **When to query:**
 - Unsure how something is done or where it lives → query qmd (collection-specific if scope is known, generic otherwise)
