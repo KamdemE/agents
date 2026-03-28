@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.3.0"
+  version: "2.4.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -40,6 +40,8 @@ qmd embed myname
 ```
 
 **Post-commit auto-update:** copy `references/post-commit-hook.sh` to `.git/hooks/post-commit`, set `COLLECTION` + `PATTERN`, `chmod +x`. Keeps the index fresh on every commit — recommended for doc repos.
+
+**New folder to embed (git + qmd):** use `references/gitignore-embedded-folder.template` as the starting `.gitignore`. It implements the whitelist negation pattern (`*` + `!*/` + `!*.ext`) with all sections pre-labelled. Copy → uncomment extensions → add sensitive exclusions.
 
 ## Collection Management
 
@@ -87,6 +89,18 @@ collections:
 
 Any text-based format works: `.md` `.txt` `.markdown` `.rst` `.html` `.json` `.yml` `.yaml` `.toml` `.sh` `.ts` `.js` `.py` `.go` `.rs` — standard glob syntax.
 
+## Before Searching — Always Update First
+
+Before any search, re-index the target collections to guarantee fresh results:
+
+```bash
+qmd update <name>          # re-index changed files (fast, no re-embed)
+qmd update --pull <name>   # pull first if update-cmd is set (e.g. git pull)
+qmd embed <name>           # re-embed vectors (slower, only needed after content changes)
+```
+
+**Rule:** `qmd update` before every search session. `qmd embed` only when new files were added or content changed significantly.
+
 ## MCP: `query`
 
 ```json
@@ -96,10 +110,20 @@ Any text-based format works: `.md` `.txt` `.markdown` `.rst` `.html` `.json` `.y
     { "type": "vec", "query": "tradeoff between consistency and availability" }
   ],
   "intent": "optional disambiguation string",
-  "collections": ["docs"],
+  "collections": ["agents", "tutos_live"],
   "limit": 10
 }
 ```
+
+**Scoping collections:** Always pass `collections` to restrict search scope. Without it, qmd searches all enabled collections — much slower and noisier.
+
+| Scope | `collections` value |
+|-------|---------------------|
+| Single | `["agents"]` |
+| Multiple | `["tutos_live", "presentation"]` |
+| All (explicit) | omit the field or `[]` |
+
+> 💡 **Collection scope reflex:** Know what you're looking for → scope it. Ubuntu fix → `tutos_live`. Agent config → `agents` or `claude`/`codex`/etc. Architecture → `presentation`. Past session → `k-ai` or `claude`.
 
 ### Query Types
 
@@ -157,5 +181,5 @@ qmd multi-get "journals/2026-*.md" -l 40  # batch snippets by glob
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-28 | [CLAUDE] | v2.3.0 — restored full query type docs; added --mask, YAML config, update-cmd, include/exclude |
-| [SUMMARY] | — | v2.0–2.2 — upstream install + KπX annotations + compaction |
+| 2026-03-28 | [CLAUDE] | v2.4.0 — added "Before Searching" section (update reflex); collection scoping docs + scope reflex table; gitignore template ref |
+| [SUMMARY] | — | v2.0–2.3: install, --mask, YAML config, update-cmd, full query docs |

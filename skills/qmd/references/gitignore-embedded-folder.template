@@ -1,0 +1,60 @@
+# .gitignore template for a folder embedded as a qmd collection
+# ─────────────────────────────────────────────────────────────────────────────
+# HOW TO USE
+#   1. Copy this file to <folder>/.gitignore
+#   2. Replace ALL_CAPS placeholders with actual values
+#   3. Add sensitive file exclusions specific to the tool (section below)
+#   4. Run: git init <folder> (if not already a repo)
+#   5. Run: qmd collection add <folder> --name NAME --mask "**/*.{EXT1,EXT2}"
+#   6. Run: qmd context add qmd://NAME/ "Description of this collection"
+#   7. Copy references/post-commit-hook.sh to <folder>/.git/hooks/post-commit
+#      and set COLLECTION=NAME + PATTERN=\.(EXT1|EXT2)$
+# ─────────────────────────────────────────────────────────────────────────────
+# PATTERN LOGIC (whitelist via negation)
+#   *       → ignore everything by default
+#   !*/     → re-allow directory traversal (git won't descend into ignored dirs)
+#   !*.ext  → whitelist only these extensions
+#   Rules are last-match-wins. Sensitive re-exclusions MUST come last.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Step 1: ignore everything ────────────────────────────────────────────────
+*
+
+# ── Step 2: allow directory traversal ───────────────────────────────────────
+!*/
+
+# ── Step 3: whitelist safe text extensions (adjust to your collection mask) ──
+# Uncomment the lines that match your qmd --mask extensions:
+# !*.md
+# !*.json
+# !*.jsonl
+# !*.toml
+# !*.yaml
+# !*.yml
+# !*.sh
+# !*.txt
+# !*.py
+# !*.ts
+# !*.js
+
+# ── Step 4: sensitive — re-exclude even if extension matches ─────────────────
+# Add tool-specific secrets here. Examples:
+# auth.json
+# oauth_creds.json
+# .credentials.json
+# .env
+# SENSITIVE_FILE.json
+
+# ── Step 5: large / binary / runtime dirs — re-exclude ───────────────────────
+# Add dirs you never want tracked (logs, cache, binary data, sessions). Examples:
+# cache/
+# logs/
+# sessions/
+# history.jsonl
+# *.sqlite
+# *.sqlite-shm
+# *.sqlite-wal
+
+# ── Standard ignores ─────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
