@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -57,17 +57,17 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 ## New Project Init Checklist
 
 1. `git init`
-2. `.gitignore` — include `.agents/`, `.agent/`, all agent MD files, `.env`, `.venv/`, `node_modules/`
-3. Create `.agents/memory/context.md` — project-local HOT memory (replaces old `.agent/AGENT.md` copy)
-4. `gh repo create` (GitHub) + `glab repo create` (GitLab) — default public, challenge if sensitive
-5. `git remote add github git@github.com:KpihX/<name>.git`
-6. `git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git` (MCPs) or personal namespace
-7. Create `Makefile` with standard targets above
-8. Initial commit + `make push`
+2. `.gitignore` — include `*.env`, `.venv/`, `node_modules/`, agent MD files if not repo root
+3. `gh repo create` (GitHub) + `glab repo create` (GitLab) — default public, challenge if sensitive
+4. `git remote add github git@github.com:KpihX/<name>.git`
+5. `git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git` (MCPs) or personal namespace
+6. Create `Makefile` with standard targets above
+7. Initial commit + `make push`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [CLAUDE] | v2.1.0 — init checklist: removed stale context.md step, simplified |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: .agents/ refs, updated project init checklist |
 | [SUMMARY] | — | v1.0.0 — initial creation in skills/kpihx-git/ |

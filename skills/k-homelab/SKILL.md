@@ -4,7 +4,7 @@ description: KπX Homelab — infrastructure, personal projects, SSH access, kno
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -60,10 +60,9 @@ Structure:
 - `assets/` — images and media
 - Other subdirs may be added for finer topic groupings
 
-> New tool installed / non-trivial fix → propose documenting in `tutos_live/`. See KERNEL MCP Protocol rule.
-
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [CLAUDE] | v1.1.0 — removed duplicate tutos_live reflex (in KERNEL) |
 | 2026-03-28 | [CLAUDE] | v1.0.0 — created from Homelab exploration |

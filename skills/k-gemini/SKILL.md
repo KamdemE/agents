@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 - **Agent home:** `~/.gemini/`
 - **Global kernel:** `~/.gemini/GEMINI.md` → `~/.agents/KERNEL.md`
 - **Runtime shortcut:** `~/GEMINI.md` → this file
-- **Skills path:** `~/.gemini/skills/` → `~/.agents/skills/` (symlink)
+- **Skills path:** natively scans `~/.agents/skills/` (1 level deep — no symlink needed)
 - **Settings:** `~/.gemini/settings.json`
 - **Temp data:** `~/.gemini/tmp/kpihx/`
 
@@ -63,7 +63,6 @@ Must explicitly declare in `gemini-extension.json`:
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
 - **KG proactivity:** Query Knowledge Graph (`read_graph`, `search_nodes`) at start of complex tasks.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
-- **File targeting:** "Ajuste AGENT" → `~/.agents/KERNEL.md` · "Ajuste gemini" → this file.
 - **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir.
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 
@@ -71,5 +70,6 @@ Must explicitly declare in `gemini-extension.json`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [CLAUDE] | v2.1.0 — skills path corrected (native scan, no symlink); removed duplicate file routing rule |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: migrated to skills/agents/gemini/, symlinks updated |
 | [SUMMARY] | — | Prior: GEMINI.md creation, 12 extensions installed, KG + RAG indexed on Homelab docs |

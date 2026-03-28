@@ -141,28 +141,7 @@ This approach is for agents that support a `skill_paths` key in their configurat
 
 ---
 
-## ⑤ Inject HOT Memory (`context.md`)
-
-Find the correct approach for your architecture and add your entry if missing.
-
-### Approach 1: Bootstrap Hook in Config File
-
-These agents support a configuration key that automatically loads extra files into the context at session start.
-
-**Known Configurations:**
-- **Claude:** *(Undetermined. Add your entry here after investigation.)*
-- **Codex:** *(Undetermined. Add your entry here after investigation.)*
-- **Copilot:** *(Undetermined. Add your entry here after investigation.)*
-- **Gemini:** *(Undetermined. Add your entry here after investigation.)*
-- **Vibe (Mistral):** *(Undetermined. Add your entry here after investigation.)*
-- **OpenClaw:** `boot-md` internal hook (enabled in `openclaw.json`) loads workspace `.md` files at boot — symlink context.md into workspace:
-  ```bash
-  ln -sf ~/.agents/memory/context.md ~/.openclaw/workspace/CONTEXT.md
-  ```
-
----
-
-## ⑥ Post-Init: Agent Self-Adaptation
+## ⑤ Post-Init: Agent Self-Adaptation
 
 After a successful init, **do this proactively** without waiting to be asked:
 
@@ -172,7 +151,7 @@ After a successful init, **do this proactively** without waiting to be asked:
 
 ---
 
-## ⑦ Deprecated Procedures
+## ⑥ Deprecated Procedures
 
 The following sections are kept for historical reference but should no longer be used for new agent onboarding.
 
@@ -182,7 +161,6 @@ Use **only** when an agent does not support `agentskills.io`.
 
 **Setup (4 steps):**
 1. Link global kernel: `ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>`
-2. Create runtime shortcut: `ln -sf ~/.agents/skills/agents/<name>/SKILL.md ~/<AGENT_NAME>.md`
+2. Create runtime shortcut: `ln -sf ~/.agents/skills/k-<name>/SKILL.md ~/<AGENT_NAME>.md`
 3. Symlink skills dirs: `for folder in ~/.agents/skills/*/; do ln -sf "$folder" <AGENT_HOME>/skills/"$(basename "$folder")"; done`
-4. Inject HOT memory via any available mechanism.
 

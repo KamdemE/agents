@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -19,7 +19,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 - **Home:** `~/.codex/`
 - **Global kernel:** `~/.codex/AGENTS.md` → `~/.agents/KERNEL.md`
-- **Runtime shortcut:** `~/AGENTS.md` → this file
 - **Skills path:** `~/.codex/skills/` → `~/.agents/skills/` (symlink)
 - **Config file:** `~/.codex/config.toml`
 - **Logs:** `~/.codex/log/codex-tui.log` — check before changing multiple variables when troubleshooting
@@ -63,5 +62,6 @@ XAUTHORITY = "$XAUTHORITY"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [CLAUDE] | v2.2.0 — removed ~/AGENTS.md shortcut (deleted) |
 | 2026-03-25 | [CLAUDE] | v2.1.0 — Copilot section extracted to agents/copilot/, Codex-only now |
 | [SUMMARY] | — | Prior: initial creation, all MCPs registered, merged with Copilot |

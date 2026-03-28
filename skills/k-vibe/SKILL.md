@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.0"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -18,8 +18,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 - **Agent home:** `~/.vibe/`
 - **Global kernel:** `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md`
-- **Runtime shortcut:** `~/VIBE.md` → this file
-- **Skills path:** `~/.vibe/skills/` → `~/.agents/skills/` (symlink)
+- **Runtime skill:** `~/.vibe/prompts/vibe.md` → this file (`system_prompt_id = "global"` in config.toml)
+- **Skills path:** `skill_paths = ["$HOME/.agents/skills"]` in `config.toml`
 - **Config file:** `~/.vibe/config.toml`
 
 ## MCP Config Format (VIBE — TOML array)
@@ -48,5 +48,6 @@ api_key_format = "{token}"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [CLAUDE] | v2.1.0 — removed ~/VIBE.md shortcut (deleted); vibe.md → prompts/vibe.md; skills path corrected |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: migrated to skills/agents/vibe/, symlinks created |
 | [SUMMARY] | — | Prior: VIBE.md creation, MCP stack configured |
