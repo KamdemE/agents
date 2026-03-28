@@ -55,7 +55,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 
 ## File Routing
 
-**General rule:** "ajuste/update `xxxx` or `XXXX`" → `$HOME/.agents/skills/k-xxxx/SKILL.md` by default if no other context provided
+**General rule:** "ajuste/update/suit `xxxx` or `XXXX`" → `$HOME/.agents/skills/k-xxxx/SKILL.md` by default if no other context provided
 
 | Example | Resolves to |
 |---------|-------------|
@@ -64,6 +64,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | "ajuste OPENCLAW" | `$HOME/.agents/skills/k-openclaw/SKILL.md` |
 | "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
+| "suis SKILL-CREATOR" | `$HOME/.agents/skills/skill-creator/SKILL.md` |
 
 ## Working with KπX
 
