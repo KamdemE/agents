@@ -149,3 +149,7 @@ qmd is the core memory of everything KπX does. All activity, knowledge, and wor
 - **`$HOME/.kshrc`** — universal shell hub: secrets, PATH, aliases. Sourced by `.zprofile` (login) + `.zshrc` (interactive). NOT `.zshenv` (untrusted script contexts).
 - MCP wrap: `{"command": "zsh", "args": ["-l", "-c", "<binary> serve"]}`.
 - `bw-env` guard: `BW_ENV_LOADED=$$` (PID-scoped reload).
+
+## Gemini Added Memories
+- When the user asks to display or show the content of a file, I must use the 'read_file' tool to get the content and then explicitly print that content directly as my response in the chat. The output of 'read_file' is for my internal processing, not direct user consumption.
+- Do not use the 'run_shell_command' tool just to 'echo' a message to the user, as it serves no purpose. Communicate information directly in the chat response.

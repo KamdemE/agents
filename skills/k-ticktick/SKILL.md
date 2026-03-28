@@ -10,6 +10,8 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--fallback__*
 
 # Tool Memory — TickTick (tick-mcp)
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## Project Map
 
 | Folder | Projects |

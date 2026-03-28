@@ -10,6 +10,8 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--fallback__*
 
 # Tool Memory — LinkedIn (linkedin-mcp)
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## Identity & Auth
 
 - **LinkedIn name:** Ivann Harold KAMDEM POUOKAM

@@ -12,6 +12,8 @@ allowed-tools: Bash(*), "*"
 
 # KπX — Context
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 > HOT — load at every session start.
 > TODOs: only KπX adds; agents execute + remove.
 > Projects: max 10 active — condense completed/stale into a fixed-width `[ARCHIVE]` row when full.
@@ -34,6 +36,7 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-03-28 | [COPILOT] | OpenClaw workspace cleanup: `USER.md`, `IDENTITY.md`, `PLANNING.md`, `TOOLS.md` deleted; `SOUL.md` → `KERNEL.md`; `AGENTS.md` → `k-openclaw/SKILL.md`; `MEMORY.md` truncated to File Sharing Protocol |
 | 2026-03-28 | [CLAUDE] | INIT.md: removed Inject HOT Memory section; kernel symlinks fixed (codex/copilot/gemini were broken → ~/.agent/AGENT.md); ~/AGENTS.md + ~/VIBE.md deleted; skills audited (k-codex/vibe/gemini/homelab/git) — duplications and stale refs removed |
 | 2026-03-28 | [CLAUDE] | ~/.agents/ v3.0.0: 6 agent dirs git-inited (.claude .codex .gemini .copilot .vibe .openclaw); qmd collections + context + post-commit hooks for all 6; tutos_live hook fixed (npm-global); agents post-commit hook fixed; qmd embed running |
 | 2026-03-28 | [CLAUDE] | KERNEL: +6 agent qmd collections table; qmd context add for all 10 collections; tutos_live+presentation+agents+k-ai contexts added |

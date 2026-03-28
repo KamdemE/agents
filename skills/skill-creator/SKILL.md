@@ -5,6 +5,10 @@ description: Create new skills, modify and improve existing skills, and measure 
 
 # Skill Creator
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> **KπX Rule — enforced on every new skill:** When writing the SKILL.md of a new skill, always add `**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**` right after the H1 heading.
+
 A skill for creating new skills and iteratively improving them.
 
 At a high level, the process of creating a skill goes like this:

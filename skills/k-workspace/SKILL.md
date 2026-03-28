@@ -4,9 +4,11 @@ description: KπX engineering workspace — directory layout, package managers, 
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
 allowed-tools: Bash(*), "*"
 ---
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 # KπX — Workspace & Engineering
 
@@ -67,6 +69,12 @@ Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l"
 | `vibe` | `~/.local/bin/vibe` | `uv tool install` |
 | `m365` | in PATH | `npm install -g @pnp/cli-microsoft365` |
 
+### CLI Tools
+
+| Tool | Binary | Install method | Purpose |
+|------|--------|----------------|---------|
+| `powerpoint` | `uv tool` | `uv tool install` | Generate/manipulate PPTX files |
+
 WaveTerm widgets: `~/.config/waveterm/widgets.json` — all use `zsh -l -c '...'` wrapper.
 npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo needed).
 
@@ -91,6 +99,7 @@ npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo nee
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-28 | [GEMINI] | v2.3.0 - Added editing rule, bumped version, and included 'powerpoint' CLI tool. |
 | 2026-03-28 | [CLAUDE] | v2.2.0 — replaced MCP Ecosystem table with live-query refs; added .kshrc note to KERNEL |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/workspace/ |
 | [SUMMARY] | — | v1.0.0 — initial creation in skills/kpihx-workspace/ |

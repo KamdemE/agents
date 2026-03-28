@@ -10,6 +10,8 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 # KπX — Git Workflow
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## Rules
 
 - **Protocol:** SSH only. All remotes use `git@...` URLs — never HTTPS.

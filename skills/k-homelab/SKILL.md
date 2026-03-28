@@ -10,6 +10,8 @@ allowed-tools: Bash(*), "*"
 
 # KπX — Homelab & Projects
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## SSH Access
 
 | Target | Command | Notes |

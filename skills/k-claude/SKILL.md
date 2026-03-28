@@ -1,19 +1,21 @@
 ---
 name: agent-runtime-claude
 description: >
-  Claude Code runtime — MCP config format (JSON in ~/.claude.json), skills path
-  ~/.agents/skills/, installed MCPs table, bw-mcp zenity auth, auto-memory.
-  Load when installing or configuring MCPs for Claude, or for Claude-specific tasks.
+  Claude Code runtime — MCP config (JSON ~/.claude.json), hooks (settings.json),
+  skills/memory architecture, bw-mcp zenity auth, session model.
+  Load when configuring Claude, managing MCPs/hooks, or for Claude-specific tasks.
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
   scope: agent-runtime
   target-agent: claude
 allowed-tools: Bash, Read, Write, Edit
 ---
 
 # Agent Runtime — Claude Code
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 ## Runtime Context
 
@@ -51,9 +53,16 @@ After editing `~/.claude.json` → restart Claude Code. Verify with `/mcp`.
 - Uses `bw` CLI **directly** — independent from `bw-env`
 - Launches `zenity` GUI on-demand — no login shell wrapper needed
 
+## Hooks & Permissions (`~/.claude/settings.json`)
+
+- `hooks` — event-driven shell commands (Stop, PreToolUse, etc.)
+- `permissions.allow/deny` — per-tool auto-approvals
+- Active: `Stop` hook → `~/.agents/scripts/session-guard.sh` (k-context final update)
+- Edit this file (not `~/.claude.json`) for hooks/permissions.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-28 | [CLAUDE] | v2.1.0 — removed Tool Discipline (duplicate of KERNEL); compacted |
-| [SUMMARY] | — | v2.0.0 — migrated to skills/k-claude/; all MCPs registered |
+| 2026-03-28 | [CLAUDE] | v2.2.0 — added Hooks section (Stop → session-guard.sh); updated description |
+| [SUMMARY] | — | v2.1.0 removed Tool Discipline; v2.0.0 migrated to skills/k-claude/ |

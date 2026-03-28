@@ -10,6 +10,8 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--fallback__*
 
 # Tool Memory — WhatsApp (whats-mcp)
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## Identity
 
 - **Number:** +33 6 05 95 77 85

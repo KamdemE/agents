@@ -10,6 +10,8 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
 
 # Tool Memory — Mail (mail-mcp)
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 ## Account
 
 - **Address:** `ivann.kamdem-pouokam@polytechnique.edu` (Zimbra, hosted at polytechnique.fr)

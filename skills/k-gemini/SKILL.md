@@ -2,18 +2,20 @@
 name: agent-runtime-gemini
 description: >
   Gemini CLI runtime — Extension system (gemini-extension.json format, ~/Work/AI/gemini_mcps/),
-  mandatory env var block for stdio MCPs, KG proactivity rules, token finesse, installed
-  extensions table. Load when installing or configuring MCPs for Gemini.
+  mandatory env var block for stdio MCPs, settings.json, KG proactivity, token finesse.
+  Load when configuring Gemini, managing extensions/MCPs, or debugging Gemini behavior.
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.3.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
 ---
 
 # Agent Runtime — Gemini CLI
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 ## Runtime Context
 
@@ -24,29 +26,40 @@ allowed-tools: Bash, Read, Write, Edit
 - **Settings:** `~/.gemini/settings.json`
 - **Temp data:** `~/.gemini/tmp/kpihx/`
 
-## Extension System (Gemini-specific)
+## MCP Server Installation
 
-Gemini CLI installs MCPs as **Extensions** — NOT via a JSON config file.
+There are two distinct procedures for installing an MCP server, depending on whether it's a remote HTTP server or a local Stdio server.
 
-**Install procedure for any MCP:**
-1. Create `~/Work/AI/gemini_mcps/<name>_mcp/` (for ALL extensions, KpihX-owned or external)
-2. Create `gemini-extension.json`:
-   ```json
-   {
-     "name": "<name>",
-     "version": "1.0.0",
-     "description": "...",
-     "mcpServers": {
-       "<server>": {
-         "command": "/path/to/binary",
-         "args": ["serve"]
-       }
-     }
-   }
-   ```
-   **CRITICAL:** `"version"` field is mandatory — its absence silently blocks installation.
-3. Mirror directory to `~/.gemini/extensions/<name>/`
-4. Register in `extension-enablement.json`
+**Procedure for HTTP Servers:**
+
+This is a direct, single-step process.
+
+1.  **Add the server using the CLI:**
+    ```bash
+    gemini mcp add --scope user --transport http <server_name> <url>
+    ```
+
+**Procedure for Stdio Servers:**
+
+This involves creating a standard project structure first.
+
+1.  **Create the MCP Project Directory:**
+    *   Create a dedicated directory for your MCP source: `~/Work/AI/gemini_mcps/<name>_mcp/`
+
+2.  **Create Configuration Files:**
+    *   Inside the new directory, create a `gemini-extension.json` file defining the server's command.
+    *   Optionally, add a `GEMINI.md` file in the same directory for specific rules and documentation for the MCP.
+
+3.  **Add the Server using the CLI:**
+    *   Execute the `gemini mcp add` command. This command handles the necessary setup.
+    ```bash
+    gemini mcp add --scope user <server_name> <command> [args...]
+    ```
+    *   **Example:** `gemini mcp add --scope user qmd-mcp zsh -l -c "/path/to/qmd mcp"`
+
+4.  **Finalization:**
+    *   After the command completes, no further steps like mirroring or manual registration are needed.
+    *   Restart Gemini to ensure the new MCP is connected and available.
 
 **Env var mandate (mandatory for stdio MCPs needing secrets):**
 Gemini's extension runner is restricted — `bw-env` secrets are NOT auto-inherited from the shell.
@@ -70,6 +83,5 @@ Must explicitly declare in `gemini-extension.json`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-28 | [CLAUDE] | v2.1.0 — skills path corrected (native scan, no symlink); removed duplicate file routing rule |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: migrated to skills/agents/gemini/, symlinks updated |
-| [SUMMARY] | — | Prior: GEMINI.md creation, 12 extensions installed, KG + RAG indexed on Homelab docs |
+| 2026-03-28 | [CLAUDE] | v2.3.0 — removed redundant edit reminder; broadened description; changelog condensed |
+| [SUMMARY] | — | v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |
