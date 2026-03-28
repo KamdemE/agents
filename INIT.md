@@ -120,15 +120,20 @@ ln -sf ~/.agents/skills ~/.<agent>/skills
 ```
 
 **Auto-sync via post-commit hook** (for agents with a pre-existing managed dir):
-Agents whose skills dir has native content (e.g. Codex `.system/`, OpenClaw built-ins) cannot be replaced wholesale. Instead, the `~/.agents/.git/hooks/post-commit` hook auto-creates per-skill symlinks on every commit — **no manual intervention needed for new skills**.
+Agents whose skills dir has native content (e.g. Codex `.system/`, OpenClaw built-ins) cannot be replaced wholesale. Instead, the `~/.agents/.git/hooks/post-commit` hook handles sync on every commit — **no manual intervention needed for new skills**.
+
+There are two sync modes in the hook (see `SYNC_TARGETS` and `COPY_TARGETS`):
+
+- **Symlink mode** (`SYNC_TARGETS`): creates `ln -sf` for new skills only. For agents that support symlinks outside their workspace root (Codex).
+- **Rsync/copy mode** (`COPY_TARGETS`): runs `rsync -a --delete` on every commit (real files, no symlinks). For agents whose workspace root security check rejects out-of-root symlinks (OpenClaw).
 
 To manually trigger a sync: `cd ~/.agents && git commit --allow-empty -m "sync: force skills sync"`
 
 **Known Configurations:**
 - **Claude:** `ln -sf ~/.agents/skills ~/.claude/skills` *(direct replacement)*
-- **Codex:** auto-synced by post-commit hook into `~/.codex/skills/` *(has `.system/` — cannot replace wholesale)*
+- **Codex:** auto-synced by post-commit hook (`SYNC_TARGETS`) into `~/.codex/skills/` *(has `.system/` — cannot replace wholesale)*
 - **Copilot:** `ln -sf ~/.agents/skills ~/.copilot/skills` *(create if absent)*
-- **OpenClaw:** auto-synced by post-commit hook into `~/.openclaw/workspace/skills/` *(has built-in skills)*
+- **OpenClaw:** auto-synced by post-commit hook (`COPY_TARGETS`) into `~/.openclaw/workspace/skills/` *(workspace root rejects out-of-root symlinks → rsync copies)*
 
 ### Approach 3: Configuration via `skill_paths` key
 
@@ -144,9 +149,13 @@ This approach is for agents that support a `skill_paths` key in their configurat
 After a successful init, **do this proactively** without waiting to be asked:
 
 1. **Audit & Update:** For each setup step above, add your agent's specific configuration command/path to the appropriate "Approach" list. If your mechanism is new, create a new "Approach X" section.
-2. **If you used the auto-sync approach (Approach 2 — Codex-case):**
-   - Edit `~/.agents/.git/hooks/post-commit` → add your skills dir path to the `SYNC_TARGETS` list.
+2. **If you used the auto-sync approach (Approach 2 — symlink-case like Codex):**
+   - Edit `~/.agents/.git/hooks/post-commit` → add your skills dir path to `SYNC_TARGETS`.
    - Add your entry to the **Known Configurations** list in §④ Approach 2 above.
+2b. **If you used the auto-sync approach (Approach 2 — copy-case like OpenClaw):**
+   - Edit `~/.agents/.git/hooks/post-commit` → add your skills dir path to `COPY_TARGETS`.
+   - Add your entry to the **Known Configurations** list in §④ Approach 2 above.
+   - Note: rsync runs on every commit, so no manual initial copy needed.
 3. **Propose Adjustments:** Suggest edits to your runtime skill `~/.agents/skills/k-<name>/SKILL.md`.
 4. **Commit & Push:** Propose a `git commit` + `make push` on `~/.agents/` to save the updated INIT.md and post-commit hook.
 

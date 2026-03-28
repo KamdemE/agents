@@ -65,7 +65,6 @@ XAUTHORITY = "$XAUTHORITY"
 
 ## Permissions & Escalation
 
-- **Blocked action** (git push, docker, npm publish) → ask KπX to run `/permissions` and grant; retry.
 - **Sudo required** → STOP before retry loop; ask KπX to run the command manually; then resume.
 - **rules/default.rules** — prefix_rule patterns auto-accumulated by Codex. Edit directly to remove stale entries.
 

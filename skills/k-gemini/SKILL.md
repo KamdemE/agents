@@ -74,9 +74,8 @@ Must explicitly declare in `gemini-extension.json`:
 
 - **MCP reload:** Ask KπX to run `/mcp refresh` after any install. Full restart if still fails.
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
-- **KG proactivity:** Query Knowledge Graph (`read_graph`, `search_nodes`) at start of complex tasks.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
-- **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir.
+- **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir. 
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 
 ## Changelog
