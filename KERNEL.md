@@ -55,15 +55,15 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 
 ## File Routing
 
-| KπX says | Agent writes to |
-|----------|----------------|
-| "save/update in KERNEL" | `$HOME/.agents/KERNEL.md` |
-| "save/update in CLAUDE" | `$HOME/.agents/skills/k-claude/SKILL.md` |
-| "save/update in GEMINI" | `$HOME/.agents/skills/k-gemini/SKILL.md` |
-| "save/update in CODEX" | `$HOME/.agents/skills/k-codex/SKILL.md` |
-| "save/update in COPILOT" | `$HOME/.agents/skills/k-copilot/SKILL.md` |
-| "save/update in VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
-| "save/update in OPENCLAW" | `$HOME/.agents/skills/k-openclaw/SKILL.md` |
+**General rule:** "ajuste/update `xxxx` or `XXXX`" → `$HOME/.agents/skills/k-xxxx/SKILL.md` by default if no other context provided
+
+| Example | Resolves to |
+|---------|-------------|
+| "ajuste KERNEL" | `$HOME/.agents/KERNEL.md` ← only exception |
+| "ajuste VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
+| "ajuste OPENCLAW" | `$HOME/.agents/skills/k-openclaw/SKILL.md` |
+| "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
+| "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
 
 ## Working with KπX
 
