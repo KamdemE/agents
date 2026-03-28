@@ -143,9 +143,12 @@ This approach is for agents that support a `skill_paths` key in their configurat
 
 After a successful init, **do this proactively** without waiting to be asked:
 
-1. **Audit & Update:** For each setup step above (§III, §IV, §V), add your agent's specific configuration command/path to the appropriate "Approach" list. If your mechanism represents a new approach, create a new "Approach X" section for it.
-2. **Propose Adjustments:** Suggest edits to your own runtime skill at `skills/agents/<name>/SKILL.md` to capture any other specifics about your runtime.
-3. **Log & Push:** Update `~/.agents/memory/dailylog.md` with an entry for the init session, then propose a `git commit` and `make push` to save the updated `INIT.md`.
+1. **Audit & Update:** For each setup step above, add your agent's specific configuration command/path to the appropriate "Approach" list. If your mechanism is new, create a new "Approach X" section.
+2. **If you used the auto-sync approach (Approach 2 — Codex-case):**
+   - Edit `~/.agents/.git/hooks/post-commit` → add your skills dir path to the `SYNC_TARGETS` list.
+   - Add your entry to the **Known Configurations** list in §④ Approach 2 above.
+3. **Propose Adjustments:** Suggest edits to your runtime skill `~/.agents/skills/k-<name>/SKILL.md`.
+4. **Commit & Push:** Propose a `git commit` + `make push` on `~/.agents/` to save the updated INIT.md and post-commit hook.
 
 ---
 
