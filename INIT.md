@@ -119,18 +119,16 @@ These agents scan their own `~/.<agent>/skills/`. Point it at `~/.agents/skills/
 ln -sf ~/.agents/skills ~/.<agent>/skills
 ```
 
-**Loop procedure** (for agents with a pre-existing managed dir — e.g. Codex has `.system/`):
-```bash
-for d in ~/.agents/skills/*/; do
-  ln -sf "$d" <agent_home_skills_dir>/"$(basename $d)"
-done
-```
+**Auto-sync via post-commit hook** (for agents with a pre-existing managed dir):
+Agents whose skills dir has native content (e.g. Codex `.system/`, OpenClaw built-ins) cannot be replaced wholesale. Instead, the `~/.agents/.git/hooks/post-commit` hook auto-creates per-skill symlinks on every commit — **no manual intervention needed for new skills**.
+
+To manually trigger a sync: `cd ~/.agents && git commit --allow-empty -m "sync: force skills sync"`
 
 **Known Configurations:**
 - **Claude:** `ln -sf ~/.agents/skills ~/.claude/skills` *(direct replacement)*
-- **Codex:** loop into `~/.codex/skills/` *(has `.system/` managed by Codex — cannot replace wholesale)*
+- **Codex:** auto-synced by post-commit hook into `~/.codex/skills/` *(has `.system/` — cannot replace wholesale)*
 - **Copilot:** `ln -sf ~/.agents/skills ~/.copilot/skills` *(create if absent)*
-- **OpenClaw:** loop into `~/.openclaw/workspace/skills/` *(workspace-native dir)*
+- **OpenClaw:** auto-synced by post-commit hook into `~/.openclaw/workspace/skills/` *(has built-in skills)*
 
 ### Approach 3: Configuration via `skill_paths` key
 
