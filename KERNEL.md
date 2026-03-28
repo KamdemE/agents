@@ -34,6 +34,7 @@ Build a sovereign **Personal OS / Homelab** — independent of any platform or A
 
 All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on demand.
 **Auto-update:** skill dir exists but absent here → add immediately.
+**New skill install:** always `$HOME/.agents/skills/<name>/` — follow skill-creator conventions (YAML frontmatter, ⚠️ edit reminder after H1, Changelog). Never install to agent-specific dirs.
 
 | Skill | Load when |
 |-------|-----------|
