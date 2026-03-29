@@ -1,30 +1,73 @@
+# KpihX uv project template
+# ──────────────────────────
+# Usage:
+#   1. Copy to your project root, rename to pyproject.toml
+#   2. Replace placeholders:
+#        PROJECT_NAME   → e.g. "my-tool" (kebab-case, the pip name)
+#        PACKAGE_NAME   → e.g. "my_tool" (snake_case, the import name)
+#        VERSION        → e.g. "0.1.0"
+#        DESCRIPTION    → one-line description
+#        SCRIPT_CMD     → e.g. "my-tool" (the CLI command name)
+#   3. Scaffold with: uv init --package PROJECT_NAME
+#      Then replace pyproject.toml with this file.
+#   4. Install editable (dev): uv tool install --editable .
+#
+# Directory layout expected:
+#   src/
+#   └── PACKAGE_NAME/
+#       ├── __init__.py
+#       ├── cli.py          ← Typer app, entry point
+#       ├── config.py       ← @lru_cache config loader
+#       ├── config.yaml     ← non-sensitive settings
+#       └── .env.example    ← required secret keys (no values)
+
+
 [project]
-name = "project-name"          # kebab-case; matches repo name
-version = "0.1.0"
-description = "Short one-line description."
-readme = "README.md"
+name        = "PROJECT_NAME"
+version     = "VERSION"
+description = "DESCRIPTION"
+authors     = [{ name = "KAMDEM Ivann", email = "kapoivha@gmail.com" }]
+readme      = "README.md"
+license     = { text = "MIT" }
 requires-python = ">=3.12"
+
 dependencies = [
-    "rich>=13.0",
-    "typer>=0.12",
-    "pydantic>=2.0",
-    "pyyaml>=6.0",
-    "python-dotenv>=1.0",
+    "typer",           # CLI framework
+    "rich",            # terminal output
+    "pyyaml",          # config.yaml loader
+    "python-dotenv",   # .env support
 ]
 
 [project.scripts]
-project-name = "package_name.main:app"   # adjust entry point
+SCRIPT_CMD = "PACKAGE_NAME.cli:app"
+
+[tool.uv]
+package = true
 
 [build-system]
-requires = ["uv_build>=0.10.3,<0.11.0"]
+requires      = ["uv_build"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "package_name"   # snake_case; decouples PyPI name from import name
+module-name = "PACKAGE_NAME"   # snake_case; decouples PyPI name from import name
+
+# ── Optional dependency groups ──────────────────────────────────────────────
 
 [dependency-groups]
-dev = ["pytest>=9.0", "pytest-asyncio>=0.24"]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-testpaths = ["test"]
+testpaths = ["tests"]
+
+# ── Common optional extras ───────────────────────────────────────────────────
+# Uncomment as needed:
+#
+# [project.optional-dependencies]
+# http    = ["httpx"]
+# async   = ["anyio"]
+# data    = ["pydantic"]

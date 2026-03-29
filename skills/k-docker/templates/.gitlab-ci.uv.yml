@@ -1,0 +1,130 @@
+# .gitlab-ci.yml — Python / uv project
+# ──────────────────────────────────────
+# PLACEHOLDERS TO REPLACE:
+#   PROJECT_NAME   → e.g. "tick-mcp"            (compose project name, container name)
+#   PACKAGE_NAME   → e.g. "tick_mcp"            (Python import name)
+#   PORT           → e.g. "8091"                (app HTTP port inside container)
+#   SERVICE_NAME   → e.g. "tick"                (subdomain: SERVICE_NAME.kpihx-labs.com)
+#   SECRET_ONE     → e.g. "TICKTICK_API_TOKEN"  (project-specific GitLab CI var)
+#   SMOKE_TEST_CMD → e.g. "curl -fsS http://127.0.0.1:PORT/health"
+#
+# Group CI/CD vars (kpihx-labs) — always available, do not redefine:
+#   GITHUB_TOKEN, TELEGRAM_CHAT_IDS, POSTGRES_PASSWORD, TELEGRAM_HOMELAB_TOKEN
+
+stages:
+  - validate
+  - deploy
+  - sync
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+# ── Validate ──────────────────────────────────────────────────────────────────
+
+validate_project:
+  stage: validate
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+  variables:
+    GIT_CLEAN_FLAGS: none
+  script:
+    - |
+      if command -v uv >/dev/null 2>&1; then
+        uv sync --group dev
+        uv run python -m py_compile $(find src -name '*.py' -print)
+        uv run --group dev python -m pytest tests -q
+      elif command -v docker >/dev/null 2>&1; then
+        docker run --rm \
+          -v "$CI_PROJECT_DIR:/work" \
+          -w /work \
+          ghcr.io/astral-sh/uv:python3.12-bookworm-slim \
+          sh -c 'uv sync --group dev &&
+                 uv run python -m py_compile $(find src -name '"'"'*.py'"'"' -print) &&
+                 uv run --group dev python -m pytest tests -q'
+      else
+        echo "Neither uv nor docker available on this runner."
+        exit 1
+      fi
+
+# ── Deploy ────────────────────────────────────────────────────────────────────
+
+deploy_homelab:
+  stage: deploy
+  tags:
+    - homelab
+  variables:
+    GIT_CLEAN_FLAGS: none
+  only:
+    - main
+  needs:
+    - validate_project
+  script:
+    - echo "Deploying PROJECT_NAME to the homelab..."
+    - cd deploy
+
+    # ── Generate .env from CI vars ─────────────────────────────────────────────
+    - echo "SECRET_ONE=$SECRET_ONE" > .env
+    # Add more project-specific vars here:
+    # - echo "SECRET_TWO=$SECRET_TWO" >> .env
+
+    # ── DB (uncomment if project connects to the server postgres container) ────
+    # Server postgres: hostname "postgres", network "proxy", port 5432
+    # POSTGRES_PASSWORD is already in kpihx-labs group vars.
+    # - echo "DB_NAME=PROJECT_DB_NAME" >> .env
+    # - echo "DB_USER=admin" >> .env
+    # - echo "DB_PASS=$POSTGRES_PASSWORD" >> .env
+    # - echo "DB_HOST=postgres" >> .env
+    # - echo "DB_PORT=5432" >> .env
+
+    # ── Service config ─────────────────────────────────────────────────────────
+    - echo "PROJECT_NAME_HTTP_HOST=0.0.0.0" >> .env
+    - echo "PROJECT_NAME_HTTP_PORT=PORT" >> .env
+    - echo "PROJECT_NAME_HTTP_MCP_PATH=/mcp" >> .env
+
+    # ── URLs ───────────────────────────────────────────────────────────────────
+    - echo "PROJECT_NAME_PUBLIC_BASE_URL=https://SERVICE_NAME.kpihx-labs.com" >> .env
+    - echo "PROJECT_NAME_FALLBACK_BASE_URL=https://SERVICE_NAME.homelab" >> .env
+
+    # ── Telegram notifications (optional) ──────────────────────────────────────
+    # - echo "TELEGRAM_PROJECT_HOMELAB_TOKEN=$TELEGRAM_PROJECT_HOMELAB_TOKEN" >> .env
+    # - echo "TELEGRAM_CHAT_IDS=$TELEGRAM_CHAT_IDS" >> .env
+
+    # ── Deploy ─────────────────────────────────────────────────────────────────
+    - docker compose -p PROJECT_NAME config -q
+    - docker rm -f PROJECT_NAME || true
+    - docker compose -p PROJECT_NAME up -d --build --remove-orphans
+
+    # ── Health check loop ──────────────────────────────────────────────────────
+    - |
+      for attempt in $(seq 1 20); do
+        status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}starting{{end}}' PROJECT_NAME 2>/dev/null || true)"
+        if [ "$status" = "healthy" ]; then
+          break
+        fi
+        if [ "$status" = "unhealthy" ]; then
+          docker logs --tail 200 PROJECT_NAME
+          exit 1
+        fi
+        sleep 3
+      done
+    - docker inspect --format '{{.State.Health.Status}}' PROJECT_NAME | grep -qx healthy
+    - docker exec PROJECT_NAME curl -fsS http://127.0.0.1:PORT/health
+    - docker image prune -f
+
+# ── Sync to GitHub mirror (kpihx-labs projects only — uncomment if needed) ────
+
+# sync_github:
+#   stage: sync
+#   only:
+#     - main
+#   variables:
+#     GITHUB_ORG: "kpihx-labs"
+#     REPO_NAME: "PROJECT_NAME"
+#   script:
+#     - |
+#       curl -fsS -H "Authorization: token ${GITHUB_TOKEN}" \
+#            -X POST \
+#            -d "{\"name\":\"${REPO_NAME}\", \"private\":false}" \
+#            https://api.github.com/orgs/${GITHUB_ORG}/repos || true
+#     - git remote add github https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_ORG}/${REPO_NAME}.git || \
+#       git remote set-url github https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_ORG}/${REPO_NAME}.git
+#     - git push github $CI_COMMIT_SHA:refs/heads/main --force

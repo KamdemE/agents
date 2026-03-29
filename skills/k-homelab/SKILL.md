@@ -1,10 +1,15 @@
 ---
 name: k-homelab
-description: KπX Homelab — infrastructure, personal projects, SSH access, presentation knowledge base. Load for any homelab, infrastructure, or project-specific task.
+description: >
+  KπX Homelab — server infra (Proxmox, Docker-Host LXC, Traefik, Vaultwarden, Portainer,
+  Ollama), self-hosted services (polytask, wa-bot, n8n, sentinel), SSH
+  (ssh homelab / docker-host), GitLab CI/CD, presentation/ knowledge base.
+  Load for any task involving the homelab server, Docker containers, Traefik reverse proxy,
+  CI/CD pipelines, or ~/Work/Homelab/ projects. NOT for generic project init (→ k-project).
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.6.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -48,7 +53,6 @@ Source code for all kpihx-labs projects lives here. When a KπX project is menti
 |---------|---------|
 | `kpihx_labs/` | Main infra stack (Docker Compose) |
 | `imhotep/` | — |
-| `n8n_personal_ops/` | n8n automation workflows |
 | `polytask/` | — |
 | `sentinel/` | — |
 | `wa-bot/` | WhatsApp bot |
@@ -61,7 +65,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 - **`tutos_live/`** — Step-by-step homelab implementation series, Problem-first approach. Sections:
   - Root: 6 core infra guides (Proxmox/802.1X → Docker host → DevOps/CI → Tailscale/AdGuard → Cloudflare/Zero Trust → Vaultwarden/DNS-01)
-  - `n8n/` — n8n deployment + personal ops bridges
+  - `n8n/` — n8n deployment (private cerveau, PostgreSQL reuse)
   - `security/` — backup 3-2-1, Watchtower, SSH hardening
   - `annexes/` — Network watchdog, Termux toolkit
   - **`templates/`** — Ready-to-use config files for all homelab services: Docker Compose YAMLs + `.env` examples (Traefik, Vaultwarden, Ollama, Tailscale, AdGuard, n8n, Postgres, Watchtower, wa-bot…), GitLab CI deploy pipelines, SSH config template
@@ -71,5 +75,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.6.0 — removed all n8n-personal-ops/ops-hooks mentions; n8n/ section updated to pure n8n setup |
+| 2026-03-29 | [CLAUDE] | v1.5.0 — description rewritten: explicit service list, NOT for generic project init |
 | 2026-03-29 | [CLAUDE] | v1.4.0 — SSH aliases table corrected from ~/.ssh/config (homelab mDNS, kpihx-labs Tailscale, docker-host/x ProxyJump distinction) |
 | [SUMMARY] | — | v1.3.0 Tailscale devices; v1.2.0 Knowledge Base rewritten; v1.1.0–v1.0.0 init |

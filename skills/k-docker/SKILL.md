@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.4.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -17,6 +17,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
+> **Concrete examples:** check `~/Work/Homelab/presentation/tutos_live/templates/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via qmd or `ls`.
 
 ## When to Load
 
@@ -51,6 +52,23 @@ Key rules:
 - Traefik labels: **two routers** — `-private` (public HTTPS + certresolver) + `-fallback` (`.homelab` internal TLS)
 - Security middleware: `browserxssfilter`, `contenttypenosniff`, `framedeny`
 
+## Database — Shared Server Postgres
+
+The homelab server runs a **single shared `postgres` container** (`postgres:16-alpine`, name `postgres`, network `proxy`).
+
+**Rule:** `docker-compose.yml` (prod) has **no `db` service**. The app joins the `proxy` network and connects directly to the `postgres` container by hostname.
+
+Env vars to inject in CI `.env` for projects that need a DB:
+```
+DB_NAME=<project_db_name>    # project-specific (create the DB manually first)
+DB_USER=admin                # fixed on the server
+DB_PASS=$POSTGRES_PASSWORD   # kpihx-labs group var → maps to POSTGRES_PASSWORD
+DB_HOST=postgres             # container name on the proxy network
+DB_PORT=5432
+```
+
+> `POSTGRES_PASSWORD` is in the `kpihx-labs` GitLab group vars — never redefine it.
+
 ## docker-compose.override.yml (local dev)
 
 Template: `templates/docker-compose.override.yml`
@@ -58,56 +76,89 @@ Template: `templates/docker-compose.override.yml`
 Key rules:
 - Override `ports:` to expose on localhost (not needed on server — Traefik handles it)
 - Override `networks: proxy: external: false` — create the network locally
-- Add local DB service if needed (postgres/alpine)
-- Override `environment:` for dev values
+- **DB service:** the override template includes a local `postgres:16-alpine` service — use it for projects that need a DB; remove the block entirely if not needed
+- Override `environment: DB_HOST: db` to point to the local container (instead of server `postgres`)
 - **NEVER commit a filled `.env`** — commit only `.env.example`
 
 ## GitLab CI/CD
 
-Template: `templates/.gitlab-ci.yml`
+Templates:
+- `templates/.gitlab-ci.uv.yml` — Python/uv projects (validate with `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`, pytest, health via `curl`)
+- `templates/.gitlab-ci.bun.yml` — Bun/TS projects (validate with `oven/bun:1-slim`, `bun test`, health via `bun -e fetch`)
 
-**Runner:** tag `homelab` (deploy job only — validate runs on shared runner with Docker image)
+**Runner:** tag `homelab` (deploy job only — validate runs on shared runner with the appropriate language image)
 
-**Existing CI/CD vars in `kpihx-labs` GitLab group** (query: `glab variable list -g kpihx-labs | cut -d' ' -f1`):
+**`kpihx-labs` GitLab group vars** — inherited by all group projects automatically.
+
+> ⚠️ Always re-check before starting a new project — list may have changed:
+> ```bash
+> glab variable list -g kpihx-labs
+> ```
+
+| Key | Protected | Masked | Notes |
+|-----|-----------|--------|-------|
+| `GITHUB_TOKEN` | ✓ | ✓ | GitHub PAT — legacy CI sync fallback (prefer `gh` at init) |
+| `WHATSAPP_CHAT_IDS` | ✓ | ✓ | Telegram/WA notification targets |
+| `TELEGRAM_CHAT_IDS` | ✓ | ✓ | Telegram notification targets |
+| `POSTGRES_PASSWORD` | ✓ | ✓ | Shared server postgres password |
+| `TELEGRAM_HOMELAB_TOKEN` | ✓ | ✓ | Generic Telegram homelab bot token |
+
+**Project-specific vars** — create per project in GitLab **Settings → CI/CD → Variables** (or via CLI):
+
+```bash
+# Create a masked+protected project var (replace values accordingly)
+glab variable set TELEGRAM_PROJECT_HOMELAB_TOKEN --value "<token>" \
+  --masked --protected --repo kpihx-labs/<project-name>
+
+# Or for a project-specific API key
+glab variable set TICKTICK_API_TOKEN --value "<token>" \
+  --masked --protected --repo kpihx-labs/<project-name>
+
+# List all vars for a project (verify after creation)
+glab variable list --repo kpihx-labs/<project-name>
 ```
-PROXY_URL          GITHUB_TOKEN       WHATSAPP_CHAT_IDS
-TELEGRAM_CHAT_IDS  POSTGRES_PASSWORD  TELEGRAM_HOMELAB_TOKEN
-```
 
-**Project-specific vars to create per project** (tell the user which ones to add in GitLab Settings → CI/CD → Variables):
-- All project API tokens / secrets not in the group vars above
-- Example: `TICKTICK_API_TOKEN`, `TELEGRAM_<PROJECT>_TOKEN`, etc.
-- Rule: never hardcode — always inject via CI vars → generated `.env`
+- Rule: **never hardcode** — always inject via CI vars → generated `.env`
+- Pattern for Telegram bots: one token per project → `TELEGRAM_<PROJECT>_HOMELAB_TOKEN`
 
 **Pipeline structure:**
 ```
 validate (shared runner, Docker image)   → syntax check + unit tests
 deploy   (homelab runner, tag=homelab)   → generate .env + docker compose up + healthcheck
-sync     (shared runner, optional)       → push to GitHub mirror (kpihx-labs projects only)
+sync     (shared runner, legacy)         → ⚠️ LEGACY — see Repo Creation below instead
 ```
 
-**Sync stage** — kpihx-labs projects only:
-- `GITHUB_TOKEN` already present in group vars
-- Creates GitHub repo in `kpihx-labs` org if absent
-- Force-pushes `$CI_COMMIT_SHA` → `refs/heads/main`
+**Sync stage — legacy, do not use for new projects.**
+The CI sync approach (force-push via `GITHUB_TOKEN`) was used when `gh` org access wasn't available. The preferred approach is to create the GitHub mirror directly with `gh` at project init and push normally via `make push` (see k-git).
+
+The `sync_github` block in the CI templates is kept commented out as a fallback only.
 
 ## Repo Creation
 
+**Preferred — `gh` + `glab` at project init:**
+
 ```bash
-# Personal namespace (tools, MCPs not homelab-specific)
-gh repo create KpihX/<name> --public
-glab repo create kpihx/<name> --public
-
-# Homelab / CI-deploy projects (kpihx-labs group)
+# Homelab / CI-deploy projects (kpihx-labs org on both platforms)
 gh repo create kpihx-labs/<name> --public
-glab repo create kpihx-labs/<name> --public
+glab repo create kpihx-labs/<name> --public   # or: --group kpihx-labs
 
-# Set remotes (→ see k-git for SSH convention)
+# Set remotes (SSH — see k-git)
 git remote add github git@github.com:kpihx-labs/<name>.git
 git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git
+
+# Push both
+make push
 ```
 
-If creating manually is not possible (orgs/permissions), use sync via GITHUB_TOKEN in the CI (already set for kpihx-labs group).
+```bash
+# Personal namespace (tools/MCPs not tied to homelab infra)
+gh repo create KpihX/<name> --public
+glab repo create kpihx/<name> --public
+git remote add github git@github.com:KpihX/<name>.git
+git remote add gitlab git@gitlab.com:kpihx/<name>.git
+```
+
+> Once both remotes are set, `make push` keeps them in sync — no CI sync stage needed.
 
 ## Makefile.docker
 
@@ -129,4 +180,8 @@ Targets: `up`, `down`, `restart`, `build`, `logs`, `ps`, `deploy`, `prune`, `she
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.4.0 — sync stage marked legacy; Repo Creation prefers gh+glab at init + make push; GITHUB_TOKEN note updated; PROXY_URL removed |
+| 2026-03-29 | [CLAUDE] | v1.3.0 — group vars table + glab check reminder + project var creation commands |
+| 2026-03-29 | [CLAUDE] | v1.2.0 — DB section (shared postgres, no db in prod compose, override has local pg); 2 CI templates (.gitlab-ci.uv.yml + .gitlab-ci.bun.yml) |
+| 2026-03-29 | [CLAUDE] | v1.1.0 — concrete examples pointer to presentation/tutos_live/templates/ |
 | 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |

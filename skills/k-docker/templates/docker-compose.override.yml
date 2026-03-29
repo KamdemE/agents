@@ -15,32 +15,37 @@ services:
     # Dev-specific env overrides (non-secret, safe to commit here)
     environment:
       LOG_LEVEL: debug
-      # DB_HOST: db   # uncomment if using local DB service below
+      # DB_HOST: db   # uncomment if using the local DB service below
 
-    # Optional: depends on local DB
+    # Optional: wait for local DB before starting
     # depends_on:
     #   - db
 
-  # ── Uncomment to add a local Postgres instance ────────────────────────────
-  # db:
-  #   image: postgres:16-alpine
-  #   container_name: local_postgres_dev
-  #   restart: unless-stopped
-  #   environment:
-  #     POSTGRES_DB: ${DB_NAME}
-  #     POSTGRES_USER: ${DB_USER}
-  #     POSTGRES_PASSWORD: ${DB_PASS}
-  #   ports:
-  #     - "${DB_PORT:-5432}:5432"
-  #   volumes:
-  #     - local_pg_data:/var/lib/postgresql/data
-  #   networks:
-  #     - proxy
+  # ── Local Postgres ────────────────────────────────────────────────────────────
+  # Include when this project needs a database.
+  # In prod the app connects to the shared server postgres container directly
+  # (hostname: "postgres", network: proxy) — no db service in docker-compose.yml.
+  # Remove this entire block if the project doesn't use a DB.
+  db:
+    image: postgres:16-alpine
+    container_name: local_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    networks:
+      - proxy
+    # Optional: expose for DBeaver / local tooling
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - local_pg_data:/var/lib/postgresql/data
 
 # Local network — not external (server uses external Traefik proxy network)
 networks:
   proxy:
     external: false
 
-# volumes:
-#   local_pg_data:
+volumes:
+  local_pg_data:   # remove this if the db service above is removed
