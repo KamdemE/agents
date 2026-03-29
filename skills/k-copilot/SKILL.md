@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: agent-runtime
   target-agent: copilot
 allowed-tools: Bash, Read, Write, Edit
@@ -55,9 +55,16 @@ HTTP servers: use `"type": "http"`. Restart Copilot + verify via `/mcp` after an
 
 **Current MCP list:** read `~/.copilot/mcp-config.json` directly — it is the source of truth.
 
+## Project Context
+
+When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+If found: treat it as project-specific context — architecture rules, stack, evolution rules.
+Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.2.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v1.1.0 — added Runtime Context, config.json settings, GitHub account; broadened description |
 | [SUMMARY] | — | v1.0.0 — extracted from agents/codex, dedicated SKILL.md created |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -78,9 +78,16 @@ Must explicitly declare in `gemini-extension.json`:
 - **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir. 
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 
+## Project Context
+
+When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+If found: treat it as project-specific context — architecture rules, stack, evolution rules.
+Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.3.0 — removed redundant edit reminder; broadened description; changelog condensed |
 | [SUMMARY] | — | v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |

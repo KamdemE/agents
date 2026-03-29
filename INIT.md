@@ -47,7 +47,7 @@ If you detect **any divergence** between this protocol and your actual capabilit
 
 ## ② Create Your Runtime Skill
 
-This step is mandatory for all agents. Create `~/.agents/skills/agents/<name>/SKILL.md` with YAML frontmatter:
+This step is mandatory for all agents. Create `~/.agents/skills/k-<name>/SKILL.md` with YAML frontmatter:
 ```yaml
 ---
 name: agent-runtime-<name>

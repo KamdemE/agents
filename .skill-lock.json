@@ -111,6 +111,13 @@
       "installedAt": "2026-03-28T19:00:00.000Z",
       "updatedAt": "2026-03-28T19:30:00.000Z"
     },
+    "k-project": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-project/SKILL.md",
+      "installedAt": "2026-03-29T00:00:00.000Z",
+      "updatedAt": "2026-03-29T00:00:00.000Z"
+    },
     "skill-creator": {
       "source": "anthropics/skills",
       "sourceType": "github",

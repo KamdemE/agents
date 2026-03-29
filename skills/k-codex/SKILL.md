@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -68,9 +68,16 @@ XAUTHORITY = "$XAUTHORITY"
 - **Sudo required** → STOP before retry loop; ask KπX to run the command manually; then resume.
 - **rules/default.rules** — prefix_rule patterns auto-accumulated by Codex. Edit directly to remove stale entries.
 
+## Project Context
+
+When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+If found: treat it as project-specific context — architecture rules, stack, evolution rules.
+Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.3.0 — added config.toml anatomy + memories/rules; removed TickTick duplication (→ k-ticktick); broadened description |
 | [SUMMARY] | — | v2.2.0 removed ~/AGENTS.md; v2.1.0 Copilot extracted; v2.0.0 initial |

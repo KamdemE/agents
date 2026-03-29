@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
   scope: agent-runtime
   target-agent: claude
 allowed-tools: Bash, Read, Write, Edit
@@ -60,9 +60,16 @@ After editing `~/.claude.json` → restart Claude Code. Verify with `/mcp`.
 - Active: `Stop` hook → `~/.agents/scripts/session-guard.sh` (k-context final update)
 - Edit this file (not `~/.claude.json`) for hooks/permissions.
 
+## Project Context
+
+When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+If found: treat it as project-specific context — architecture rules, stack, evolution rules.
+Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.3.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.2.0 — added Hooks section (Stop → session-guard.sh); updated description |
 | [SUMMARY] | — | v2.1.0 removed Tool Discipline; v2.0.0 migrated to skills/k-claude/ |

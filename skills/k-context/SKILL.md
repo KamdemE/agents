@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.3.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -36,6 +36,7 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-03-29 | [GEMINI] | Fixed INIT.md paths (desync v3.0.0): `skills/agents/` → `skills/k-*/`. |
 | 2026-03-29 | [CLAUDE] | OpenClaw: k-* skills symlinks→rsync copies (workspace root security fix); exec-approvals ask=always configured; INIT.md SYNC/COPY_TARGETS documented; k-openclaw SKILL.md v1.2.0 |
 | 2026-03-29 | [CLAUDE] | k-duties + k-soul stale symlinks supprimés de ~/.codex/skills/ (fusionnés dans KERNEL) |
 | 2026-03-28 | [CLAUDE] | INIT+hook: auto-sync skills Codex+OpenClaw via SYNC_TARGETS post-commit; KERNEL: mandate install → ~/.agents/skills/; tous KERNEL+skills symlinks vérifiés ✅ — commits 441e880→64b4bef |
