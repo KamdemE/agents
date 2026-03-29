@@ -4,7 +4,7 @@ description: KπX Homelab — infrastructure, personal projects, SSH access, pre
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.4.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -16,13 +16,24 @@ allowed-tools: Bash(*), "*"
 
 Full SSH config → `~/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
 
-| Device | Tailscale IP | SSH alias | Status |
-|--------|-------------|-----------|--------|
-| `kpihx-ubuntu` | `100.82.95.70` | *(this machine)* | active |
-| `kpihx-labs` | `100.123.81.21` | `ssh kpihx-labs` / `ssh docker-host` / `ssh docker-host-x` | active (direct) |
-| `kpihx-phone` | `100.125.54.1` | — | active (relay) |
-| `kpihx-tablet` | `100.89.79.87` | — | offline |
-| `kpihx-windows` | `100.108.7.86` | — | offline |
+**SSH aliases** (source of truth: `~/.ssh/config`):
+
+| Alias | Target | Route | Use when |
+|-------|--------|-------|----------|
+| `ssh homelab` | `homelab.local` port 2222 | mDNS (LAN) | On local network |
+| `ssh kpihx-labs` | `kpihx-labs` port 2222 | Tailscale Magic DNS | From anywhere via Tailscale |
+| `ssh docker-host` | `10.10.10.10` | ProxyJump `kpihx-labs` (Tailscale) | Docker host — Tailscale route |
+| `ssh docker-host-x` | `10.10.10.10` | ProxyJump `homelab` (mDNS) | Docker host — eduroam/LAN fallback |
+
+**Tailscale devices:**
+
+| Device | IP | OS | Status |
+|--------|----|----|--------|
+| `kpihx-ubuntu` | `100.82.95.70` | Linux | this machine |
+| `kpihx-labs` | `100.123.81.21` | Linux | active (direct) |
+| `kpihx-phone` | `100.125.54.1` | Android | active (relay) |
+| `kpihx-tablet` | `100.89.79.87` | Android | offline |
+| `kpihx-windows` | `100.108.7.86` | Windows | offline |
 
 ## Infrastructure (`~/Work/Homelab/kpihx_labs/`)
 
@@ -60,5 +71,5 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-29 | [CLAUDE] | v1.3.0 — SSH section → SSH & Tailscale with full devices table (IPs + status) |
-| [SUMMARY] | — | v1.2.0 Knowledge Base rewritten; v1.1.0 removed duplicate tutos_live reflex; v1.0.0 created |
+| 2026-03-29 | [CLAUDE] | v1.4.0 — SSH aliases table corrected from ~/.ssh/config (homelab mDNS, kpihx-labs Tailscale, docker-host/x ProxyJump distinction) |
+| [SUMMARY] | — | v1.3.0 Tailscale devices; v1.2.0 Knowledge Base rewritten; v1.1.0–v1.0.0 init |

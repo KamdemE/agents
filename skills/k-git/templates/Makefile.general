@@ -1,0 +1,25 @@
+.DEFAULT_GOAL := help
+BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
+
+help:  ## Show available targets
+	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
+	  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+
+push:  ## Push current branch to all remotes
+	@branch="$$(git branch --show-current)"; \
+	for remote in $$(git remote); do \
+		echo "==> pushing $$branch to $$remote"; \
+		git push "$$remote" "$$branch"; \
+	done
+
+push-tags:  ## Push all tags to all remotes
+	@for remote in $$(git remote); do git push "$$remote" --tags; done
+
+status:  ## git status --short
+	@git status --short
+
+log:  ## Last 10 commits oneline
+	@git log --oneline -10
+
+lint:  ## Shellcheck on all .sh files (adjust as needed)
+	@shellcheck --shell=bash *.sh

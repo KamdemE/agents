@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -24,88 +24,29 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 - **Commits:** Conventional Commits spec. Atomic. No `--no-verify`. No amending published commits.
 - **Visibility:** Default public. Challenge and propose private for sensitive/early-stage projects.
 
-## Makefile Patterns
+## Makefile Templates
 
-### Header (every project)
+Ready-to-use templates in `templates/` — copy to project root as `Makefile` and adapt:
 
-```makefile
-.DEFAULT_GOAL := help
-ZSH_LOGIN     := zsh -lc         # wraps commands needing bw-env secrets (publish, deploy…)
-BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
+| Template | Use case |
+|----------|----------|
+| `templates/Makefile.general` | Generic project (scripts, shell, misc) — push, status, log, lint |
+| `templates/Makefile.uv` | Python package (uv) — check, build, publish to PyPI, release |
+| `templates/Makefile.npm-bun` | JS/TS package (bun) — test, build, publish to npm, release |
 
-help:
-	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
-	  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
-```
+All templates share: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (bw-env secrets), dynamic `push` loop over `git remote`.
 
-### Core targets (all projects)
+**Publish secrets required** (via bw-env before running):
+- `Makefile.uv` → `UV_PUBLISH_TOKEN`
+- `Makefile.npm-bun` → `NPM_TOKEN` (or `BUN_AUTH_TOKEN`)
 
-```makefile
-push:        ## Push current branch to ALL configured remotes
-	@branch="$$(git branch --show-current)"; \
-	for remote in $$(git remote); do \
-		echo "==> pushing $$branch to $$remote"; \
-		git push "$$remote" "$$branch"; \
-	done
-
-push-tags:   ## Push all tags to all remotes (triggers CI releases)
-	@for remote in $$(git remote); do git push "$$remote" --tags; done
-
-status:      ## Git status --short
-	@git status --short
-
-log:         ## Last 10 commits oneline
-	@git log --oneline -10
-```
-
-### Linting / testing (scripts, Python, JS)
+**Optional add-ons** (not in templates — add as needed):
 
 ```makefile
-check:       ## Syntax-check all .sh files
-	@bash -n *.sh
-
-lint:        ## Shellcheck on all .sh files
-	@shellcheck --shell=bash *.sh
-
-test:        ## Run pytest (Python projects)
-	@uv run pytest -q
-
-check-py:    ## py_compile + pytest
-	@python3 -m py_compile $$(find src test -name '*.py' -print)
-	@uv run pytest -q
-```
-
-### Python package (uv projects)
-
-```makefile
-build:       ## Build package (uv)
-	@rm -rf dist && uv build
-
-publish: build  ## Publish to PyPI — requires UV_PUBLISH_TOKEN via bw-env
-	@$(ZSH_LOGIN) 'if ! env | grep -q "^UV_PUBLISH_TOKEN="; then \
-		echo "UV_PUBLISH_TOKEN missing — run bw-env first"; exit 1; fi; \
-	uv publish --check-url https://pypi.org/simple'
-
-release: check-py build publish push  ## Full release: check → build → publish → push
-```
-
-### Install / teardown (projects with install scripts)
-
-```makefile
-install:     ## Run scripts/install.sh
-	@./scripts/install.sh
-
-purge:       ## Run scripts/purge.sh
-	@./scripts/purge.sh
-```
-
-### Docs subdir (projects with `docs/` git sub-repo)
-
-```makefile
-push-docs:     ## Push docs/ repo to all remotes
+push-docs:     ## Push docs/ sub-repo to all remotes
 	@$(MAKE) -C docs push
 
-publish-docs:  ## Publish docs/ (e.g. GitHub Pages deploy)
+publish-docs:  ## Publish docs/ (GitHub Pages deploy)
 	@$(MAKE) -C docs publish
 ```
 
@@ -137,5 +78,5 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-29 | [CLAUDE] | v2.2.0 — Makefile: full patterns (header/core/lint/py/install/docs); GitLab namespace rule (kpihx default, kpihx-labs for homelab/CI) |
-| [SUMMARY] | — | v2.1.0 init checklist simplified; v2.0.0 refonte; v1.0.0 initial |
+| 2026-03-29 | [CLAUDE] | v2.3.0 — Makefile section replaced by 3 templates in templates/ (general/uv/npm-bun) |
+| [SUMMARY] | — | v2.2.0 full Makefile patterns + GitLab namespace rule; v2.1.0 init checklist; v2.0.0 refonte; v1.0.0 init |
