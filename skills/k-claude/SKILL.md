@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Runtime Context
 
 - **Agent home:** `~/.claude/`
-- **Global kernel:** `~/.claude/CLAUDE.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.claude/CLAUDE.md` → `~/.agents/AGENTS.md`
 - **Runtime shortcut:** `~/CLAUDE.md` → this file
 - **Skills path:** `~/.claude/skills/` → `~/.agents/skills/` (symlink)
 - **Auto-memory:** `~/.claude/projects/-home-kpihx/memory/` — Read → Edit on existing files, never Write

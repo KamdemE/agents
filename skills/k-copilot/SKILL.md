@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Runtime Context
 
 - **Home:** `~/.copilot/`
-- **Global kernel:** `~/.copilot/copilot-instructions.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.copilot/copilot-instructions.md` → `~/.agents/AGENTS.md`
 - **Runtime shortcut:** `~/COPILOT.md` → this file
 - **Skills path:** `~/.copilot/skills/` → `~/.agents/skills/` (symlink)
 - **Config files:** `~/.copilot/mcp-config.json` (MCPs) · `~/.copilot/config.json` (settings)

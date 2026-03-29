@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+dist/
+build/
+*.egg-info/
+lancedb/
+
+# Node / Bun
+node_modules/
+.next/
+.nuxt/
+
+# Env / Secrets
+*.env
+.env*
+!*.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Test / Coverage
+.pytest_cache/
+.coverage
+htmlcov/

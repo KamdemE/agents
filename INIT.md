@@ -8,12 +8,13 @@ Bootstrap for any agent joining the KπX workspace. Read once on first session.
 
 | Agent | Home | Kernel link | Config file | Skills support |
 |-------|------|-------------|-------------|----------------|
-| CLAUDE | `~/.claude/` | `~/.claude/CLAUDE.md` → `~/.agents/KERNEL.md` | `~/.claude.json` | Yes |
-| GEMINI | `~/.gemini/` | `~/.gemini/GEMINI.md` → `~/.agents/KERNEL.md` | `~/.gemini/settings.json` | Yes (extensions) |
-| CODEX | `~/.codex/` | `~/.codex/AGENTS.md` → `~/.agents/KERNEL.md` | `~/.codex/config.toml` | Yes |
-| COPILOT | `~/.copilot/` | `~/.copilot/copilot-instructions.md` → `~/.agents/KERNEL.md` | `~/.copilot/mcp-config.json` | Yes |
-| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md` | `~/.vibe/config.toml` | Yes |
-| OPENCLAW | `~/.openclaw/` | `~/.openclaw/workspace/AGENTS.md` → `~/.agents/KERNEL.md` | `~/.openclaw/openclaw.json` | Yes (workspace/skills/) |
+| CLAUDE | `~/.claude/` | `~/.claude/CLAUDE.md` → `~/.agents/AGENTS.md` | `~/.claude.json` | Yes |
+| GEMINI | `~/.gemini/` | `~/.gemini/GEMINI.md` → `~/.agents/AGENTS.md` | `~/.gemini/settings.json` | Yes (extensions) |
+| CODEX | `~/.codex/` | `~/.codex/AGENTS.md` → `~/.agents/AGENTS.md` | `~/.codex/config.toml` | Yes |
+| COPILOT | `~/.copilot/` | `~/.copilot/copilot-instructions.md` → `~/.agents/AGENTS.md` | `~/.copilot/mcp-config.json` | Yes |
+| VIBE | `~/.vibe/` | `~/.vibe/prompts/global.md` → `~/.agents/AGENTS.md` | `~/.vibe/config.toml` | Yes |
+| OPENCLAW | `~/.openclaw/` | `~/.openclaw/workspace/AGENTS.md` → `~/.agents/AGENTS.md` | `~/.openclaw/openclaw.json` | Yes (workspace/skills/) |
+| K-AI | `~/.k-ai/` | `~/.k-ai/AGENTS.md` → `~/.agents/AGENTS.md` | `~/.k-ai/config.yaml` | Yes |
 
 ---
 
@@ -79,11 +80,12 @@ Find the correct approach for your architecture and add your entry if missing.
 This is the most common approach. The target filename inside the agent's home directory (`~/.<agent_name>/`) can vary.
 
 **Known Configurations:**
-- **Claude:** `ln -sf ~/.agents/KERNEL.md ~/.claude/CLAUDE.md`
-- **Codex:** `ln -sf ~/.agents/KERNEL.md ~/.codex/AGENTS.md`
-- **Copilot:** `ln -sf ~/.agents/KERNEL.md ~/.copilot/copilot-instructions.md`
-- **Gemini:** `ln -sf ~/.agents/KERNEL.md ~/.gemini/GEMINI.md`
-- **OpenClaw:** `ln -sf ~/.agents/KERNEL.md ~/.openclaw/workspace/AGENTS.md`
+- **Claude:** `ln -sf ~/.agents/AGENTS.md ~/.claude/CLAUDE.md`
+- **Codex:** `ln -sf ~/.agents/AGENTS.md ~/.codex/AGENTS.md`
+- **Copilot:** `ln -sf ~/.agents/AGENTS.md ~/.copilot/copilot-instructions.md`
+- **Gemini:** `ln -sf ~/.agents/AGENTS.md ~/.gemini/GEMINI.md`
+- **k-ai:** `ln -sf ~/.agents/AGENTS.md ~/.k-ai/AGENTS.md`
+- **OpenClaw:** `ln -sf ~/.agents/AGENTS.md ~/.openclaw/workspace/AGENTS.md`
 
 ### Approach 2: Symlink with `config.toml` modification
 
@@ -93,7 +95,7 @@ This approach is for agents that require both a symlink and a corresponding chan
 - **Vibe (Mistral):** Vibe loads its system prompt based on the `system_prompt_id` key. The procedure is to first create a symlink for the kernel to a file named `global.md` in the prompts directory, and then edit `config.toml` to point to it.
   ```bash
   # Step 1: Create the symlink
-  ln -sf ~/.agents/KERNEL.md ~/.vibe/prompts/global.md
+  ln -sf ~/.agents/AGENTS.md ~/.vibe/prompts/global.md
   # Step 2: Edit ~/.vibe/config.toml to set system_prompt_id = "global"
   ```
 
@@ -141,6 +143,7 @@ This approach is for agents that support a `skill_paths` key in their configurat
 
 **Known Configurations:**
 - **Vibe (Mistral):** Edit `~/.vibe/config.toml` and set `skill_paths = ["$HOME/.agents/skills"]`.
+- **k-ai:** Edit `~/.k-ai/config.yaml` and set `skills.directories` to include `~/.agents/skills`.
 
 ---
 
@@ -170,7 +173,6 @@ The following sections are kept for historical reference but should no longer be
 Use **only** when an agent does not support `agentskills.io`.
 
 **Setup (4 steps):**
-1. Link global kernel: `ln -sf ~/.agents/KERNEL.md <AGENT_HOME>/<KERNEL_LINK_NAME>`
+1. Link global kernel: `ln -sf ~/.agents/AGENTS.md <AGENT_HOME>/<KERNEL_LINK_NAME>`
 2. Create runtime shortcut: `ln -sf ~/.agents/skills/k-<name>/SKILL.md ~/<AGENT_NAME>.md`
 3. Symlink skills dirs: `for folder in ~/.agents/skills/*/; do ln -sf "$folder" <AGENT_HOME>/skills/"$(basename "$folder")"; done`
-

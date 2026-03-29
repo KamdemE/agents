@@ -1,11 +1,16 @@
 ---
 name: qmd
-description: Search markdown knowledge bases, notes, and documentation using QMD. Use when users ask to search notes, find documents, or look up information.
+description: >
+  Search KπX knowledge bases with QMD (BM25+vector hybrid). Collections: tutos_live
+  (Ubuntu fixes/tools), presentation (homelab architecture/projects), agents (AGENTS.md,
+  skills, session history), k-ai, claude-memory, codex, gemini, copilot, vibe, openclaw.
+  Load before any mcp__qmd-mcp__* call, or when searching past sessions, agent history,
+  Ubuntu tutorials, homelab docs, or any local markdown knowledge base.
 license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.5.0"
+  version: "2.6.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -15,7 +20,7 @@ Local search engine for markdown content — BM25 + vector + hyde hybrid with lo
 
 ## Status
 
-!`qmd status 2>/dev/null || echo "Not installed — see references/mcp-setup.md"`
+!"qmd status 2>/dev/null || echo "Not installed — see references/mcp-setup.md"
 
 ## Installation
 
@@ -181,5 +186,6 @@ qmd multi-get "journals/2026-*.md" -l 40  # batch snippets by glob
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.6.0 — description rewritten: explicit collections list + trigger conditions |
 | 2026-03-28 | [CLAUDE] | v2.5.0 — embed scope hygiene: claude→claude-memory (258→6 files), openclaw→workspace/** (105→77); heavy JSONL/sessions excluded |
 | [SUMMARY] | — | v2.0–2.4: install, --mask, YAML config, update-cmd, query docs, collection scoping, gitignore template |

@@ -1,0 +1,115 @@
+---
+name: k-git-pages
+description: >
+  KπX GitHub Pages + Docsify — index.html (VS Code dark theme), _sidebar.md,
+  .nojekyll setup, placeholder guide, and GitHub Pages activation steps.
+  Use cases: project docs site, blog, article/tutorial site, knowledge base, portfolio.
+  Load whenever creating a standalone Docsify/GitHub Pages site of any kind.
+  For docs/ inside a project repo → see k-project/docs-site.md.
+license: private
+metadata:
+  author: KpihX
+  version: "1.3.0"
+allowed-tools: Bash(*), "*"
+---
+
+# KπX — GitHub Pages + Docsify
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> **Related skills:** `k-git` (push, remotes) · `k-project` (init, naming)
+> **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
+> **Concrete examples:** `~/Work/tutos_live/` (live Docsify site), `~/Work/Homelab/presentation/` — check via qmd or shell.
+
+## Stack
+
+**Docsify** — client-side Markdown renderer, no build step.
+
+```
+my-site/
+├── index.html        ← Docsify bootstrap (VS Code dark theme + search + sidebar)
+├── _sidebar.md       ← Navigation panel
+├── .nojekyll         ← MANDATORY — tells GitHub Pages not to run Jekyll
+├── README.md         ← Site homepage content
+├── CHANGELOG.md
+├── TODO.md
+├── Makefile          ← from k-git/templates/Makefile.git (push, status, log)
+├── assets/           ← images, diagrams
+└── .agents/
+    └── AGENTS.md     ← project context for AI agents (NEVER committed)
+```
+
+`.nojekyll` is critical: without it, Jekyll silently drops `_*` files (including `_sidebar.md`) → blank navigation panel.
+
+## Templates
+
+| File | Description |
+|------|-------------|
+| `templates/github-pages-index.html` | Docsify + VS Code dark theme, search, sidebar, inline code color fix |
+| `templates/_sidebar.md` | Generic Docsify sidebar with `.nojekyll` reminder |
+
+### Placeholders in `index.html`
+
+| Placeholder | Example |
+|-------------|---------|
+| `SITE_TITLE` | `KpihX Ubuntu Live` |
+| `SITE_NAME` | `🐧 KpihX Ubuntu Live` |
+| `GITHUB_REPO_URL` | `https://github.com/kpihx/tutos_live` |
+| `SEARCH_PLACEHOLDER` | `🔍 Search tutorials...` |
+
+### Placeholders in `_sidebar.md`
+
+| Placeholder | Replace with |
+|-------------|-------------|
+| `SITE_NAME` | Display name |
+| `USERNAME/REPO` | GitHub/GitLab repo path |
+
+## Setup Steps
+
+1. Copy `templates/github-pages-index.html` → repo root as `index.html`
+2. Copy `templates/_sidebar.md` → repo root as `_sidebar.md`
+3. `touch .nojekyll` at repo root
+4. Copy `k-git/templates/Makefile.git` → repo root as `Makefile`
+5. Create `README.md` (site homepage), `CHANGELOG.md`, `TODO.md`
+6. Copy `k-project/templates/AGENTS.md` → `.agents/AGENTS.md` (add `.agents/` to `.gitignore`)
+7. Push to GitHub
+8. GitHub repo → **Settings → Pages → Source: Deploy from branch → `main` / root**
+9. Wait ~1 min → live at `https://<username>.github.io/<repo>/`
+
+## ⚠️ Link Rules in Docsify `.md` Files
+
+Docsify intercepts **all relative links** in `.md` files and tries to fetch the target as a Markdown document — causing 404s or garbled output for non-MD files.
+
+| File type | Correct link format | Wrong |
+|-----------|--------------------|----|
+| `.md` pages | relative: `[Guide](guide.md)` ✅ | — |
+| Non-MD files (`.html`, `.yaml`, `.py`, `.json`, `.toml`, images) | **Absolute GitHub blob URL** ✅ | `[file](templates/file.yaml)` ❌ |
+
+**Absolute GitHub blob URL format:**
+```
+https://github.com/USERNAME/REPO/blob/BRANCH/path/to/file.ext
+```
+Example from tutos_live:
+```markdown
+[`config.py`](https://github.com/kpihx/tutos_live/blob/master/templates/config.py)
+```
+
+> This rule applies to every `.md` in the Docsify site — tutorials, README, _sidebar references, etc.
+> Images: use relative `![alt](assets/img.png)` — Docsify renders `<img>` tags differently from text links.
+
+## Docsify Features Used
+
+- **VS Code dark/light theme** (`docsify-darklight-theme`) — toggle button top-right
+- **Search plugin** — full-text, cached 24h, configurable placeholder
+- **PrismJS** — syntax highlighting for bash, yaml, ini (add more as needed)
+- **`subMaxLevel: 2`** — auto-generates H2/H3 anchors in sidebar
+- **`alias`** — all `_sidebar.md` in subdirs fallback to root
+
+## Changelog
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.3.0 — full site tree added (Makefile/README/CHANGELOG/TODO/.agents); Setup Steps +Makefile+AGENTS.md |
+| 2026-03-29 | [CLAUDE] | v1.2.0 — description expanded: blog/article site/KB/portfolio use cases; cross-ref to k-project/docs-site.md |
+| 2026-03-29 | [CLAUDE] | v1.1.0 — added Docsify link rules section (absolute blob URLs for non-MD files, image exception) |
+| 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |

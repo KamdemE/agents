@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Runtime Context
 
 - **Home:** `~/.codex/`
-- **Global kernel:** `~/.codex/AGENTS.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.codex/AGENTS.md` → `~/.agents/AGENTS.md`
 - **Skills path:** `~/.codex/skills/` → `~/.agents/skills/` (symlink)
 - **Config file:** `~/.codex/config.toml`
 - **Logs:** `~/.codex/log/codex-tui.log` — check before bulk troubleshooting

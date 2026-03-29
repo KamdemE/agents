@@ -21,7 +21,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 - **Agent home:** `~/.openclaw/`
 - **Workspace root:** `~/.openclaw/workspace/` — security boundary; paths outside root are rejected
-- **Global kernel:** `~/.openclaw/workspace/AGENTS.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.openclaw/workspace/AGENTS.md` → `~/.agents/AGENTS.md`
 - **Skills path:** `~/.openclaw/workspace/skills/` — **real copies** rsynced from `~/.agents/skills/` (post-commit hook)
   - ⚠️ NOT symlinks — OpenClaw resolves symlinks before its root check and rejects out-of-root paths
   - To refresh manually: `rsync -a --delete ~/.agents/skills/<name>/ ~/.openclaw/workspace/skills/<name>/`
@@ -32,7 +32,7 @@ allowed-tools: Bash, Read, Write, Edit
 |------|------|
 | `~/.openclaw/openclaw.json` | Main config — models, providers, tools.allow, agents.defaults (workspace, compaction, thinkingDefault) |
 | `~/.openclaw/exec-approvals.json` | Exec approval gates — `policy` + `ask` defaults per agent |
-| `~/.openclaw/workspace/AGENTS.md` | Kernel symlink (→ `~/.agents/KERNEL.md`) |
+| `~/.openclaw/workspace/AGENTS.md` | Kernel symlink (→ `~/.agents/AGENTS.md`) |
 
 ## Exec Approvals (Shell Command Gates)
 

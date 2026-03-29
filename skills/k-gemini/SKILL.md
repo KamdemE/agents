@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Runtime Context
 
 - **Agent home:** `~/.gemini/`
-- **Global kernel:** `~/.gemini/GEMINI.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.gemini/GEMINI.md` → `~/.agents/AGENTS.md`
 - **Runtime shortcut:** `~/GEMINI.md` → this file
 - **Skills path:** natively scans `~/.agents/skills/` (1 level deep — no symlink needed)
 - **Settings:** `~/.gemini/settings.json`
@@ -77,6 +77,8 @@ Must explicitly declare in `gemini-extension.json`:
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
 - **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir. 
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
+- **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
+- **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.
 
 ## Project Context
 

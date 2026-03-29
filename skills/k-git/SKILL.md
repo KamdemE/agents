@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.4.1"
+  version: "2.6.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -12,8 +12,9 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab)
+> **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab or elsewhere)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
+> **Concrete examples:** check `~/Work/tutos_live/templates/` for Python/Makefile examples — browse via `ls` or qmd.
 
 ## Rules
 
@@ -29,29 +30,26 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 ## Makefile Templates
 
-Ready-to-use templates in `templates/` — copy to project root as `Makefile` and adapt:
+### `templates/Makefile.git` — baseline (this skill)
 
-| Template | Use case |
-|----------|----------|
-| `templates/Makefile.general` | Generic project (scripts, shell, misc) — push, status, log, lint |
-| `templates/Makefile.uv` | Python package (uv) — check, build, publish to PyPI, release |
-| `templates/Makefile.npm-bun` | JS/TS package (bun) — test, build, publish to npm, release |
+Generic git workflow — push, status, log, lint. Use for any project.
+Copy to project root as `Makefile`, adapt as needed.
 
-All templates share: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (bw-env secrets), dynamic `push` loop over `git remote`.
+Shared conventions across all Makefiles: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (bw-env secrets), dynamic `push` loop over `git remote`.
 
-**Publish secrets required** (via bw-env before running):
-- `Makefile.uv` → `UV_PUBLISH_TOKEN`
-- `Makefile.npm-bun` → `NPM_TOKEN` (or `BUN_AUTH_TOKEN`)
-
-**Optional add-ons** (not in templates — add as needed):
+**Optional add-ons** (not in template — add as needed):
 
 ```makefile
-push-docs:     ## Push docs/ sub-repo to all remotes
-	@$(MAKE) -C docs push
-
-publish-docs:  ## Publish docs/ (GitHub Pages deploy)
-	@$(MAKE) -C docs publish
+push-docs:  ## Commit + push docs/ site
+	@git add docs/ && git commit -m "docs: update site" || true; \
+	branch="$$(git branch --show-current)"; \
+	for remote in $$(git remote); do git push "$$remote" "$$branch"; done
 ```
+
+### uv / bun projects → `k-project`
+
+`Makefile.uv` (Python/uv — check, build, publish to PyPI, release) and `Makefile.npm-bun` (JS/TS/bun — test, build, publish to npm, release) live in **`k-project/templates/`** alongside pyproject.toml, config.py/ts.
+Load `k-project` for project lifecycle philosophy + those templates.
 
 ## SSH Troubleshooting Runbook
 
@@ -68,19 +66,36 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 ## New Project Init Checklist
 
 1. `git init`
-2. `.gitignore` — include `*.env`, `.venv/`, `node_modules/`, agent MD files if not repo root
+2. `.gitignore` — include `*.env`, `.venv/`, `node_modules/`, `lancedb/`, agent MD files if not repo root
 3. `gh repo create KpihX/<name>` (GitHub) + `glab repo create` (GitLab) — default public, challenge if sensitive
 4. `git remote add github git@github.com:KpihX/<name>.git`
 5. GitLab remote — pick namespace:
    - **Personal / tools** (MCPs, personal scripts): `git remote add gitlab git@gitlab.com:kpihx/<name>.git`
    - **Homelab / CI-deploy** (infra, server workloads, GitLab CI pipelines): `git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git`
-6. Create `Makefile` with standard targets above (at minimum: `push`, `status`, `log`)
+6. Create `Makefile` from `templates/Makefile.git` (at minimum: `push`, `status`, `log`) — or from `k-project/templates/Makefile.uv` / `Makefile.npm-bun` for uv/bun projects
 7. Initial commit + `make push`
+
+## Post-Push Workflow: CI/CD Verification
+
+After any `make push` to a project that has a `.gitlab-ci.yml`, it is mandatory to monitor the pipeline's status to ensure the changes deploy successfully.
+
+**Always check the pipeline status until it completes.**
+
+Use the following `glab` command, replacing the repository path as needed:
+
+```bash
+# Check pipeline status for a project in the 'kpihx-labs' group
+glab pipeline list --repo kpihx-labs/your-project-name
+```
+
+This ensures that a successful push translates to a successful deployment.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.6.0 — Makefile.general→Makefile.git; Makefile.uv+npm-bun moved to k-project; k-project cross-ref added |
+| 2026-03-29 | [CLAUDE] | v2.5.0 — concrete examples pointer to tutos_live/templates/ |
 | 2026-03-29 | [CLAUDE] | v2.4.0 — added Related skills header (k-project always, k-docker if deployable) |
 | 2026-03-29 | [CLAUDE] | v2.3.0 — Makefile section replaced by 3 templates in templates/ (general/uv/npm-bun) |
 | [SUMMARY] | — | v2.2.0 full Makefile patterns + GitLab namespace rule; v2.1.0 init checklist; v2.0.0 refonte; v1.0.0 init |

@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "1.9.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -58,6 +58,7 @@ Initial structure:
   README.md
   CHANGELOG.md
   TODO.md
+  LICENSE
   .gitignore
   .agents/
     AGENTS.md
@@ -94,6 +95,7 @@ bun init -y / npm init -y
 ├── README.md
 ├── CHANGELOG.md
 ├── TODO.md
+├── LICENSE
 ├── .gitignore
 └── .agents/
     └── AGENTS.md          ← from templates/AGENTS.md (NEVER committed)
@@ -106,6 +108,7 @@ bun init -y / npm init -y
 | `CHANGELOG.md` | Newest-first, semver entries |
 | `TODO.md` | Active development backlog |
 | `.agents/AGENTS.md` | Project context for AI agents — from `templates/AGENTS.md` |
+| `LICENSE` | Must be created at init. Default: MIT or GNU. |
 
 > **.agents/ is NEVER committed & NEVER mentionned in repo** — always in `.gitignore`.
 
@@ -119,7 +122,15 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
 - **No hardcoding** — all values in `config.yaml`; secrets in `.env`
-- **POO** — encapsulation; internals prefixed `_`; public API explicit
+- **P
+
+## Changelog
+
+- **v1.9.1 (2024-07-29):**
+  - Add rule to create a LICENSE file at project init (default MIT/GNU).
+- **v1.9.0 (2024-07-28):**
+  - Add `uv init --package <name>` for Python projects.
+  - Reorganize sections for clarity.OO** — encapsulation; internals prefixed `_`; public API explicit
 - **Config pattern** — `ConfigManager` per package (`templates/config.py` / `config.ts`):
   - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
   - `@lru_cache` on YAML loading (Python) / `Map` cache (TS)
@@ -186,6 +197,10 @@ To set up a Docsify GitHub Pages docs site for a project → **`docs-site.md`** 
 Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages `main/docs` config.
 Load `k-git-pages` for Docsify templates + link rules.
 
+## Agent Proactivity
+
+- **LICENSE file**: Proactively propose creating a `LICENSE` file (e.g., MIT, GNU) if a project does not have one.
+
 ## References
 
 - **Git workflow + Makefile templates** → `k-git`
@@ -195,6 +210,7 @@ Load `k-git-pages` for Docsify templates + link rules.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2024-07-29 | [GEMINI] | v1.9.1 — Add rule for proactive LICENSE file creation. |
 | 2026-03-29 | [CLAUDE] | v1.9.0 — Makefile standard task runner section added (make push/build/release/check table + bypass warning); AGENTS template Makefile rule |
 | 2026-03-29 | [CLAUDE] | v1.8.0 — config.ts rewritten to match config.py: resolveEnv() two-tier, SecretsUnavailableError, getSecret(), dotted-path get(), singleton loadConfig/updateConfig/getConfig, full HOW TO USE + PLACEHOLDERS header |
 | 2026-03-29 | [CLAUDE] | v1.7.0 — Makefile Templates section added (Makefile.uv+npm-bun moved from k-git); project tree added to Standard Files |

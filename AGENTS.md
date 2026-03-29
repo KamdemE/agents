@@ -56,6 +56,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-copilot` ($HOME/.agents/skills/k-copilot/) | MCPs for Copilot |
 | `k-vibe` ($HOME/.agents/skills/k-vibe/) | MCPs for VIBE |
 | `k-openclaw` ($HOME/.agents/skills/k-openclaw/) | MCPs for OpenClaw |
+| `k-ai` ($HOME/.agents/skills/k-ai/) | k-ai runtime memory and operating notes |
 
 ## External Template Directories
 
@@ -165,4 +166,3 @@ qmd is the core memory of everything KπX does. All activity, knowledge, and wor
 - **`$HOME/.kshrc`** — universal shell hub: secrets, PATH, aliases. Sourced by `.zprofile` (login) + `.zshrc` (interactive). NOT `.zshenv` (untrusted script contexts).
 - MCP wrap: `{"command": "zsh", "args": ["-l", "-c", "<binary> serve"]}`.
 - `bw-env` guard: `BW_ENV_LOADED=$$` (PID-scoped reload).
-

@@ -20,7 +20,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Runtime Context
 
 - **Agent home:** `~/.vibe/`
-- **Global kernel:** `~/.vibe/prompts/global.md` → `~/.agents/KERNEL.md`
+- **Global kernel:** `~/.vibe/prompts/global.md` → `~/.agents/AGENTS.md`
 - **Runtime skill:** `~/.vibe/prompts/vibe.md` → this file (`system_prompt_id = "global"` in config.toml)
 - **Skills path:** `skill_paths = ["$HOME/.agents/skills"]` in `config.toml`
 - **Config file:** `~/.vibe/config.toml`
@@ -30,7 +30,7 @@ allowed-tools: Bash, Read, Write, Edit
 | File | Role |
 |------|------|
 | `~/.vibe/config.toml` | Model (active_model/alias), providers, skill_paths, tools permissions, MCPs — **source of truth** |
-| `~/.vibe/prompts/global.md` | → KERNEL (system_prompt_id = "global") |
+| `~/.vibe/prompts/global.md` | → AGENTS (system_prompt_id = "global") |
 | `~/.vibe/prompts/vibe.md` | → this skill (runtime context) |
 
 ## MCP Config Format (VIBE — TOML array)

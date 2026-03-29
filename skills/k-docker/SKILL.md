@@ -176,6 +176,21 @@ Targets: `up`, `down`, `restart`, `build`, `logs`, `ps`, `deploy`, `prune`, `she
 | Internal VPN | `<service>.homelab` |
 | Port | declared in `loadbalancer.server.port` |
 
+## Post-Push Workflow: CI/CD Verification
+
+After any `make push` to a project that has a `.gitlab-ci.yml`, it is mandatory to monitor the pipeline's status to ensure the changes deploy successfully.
+
+**Always check the pipeline status until it completes.**
+
+Use the following `glab` command, replacing the repository path as needed:
+
+```bash
+# Check pipeline status for a project in the 'kpihx-labs' group
+glab pipeline list --repo kpihx-labs/your-project-name
+```
+
+This ensures that a successful push translates to a successful deployment.
+
 ## Changelog
 
 | Date | Agent | Action |
