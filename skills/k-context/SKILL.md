@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.2"
+  version: "1.4.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -27,7 +27,7 @@ allowed-tools: Bash(*), "*"
 
 | Project | Status | Next |
 |---------|--------|------|
-| **~/.agents/ refonte** | ✅ v3.0.0 committed — k-* flat skills, KERNEL compaction, 6 agent git+qmd repos | add remotes + push |
+| **~/.agents/ refonte** | ✅ v3.0.0 + k-project skill + agent runtime updates pushed | — |
 | **OpenClaw** | skills fixed (rsync copies), exec-approvals ask=always | file-edit approval gates (if OpenClaw adds support) |
 | **Edge Copilot sidebar** | Blank — cause unknown | MS account sign-in / flags |
 | **DXO internship** | ✅ Accepted — "Stage Image Research" | Starts summer 2026 |
@@ -36,6 +36,8 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-03-29 | [CLAUDE] | k-project v1.0.0: naming conventions, init (uv/bun), AGENTS.md template, config.py/ts, pyproject.toml; Project Context added to k-claude/codex/gemini/copilot; KERNEL updated; committed + pushed |
+| 2026-03-29 | [CLAUDE] | k-git v2.3.0: 3 Makefile templates (general/uv/npm-bun); k-homelab v1.4.0 SSH corrected; k-workspace v2.5.0 Tailscale table; all SKILL.md names uniformised k-* |
 | 2026-03-29 | [GEMINI] | Fixed INIT.md paths (desync v3.0.0): `skills/agents/` → `skills/k-*/`. |
 | 2026-03-29 | [CLAUDE] | OpenClaw: k-* skills symlinks→rsync copies (workspace root security fix); exec-approvals ask=always configured; INIT.md SYNC/COPY_TARGETS documented; k-openclaw SKILL.md v1.2.0 |
 | 2026-03-29 | [CLAUDE] | k-duties + k-soul stale symlinks supprimés de ~/.codex/skills/ (fusionnés dans KERNEL) |
@@ -53,5 +55,6 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.4.0 — log: k-project + agent runtime updates; projects table updated |
 | 2026-03-29 | [CLAUDE] | v1.3.0 — session log updated (OpenClaw fixes); OpenClaw project status updated; log condensed to 10+SUMMARY |
 | [SUMMARY] | — | v1.0.0 created from memory/; v1.1.0 removed duplicate sections, populated TODOs; v1.2.0 TODOs cleared, log updated |
