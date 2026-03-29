@@ -57,6 +57,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-copilot` ($HOME/.agents/skills/k-copilot/) | MCPs for Copilot |
 | `k-vibe` ($HOME/.agents/skills/k-vibe/) | MCPs for VIBE |
 | `k-openclaw` ($HOME/.agents/skills/k-openclaw/) | MCPs for OpenClaw |
+| `k-rclone` ($HOME/.agents/skills/k-rclone/) | Adding cloud remotes, rclone mount setup, systemd service |
 | `k-ai` ($HOME/.agents/skills/k-ai/) | k-ai runtime memory and operating notes |
 
 ## External Template Directories

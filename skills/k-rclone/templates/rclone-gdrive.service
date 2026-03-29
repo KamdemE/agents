@@ -1,0 +1,19 @@
+[Unit]
+Description=Rclone mount for Google Drive (<account>@gmail.com) at ~/<MountDir>
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/mkdir -p /home/kpihx/<MountDir>
+ExecStart=/usr/bin/rclone mount <remote-name>: /home/kpihx/<MountDir> \
+  --config=/home/kpihx/.config/rclone/rclone.conf \
+  --vfs-cache-mode full \
+  --allow-other \
+  --dir-cache-time 1m
+ExecStop=/bin/fusermount -u /home/kpihx/<MountDir>
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target
