@@ -16,6 +16,7 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 - **Email (homelab/org):** `kpihx.labs@gmail.com`
 - **Phone:** `+33605957785`
 - **Storage:** `$HOME/Gdrive_X/` — Google Drive rclone mount (remote: `gdrive-x:`) · account: `ivann.kamdem-pouokam.2024@polytechnique.org` · docs, images, academic & professional resources
+- **CV:** `$HOME/Gdrive_X/CV_ATF/` — LaTeX (moderncv banking, pdflatex) · repos `KpihX/cv-atf` (github + gitlab) · CI/CD both pipelines auto-build on push · `make push-tags` → GitHub Release with PDF attached
 
 ## Mantras & Vision
 
