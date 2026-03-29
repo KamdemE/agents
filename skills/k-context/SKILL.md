@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.8.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -27,7 +27,7 @@ allowed-tools: Bash(*), "*"
 
 | Project | Status | Next |
 |---------|--------|------|
-| **~/.agents/ refonte** | ✅ v3.0.0 + k-project skill + agent runtime updates pushed | — |
+| **~/.agents/ refonte** | ✅ committed+pushed: k-docker v1.4.0, k-project v1.9.0, k-homelab v1.6.0 | — |
 | **OpenClaw** | skills fixed (rsync copies), exec-approvals ask=always | file-edit approval gates (if OpenClaw adds support) |
 | **Edge Copilot sidebar** | Blank — cause unknown | MS account sign-in / flags |
 | **DXO internship** | ✅ Accepted — "Stage Image Research" | Starts summer 2026 |
@@ -36,25 +36,28 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-03-29 | [CLAUDE] | k-project v1.0.0: naming conventions, init (uv/bun), AGENTS.md template, config.py/ts, pyproject.toml; Project Context added to k-claude/codex/gemini/copilot; KERNEL updated; committed + pushed |
-| 2026-03-29 | [CLAUDE] | k-git v2.3.0: 3 Makefile templates (general/uv/npm-bun); k-homelab v1.4.0 SSH corrected; k-workspace v2.5.0 Tailscale table; all SKILL.md names uniformised k-* |
+| 2026-03-29 | [CLAUDE] | k-docker v1.4.0 (CI uv/bun templates, shared Postgres, group vars, sync→legacy), k-project v1.9.0 (config.ts rewrite, Makefile rule, default email), k-homelab v1.6.0 (n8n-ops removal); presentation n8n-ops cleanup — all committed+pushed |
+| 2026-03-29 | [GEMINI] | Finalized AGENTS.md rename: updated skills (qmd, vibe, gemini), INIT.md, and k-context log references; verified all agent symlinks point to AGENTS.md; deleted stale KERNEL references. |
+| 2026-03-29 | [CLAUDE] | k-project v1.4.0: docs-site.md created (Docsify workflow, Pattern A/B, Makefile push-docs, link rules, checklist); skill descriptions audit + Docsify link rules documented in k-git-pages |
+| 2026-03-29 | [CLAUDE] | k-project v1.2.0: config.py enriched (bw-env _resolve_env, SecretsUnavailableError, get_secret); pyproject.toml enriched (authors, license, [tool.uv]); k-git-pages skill created; tutos_live+presentation symlinks; AGENTS +External Template Dirs; 0-duplication achieved |
+| 2026-03-29 | [CLAUDE] | k-project v1.0.0 + k-docker v1.0.0 created; agent runtime updated (k-claude/codex/gemini/copilot +Project Context); cv-atf in AGENTS; templates disclaimers |
+| 2026-03-29 | [CLAUDE] | k-git v2.3.0: 3 Makefile templates (general/uv/npm-bun); k-homelab v1.4.0 SSH corrected; k-workspace v2.5.0 Tailscale table; SKILL.md names uniformised k-* |
 | 2026-03-29 | [GEMINI] | Fixed INIT.md paths (desync v3.0.0): `skills/agents/` → `skills/k-*/`. |
-| 2026-03-29 | [CLAUDE] | OpenClaw: k-* skills symlinks→rsync copies (workspace root security fix); exec-approvals ask=always configured; INIT.md SYNC/COPY_TARGETS documented; k-openclaw SKILL.md v1.2.0 |
-| 2026-03-29 | [CLAUDE] | k-duties + k-soul stale symlinks supprimés de ~/.codex/skills/ (fusionnés dans KERNEL) |
-| 2026-03-28 | [CLAUDE] | INIT+hook: auto-sync skills Codex+OpenClaw via SYNC_TARGETS post-commit; KERNEL: mandate install → ~/.agents/skills/; tous KERNEL+skills symlinks vérifiés ✅ — commits 441e880→64b4bef |
-| 2026-03-28 | [CLAUDE] | k-* skills full audit: desc élargies (codex/gemini/copilot/vibe/claude), duplications supprimées, ⚠️ edit reminder sur tous les SKILL.md, skill-creator +règle création, k-openclaw créé — commit cafbf9c |
-| 2026-03-28 | [COPILOT] | OpenClaw workspace cleanup: `USER.md`, `IDENTITY.md`, `PLANNING.md`, `TOOLS.md` deleted; `SOUL.md` → `KERNEL.md`; `AGENTS.md` → `k-openclaw/SKILL.md`; `MEMORY.md` truncated to File Sharing Protocol |
-| 2026-03-28 | [CLAUDE] | INIT.md: removed Inject HOT Memory section; kernel symlinks fixed (codex/copilot/gemini were broken → ~/.agent/AGENT.md); ~/AGENTS.md + ~/VIBE.md deleted; skills audited (k-codex/vibe/gemini/homelab/git) — duplications and stale refs removed |
-| 2026-03-28 | [CLAUDE] | ~/.agents/ v3.0.0: 6 agent dirs git-inited (.claude .codex .gemini .copilot .vibe .openclaw); qmd collections + context + post-commit hooks for all 6; tutos_live hook fixed (npm-global); agents post-commit hook fixed; qmd embed running |
-| 2026-03-28 | [CLAUDE] | KERNEL: +6 agent qmd collections table; qmd context add for all 10 collections; tutos_live+presentation+agents+k-ai contexts added |
-| 2026-03-28 | [CLAUDE] | ~/.agents/ v2.2.0: KERNEL rules (no-desync, concise md, .skill-lock sync, skill update mandate); qmd SKILL.md v2.3.0; session-guard → k-context; memory/ removed; k-context created |
-| 2026-03-28 | [CLAUDE] | qmd MCP installed (npm-global, Node v24); post-commit template; skill-creator; k-soul+k-duties → KERNEL; skills flat k-* |
-| [SUMMARY] | — | ≤2026-03-28: OpenClaw thinkingDefault+profile=full config; system 38 zombie procs killed; k_ai deep-read + LiteLLM fix; ~/.agents/ v2.0→v2.1; ≤2026-03-25: refonte v2.0.0, bw-env PID guard, Edge x11 fix, mail/whats/linkedin MCP, DXO accepted |
+| 2026-03-29 | [CLAUDE] | OpenClaw: k-* skills symlinks→rsync copies (workspace root security fix); exec-approvals ask=always; INIT.md SYNC/COPY_TARGETS documented; k-openclaw v1.2.0 |
+| 2026-03-29 | [CLAUDE] | k-duties + k-soul stale symlinks supprimés de ~/.codex/skills/ (fusionnés dans AGENTS) |
+| 2026-03-28 | [CLAUDE] | INIT+hook: auto-sync skills Codex+OpenClaw via SYNC_TARGETS post-commit; AGENTS: mandate install → ~/.agents/skills/; symlinks vérifiés ✅ — commits 441e880→64b4bef |
+| 2026-03-28 | [CLAUDE] | k-* skills full audit: desc élargies (codex/gemini/copilot/vibe/claude), duplications supprimées, ⚠️ edit reminder, skill-creator, k-openclaw créé — commit cafbf9c |
+| 2026-03-28 | [COPILOT] | OpenClaw workspace cleanup: USER/IDENTITY/PLANNING/TOOLS.md deleted; SOUL→AGENTS; AGENTS→k-openclaw/SKILL.md; MEMORY truncated |
+| [SUMMARY] | — | ≤2026-03-28: ~/.agents/ v3.0.0 (6 agent git repos, qmd hooks); AGENTS +qmd collections; v2.2.0 rules; qmd MCP; v2.0→v2.1; bw-env PID guard; Edge x11 fix; mail/whats/linkedin MCP; DXO accepted; INIT.md symlinks fixed; ~/AGENTS.md+VIBE.md deleted; skills audited |
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.8.0 — session log: k-docker/project/homelab commits + presentation n8n-ops cleanup |
+| 2026-03-29 | [CLAUDE] | v1.7.0 — log: docs-site.md + k-project v1.4.0; log condensed (11→10+SUMMARY); header version desync fixed |
+| 2026-03-29 | [CLAUDE] | v1.6.0 — skill descriptions audit: k-homelab/qmd/k-project enriched; k-git-pages +Docsify link rules; homelab docker-compose headers restored |
+| 2026-03-29 | [CLAUDE] | v1.5.0 — log: k-git-pages + symlinks + 0-duplication; log condensed to 10+SUMMARY |
 | 2026-03-29 | [CLAUDE] | v1.4.0 — log: k-project + agent runtime updates; projects table updated |
 | 2026-03-29 | [CLAUDE] | v1.3.0 — session log updated (OpenClaw fixes); OpenClaw project status updated; log condensed to 10+SUMMARY |
 | [SUMMARY] | — | v1.0.0 created from memory/; v1.1.0 removed duplicate sections, populated TODOs; v1.2.0 TODOs cleared, log updated |
