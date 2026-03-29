@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "2.0.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -39,6 +39,7 @@ allowed-tools: Bash(*), "*"
 |------|-------|-------|
 | 2026-03-29 | [CLAUDE] | mem_mcp uv init+config.py+standard files+first push; 6 MCPs standardized (.agents/AGENTS.md, Makefile, LICENSE, .gitignore, pipelines green); Work/ Tools/ restructure (Others/, Tools/, ipynb-pdf+viperx moved); Gdrive kapoivha@gmail.com rclone+systemd setup; AGENTS.md +personal storage |
 | 2026-03-29 | [CLAUDE] | k-docker v1.4.0 (CI uv/bun templates, shared Postgres, group vars, sync→legacy), k-project v1.9.0 (config.ts rewrite, Makefile rule, default email), k-homelab v1.6.0 (n8n-ops removal); presentation n8n-ops cleanup — all committed+pushed |
+| 2026-03-29 | [GEMINI] | Migrated k-ai memory to Markdown (MEMORY.md); unified AGENTS.md paths (~/.k-ai/AGENTS.md link); fixed prompt-toolkit v3 Buffer crash; updated all project files and tests for the new architecture. |
 | 2026-03-29 | [GEMINI] | Finalized AGENTS.md rename: updated skills (qmd, vibe, gemini), INIT.md, and k-context log references; verified all agent symlinks point to AGENTS.md; deleted stale KERNEL references. |
 | 2026-03-29 | [CLAUDE] | k-project v1.4.0: docs-site.md created (Docsify workflow, Pattern A/B, Makefile push-docs, link rules, checklist); skill descriptions audit + Docsify link rules documented in k-git-pages |
 | 2026-03-29 | [CLAUDE] | k-project v1.2.0: config.py enriched (bw-env _resolve_env, SecretsUnavailableError, get_secret); pyproject.toml enriched (authors, license, [tool.uv]); k-git-pages skill created; tutos_live+presentation symlinks; AGENTS +External Template Dirs; 0-duplication achieved |

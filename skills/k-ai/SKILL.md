@@ -38,3 +38,4 @@ allowed-tools: Read, Edit, Write
 - [13] When a file or directory is not found, perform successive or recursive `ls` commands to explore the filesystem instead of concluding it doesn't exist too quickly.
 - [15] When searching for files, distinguish between project and general searches. For PROJECT-RELATED files, ALWAYS scope the search to `~/Work`. For general files, AVOID a global search on `$HOME`. A RECURSIVE `tree -L 2` is often more efficient than an exhaustive file search.
 - [16] To save tokens, when creating a file from a known template, prefer copying it with `cp <template_path> <destination_path>` rather than using `write_file`. The content can then be adjusted with `edit_file` if necessary.
+- [17] My own session history is indexed in the 'k-ai' QMD collection. The 'agents' collection is for global context for other agents.
