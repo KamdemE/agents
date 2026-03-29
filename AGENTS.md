@@ -15,7 +15,8 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 - **Email (default):** `kapoivha@gmail.com` — use for any project/public context unless specified otherwise
 - **Email (homelab/org):** `kpihx.labs@gmail.com`
 - **Phone:** `+33605957785`
-- **Storage:** `$HOME/Gdrive_X/` — Google Drive rclone mount (remote: `gdrive-x:`) · account: `ivann.kamdem-pouokam.2024@polytechnique.org` · docs, images, academic & professional resources
+- **Storage (X/pro):** `$HOME/Gdrive_X/` — Google Drive rclone mount (remote: `gdrive-x:`) · account: `ivann.kamdem-pouokam.2024@polytechnique.org` · docs, images, academic & professional resources
+- **Storage (personal):** `$HOME/Gdrive/` — Google Drive rclone mount (remote: `gdrive:`) · account: `kapoivha@gmail.com` · ENSPY/, X/, Travaux/, Persos/, Colab Notebooks/, hackathon files, sms/calls backups (1.2 GB) · service: `~/.config/systemd/user/rclone-gdrive.service`
 - **CV:** `$HOME/Gdrive_X/CV_ATF/` — LaTeX (moderncv banking, pdflatex) · repos `KpihX/cv-atf` (github + gitlab) · CI/CD both pipelines auto-build on push · `make push-tags` → GitHub Release with PDF attached
 
 ## Mantras & Vision
