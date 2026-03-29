@@ -1,10 +1,13 @@
 ---
 name: kpihx-workspace
-description: KπX engineering workspace — directory layout, package managers, shell architecture, MCP ecosystem, AI CLI tool map, and engineering standards. Load for any development, system, or infrastructure task.
+description: >
+  ⚑ MANDATORY — load at the start of ANY session involving KπX environment, projects, or system.
+  Directory layout (~/Work/), package managers (uv/bun/npm), shell architecture (.kshrc),
+  MCP ecosystem, AI CLI tools, tutos_live Ubuntu knowledge base, engineering standards.
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -22,7 +25,7 @@ allowed-tools: Bash(*), "*"
 | `~/Work/sh/` | Personal scripts & system tools |
 | `~/Work/sh/clean/` | Unified Cleanup Suite (systemd, Saturday 10:00) |
 | `~/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
-| `~/Work/tutos_live/` | Living Ubuntu knowledge base + `templates/` |
+| `~/Work/tutos_live/` | Ubuntu living KB — real fixes documented as they happen. Root: flat `.md` per tool/topic (bun, bw-env, qmd, tailscale, gh…). `templates/` — reusable doc templates. `mcps/` — MCP tutorials. `sh/` — shell/scripting. |
 | `~/Work/Test/` | Sandbox for new patterns |
 | `~/Gdrive_X/` | Google Drive X via rclone (remote: `gdrive-x:`) |
 
@@ -99,7 +102,5 @@ npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo nee
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-28 | [GEMINI] | v2.3.0 - Added editing rule, bumped version, and included 'powerpoint' CLI tool. |
-| 2026-03-28 | [CLAUDE] | v2.2.0 — replaced MCP Ecosystem table with live-query refs; added .kshrc note to KERNEL |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/workspace/ |
-| [SUMMARY] | — | v1.0.0 — initial creation in skills/kpihx-workspace/ |
+| 2026-03-29 | [CLAUDE] | v2.4.0 — description: MANDATORY imperative; tutos_live row expanded (Ubuntu KB, subdirs) |
+| [SUMMARY] | — | v2.3.0 +powerpoint tool; v2.2.0 MCP live-query refs; v2.0.0 refonte; v1.0.0 init |
