@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.1.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -15,6 +15,7 @@ allowed-tools: Bash(*), "*"
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-docker` (load if project will be deployed on homelab)
+> **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 
 ## Naming Conventions
 

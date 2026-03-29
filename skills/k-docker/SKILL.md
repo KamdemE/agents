@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.0.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -16,6 +16,7 @@ allowed-tools: Bash(*), "*"
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
+> **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 
 ## When to Load
 
