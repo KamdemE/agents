@@ -44,6 +44,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-homelab` ($HOME/.agents/skills/k-homelab/) | Homelab infra, projects, SSH, presentation KB |
 | `k-git` ($HOME/.agents/skills/k-git/) | Any git / repo operation |
 | `k-project` ($HOME/.agents/skills/k-project/) | Creating / initializing any project |
+| `k-docker` ($HOME/.agents/skills/k-docker/) | Any project deployed on the homelab server |
 | `k-whatsapp` ($HOME/.agents/skills/k-whatsapp/) | Before any whats-mcp call |
 | `k-mail` ($HOME/.agents/skills/k-mail/) | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
 | `k-linkedin` ($HOME/.agents/skills/k-linkedin/) | Before any linkedin-mcp call |

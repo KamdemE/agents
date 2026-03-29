@@ -4,13 +4,15 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
 # KπX — Git Workflow
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab)
 
 ## Rules
 
@@ -78,5 +80,6 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v2.4.0 — added Related skills header (k-project always, k-docker if deployable) |
 | 2026-03-29 | [CLAUDE] | v2.3.0 — Makefile section replaced by 3 templates in templates/ (general/uv/npm-bun) |
 | [SUMMARY] | — | v2.2.0 full Makefile patterns + GitLab namespace rule; v2.1.0 init checklist; v2.0.0 refonte; v1.0.0 init |

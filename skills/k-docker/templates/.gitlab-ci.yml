@@ -1,0 +1,132 @@
+# GitLab CI/CD — validate + deploy + sync (kpihx-labs pattern)
+#
+# Runner: tag "homelab" = GitLab Runner on the homelab server (has access to Docker)
+# Shared runners: used for validate and sync (no homelab access needed)
+#
+# Group CI/CD vars already set in kpihx-labs (check with: glab variable list -g kpihx-labs | cut -d' ' -f1):
+#   PROXY_URL · GITHUB_TOKEN · TELEGRAM_CHAT_IDS · POSTGRES_PASSWORD · TELEGRAM_HOMELAB_TOKEN
+#
+# ⚠️ Project-specific vars to add in GitLab → Settings → CI/CD → Variables:
+#   (add them here as a comment so the agent knows what to tell the user)
+#   - YOUR_PROJECT_API_TOKEN  (masked, protected)
+#   - OTHER_SECRET            (masked, protected)
+#
+# Sync stage (kpihx-labs projects only):
+#   GITHUB_TOKEN is already set at group level → no extra setup needed.
+#   For personal namespace (kpihx/*), remove the sync stage entirely.
+
+stages:
+  - validate
+  - deploy
+  - sync   # optional — remove if not syncing to GitHub
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+# ── Stage 1: validate ─────────────────────────────────────────────────────────
+# Runs on a shared runner. Uses a Docker image matching the project stack.
+# Falls back to running inside Docker if the image tool isn't directly available.
+
+validate_project:
+  stage: validate
+  # Python projects: use ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+  # Bun/Node projects: use node:22-bookworm-slim or oven/bun:1-slim
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+  variables:
+    GIT_CLEAN_FLAGS: none
+  script:
+    - |
+      if command -v uv >/dev/null 2>&1; then
+        uv sync --group dev
+        uv run python -m py_compile $(find src -name '*.py' -print)
+        uv run --group dev python -m pytest tests -q
+      elif command -v docker >/dev/null 2>&1; then
+        docker run --rm \
+          -v "$CI_PROJECT_DIR:/work" \
+          -w /work \
+          ghcr.io/astral-sh/uv:python3.12-bookworm-slim \
+          sh -lc 'uv sync --group dev && uv run python -m py_compile $(find src -name '"'"'*.py'"'"' -print) && uv run --group dev python -m pytest tests -q'
+      else
+        echo "Neither uv nor docker available." && exit 1
+      fi
+
+# ── Stage 2: deploy ───────────────────────────────────────────────────────────
+# Runs on the homelab runner (has docker, access to the server filesystem).
+# Generates .env from CI vars, then deploys via docker compose.
+
+deploy_homelab:
+  stage: deploy
+  tags:
+    - homelab
+  variables:
+    GIT_CLEAN_FLAGS: none
+  only:
+    - main
+  needs:
+    - validate_project
+  script:
+    - echo "🚀 Deploying project-name to homelab..."
+    - cd deploy   # where docker-compose.yml lives; adjust if at root
+
+    # Generate .env from CI/CD vars — injected by GitLab, never committed
+    # Add project-specific vars below (one echo per secret)
+    - echo "YOUR_PROJECT_API_TOKEN=$YOUR_PROJECT_API_TOKEN" > .env
+    - echo "LOG_LEVEL=error" >> .env
+    - echo "PROJECT_HTTP_HOST=0.0.0.0" >> .env
+    - echo "PROJECT_HTTP_PORT=8000" >> .env
+    - echo "PROJECT_PUBLIC_BASE_URL=https://project-name.kpihx-labs.com" >> .env
+    - echo "PROJECT_FALLBACK_BASE_URL=https://project-name.homelab" >> .env
+
+    # Validate compose config before deploy
+    - docker compose -p project-name config -q
+
+    # Clean restart: remove old container, redeploy with fresh build
+    - docker rm -f project-name || true
+    - docker compose -p project-name up -d --build --remove-orphans
+
+    # Health-check loop: wait up to 60s (20 × 3s) for container to become healthy
+    - |
+      for attempt in $(seq 1 20); do
+        status="$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}starting{{end}}' project-name 2>/dev/null || true)"
+        if [ "$status" = "healthy" ]; then break; fi
+        if [ "$status" = "unhealthy" ]; then
+          docker logs --tail 200 project-name
+          exit 1
+        fi
+        sleep 3
+      done
+    - docker inspect --format '{{.State.Health.Status}}' project-name | grep -qx healthy
+    - docker exec project-name curl -fsS http://127.0.0.1:8000/health
+
+    - docker image prune -f
+
+  after_script:
+    # Restore file ownership to the gitlab-runner user (docker may have set root ownership)
+    - docker run --rm -v "$PWD:/work" alpine chown -R $(id -u):$(id -g) /work
+
+# ── Stage 3: sync (kpihx-labs projects only) ──────────────────────────────────
+# Mirrors the repo to GitHub. GITHUB_TOKEN is set at kpihx-labs group level.
+# Remove this stage entirely for kpihx/* personal namespace projects.
+
+sync_github:
+  stage: sync
+  variables:
+    GITHUB_ORG: "kpihx-labs"       # or "KpihX" for personal namespace
+    REPO_NAME: "project-name"
+    GIT_CLEAN_FLAGS: none
+  only:
+    - main
+  needs:
+    - deploy_homelab
+  script:
+    - echo "🔄 Syncing to GitHub mirror..."
+    # Create repo in org if it doesn't exist yet (safe to re-run)
+    - |
+      curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+           -X POST \
+           -d "{\"name\":\"${REPO_NAME}\",\"private\":false}" \
+           https://api.github.com/orgs/${GITHUB_ORG}/repos || true
+    - git remote add github https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_ORG}/${REPO_NAME}.git \
+        || git remote set-url github https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_ORG}/${REPO_NAME}.git
+    - git push github $CI_COMMIT_SHA:refs/heads/main --force
+    - echo "✅ Sync complete."

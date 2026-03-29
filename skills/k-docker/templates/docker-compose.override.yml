@@ -1,0 +1,46 @@
+# Local development override — NEVER commit with real values.
+# Applied automatically when running: docker compose up
+# On the server (CI deploy), only docker-compose.yml is used:
+#   docker compose -f docker-compose.yml up -d --build --remove-orphans
+#
+# This file should be in .gitignore (or committed as docker-compose.override.example.yml
+# with placeholder values, and copied locally as docker-compose.override.yml).
+
+services:
+  project-name:
+    # Expose app port directly on localhost for local testing (server uses Traefik instead)
+    ports:
+      - "8000:8000"
+
+    # Dev-specific env overrides (non-secret, safe to commit here)
+    environment:
+      LOG_LEVEL: debug
+      # DB_HOST: db   # uncomment if using local DB service below
+
+    # Optional: depends on local DB
+    # depends_on:
+    #   - db
+
+  # ── Uncomment to add a local Postgres instance ────────────────────────────
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: local_postgres_dev
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: ${DB_NAME}
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASS}
+  #   ports:
+  #     - "${DB_PORT:-5432}:5432"
+  #   volumes:
+  #     - local_pg_data:/var/lib/postgresql/data
+  #   networks:
+  #     - proxy
+
+# Local network — not external (server uses external Traefik proxy network)
+networks:
+  proxy:
+    external: false
+
+# volumes:
+#   local_pg_data:

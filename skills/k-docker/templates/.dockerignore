@@ -1,0 +1,54 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Agent / AI context files (never in image)
+.agents/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+CODEX.md
+COPILOT.md
+VIBE.md
+
+# Secrets — NEVER in image
+.env
+.env.*
+!.env.example
+
+# Python artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node / Bun artifacts
+node_modules/
+coverage/
+dist/
+.cache/
+
+# Build / CI artifacts
+build/
+*.log
+
+# Docs / dev-only files
+README.md
+CHANGELOG.md
+TODO.md
+docs/
+tests/
+test/
+
+# Local dev configs
+docker-compose.override.yml
+deploy/docker-compose.override.yml
+Makefile

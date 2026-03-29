@@ -6,13 +6,15 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
 allowed-tools: Bash(*), "*"
 ---
 
 # KπX — Project Initialization
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-docker` (load if project will be deployed on homelab)
 
 ## Naming Conventions
 
@@ -125,4 +127,5 @@ bun link
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-29 | [CLAUDE] | v1.1.0 — added Related skills header (k-git, k-docker) |
 | 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |

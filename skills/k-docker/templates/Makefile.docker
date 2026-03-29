@@ -1,0 +1,60 @@
+# Makefile.docker — Docker management targets
+#
+# ⚠️  MERGE INSTRUCTIONS: This Makefile is a standalone Docker management template.
+#     When setting up a full project, MERGE with one of the k-git Makefile templates:
+#       - k-git/templates/Makefile.general   (scripts, misc)
+#       - k-git/templates/Makefile.uv        (Python uv package)
+#       - k-git/templates/Makefile.npm-bun   (JS/TS bun package)
+#     Copy the git targets (push, push-tags, status, log) from k-git template into
+#     the project Makefile alongside these Docker targets.
+
+.DEFAULT_GOAL := help
+PROJECT       := $(shell basename $(CURDIR))  # override: make PROJECT=my-name up
+COMPOSE       := docker compose
+DEPLOY_DIR    := deploy  # adjust if docker-compose.yml is at root: DEPLOY_DIR := .
+
+help:  ## Show available targets
+	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
+	  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
+
+# ── Local dev (override applied automatically) ────────────────────────────────
+
+up:  ## Start stack locally (docker-compose.override.yml applied automatically)
+	@cd $(DEPLOY_DIR) && $(COMPOSE) up -d
+
+down:  ## Stop stack
+	@cd $(DEPLOY_DIR) && $(COMPOSE) down
+
+restart: down up  ## Restart stack
+
+build:  ## Build image(s) — no cache
+	@cd $(DEPLOY_DIR) && $(COMPOSE) build --no-cache
+
+logs:  ## Follow logs (all services)
+	@cd $(DEPLOY_DIR) && $(COMPOSE) logs -f
+
+ps:  ## Show running containers
+	@cd $(DEPLOY_DIR) && $(COMPOSE) ps
+
+# ── Production deploy (override excluded) ────────────────────────────────────
+
+deploy:  ## Deploy in prod mode (no override — mirrors CI behaviour)
+	@cd $(DEPLOY_DIR) && $(COMPOSE) -f docker-compose.yml -p $(PROJECT) up -d --build --remove-orphans
+
+# ── Container ops ─────────────────────────────────────────────────────────────
+
+shell:  ## Open shell in container (SERVICE=<name>)
+	@cd $(DEPLOY_DIR) && $(COMPOSE) exec $(SERVICE) sh
+
+exec:  ## Run command in container (SERVICE=<name> CMD="<cmd>")
+	@cd $(DEPLOY_DIR) && $(COMPOSE) exec $(SERVICE) $(CMD)
+
+health:  ## Check container health status
+	@docker inspect --format '{{.State.Health.Status}}' $(PROJECT) 2>/dev/null || echo "container not found"
+
+# ── Maintenance ───────────────────────────────────────────────────────────────
+
+prune:  ## Remove dangling images (safe — only removes untagged)
+	@docker image prune -f
+
+clean: down prune  ## Stop stack and prune images

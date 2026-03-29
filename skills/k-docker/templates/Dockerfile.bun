@@ -1,0 +1,43 @@
+# ── Stage 1: builder ─────────────────────────────────────────────────────────
+# Install production dependencies only — dev deps stay out of the final image
+FROM oven/bun:1-slim AS builder
+
+WORKDIR /app
+
+# Copy manifests first — layer cache: deps only rebuild when these change
+COPY package.json bun.lock ./
+
+# Install git only if any dep uses git:// URL (remove if not needed)
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && git config --global url."https://github.com/".insteadOf "git@github.com:" \
+    && bun install --frozen-lockfile --production \
+    && apt-get purge -y git && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy source (TypeScript runs natively in bun — no compile step needed)
+COPY src ./src
+
+# Optional: compile TypeScript to JS for a truly minimal runner image
+# RUN bun build src/index.ts --outdir dist --target bun --minify
+
+# ── Stage 2: runner ───────────────────────────────────────────────────────────
+# Only node_modules + source (or dist) — no build tools
+FROM oven/bun:1-slim AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/src ./src
+# If compiled: COPY --from=builder /app/dist ./dist
+
+COPY package.json ./
+
+ENV NODE_ENV=production
+
+# Persistent runtime data
+VOLUME ["/data"]
+
+EXPOSE 8000
+
+# Replace with your actual entrypoint (e.g. bun src/main.ts, bun dist/main.js)
+CMD ["bun", "src/main.ts"]

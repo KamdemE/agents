@@ -1,0 +1,67 @@
+# Production / server docker-compose.
+# This file is deployed AS-IS on the homelab server.
+# Secrets are injected at deploy time via CI → generated .env file.
+# Local dev overrides go in docker-compose.override.yml (never committed with values).
+#
+# See also: k-homelab/presentation/tutos_live/templates/ for traefik, postgres, etc.
+
+name: project-name   # used as compose project name: docker compose -p project-name
+
+services:
+  project-name:
+    build:
+      context: ..           # root of the repo (Dockerfile is at root)
+      dockerfile: Dockerfile
+    container_name: project-name
+    restart: unless-stopped
+
+    # Secrets injected by CI → .env file generated before deploy
+    env_file:
+      - path: .env
+        required: false     # allows local start without .env
+
+    volumes:
+      - project_data:/data  # persistent runtime state
+
+    networks:
+      - proxy               # Traefik's shared network — external on server
+
+    healthcheck:
+      # Adapt to your app: curl for HTTP, bun -e fetch(...) for Bun, etc.
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    labels:
+      - "traefik.enable=true"
+
+      # ── Public router (HTTPS via Cloudflare / certresolver) ────────────────
+      - "traefik.http.routers.project-name-private.rule=Host(`project-name.kpihx-labs.com`)"
+      - "traefik.http.routers.project-name-private.entrypoints=websecure"
+      - "traefik.http.routers.project-name-private.tls=true"
+      - "traefik.http.routers.project-name-private.tls.certresolver=myresolver"
+      - "traefik.http.routers.project-name-private.middlewares=project-name-headers"
+
+      # ── Internal fallback router (.homelab — self-signed TLS via Traefik) ──
+      - "traefik.http.routers.project-name-fallback.rule=Host(`project-name.homelab`)"
+      - "traefik.http.routers.project-name-fallback.entrypoints=websecure"
+      - "traefik.http.routers.project-name-fallback.tls=true"
+      - "traefik.http.routers.project-name-fallback.middlewares=project-name-headers"
+
+      # ── Service port (the port your app listens on INSIDE the container) ───
+      - "traefik.http.services.project-name.loadbalancer.server.port=8000"
+
+      # ── Security headers middleware ─────────────────────────────────────────
+      - "traefik.http.middlewares.project-name-headers.headers.browserxssfilter=true"
+      - "traefik.http.middlewares.project-name-headers.headers.contenttypenosniff=true"
+      - "traefik.http.middlewares.project-name-headers.headers.framedeny=true"
+
+networks:
+  proxy:
+    external: true   # must exist on server: docker network create proxy
+
+volumes:
+  project_data:
+    name: deploy_project_data   # explicit name → survives --remove-orphans
