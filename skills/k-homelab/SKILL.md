@@ -4,7 +4,7 @@ description: KπX Homelab — infrastructure, personal projects, SSH access, pre
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -12,16 +12,17 @@ allowed-tools: Bash(*), "*"
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-## SSH Access
+## SSH & Tailscale
 
-| Target | Command | Notes |
-|--------|---------|-------|
-| Homelab / kpihx-labs | `ssh kpihx-labs` | Tailscale Magic DNS |
-| Homelab (alt) | `ssh docker-host-x` | |
-| Docker host (default) | `ssh docker-host` | |
-| Docker host (alt) | `ssh docker-host-x` | |
+Full SSH config → `~/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
 
-For additional aliases, jump hosts, and port forwards → `~/.ssh/config` is the source of truth.
+| Device | Tailscale IP | SSH alias | Status |
+|--------|-------------|-----------|--------|
+| `kpihx-ubuntu` | `100.82.95.70` | *(this machine)* | active |
+| `kpihx-labs` | `100.123.81.21` | `ssh kpihx-labs` / `ssh docker-host` / `ssh docker-host-x` | active (direct) |
+| `kpihx-phone` | `100.125.54.1` | — | active (relay) |
+| `kpihx-tablet` | `100.89.79.87` | — | offline |
+| `kpihx-windows` | `100.108.7.86` | — | offline |
 
 ## Infrastructure (`~/Work/Homelab/kpihx_labs/`)
 
@@ -59,5 +60,5 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-29 | [CLAUDE] | v1.2.0 — Knowledge Base rewritten: presentation/tutos_live properly described (infra series + templates/); ~/Work/tutos_live/ section removed (→ k-workspace) |
-| [SUMMARY] | — | v1.0.0 created; v1.1.0 removed duplicate tutos_live reflex |
+| 2026-03-29 | [CLAUDE] | v1.3.0 — SSH section → SSH & Tailscale with full devices table (IPs + status) |
+| [SUMMARY] | — | v1.2.0 Knowledge Base rewritten; v1.1.0 removed duplicate tutos_live reflex; v1.0.0 created |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.5.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -92,15 +92,22 @@ npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo nee
 - **GitLab MCPs:** All MCPs in `kpihx-labs` GitLab group namespace
 - **PyPI name ≠ module:** Use `[tool.uv.build-backend] module-name = "<import_name>"` to decouple
 
-## Homelab
+## Homelab & Tailscale
 
-- **SSH:** `ssh homelab` / `ssh kpihx-labs` (Tailscale Magic DNS)
-- **Docker host:** `ssh docker-host` or `ssh docker-host-x`
+- **SSH:** `ssh kpihx-labs` / `ssh docker-host` / `ssh docker-host-x` (Tailscale Magic DNS — see `~/.ssh/config`)
 - **Vault:** `vault.kpihx-labs.com` — private, Tailscale-only
+
+| Device | Tailscale IP | OS | Status |
+|--------|-------------|-----|--------|
+| `kpihx-ubuntu` | `100.82.95.70` | Linux | this machine |
+| `kpihx-labs` | `100.123.81.21` | Linux | homelab server (active, direct) |
+| `kpihx-phone` | `100.125.54.1` | Android | active (relay) |
+| `kpihx-tablet` | `100.89.79.87` | Android | offline |
+| `kpihx-windows` | `100.108.7.86` | Windows | offline |
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-29 | [CLAUDE] | v2.4.0 — description: MANDATORY imperative; tutos_live row expanded (Ubuntu KB, subdirs) |
-| [SUMMARY] | — | v2.3.0 +powerpoint tool; v2.2.0 MCP live-query refs; v2.0.0 refonte; v1.0.0 init |
+| 2026-03-29 | [CLAUDE] | v2.5.0 — Tailscale devices table added; SSH section renamed Homelab & Tailscale |
+| [SUMMARY] | — | v2.4.0 MANDATORY desc + tutos_live expanded; v2.3.0 +powerpoint; v2.2.0 MCP live-query; v2.0.0 refonte; v1.0.0 init |
