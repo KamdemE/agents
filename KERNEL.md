@@ -39,8 +39,8 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | Skill | Load when |
 |-------|-----------|
 | `k-context` ($HOME/.agents/skills/k-context/) | **HOT — every session start** |
-| `k-workspace` ($HOME/.agents/skills/k-workspace/) | Dev / infra — $HOME/Work/, tools, shell, MCPs |
-| `k-homelab` ($HOME/.agents/skills/k-homelab/) | Homelab infra, projects, SSH, tutos_live |
+| `k-workspace` ($HOME/.agents/skills/k-workspace/) | **MANDATORY — every session in KπX environment or any project** |
+| `k-homelab` ($HOME/.agents/skills/k-homelab/) | Homelab infra, projects, SSH, presentation KB |
 | `k-git` ($HOME/.agents/skills/k-git/) | Any git / repo operation |
 | `k-whatsapp` ($HOME/.agents/skills/k-whatsapp/) | Before any whats-mcp call |
 | `k-mail` ($HOME/.agents/skills/k-mail/) | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
