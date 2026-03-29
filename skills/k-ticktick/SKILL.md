@@ -1,5 +1,5 @@
 ---
-name: kpihx-ticktick
+name: k-ticktick
 description: tick-mcp operational memory — KπX TickTick project/folder map and critical V1/V2 API gotchas (silent failures). Load before any tick-mcp tool call.
 license: private
 metadata:

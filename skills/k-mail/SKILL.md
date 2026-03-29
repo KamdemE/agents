@@ -1,5 +1,5 @@
 ---
-name: kpihx-mail
+name: k-mail
 description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.edu, account "poly"), key contacts by category, active courses, flagged items, and attention triggers. Load before any mail-mcp tool call.
 license: private
 metadata:
@@ -63,13 +63,10 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
 
 | Code | Description |
 |------|-------------|
-| `CSC_43042` | Algo/CS — TD3 graded 2026-03-20 |
-| `ECO_42035` | Economics P2 |
-| `INF01` | PSC — Image AI project (Lokad) |
+
 
 ## Flagged Items (action required)
 
-1. **Lokad NDA** (`notifications@yousign.app`) — pending signature on Yousign since 2026-02-04
 2. **English certification** (`certification-anglais-dlc@polytechnique.edu`) — test to schedule
 
 ## Attention Triggers

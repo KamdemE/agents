@@ -1,5 +1,5 @@
 ---
-name: kpihx-linkedin
+name: k-linkedin
 description: linkedin-mcp operational memory — KπX LinkedIn identity, OAuth scopes, API capabilities/limitations table, and publishing style. Load before any linkedin-mcp tool call.
 license: private
 metadata:

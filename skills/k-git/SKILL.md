@@ -1,5 +1,5 @@
 ---
-name: kpihx-git
+name: k-git
 description: KπX Git workflow — SSH protocol, remote naming convention, Makefile-driven push pattern, Vault/Tailscale SSH troubleshooting runbook, and new project init checklist. Load for any git or repo management task.
 license: private
 metadata:

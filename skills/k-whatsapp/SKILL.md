@@ -1,5 +1,5 @@
 ---
-name: kpihx-whatsapp
+name: k-whatsapp
 description: whats-mcp operational memory — KπX WhatsApp identity, messaging style, key contacts with JIDs, group index (HIGH→VERY LOW), community map, and contact search pitfalls. Load before any whats-mcp tool call.
 license: private
 metadata:

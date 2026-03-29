@@ -1,5 +1,5 @@
 ---
-name: kpihx-workspace
+name: k-workspace
 description: >
   ⚑ MANDATORY — load at the start of ANY session involving KπX environment, projects, or system.
   Directory layout (~/Work/), package managers (uv/bun/npm), shell architecture (.kshrc),
