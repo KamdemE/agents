@@ -1,18 +1,28 @@
 ---
-name: k-ai-memory
+name: k-ai
 description: k-ai runtime memory, preferences, and operating notes.
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
 ---
 
-# k-ai Memory
+# k-ai
 
 > THE AGENT MUST PROACTIVELY UPDATE THIS MEMORY AS SOON AS IT FINDS SOMETHING KEY TO REMEMBER, WITHOUT ASKING FOR APPROVAL.
+
+## Project References
+
+| Resource | Path / URL |
+|----------|------------|
+| **Source code** | `~/Work/AI/k_ai/` |
+| **GitHub** | https://github.com/KpihX/k-ai |
+| **GitLab** | https://gitlab.com/kpihx/k-ai |
+
+> When investigating a bug or unexpected behavior, go to `~/Work/AI/k_ai/` first — that is the canonical source of truth for the runtime code.
 
 ## Edition Rules
 
@@ -39,3 +49,10 @@ allowed-tools: Read, Edit, Write
 - [15] When searching for files, distinguish between project and general searches. For PROJECT-RELATED files, ALWAYS scope the search to `~/Work`. For general files, AVOID a global search on `$HOME`. A RECURSIVE `tree -L 2` is often more efficient than an exhaustive file search.
 - [16] To save tokens, when creating a file from a known template, prefer copying it with `cp <template_path> <destination_path>` rather than using `write_file`. The content can then be adjusted with `edit_file` if necessary.
 - [17] My own session history is indexed in the 'k-ai' QMD collection. The 'agents' collection is for global context for other agents.
+
+## Changelog
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-03-30 | [CLAUDE] | v1.2.0 — renamed skill `k-ai-memory` → `k-ai`; added Project References section (source path + GitHub/GitLab) |
+| [SUMMARY] | — | v1.1.0 initial memory entries |

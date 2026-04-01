@@ -4,7 +4,7 @@ description: KπX rclone — Google Drive remote setup (OAuth flow), systemd use
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.0.1"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -13,7 +13,7 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **Config file:** `~/.config/rclone/rclone.conf` — source of truth for all remotes.
-> **Templates:** `templates/rclone-gdrive.service` — systemd user service for FUSE mounts.
+> **Templates:** `assets/rclone-gdrive.service` — systemd user service for FUSE mounts.
 
 ## Existing Remotes
 
@@ -91,12 +91,12 @@ Optional additional flags:
 
 ## Systemd User Service
 
-Template: `templates/rclone-gdrive.service`
+Template: `assets/rclone-gdrive.service`
 
 Copy + adapt for each new mount:
 
 ```bash
-cp ~/.agents/skills/k-rclone/templates/rclone-gdrive.service \
+cp ~/.agents/skills/k-rclone/assets/rclone-gdrive.service \
    ~/.config/systemd/user/rclone-<name>.service
 # Edit: Description, ExecStart remote/mountpoint
 systemctl --user daemon-reload
@@ -129,4 +129,5 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v1.0.1 — templates/ → assets/ (skill-creator standard) |
 | 2026-03-29 | [CLAUDE] | v1.0.0 — created: remotes table, Google Drive OAuth flow, mount flags, systemd template ref, post-setup checklist |

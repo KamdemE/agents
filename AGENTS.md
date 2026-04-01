@@ -29,14 +29,17 @@ Build a sovereign **Personal OS / Homelab** — independent of any platform or A
 
 ## Language Rules
 
-- **English** — ALL code, comments, docs
-- **Response language:** match KπX's language in the current message
+> ⚠️🚨 **CRITICAL — NO EXCEPTIONS** 🚨⚠️
+
+- 🔴 **ALL FILES, CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS: ENGLISH ONLY. ALWAYS. NO MATTER WHAT LANGUAGE KπX IS SPEAKING IN THE CONVERSATION. THIS IS NON-NEGOTIABLE AND ABSOLUTE.**
+- **Response language:** match KπX's language in the current message (conversation only — never bleeds into files)
 
 ## Skills Map
 
 All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on demand.
 **Auto-update:** skill dir exists but absent here → add immediately.
-**New skill install:** always `$HOME/.agents/skills/<name>/` — follow skill-creator conventions (YAML frontmatter, ⚠️ edit reminder after H1, Changelog). Never install to agent-specific dirs.
+**KπX's own skills** — skills with the `k-` prefix (k-context, k-git, k-napkin, etc.) are KπX's personal skills. When KπX says "my skills", "mes skills", or references a skill by short name, it means a `k-*` skill. Skills without the `k-` prefix (skill-creator, qmd, microsoft-foundry, etc.) are external tools, not KπX's own.
+**New skill install:** always `$HOME/.agents/skills/<name>/` — **MUST follow the full skill-creator directory standard** (YAML frontmatter, ⚠️ edit reminder after H1, Changelog + `scripts/` / `references/` / `assets/` subdirs as needed). Never install to agent-specific dirs. Never deviate from this structure.
 
 | Key Skills | Load when |
 |-------|-----------|
@@ -150,6 +153,7 @@ qmd is the core memory of everything KπX does. All activity, knowledge, and wor
 - **Changelog:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
+- **skill-creator structure MANDATORY** — every new `k-*` skill MUST use the standard layout: `SKILL.md` at root + `scripts/` (executables), `references/` (docs/specs), `assets/` (templates, icons, output files) created only as needed. Non-standard dirs (e.g., `templates/`) are forbidden.
 - **`.skill-lock.json` sync** — skill added/removed/moved → update `$HOME/.agents/.skill-lock.json`.
 - **Agent provenance** — tag edits with `[CLAUDE]`, `[GEMINI]`, etc. (last writer wins).
 - **Context save gate** — propose → WAIT for KπX approval before writing AGENTS.md.

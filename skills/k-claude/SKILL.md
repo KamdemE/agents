@@ -1,5 +1,5 @@
 ---
-name: agent-runtime-claude
+name: k-claude
 description: >
   Claude Code runtime — MCP config (JSON ~/.claude.json), hooks (settings.json),
   skills/memory architecture, bw-mcp zenity auth, session model.
@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.3.1"
   scope: agent-runtime
   target-agent: claude
 allowed-tools: Bash, Read, Write, Edit
@@ -70,6 +70,7 @@ Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v2.3.1 — standardized name: agent-runtime-claude → k-claude |
 | 2026-03-29 | [CLAUDE] | v2.3.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.2.0 — added Hooks section (Stop → session-guard.sh); updated description |
 | [SUMMARY] | — | v2.1.0 removed Tool Discipline; v2.0.0 migrated to skills/k-claude/ |

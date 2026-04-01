@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.3.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -33,7 +33,7 @@ my-site/
 ├── README.md         ← Site homepage content
 ├── CHANGELOG.md
 ├── TODO.md
-├── Makefile          ← from k-git/templates/Makefile.git (push, status, log)
+├── Makefile          ← from k-git/assets/Makefile.git (push, status, log)
 ├── assets/           ← images, diagrams
 └── .agents/
     └── AGENTS.md     ← project context for AI agents (NEVER committed)
@@ -45,8 +45,8 @@ my-site/
 
 | File | Description |
 |------|-------------|
-| `templates/github-pages-index.html` | Docsify + VS Code dark theme, search, sidebar, inline code color fix |
-| `templates/_sidebar.md` | Generic Docsify sidebar with `.nojekyll` reminder |
+| `assets/github-pages-index.html` | Docsify + VS Code dark theme, search, sidebar, inline code color fix |
+| `assets/_sidebar.md` | Generic Docsify sidebar with `.nojekyll` reminder |
 
 ### Placeholders in `index.html`
 
@@ -66,12 +66,12 @@ my-site/
 
 ## Setup Steps
 
-1. Copy `templates/github-pages-index.html` → repo root as `index.html`
-2. Copy `templates/_sidebar.md` → repo root as `_sidebar.md`
+1. Copy `assets/github-pages-index.html` → repo root as `index.html`
+2. Copy `assets/_sidebar.md` → repo root as `_sidebar.md`
 3. `touch .nojekyll` at repo root
-4. Copy `k-git/templates/Makefile.git` → repo root as `Makefile`
+4. Copy `k-git/assets/Makefile.git` → repo root as `Makefile`
 5. Create `README.md` (site homepage), `CHANGELOG.md`, `TODO.md`
-6. Copy `k-project/templates/AGENTS.md` → `.agents/AGENTS.md` (add `.agents/` to `.gitignore`)
+6. Copy `k-project/assets/AGENTS.md` → `.agents/AGENTS.md` (add `.agents/` to `.gitignore`)
 7. Push to GitHub
 8. GitHub repo → **Settings → Pages → Source: Deploy from branch → `main` / root**
 9. Wait ~1 min → live at `https://<username>.github.io/<repo>/`
@@ -83,7 +83,7 @@ Docsify intercepts **all relative links** in `.md` files and tries to fetch the 
 | File type | Correct link format | Wrong |
 |-----------|--------------------|----|
 | `.md` pages | relative: `[Guide](guide.md)` ✅ | — |
-| Non-MD files (`.html`, `.yaml`, `.py`, `.json`, `.toml`, images) | **Absolute GitHub blob URL** ✅ | `[file](templates/file.yaml)` ❌ |
+| Non-MD files (`.html`, `.yaml`, `.py`, `.json`, `.toml`, images) | **Absolute GitHub blob URL** ✅ | `[file](assets/file.yaml)` ❌ |
 
 **Absolute GitHub blob URL format:**
 ```
@@ -91,7 +91,7 @@ https://github.com/USERNAME/REPO/blob/BRANCH/path/to/file.ext
 ```
 Example from tutos_live:
 ```markdown
-[`config.py`](https://github.com/kpihx/tutos_live/blob/master/templates/config.py)
+[`config.py`](https://github.com/kpihx/tutos_live/blob/master/assets/config.py)
 ```
 
 > This rule applies to every `.md` in the Docsify site — tutorials, README, _sidebar references, etc.
@@ -109,6 +109,7 @@ Example from tutos_live:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v1.3.1 — templates/ → assets/ (skill-creator standard) |
 | 2026-03-29 | [CLAUDE] | v1.3.0 — full site tree added (Makefile/README/CHANGELOG/TODO/.agents); Setup Steps +Makefile+AGENTS.md |
 | 2026-03-29 | [CLAUDE] | v1.2.0 — description expanded: blog/article site/KB/portfolio use cases; cross-ref to k-project/docs-site.md |
 | 2026-03-29 | [CLAUDE] | v1.1.0 — added Docsify link rules section (absolute blob URLs for non-MD files, image exception) |

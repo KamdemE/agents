@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.1"
+  version: "1.9.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -65,8 +65,8 @@ Initial structure:
 ```
 
 Next steps:
-1. Replace `pyproject.toml` → `templates/pyproject.toml` (adapt name + deps)
-2. Add `src/<pkg>/config.py` → `templates/config.py` + a `config.yaml` defaults file alongside it
+1. Replace `pyproject.toml` → `assets/pyproject.toml` (adapt name + deps)
+2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` defaults file alongside it
 3. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
 NB: we can have many `.env.example`, `.env`, `config.yaml`, `config.py`, since by default there are encapsulated in packages ; thus a very autonomous package sould have its own ones.
 
@@ -87,18 +87,18 @@ bun init -y / npm init -y
 <project-name>/
 ├── src/<project_name>/
 │   ├── __init__.py
-│   ├── config.py          ← from templates/config.py
+│   ├── config.py          ← from assets/config.py
 │   └── config.yaml
 ├── tests/
-├── Makefile               ← from templates/Makefile.uv or Makefile.npm-bun
-├── pyproject.toml         ← from templates/pyproject.toml
+├── Makefile               ← from assets/Makefile.uv or Makefile.npm-bun
+├── pyproject.toml         ← from assets/pyproject.toml
 ├── README.md
 ├── CHANGELOG.md
 ├── TODO.md
 ├── LICENSE
 ├── .gitignore
 └── .agents/
-    └── AGENTS.md          ← from templates/AGENTS.md (NEVER committed)
+    └── AGENTS.md          ← from assets/AGENTS.md (NEVER committed)
 ```
 
 | File | Notes |
@@ -107,7 +107,7 @@ bun init -y / npm init -y
 | `README.md` | Overview, install, usage |
 | `CHANGELOG.md` | Newest-first, semver entries |
 | `TODO.md` | Active development backlog |
-| `.agents/AGENTS.md` | Project context for AI agents — from `templates/AGENTS.md` |
+| `.agents/AGENTS.md` | Project context for AI agents — from `assets/AGENTS.md` |
 | `LICENSE` | Must be created at init. Default: MIT or GNU. |
 
 > **.agents/ is NEVER committed & NEVER mentionned in repo** — always in `.gitignore`.
@@ -116,7 +116,7 @@ bun init -y / npm init -y
 
 All AI agents auto-load `.agents/AGENTS.md` when present at a project root.
 Content: KπX mantras · project purpose · architecture rules · evolution rules.
-→ Template: `templates/AGENTS.md`
+→ Template: `assets/AGENTS.md`
 
 ## Architecture Philosophy
 
@@ -131,7 +131,7 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 - **v1.9.0 (2024-07-28):**
   - Add `uv init --package <name>` for Python projects.
   - Reorganize sections for clarity.OO** — encapsulation; internals prefixed `_`; public API explicit
-- **Config pattern** — `ConfigManager` per package (`templates/config.py` / `config.ts`):
+- **Config pattern** — `ConfigManager` per package (`assets/config.py` / `config.ts`):
   - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
   - `@lru_cache` on YAML loading (Python) / `Map` cache (TS)
   - `debug: false` default in config.yaml; never `print()` / `console.log()` in prod
@@ -154,14 +154,14 @@ Check available targets first: `make help`.
 
 ## Makefile Templates
 
-Stored in `templates/` — copy to project root as `Makefile` and adapt:
+Stored in `assets/` — copy to project root as `Makefile` and adapt:
 
 | Template | Use case |
 |----------|----------|
-| `templates/Makefile.uv` | Python/uv — check, build, publish to PyPI, release pipeline |
-| `templates/Makefile.npm-bun` | JS/TS/bun — test, build, publish to npm, release pipeline |
+| `assets/Makefile.uv` | Python/uv — check, build, publish to PyPI, release pipeline |
+| `assets/Makefile.npm-bun` | JS/TS/bun — test, build, publish to npm, release pipeline |
 
-For scripts/shell/misc projects with no package manager → use `k-git/templates/Makefile.git` (baseline git workflow only).
+For scripts/shell/misc projects with no package manager → use `k-git/assets/Makefile.git` (baseline git workflow only).
 
 **Publish secrets** (inject via bw-env before running):
 - `Makefile.uv` → `UV_PUBLISH_TOKEN`
@@ -192,7 +192,7 @@ bun link / npm link <project-name>
 
 ## Documentation Site
 
-To set up a Docsify GitHub Pages docs site for a project → **`docs-site.md`** (this skill dir).
+To set up a Docsify GitHub Pages docs site for a project → **`references/docs-site.md`** (this skill dir).
 
 Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages `main/docs` config.
 Load `k-git-pages` for Docsify templates + link rules.
@@ -210,6 +210,7 @@ Load `k-git-pages` for Docsify templates + link rules.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v1.9.2 — templates/ → assets/, docs-site.md → references/docs-site.md (skill-creator standard) |
 | 2024-07-29 | [GEMINI] | v1.9.1 — Add rule for proactive LICENSE file creation. |
 | 2026-03-29 | [CLAUDE] | v1.9.0 — Makefile standard task runner section added (make push/build/release/check table + bypass warning); AGENTS template Makefile rule |
 | 2026-03-29 | [CLAUDE] | v1.8.0 — config.ts rewritten to match config.py: resolveEnv() two-tier, SecretsUnavailableError, getSecret(), dotted-path get(), singleton loadConfig/updateConfig/getConfig, full HOW TO USE + PLACEHOLDERS header |

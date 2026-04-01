@@ -1,5 +1,5 @@
 ---
-name: agent-runtime-codex
+name: k-codex
 description: >
   Codex CLI runtime — config.toml (model, sandbox, approvals, trust_level),
   MCP config (TOML syntax), memories/rules/skills system, permissions escalation.
@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.4.1"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -78,6 +78,7 @@ Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v2.4.1 — standardized name: agent-runtime-codex → k-codex |
 | 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.3.0 — added config.toml anatomy + memories/rules; removed TickTick duplication (→ k-ticktick); broadened description |
 | [SUMMARY] | — | v2.2.0 removed ~/AGENTS.md; v2.1.0 Copilot extracted; v2.0.0 initial |

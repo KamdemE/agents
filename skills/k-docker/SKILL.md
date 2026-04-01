@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.4.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -17,7 +17,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `~/Work/Homelab/presentation/tutos_live/templates/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via qmd or `ls`.
+> **Concrete examples:** check `~/Work/Homelab/presentation/tutos_live/assets/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via qmd or `ls`.
 
 ## When to Load
 
@@ -28,20 +28,20 @@ Load this skill for **any project that will run on the homelab server** — MCP 
 Never build a fat image. Always use multi-stage: **builder** (installs tools + deps) → **runner** (only what's needed at runtime).
 
 Templates:
-- `templates/Dockerfile.python` — uv-based multi-stage (builder compiles venv, runner copies it)
-- `templates/Dockerfile.bun` — Bun production image
+- `assets/Dockerfile.python` — uv-based multi-stage (builder compiles venv, runner copies it)
+- `assets/Dockerfile.bun` — Bun production image
 
 Key rules:
 - `--no-install-recommends` on every `apt-get install`
 - `rm -rf /var/lib/apt/lists/*` after every `apt-get`
 - Copy `pyproject.toml`/`package.json` first (layer cache) — then source
-- Add `.dockerignore` (template: `templates/.dockerignore`)
+- Add `.dockerignore` (template: `assets/.dockerignore`)
 - `EXPOSE` the real app port
 - `CMD` = runtime entrypoint only
 
 ## docker-compose.yml (production / server)
 
-Template: `templates/docker-compose.yml`
+Template: `assets/docker-compose.yml`
 
 Key rules:
 - `name: <project-name>` at top — used as compose project name in CI (`-p <name>`)
@@ -71,7 +71,7 @@ DB_PORT=5432
 
 ## docker-compose.override.yml (local dev)
 
-Template: `templates/docker-compose.override.yml`
+Template: `assets/docker-compose.override.yml`
 
 Key rules:
 - Override `ports:` to expose on localhost (not needed on server — Traefik handles it)
@@ -83,8 +83,8 @@ Key rules:
 ## GitLab CI/CD
 
 Templates:
-- `templates/.gitlab-ci.uv.yml` — Python/uv projects (validate with `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`, pytest, health via `curl`)
-- `templates/.gitlab-ci.bun.yml` — Bun/TS projects (validate with `oven/bun:1-slim`, `bun test`, health via `bun -e fetch`)
+- `assets/.gitlab-ci.uv.yml` — Python/uv projects (validate with `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`, pytest, health via `curl`)
+- `assets/.gitlab-ci.bun.yml` — Bun/TS projects (validate with `oven/bun:1-slim`, `bun test`, health via `bun -e fetch`)
 
 **Runner:** tag `homelab` (deploy job only — validate runs on shared runner with the appropriate language image)
 
@@ -162,11 +162,11 @@ git remote add gitlab git@gitlab.com:kpihx/<name>.git
 
 ## Makefile.docker
 
-Template: `templates/Makefile.docker`
+Template: `assets/Makefile.docker`
 
 Targets: `up`, `down`, `restart`, `build`, `logs`, `ps`, `deploy`, `prune`, `shell`, `exec`
 
-> **Note in template:** merge with `k-git/templates/Makefile.{general,uv,npm-bun}` — copy relevant git targets (`push`, `push-tags`, `status`, `log`) into the project Makefile.
+> **Note in template:** merge with `k-git/assets/Makefile.{general,uv,npm-bun}` — copy relevant git targets (`push`, `push-tags`, `status`, `log`) into the project Makefile.
 
 ## Traefik URL Convention
 
@@ -195,8 +195,9 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v1.4.1 — templates/ → assets/ (skill-creator standard) |
 | 2026-03-29 | [CLAUDE] | v1.4.0 — sync stage marked legacy; Repo Creation prefers gh+glab at init + make push; GITHUB_TOKEN note updated; PROXY_URL removed |
 | 2026-03-29 | [CLAUDE] | v1.3.0 — group vars table + glab check reminder + project var creation commands |
 | 2026-03-29 | [CLAUDE] | v1.2.0 — DB section (shared postgres, no db in prod compose, override has local pg); 2 CI templates (.gitlab-ci.uv.yml + .gitlab-ci.bun.yml) |
-| 2026-03-29 | [CLAUDE] | v1.1.0 — concrete examples pointer to presentation/tutos_live/templates/ |
+| 2026-03-29 | [CLAUDE] | v1.1.0 — concrete examples pointer to presentation/tutos_live/assets/ |
 | 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |

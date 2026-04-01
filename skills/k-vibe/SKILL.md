@@ -1,5 +1,5 @@
 ---
-name: agent-runtime-vibe
+name: k-vibe
 description: >
   VIBE CLI runtime — config.toml (active_model, providers, skills, tools permissions),
   TOML [[mcp_servers]] format, session model. Load when configuring VIBE, changing model/provider,
@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.2.1"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -59,5 +59,6 @@ api_key_format = "{token}"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v2.2.1 — standardized name: agent-runtime-vibe → k-vibe |
 | 2026-03-28 | [CLAUDE] | v2.2.0 — added config.toml anatomy (model, providers, tools permissions); broadened description |
 | [SUMMARY] | — | v2.1.0 prompts/vibe.md + skills path; v2.0.0 migrated to skills/ |

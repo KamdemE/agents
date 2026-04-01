@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -18,6 +18,7 @@ allowed-tools: Bash(*), "*"
 > TODOs: only KπX adds; agents execute + remove.
 > Projects: max 10 active — condense completed/stale into a fixed-width `[ARCHIVE]` row when full.
 > Log: max 10 entries, newest-first — condense oldest into `[SUMMARY]` when full.
+> **Brainstorms & research:** `references/` — load on demand for deep context.
 
 ## Active TODOs
 
@@ -28,15 +29,16 @@ allowed-tools: Bash(*), "*"
 | Project | Status | Next |
 |---------|--------|------|
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools |
-| **~/.agents/ refonte** | ✅ committed+pushed: k-docker v1.4.0, k-project v1.9.0, k-homelab v1.6.0 | — |
+| **~/.agents/ refonte** | ✅ k-* skills all skill-creator compliant (templates/→assets/, k-project+references/), AGENTS.md k-* definition + structure mandate | git commit + make push |
+| **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test, roadmap | see `references/agentic-architecture-brainstorm.md` |
 | **OpenClaw** | skills fixed (rsync copies), exec-approvals ask=always | file-edit approval gates (if OpenClaw adds support) |
-| **Edge Copilot sidebar** | Blank — cause unknown | MS account sign-in / flags |
 | **DXO internship** | ✅ Accepted — "Stage Image Research" | Starts summer 2026 |
 
 ## Session Log
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-01 | [CLAUDE] | k-* skills all skill-creator compliant (templates/→assets/, 6 skills+symlinks fixed); AGENTS.md k-* ownership + structure MANDATORY rule + ENGLISH rule reinforced; brainstorm agentic arch (hot/cold, 3-layer, MCP qualification test, roadmap) → references/agentic-architecture-brainstorm.md |
 | 2026-03-29 | [CLAUDE] | mem_mcp uv init+config.py+standard files+first push; 6 MCPs standardized (.agents/AGENTS.md, Makefile, LICENSE, .gitignore, pipelines green); Work/ Tools/ restructure (Others/, Tools/, ipynb-pdf+viperx moved); Gdrive kapoivha@gmail.com rclone+systemd setup; AGENTS.md +personal storage |
 | 2026-03-29 | [CLAUDE] | k-docker v1.4.0 (CI uv/bun templates, shared Postgres, group vars, sync→legacy), k-project v1.9.0 (config.ts rewrite, Makefile rule, default email), k-homelab v1.6.0 (n8n-ops removal); presentation n8n-ops cleanup — all committed+pushed |
 | 2026-03-29 | [GEMINI] | Migrated k-ai memory to Markdown (MEMORY.md); unified AGENTS.md paths (~/.k-ai/AGENTS.md link); fixed prompt-toolkit v3 Buffer crash; updated all project files and tests for the new architecture. |
@@ -54,6 +56,7 @@ allowed-tools: Bash(*), "*"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-01 | [CLAUDE] | v2.1.0 — references/ dir created; brainstorm agentic arch added; projects+log updated |
 | 2026-03-29 | [CLAUDE] | v1.9.0 — new entry: mem_mcp+6MCPs+Gdrive; projects: +mem_mcp; log condensed (12→10+SUMMARY) |
 | 2026-03-29 | [CLAUDE] | v1.8.0 — session log: k-docker/project/homelab commits + presentation n8n-ops cleanup |
 | 2026-03-29 | [CLAUDE] | v1.7.0 — log: docs-site.md + k-project v1.4.0; log condensed (11→10+SUMMARY); header version desync fixed |

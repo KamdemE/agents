@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.6.1"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -30,7 +30,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 ## Makefile Templates
 
-### `templates/Makefile.git` — baseline (this skill)
+### `assets/Makefile.git` — baseline (this skill)
 
 Generic git workflow — push, status, log, lint. Use for any project.
 Copy to project root as `Makefile`, adapt as needed.
@@ -48,7 +48,7 @@ push-docs:  ## Commit + push docs/ site
 
 ### uv / bun projects → `k-project`
 
-`Makefile.uv` (Python/uv — check, build, publish to PyPI, release) and `Makefile.npm-bun` (JS/TS/bun — test, build, publish to npm, release) live in **`k-project/templates/`** alongside pyproject.toml, config.py/ts.
+`Makefile.uv` (Python/uv — check, build, publish to PyPI, release) and `Makefile.npm-bun` (JS/TS/bun — test, build, publish to npm, release) live in **`k-project/assets/`** alongside pyproject.toml, config.py/ts.
 Load `k-project` for project lifecycle philosophy + those templates.
 
 ## SSH Troubleshooting Runbook
@@ -72,7 +72,7 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 5. GitLab remote — pick namespace:
    - **Personal / tools** (MCPs, personal scripts): `git remote add gitlab git@gitlab.com:kpihx/<name>.git`
    - **Homelab / CI-deploy** (infra, server workloads, GitLab CI pipelines): `git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git`
-6. Create `Makefile` from `templates/Makefile.git` (at minimum: `push`, `status`, `log`) — or from `k-project/templates/Makefile.uv` / `Makefile.npm-bun` for uv/bun projects
+6. Create `Makefile` from `assets/Makefile.git` (at minimum: `push`, `status`, `log`) — or from `k-project/assets/Makefile.uv` / `Makefile.npm-bun` for uv/bun projects
 7. Initial commit + `make push`
 
 ## Post-Push Workflow: CI/CD Verification
@@ -94,6 +94,7 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v2.6.1 — templates/ → assets/ (skill-creator standard) |
 | 2026-03-29 | [CLAUDE] | v2.6.0 — Makefile.general→Makefile.git; Makefile.uv+npm-bun moved to k-project; k-project cross-ref added |
 | 2026-03-29 | [CLAUDE] | v2.5.0 — concrete examples pointer to tutos_live/templates/ |
 | 2026-03-29 | [CLAUDE] | v2.4.0 — added Related skills header (k-project always, k-docker if deployable) |

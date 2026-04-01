@@ -1,5 +1,5 @@
 ---
-name: agent-runtime-gemini
+name: k-gemini
 description: >
   Gemini CLI runtime — Extension system (gemini-extension.json format, ~/Work/AI/gemini_mcps/),
   mandatory env var block for stdio MCPs, settings.json, KG proactivity, token finesse.
@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.4.1"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -90,6 +90,7 @@ Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-03-31 | [CLAUDE] | v2.4.1 — standardized name: agent-runtime-gemini → k-gemini |
 | 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
 | 2026-03-28 | [CLAUDE] | v2.3.0 — removed redundant edit reminder; broadened description; changelog condensed |
 | [SUMMARY] | — | v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |

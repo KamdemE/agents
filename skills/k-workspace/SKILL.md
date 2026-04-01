@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.6.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -15,7 +15,19 @@ allowed-tools: Bash(*), "*"
 
 # KπX — Workspace & Engineering
 
-## Directory Layout (`~/Work/`)
+## Directory Layout
+
+> **Routing rule:** `~/Work/` = dev/prod only (code, infra, scripts).
+> For anything **not code-related**, use the standard XDG folders under `$HOME`:
+>
+> | Folder | Non-code content |
+> |--------|-----------------|
+> | `~/Pictures/` | Generated visuals (Napkin, Excalidraw exports…), screenshots, images |
+> | `~/Documents/` | Docs, PDFs, notes, text exports |
+> | `~/Downloads/` | Temporary downloaded files |
+> | `~/Videos/` | Recordings, screencasts |
+
+### `~/Work/` — Dev & Prod
 
 | Path | Purpose |
 |------|---------|
@@ -109,5 +121,6 @@ npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo nee
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-29 | [CLAUDE] | v2.5.0 — Tailscale devices table added; SSH section renamed Homelab & Tailscale |
+| 2026-03-31 | [CLAUDE] | v2.6.0 — routing rule: ~/Work/ = code only; XDG folders table (Pictures, Documents, Downloads, Videos) |
+| 2026-03-29 | [CLAUDE] | v2.5.0 — Tailscale devices table; SSH section renamed Homelab & Tailscale |
 | [SUMMARY] | — | v2.4.0 MANDATORY desc + tutos_live expanded; v2.3.0 +powerpoint; v2.2.0 MCP live-query; v2.0.0 refonte; v1.0.0 init |
