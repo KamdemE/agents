@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.0"
+  version: "2.11.1"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -38,7 +38,7 @@ Hooks are the governance layer of the KπX agent stack.
 | Bundled-file coverage guard | `$HOME/.agents/hooks/core/skill_content_guard.py` |
 | Hook feature toggles | `$HOME/.agents/hooks/core/settings.py` |
 | Human-readable runtime/checker map | `$HOME/.agents/hooks/README.md` |
-| Full recheck entrypoint | `$HOME/.agents/hooks/core/audit.py` |
+| Full recheck entrypoint | `$HOME/.agents/hooks/audit.py` |
 | Normative writing and changelog rules | `$HOME/.agents/AGENTS.md` |
 
 ## Directory Map
@@ -55,8 +55,8 @@ $HOME/.agents/hooks/
 │   ├── path_guard.py
 │   ├── session_guard.py
 │   ├── skill_structure_guard.py
-│   ├── skill_content_guard.py
-│   └── audit.py
+│   └── skill_content_guard.py
+├── audit.py
 ├── gemini/
 │   ├── session_start.py
 │   ├── before_agent.py
@@ -130,7 +130,7 @@ $HOME/.agents/hooks/
 |--------|--------|-------|--------|----------|
 | Startup context | `SessionStart` | `SessionStart` | `SessionStart` | `agent:bootstrap` |
 | Dynamic context + reminder | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | — |
-| Write/path/skill guard | `BeforeTool` | `PreToolUse` | — not wired in current Codex setup | `message:sent` advisory |
+| Write/path/skill guard | `BeforeTool` | — not wired in current Codex setup | `PreToolUse` | `message:sent` advisory |
 | Response validation | `AfterAgent` | `Stop` | `Stop` | — |
 | Finalization reminder | `SessionEnd` | `Stop` | `SessionEnd` and `Stop` | `command:stop` advisory |
 
@@ -155,7 +155,7 @@ $HOME/.agents/hooks/
 
 ## Recheck
 
-- Run `python3 $HOME/.agents/hooks/core/audit.py` after hook or skill-governance changes
+- Run `python3 $HOME/.agents/hooks/audit.py` after hook or skill-governance changes
 - The audit is the compact health check for wrapper syntax, config wiring, YAML validity, and KπX skill guards
 - Read `$HOME/.agents/hooks/README.md` when you need the quick checker → runtime map with concrete examples
 
@@ -163,6 +163,6 @@ $HOME/.agents/hooks/
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.10.0 — removed the dead Codex `PreToolUse` path from the architectural map, clarified that Codex write guards are intentionally unwired in the current setup, and kept the runtime matrix aligned with the deployed hook config |
-| 2026-04-03 | [CODEX] | v2.9.0 — added `$HOME/.agents/hooks/README.md` as the synthetic checker/runtime map with concrete runtime examples and explicit “not implemented” justifications per agent |
-| [SUMMARY] | — | v2.9.0–v2.0.0: `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| 2026-04-03 | [CODEX] | v2.11.1 — fixed the runtime-mapping table so Claude keeps `PreToolUse` for write guards while Codex stays explicitly unwired for structured `.agents/` file-edit enforcement in the current setup |
+| 2026-04-03 | [CODEX] | v2.11.0 — moved the shared audit entrypoint from `hooks/core/` to `$HOME/.agents/hooks/audit.py` so the recheck lives at the hooks layer it validates, and resynced the directory map and recheck guidance accordingly |
+| [SUMMARY] | — | v2.11.0–v2.0.0: corrected runtime-mapping table, top-level `hooks/audit.py`, `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

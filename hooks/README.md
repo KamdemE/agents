@@ -164,6 +164,6 @@ Practical consequence:
 
 ## Recheck
 
-- run `python3 $HOME/.agents/hooks/core/audit.py`
+- run `python3 $HOME/.agents/hooks/audit.py`
 - read `$HOME/.agents/AGENTS.md` for the normative rule text
 - read `$HOME/.agents/skills/k-hook/SKILL.md` for the architectural source-of-truth map

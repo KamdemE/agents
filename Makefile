@@ -14,7 +14,7 @@ push-tags: ## Push all tags to all remotes
 	git push github --tags && git push gitlab --tags
 
 audit: ## Run .agents structural audit
-	python3 $(HOME)/.agents/hooks/core/audit.py
+	python3 $(HOME)/.agents/hooks/audit.py
 
 log: ## Last 10 commits
 	git log --oneline -10

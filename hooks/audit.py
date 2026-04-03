@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Core: Hooks Audit
+Hooks Audit
 Single entry point to validate KπX hook wiring, KπX skill structure/content,
 and runtime config references across supported agent CLIs.
 """
@@ -16,13 +16,13 @@ import sys
 import tomllib
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "hooks"))
 
 from core.settings import AGENTS_DIR, HOME, SKILLS_DIR
 from core.skill_content_guard import validate_skill_content
 from core.skill_structure_guard import validate_skill_structure
 
-ROOT = Path(AGENTS_DIR)
 HOOKS_DIR = ROOT / "hooks"
 GEMINI_SETTINGS = Path(HOME) / ".gemini/settings.json"
 CLAUDE_SETTINGS = Path(HOME) / ".claude/settings.json"
@@ -166,7 +166,8 @@ def _check_openclaw() -> list[str]:
 
 
 def _collect_python_paths() -> list[Path]:
-    paths = sorted(HOOKS_DIR.glob("core/*.py"))
+    paths = [HOOKS_DIR / "audit.py"]
+    paths.extend(sorted(HOOKS_DIR.glob("core/*.py")))
     paths.extend(sorted(HOOKS_DIR.glob("gemini/*.py")))
     paths.extend(sorted(HOOKS_DIR.glob("codex/*.py")))
     paths.extend(sorted(HOOKS_DIR.glob("claude/*.py")))
@@ -192,7 +193,7 @@ def _wrapper_smoke_tests() -> list[str]:
         "## TODOs\n"
         "| Task | Urgent | Important |\n"
         "| :--- | :--- | :--- |\n"
-        "| Implement Agent Hooks | YES | YES |\n\n"
+        "| Optimize bw-env | NO | YES |\n\n"
         "## Suggestions Proactives :\n"
         "1. one\n"
         "2. two\n"
@@ -206,7 +207,7 @@ def _wrapper_smoke_tests() -> list[str]:
         "## TODOs\n"
         "| Task | Urgent | Important |\n"
         "| :--- | :--- | :--- |\n"
-        "| Implement Agent Hooks | YES | YES |\n\n"
+        "| Optimize bw-env | NO | YES |\n\n"
         "## Suggestions Proactives :\n"
         "1. one\n"
         "2. two\n"

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.2.1"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -50,7 +50,7 @@ Runtime guards:
 - `hooks/core/skill_structure_guard.py` checks the shared `SKILL.md` structure
 - `hooks/core/skill_content_guard.py` checks that bundled top-level files are surfaced in the skill document
 - `hooks/core/skill_edit_guard.py` blocks incomplete KπX skill edits that skipped `metadata.version`, `## Changelog`, or `k-context` `## Session Log`
-- `hooks/core/audit.py` is the compact recheck entrypoint when a broader hooks/skills governance sweep is needed
+- `hooks/audit.py` is the compact recheck entrypoint when a broader hooks/skills governance sweep is needed
 
 ## Standard Workflow
 
@@ -112,6 +112,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.2.1 — moved the governance recheck entrypoint reference to `hooks/audit.py` so the skill points to the real top-level hooks audit |
 | 2026-04-03 | [CODEX] | v2.2.0 — documented the new `skill_edit_guard.py` and made the one-pass header/footer/session-log completion rule explicit in the standard workflow |
-| 2026-04-03 | [CODEX] | v2.1.0 — added `hooks/core/audit.py` as the compact governance recheck entrypoint and kept the skill aligned with the live hook/guard standard |
-| [SUMMARY] | — | v2.1.0–v1.0.0: audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |
+| [SUMMARY] | — | v2.2.0–v1.0.0: top-level hooks audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |

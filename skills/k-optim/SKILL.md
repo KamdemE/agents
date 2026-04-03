@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.2.1"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -31,7 +31,7 @@ allowed-tools: Bash, Read, Write, Edit
 |------|----------------|
 | Agent governance and response contract | `$HOME/.agents/AGENTS.md` |
 | Current hot session state and TODOs | `$HOME/.agents/skills/k-context/SKILL.md` |
-| Shared hook and skill audits | `$HOME/.agents/hooks/core/audit.py` |
+| Shared hook and skill audits | `$HOME/.agents/hooks/audit.py` |
 | QMD declarative config | `$HOME/.config/qmd/index.yml` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
@@ -128,6 +128,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.2.1 — moved the shared `.agents/` recheck entrypoint reference to `$HOME/.agents/hooks/audit.py` so the optimization map points to the real top-level hooks audit |
 | 2026-04-03 | [CODEX] | v1.2.0 — strengthened the `Meta` section so `.agents/` optimization explicitly includes checking that `AGENTS.md` stays synchronized with the real hook behavior and reminder text under `$HOME/.agents/hooks/` |
-| 2026-04-03 | [CODEX] | v1.1.0 — added the first real Homelab section using the live maintenance and backup scripts under `$HOME/Work/Homelab/sh/`, plus the presentation security docs as the documentation companion source |
-| [SUMMARY] | — | v1.1.0–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map and normalized paths to the `$HOME` standard |
+| [SUMMARY] | — | v1.2.0–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map, normalized paths to the `$HOME` standard, and added the AGENTS↔hooks sync reminder |
