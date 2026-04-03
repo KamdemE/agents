@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.5.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -28,7 +28,7 @@ allowed-tools: Bash, Read, Write, Edit
 - **Ubuntu scope** — local machine storage cleanup, project artifact removal, cache management. Covers KπX's Ubuntu workstation and its projects.
 - **Homelab scope** — server-side maintenance, Docker hygiene, client-side backup verification.
 
-In all scopes: **load this skill before starting any cleanup/optim work** — reuse existing standards and scripts instead of reinventing. Log new scripts, key actions, and notable results in the relevant `### Last Known State` section so the state stays current.
+In all scopes: **load this skill before starting any cleanup/optim work** — reuse existing standards and scripts instead of reinventing. Log new scripts, key actions, and notable results in the relevant `### Last Known State` section and `## Script & Action Log` so the state stays current.
 
 ## Source Of Truth
 
@@ -85,9 +85,12 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 ### Last Known State
 
 - the active cleanup suite lives in `$HOME/Work/sh/clean/`
-- `clean_all.sh` is the orchestrator for `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, and `clean_ai.sh`
-- `auto_clean.sh` is the weekly automation wrapper: logs to `$HOME/Work/sh/clean/logs/`, runs `clean_all.sh -s -y`, measures reclaimed space, sends a Telegram report
-- the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression instead of jumping to aggressive removal
+- `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`; `auto_clean.sh` is the weekly automation wrapper
+- the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression
+- **home cleanup 2026-04-03**: removed 22 entries (~1.3GB confirmed direct): `.conda`, `.condarc`, `.continue`, `.gradle` (786MB), `.node-llama-cpp` (314MB), `.ai-cli`, `.redhat`, `.overgrive.log`, `.minikube`, `.android`, `.tmp`, `.cloud-locale-test.skip`, `cfg`, `.blogwatcher`, `.net` (120MB), `.dbclient`, `.aitk`, `.azure`, `Archive`, `Test`, `src`, `OneDrive`
+- **pending review**: `lancedb/` (orphaned RAG prototype, no QMD ref); `.agent/` (old kernel git repo, predecessor to `.agents/`, has changelogs + history); `backup/` (root-owned, Jul 2025)
+- **kept intentionally**: `intel/` (IPEX-LLM), `.grip/`, `.mcporter/` (OpenClaw), `nvm`+`npm-global` (coupled: openclaw, whats-mcp, @anthropic-ai, @google packages)
+- `_dg_backup_check` zsh hook intercepts `rm -rf` — verify deletions explicitly after any `rm` operation
 
 ### Actions
 
@@ -140,10 +143,20 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
    - update `k-homelab` and `k-optim`
    - recheck whether the presentation docs have drifted from the scripts
 
+## Script & Action Log
+
+> Log new scripts, key optimization actions, or notable results here for perennial reference.
+> Format: `| Date | Scope | Script/Action | Notes |`
+> Newest first. Keep entries concise — one line per item. No limit enforced.
+
+| Date | Scope | Script / Action | Notes |
+|------|-------|-----------------|-------|
+| 2026-04-03 | Ubuntu | Manual home cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CLAUDE] | v1.5.0 — updated Ubuntu LKS with 2026-04-03 home cleanup results (22 entries, ~1.3GB); added first Script & Action Log entry; added `_dg_backup_check` hook note |
 | 2026-04-03 | [CLAUDE] | v1.4.0 — added max-7 Last Known State rule; clarified Meta/Ubuntu/Homelab scope descriptions; updated Meta LKS with 2026-04-03 AGENTS.md cleanup state; updated description for load-before-optim standard |
-| 2026-04-03 | [CODEX] | v1.3.1 — added proactive AI session-history cleanup suggestion rule with KπX approval gate |
-| [SUMMARY] | — | v1.3.1–v1.0.0: initial `.agents/`, QMD, Ubuntu, Homelab optimization map; path normalization; AGENTS↔hooks sync reminder; low-token doc compaction rule |
+| [SUMMARY] | — | v1.3.1–v1.0.0: initial map, path normalization, AGENTS↔hooks sync reminder, low-token doc compaction rule, proactive-but-approved AI history cleanup reminder |
