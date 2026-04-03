@@ -5,13 +5,13 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStartPre=/usr/bin/mkdir -p /home/kpihx/<MountDir>
-ExecStart=/usr/bin/rclone mount <remote-name>: /home/kpihx/<MountDir> \
-  --config=/home/kpihx/.config/rclone/rclone.conf \
+ExecStartPre=/usr/bin/mkdir -p %h/<MountDir>
+ExecStart=/usr/bin/rclone mount <remote-name>: %h/<MountDir> \
+  --config=%h/.config/rclone/rclone.conf \
   --vfs-cache-mode full \
   --allow-other \
   --dir-cache-time 1m
-ExecStop=/bin/fusermount -u /home/kpihx/<MountDir>
+ExecStop=/bin/fusermount -u %h/<MountDir>
 Restart=on-failure
 RestartSec=3
 

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.0"
+  version: "1.7.1"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -45,6 +45,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 - KπX skills are synchronized from `$HOME/.agents/skills/` into `$HOME/.openclaw/workspace/skills/`
 - the normal path is the `.agents` post-commit hook
+- after a KπX skill rename, explicitly remove stale legacy copies from `$HOME/.openclaw/workspace/skills/` so OpenClaw and QMD do not keep indexing both old and new names
 - manual refresh fallback:
 
 ```bash
@@ -87,6 +88,6 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.7.1 — documented that skill renames require explicit stale-copy cleanup in the OpenClaw workspace to avoid duplicate indexing and runtime drift |
 | 2026-04-03 | [CODEX] | v1.7.0 — rewrote the skill into a compact source-of-truth map, kept the OpenClaw-specific root/sync/hook rules, and removed the large inline layout/config snapshot in favor of direct pointers to the real runtime files |
-| 2026-04-03 | [CODEX] | v1.6.0 — documented the managed OpenClaw hook discovery model, the required `metadata.openclaw.events` HOOK.md format, and the live `openclaw.json` enablement points |
-| [SUMMARY] | — | v1.5.2 normalized paths to `$HOME`; v1.5.1 standardized name to `k-openclaw`; v1.5.0–v1.0.0 established workspace-root, provider, approvals, and MCP/runtime guidance |
+| [SUMMARY] | — | v1.6.0–v1.0.0 documented hook discovery, workspace-root, provider, approvals, rename, and MCP/runtime guidance, with paths normalized to `$HOME` |

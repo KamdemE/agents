@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.3"
+  version: "2.8.4"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -112,6 +112,7 @@ WaveTerm widgets: `$HOME/.config/waveterm/widgets.json` — all use `zsh -l -c '
 npm global prefix: `$HOME/.npmrc` → `prefix=$HOME/.npm-global` (no EACCES, no sudo needed).
 
 > For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (`k-claude`, `k-gemini`, `k-codex`, `k-openclaw`, `k-vibe`, `k-copilot`) and `k-hook` rather than duplicating agent-specific snapshots here.
+> For optimization posture, QMD hygiene, and cleanup actions, read `k-optim` rather than duplicating maintenance playbooks here.
 
 ## Engineering Standards (quick ref)
 
@@ -141,6 +142,6 @@ npm global prefix: `$HOME/.npmrc` → `prefix=$HOME/.npm-global` (no EACCES, no 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.4 — linked the workspace skill to `k-optim` as the dedicated optimization and cleanup posture map instead of duplicating that maintenance workflow here |
 | 2026-04-03 | [CODEX] | v2.8.3 — moved the mandatory edit reminder directly under the H1 so the skill conforms to the shared structural guard |
-| 2026-04-03 | [CODEX] | v2.8.2 — added an explicit source-of-truth note so agent-specific hook/config details stay in the dedicated runtime skills and `k-hook`, not duplicated here |
-| [SUMMARY] | — | v2.8.1 normalized remaining paths to `$HOME`, kept runtime inventory source-of-truth oriented, and condensed the changelog to the standard footer format; v2.8.0 clean suite and VSCode cleanup targets; v2.7.0 `.kshrc` No Bloat Rule; v2.6.0 routing rule `$HOME/Work/` = code only plus XDG folders; v2.5.0 Tailscale table; v2.4.0 MANDATORY+tutos_live; v2.3.0 +powerpoint; v2.0.0 refonte; v1.0.0 init |
+| [SUMMARY] | — | v2.8.3–v1.0.0 kept runtime inventory source-of-truth oriented, normalized paths to `$HOME`, documented the cleanup suite, `.kshrc` discipline, routing rules, Tailscale, CLI tooling, and the broader workspace baseline |

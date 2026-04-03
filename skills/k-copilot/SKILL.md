@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.4.1"
   scope: agent-runtime
   target-agent: copilot
 allowed-tools: Bash, Read, Write, Edit
@@ -66,6 +66,6 @@ Do not list installed MCPs here; read `$HOME/.copilot/mcp-config.json` directly.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.4.1 — removed the last hardcoded home-path wording from the changelog summary of the earlier normalization pass |
 | 2026-04-03 | [CODEX] | v1.4.0 — tightened the skill around source-of-truth paths and removed the last wording that encouraged a live MCP inventory here |
-| 2026-04-03 | [CLAUDE] | v1.3.0 — all ~ → $HOME; /home/kpihx → $HOME; removed dup Project Context (→AGENTS.md) |
-| [SUMMARY] | — | v1.2.1 standardized name to `k-copilot`; v1.2.0 Runtime Context+config.json; v1.1.0 MCP format; v1.0.0 extracted from agents/ |
+| [SUMMARY] | — | v1.3.0 normalized all home-path references to `$HOME` and removed duplicated project context; v1.2.1 standardized name to `k-copilot`; v1.2.0 Runtime Context+config.json; v1.1.0 MCP format; v1.0.0 extracted from agents/ |

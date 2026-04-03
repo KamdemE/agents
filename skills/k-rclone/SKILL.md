@@ -4,7 +4,7 @@ description: KπX rclone — Google Drive remote setup (OAuth flow), systemd use
 license: private
 metadata:
   author: KpihX
-  version: "1.0.2"
+  version: "1.0.3"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -129,6 +129,6 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.0.3 — normalized the bundled systemd service template away from hardcoded home paths by using user-home-safe path specifiers |
 | 2026-04-03 | [CODEX] | v1.0.2 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
-| 2026-03-31 | [CLAUDE] | v1.0.1 — templates/ → assets/ (skill-creator standard) |
-| [SUMMARY] | — | v1.0.0 created the remotes table, Google Drive OAuth flow, mount flags, systemd template ref, and post-setup checklist |
+| [SUMMARY] | — | v1.0.1 moved `templates/` to `assets/`; v1.0.0 created the remotes table, Google Drive OAuth flow, mount flags, systemd template ref, and post-setup checklist |

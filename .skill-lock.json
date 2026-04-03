@@ -160,6 +160,13 @@
       "installedAt": "2026-04-03T15:19:00.000Z",
       "updatedAt": "2026-04-03T15:19:00.000Z"
     },
+    "k-optim": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-optim/SKILL.md",
+      "installedAt": "2026-04-03T17:07:54.000Z",
+      "updatedAt": "2026-04-03T17:07:54.000Z"
+    },
       "k-skill-creator": {
         "source": "local",
         "sourceType": "local",

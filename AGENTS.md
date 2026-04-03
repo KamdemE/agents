@@ -66,6 +66,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-ai` ($HOME/.agents/skills/k-ai/) | k-ai runtime memory and operating notes |
 | `k-qmd` ($HOME/.agents/skills/k-qmd/) | Before any QMD search, KB lookup, or local markdown retrieval |
 | `k-skill-creator` ($HOME/.agents/skills/k-skill-creator/) | Creating, standardizing, auditing, or evaluating any skill |
+| `k-optim` ($HOME/.agents/skills/k-optim/) | Optimization audits for `.agents/`, QMD hygiene, and Ubuntu cleanup workflows |
 
 ## External Template Directories
 

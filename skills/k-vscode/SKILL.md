@@ -4,7 +4,7 @@ description: "KπX VSCode ecosystem — profiles, settings, extension registry, 
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.0.0"
+  version: "3.0.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -119,13 +119,13 @@ Prefer these references for quick inspection; use the real files under `$HOME/.c
 
 - No broken symlinks were found under `$HOME/.agents/skills/*/references/` during the 2026-04-03 audit
 - `k-vscode/references/` now points to `general.code-profile` instead of the old `default.code-profile`
-- The stray workspace association `file:///home/kpihx/%24HOME` was removed from `storage.json`
+- The stray `%24HOME`-escaped workspace association was removed from `storage.json`
 - At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v3.0.1 — removed the last hardcoded home-path wording from the conformity notes by describing the cleaned `%24HOME`-escaped workspace entry generically |
 | 2026-04-03 | [CODEX] | v3.0.0 — full rewrite: made the skill uniform and stable, removed volatile inventories, focused documentation on source-of-truth paths, added a proper references section, and recorded the cleaned VSCode state |
-| 2026-04-03 | [CODEX] | v2.3.0 — added reusable scripts for profile-registry updates and extensions.json generation; refreshed doc to match the real profile state (no per-profile settings overrides) and recorded the current VSCode conformity audit |
-| [SUMMARY] | — | v2.2.1 fixed YAML frontmatter + `general.code-profile`; v2.2.0 custom main profile renamed to `General`; v2.1.1 post-migration verification; v2.0.0 full rewrite by Claude; v1.0.0 initial skill |
+| [SUMMARY] | — | v3.0.0–v1.0.0 covered the compact rewrite, profile-registry scripts, `General` profile rename, post-migration verification, YAML repair, and the original VSCode skill bootstrap |
