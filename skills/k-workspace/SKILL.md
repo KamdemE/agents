@@ -66,20 +66,19 @@ $HOME/.zshenv    deliberately DOES NOT source .kshrc (security: fires for untrus
 ### `.kshrc` Discipline — No Bloat Rule
 
 > **`.kshrc` = hub, not a function library.** Keep it thin: env vars, PATH, and `source` calls only.
-> Any non-trivial function or tool-specific logic → its own `$HOME/Work/sh/<tool>.sh`, sourced from `.kshrc`.
+> Any non-trivial function or tool-specific logic should live in a real project or installable tool, not inline in `.kshrc`.
 
 **Pattern:**
 ```bash
-# .kshrc — one-liner per tool
-[ -f "$HOME/Work/sh/ollama.sh" ] && source "$HOME/Work/sh/ollama.sh"
-[ -f "$HOME/Work/sh/myapp.sh"  ] && source "$HOME/Work/sh/myapp.sh"
+# .kshrc — env and PATH only
+export OLLAMA_HOST="http://localhost:11434"
+export OLLAMA_URL="$OLLAMA_HOST"
 ```
 
 **Rules:**
-- Each `Work/sh/<tool>.sh` owns its functions, local vars (prefixed `_TOOL_*`), and comments
-- Guard with `[ -f ... ] && source` — silent no-op if missing
-- Template for new tools: `$HOME/.agents/skills/k-ollama/assets/ollama.sh` (reference pattern)
-- Existing scripts in `Work/sh/`: `backup_workstation.sh`, `clean_system.sh`, `workspace-scan.sh`, `ollama.sh`
+- Prefer installable CLIs (`uv tool`, `bun link`, packages) over sourced shell helper files
+- Keep `.kshrc` focused on env vars, PATH, and genuinely global shell behavior
+- Ollama backend orchestration now lives in `$HOME/Work/AI/ollama/ipex`, not in `$HOME/Work/sh/`
 
 ## MCP Ecosystem
 

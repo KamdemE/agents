@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.19.0"
+  version: "2.22.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -35,12 +35,13 @@ allowed-tools: "Bash(*), *"
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs |
 | **Centralized Hooks** | ✅ lean per-turn reminder, `SKILL.md` write guard, delayed finalization, hooks audit rolled out | maintain via `make audit` |
 | **Optimization map** | ✅ `k-optim` v1.6.0 — home media dirs policy added; Downloads/Documents/Pictures emptied; wine.md migrated to tutos_live | maintain; log future cleanup actions |
-| **QMD post-commit hygiene** | ✅ non-blocking hook pattern propagated | watch for future repos still using blocking embed-on-commit |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools |
 | **$HOME/.agents/ refonte** | ✅ normalized, committed, and pushed | maintain and avoid drift |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | see `references/agentic-architecture-brainstorm.md` |
 | **OpenClaw** | skills fixed (rsync copies), exec-approvals ask=always | file-edit approval gates (if OpenClaw adds support) |
-| **DXO internship** | ✅ Accepted — "Stage Image Research" | Starts summer 2026 |
+| **bw-env refactor** | ✅ install.sh + purge.sh written + sandbox-tested; .agent/→.agents/ migration done | commit + `make push` |
+| **ollama-ipex** | ✅ same-endpoint native/IPEX switch validated on `127.0.0.1:11434`; editable `uv tool` CLI ready | create remotes, push, and keep `ollama` commands backend-agnostic |
+| **[ARCHIVE]** | Stable/completed items condensed | QMD post-commit hygiene stable; DXO internship accepted |
 
 ## Session Log
 
@@ -50,16 +51,16 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.22.0 — `ollama-ipex` now switches native/IPEX on the shared `11434` endpoint; editable CLI, verbose phase output, and plain `ollama ...` validation completed |
+| 2026-04-04 | [CLAUDE] | v2.21.0 — bw-env: .agent/→.agents/ migration; install.sh + purge.sh sandbox-validated; Makefile + README + .gitignore updated |
+| 2026-04-04 | [CLAUDE] | v2.20.0 — bw-env install.sh written: bw CLI auto-install, install path prompt, .env config, systemd sync daemon, GUI tray optional, -y flag |
 | 2026-04-04 | [CLAUDE] | v2.19.0 — home media cleanup: Downloads/Documents/Pictures emptied; wine.md migrated to tutos_live; k-optim v1.6.0 with Home Media Directories section |
 | 2026-04-03 | [CLAUDE] | v2.18.0 — home debris cleanup (22 entries, ~1.3GB); hooks audit: skill_edit_guard:129 fixed, settings.json PreToolUse indentation fixed; k-optim v1.5.0 |
 | 2026-04-03 | [CLAUDE] | v2.17.0 — AGENTS.md cleaned (6 redundancies); k-optim v1.4.0 (max-7 LKS rule, Meta/Ubuntu/Homelab scope, load-before-optim standard) |
 | 2026-04-03 | [CODEX] | v2.16.10 — aligned session-log guard: `[SUMMARY]` optional until 10-entry limit |
 | 2026-04-03 | [CODEX] | v2.16.8 — k-optim: proactive AI history cleanup suggestion with KπX approval gate |
 | 2026-04-03 | [CODEX] | v2.16.7 — explicit history/session pointers added to runtime skills; low-token doc rule added to k-optim |
-| 2026-04-03 | [CODEX] | v2.16.6 — k-hook and runtime skills compacted; hook docs point to hooks/README.md |
-| 2026-04-03 | [CODEX] | v2.16.5 — removed pycache artifacts; cleaned stale audit-path wording |
-| 2026-04-03 | [CODEX] | v2.16.4 — fixed stale Claude/Codex write-guard inversion in k-hook |
-| [SUMMARY] | — | v2.16.3–v2.16.0: audit entrypoint moved, dead Codex PreToolUse path removed, lean hook architecture rollout |
+| [SUMMARY] | — | v2.16.6–v2.16.0: audit entrypoint moved, dead Codex PreToolUse path removed, lean hook architecture rollout |
 
 ## References
 
@@ -69,6 +70,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.19.0 — session log + Active Projects updated for home media cleanup + k-optim v1.6.0 |
-| 2026-04-03 | [CLAUDE] | v2.18.0 — session log + Active Projects updated for home cleanup + hooks fixes |
-| [SUMMARY] | — | v1.0.0–v2.17.0: prior session-log maintenance and historical entries condensed. |
+| 2026-04-04 | [CODEX] | v2.22.0 — session log + Active Projects updated for the `ollama-ipex` same-endpoint control-plane validation and packaging work |
+| 2026-04-04 | [CLAUDE] | v2.21.0 — session log + Active Projects updated for bw-env .agents/ migration |
+| [SUMMARY] | — | v1.0.0–v2.20.0: prior session-log maintenance and historical entries condensed. |
