@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -30,9 +30,18 @@ Both must expose the same endpoint: `http://127.0.0.1:11434`
 ### Control Plane
 
 - Project: `$HOME/Work/AI/ollama/ipex`
+- Repo: `https://github.com/KpihX/ollama-ipex` · `https://gitlab.com/kpihx/ollama-ipex`
 - Config: `$HOME/Work/AI/ollama/ipex/src/ipex/config.yaml`
 - Compose: `$HOME/Work/AI/ollama/ipex/docker-compose.yml`
+- Project AGENTS: `$HOME/Work/AI/ollama/ipex/AGENTS.md`
 - CLI: `ollama-ipex ...` and `ipex ...` after `uv tool install --editable $HOME/Work/AI/ollama/ipex`
+
+### Around This Project
+
+- `$HOME/Work/AI/ollama/ipex/` — source of truth: CLI, config, compose, docs, packaging
+- `$HOME/Work/AI/ollama/sh/` — neighboring shell area only; do not move orchestration back there
+- `$HOME/.ollama-ipex/` — IPEX model store
+- `/usr/share/ollama/.ollama/` — native/system Ollama store
 
 Use the control plane only to switch/inspect the backend:
 ```bash
@@ -75,6 +84,7 @@ ollama run phi4-mini:latest
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.9.0 — pointed the skill to the finalized `Work/AI/ollama/ipex` repo, added GitHub/GitLab URLs, surfaced the project-level `AGENTS.md`, and summarized the surrounding Ollama directories and stores |
 | 2026-04-04 | [CODEX] | v1.8.0 — live-validated the same-endpoint switch on `127.0.0.1:11434`, kept plain `ollama ...` as the model-facing interface, and documented both `ollama-ipex` and `ipex` as control-plane entrypoints |
-| 2026-04-04 | [CODEX] | v1.7.0 — removed the old shell/proxy workflow, pointed to the installable `ollama-ipex` control plane project, and clarified that plain `ollama ...` remains the single model-facing interface on port 11434 |
-| [SUMMARY] | — | v1.6.2–v1.0.0 covered the legacy proxy/wrapper era, IPEX move into `$HOME/Work/AI/ollama/ipex`, preload guidance, single-port redesign, and the initial GPU/IPEX setup history |
+| 2026-04-04 | [CODEX] | v1.8.0 — live-validated the same-endpoint switch on `127.0.0.1:11434`, kept plain `ollama ...` as the model-facing interface, and documented both `ollama-ipex` and `ipex` as control-plane entrypoints |
+| [SUMMARY] | — | v1.7.0–v1.0.0 covered the legacy proxy/wrapper era, the move into `$HOME/Work/AI/ollama/ipex`, preload guidance, single-port redesign, and the initial GPU/IPEX setup history |
