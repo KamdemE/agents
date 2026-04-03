@@ -114,8 +114,8 @@ Next:
 | `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` | `agent:bootstrap` |
 | `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — current OpenClaw surface has no clean per-turn text-injection event |
 | `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — same reason as `prompt_injector.py` |
-| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired in practice — current Codex config only matches `Bash`, so there is no structured file-edit event to guard | `message:sent` advisory when `filePath` is present |
-| `skill_edit_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired in practice — same Codex limitation as `path_guard.py` | `message:sent` advisory when `filePath` is present |
+| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `message:sent` advisory when `filePath` is present |
+| `skill_edit_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — same Codex limitation as `path_guard.py` | `message:sent` advisory when `filePath` is present |
 | `response_validator.py` | `AfterAgent` | `Stop` | `Stop` | not wired — current OpenClaw surface is advisory/bootstrap-oriented and has no final-answer blocking hook here |
 | `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block | `command:stop` advisory |
 
@@ -123,25 +123,13 @@ Next:
 
 ### Codex Write Guards
 
-Current deployed Codex config matches only:
-
-```json
-"PreToolUse": [
-  {
-    "matcher": "Bash",
-    "hooks": [
-      { "command": "python3 $HOME/.agents/hooks/codex/pre_tool_use.py" }
-    ]
-  }
-]
-```
-
-So even though `codex/pre_tool_use.py` is now ready for structured write tools, the live runtime does not currently expose them through this matcher.
+Current deployed Codex setup does not expose a usable structured file-edit hook surface for this guard layer.
 
 Practical consequence:
 
 - `path_guard.py` and `skill_edit_guard.py` are fully active on Gemini and Claude
-- they are only future-ready on Codex until the runtime exposes a real file-edit hook surface
+- they are intentionally not wired on Codex instead of pretending to protect `Bash`
+- `hooks/codex/pre_tool_use.py` is kept only as a no-op compatibility shim for already-running Codex sessions or stale copied hook configs
 
 ### OpenClaw Enforcement
 

@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.0"
+  version: "2.10.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -66,7 +66,6 @@ $HOME/.agents/hooks/
 ├── codex/
 │   ├── session_start.py
 │   ├── user_prompt_submit.py
-│   ├── pre_tool_use.py
 │   ├── stop.py
 │   └── hooks.json
 ├── claude/
@@ -131,7 +130,7 @@ $HOME/.agents/hooks/
 |--------|--------|-------|--------|----------|
 | Startup context | `SessionStart` | `SessionStart` | `SessionStart` | `agent:bootstrap` |
 | Dynamic context + reminder | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | — |
-| Write/path/skill guard | `BeforeTool` | `PreToolUse` (only if structured edit tools exist) | `PreToolUse` | `message:sent` advisory |
+| Write/path/skill guard | `BeforeTool` | `PreToolUse` | — not wired in current Codex setup | `message:sent` advisory |
 | Response validation | `AfterAgent` | `Stop` | `Stop` | — |
 | Finalization reminder | `SessionEnd` | `Stop` | `SessionEnd` and `Stop` | `command:stop` advisory |
 
@@ -150,9 +149,9 @@ $HOME/.agents/hooks/
 - the per-turn reminder is intentionally short and only points to `AGENTS.md`
 - Codex is strict about wrapper envelopes:
   - `SessionStart` and `UserPromptSubmit` inject text under `hookSpecificOutput.additionalContext`
-  - `PreToolUse` and `Stop` blocks require a non-empty root `reason`
-  - `PreToolUse` hard blocks also need that reason on stderr when exiting `2`
-- when a runtime schema changes, update the wrapper first, then this skill, then the matching runtime skill
+    - `Stop` blocks require a non-empty root `reason`
+  - Codex `.agents/` write guards are intentionally absent until the runtime exposes structured file-edit events worth guarding
+  - when a runtime schema changes, update the wrapper first, then this skill, then the matching runtime skill
 
 ## Recheck
 
@@ -164,6 +163,6 @@ $HOME/.agents/hooks/
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.10.0 — removed the dead Codex `PreToolUse` path from the architectural map, clarified that Codex write guards are intentionally unwired in the current setup, and kept the runtime matrix aligned with the deployed hook config |
 | 2026-04-03 | [CODEX] | v2.9.0 — added `$HOME/.agents/hooks/README.md` as the synthetic checker/runtime map with concrete runtime examples and explicit “not implemented” justifications per agent |
-| 2026-04-03 | [CODEX] | v2.8.0 — documented the new `skill_edit_guard.py`, clarified that per-turn reminders now stay minimal and point back to `AGENTS.md`, and updated the runtime map so write-time enforcement is centered on real file edits instead of shell policing |
-| [SUMMARY] | — | v2.8.0–v2.0.0: `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.9.0–v2.0.0: `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

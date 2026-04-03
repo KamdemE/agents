@@ -130,7 +130,7 @@ def _check_codex() -> list[str]:
         return findings
     data = json.loads(CODEX_HOOKS.read_text(encoding="utf-8"))
     findings.extend(_check_json_hook_commands(CODEX_HOOKS, data.get("hooks", {})))
-    for expected in ("SessionStart", "UserPromptSubmit", "PreToolUse", "Stop"):
+    for expected in ("SessionStart", "UserPromptSubmit", "Stop"):
         if expected not in data.get("hooks", {}):
             findings.append(f"{_display(CODEX_HOOKS)}: missing expected Codex hook `{expected}`.")
     return findings

@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.16.1"
+  version: "2.16.2"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -33,7 +33,7 @@ allowed-tools: "Bash(*), *"
 | Project | Status | Next |
 |---------|--------|------|
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs |
-| **Centralized Hooks** | ✅ lean per-turn reminder, `SKILL.md` write guard, delayed finalization, and multi-agent wrapper sync rolled out | maintain via `make audit` and runtime smoke checks after schema changes |
+| **Centralized Hooks** | ✅ lean per-turn reminder, `SKILL.md` write guard, delayed finalization, multi-agent wrapper sync, and dead Codex `PreToolUse` removal rolled out | maintain via `make audit` and runtime smoke checks after schema changes |
 | **Optimization map** | ✅ `k-optim` created for `.agents/`, QMD, and Ubuntu cleanup posture | extend Homelab section when the server side is formalized |
 | **QMD post-commit hygiene** | ✅ non-blocking hook pattern propagated to templates and active Work repos | watch for future repos still using blocking embed-on-commit |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools |
@@ -45,9 +45,9 @@ allowed-tools: "Bash(*), *"
 ## Session Log
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-03 | [CODEX] | v2.16.2 — removed the dead Codex `PreToolUse` path from the deployed hook config, aligned Claude `PreToolUse` to real write tools only, updated the OpenClaw path-guard manifest, and cleaned `.agents/` runtime artifacts and desyncs. |
 | 2026-04-03 | [CODEX] | v2.16.1 — added `hooks/README.md`, synchronized `k-hook` to point to it, and documented explicitly where each checker is really wired versus merely future-ready or advisory. |
-| 2026-04-03 | [CODEX] | v2.16.0 — refactored the hook stack around a minimal AGENTS pointer reminder, a real `SKILL.md` write-time guard, delayed `.agents/` finalization, synchronized Gemini/Claude/Codex/OpenClaw wrappers, and removed the now-completed `Implement Agent Hooks` TODO. |
-| [SUMMARY] | — | 2026-04-03 v2.15.6–v2.8.8: shorter `skill_watcher` path reminder, `k-optim` AGENTS↔hooks sync reminder, session-guard formatting cleanup, `settings.py` readability polish, workspace drift cleanup, safe runtime-config normalization to `$HOME`, multi-agent wrapper conformity pass, centralized hook feature flags, Codex hook wire-contract fix, non-blocking QMD post-commit propagation, `k-optim`, QMD collection hygiene, hook rollout completion, audit hardening, final legacy cleanup, dynamic-context enrichment, and VSCode/profile work. 2026-04-02 v2.8.4–v2.8.1: Codex/Ollama timeout and warmup diagnosis and fixes. 2026-04-01 v2.8.0–v2.3.0: Project Sovereignty docs, hook modularization, centralized hook manager, and cleanup. 2026-03-29 and earlier: `.agents/` refonte, k-* skill standardization, qmd integration, OpenClaw/Codex skill sync, and earlier session history condensed. |
+| [SUMMARY] | — | 2026-04-03 v2.16.0–v2.8.8: lean hook architecture, `skill_edit_guard.py`, delayed `.agents/` finalization, runtime-skill doc sync, completed `Implement Agent Hooks`, shorter `skill_watcher` path reminder, `k-optim` AGENTS↔hooks sync reminder, session-guard formatting cleanup, `settings.py` readability polish, workspace drift cleanup, safe runtime-config normalization to `$HOME`, multi-agent wrapper conformity pass, centralized hook feature flags, Codex hook wire-contract fix, non-blocking QMD post-commit propagation, `k-optim`, QMD collection hygiene, hook rollout completion, audit hardening, final legacy cleanup, dynamic-context enrichment, and VSCode/profile work. 2026-04-02 v2.8.4–v2.8.1: Codex/Ollama timeout and warmup diagnosis and fixes. 2026-04-01 v2.8.0–v2.3.0: Project Sovereignty docs, hook modularization, centralized hook manager, and cleanup. 2026-03-29 and earlier: `.agents/` refonte, k-* skill standardization, qmd integration, OpenClaw/Codex skill sync, and earlier session history condensed. |
 
 ## References
 
@@ -57,6 +57,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.16.2 — session log updated for the Codex `PreToolUse` cleanup, the Claude matcher alignment, the OpenClaw path-guard manifest sync, and the `.agents/` artifact/desync cleanup |
 | 2026-04-03 | [CODEX] | v2.16.1 — session log updated for the new `hooks/README.md`, the `k-hook` sync around that map, and the explicit documentation of unsupported or advisory checker/runtime combinations. |
-| 2026-04-03 | [CODEX] | v2.16.0 — session log updated for the leaner hook architecture, the new `skill_edit_guard.py`, the delayed `.agents/` finalization guard, the runtime-skill doc synchronization, and the completion of the `Implement Agent Hooks` TODO |
-| [SUMMARY] | — | v1.0.0–v2.15.6: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined `max 2 + [SUMMARY]` format. |
+| [SUMMARY] | — | v1.0.0–v2.16.0: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined `max 2 + [SUMMARY]` format. |

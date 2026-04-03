@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.8.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -43,17 +43,17 @@ Codex hook logic lives in `$HOME/.agents/hooks/codex/`; the deployed runtime ent
 |------|---------|
 | `SessionStart` | `$HOME/.agents/hooks/codex/session_start.py` |
 | `UserPromptSubmit` | `$HOME/.agents/hooks/codex/user_prompt_submit.py` |
-| `PreToolUse` | `$HOME/.agents/hooks/codex/pre_tool_use.py` |
 | `Stop` | `$HOME/.agents/hooks/codex/stop.py` |
 
 - `features.codex_hooks = true` in `$HOME/.codex/config.toml` is mandatory
 - Codex expects runtime-specific JSON envelopes; do not return ad hoc root keys
 - `SessionStart` must return `hookSpecificOutput.hookEventName = "SessionStart"` plus `hookSpecificOutput.additionalContext`; `systemMessage` stays separate
 - `UserPromptSubmit` must return `hookSpecificOutput.hookEventName = "UserPromptSubmit"` plus `hookSpecificOutput.additionalContext`
-- blocking hooks such as `PreToolUse` and `Stop` must emit a non-empty block reason; `PreToolUse` hard blocks also need the same reason on stderr
+- blocking hooks such as `Stop` must emit a non-empty block reason
 - `UserPromptSubmit` now injects only the dynamic context plus a compact AGENTS pointer reminder
 - `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
-- `PreToolUse` only matters if Codex exposes structured file-edit tools; the shell path guard has been removed on purpose
+- `.agents/` write guards are intentionally not wired on Codex in this setup because the exposed hook surface is not a real structured file-edit event
+- `hooks/codex/pre_tool_use.py` remains only as a no-op compatibility shim for already-running Codex sessions or stale copied hook configs
 - dirty `.agents/` finalization is delayed until the configured grace window has elapsed
 
 ## MCP Config Format (Codex — TOML)
@@ -105,6 +105,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.0 — removed the unused Codex `PreToolUse` wrapper from the deployed wiring and documented explicitly that `.agents/` write guards are not wired on Codex until the runtime exposes a real structured file-edit hook surface |
 | 2026-04-03 | [CODEX] | v2.7.0 — updated Codex hook behavior notes for the lighter per-turn reminder, the removal of shell path policing from `PreToolUse`, and the delayed `.agents/` finalization reminder |
-| 2026-04-03 | [CODEX] | v2.6.0 — documented the actual Codex hook payload contract (`hookSpecificOutput.additionalContext`, block reasons, stderr requirement for hard blocks) and aligned the wrapper docs with the runtime schema Codex really validates |
-| [SUMMARY] | — | v2.6.0–v2.0.0: Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
+| [SUMMARY] | — | v2.7.0–v2.0.0: delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |

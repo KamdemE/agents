@@ -16,25 +16,13 @@
     "UserPromptSubmit": [
       {
         "hooks": [
-          {
-            "type": "command",
-            "command": "python3 $HOME/.agents/hooks/codex/user_prompt_submit.py CODEX",
-            "statusMessage": "Injecting rules reminder"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 $HOME/.agents/hooks/codex/pre_tool_use.py",
-            "statusMessage": "Checking path rules"
-          }
-        ]
-      }
+            {
+              "type": "command",
+              "command": "python3 $HOME/.agents/hooks/codex/user_prompt_submit.py CODEX",
+              "statusMessage": "Injecting AGENTS reminder"
+            }
+          ]
+        }
     ],
     "Stop": [
       {

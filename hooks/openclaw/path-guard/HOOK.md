@@ -11,9 +11,10 @@ metadata:
 # Hook: path-guard
 
 Fires on `message:sent`. If the event includes a target file path, calls
-`core/path_guard.py` against the message content with that path. If
-violations are found for a file inside `$HOME/.agents/`, returns a warning
-`systemMessage` so the agent can self-correct on its next turn.
+`core/path_guard.py` and `core/skill_edit_guard.py` against the message
+content with that path. If violations are found for a file inside
+`$HOME/.agents/`, returns a warning `systemMessage` so the agent can
+self-correct on its next turn.
 
 ## Input
 ```json
@@ -22,7 +23,7 @@ violations are found for a file inside `$HOME/.agents/`, returns a warning
 
 ## Output (violation found)
 ```json
-{ "systemMessage": "⚠️ PATH GUARD: ..." }
+{ "systemMessage": "⚠️ FILE GUARD: ..." }
 ```
 
 ## Output (clean)
