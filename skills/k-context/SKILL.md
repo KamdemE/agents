@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.16.10"
+  version: "2.16.11"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -14,10 +14,7 @@ allowed-tools: "Bash(*), *"
 
 > HOT — load at every session start.
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
-> **RESPONSE FOOTER:** At the end of every message, agents MUST follow the AGENTS-defined footer order: `Commentaires/Comments`, `Remarques/Remarks`, `TODOs`, then at least 3 proactive suggestions.
 > TODOs: only KπX adds; agents execute + remove.
-> Projects: max 10 active — condense completed/stale into a fixed-width `[ARCHIVE]` row when full.
-> Log: max 10 entries, newest-first — condense oldest into `[SUMMARY]` when full.
 > **Brainstorms & research:** `references/` — load on demand for deep context.
 > **Visual reference asset:** `assets/mac-studio-m4-max-config.png` — current Project Sovereignty hardware target snapshot.
 
@@ -72,6 +69,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.16.11 — removed duplicated global reminders from the top of `k-context` so response-structure and log-limit rules now live only in `AGENTS.md` and directly above the local sections that use them |
 | 2026-04-03 | [CODEX] | v2.16.10 — expanded the oversized session-log summary into real entries up to the intended 10-entry capacity and aligned the structure guard so `[SUMMARY]` is no longer required before that limit |
-| 2026-04-03 | [CODEX] | v2.16.9 — made the `Active Projects` and `Session Log` limits explicit both in `AGENTS.md` and directly above the corresponding sections, and removed the premature oversized session-log summary row |
-| [SUMMARY] | — | v1.0.0–v2.16.8: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined limits. |
+| [SUMMARY] | — | v1.0.0–v2.16.9: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined limits. |
