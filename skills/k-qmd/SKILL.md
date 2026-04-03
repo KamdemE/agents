@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.8.0"
+  version: "2.8.1"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -98,12 +98,12 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 - `references/mcp-setup.md` — full installation, config, and CLI/MCP usage details
 - `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
-- `references/post-commit-hook.sh` — example git hook to keep a collection fresh
+- `references/post-commit-hook.sh` — example git hook to refresh a collection synchronously and launch embeddings in the background without blocking commits
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.1 — updated the bundled post-commit hook reference to the non-blocking pattern: collection-scoped `update`, deduplicated background `embed`, and explicit log location |
 | 2026-04-03 | [CODEX] | v2.8.0 — rewrote the skill into a compact source-of-truth map, kept the collection map visible, and moved volatile setup/command detail behind references instead of embedding large live-like inventories in the skill body |
-| 2026-04-03 | [CODEX] | v2.7.0 — renamed the skill to `k-qmd` and aligned its identity with the KπX `k-*` convention while keeping the `qmd` CLI/MCP runtime unchanged |
-| [SUMMARY] | — | v2.6.0 description rewrite with explicit trigger conditions; v2.0.0–v2.5.0 install, masks, YAML config, update-cmd, query docs, collection scoping, gitignore template, and embed hygiene were documented before this compaction |
+| [SUMMARY] | — | v2.8.0–v2.0.0 covered the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |

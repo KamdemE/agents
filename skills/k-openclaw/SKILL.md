@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.1"
+  version: "1.7.2"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -83,11 +83,12 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 - restart the gateway after `openclaw.json` changes: `openclaw gateway --force`
 - skill reload happens from the OpenClaw side without needing a gateway restart after skill sync
 - Google provider: use the API-key-backed `google` provider, not `google-gemini-cli`
+- for shared optimization posture, `.agents/` hygiene, and QMD cleanup rules, load `k-optim` instead of duplicating that maintenance playbook here
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.7.2 — added an explicit pointer to `k-optim` for shared optimization and QMD hygiene so this runtime skill stays focused on OpenClaw-specific mechanics |
 | 2026-04-03 | [CODEX] | v1.7.1 — documented that skill renames require explicit stale-copy cleanup in the OpenClaw workspace to avoid duplicate indexing and runtime drift |
-| 2026-04-03 | [CODEX] | v1.7.0 — rewrote the skill into a compact source-of-truth map, kept the OpenClaw-specific root/sync/hook rules, and removed the large inline layout/config snapshot in favor of direct pointers to the real runtime files |
-| [SUMMARY] | — | v1.6.0–v1.0.0 documented hook discovery, workspace-root, provider, approvals, rename, and MCP/runtime guidance, with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.7.1–v1.0.0 documented stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |

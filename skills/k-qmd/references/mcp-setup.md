@@ -93,6 +93,9 @@ Copy the template and customize:
 ```bash
 cp $HOME/.agents/skills/k-qmd/references/post-commit-hook.sh .git/hooks/post-commit
 # Edit COLLECTION and PATTERN variables inside
+# The template runs `qmd update <collection>` synchronously, then starts
+# `qmd embed <collection>` in the background only if no embed for that
+# collection is already running.
 chmod +x .git/hooks/post-commit
 ```
 

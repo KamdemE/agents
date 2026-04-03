@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.1.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -35,6 +35,7 @@ allowed-tools: Bash, Read, Write, Edit
 | QMD declarative config | `$HOME/.config/qmd/index.yml` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
+| Homelab maintenance scripts | `$HOME/Work/Homelab/sh/` |
 
 ## Meta
 
@@ -101,16 +102,29 @@ allowed-tools: Bash, Read, Write, Edit
 
 ### Last Known State
 
-- pending
+- the operational homelab maintenance scripts live in `$HOME/Work/Homelab/sh/`
+- `maintenance.sh` is the weekly server-side maintenance routine: apt update/upgrade/autoremove/autoclean, Docker prune inside container `100`, Telegram notifications, then reboot
+- `backup_homelab.sh` is the client-side backup routine: SSH pull from `/var/lib/vz/dump`, local HDD mirror and rotation, then upload only the latest archive to `gdrive-x:Backup_Homelab`
+- the broader maintenance rationale and schedule are also documented in `$HOME/Work/Homelab/presentation/tutos_live/security/1-sauvegarde-maintenance-321.md` and `$HOME/Work/Homelab/presentation/tutos_live/security/2-automatisation-watchtower.md`
 
 ### Actions
 
-- pending
+1. Re-read the real scripts before acting:
+   - `maintenance.sh` for server cleanup/reboot behavior
+   - `backup_homelab.sh` for backup destinations, retention, and notification flow
+2. For documentation or architectural context:
+   - use the `presentation` QMD collection or read the two security guides directly
+3. Treat homelab optimization as two separate lanes:
+   - server-side maintenance and Docker hygiene
+   - client-side backup verification and storage rotation
+4. If you change the maintenance rhythm or backup workflow:
+   - update `k-homelab` and `k-optim`
+   - recheck whether the presentation docs have drifted from the scripts
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.1.0 — added the first real Homelab section using the live maintenance and backup scripts under `$HOME/Work/Homelab/sh/`, plus the presentation security docs as the documentation companion source |
 | 2026-04-03 | [CODEX] | v1.0.1 — normalized the last lingering path wording to `$HOME` so the new skill fully respects the `.agents/` no-tilde generalization rule |
-| 2026-04-03 | [CODEX] | v1.0.0 — created the optimization skill as a compact state-and-actions map for `.agents/` governance hygiene, QMD cleanliness, and Ubuntu cleanup workflows, with the Ubuntu section grounded in the real scripts under `$HOME/Work/sh/clean/` |
-| [SUMMARY] | — | Initial version |
+| [SUMMARY] | — | v1.0.1–v1.0.0 established the initial `.agents/`, QMD, and Ubuntu optimization map and normalized paths to the `$HOME` standard |

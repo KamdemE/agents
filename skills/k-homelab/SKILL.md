@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.1"
+  version: "1.6.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -71,10 +71,15 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
   - **`templates/`** — Ready-to-use config files for all homelab services: Docker Compose YAMLs + `.env` examples (Traefik, Vaultwarden, Ollama, Tailscale, AdGuard, n8n, Postgres, Watchtower, wa-bot…), GitLab CI deploy pipelines, SSH config template
 - **`scripts/`** — utility scripts: `check_links.sh`, `check_templates.sh`, `check_tutos.sh`
 
+## Maintenance Reflex
+
+- for homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
+- keep this skill focused on homelab topology, SSH routes, projects, and the presentation knowledge base
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.6.2 — added an explicit pointer to `k-optim` for homelab maintenance and optimization posture so this skill stays focused on topology, projects, and knowledge sources |
 | 2026-04-03 | [CODEX] | v1.6.1 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
-| 2026-03-29 | [CLAUDE] | v1.6.0 — removed all n8n-personal-ops/ops-hooks mentions; n8n/ section updated to pure n8n setup |
-| [SUMMARY] | — | v1.5.0 description rewritten with explicit service list and generic-project exclusion; v1.4.0 SSH aliases table corrected from `$HOME/.ssh/config`; v1.3.0 Tailscale devices; v1.2.0 Knowledge Base rewrite; v1.1.0–v1.0.0 init |
+| [SUMMARY] | — | v1.6.1–v1.0.0 covered path normalization, n8n cleanup, service list clarification, SSH aliases, Tailscale, the knowledge-base rewrite, and the original homelab runtime baseline |

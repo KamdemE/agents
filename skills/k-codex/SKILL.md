@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.5.1"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -90,10 +90,15 @@ When working in a project under `$HOME/Work/`, check for `.agents/AGENTS.md` at 
 If found: treat it as project-specific context — architecture rules, stack, evolution rules.
 Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
+## Maintenance Reflex
+
+- for `.agents/` hygiene, QMD cleanliness, or optimization/cleanup posture, load `k-optim`
+- keep runtime-specific details here, but do not duplicate the cross-cutting maintenance playbook that now lives in `k-optim`
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.5.1 — added an explicit maintenance reflex toward `k-optim` so Codex runtime guidance does not duplicate the shared optimization and QMD hygiene playbook |
 | 2026-04-03 | [CODEX] | v2.5.0 — added the live Codex hook wiring map, documented `$HOME/.codex/hooks.json` as the deployed entrypoint, and clarified the current Stop/PreToolUse behavior |
-| 2026-04-03 | [CODEX] | v2.4.2 — normalized all paths to `$HOME`, updated the project AGENTS template path to `k-project/assets/AGENTS.md`, and condensed the changelog to the standard footer format |
-| [SUMMARY] | — | v2.4.1 standardized name to `k-codex`; v2.4.0 project-context auto-load rule; v2.3.0 config.toml anatomy + memories/rules; v2.2.0 removed old AGENTS path; v2.1.0 Copilot extracted; v2.0.0 initial |
+| [SUMMARY] | — | v2.5.0–v2.0.0 covered hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial Codex runtime baseline |
