@@ -42,6 +42,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 **External skills** — only truly external skills should remain non-prefixed. At the moment, `microsoft-foundry` is the only external skill intentionally kept as-is.
 **Reference baseline:** `k-skill-creator` is the upstream/base reference skill that KπX forks and overlays with additional governance rules. Treat it as the structural and workflow baseline for skill creation, not as an anti-pattern to "normalize away".
 **New skill install:** always `$HOME/.agents/skills/<name>/` — **MUST follow the KπX fork of the k-skill-creator standard** (valid YAML frontmatter, ⚠️ edit reminder after H1, Changelog, and the standard bundled dirs `scripts/` / `references/` / `assets/` when needed). Never install to agent-specific dirs. Never deviate from this structure without an explicit KπX-level exception.
+**Skill writing rule:** skills must stay compact and source-of-truth first. Give the minimum operational map, then point to the owning file/dir to inspect. Do not re-copy long procedures, hook matrices, inventories, or rules that already live elsewhere.
 
 | Key Skills | Load when |
 |-------|-----------|
@@ -196,6 +197,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **No live-queryable lists** — MCP lists, tool versions, collections, enabled items, runtime inventories → `!<cmd>` or "read X directly".
 - **Source-of-truth-first writing** — when something can change, name the source file or directory to inspect instead of enumerating its current contents.
 - **Concise writing** — tables/bullets over prose; one line if possible; no filler.
+- **Low-token docs** — `AGENTS.md`, `SKILL.md`, and other operational Markdown must stay compact. If a document starts restating details already owned by another source, replace that detail with a pointer to the source.
 - **Changelog:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).

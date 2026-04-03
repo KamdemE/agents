@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.7.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -84,18 +84,8 @@ Do not enumerate extensions here; read `$HOME/.gemini/extension-enablement.json`
 
 `$HOME/.gemini/settings.json` is also the source of truth for Gemini hook wiring.
 
-| Event | Wrapper |
-|------|---------|
-| `SessionStart` | `$HOME/.agents/hooks/gemini/session_start.py` |
-| `BeforeAgent` | `$HOME/.agents/hooks/gemini/before_agent.py` |
-| `AfterAgent` | `$HOME/.agents/hooks/gemini/after_agent.py` |
-| `BeforeTool` | `$HOME/.agents/hooks/gemini/before_tool.py` |
-| `SessionEnd` | `$HOME/.agents/hooks/gemini/session_end.py` |
-
-- `BeforeAgent` injects only the dynamic context plus a compact AGENTS pointer reminder
-- `AfterAgent` enforces the final response contract
-- `BeforeTool` is scoped to real write tools and delegates `.agents/` path rules plus `SKILL.md` completion checks to core
-- `SessionEnd` is advisory and only surfaces `.agents/` finalization once the dirty state is older than the configured grace window
+- live wrappers: `session_start.py`, `before_agent.py`, `after_agent.py`, `before_tool.py`, `session_end.py`
+- exact event mapping and concrete examples live in `$HOME/.agents/hooks/README.md`
 
 ## Project Context
 
@@ -107,6 +97,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.7.0 — compacted the hooks section so this skill now points to the Gemini runtime config and `$HOME/.agents/hooks/README.md` instead of repeating the live hook behavior inline |
 | 2026-04-03 | [CODEX] | v2.6.0 — updated the Gemini hook notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
-| 2026-04-03 | [CODEX] | v2.5.0 — added the live Gemini hook wiring map from `$HOME/.gemini/settings.json` and clarified the current AfterAgent/BeforeTool/SessionEnd behavior |
-| [SUMMARY] | — | v2.5.0–v2.0.0: live hook wiring, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
+| [SUMMARY] | — | v2.6.0–v2.0.0: compact hook guidance, live hook wiring, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |

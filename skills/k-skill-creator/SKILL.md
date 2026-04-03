@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.1"
+  version: "2.3.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -31,6 +31,7 @@ Apply these KπX rules on top of the inherited baseline:
 
 - Follow `$HOME/.agents/AGENTS.md` as the normative contract for response format, changelog limits, provenance tags, and `$HOME` generalization.
 - For standard KπX skills, use `SKILL.md` at root and add `scripts/`, `references/`, and `assets/` only when they materially help.
+- Keep downstream `k-*` skills concise: present the minimum runtime/workflow map, then point to the source files or dirs to inspect for detail.
 - Keep `k-skill-creator` itself as the allowed exception that also ships upstream support dirs when needed, notably `agents/` and `eval-viewer/`.
 - When a skill is renamed, moved, or added, propagate the change to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and any impacted `k-*` references.
 
@@ -57,7 +58,7 @@ Runtime guards:
 1. Read the target skill and the relevant rules in `$HOME/.agents/AGENTS.md`.
 2. Decide whether the task is a creation, refactor, rename, audit, or eval loop.
 3. Keep the skill concise: describe where the truth lives, not volatile inventories.
-4. Mention bundled `scripts/`, `references/`, and `assets/` that matter to the workflow.
+4. Mention only the bundled `scripts/`, `references/`, and `assets/` that materially matter to the workflow.
 5. Complete the skill edit in one pass: bump `metadata.version` and update the footer changelog.
 6. If the target is `k-context`, update `## Session Log` in the same pass and review `## Active Projects` if the work changed project scope or status.
 7. If the skill changed materially, update `$HOME/.agents/skills/k-context/SKILL.md`.
@@ -112,6 +113,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.3.0 — made compact, source-of-truth-first skill writing explicit so downstream `k-*` skills point to owning files/dirs instead of duplicating long hook or workflow detail |
 | 2026-04-03 | [CODEX] | v2.2.1 — moved the governance recheck entrypoint reference to `hooks/audit.py` so the skill points to the real top-level hooks audit |
-| 2026-04-03 | [CODEX] | v2.2.0 — documented the new `skill_edit_guard.py` and made the one-pass header/footer/session-log completion rule explicit in the standard workflow |
-| [SUMMARY] | — | v2.2.0–v1.0.0: top-level hooks audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |
+| [SUMMARY] | — | v2.2.1–v1.0.0: compact skill-writing rule, top-level hooks audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |

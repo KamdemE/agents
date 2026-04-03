@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -56,17 +56,10 @@ rsync -a --delete $HOME/.agents/skills/<name>/ $HOME/.openclaw/workspace/skills/
 
 OpenClaw discovers managed hooks from `$HOME/.agents/hooks/openclaw/`, with enablement in `$HOME/.openclaw/openclaw.json`.
 
-| Hook dir | Runtime role |
-|---------|--------------|
-| `context-injector/` | startup context via `agent:bootstrap` |
-| `path-guard/` | advisory `.agents/` path + `SKILL.md` write reminder via `message:sent` |
-| `session-guard/` | advisory dirty-repo reminder via `command:stop` |
-
 - `hooks.internal.load.extraDirs` must include `$HOME/.agents/hooks/openclaw`
+- the managed hook dirs are `context-injector/`, `path-guard/`, and `session-guard/`
 - each hook dir must contain both `HOOK.md` and `handler.ts`
-- `HOOK.md` frontmatter uses `metadata.openclaw.events`
-- these hooks are advisory in the current OpenClaw lifecycle surface
-- the per-turn AGENTS reminder remains outside OpenClaw because the current hook surface only gives bootstrap and advisory file/stop events
+- exact event mapping and advisory limitations live in `$HOME/.agents/hooks/README.md`
 
 ## Exec Approvals
 
@@ -90,6 +83,6 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.9.0 — compacted the OpenClaw hook section so this skill now points to the managed hook dir and `$HOME/.agents/hooks/README.md` instead of restating the advisory runtime map inline |
 | 2026-04-03 | [CODEX] | v1.8.0 — updated the OpenClaw hook notes so `path-guard/` now reflects both advisory `.agents/` path checks and advisory `SKILL.md` completion checks while keeping the runtime explicitly advisory |
-| 2026-04-03 | [CODEX] | v1.7.2 — added an explicit pointer to `k-optim` for shared optimization and QMD hygiene so this runtime skill stays focused on OpenClaw-specific mechanics |
-| [SUMMARY] | — | v1.7.2–v1.0.0: `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.8.0–v1.0.0: compact hook guidance, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |

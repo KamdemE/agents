@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.7.0"
+  version: "2.8.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -72,25 +72,14 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 
 `$HOME/.claude/settings.json` is the source of truth for Claude hook wiring and permission policy.
 
-| Event | Wrapper |
-|------|---------|
-| `SessionStart` | `$HOME/.agents/hooks/claude/session_start.py` |
-| `UserPromptSubmit` | `$HOME/.agents/hooks/claude/user_prompt_submit.py` |
-| `PreToolUse` | `$HOME/.agents/hooks/claude/pre_tool_use.py` |
-| `Stop` | `$HOME/.agents/hooks/claude/stop.py` |
-| `SessionEnd` | `$HOME/.agents/hooks/claude/session_end.py` |
-
-- `permissions.allow/deny` are also managed in this file
-- `UserPromptSubmit` injects only the dynamic context plus a compact AGENTS pointer reminder
-- `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
-- `PreToolUse` denies incomplete `.agents/` skill edits and `.agents/` write content that violates `$HOME` / `$USER` generalization
-- `SessionEnd` is advisory and only surfaces `.agents/` finalization once the dirty state is older than the configured grace window
-- edit this file, not `$HOME/.claude.json`, when changing hooks or permissions
+- live wrappers: `session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `stop.py`, `session_end.py`
+- edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
+- exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.0 — compacted the hook section so this skill points to the real Claude runtime config and `$HOME/.agents/hooks/README.md` instead of re-describing the live wrapper behavior inline |
 | 2026-04-03 | [CODEX] | v2.7.0 — updated Claude hook behavior notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
-| 2026-04-03 | [CODEX] | v2.6.0 — replaced the stale legacy hook note with the real Claude wrapper map from `$HOME/.claude/settings.json` and documented the live Stop/PreToolUse behavior |
-| [SUMMARY] | — | v2.6.0–v2.0.0: live hook wiring, session history paths and JSONL layout, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
+| [SUMMARY] | — | v2.7.0–v2.0.0: compact hook guidance, live hook wiring, session history paths and JSONL layout, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
