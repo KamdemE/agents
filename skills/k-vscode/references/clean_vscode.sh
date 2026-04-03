@@ -1,0 +1,1 @@
+/home/kpihx/Work/sh/clean/clean_vscode.sh

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.8.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -35,7 +35,7 @@ allowed-tools: Bash(*), "*"
 | `~/Work/AI/gemini_mcps/` | Gemini Extension wrappers |
 | `~/Work/sh/bw-env/` | Bitwarden env manager — secrets in RAM via `/dev/shm` |
 | `~/Work/sh/` | Personal scripts & system tools |
-| `~/Work/sh/clean/` | Unified Cleanup Suite (systemd, Saturday 10:00) |
+| `~/Work/sh/clean/` | Unified Cleanup Suite (systemd, Saturday 10:00) — modules: snap, cache, vscode, work, docker, ai. VSCode module: `~/.config/Code/` (VSIX cache, Electron cache, logs, CachedData, WebStorage) |
 | `~/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
 | `~/Work/tutos_live/` | Ubuntu living KB — real fixes documented as they happen. Root: flat `.md` per tool/topic (bun, bw-env, qmd, tailscale, gh…). `templates/` — reusable doc templates. `mcps/` — MCP tutorials. `sh/` — shell/scripting. |
 | `~/Work/Test/` | Sandbox for new patterns |
@@ -55,13 +55,31 @@ allowed-tools: Bash(*), "*"
 ## Shell Architecture
 
 ```
-~/.kshrc     Universal Hub — secrets (bw-env), PATH, aliases, env vars (shell-agnostic)
+~/.kshrc     Universal Hub — secrets (bw-env), PATH, env vars, source calls (shell-agnostic)
 ~/.zprofile  sources .kshrc → login shells (MCPs, zsh -l, SSH, WaveTerm blocks)
 ~/.zshrc     sources .kshrc → interactive shells (terminal tabs)
 ~/.zshenv    deliberately DOES NOT source .kshrc (security: fires for untrusted scripts)
 ```
 
 `bw-env` idempotency guard: `BW_ENV_LOADED=$$` (PID-scoped — child processes always reload secrets).
+
+### `.kshrc` Discipline — No Bloat Rule
+
+> **`.kshrc` = hub, not a function library.** Keep it thin: env vars, PATH, and `source` calls only.
+> Any non-trivial function or tool-specific logic → its own `$HOME/Work/sh/<tool>.sh`, sourced from `.kshrc`.
+
+**Pattern:**
+```bash
+# .kshrc — one-liner per tool
+[ -f "$HOME/Work/sh/ollama.sh" ] && source "$HOME/Work/sh/ollama.sh"
+[ -f "$HOME/Work/sh/myapp.sh"  ] && source "$HOME/Work/sh/myapp.sh"
+```
+
+**Rules:**
+- Each `Work/sh/<tool>.sh` owns its functions, local vars (prefixed `_TOOL_*`), and comments
+- Guard with `[ -f ... ] && source` — silent no-op if missing
+- Template for new tools: `$HOME/.agents/skills/k-ollama/assets/ollama.sh` (reference pattern)
+- Existing scripts in `Work/sh/`: `backup_workstation.sh`, `clean_system.sh`, `workspace-scan.sh`, `ollama.sh`
 
 ## MCP Ecosystem
 
@@ -121,6 +139,7 @@ npm global prefix: `~/.npmrc` → `prefix=~/.npm-global` (no EACCES, no sudo nee
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v2.6.0 — routing rule: ~/Work/ = code only; XDG folders table (Pictures, Documents, Downloads, Videos) |
-| 2026-03-29 | [CLAUDE] | v2.5.0 — Tailscale devices table; SSH section renamed Homelab & Tailscale |
-| [SUMMARY] | — | v2.4.0 MANDATORY desc + tutos_live expanded; v2.3.0 +powerpoint; v2.2.0 MCP live-query; v2.0.0 refonte; v1.0.0 init |
+| 2026-04-03 | [CLAUDE] | v2.8.0 — clean/ suite: clean_vscode.sh added; ~/Work/sh/clean/ entry enriched with module list + VSCode targets |
+| 2026-04-02 | [CLAUDE] | v2.7.0 — `.kshrc` No Bloat Rule: thin hub pattern, Work/sh/<tool>.sh sourcing discipline |
+| 2026-03-31 | [CLAUDE] | v2.6.0 — routing rule: ~/Work/ = code only; XDG folders table |
+| [SUMMARY] | — | v2.5.0 Tailscale table; v2.4.0 MANDATORY+tutos_live; v2.3.0 +powerpoint; v2.0.0 refonte; v1.0.0 init |

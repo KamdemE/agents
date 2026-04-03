@@ -153,6 +153,13 @@
       "installedAt": "2026-03-31T00:00:00.000Z",
       "updatedAt": "2026-03-31T00:00:00.000Z"
     },
+    "k-vscode": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-vscode/SKILL.md",
+      "installedAt": "2026-04-03T15:19:00.000Z",
+      "updatedAt": "2026-04-03T15:19:00.000Z"
+    },
     "skill-creator": {
       "source": "anthropics/skills",
       "sourceType": "github",
