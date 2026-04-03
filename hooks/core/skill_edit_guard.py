@@ -126,7 +126,7 @@ def _build_notes(file_path: str) -> list[str]:
 
 def evaluate_skill_edit(tool_name: str, tool_input: dict) -> dict:
     """Return a normalized result for one prospective skill edit."""
-    file_path = str((_TOOL_SPECS.get(tool_name) or {}).get("path_field") and tool_input.get(_TOOL_SPECS[tool_name]["path_field"], ""))
+    file_path = tool_input.get(_TOOL_SPECS[tool_name]["path_field"], "") if tool_name in _TOOL_SPECS else ""
     if not is_hook_feature_enabled("skill_edit_guard") or not _is_kpi_skill_path(file_path):
         return {"file_path": file_path, "errors": [], "notes": []}
 
