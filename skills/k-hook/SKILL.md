@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.7.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -34,6 +34,7 @@ Hooks are the governance layer of the KπX agent stack.
 | Final dirty-repo reminder | `$HOME/.agents/hooks/core/session_guard.py` |
 | `SKILL.md` structure guard | `$HOME/.agents/hooks/core/skill_structure_guard.py` |
 | Bundled-file coverage guard | `$HOME/.agents/hooks/core/skill_content_guard.py` |
+| Hook feature toggles | `$HOME/.agents/hooks/core/settings.py` |
 | Full recheck entrypoint | `$HOME/.agents/hooks/core/audit.py` |
 | Normative writing and changelog rules | `$HOME/.agents/AGENTS.md` |
 
@@ -91,6 +92,7 @@ $HOME/.agents/hooks/
 - reminders point back to `$HOME/.agents/AGENTS.md`
 - if a rule changes, update the owning core module or `AGENTS.md`, not four wrappers
 - wrapper docstrings and inline schemas must stay aligned with the real runtime wire contract; misleading code comments are also desync
+- hook enable/disable switches live in one place only: `$HOME/.agents/hooks/core/settings.py`
 
 ### Path Scope
 
@@ -105,6 +107,13 @@ $HOME/.agents/hooks/
 - `skill_structure_guard.py` validates KπX-owned `k-*` `SKILL.md` header/footer structure
 - `skill_content_guard.py` validates that bundled top-level files are surfaced in the matching skill
 - external skills such as `microsoft-foundry` are outside this KπX structural standard unless AGENTS explicitly says otherwise
+
+### Hook Toggles
+
+- every check can be enabled or disabled in `$HOME/.agents/hooks/core/settings.py`
+- change only the `HOOK_FEATURES` booleans there; wrappers should adapt automatically
+- default policy stays `True` everywhere unless KπX explicitly turns a check off
+- examples: startup context, dynamic context, rules reminder, response-validation subchecks, path generalization, dirty-repo finalization, skill structure/content reports
 
 ## Runtime Mapping
 
@@ -143,6 +152,6 @@ $HOME/.agents/hooks/
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.7.0 — added `$HOME/.agents/hooks/core/settings.py` as the single source of truth for hook feature toggles, documented the new global enable/disable model, and tightened the “no desync” rule so wrappers stay schema-thin while behavior is switched centrally |
 | 2026-04-03 | [CODEX] | v2.6.0 — added Codex wire-contract notes (`hookSpecificOutput.additionalContext`, block reasons, stderr on `PreToolUse` hard blocks) and made wrapper docstring/schema alignment an explicit no-desync rule |
-| 2026-04-03 | [CODEX] | v2.5.0 — rewrote the skill into a compact source-of-truth map, documented the now-live Claude wrappers and `core/audit.py`, and removed stale TODO/legacy wording so the skill matches the real generic-core plus thin-wrapper architecture |
-| [SUMMARY] | — | v2.5.0–v2.0.0: compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, centralized settings extraction, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.6.0–v2.0.0: Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, centralized settings extraction, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

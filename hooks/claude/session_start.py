@@ -14,6 +14,8 @@ from core import context_injector
 
 def handle_session_start(agent_name: str) -> dict:
     data = context_injector.build_context_output(agent_name)
+    if not data["context"] and not data["system_message"]:
+        return {}
     return {
         "systemMessage": data["system_message"],
         "hookSpecificOutput": {

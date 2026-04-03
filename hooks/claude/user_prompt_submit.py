@@ -16,10 +16,13 @@ def handle_user_prompt_submit(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
     changed = skill_watcher.get_recently_changed_skills()
     reminder = skill_watcher.build_reminder_message(agent_name, changed)
+    parts = [part for part in (dynamic, reminder) if part]
+    if not parts:
+        return {}
     return {
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
-            "additionalContext": dynamic + "\n" + reminder,
+            "additionalContext": "\n".join(parts),
         }
     }
 

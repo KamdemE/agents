@@ -213,6 +213,26 @@ def _wrapper_smoke_tests() -> list[str]:
     )
 
     try:
+        gemini_start = _load_module(HOOKS_DIR / "gemini/session_start.py", "audit_gemini_start")
+        result = gemini_start.handle_session_start("GEMINI")
+        if result and "hookSpecificOutput" not in result:
+            findings.append(
+                f"{_display(HOOKS_DIR / 'gemini/session_start.py')}: invalid startup payload shape in smoke test."
+            )
+    except Exception as exc:
+        findings.append(f"{_display(HOOKS_DIR / 'gemini/session_start.py')}: smoke test failed: {exc}")
+
+    try:
+        gemini_before = _load_module(HOOKS_DIR / "gemini/before_agent.py", "audit_gemini_before")
+        result = gemini_before.handle_before_agent("GEMINI", cwd=HOME)
+        if result and "hookSpecificOutput" not in result:
+            findings.append(
+                f"{_display(HOOKS_DIR / 'gemini/before_agent.py')}: invalid prompt-injection payload shape in smoke test."
+            )
+    except Exception as exc:
+        findings.append(f"{_display(HOOKS_DIR / 'gemini/before_agent.py')}: smoke test failed: {exc}")
+
+    try:
         response_validator = _load_module(HOOKS_DIR / "core/response_validator.py", "audit_response_validator")
         result = response_validator.validate_response(valid_response)
         if not result.get("passed"):
@@ -231,6 +251,30 @@ def _wrapper_smoke_tests() -> list[str]:
             )
     except Exception as exc:
         findings.append(f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: smoke test failed: {exc}")
+
+    try:
+        claude_start = _load_module(HOOKS_DIR / "claude/session_start.py", "audit_claude_start")
+        result = claude_start.handle_session_start("CLAUDE")
+        if result:
+            hook_output = result.get("hookSpecificOutput", {})
+            if hook_output.get("hookEventName") != "SessionStart":
+                findings.append(
+                    f"{_display(HOOKS_DIR / 'claude/session_start.py')}: missing `hookEventName=SessionStart` in smoke test."
+                )
+    except Exception as exc:
+        findings.append(f"{_display(HOOKS_DIR / 'claude/session_start.py')}: smoke test failed: {exc}")
+
+    try:
+        claude_prompt = _load_module(HOOKS_DIR / "claude/user_prompt_submit.py", "audit_claude_prompt")
+        result = claude_prompt.handle_user_prompt_submit("CLAUDE", cwd=HOME)
+        if result:
+            hook_output = result.get("hookSpecificOutput", {})
+            if hook_output.get("hookEventName") != "UserPromptSubmit":
+                findings.append(
+                    f"{_display(HOOKS_DIR / 'claude/user_prompt_submit.py')}: missing `hookEventName=UserPromptSubmit` in smoke test."
+                )
+    except Exception as exc:
+        findings.append(f"{_display(HOOKS_DIR / 'claude/user_prompt_submit.py')}: smoke test failed: {exc}")
 
     try:
         codex_start = _load_module(HOOKS_DIR / "codex/session_start.py", "audit_codex_start")

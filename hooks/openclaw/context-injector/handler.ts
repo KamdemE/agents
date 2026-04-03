@@ -24,7 +24,12 @@ print(json.dumps({"additionalContext": data["context"]}))
     );
 
     if (result.status === 0 && result.stdout) {
-      return JSON.parse(result.stdout.trim());
+      const data = JSON.parse(result.stdout.trim()) as {
+        additionalContext?: string;
+      };
+      if (data.additionalContext) {
+        return data;
+      }
     }
   } catch (_) {
     // fail-safe: never block bootstrap

@@ -6,7 +6,7 @@ Wrappers decide where to inject this startup context in their own lifecycle.
 import datetime
 import os
 
-from core.settings import K_CONTEXT_PATH, K_WORKSPACE_PATH
+from core.settings import K_CONTEXT_PATH, K_WORKSPACE_PATH, is_hook_feature_enabled
 
 _SKILL_PATHS = [K_CONTEXT_PATH, K_WORKSPACE_PATH]
 
@@ -27,6 +27,8 @@ def get_context_content() -> str:
 
 def build_context_output(agent_name: str) -> dict:
     """Returns {'context': str, 'system_message': str} for wrappers."""
+    if not is_hook_feature_enabled("startup_context"):
+        return {"context": "", "system_message": ""}
     context = get_context_content()
     now = datetime.datetime.now()
     date_line = f"Session date: {now.strftime('%Y-%m-%d')} ({now.strftime('%A')})"

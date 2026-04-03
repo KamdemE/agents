@@ -7,7 +7,7 @@ Used by: BeforeTool (Gemini), PreToolUse (Codex), and future Claude hook
 import os
 import re
 
-from core.settings import AGENTS_DIR, AGENTS_STYLE_REF
+from core.settings import AGENTS_DIR, AGENTS_STYLE_REF, is_hook_feature_enabled
 
 # Matches any /home/<anything> or bare ~ not preceded by $
 _PATTERN_HOME = re.compile(r"/home/[^/\s\"'`]+|(?<!\$)\b~\b")
@@ -23,6 +23,8 @@ def _is_agents_file(file_path: str) -> bool:
 
 def check_path_generalization(content: str):
     """Returns an error string if a hardcoded home path is found, else None."""
+    if not is_hook_feature_enabled("path_generalization"):
+        return None
     if _PATTERN_HOME.search(content):
         return (
             f"Hardcoded home path detected (/home/<user> or ~). "
@@ -42,4 +44,6 @@ def guard_content(content: str, file_path: str = None, checks: list = None) -> l
     if file_path and not _is_agents_file(file_path):
         return []  # path rule applies ONLY to .agents/ files
     active = checks if checks is not None else _DEFAULT_CHECKS
+    if not active:
+        return []
     return [e for c in active if (e := c(content)) is not None]

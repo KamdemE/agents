@@ -10,7 +10,7 @@ Wrappers decide where to run this finalization check in their own lifecycle.
 import subprocess
 
 from core.skill_content_guard import build_skill_content_violation_report
-from core.settings import AGENTS_DIR, AGENTS_MD_DISPLAY, HOME
+from core.settings import AGENTS_DIR, AGENTS_MD_DISPLAY, HOME, is_hook_feature_enabled
 from core.skill_structure_guard import build_skill_structure_violation_report
 
 _AGENTS_MD = AGENTS_MD_DISPLAY
@@ -38,6 +38,8 @@ def build_agents_maintenance_checklist(
     agents_dir: str | None = None,
 ) -> str:
     """Single source of truth for the .agents maintenance checklist."""
+    if not is_hook_feature_enabled("session_maintenance_checklist"):
+        return ""
     parts: list[str] = []
 
     if changed_skill_files:
@@ -80,12 +82,14 @@ def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
         for f in skill_files:
             msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
         msg += "\n"
-        violations = build_skill_structure_violation_report(skill_paths)
-        if violations:
-            msg += f"{violations}\n\n"
-        content_violations = build_skill_content_violation_report(skill_paths)
-        if content_violations:
-            msg += f"{content_violations}\n\n"
+        if is_hook_feature_enabled("session_skill_structure_report"):
+            violations = build_skill_structure_violation_report(skill_paths)
+            if violations:
+                msg += f"{violations}\n\n"
+        if is_hook_feature_enabled("session_skill_content_report"):
+            content_violations = build_skill_content_violation_report(skill_paths)
+            if content_violations:
+                msg += f"{content_violations}\n\n"
 
     if other_files:
         msg += "Other changed files:\n"
@@ -93,11 +97,13 @@ def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
             msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
         msg += "\n"
 
-    msg += build_agents_maintenance_checklist(
+    checklist = build_agents_maintenance_checklist(
         changed_skill_files=skill_paths,
         include_git_sync=True,
         agents_dir=agents_dir,
     )
+    if checklist:
+        msg += checklist
     return msg
 
 
@@ -112,6 +118,13 @@ def check_agents_git_status() -> dict:
         }
     Fail-safe: on any error returns has_changes=False (never blocks on crash).
     """
+    if not is_hook_feature_enabled("session_dirty_repo"):
+        return {
+            "has_changes": False,
+            "changed_files": [],
+            "agents_dir": AGENTS_DIR,
+            "message": "",
+        }
     try:
         result = subprocess.run(
             ["git", "-C", AGENTS_DIR, "status", "--porcelain"],

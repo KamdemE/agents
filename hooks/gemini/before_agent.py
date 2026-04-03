@@ -19,7 +19,10 @@ def handle_before_agent(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
     changed = skill_watcher.get_recently_changed_skills()
     reminder = skill_watcher.build_reminder_message(agent_name, changed)
-    return {"hookSpecificOutput": {"additionalContext": dynamic + "\n" + reminder}}
+    parts = [part for part in (dynamic, reminder) if part]
+    if not parts:
+        return {}
+    return {"hookSpecificOutput": {"additionalContext": "\n".join(parts)}}
 
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR

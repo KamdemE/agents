@@ -8,9 +8,13 @@ import getpass
 import os
 import socket
 
+from core.settings import is_hook_feature_enabled
+
 
 def get_dynamic_context(cwd: str | None = None) -> str:
     """Returns a small XML block with date, time, machine, user, and cwd."""
+    if not is_hook_feature_enabled("dynamic_context"):
+        return ""
     now = datetime.datetime.now()
     current_cwd = cwd or os.getcwd()
     user = getpass.getuser()
