@@ -189,6 +189,8 @@ Optional Markdown heading markers such as `## ` are allowed.
 - TODOs in `k-context` — only KπX adds; agents execute + remove.
 - Every response end: remind KπX of open TODOs.
 - **k-context live updates (agent-owned):** The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit or even just a new evolution not committed (non-trivial), issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
+- **`Active Projects` limit:** max 10 live rows. Only when full, condense stale/completed items into a short bounded `[ARCHIVE]` row.
+- **`Session Log` limit:** max 10 entries, newest-first. Only when full, condense older entries into a short bounded `[SUMMARY]` row; do not summarize early.
 - **Session end mandate:** Stop hook enforces a final k-context check before closing.
 - **Issue surfacing mandate:** Any detected bug, risk, stale reference, duplication, desync, or outdated instruction must be surfaced in `Remarques` immediately and repeated until addressed.
 - **`k-context` edit completion:** when editing `$HOME/.agents/skills/k-context/SKILL.md`, update `## Session Log` in the same pass; review `## Active Projects` if the work changed project scope or status.
@@ -200,7 +202,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Source-of-truth-first writing** — when something can change, name the source file or directory to inspect instead of enumerating its current contents.
 - **Concise writing** — tables/bullets over prose; one line if possible; no filler.
 - **Low-token docs** — `AGENTS.md`, `SKILL.md`, and other operational Markdown must stay compact. If a document starts restating details already owned by another source, replace that detail with a pointer to the source.
-- **Changelog:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`.
+- **Changelog and summary limits:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`. Summary rows must stay short and bounded; never replace real entries before the section limit is reached.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
 - **SKILL.md edit completion** — any edit to a KπX-owned `k-*` `SKILL.md` must update both the header (`metadata.version`) and the footer (`## Changelog`) in the same pass.

@@ -139,11 +139,11 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
             body_rows = rows[2:] if len(rows) > 2 else []
             summary_count = sum(1 for row in body_rows if row and row[0] == "[SUMMARY]")
             explicit_rows = [row for row in body_rows if row and row[0] != "[SUMMARY]"]
-            if summary_count != 1:
-                errors.append(f"{path}: `k-context` session log must contain exactly one `[SUMMARY]` row.")
+            if summary_count > 1:
+                errors.append(f"{path}: `k-context` session log may contain at most one `[SUMMARY]` row.")
             if len(explicit_rows) > 10:
                 errors.append(f"{path}: `k-context` session log may contain at most 10 explicit rows.")
-            if body_rows and not (body_rows[-1] and body_rows[-1][0] == "[SUMMARY]"):
+            if summary_count == 1 and body_rows and not (body_rows[-1] and body_rows[-1][0] == "[SUMMARY]"):
                 errors.append(f"{path}: `k-context` session log must end with `[SUMMARY]`.")
             for row in explicit_rows:
                 if len(row) < 3:

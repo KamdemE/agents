@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.16.8"
+  version: "2.16.10"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -30,6 +30,9 @@ allowed-tools: "Bash(*), *"
 
 ## Active Projects
 
+> Limit: max 10 active rows.
+> Only when full, condense stale/completed items into one short bounded `[ARCHIVE]` row.
+
 | Project | Status | Next |
 |---------|--------|------|
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs |
@@ -43,11 +46,23 @@ allowed-tools: "Bash(*), *"
 | **DXO internship** | ✅ Accepted — "Stage Image Research" | Starts summer 2026 |
 
 ## Session Log
+
+> Limit: max 10 entries, newest-first.
+> Only when full, condense older entries into one short bounded `[SUMMARY]` row.
+> Do not use `[SUMMARY]` before the section actually reaches its limit.
+
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-03 | [CODEX] | v2.16.10 — aligned the session-log guard with the new rule: `[SUMMARY]` is now optional until the 10-entry limit is actually reached. |
 | 2026-04-03 | [CODEX] | v2.16.8 — updated `k-optim` so optimization work now explicitly includes proactively suggesting AI chat/session-history cleanup when relevant, while waiting for KπX approval before any destructive history action. |
 | 2026-04-03 | [CODEX] | v2.16.7 — added explicit history/session pointers to the runtime skills (`k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, `k-openclaw`, `k-ai`), compacted a few remaining verbose sections, and added the same low-token documentation rule to `k-optim`. |
-| [SUMMARY] | — | 2026-04-03 v2.16.7–v2.8.8: proactive AI-history cleanup suggestion rule, runtime-history pointers, compact source-of-truth-first hook docs, pycache cleanup after audit runs, corrected the stale Claude/Codex runtime-table inversion, top-level hooks audit, lean hook architecture, `skill_edit_guard.py`, delayed `.agents/` finalization, runtime-skill doc sync, completed `Implement Agent Hooks`, shorter `skill_watcher` path reminder, `k-optim` AGENTS↔hooks sync reminder, session-guard formatting cleanup, `settings.py` readability polish, workspace drift cleanup, safe runtime-config normalization to `$HOME`, multi-agent wrapper conformity pass, centralized hook feature flags, Codex hook wire-contract fix, non-blocking QMD post-commit propagation, `k-optim`, QMD collection hygiene, hook rollout completion, audit hardening, final legacy cleanup, dynamic-context enrichment, and VSCode/profile work. 2026-04-02 v2.8.4–v2.8.1: Codex/Ollama timeout and warmup diagnosis and fixes. 2026-04-01 v2.8.0–v2.3.0: Project Sovereignty docs, hook modularization, centralized hook manager, and cleanup. 2026-03-29 and earlier: `.agents/` refonte, k-* skill standardization, qmd integration, OpenClaw/Codex skill sync, and earlier session history condensed. |
+| 2026-04-03 | [CODEX] | v2.16.6 — compacted `k-hook` and the runtime skills so hook docs point to `hooks/README.md` and the owning runtime configs. |
+| 2026-04-03 | [CODEX] | v2.16.5 — removed lingering pycache artifacts after the audit move and cleaned the stale historical audit-path wording. |
+| 2026-04-03 | [CODEX] | v2.16.4 — fixed the stale Claude/Codex write-guard inversion in `k-hook`’s runtime table. |
+| 2026-04-03 | [CODEX] | v2.16.3 — moved the shared audit entrypoint to `$HOME/.agents/hooks/audit.py` and resynced the hook docs. |
+| 2026-04-03 | [CODEX] | v2.16.2 — removed the dead Codex `PreToolUse` path, aligned Claude `PreToolUse`, and synced the OpenClaw path-guard manifest. |
+| 2026-04-03 | [CODEX] | v2.16.1 — added `hooks/README.md` and documented where each checker is really wired versus advisory or absent. |
+| 2026-04-03 | [CODEX] | v2.16.0 — completed the lean hook architecture rollout with centralized feature flags, lighter reminders, and delayed `.agents/` finalization. |
 
 ## References
 
@@ -57,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.16.8 — session log updated for the new `k-optim` reminder to proactively suggest AI history cleanup while still waiting for KπX approval before any prune/delete action |
-| 2026-04-03 | [CODEX] | v2.16.7 — session log updated for the runtime-history pointer pass, the extra compaction of verbose runtime sections, and the propagation of the low-token doc rule into `k-optim` |
-| [SUMMARY] | — | v1.0.0–v2.16.6: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined `max 2 + [SUMMARY]` format. |
+| 2026-04-03 | [CODEX] | v2.16.10 — expanded the oversized session-log summary into real entries up to the intended 10-entry capacity and aligned the structure guard so `[SUMMARY]` is no longer required before that limit |
+| 2026-04-03 | [CODEX] | v2.16.9 — made the `Active Projects` and `Session Log` limits explicit both in `AGENTS.md` and directly above the corresponding sections, and removed the premature oversized session-log summary row |
+| [SUMMARY] | — | v1.0.0–v2.16.8: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined limits. |
