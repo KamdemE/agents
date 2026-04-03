@@ -1,16 +1,14 @@
 ---
 name: k-qmd
 description: >
-  Search KπX knowledge bases with QMD (BM25+vector hybrid). Collections: tutos_live
-  (Ubuntu fixes/tools), presentation (homelab architecture/projects), agents (AGENTS.md,
-  skills, session history), k-ai, claude-memory, codex, gemini, copilot, vibe, openclaw.
-  Load before any mcp__qmd-mcp__* call, or when searching past sessions, agent history,
-  Ubuntu tutorials, homelab docs, or any local markdown knowledge base.
+  Search KπX knowledge bases with QMD (BM25+vector hybrid). Load before any
+  mcp__qmd-mcp__* call, or when searching past sessions, agent history, Ubuntu
+  tutorials, homelab docs, or any local markdown knowledge base.
 license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.7.0"
+  version: "2.8.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -18,176 +16,94 @@ allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-Local search engine for markdown content — BM25 + vector + hyde hybrid with local LLM reranking.
+## Role
 
-## Status
+`k-qmd` is the entrypoint for searching local KπX knowledge bases.
 
-!"qmd status 2>/dev/null || echo "Not installed — see references/mcp-setup.md"
+- use it before any `mcp__qmd-mcp__*` call
+- use it when you need past sessions, local docs, or agent/runtime knowledge
+- keep this skill compact: exact setup and long command examples live in references
 
-## Installation
+## Source Of Truth
 
-> ⚠️ **Full setup procedure: `references/mcp-setup.md`**
+| Topic | Where to look |
+|------|----------------|
+| Full install and MCP setup | `references/mcp-setup.md` |
+| Embedded-folder `.gitignore` pattern | `references/gitignore-embedded-folder.template` |
+| Auto-refresh hook example | `references/post-commit-hook.sh` |
+| Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
+| Declarative config | `$HOME/.config/qmd/index.yml` |
 
-```bash
-# Use npm (NOT bun) — better-sqlite3 is a native module compiled against the
-# active Node.js version. With a custom npm prefix (e.g. $HOME/.npm-global), use
-# the full binary path in MCP configs instead of bare `qmd`.
-npm install -g @tobilu/qmd
+## KπX Collection Map
 
-# Add a collection (path first, --name is a flag — NOT positional)
-# --mask overrides the default glob (default: **/*.md)
-qmd collection add $HOME/path/to/docs --name myname --mask "**/*.{md,txt}"
+| Collection | Root path | Use for |
+|-----------|-----------|---------|
+| `tutos_live` | `$HOME/Work/tutos_live/` | Ubuntu fixes, tools, shell patterns |
+| `presentation` | `$HOME/Work/Homelab/presentation/` | homelab architecture and project knowledge |
+| `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
+| `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
+| `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
+| `codex` | `$HOME/.codex/` | Codex config and history |
+| `gemini` | `$HOME/.gemini/` | Gemini config and history |
+| `copilot` | `$HOME/.copilot/` | Copilot config and history |
+| `vibe` | `$HOME/.vibe/` | VIBE config and history |
+| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw workspace knowledge |
 
-# ALWAYS add a context description right after (improves reranking)
-qmd context add qmd://myname/ "What this collection contains"
+## Operational Rules
 
-# Verify, then embed
-qmd collection show myname
-qmd embed myname
-```
+- run `qmd update <collection>` before searching when freshness matters
+- run `qmd embed <collection>` only when new files were added or content changed materially
+- always scope searches to the relevant collections when possible
+- do not hardcode live collection inventories in other skills; point back here or to qmd itself
 
-**Post-commit auto-update:** copy `references/post-commit-hook.sh` to `.git/hooks/post-commit`, set `COLLECTION` + `PATTERN`, `chmod +x`. Keeps the index fresh on every commit — recommended for doc repos.
+## Querying
 
-**New folder to embed (git + qmd):** use `references/gitignore-embedded-folder.template` as the starting `.gitignore`. It implements the whitelist negation pattern (`*` + `!*/` + `!*.ext`) with all sections pre-labelled. Copy → uncomment extensions → add sensitive exclusions.
+### MCP
 
-## Collection Management
+Use `query` with:
+- `collections` to scope
+- `searches` for `lex`, `vec`, or mixed retrieval
+- `intent` only when disambiguation helps
 
-### CLI
+Other qmd MCP tools to remember:
+- `get`
+- `multi_get`
+- `status`
 
-```bash
-qmd collection add <path> --name <n> [--mask "**/*.{md,yml}"]  # add
-qmd collection list                    # all collections + file counts
-qmd collection show <name>             # path, pattern, include flag
-qmd collection remove <name>           # remove (files untouched)
-qmd collection rename <old> <new>      # rename
-qmd collection include/exclude <name>  # toggle default search scope
-qmd collection update-cmd <name> 'git pull --rebase'  # auto-sync before re-index
-qmd context add qmd://<name>/ "desc"   # add context (do for every collection)
-qmd context add qmd://<name>/subdir "specific section desc"
-qmd context list
-qmd ls <name>                          # list indexed files
-qmd update [--pull] [<name>]           # re-index (--pull runs update-cmd first)
-qmd embed [<name>]                     # re-embed vectors
-```
+### CLI Fallback
 
-### YAML config (alternative to CLI — `$HOME/.config/qmd/index.yml`)
+When MCP is unavailable, use the qmd CLI directly:
+- `qmd query ...`
+- `qmd search ...`
+- `qmd get ...`
+- `qmd multi-get ...`
 
-Declarative approach; changes take effect immediately:
+Exact command shapes and setup details live in `references/mcp-setup.md`.
 
-```yaml
-global_context: "Optional hint applied to all collections."
+## Collection Scope Reflex
 
-collections:
-  notes:
-    path: $HOME/Documents/notes
-    pattern: "**/*.md"
-    context:
-      "/": "Personal notes and ideas"
-      "/meetings": "Meeting notes"
-
-  code:
-    path: $HOME/Work/myproject
-    pattern: "**/*.{md,ts,py}"
-    context:
-      "/": "Source code and docs for myproject"
-```
-
-### Supported `--mask` / `pattern` extensions
-
-Any text-based format works: `.md` `.txt` `.markdown` `.rst` `.html` `.json` `.yml` `.yaml` `.toml` `.sh` `.ts` `.js` `.py` `.go` `.rs` — standard glob syntax.
-
-## Before Searching — Always Update First
-
-Before any search, re-index the target collections to guarantee fresh results:
-
-```bash
-qmd update <name>          # re-index changed files (fast, no re-embed)
-qmd update --pull <name>   # pull first if update-cmd is set (e.g. git pull)
-qmd embed <name>           # re-embed vectors (slower, only needed after content changes)
-```
-
-**Rule:** `qmd update` before every search session. `qmd embed` only when new files were added or content changed significantly.
-
-## MCP: `query`
-
-```json
-{
-  "searches": [
-    { "type": "lex", "query": "CAP theorem consistency" },
-    { "type": "vec", "query": "tradeoff between consistency and availability" }
-  ],
-  "intent": "optional disambiguation string",
-  "collections": ["agents", "tutos_live"],
-  "limit": 10
-}
-```
-
-**Scoping collections:** Always pass `collections` to restrict search scope. Without it, qmd searches all enabled collections — much slower and noisier.
-
-| Scope | `collections` value |
-|-------|---------------------|
-| Single | `["agents"]` |
-| Multiple | `["tutos_live", "presentation"]` |
-| All (explicit) | omit the field or `[]` |
-
-> 💡 **Collection scope reflex:** Know what you're looking for → scope it. Ubuntu fix → `tutos_live`. Agent config → `agents` or `claude`/`codex`/etc. Architecture → `presentation`. Past session → `k-ai` or `claude`.
-
-### Query Types
-
-| Type | Method | Best for |
-|------|--------|----------|
-| `lex` | BM25 | Exact terms, names, code identifiers |
-| `vec` | Vector | Natural language questions |
-| `hyde` | Vector | Write the answer you expect (50-100 words) |
-| `expand` | Auto | Single-line query → LLM expands to lex/vec/hyde |
-
-**lex:** `term` (prefix match) · `"phrase"` (exact) · `-term` (exclude, lex only)
-
-**Combining:**
-
-| Goal | Approach |
-|------|----------|
-| Know exact terms | `lex` only |
-| Don't know vocabulary | Single-line (implicit `expand:`) or `vec` |
-| Best recall | `lex` + `vec` |
-| Complex topic | `lex` + `vec` + `hyde` |
-| Ambiguous query | Add `intent` to any combination |
-
-First query gets 2× weight in fusion — put your best guess first.
-
-**`intent`:** Steering signal (not a search itself). Disambiguates terms like "performance" → web perf vs. team health. Affects expansion, reranking, and snippet extraction.
-
-## Other MCP Tools
-
-| Tool | Use |
-|------|-----|
-| `get` | Retrieve doc by path or `#docid` |
-| `multi_get` | Retrieve multiple by glob / comma list |
-| `status` | Index health, collection stats |
-
-## CLI (fallback when MCP unavailable)
-
-```bash
-qmd query "question"                       # auto-expand + rerank
-qmd query $'lex: X\nvec: Y'               # structured
-qmd search "keywords"                      # BM25 only (no LLM)
-qmd get "#abc123"                          # by docid
-qmd multi-get "journals/2026-*.md" -l 40  # batch snippets by glob
-```
+- Ubuntu/system fix → `tutos_live`
+- homelab architecture/project memory → `presentation`
+- agent workflow, hooks, AGENTS, skills → `agents`
+- agent-specific runtime/history → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`, `openclaw`
+- KπX AI project → `k-ai`
 
 ## Troubleshooting
 
-| Symptom | Fix |
-|---------|-----|
-| `ERR_DLOPEN_FAILED` / MODULE_VERSION mismatch | Reinstall via `npm` (not bun); use full binary path in MCP config |
-| MCP not found in agent | Restart agent after editing config |
-| No results | Run `qmd embed`; check `qmd collection list` |
-| Slow first search | Normal — local models loading (~3 GB) |
+- native module or install issues → reinstall via `npm`, not bun
+- missing MCP results → check qmd config/runtime directly, then re-index
+- slow first query → expected if local models or reranking backends are cold
+
+## References
+
+- `references/mcp-setup.md` — full installation, config, and CLI/MCP usage details
+- `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
+- `references/post-commit-hook.sh` — example git hook to keep a collection fresh
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.0 — rewrote the skill into a compact source-of-truth map, kept the collection map visible, and moved volatile setup/command detail behind references instead of embedding large live-like inventories in the skill body |
 | 2026-04-03 | [CODEX] | v2.7.0 — renamed the skill to `k-qmd` and aligned its identity with the KπX `k-*` convention while keeping the `qmd` CLI/MCP runtime unchanged |
-| 2026-03-29 | [CLAUDE] | v2.6.0 — description rewritten: explicit collections list + trigger conditions |
-| [SUMMARY] | — | v2.0–2.5: install, --mask, YAML config, update-cmd, query docs, collection scoping, gitignore template, embed scope hygiene |
+| [SUMMARY] | — | v2.6.0 description rewrite with explicit trigger conditions; v2.0.0–v2.5.0 install, masks, YAML config, update-cmd, query docs, collection scoping, gitignore template, and embed hygiene were documented before this compaction |
