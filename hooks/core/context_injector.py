@@ -1,23 +1,17 @@
-"""
-Core: Context Injector
-Reads k-context + k-workspace SKILL.md and returns startup context with session date.
-Wrappers decide where to inject this startup context in their own lifecycle.
-"""
+"""Core: startup context injection from the configured startup skill list."""
 import datetime
 import os
 
-from core.settings import K_CONTEXT_PATH, K_WORKSPACE_PATH, is_hook_feature_enabled
-
-_SKILL_PATHS = [K_CONTEXT_PATH, K_WORKSPACE_PATH]
+from core.settings import get_startup_skill_paths, is_hook_feature_enabled
 
 
 def get_context_content() -> str:
-    """Reads and concatenates k-context and k-workspace SKILL.md contents."""
+    """Read and concatenate the configured startup skills."""
     content = ""
-    for path in _SKILL_PATHS:
+    for path in get_startup_skill_paths():
         if os.path.exists(path):
             try:
-                with open(path, "r") as f:
+                with open(path, "r", encoding="utf-8") as f:
                     content += f"\n--- {os.path.basename(path)} ---\n"
                     content += f.read()
             except OSError:

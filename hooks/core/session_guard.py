@@ -1,27 +1,22 @@
-"""
-Core: Session Guard
-Checks if $HOME/.agents/ git repo has uncommitted changes.
-If yes, returns a finalization message asking the agent to:
-  1. Update header + footer (version + changelog) of each modified skill
-  2. Update k-context (Session Log, Active Projects, TODOs)
-  3. git commit + make push in $HOME/.agents/
-Wrappers decide where to run this finalization check in their own lifecycle.
-"""
+"""Core: delayed finalization guard for a dirty $HOME/.agents/ repo."""
+from __future__ import annotations
+
+import os
 import subprocess
+import time
 
+from core.settings import (
+    AGENTS_DIR,
+    AGENTS_MD,
+    display_path,
+    get_hook_timing,
+    is_hook_feature_enabled,
+)
 from core.skill_content_guard import build_skill_content_violation_report
-from core.settings import AGENTS_DIR, AGENTS_MD_DISPLAY, HOME, is_hook_feature_enabled
 from core.skill_structure_guard import build_skill_structure_violation_report
-
-_AGENTS_MD = AGENTS_MD_DISPLAY
-
-
-def _display_path(path: str) -> str:
-    return path.replace(HOME, "$HOME")
 
 
 def _status_line_to_path(status_line: str) -> str:
-    """Extract the repo-relative path from one porcelain status line."""
     payload = status_line[3:] if len(status_line) > 3 else status_line
     if " -> " in payload:
         payload = payload.split(" -> ", 1)[1]
@@ -29,126 +24,144 @@ def _status_line_to_path(status_line: str) -> str:
 
 
 def _status_line_to_abs_path(status_line: str, agents_dir: str) -> str:
-    return f"{agents_dir}/{_status_line_to_path(status_line)}"
+    return os.path.join(agents_dir, _status_line_to_path(status_line))
 
 
-def build_agents_maintenance_checklist(
-    changed_skill_files: list[str] | None = None,
-    include_git_sync: bool = False,
-    agents_dir: str | None = None,
-) -> str:
-    """Single source of truth for the .agents maintenance checklist."""
-    if not is_hook_feature_enabled("session_maintenance_checklist"):
-        return ""
-    parts: list[str] = []
-
-    if changed_skill_files:
-        changed_list = "\n".join(f"  {_display_path(path)}" for path in changed_skill_files)
-        parts.append(
-            "For EACH modified skill file:\n"
-            f"{changed_list}\n"
-            "  1. Bump metadata.version in YAML frontmatter (header)\n"
-            "  2. Add entry to Changelog table (footer, newest-first, max 2 + [SUMMARY])\n"
-            f"  → Format rules: {_AGENTS_MD} → '### Provenance & Quality'"
-        )
-
-    parts.append(
-        "Update $HOME/.agents/skills/k-context/SKILL.md:\n"
-        "  - Changelog header: bump version\n"
-        "  - Session Log: add entry for today's work (newest-first)\n"
-        "  - Active Projects: update status of impacted projects\n"
-        "  - TODOs: remove completed items only; do not invent new ones\n"
-        f"  → Format rules: {_AGENTS_MD} → '### Session & Memory'"
+def _collect_git_status_lines() -> list[str]:
+    result = subprocess.run(
+        ["git", "-C", AGENTS_DIR, "status", "--porcelain"],
+        capture_output=True,
+        text=True,
+        timeout=get_hook_timing("subprocess_timeout_seconds"),
+        check=False,
     )
-
-    if include_git_sync and agents_dir is not None:
-        parts.append(
-            f"Finally: git commit + make push in {_display_path(agents_dir)}\n"
-            f"  → Rule: {_AGENTS_MD} → '### Provenance & Quality' (Kernel sync)"
-        )
-
-    return "\n\n".join(parts)
+    return [line.rstrip() for line in result.stdout.splitlines() if line.strip()]
 
 
-def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
-    skill_files = [f for f in changed_files if "skills/" in f]
-    other_files = [f for f in changed_files if "skills/" not in f]
-    skill_paths = [
+def _oldest_dirty_age_minutes(changed_files: list[str], agents_dir: str) -> int | None:
+    ages: list[float] = []
+    now = time.time()
+    for status_line in changed_files:
+        abs_path = _status_line_to_abs_path(status_line, agents_dir)
+        try:
+            ages.append((now - os.path.getmtime(abs_path)) / 60)
+        except OSError:
+            continue
+    if not ages:
+        return None
+    return int(max(ages))
+
+
+def _changed_skill_paths(changed_files: list[str], agents_dir: str) -> list[str]:
+    return [
         _status_line_to_abs_path(line, agents_dir)
-        for line in skill_files
+        for line in changed_files
         if _status_line_to_path(line).endswith("SKILL.md")
     ]
 
-    msg = "SESSION FINALIZATION REQUIRED: $HOME/.agents/ has uncommitted changes.\n\n"
 
-    if skill_files:
-        msg += "Modified skill files:\n"
-        for f in skill_files:
-            msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
-        msg += "\n"
+def _build_finalization_message(changed_files: list[str], agents_dir: str, oldest_age_minutes: int | None) -> str:
+    skill_paths = _changed_skill_paths(changed_files, agents_dir)
+    other_paths = [
+        _status_line_to_abs_path(line, agents_dir)
+        for line in changed_files
+        if not _status_line_to_path(line).endswith("SKILL.md")
+    ]
+
+    grace = get_hook_timing("session_dirty_grace_minutes")
+    lines = [
+        "SESSION FINALIZATION REQUIRED",
+        "",
+        (
+            "$HOME/.agents/ is still dirty and the oldest pending change is older than "
+            f"{grace} minute(s)."
+            if oldest_age_minutes is not None
+            else "$HOME/.agents/ is still dirty and should be finalized per AGENTS.md."
+        ),
+        "",
+    ]
+
+    if skill_paths:
+        lines.append("Changed skill files:")
+        lines.extend(f"  {display_path(path)}" for path in skill_paths)
+        lines.append("")
+
         if is_hook_feature_enabled("session_skill_structure_report"):
             violations = build_skill_structure_violation_report(skill_paths)
             if violations:
-                msg += f"{violations}\n\n"
+                lines.extend(violations.splitlines())
+                lines.append("")
         if is_hook_feature_enabled("session_skill_content_report"):
-            content_violations = build_skill_content_violation_report(skill_paths)
-            if content_violations:
-                msg += f"{content_violations}\n\n"
+            violations = build_skill_content_violation_report(skill_paths)
+            if violations:
+                lines.extend(violations.splitlines())
+                lines.append("")
 
-    if other_files:
-        msg += "Other changed files:\n"
-        for f in other_files:
-            msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
-        msg += "\n"
+    if other_paths:
+        lines.append("Other changed files:")
+        lines.extend(f"  {display_path(path)}" for path in other_paths)
+        lines.append("")
 
-    checklist = build_agents_maintenance_checklist(
-        changed_skill_files=skill_paths,
-        include_git_sync=True,
-        agents_dir=agents_dir,
-    )
-    if checklist:
-        msg += checklist
-    return msg
+    if is_hook_feature_enabled("session_maintenance_reminder"):
+        lines.extend(
+            (
+                "Next:",
+                f"- Re-read {AGENTS_MD} and finalize the pending .agents changes per its rules.",
+                "- Update $HOME/.agents/skills/k-context/SKILL.md for this work.",
+                "- Update any touched k-* skills and other affected .md files.",
+                "- Commit and run `make -C $HOME/.agents push`.",
+            )
+        )
+
+    return "\n".join(lines).rstrip()
 
 
 def check_agents_git_status() -> dict:
-    """
-    Returns:
-        {
-            'has_changes': bool,
-            'changed_files': list[str],   # git status --porcelain lines
-            'agents_dir': str,
-            'message': str                # empty if no changes
-        }
-    Fail-safe: on any error returns has_changes=False (never blocks on crash).
-    """
+    """Return the delayed finalization state for $HOME/.agents/."""
     if not is_hook_feature_enabled("session_dirty_repo"):
         return {
             "has_changes": False,
             "changed_files": [],
             "agents_dir": AGENTS_DIR,
+            "oldest_age_minutes": None,
             "message": "",
         }
+
     try:
-        result = subprocess.run(
-            ["git", "-C", AGENTS_DIR, "status", "--porcelain"],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        lines = [ln.rstrip() for ln in result.stdout.splitlines() if ln.strip()]
-        has_changes = bool(lines)
+        changed_files = _collect_git_status_lines()
+        if not changed_files:
+            return {
+                "has_changes": False,
+                "changed_files": [],
+                "agents_dir": AGENTS_DIR,
+                "oldest_age_minutes": None,
+                "message": "",
+            }
+
+        oldest_age_minutes = _oldest_dirty_age_minutes(changed_files, AGENTS_DIR)
+        if is_hook_feature_enabled("session_dirty_grace_period"):
+            grace = get_hook_timing("session_dirty_grace_minutes")
+            if oldest_age_minutes is not None and oldest_age_minutes < grace:
+                return {
+                    "has_changes": False,
+                    "changed_files": changed_files,
+                    "agents_dir": AGENTS_DIR,
+                    "oldest_age_minutes": oldest_age_minutes,
+                    "message": "",
+                }
+
         return {
-            "has_changes": has_changes,
-            "changed_files": lines,
+            "has_changes": True,
+            "changed_files": changed_files,
             "agents_dir": AGENTS_DIR,
-            "message": _build_finalization_message(lines, AGENTS_DIR) if has_changes else "",
+            "oldest_age_minutes": oldest_age_minutes,
+            "message": _build_finalization_message(changed_files, AGENTS_DIR, oldest_age_minutes),
         }
     except Exception:
-        # fail-safe: don't block on git errors
         return {
             "has_changes": False,
             "changed_files": [],
             "agents_dir": AGENTS_DIR,
+            "oldest_age_minutes": None,
             "message": "",
         }

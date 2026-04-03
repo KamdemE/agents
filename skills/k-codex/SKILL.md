@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.7.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -51,8 +51,10 @@ Codex hook logic lives in `$HOME/.agents/hooks/codex/`; the deployed runtime ent
 - `SessionStart` must return `hookSpecificOutput.hookEventName = "SessionStart"` plus `hookSpecificOutput.additionalContext`; `systemMessage` stays separate
 - `UserPromptSubmit` must return `hookSpecificOutput.hookEventName = "UserPromptSubmit"` plus `hookSpecificOutput.additionalContext`
 - blocking hooks such as `PreToolUse` and `Stop` must emit a non-empty block reason; `PreToolUse` hard blocks also need the same reason on stderr
+- `UserPromptSubmit` now injects only the dynamic context plus a compact AGENTS pointer reminder
 - `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
-- `PreToolUse` is currently Bash-oriented because that is the practical Codex tool event surface in this setup
+- `PreToolUse` only matters if Codex exposes structured file-edit tools; the shell path guard has been removed on purpose
+- dirty `.agents/` finalization is delayed until the configured grace window has elapsed
 
 ## MCP Config Format (Codex — TOML)
 
@@ -103,6 +105,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.7.0 — updated Codex hook behavior notes for the lighter per-turn reminder, the removal of shell path policing from `PreToolUse`, and the delayed `.agents/` finalization reminder |
 | 2026-04-03 | [CODEX] | v2.6.0 — documented the actual Codex hook payload contract (`hookSpecificOutput.additionalContext`, block reasons, stderr requirement for hard blocks) and aligned the wrapper docs with the runtime schema Codex really validates |
-| 2026-04-03 | [CODEX] | v2.5.1 — added an explicit maintenance reflex toward `k-optim` so Codex runtime guidance does not duplicate the shared optimization and QMD hygiene playbook |
-| [SUMMARY] | — | v2.5.1–v2.0.0 covered maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial Codex runtime baseline |
+| [SUMMARY] | — | v2.6.0–v2.0.0: Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |

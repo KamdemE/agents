@@ -2,15 +2,14 @@
 """
 Claude hook: PreToolUse
 Event: fires after Claude creates tool parameters and before the tool executes.
-Core: path_guard — enforces $HOME/$USER generalization only for .agents writes.
+Core: path_guard + skill_edit_guard for `.agents/` file writes.
 """
 import json
-import os
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from core import path_guard
+from core import path_guard, skill_edit_guard
 
 _WRITE_TOOLS = {
     "Write": ("content", "file_path"),
@@ -34,30 +33,18 @@ def handle_pre_tool_use(tool_name: str, tool_input: dict) -> dict:
         content = tool_input.get(content_field, "")
         file_path = tool_input.get(path_field, "")
         errors = path_guard.guard_content(content, file_path=file_path)
+        skill_result = skill_edit_guard.evaluate_skill_edit(tool_name, tool_input)
+        errors.extend(skill_result["errors"])
         if errors:
             return _build_deny(
-                f"CRITICAL: Tool '{tool_name}' blocked for {file_path or 'unknown path'}:\n"
-                + "\n".join(f"- {error}" for error in errors)
+                skill_edit_guard.build_edit_block_message(
+                    tool_name,
+                    skill_result["file_path"] or file_path or "unknown path",
+                    errors,
+                    skill_result["notes"],
+                )
             )
         return {}
-
-    if tool_name == "Bash":
-        command = tool_input.get("command", "")
-        if not command:
-            return {}
-        home = os.environ["HOME"]
-        agents_in_cmd = ".agents/" in command or f"{home}/.agents" in command or "$HOME/.agents" in command
-        if not agents_in_cmd:
-            return {}
-        errors = path_guard.guard_content(
-            command,
-            checks=[path_guard.check_path_generalization],
-        )
-        if errors:
-            return _build_deny(
-                "CRITICAL: Bash command targeting $HOME/.agents/ contains forbidden hardcoded home paths:\n"
-                + "\n".join(f"- {error}" for error in errors)
-            )
     return {}
 
 

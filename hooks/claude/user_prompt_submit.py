@@ -14,8 +14,7 @@ from core import prompt_injector, skill_watcher
 
 def handle_user_prompt_submit(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
-    changed = skill_watcher.get_recently_changed_skills()
-    reminder = skill_watcher.build_reminder_message(agent_name, changed)
+    reminder = skill_watcher.build_governance_reminder()
     parts = [part for part in (dynamic, reminder) if part]
     if not parts:
         return {}

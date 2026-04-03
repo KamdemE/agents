@@ -188,6 +188,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **k-context live updates (agent-owned):** The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit or even just a new evolution not committed (non-trivial), issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
 - **Session end mandate:** Stop hook enforces a final k-context check before closing.
 - **Issue surfacing mandate:** Any detected bug, risk, stale reference, duplication, desync, or outdated instruction must be surfaced in `Remarques` immediately and repeated until addressed.
+- **`k-context` edit completion:** when editing `$HOME/.agents/skills/k-context/SKILL.md`, update `## Session Log` in the same pass; review `## Active Projects` if the work changed project scope or status.
 
 ### Provenance & Quality
 
@@ -198,6 +199,8 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Changelog:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
+- **SKILL.md edit completion** — any edit to a KπX-owned `k-*` `SKILL.md` must update both the header (`metadata.version`) and the footer (`## Changelog`) in the same pass.
+- **Hook reminder discipline** — hooks must point back to `AGENTS.md` instead of re-listing AGENTS rules, except for concrete validation errors or targeted finalization messages.
 - **k-skill-creator baseline rule** — `k-skill-creator` itself is the upstream/base reference that KπX forks. Keep its special support dirs when they are part of the inherited upstream workflow; do not "fix" them away just to force cosmetic uniformity.
 - **KπX skill structure MANDATORY** — every other new `k-*` skill MUST use the standard layout: `SKILL.md` at root + `scripts/` (executables), `references/` (docs/specs), `assets/` (templates, icons, output files) created only as needed. Non-standard dirs (e.g., `templates/`) are forbidden unless AGENTS explicitly documents the exception.
 - **`.skill-lock.json` sync** — skill added/removed/moved → update `$HOME/.agents/.skill-lock.json`.

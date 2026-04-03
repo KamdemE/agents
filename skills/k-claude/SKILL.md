@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.6.0"
+  version: "2.7.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -81,14 +81,16 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 | `SessionEnd` | `$HOME/.agents/hooks/claude/session_end.py` |
 
 - `permissions.allow/deny` are also managed in this file
+- `UserPromptSubmit` injects only the dynamic context plus a compact AGENTS pointer reminder
 - `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
-- `PreToolUse` denies `.agents/` writes or Bash commands that violate `$HOME` / `$USER` generalization
+- `PreToolUse` denies incomplete `.agents/` skill edits and `.agents/` write content that violates `$HOME` / `$USER` generalization
+- `SessionEnd` is advisory and only surfaces `.agents/` finalization once the dirty state is older than the configured grace window
 - edit this file, not `$HOME/.claude.json`, when changing hooks or permissions
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.7.0 — updated Claude hook behavior notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
 | 2026-04-03 | [CODEX] | v2.6.0 — replaced the stale legacy hook note with the real Claude wrapper map from `$HOME/.claude/settings.json` and documented the live Stop/PreToolUse behavior |
-| 2026-04-03 | [CODEX] | v2.5.1 — condensed the changelog to the standard footer format without changing the runtime guidance |
-| [SUMMARY] | — | v2.5.0 documented Claude session history paths and JSONL layout; v2.4.0 normalized paths to `$HOME`, removed duplicate Project Context, and updated hooks ref to `k-hook`; v2.3.1 standardized name to `k-claude`; v2.3.0–v2.0.0 earlier runtime extraction and cleanup |
+| [SUMMARY] | — | v2.6.0–v2.0.0: live hook wiring, session history paths and JSONL layout, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |

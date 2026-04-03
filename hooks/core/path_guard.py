@@ -1,15 +1,10 @@
-"""
-Core: Path Guard
-Detects hardcoded home paths and usernames in generated content.
-SCOPE: Only enforced for files within $HOME/.agents/ — pass file_path to activate scoping.
-Used by: BeforeTool (Gemini), PreToolUse (Codex), and future Claude hook
-"""
+"""Core: path guard for file edits targeting $HOME/.agents/."""
 import os
 import re
 
-from core.settings import AGENTS_DIR, AGENTS_STYLE_REF, is_hook_feature_enabled
+from core.settings import AGENTS_MD, AGENTS_DIR, is_hook_feature_enabled
 
-# Matches any /home/<anything> or bare ~ not preceded by $
+# Matches literal home-directory paths or a bare ~ not preceded by $
 _PATTERN_HOME = re.compile(r"/home/[^/\s\"'`]+|(?<!\$)\b~\b")
 
 _AGENTS_DIR_NORM = os.path.normpath(AGENTS_DIR)
@@ -27,8 +22,8 @@ def check_path_generalization(content: str):
         return None
     if _PATTERN_HOME.search(content):
         return (
-            f"Hardcoded home path detected (/home/<user> or ~). "
-            f"Use $HOME instead. {AGENTS_STYLE_REF}"
+            "Literal home-directory path or bare `~` detected in `.agents/` content. "
+            f"Use `$HOME` and `$USER` per {AGENTS_MD} → `### Style`."
         )
     return None
 

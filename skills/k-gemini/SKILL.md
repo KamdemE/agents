@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.6.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -92,9 +92,10 @@ Do not enumerate extensions here; read `$HOME/.gemini/extension-enablement.json`
 | `BeforeTool` | `$HOME/.agents/hooks/gemini/before_tool.py` |
 | `SessionEnd` | `$HOME/.agents/hooks/gemini/session_end.py` |
 
+- `BeforeAgent` injects only the dynamic context plus a compact AGENTS pointer reminder
 - `AfterAgent` enforces the final response contract
-- `BeforeTool` is scoped to the relevant write tools and delegates `.agents/` path rules to core
-- `SessionEnd` is advisory because Gemini session-end hooks cannot hard-block
+- `BeforeTool` is scoped to real write tools and delegates `.agents/` path rules plus `SKILL.md` completion checks to core
+- `SessionEnd` is advisory and only surfaces `.agents/` finalization once the dirty state is older than the configured grace window
 
 ## Project Context
 
@@ -106,6 +107,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.6.0 — updated the Gemini hook notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
 | 2026-04-03 | [CODEX] | v2.5.0 — added the live Gemini hook wiring map from `$HOME/.gemini/settings.json` and clarified the current AfterAgent/BeforeTool/SessionEnd behavior |
-| 2026-04-03 | [CODEX] | v2.4.2 — normalized all paths to `$HOME`, updated the project AGENTS template path to `k-project/assets/AGENTS.md`, and condensed the changelog to the standard footer format |
-| [SUMMARY] | — | v2.4.1 standardized name to `k-gemini`; v2.4.0 project-context auto-load rule; v2.3.0 broadened description and condensed changelog; v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |
+| [SUMMARY] | — | v2.5.0–v2.0.0: live hook wiring, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |

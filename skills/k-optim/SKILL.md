@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -42,6 +42,7 @@ allowed-tools: Bash, Read, Write, Edit
 ### Last Known State
 
 - `.agents/` governance is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills were aligned and validated with `make -C $HOME/.agents audit`
+- `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; if the wording and the enforced behavior diverge, governance is drifting
 - `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
 - QMD hygiene was tightened for `codex`, `gemini`, `copilot`, and `vibe` by reducing noisy patterns in `$HOME/.config/qmd/index.yml`
 - `tutos_live` and `presentation` are clean knowledge collections
@@ -53,8 +54,10 @@ allowed-tools: Bash, Read, Write, Edit
    - `make -C $HOME/.agents audit`
    - `git -C $HOME/.agents status --short`
    - `git -C $HOME/.agents log --oneline -5`
+   - re-read `$HOME/.agents/AGENTS.md` against the active hook behavior whenever response rules, path rules, or session-finalization behavior changed
 2. If hooks or skills changed:
    - update the touched `SKILL.md`
+   - check that `$HOME/.agents/AGENTS.md` still matches the real reminder text and enforced hook behavior
    - propagate any rename/add/remove to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and `$HOME/.agents/skills/k-context/SKILL.md`
    - commit and `make -C $HOME/.agents push`
 3. Recheck QMD cleanliness:
@@ -125,6 +128,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.2.0 — strengthened the `Meta` section so `.agents/` optimization explicitly includes checking that `AGENTS.md` stays synchronized with the real hook behavior and reminder text under `$HOME/.agents/hooks/` |
 | 2026-04-03 | [CODEX] | v1.1.0 — added the first real Homelab section using the live maintenance and backup scripts under `$HOME/Work/Homelab/sh/`, plus the presentation security docs as the documentation companion source |
-| 2026-04-03 | [CODEX] | v1.0.1 — normalized the last lingering path wording to `$HOME` so the new skill fully respects the `.agents/` no-tilde generalization rule |
-| [SUMMARY] | — | v1.0.1–v1.0.0 established the initial `.agents/`, QMD, and Ubuntu optimization map and normalized paths to the `$HOME` standard |
+| [SUMMARY] | — | v1.1.0–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map and normalized paths to the `$HOME` standard |

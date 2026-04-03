@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -49,6 +49,7 @@ Runtime guards:
 
 - `hooks/core/skill_structure_guard.py` checks the shared `SKILL.md` structure
 - `hooks/core/skill_content_guard.py` checks that bundled top-level files are surfaced in the skill document
+- `hooks/core/skill_edit_guard.py` blocks incomplete KπX skill edits that skipped `metadata.version`, `## Changelog`, or `k-context` `## Session Log`
 - `hooks/core/audit.py` is the compact recheck entrypoint when a broader hooks/skills governance sweep is needed
 
 ## Standard Workflow
@@ -57,8 +58,9 @@ Runtime guards:
 2. Decide whether the task is a creation, refactor, rename, audit, or eval loop.
 3. Keep the skill concise: describe where the truth lives, not volatile inventories.
 4. Mention bundled `scripts/`, `references/`, and `assets/` that matter to the workflow.
-5. Bump `metadata.version` and update the footer changelog.
-6. If the skill changed materially, update `$HOME/.agents/skills/k-context/SKILL.md`.
+5. Complete the skill edit in one pass: bump `metadata.version` and update the footer changelog.
+6. If the target is `k-context`, update `## Session Log` in the same pass and review `## Active Projects` if the work changed project scope or status.
+7. If the skill changed materially, update `$HOME/.agents/skills/k-context/SKILL.md`.
 
 ## Bundled Tools
 
@@ -110,6 +112,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.2.0 — documented the new `skill_edit_guard.py` and made the one-pass header/footer/session-log completion rule explicit in the standard workflow |
 | 2026-04-03 | [CODEX] | v2.1.0 — added `hooks/core/audit.py` as the compact governance recheck entrypoint and kept the skill aligned with the live hook/guard standard |
-| 2026-04-03 | [CODEX] | v2.0.0 — restored the skill after the interrupted rewrite, reframed it as the KπX forked baseline for skill standards, and documented all bundled scripts, reviewer prompts, references, and viewer assets so the shared guards can validate it cleanly |
-| [SUMMARY] | — | v1.1.0 aligned the skill name with the KπX `k-*` convention and propagated the rename contract to AGENTS and the shared hook guards; v1.0.0 upstream baseline workflow retained with KπX governance overlays documented here instead of being inferred piecemeal from unrelated skills |
+| [SUMMARY] | — | v2.1.0–v1.0.0: audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |

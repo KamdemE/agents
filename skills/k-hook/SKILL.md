@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.8.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -29,8 +29,10 @@ Hooks are the governance layer of the KπX agent stack.
 |------|--------|
 | Response contract | `$HOME/.agents/hooks/core/response_validator.py` |
 | Dynamic turn context | `$HOME/.agents/hooks/core/prompt_injector.py` |
+| Per-turn AGENTS pointer reminder | `$HOME/.agents/hooks/core/skill_watcher.py` |
 | Startup context | `$HOME/.agents/hooks/core/context_injector.py` |
 | `.agents/` path generalization | `$HOME/.agents/hooks/core/path_guard.py` |
+| `SKILL.md` post-edit enforcement | `$HOME/.agents/hooks/core/skill_edit_guard.py` |
 | Final dirty-repo reminder | `$HOME/.agents/hooks/core/session_guard.py` |
 | `SKILL.md` structure guard | `$HOME/.agents/hooks/core/skill_structure_guard.py` |
 | Bundled-file coverage guard | `$HOME/.agents/hooks/core/skill_content_guard.py` |
@@ -90,17 +92,24 @@ $HOME/.agents/hooks/
 
 - wrappers call core helpers instead of rephrasing the same rule text locally
 - reminders point back to `$HOME/.agents/AGENTS.md`
+- per-turn hook copy stays minimal on purpose; AGENTS is the normative text, not the wrapper payload
 - if a rule changes, update the owning core module or `AGENTS.md`, not four wrappers
 - wrapper docstrings and inline schemas must stay aligned with the real runtime wire contract; misleading code comments are also desync
 - hook enable/disable switches live in one place only: `$HOME/.agents/hooks/core/settings.py`
 
 ### Path Scope
 
-`path_guard.py` applies `$HOME` / `$USER` generalization only to content targeting `$HOME/.agents/`.
+`path_guard.py` applies `$HOME` / `$USER` generalization only to edit/write content targeting `$HOME/.agents/`.
 
 ### Dynamic Context
 
 `prompt_injector.py` injects a lightweight block with date, time, shell-style `user@host`, and current working directory.
+
+### Skill Edit Guard
+
+- `skill_edit_guard.py` runs before a write tool commits changes to a KπX-owned `SKILL.md`
+- it blocks incomplete skill edits that skipped `metadata.version` or `## Changelog`
+- for `k-context`, it also requires `## Session Log`; `## Active Projects` stays a soft reminder, not a hard block
 
 ### Structural Coverage
 
@@ -113,7 +122,7 @@ $HOME/.agents/hooks/
 - every check can be enabled or disabled in `$HOME/.agents/hooks/core/settings.py`
 - change only the `HOOK_FEATURES` booleans there; wrappers should adapt automatically
 - default policy stays `True` everywhere unless KπX explicitly turns a check off
-- examples: startup context, dynamic context, rules reminder, response-validation subchecks, path generalization, dirty-repo finalization, skill structure/content reports
+- examples: startup context, dynamic context, governance reminder, response-validation subchecks, path generalization, skill-edit checks, dirty-repo finalization, skill structure/content reports
 
 ## Runtime Mapping
 
@@ -121,7 +130,7 @@ $HOME/.agents/hooks/
 |--------|--------|-------|--------|----------|
 | Startup context | `SessionStart` | `SessionStart` | `SessionStart` | `agent:bootstrap` |
 | Dynamic context + reminder | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | — |
-| Write/path guard | `BeforeTool` | `PreToolUse` | `PreToolUse` | `message:sent` advisory |
+| Write/path/skill guard | `BeforeTool` | `PreToolUse` (only if structured edit tools exist) | `PreToolUse` | `message:sent` advisory |
 | Response validation | `AfterAgent` | `Stop` | `Stop` | — |
 | Finalization reminder | `SessionEnd` | `Stop` | `SessionEnd` and `Stop` | `command:stop` advisory |
 
@@ -137,6 +146,7 @@ $HOME/.agents/hooks/
 ## Runtime-Specific Wire Notes
 
 - Gemini and Claude can keep their own runtime shapes, but the policy logic still comes from `core/`
+- the per-turn reminder is intentionally short and only points to `AGENTS.md`
 - Codex is strict about wrapper envelopes:
   - `SessionStart` and `UserPromptSubmit` inject text under `hookSpecificOutput.additionalContext`
   - `PreToolUse` and `Stop` blocks require a non-empty root `reason`
@@ -152,6 +162,6 @@ $HOME/.agents/hooks/
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.0 — documented the new `skill_edit_guard.py`, clarified that per-turn reminders now stay minimal and point back to `AGENTS.md`, and updated the runtime map so write-time enforcement is centered on real file edits instead of shell policing |
 | 2026-04-03 | [CODEX] | v2.7.0 — added `$HOME/.agents/hooks/core/settings.py` as the single source of truth for hook feature toggles, documented the new global enable/disable model, and tightened the “no desync” rule so wrappers stay schema-thin while behavior is switched centrally |
-| 2026-04-03 | [CODEX] | v2.6.0 — added Codex wire-contract notes (`hookSpecificOutput.additionalContext`, block reasons, stderr on `PreToolUse` hard blocks) and made wrapper docstring/schema alignment an explicit no-desync rule |
-| [SUMMARY] | — | v2.6.0–v2.0.0: Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, centralized settings extraction, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.7.0–v2.0.0: settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

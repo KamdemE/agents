@@ -2,7 +2,7 @@
 """
 Gemini hook: BeforeTool
 Event: fires before a tool executes (matcher: write_file|replace).
-Core: path_guard — blocks hardcoded paths ONLY for writes within $HOME/.agents/.
+Core: path_guard + skill_edit_guard for `.agents/` file writes.
 Impact: deny → tool execution is blocked with reason shown to agent.
 """
 import sys
@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from core import path_guard
+from core import path_guard, skill_edit_guard
 
 # Map Gemini tool name → (content_field, path_field)
 _TOOL_FIELDS = {
@@ -31,15 +31,17 @@ def handle_before_tool(tool_name: str, tool_input: dict) -> dict:
     content = tool_input.get(content_field, "")
     file_path = tool_input.get(path_field, "")
 
-    # path_guard scopes automatically: no-op if file_path not in $HOME/.agents/
     errors = path_guard.guard_content(content, file_path=file_path)
+    skill_result = skill_edit_guard.evaluate_skill_edit(tool_name, tool_input)
+    errors.extend(skill_result["errors"])
     if errors:
         return {
             "decision": "deny",
-            "reason": (
-                f"CRITICAL: Tool '{tool_name}' blocked — rule violations in "
-                f"{file_path or 'unknown path'}:\n"
-                + "\n".join(f"- {e}" for e in errors)
+            "reason": skill_edit_guard.build_edit_block_message(
+                tool_name,
+                skill_result["file_path"] or file_path or "unknown path",
+                errors,
+                skill_result["notes"],
             ),
         }
     return {"decision": "allow"}

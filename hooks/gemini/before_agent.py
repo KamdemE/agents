@@ -2,7 +2,7 @@
 """
 Gemini hook: BeforeAgent
 Event: fires after user submits prompt, before the agent starts planning.
-Core: prompt_injector (date/time) + skill_watcher (rules reminder + skill mods).
+Core: prompt_injector + skill_watcher.
 """
 import sys
 import json
@@ -17,8 +17,7 @@ from core import prompt_injector, skill_watcher
 
 def handle_before_agent(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
-    changed = skill_watcher.get_recently_changed_skills()
-    reminder = skill_watcher.build_reminder_message(agent_name, changed)
+    reminder = skill_watcher.build_governance_reminder()
     parts = [part for part in (dynamic, reminder) if part]
     if not parts:
         return {}
