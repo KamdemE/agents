@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "1.10.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -23,6 +23,8 @@ allowed-tools: Bash, Read, Write, Edit
 - **Workspace root:** `$HOME/.openclaw/workspace/`
 - **Global kernel:** `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/.agents/AGENTS.md`
 - **Managed skills path:** `$HOME/.openclaw/workspace/skills/`
+- **Session history:** `$HOME/.openclaw/agents/main/sessions/`
+- **Memory stores:** `$HOME/.openclaw/memory/` and `$HOME/.openclaw/workspace/memory/`
 
 ## Source Of Truth
 
@@ -83,6 +85,6 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.10.0 — added the real OpenClaw session-history and memory paths while keeping the runtime skill compact and source-of-truth first |
 | 2026-04-03 | [CODEX] | v1.9.0 — compacted the OpenClaw hook section so this skill now points to the managed hook dir and `$HOME/.agents/hooks/README.md` instead of restating the advisory runtime map inline |
-| 2026-04-03 | [CODEX] | v1.8.0 — updated the OpenClaw hook notes so `path-guard/` now reflects both advisory `.agents/` path checks and advisory `SKILL.md` completion checks while keeping the runtime explicitly advisory |
-| [SUMMARY] | — | v1.8.0–v1.0.0: compact hook guidance, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.9.0–v1.0.0: OpenClaw history pointers, compact hook guidance, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |

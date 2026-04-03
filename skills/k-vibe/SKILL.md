@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -24,6 +24,8 @@ allowed-tools: Bash, Read, Write, Edit
 - **Runtime skill:** `$HOME/.vibe/prompts/vibe.md` → this file (`system_prompt_id = "global"` in config.toml)
 - **Skills path:** `skill_paths = ["$HOME/.agents/skills"]` in `config.toml`
 - **Config file:** `$HOME/.vibe/config.toml`
+- **Session logs:** `$HOME/.vibe/logs/session/`
+- **History index:** `$HOME/.vibe/vibehistory`
 
 ## Source Of Truth
 
@@ -59,6 +61,6 @@ Do not list installed MCPs here; read `$HOME/.vibe/config.toml` directly.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.4.0 — added the real VIBE session-history paths and kept the skill compact around the owning runtime files |
 | 2026-04-03 | [CODEX] | v2.3.0 — reframed the skill around source-of-truth files and removed the remaining live-inventory wording for MCPs |
-| 2026-04-03 | [CODEX] | v2.2.2 — normalized remaining paths to `$HOME` without changing the VIBE runtime guidance |
-| [SUMMARY] | — | v2.2.1 standardized name to `k-vibe`; v2.2.0 config.toml anatomy plus broader description; v2.1.0 prompts/vibe.md + skills path; v2.0.0 migrated to skills/ |
+| [SUMMARY] | — | v2.3.0–v2.0.0: VIBE history pointers, source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |

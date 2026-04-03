@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.8.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -25,6 +25,12 @@ allowed-tools: Bash, Read, Write, Edit
 - **Skills path:** natively scans `$HOME/.agents/skills/` (1 level deep — no symlink needed)
 - **Settings:** `$HOME/.gemini/settings.json`
 - **Temp data:** `$HOME/.gemini/tmp/kpihx/`
+
+## History
+
+- **Workspace history roots:** `$HOME/.gemini/history/`
+- **Conversation cache:** `$HOME/.gemini/tmp/kpihx/chats/`
+- **Antigravity conversations:** `$HOME/.gemini/antigravity/conversations/`
 
 ## MCP Server Installation
 
@@ -97,6 +103,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.8.0 — added the real Gemini conversation-history paths and kept the skill compact by exposing only the owning dirs to inspect |
 | 2026-04-03 | [CODEX] | v2.7.0 — compacted the hooks section so this skill now points to the Gemini runtime config and `$HOME/.agents/hooks/README.md` instead of repeating the live hook behavior inline |
-| 2026-04-03 | [CODEX] | v2.6.0 — updated the Gemini hook notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
-| [SUMMARY] | — | v2.6.0–v2.0.0: compact hook guidance, live hook wiring, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
+| [SUMMARY] | — | v2.7.0–v2.0.0: compact hook guidance, Gemini history paths, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |

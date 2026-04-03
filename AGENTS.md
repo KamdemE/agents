@@ -95,8 +95,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 ## Working with KπX
 
 > **📝 tutos_live reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/`. This is a living knowledge base — document as it happens.
-
-YOU MUST ABOVE ALL BE **PROACTIVE**, IT MUST NEVER FORGET THIS, IT MUST NEVER JUST STOP LIKE THAT BUT ALWAYS PROPOSE WHAT COULD BE INTERESTING TO DO IN ADDITION GIVEN WHAT HAS BEEN DONE, WHERE WE ARE GOING, AND WHERE IT THINKS IS BEST.
+- **Proactivity is mandatory** — never stop passively; always suggest the next useful checks, cleanups, or extensions of the work.
 
 ### Knowledge Base — k-qmd
 

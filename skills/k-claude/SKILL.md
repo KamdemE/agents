@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.8.0"
+  version: "2.9.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -26,20 +26,12 @@ allowed-tools: "Bash, Read, Write, Edit"
 - **Auto-memory:** `$HOME/.claude/projects/-home-kpihx/memory/` — Read → Edit on existing files, never Write
 - **Session model:** Single long session from `$HOME/` (HOME workspace)
 
-## Session History & Logs
+## History & Memory
 
-- **Main sessions:** `$HOME/.claude/projects/-home-kpihx/*.jsonl`
-- **Per-session subagents:** `$HOME/.claude/projects/-home-kpihx/<session-id>/subagents/*.jsonl`
+- **Session history:** `$HOME/.claude/projects/-home-kpihx/*.jsonl`
+- **Subagent traces:** `$HOME/.claude/projects/-home-kpihx/<session-id>/subagents/*.jsonl`
 - **Tool outputs:** `$HOME/.claude/projects/-home-kpihx/<session-id>/tool-results/*.json`
-- **Workspace memory index:** `$HOME/.claude/projects/-home-kpihx/memory/MEMORY.md`
-- **Workspace memory docs:** `$HOME/.claude/projects/-home-kpihx/memory/*.md`
-
-**Structure:**
-- Each top-level `*.jsonl` file is one Claude session for the `$HOME` workspace
-- Newest discussion = top-level `*.jsonl` with the latest modification time
-- Records are JSON Lines with mixed entry types: `user`, `assistant`, `system`, `last-prompt`, `permission-mode`, `file-history-snapshot`
-- Subagent traces live under the matching `<session-id>/subagents/`
-- Session-level tool payloads live under the matching `<session-id>/tool-results/`
+- **Workspace memory:** `$HOME/.claude/projects/-home-kpihx/memory/`
 
 ## MCP Configuration
 
@@ -80,6 +72,6 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.9.0 — compacted the runtime history section to the minimum useful path map while keeping the real Claude conversation, subagent, tool-output, and memory locations explicit |
 | 2026-04-03 | [CODEX] | v2.8.0 — compacted the hook section so this skill points to the real Claude runtime config and `$HOME/.agents/hooks/README.md` instead of re-describing the live wrapper behavior inline |
-| 2026-04-03 | [CODEX] | v2.7.0 — updated Claude hook behavior notes for the lighter per-turn reminder, the write-time `SKILL.md` completion guard, and the delayed `.agents/` finalization reminder |
-| [SUMMARY] | — | v2.7.0–v2.0.0: compact hook guidance, live hook wiring, session history paths and JSONL layout, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
+| [SUMMARY] | — | v2.8.0–v2.0.0: compact hook guidance, compact history path map, live hook wiring, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |

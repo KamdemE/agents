@@ -4,7 +4,7 @@ description: k-ai runtime memory, preferences, and operating notes.
 license: private
 metadata:
   author: KpihX
-  version: "1.2.2"
+  version: "1.3.0"
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -21,6 +21,9 @@ allowed-tools: Read, Edit, Write
 | Resource | Path / URL |
 |----------|------------|
 | **Source code** | `$HOME/Work/AI/k_ai/` |
+| **Session history** | `$HOME/.k-ai/sessions/` |
+| **Session index** | `$HOME/.k-ai/sessions/index.json` |
+| **Runtime shell history** | `$HOME/.k-ai/runtime/shell_history` |
 | **GitHub** | https://github.com/KpihX/k-ai |
 | **GitLab** | https://gitlab.com/kpihx/k-ai |
 
@@ -56,6 +59,6 @@ allowed-tools: Read, Edit, Write
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.3.0 — added the real k-ai session-history paths so the skill exposes the owning runtime dirs without expanding the memory rules further |
 | 2026-04-03 | [CODEX] | v1.2.2 — added the standard edit reminder directly under the H1 so the skill conforms to the shared structural guard |
-| 2026-04-03 | [CODEX] | v1.2.1 — normalized remaining path literals to `$HOME` without changing the runtime memory guidance |
-| [SUMMARY] | — | v1.2.0 renamed skill `k-ai-memory` → `k-ai` and added Project References; v1.1.0 initial memory entries |
+| [SUMMARY] | — | v1.2.2–v1.1.0: k-ai history pointers, standard edit reminder, normalized `$HOME` paths, rename from `k-ai-memory`, project references, and initial memory entries |

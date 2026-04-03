@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.0"
+  version: "2.9.1"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -34,6 +34,8 @@ allowed-tools: Bash, Read, Write, Edit
 | `$HOME/.codex/memories/` | Persisted insights from past sessions |
 | `$HOME/.codex/rules/default.rules` | Auto-allow prefix_rule patterns (accumulated by Codex) |
 | `$HOME/.codex/sessions/` | Session history |
+| `$HOME/.codex/history.jsonl` | Conversation/event stream |
+| `$HOME/.codex/session_index.jsonl` | Session index |
 
 ## Hooks
 
@@ -92,6 +94,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.9.1 — made the Codex history pointers explicit by adding `history.jsonl` and `session_index.jsonl` alongside the sessions dir |
 | 2026-04-03 | [CODEX] | v2.9.0 — compacted the hooks section so this skill now points to the live runtime files and `$HOME/.agents/hooks/README.md` instead of duplicating the Codex hook contract inline |
-| 2026-04-03 | [CODEX] | v2.8.0 — removed the unused Codex `PreToolUse` wrapper from the deployed wiring and documented explicitly that `.agents/` write guards are not wired on Codex until the runtime exposes a real structured file-edit hook surface |
-| [SUMMARY] | — | v2.8.0–v2.0.0: compact hook guidance, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
+| [SUMMARY] | — | v2.9.0–v2.0.0: explicit history pointers, compact hook guidance, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |

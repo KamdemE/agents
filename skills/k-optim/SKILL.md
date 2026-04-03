@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.1"
+  version: "1.3.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -43,6 +43,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 - `.agents/` governance is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills were aligned and validated with `make -C $HOME/.agents audit`
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; if the wording and the enforced behavior diverge, governance is drifting
+- operational Markdown must stay low-token and source-of-truth first; if a skill or doc starts duplicating detail already owned elsewhere, compact it and point back to the owning file/dir
 - `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
 - QMD hygiene was tightened for `codex`, `gemini`, `copilot`, and `vibe` by reducing noisy patterns in `$HOME/.config/qmd/index.yml`
 - `tutos_live` and `presentation` are clean knowledge collections
@@ -128,6 +129,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.3.0 — added the low-token documentation rule to the optimization posture so `.agents/` hygiene explicitly includes compacting verbose skills/docs back to source-of-truth pointers |
 | 2026-04-03 | [CODEX] | v1.2.1 — moved the shared `.agents/` recheck entrypoint reference to `$HOME/.agents/hooks/audit.py` so the optimization map points to the real top-level hooks audit |
-| 2026-04-03 | [CODEX] | v1.2.0 — strengthened the `Meta` section so `.agents/` optimization explicitly includes checking that `AGENTS.md` stays synchronized with the real hook behavior and reminder text under `$HOME/.agents/hooks/` |
-| [SUMMARY] | — | v1.2.0–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map, normalized paths to the `$HOME` standard, and added the AGENTS↔hooks sync reminder |
+| [SUMMARY] | — | v1.2.1–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map, normalized paths to the `$HOME` standard, added the AGENTS↔hooks sync reminder, and now includes the low-token doc compaction rule |
