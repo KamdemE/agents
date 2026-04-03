@@ -7,7 +7,7 @@ Wrappers decide where to inject this reminder in their own lifecycle.
 import os
 import time
 
-from core.settings import AGENTS_MD_DISPLAY, HOME, SKILLS_DIR
+from core.settings import AGENTS_MD_DISPLAY, SKILLS_DIR
 from core.response_validator import build_required_structure_reminder
 from core.session_guard import build_agents_maintenance_checklist
 from core.skill_content_guard import build_skill_content_violation_report
@@ -30,8 +30,7 @@ def get_recently_changed_skills(skills_dir: str = None, minutes: int = 10) -> li
                 file_path = os.path.join(root, file)
                 try:
                     if os.path.getmtime(file_path) > threshold:
-                        # Return display path with $HOME (never hardcoded /home/user)
-                        changed.append(file_path.replace(HOME, "$HOME"))
+                        changed.append(file_path)
                 except OSError:
                     continue
     return changed

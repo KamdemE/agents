@@ -233,11 +233,31 @@ def _wrapper_smoke_tests() -> list[str]:
         findings.append(f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: smoke test failed: {exc}")
 
     try:
+        codex_start = _load_module(HOOKS_DIR / "codex/session_start.py", "audit_codex_start")
+        result = codex_start.handle_session_start("CODEX")
+        hook_output = result.get("hookSpecificOutput", {})
+        if hook_output.get("hookEventName") != "SessionStart":
+            findings.append(
+                f"{_display(HOOKS_DIR / 'codex/session_start.py')}: missing `hookEventName=SessionStart` in smoke test."
+            )
+        if "additionalContext" not in hook_output:
+            findings.append(
+                f"{_display(HOOKS_DIR / 'codex/session_start.py')}: missing `hookSpecificOutput.additionalContext` in smoke test."
+            )
+    except Exception as exc:
+        findings.append(f"{_display(HOOKS_DIR / 'codex/session_start.py')}: smoke test failed: {exc}")
+
+    try:
         codex_user = _load_module(HOOKS_DIR / "codex/user_prompt_submit.py", "audit_codex_prompt")
         result = codex_user.handle_user_prompt_submit("CODEX", cwd=HOME)
-        if "additionalContext" not in result:
+        hook_output = result.get("hookSpecificOutput", {})
+        if hook_output.get("hookEventName") != "UserPromptSubmit":
             findings.append(
-                f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: missing `additionalContext` in smoke test."
+                f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: missing `hookEventName=UserPromptSubmit` in smoke test."
+            )
+        if "additionalContext" not in hook_output:
+            findings.append(
+                f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: missing `hookSpecificOutput.additionalContext` in smoke test."
             )
     except Exception as exc:
         findings.append(f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: smoke test failed: {exc}")

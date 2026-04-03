@@ -4,7 +4,7 @@ Codex hook: UserPromptSubmit
 Event: fires whenever a user submits a prompt (matcher ignored).
 Core: prompt_injector (date/time) + skill_watcher (rules reminder + skill mods).
 Input stdin: {"session_id":"...","cwd":"...","hook_event_name":"UserPromptSubmit",...}
-Output stdout: JSON additionalContext injected before the LLM call.
+Output stdout: JSON with `hookSpecificOutput.additionalContext` injected before the LLM call.
 """
 import sys
 import json
@@ -21,7 +21,12 @@ def handle_user_prompt_submit(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
     changed = skill_watcher.get_recently_changed_skills()
     reminder = skill_watcher.build_reminder_message(agent_name, changed)
-    return {"additionalContext": dynamic + "\n" + reminder}
+    return {
+        "hookSpecificOutput": {
+            "hookEventName": "UserPromptSubmit",
+            "additionalContext": dynamic + "\n" + reminder,
+        }
+    }
 
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR

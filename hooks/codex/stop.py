@@ -54,24 +54,30 @@ def _extract_last_assistant_response(transcript_path: str | None) -> str:
     return last_final or last_assistant
 
 
-def handle_stop(transcript_path: str | None = None) -> int:
-    """Returns exit code: 2 if response/finalization checks fail, 0 otherwise."""
-    response_text = _extract_last_assistant_response(transcript_path)
+def _build_block_payload(reason: str) -> dict:
+    return {"decision": "block", "reason": reason}
+
+
+def handle_stop(
+    transcript_path: str | None = None,
+    last_assistant_message: str | None = None,
+) -> tuple[int, dict | None, str | None]:
+    """Returns (exit_code, payload, stderr_reason)."""
+    response_text = last_assistant_message or _extract_last_assistant_response(transcript_path)
     if response_text:
         validation = response_validator.validate_response(response_text)
         if not validation["passed"]:
-            print(
+            reason = (
                 "CRITICAL: Your last response violates AGENTS.md rules:\n"
-                + "\n".join(f"- {error}" for error in validation["errors"]),
-                file=sys.stderr,
+                + "\n".join(f"- {error}" for error in validation["errors"])
             )
-            return 2
+            return 2, _build_block_payload(reason), reason
 
     result = session_guard.check_agents_git_status()
     if result["has_changes"]:
-        print(result["message"], file=sys.stderr)
-        return 2  # force Codex to act on the message
-    return 0
+        reason = result["message"]
+        return 2, _build_block_payload(reason), reason
+    return 0, None, None
 
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR
@@ -80,7 +86,15 @@ def handle_stop(transcript_path: str | None = None) -> int:
 def main():
     try:
         input_data = json.load(sys.stdin)
-        sys.exit(handle_stop(input_data.get("transcript_path")))
+        exit_code, payload, stderr_reason = handle_stop(
+            transcript_path=input_data.get("transcript_path"),
+            last_assistant_message=input_data.get("last_assistant_message"),
+        )
+        if payload is not None:
+            print(json.dumps(payload))
+        if stderr_reason:
+            print(stderr_reason, file=sys.stderr)
+        sys.exit(exit_code)
     except Exception:
         sys.exit(0)  # fail-safe
 

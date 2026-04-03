@@ -65,7 +65,10 @@ def main():
         tool_input = input_data.get("tool_input", {})
         result = handle_pre_tool_use(tool_name, tool_input)
         if result:
+            reason = result.get("reason", "")
             print(json.dumps(result))
+            if reason:
+                print(reason, file=sys.stderr)
             sys.exit(2)  # exit 2 = hard block in Codex
         sys.exit(0)
     except Exception:

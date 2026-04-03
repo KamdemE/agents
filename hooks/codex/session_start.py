@@ -4,7 +4,7 @@ Codex hook: SessionStart
 Event: fires when a session starts (matcher: startup|resume).
 Core: context_injector — injects k-context + k-workspace + session date.
 Input stdin: {"session_id":"...","cwd":"...","hook_event_name":"SessionStart","model":"..."}
-Output stdout: JSON additionalContext
+Output stdout: JSON with `hookSpecificOutput.additionalContext` plus optional `systemMessage`.
 """
 import sys
 import json
@@ -20,7 +20,10 @@ from core import context_injector
 def handle_session_start(agent_name: str) -> dict:
     data = context_injector.build_context_output(agent_name)
     return {
-        "additionalContext": data["context"],
+        "hookSpecificOutput": {
+            "hookEventName": "SessionStart",
+            "additionalContext": data["context"],
+        },
         "systemMessage": data["system_message"],
     }
 

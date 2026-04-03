@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.6.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -90,6 +90,7 @@ $HOME/.agents/hooks/
 - wrappers call core helpers instead of rephrasing the same rule text locally
 - reminders point back to `$HOME/.agents/AGENTS.md`
 - if a rule changes, update the owning core module or `AGENTS.md`, not four wrappers
+- wrapper docstrings and inline schemas must stay aligned with the real runtime wire contract; misleading code comments are also desync
 
 ### Path Scope
 
@@ -124,6 +125,15 @@ $HOME/.agents/hooks/
 | Claude | `$HOME/.claude/settings.json` |
 | OpenClaw | `$HOME/.openclaw/openclaw.json` plus discovered `HOOK.md` files in `$HOME/.agents/hooks/openclaw/` |
 
+## Runtime-Specific Wire Notes
+
+- Gemini and Claude can keep their own runtime shapes, but the policy logic still comes from `core/`
+- Codex is strict about wrapper envelopes:
+  - `SessionStart` and `UserPromptSubmit` inject text under `hookSpecificOutput.additionalContext`
+  - `PreToolUse` and `Stop` blocks require a non-empty root `reason`
+  - `PreToolUse` hard blocks also need that reason on stderr when exiting `2`
+- when a runtime schema changes, update the wrapper first, then this skill, then the matching runtime skill
+
 ## Recheck
 
 - Run `python3 $HOME/.agents/hooks/core/audit.py` after hook or skill-governance changes
@@ -133,6 +143,6 @@ $HOME/.agents/hooks/
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.6.0 — added Codex wire-contract notes (`hookSpecificOutput.additionalContext`, block reasons, stderr on `PreToolUse` hard blocks) and made wrapper docstring/schema alignment an explicit no-desync rule |
 | 2026-04-03 | [CODEX] | v2.5.0 — rewrote the skill into a compact source-of-truth map, documented the now-live Claude wrappers and `core/audit.py`, and removed stale TODO/legacy wording so the skill matches the real generic-core plus thin-wrapper architecture |
-| 2026-04-03 | [CODEX] | v2.4.0 — clarified that `core/` stays generic while wrappers bind concrete lifecycle events, documented `skill_content_guard.py`, and restricted structural guards to KπX-owned `k-*` skills |
-| [SUMMARY] | — | v2.3.0–v2.0.0: centralized settings extraction, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.5.0–v2.0.0: compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, centralized settings extraction, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

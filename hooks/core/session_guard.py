@@ -10,10 +10,14 @@ Wrappers decide where to run this finalization check in their own lifecycle.
 import subprocess
 
 from core.skill_content_guard import build_skill_content_violation_report
-from core.settings import AGENTS_DIR, AGENTS_MD_DISPLAY
+from core.settings import AGENTS_DIR, AGENTS_MD_DISPLAY, HOME
 from core.skill_structure_guard import build_skill_structure_violation_report
 
 _AGENTS_MD = AGENTS_MD_DISPLAY
+
+
+def _display_path(path: str) -> str:
+    return path.replace(HOME, "$HOME")
 
 
 def _status_line_to_path(status_line: str) -> str:
@@ -22,6 +26,10 @@ def _status_line_to_path(status_line: str) -> str:
     if " -> " in payload:
         payload = payload.split(" -> ", 1)[1]
     return payload.strip()
+
+
+def _status_line_to_abs_path(status_line: str, agents_dir: str) -> str:
+    return f"{agents_dir}/{_status_line_to_path(status_line)}"
 
 
 def build_agents_maintenance_checklist(
@@ -33,7 +41,7 @@ def build_agents_maintenance_checklist(
     parts: list[str] = []
 
     if changed_skill_files:
-        changed_list = "\n".join(f"  {path}" for path in changed_skill_files)
+        changed_list = "\n".join(f"  {_display_path(path)}" for path in changed_skill_files)
         parts.append(
             "For EACH modified skill file:\n"
             f"{changed_list}\n"
@@ -53,7 +61,7 @@ def build_agents_maintenance_checklist(
 
     if include_git_sync and agents_dir is not None:
         parts.append(
-            f"Finally: git commit + make push in {agents_dir}\n"
+            f"Finally: git commit + make push in {_display_path(agents_dir)}\n"
             f"  → Rule: {_AGENTS_MD} → '### Provenance & Quality' (Kernel sync)"
         )
 
@@ -63,18 +71,14 @@ def build_agents_maintenance_checklist(
 def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
     skill_files = [f for f in changed_files if "skills/" in f]
     other_files = [f for f in changed_files if "skills/" not in f]
-    skill_paths = [
-        f"{agents_dir}/{_status_line_to_path(line)}"
-        for line in skill_files
-        if _status_line_to_path(line).endswith("SKILL.md")
-    ]
+    skill_paths = [_status_line_to_abs_path(line, agents_dir) for line in skill_files if _status_line_to_path(line).endswith("SKILL.md")]
 
     msg = "SESSION FINALIZATION REQUIRED: $HOME/.agents/ has uncommitted changes.\n\n"
 
     if skill_files:
         msg += "Modified skill files:\n"
         for f in skill_files:
-            msg += f"  {f}\n"
+            msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
         msg += "\n"
         violations = build_skill_structure_violation_report(skill_paths)
         if violations:
@@ -86,11 +90,11 @@ def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
     if other_files:
         msg += "Other changed files:\n"
         for f in other_files:
-            msg += f"  {f}\n"
+            msg += f"  {_display_path(_status_line_to_abs_path(f, agents_dir))}\n"
         msg += "\n"
 
     msg += build_agents_maintenance_checklist(
-        changed_skill_files=skill_files,
+        changed_skill_files=skill_paths,
         include_git_sync=True,
         agents_dir=agents_dir,
     )
@@ -113,7 +117,7 @@ def check_agents_git_status() -> dict:
             ["git", "-C", AGENTS_DIR, "status", "--porcelain"],
             capture_output=True, text=True, timeout=5
         )
-        lines = [ln.strip() for ln in result.stdout.strip().splitlines() if ln.strip()]
+        lines = [ln.rstrip() for ln in result.stdout.splitlines() if ln.strip()]
         has_changes = bool(lines)
         return {
             "has_changes": has_changes,
