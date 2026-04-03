@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.1.2"
   scope: tool-integration
   api-version: v0.10.5
 allowed-tools: Bash
@@ -24,6 +24,18 @@ allowed-tools: Bash
 > **Core function:** `scripts/napkin_gen.sh` — source it in any generation script.
 > **Generation examples:** `scripts/` — one `.sh` per visual type (good usage) + `BAD_comparison_4agents.sh` (bad usage documented).
 > **Visual outputs:** `assets/examples/` — real renders for visual reference.
+
+## Bundled Scripts
+
+- `scripts/napkin_gen.sh` — shared generate/poll/download function
+- `scripts/mindmap_kpix_ecosystem.sh` — mindmap example
+- `scripts/flowchart_project_workflow.sh` — flowchart example
+- `scripts/timeline_homelab_evolution.sh` — timeline example
+- `scripts/hierarchy_skills_architecture.sh` — hierarchy example
+- `scripts/cycle_deploy_lifecycle.sh` — cycle example
+- `scripts/list_daily_toolbox.sh` — list example
+- `scripts/matrix_priority_effort.sh` — matrix example
+- `scripts/BAD_comparison_4agents.sh` — intentionally bad comparison example documenting the layout limit
 
 ## Auth & Quota
 
@@ -56,7 +68,7 @@ POST /v1/visual           → { id, status: "pending" }
         ↓ sleep 1 (rate limit)
 GET  /v1/visual/{id}/status  → { status: "completed", generated_files: [{ url }] }
         ↓ curl -H "Authorization: Bearer $NAPKIN_API_KEY"
-~/Pictures/Napkin/{type}_{time}.{fmt}
+$HOME/Pictures/Napkin/{type}_{time}.{fmt}
 ```
 
 ## Generate + Poll + Download (zsh function)
@@ -159,18 +171,18 @@ napkin_generate /tmp/v.md mindmap svg
 ## Output Convention
 
 ```
-~/Pictures/Napkin/
+$HOME/Pictures/Napkin/
 ├── mindmap_143000.svg
 ├── flowchart_143500.svg
 └── timeline_090000.png
 ```
 
-> `~/Pictures/Napkin/` is currently **empty** — example renders are in `assets/examples/` of this skill.
+> `$HOME/Pictures/Napkin/` is currently **empty** — example renders are in `assets/examples/` of this skill.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-01 | [CLAUDE] | v1.1.0 — quota table, fixed function (python3 parsing, --arg, auth download, vstatus), batch script ref, comparison warning, examples moved to assets/ |
-| 2026-03-31 | [CLAUDE] | v1.0.1 — HTTP 402 gotcha documented; output dir → ~/Pictures/Napkin |
-| [SUMMARY] | — | v1.0.0 — initial skill creation |
+| 2026-04-03 | [CODEX] | v1.1.2 — surfaced every bundled example script explicitly so the skill stays aligned with the shared content-coverage guard |
+| 2026-04-03 | [CODEX] | v1.1.1 — normalized remaining output-path literals to `$HOME` without changing the Napkin workflow |
+| [SUMMARY] | — | v1.1.0 quota table, fixed function (python3 parsing, --arg, auth download, vstatus), batch script ref, comparison warning, and examples moved to assets/; v1.0.1 HTTP 402 gotcha documented with output dir normalization; v1.0.0 initial skill creation |

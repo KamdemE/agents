@@ -2,7 +2,7 @@
 # napkin_gen.sh — Core generation function. Source this in any Napkin generation script.
 #
 # USAGE:
-#   source ~/.agents/skills/k-napkin/scripts/napkin_gen.sh
+#   source $HOME/.agents/skills/k-napkin/scripts/napkin_gen.sh
 #   napkin_gen <content_file> <visual_type> [format] [output_dir] [language]
 #
 # REQUIREMENTS: NAPKIN_API_KEY via bw-env, jq, curl, python3

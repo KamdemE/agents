@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.2"
+  version: "2.0.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -19,7 +19,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `~/Work/tutos_live/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or qmd.
+> **Concrete examples:** check `$HOME/Work/tutos_live/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
 
 ## Naming Conventions
 
@@ -44,7 +44,7 @@ module-name = "snake_name"   # import name ≠ PyPI name
 ## Project Init — Python
 
 ```bash
-cd ~/Work/<category>/
+cd $HOME/Work/<category>/
 uv init --package <project-name>
 cd <project-name>
 ```
@@ -68,12 +68,12 @@ Next steps:
 1. Replace `pyproject.toml` → `assets/pyproject.toml` (adapt name + deps)
 2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` defaults file alongside it
 3. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
-NB: we can have many `.env.example`, `.env`, `config.yaml`, `config.py`, since by default there are encapsulated in packages ; thus a very autonomous package sould have its own ones.
+Autonomous packages may each own their own `.env.example`, `.env`, `config.yaml`, and `config.py` when the boundary is real and intentional.
 
 ## Project Init — JS/TS
 
 ```bash
-cd ~/Work/<category>/
+cd $HOME/Work/<category>/
 mkdir <project-name> && cd <project-name>
 bun init -y / npm init -y
 ```
@@ -122,15 +122,7 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
 - **No hardcoding** — all values in `config.yaml`; secrets in `.env`
-- **P
-
-## Changelog
-
-- **v1.9.1 (2024-07-29):**
-  - Add rule to create a LICENSE file at project init (default MIT/GNU).
-- **v1.9.0 (2024-07-28):**
-  - Add `uv init --package <name>` for Python projects.
-  - Reorganize sections for clarity.OO** — encapsulation; internals prefixed `_`; public API explicit
+- **OO** — encapsulation; internals prefixed `_`; public API explicit
 - **Config pattern** — `ConfigManager` per package (`assets/config.py` / `config.ts`):
   - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
   - `@lru_cache` on YAML loading (Python) / `Map` cache (TS)
@@ -210,15 +202,6 @@ Load `k-git-pages` for Docsify templates + link rules.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v1.9.2 — templates/ → assets/, docs-site.md → references/docs-site.md (skill-creator standard) |
-| 2024-07-29 | [GEMINI] | v1.9.1 — Add rule for proactive LICENSE file creation. |
-| 2026-03-29 | [CLAUDE] | v1.9.0 — Makefile standard task runner section added (make push/build/release/check table + bypass warning); AGENTS template Makefile rule |
-| 2026-03-29 | [CLAUDE] | v1.8.0 — config.ts rewritten to match config.py: resolveEnv() two-tier, SecretsUnavailableError, getSecret(), dotted-path get(), singleton loadConfig/updateConfig/getConfig, full HOW TO USE + PLACEHOLDERS header |
-| 2026-03-29 | [CLAUDE] | v1.7.0 — Makefile Templates section added (Makefile.uv+npm-bun moved from k-git); project tree added to Standard Files |
-| 2026-03-29 | [CLAUDE] | v1.6.0 — typos fixed (alson, numbering); docs-site.md trimmed to docs/ pattern only; Documentation Site blurb updated |
-| 2026-03-29 | [GEMINI] | v1.5.0 — updated References: k-docker now exists |
-| 2026-03-29 | [CLAUDE] | v1.4.0 — added Documentation Site section + docs-site.md reference |
-| 2026-03-29 | [CLAUDE] | v1.3.0 — description enriched: explicit mentions of pyproject.toml, config.py/ts, uv/bun |
-| 2026-03-29 | [CLAUDE] | v1.2.0 — config.py enriched (bw-env _resolve_env, SecretsUnavailableError, get_secret, dotted-path get); pyproject.toml enriched (authors, license, [tool.uv] package=true); concrete examples + k-git-pages cross-ref |
-| 2026-03-29 | [CLAUDE] | v1.1.0 — added Related skills header (k-git, k-docker) |
-| [SUMMARY] | — | v1.0.0 initial creation |
+| 2026-04-03 | [CODEX] | v2.0.1 — tightened the wording around per-package config/env ownership so the skill stays concise and aligned with the source-of-truth-first style used across the refreshed runtime skills |
+| 2026-04-03 | [CODEX] | v2.0.0 — repaired the corrupted architecture section, normalized paths to `$HOME`, removed the duplicate changelog block, and condensed the footer to the standard format |
+| [SUMMARY] | — | v1.9.2 templates/ → assets/ and docs-site reference move; v1.9.1 proactive LICENSE rule; v1.9.0 Makefile standard task runner; v1.8.0 config.ts rewrite to match config.py; v1.7.0 Makefile templates moved from `k-git`; v1.6.0 docs-site cleanup; v1.5.0–v1.0.0 references, docs-site, enriched description, config templates, related skills, and initial creation |

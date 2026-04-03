@@ -109,7 +109,7 @@ function _deepMerge(base: ConfigData, overlay: ConfigData): ConfigData {
 /**
  * Two-tier secret resolution:
  *   1. process.env  (already set — terminal session, explicit export, or .env loaded)
- *   2. zsh -l -c   (login shell — bw-env secrets injected via ~/.kshrc)
+ *   2. zsh -l -c   (login shell — bw-env secrets injected via $HOME/.kshrc)
  *
  * Returns null if the secret is absent in both tiers.
  */
@@ -118,7 +118,7 @@ function _resolveEnv(name: string): string | null {
   const fromEnv = process.env[name];
   if (fromEnv) return fromEnv;
 
-  // Tier 2: login shell — bw-env injects secrets at login time via ~/.kshrc
+  // Tier 2: login shell — bw-env injects secrets at login time via $HOME/.kshrc
   try {
     const value = execSync(`zsh -l -c 'printf "%s" "\${${name}}"'`, {
       timeout: 10_000,
@@ -173,7 +173,7 @@ export class ConfigManager {
     const resolvedPath = overridePath ?? process.env["CONFIG_PATH"];
     if (resolvedPath) {
       const abs = path.resolve(
-        resolvedPath.replace(/^~/, process.env["HOME"] ?? "")
+        resolvedPath.replace(/^\x7E/, process.env["HOME"] ?? "")
       );
       if (fs.existsSync(abs)) {
         data = _deepMerge(data, _loadYaml(abs));

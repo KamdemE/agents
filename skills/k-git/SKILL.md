@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.1"
+  version: "2.6.2"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -14,7 +14,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 > **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab or elsewhere)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `~/Work/tutos_live/templates/` for Python/Makefile examples — browse via `ls` or qmd.
+> **Concrete examples:** check `$HOME/Work/tutos_live/templates/` for Python/Makefile examples — browse via `ls` or `k-qmd`.
 
 ## Rules
 
@@ -53,7 +53,7 @@ Load `k-project` for project lifecycle philosophy + those templates.
 
 ## SSH Troubleshooting Runbook
 
-`SSH_AUTH_SOCK` → Bitwarden Desktop socket (`~/.bitwarden-ssh-agent.sock`) loaded from `~/.kshrc`.
+`SSH_AUTH_SOCK` → Bitwarden Desktop socket (`$HOME/.bitwarden-ssh-agent.sock`) loaded from `$HOME/.kshrc`.
 Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key validation.
 
 1. `tailscale status` — confirm Tailscale routing is active
@@ -94,9 +94,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.6.2 — normalized remaining paths to `$HOME`, pointed concrete examples to `k-qmd`, and condensed the changelog to the standard footer format |
 | 2026-03-31 | [CLAUDE] | v2.6.1 — templates/ → assets/ (skill-creator standard) |
-| 2026-03-29 | [CLAUDE] | v2.6.0 — Makefile.general→Makefile.git; Makefile.uv+npm-bun moved to k-project; k-project cross-ref added |
-| 2026-03-29 | [CLAUDE] | v2.5.0 — concrete examples pointer to tutos_live/templates/ |
-| 2026-03-29 | [CLAUDE] | v2.4.0 — added Related skills header (k-project always, k-docker if deployable) |
-| 2026-03-29 | [CLAUDE] | v2.3.0 — Makefile section replaced by 3 templates in templates/ (general/uv/npm-bun) |
-| [SUMMARY] | — | v2.2.0 full Makefile patterns + GitLab namespace rule; v2.1.0 init checklist; v2.0.0 refonte; v1.0.0 init |
+| [SUMMARY] | — | v2.6.0 Makefile.general→Makefile.git with uv/npm-bun templates moved to `k-project`; v2.5.0 examples pointer added; v2.4.0 Related skills header; v2.3.0 template split; v2.2.0–v1.0.0 Git workflow baseline and refonte |

@@ -98,7 +98,7 @@ def _resolve_env(name: str) -> str | None:
     """
     Two-tier secret resolution:
       1. os.environ (already set — terminal session, explicit export, or .env loaded)
-      2. zsh -l -c login shell (bw-env secrets injected via ~/.kshrc)
+      2. zsh -l -c login shell (bw-env secrets injected via $HOME/.kshrc)
 
     Returns None if the secret is absent in both tiers.
     """
@@ -107,7 +107,7 @@ def _resolve_env(name: str) -> str | None:
     if value:
         return value
 
-    # Tier 2: login shell — bw-env injects secrets at login time via ~/.kshrc
+    # Tier 2: login shell — bw-env injects secrets at login time via $HOME/.kshrc
     try:
         result = subprocess.run(
             ["zsh", "-l", "-c", f'printf "%s" "${{{name}}}"'],

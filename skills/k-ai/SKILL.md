@@ -4,7 +4,7 @@ description: k-ai runtime memory, preferences, and operating notes.
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.2.2"
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -12,17 +12,19 @@ allowed-tools: Read, Edit, Write
 
 # k-ai
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 > THE AGENT MUST PROACTIVELY UPDATE THIS MEMORY AS SOON AS IT FINDS SOMETHING KEY TO REMEMBER, WITHOUT ASKING FOR APPROVAL.
 
 ## Project References
 
 | Resource | Path / URL |
 |----------|------------|
-| **Source code** | `~/Work/AI/k_ai/` |
+| **Source code** | `$HOME/Work/AI/k_ai/` |
 | **GitHub** | https://github.com/KpihX/k-ai |
 | **GitLab** | https://gitlab.com/kpihx/k-ai |
 
-> When investigating a bug or unexpected behavior, go to `~/Work/AI/k_ai/` first — that is the canonical source of truth for the runtime code.
+> When investigating a bug or unexpected behavior, go to `$HOME/Work/AI/k_ai/` first — that is the canonical source of truth for the runtime code.
 
 ## Edition Rules
 
@@ -46,7 +48,7 @@ allowed-tools: Read, Edit, Write
 - [11] ALWAYS create and manipulate temporary working files (like JSON, logs, or intermediate data) in `/tmp` by default to avoid cluttering the user's directories. Only use the current directory if explicitly requested by the user.
 - [12] Do not rewrite entire files. If a file appears truncated, read it in portions using `read_text_file` with `head` or `tail`. Use `mcp__filesystem__edit_file` for modifications instead of overwriting with `mcp__filesystem__write_file`, unless explicitly asked to rewrite the whole file.
 - [13] When a file or directory is not found, perform successive or recursive `ls` commands to explore the filesystem instead of concluding it doesn't exist too quickly.
-- [15] When searching for files, distinguish between project and general searches. For PROJECT-RELATED files, ALWAYS scope the search to `~/Work`. For general files, AVOID a global search on `$HOME`. A RECURSIVE `tree -L 2` is often more efficient than an exhaustive file search.
+- [15] When searching for files, distinguish between project and general searches. For PROJECT-RELATED files, ALWAYS scope the search to `$HOME/Work`. For general files, AVOID a global search on `$HOME`. A RECURSIVE `tree -L 2` is often more efficient than an exhaustive file search.
 - [16] To save tokens, when creating a file from a known template, prefer copying it with `cp <template_path> <destination_path>` rather than using `write_file`. The content can then be adjusted with `edit_file` if necessary.
 - [17] My own session history is indexed in the 'k-ai' QMD collection. The 'agents' collection is for global context for other agents.
 
@@ -54,5 +56,6 @@ allowed-tools: Read, Edit, Write
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-30 | [CLAUDE] | v1.2.0 — renamed skill `k-ai-memory` → `k-ai`; added Project References section (source path + GitHub/GitLab) |
-| [SUMMARY] | — | v1.1.0 initial memory entries |
+| 2026-04-03 | [CODEX] | v1.2.2 — added the standard edit reminder directly under the H1 so the skill conforms to the shared structural guard |
+| 2026-04-03 | [CODEX] | v1.2.1 — normalized remaining path literals to `$HOME` without changing the runtime memory guidance |
+| [SUMMARY] | — | v1.2.0 renamed skill `k-ai-memory` → `k-ai` and added Project References; v1.1.0 initial memory entries |

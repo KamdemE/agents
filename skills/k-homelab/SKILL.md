@@ -5,11 +5,11 @@ description: >
   Ollama), self-hosted services (polytask, wa-bot, n8n, sentinel), SSH
   (ssh homelab / docker-host), GitLab CI/CD, presentation/ knowledge base.
   Load for any task involving the homelab server, Docker containers, Traefik reverse proxy,
-  CI/CD pipelines, or ~/Work/Homelab/ projects. NOT for generic project init (→ k-project).
+  CI/CD pipelines, or $HOME/Work/Homelab/ projects. NOT for generic project init (→ k-project).
 license: private
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.6.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -19,9 +19,9 @@ allowed-tools: Bash(*), "*"
 
 ## SSH & Tailscale
 
-Full SSH config → `~/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
+Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
 
-**SSH aliases** (source of truth: `~/.ssh/config`):
+**SSH aliases** (source of truth: `$HOME/.ssh/config`):
 
 | Alias | Target | Route | Use when |
 |-------|--------|-------|----------|
@@ -40,12 +40,12 @@ Full SSH config → `~/.ssh/config` is the source of truth for aliases, jump hos
 | `kpihx-tablet` | `100.89.79.87` | Android | offline |
 | `kpihx-windows` | `100.108.7.86` | Windows | offline |
 
-## Infrastructure (`~/Work/Homelab/kpihx_labs/`)
+## Infrastructure (`$HOME/Work/Homelab/kpihx_labs/`)
 
 Main Docker Compose stack — Traefik, Vaultwarden, Portainer, Ollama + personal apps.
 Vault: `vault.kpihx-labs.com` (private, Tailscale-only).
 
-## Projects (`~/Work/Homelab/`)
+## Projects (`$HOME/Work/Homelab/`)
 
 Source code for all kpihx-labs projects lives here. When a KπX project is mentioned, check this directory first.
 
@@ -59,7 +59,7 @@ Source code for all kpihx-labs projects lives here. When a KπX project is menti
 | `sh/` | Homelab shell scripts (backup, boot notify, etc.) |
 | `presentation/` | Knowledge / docs project (see below) |
 
-## Knowledge Base — `~/Work/Homelab/presentation/`
+## Knowledge Base — `$HOME/Work/Homelab/presentation/`
 
 Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS`, `STATE_OF_THE_ART`, `EVOLUTION`, `PORTABILITY`. Docsify site published at `kpihx-labs.github.io/presentation/` (`_sidebar.md`, `index.html`). Sub-structure:
 
@@ -75,7 +75,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.6.1 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
 | 2026-03-29 | [CLAUDE] | v1.6.0 — removed all n8n-personal-ops/ops-hooks mentions; n8n/ section updated to pure n8n setup |
-| 2026-03-29 | [CLAUDE] | v1.5.0 — description rewritten: explicit service list, NOT for generic project init |
-| 2026-03-29 | [CLAUDE] | v1.4.0 — SSH aliases table corrected from ~/.ssh/config (homelab mDNS, kpihx-labs Tailscale, docker-host/x ProxyJump distinction) |
-| [SUMMARY] | — | v1.3.0 Tailscale devices; v1.2.0 Knowledge Base rewritten; v1.1.0–v1.0.0 init |
+| [SUMMARY] | — | v1.5.0 description rewritten with explicit service list and generic-project exclusion; v1.4.0 SSH aliases table corrected from `$HOME/.ssh/config`; v1.3.0 Tailscale devices; v1.2.0 Knowledge Base rewrite; v1.1.0–v1.0.0 init |

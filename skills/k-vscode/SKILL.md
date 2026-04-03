@@ -1,14 +1,11 @@
 ---
-name: k-vscode
-description: >
-  KπX VSCode ecosystem — settings, profiles, extensions, telemetry, and clean suite integration.
-  Load when auditing VSCode config, managing profiles, reviewing extensions, running VSCode cleanup,
-  or creating/editing profiles programmatically.
-license: private
+name: "k-vscode"
+description: "KπX VSCode ecosystem — profiles, settings, extension registry, cleanup, and profile-maintenance scripts. Load when auditing VSCode config, managing profiles, reviewing extensions, or updating VSCode state programmatically."
+license: "private"
 metadata:
-  author: KpihX
-  version: "2.0.0"
-allowed-tools: Bash(*), "*"
+  author: "KpihX"
+  version: "3.0.0"
+allowed-tools: "Bash(*), *"
 ---
 
 # KπX — VSCode Ecosystem
@@ -19,185 +16,116 @@ allowed-tools: Bash(*), "*"
 
 | Resource | Path |
 |----------|------|
-| Main settings (global) | `$HOME/.config/Code/User/settings.json` |
-| Main keybindings | `$HOME/.config/Code/User/keybindings.json` |
+| VSCode user root | `$HOME/.config/Code/User/` |
+| Base settings | `$HOME/.config/Code/User/settings.json` |
+| Base keybindings | `$HOME/.config/Code/User/keybindings.json` |
+| Base MCP config | `$HOME/.config/Code/User/mcp.json` |
+| Base chat model config | `$HOME/.config/Code/User/chatLanguageModels.json` |
 | Profile registry | `$HOME/.config/Code/User/globalStorage/storage.json` |
-| Profile directories | `$HOME/.config/Code/User/profiles/<hash>/` |
-| Global extension registry | `$HOME/.vscode/extensions/extensions.json` ← source of truth |
-| Extensions installed | `$HOME/.vscode/extensions/` |
-| VSCode data root | `$HOME/.config/Code/` |
-| Clean script | `$HOME/Work/sh/clean/clean_vscode.sh` (→ `references/clean_vscode.sh`) |
+| Profile hash directories | `$HOME/.config/Code/User/profiles/<hash>/` |
+| Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
+| Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
+| Installed extension payloads | `$HOME/.vscode/extensions/` |
+| Cleanup script | `$HOME/Work/sh/clean/clean_vscode.sh` |
+| Skill references | `$HOME/.agents/skills/k-vscode/references/` |
+| Registry helper | `$HOME/.agents/skills/k-vscode/scripts/update_profile_registry.py` |
+| Extensions helper | `$HOME/.agents/skills/k-vscode/scripts/build_profile_extensions.py` |
 
-## Profile Architecture — How It Really Works
+## Current Profiles
 
-```
-~/.config/Code/User/
-├── settings.json          ← BASE settings (always active, all profiles inherit)
-├── keybindings.json       ← BASE keybindings (inherited by all profiles)
-├── mcp.json               ← MCP config for __default__profile__ (empty)
-├── globalStorage/
-│   └── storage.json       ← Profile registry: userDataProfiles + profileAssociations
-└── profiles/
-    ├── 6c61ca05/          → "Default"  — 36 ext
-    ├── -4fafa846/         → "Java"     — 26 ext
-    ├── -3b9d8381/         → "LaTeX"    — 20 ext
-    └── 52133472/          → "C-Cpp"    — 24 ext
-```
+| Profile | Hash | Primary files to inspect |
+|---------|------|--------------------------|
+| `General` | `6c61ca05` | `profiles/6c61ca05/`, `profiles/general.code-profile` |
+| `Java` | `-4fafa846` | `profiles/-4fafa846/`, `profiles/java.code-profile` |
+| `LaTeX` | `-3b9d8381` | `profiles/-3b9d8381/`, `profiles/latex.code-profile` |
+| `C-Cpp` | `52133472` | `profiles/52133472/`, `profiles/cpp.code-profile` |
 
-**Inheritance model:**
-- Profile `settings.json` = **overrides only** on top of `~/.config/Code/User/settings.json`
-- If absent → full inheritance from base (LaTeX, Default)
-- `keybindings.json` is inherited from base (only defined in base)
-- `mcp.json` can be per-profile (currently only base has one, empty)
+**Built-in `__default__profile__`:**
+- VSCode internal fallback profile
+- Not KπX's main working profile
+- Avoid assigning workspaces to it when a custom profile should own them
 
-**Built-in `__default__profile__`:** VSCode special profile — always exists, activates ALL 49 installed extensions. Cannot be deleted or restricted. Use as emergency fallback.
+## Where To Read What
 
-## storage.json — Profile Registry
+| Need | Source of truth |
+|------|-----------------|
+| Base editor behavior | `$HOME/.config/Code/User/settings.json` |
+| Base terminal/editor shortcuts | `$HOME/.config/Code/User/keybindings.json` |
+| Which profile owns each workspace | `$HOME/.config/Code/User/globalStorage/storage.json` |
+| Which custom profiles exist | `$HOME/.config/Code/User/globalStorage/storage.json` → `userDataProfiles` |
+| Which extensions a profile enables | `$HOME/.config/Code/User/profiles/<hash>/extensions.json` |
+| Full installed extension metadata | `$HOME/.vscode/extensions/extensions.json` |
+| Human-readable exported profile snapshot | `$HOME/.config/Code/User/profiles/*.code-profile` |
+| Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` and `references/clean_vscode.sh` |
+| Ready-made local references | `$HOME/.agents/skills/k-vscode/references/` |
 
-**File:** `$HOME/.config/Code/User/globalStorage/storage.json`
+## Runtime Model
 
-**`userDataProfiles`** — registers custom profiles:
-```json
-[
-  {"location": "6c61ca05",  "name": "Default"},
-  {"location": "52133472",  "name": "C-Cpp"},
-  {"location": "-4fafa846", "name": "Java"},
-  {"location": "-3b9d8381", "name": "LaTeX"}
-]
-```
+- Base `settings.json` applies globally
+- A profile-specific `settings.json` only exists if that profile overrides the base
+- Base `keybindings.json` is shared unless a profile defines its own
+- Workspace-to-profile mapping lives in `storage.json`
+- Profile extension subsets live in `profiles/<hash>/extensions.json`
+- Exported `.code-profile` files are convenient snapshots, not the live registry
 
-**`profileAssociations.workspaces`** — maps workspace URI → profile hash:
-```json
-{
-  "file:///home/kpihx/Work/AI/MCPs/mem_mcp": "6c61ca05",
-  "file:///home/kpihx/Gdrive_X/CV_ATF":      "-3b9d8381",
-  ...
-}
-```
-> Special value `__default__profile__` = built-in Default (avoid using — use `6c61ca05` instead)
+## Scripts
 
-**To reassign a workspace to a profile:**
-```python
-import json
-with open('~/.config/Code/User/globalStorage/storage.json') as f: s = json.load(f)
-s['profileAssociations']['workspaces']['file:///path/to/ws'] = '6c61ca05'
-with open('~/.config/Code/User/globalStorage/storage.json', 'w') as f: json.dump(s, f, indent=2)
-```
+### `update_profile_registry.py`
 
-## Profile `extensions.json` — How to Build
+Use when VSCode is closed and you need to:
+- register or rename a custom profile
+- move workspaces off `__default__profile__`
+- bind a workspace path to a specific profile hash
 
-**Source of truth:** `$HOME/.vscode/extensions/extensions.json` — 49 extensions with full metadata (UUID, publisherId, installedTimestamp…).
-
-**To create/update a profile's extensions:**
-```python
-import json
-with open('$HOME/.vscode/extensions/extensions.json') as f: all_exts = json.load(f)
-# Filter to desired subset
-profile_exts = [e for e in all_exts if e['identifier']['id'] in WANTED_IDS]
-with open('$HOME/.config/Code/User/profiles/<hash>/extensions.json', 'w') as f:
-    json.dump(profile_exts, f, indent=4)
-```
-> Never manually craft extensions.json — always derive from `$HOME/.vscode/extensions/extensions.json` to get correct UUIDs and metadata.
-
-## Settings — Base Config (`settings.json`)
-
-```json
-// Privacy & telemetry
-"telemetry.telemetryLevel": "off"
-
-// Security
-"security.workspace.trust.untrustedFiles": "prompt"
-
-// Performance
-"python.analysis.diagnosticMode": "openFilesOnly"
-"python.analysis.indexing": false
-"terminal.integrated.scrollback": 50000
-
-// Claude Code
-"claudeCode.preferredLocation": "panel"
-
-// All AI features explicitly disabled: Copilot, GitLens AI, GitLab Duo, GitHub PR
-// → full disable block in settings.json directly
-```
-
-## Profile Settings Comparison
-
-| Config file | `__default__` | Default `6c61ca05` | Java `-4fafa846` | LaTeX `-3b9d8381` | C-Cpp `52133472` |
-|-------------|:---:|:---:|:---:|:---:|:---:|
-| `settings.json` | ✅ (full base) | — (inherits) | ⚠️ (gitlens override) | — (inherits) | ⚠️ (gitlens override) |
-| `keybindings.json` | ✅ (shift+enter) | — (inherits) | — | — | — |
-| `mcp.json` | ✅ (empty) | — | — | — | — |
-| `chatLanguageModels.json` | ✅ [] | ✅ [] | — | — | — |
-| `snippets/` | ✅ (empty) | ✅ (empty) | ✅ (empty) | — | ✅ (empty) |
-
-**Notes:**
-- Java + C-Cpp `settings.json` contains redundant `gitlens.ai.model` keys — already disabled globally. Harmless but dead config.
-- Per-profile `mcp.json` enables different MCP sets per language context (not yet used).
-- `chatLanguageModels.json` stores custom AI model configs — currently empty on all profiles.
-
-## Profile Map
-
-| Profile | Hash | Ext count | Specific extensions | All workspaces |
-|---------|------|-----------|--------------------|-|
-| **Default** | `6c61ca05` | 36 | Python×4 + Jupyter×8 + Rust + Docker + JS/TS×3 | 35 ws |
-| **Java** | `-4fafa846` | 26 | redhat.java + vscjava.×7 | — |
-| **LaTeX** | `-3b9d8381` | 20 | james-yu.latex-workshop | — |
-| **C-Cpp** | `52133472` | 24 | cpptools×4 + cmake | — |
-
-### Common block — 19 extensions in ALL profiles
-
-```
-Git/AI:    anthropic.claude-code · eamodio.gitlens · gitlab.gitlab-workflow
-           github.vscode-pull-request-github
-Remote:    github.codespaces · github.remotehub · ms-vscode.remote-repositories
-AI/Chat:   openai.chatgpt · google.gemini-cli-vscode-ide-companion · google.colab
-           github.copilot-chat
-Tools:     ms-vscode.vscode-speech · ms-vsliveshare.vsliveshare · lokad.lokad-envision
-           mechatroner.rainbow-csv · yzhang.markdown-all-in-one · tamasfe.even-better-toml
-           redhat.vscode-yaml · ms-vscode.makefile-tools
-```
-
-### Excluded from specialized profiles (in Default only)
-
-```
-Python:    ms-python.python · ms-python.vscode-pylance · ms-python.debugpy
-           ms-python.vscode-python-envs
-Jupyter:   ms-toolsai.jupyter · jupyter-hub · jupyter-keymap · jupyter-renderers
-           jupyter-cell-tags · jupyter-powertoys · jupyter-slideshow · datawrangler
-Rust:      rust-lang.rust-analyzer
-Docker:    docker.docker
-JS/TS:     dbaeumer.vscode-eslint · esbenp.prettier-vscode · ms-vscode.js-debug-nightly
-```
-
-## Storage & Cache
-
-| Directory | Role | Size (audit 2026-04-03) | Safe to delete |
-|-----------|------|-------------------------|----------------|
-| `~/.vscode/extensions/` | Installed extensions | ~2.3 GB | ❌ Never |
-| `CachedExtensionVSIXs/` | VSIX post-install rollback | ~995 MB | ✅ Always |
-| `WebStorage/` | Electron webview / chat history | ~359 MB | ⚠️ Purge only |
-| `Cache/` | Electron HTTP cache | ~310 MB | ✅ Safe |
-| `CachedData/` | Compiled extension JS | ~115 MB | ⚠️ ~1min regen |
-| `workspaceStorage/` | Per-workspace DB (35 ws) | ~130 MB | ⚠️ Manual |
-| `globalStorage/` | Extension global state | ~52 MB | ❌ Never |
-| `logs/` | Session logs | ~1.5 MB | ✅ Always |
-
-## Clean Suite Integration
-
-Module of `$HOME/Work/sh/clean/` — same `-i/-s/-p` API as all other clean scripts.
-
+Example:
 ```bash
-./clean_vscode.sh -i   # dry-run: show sizes
-./clean_vscode.sh -s   # safe: CachedExtensionVSIXs + Cache + logs
-./clean_vscode.sh -p   # purge: + CachedData + WebStorage (with warnings)
+$HOME/.agents/skills/k-vscode/scripts/update_profile_registry.py \
+  --register 6c61ca05:General \
+  --promote-default-to 6c61ca05 \
+  --assign "$HOME/Gdrive_X/CV_ATF:-3b9d8381"
 ```
 
-Runs automatically **every Saturday 10:00** via `auto_clean.sh -s` (safe targets only).
-→ Source: `references/clean_vscode.sh`
+### `build_profile_extensions.py`
+
+Use when you want to rebuild one profile's `extensions.json` from the global registry instead of editing JSON by hand.
+
+Example:
+```bash
+$HOME/.agents/skills/k-vscode/scripts/build_profile_extensions.py \
+  --profile-hash 6c61ca05 \
+  --extension-file /abs/path/to/extensions.txt
+```
+
+## References
+
+The `references/` directory contains direct local references to the current VSCode assets:
+- `references/clean_vscode.sh`
+- `references/general.code-profile`
+- `references/java.code-profile`
+- `references/latex.code-profile`
+- `references/cpp.code-profile`
+
+Prefer these references for quick inspection; use the real files under `$HOME/.config/Code/User/` when editing or validating state.
+
+## Operational Rules
+
+- **Close VSCode before editing `storage.json`** — the running app rewrites it from memory
+- Never handcraft profile `extensions.json` from scratch; derive it from `$HOME/.vscode/extensions/extensions.json`
+- Prefer changing profile ownership through the helper script instead of ad hoc edits
+- When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
+- Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
+
+## Current Conformity Notes
+
+- No broken symlinks were found under `$HOME/.agents/skills/*/references/` during the 2026-04-03 audit
+- `k-vscode/references/` now points to `general.code-profile` instead of the old `default.code-profile`
+- The stray workspace association `file:///home/kpihx/%24HOME` was removed from `storage.json`
+- At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CLAUDE] | v2.0.0 — full rewrite: real profile architecture, storage.json registry, programmatic profile build procedure, settings comparison table, workspace migrations |
-| 2026-04-03 | [CLAUDE] | v1.0.0 — initial skill |
+| 2026-04-03 | [CODEX] | v3.0.0 — full rewrite: made the skill uniform and stable, removed volatile inventories, focused documentation on source-of-truth paths, added a proper references section, and recorded the cleaned VSCode state |
+| 2026-04-03 | [CODEX] | v2.3.0 — added reusable scripts for profile-registry updates and extensions.json generation; refreshed doc to match the real profile state (no per-profile settings overrides) and recorded the current VSCode conformity audit |
+| [SUMMARY] | — | v2.2.1 fixed YAML frontmatter + `general.code-profile`; v2.2.0 custom main profile renamed to `General`; v2.1.1 post-migration verification; v2.0.0 full rewrite by Claude; v1.0.0 initial skill |

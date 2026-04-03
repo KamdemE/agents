@@ -4,7 +4,7 @@ description: KπX rclone — Google Drive remote setup (OAuth flow), systemd use
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.0.2"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -12,15 +12,15 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Config file:** `~/.config/rclone/rclone.conf` — source of truth for all remotes.
+> **Config file:** `$HOME/.config/rclone/rclone.conf` — source of truth for all remotes.
 > **Templates:** `assets/rclone-gdrive.service` — systemd user service for FUSE mounts.
 
 ## Existing Remotes
 
 | Remote name | Type | Account | Mount path | Systemd service |
 |-------------|------|---------|------------|-----------------|
-| `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `~/Gdrive_X/` | *(direct / manual)* |
-| `gdrive:` | Google Drive | `kapoivha@gmail.com` | `~/Gdrive/` | `rclone-gdrive.service` |
+| `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `$HOME/Gdrive_X/` | *(direct / manual)* |
+| `gdrive:` | Google Drive | `kapoivha@gmail.com` | `$HOME/Gdrive/` | `rclone-gdrive.service` |
 | `homelab-sftp:` | SFTP | `ivann@kpihx-labs` (port 2222) | *(on-demand)* | — |
 
 ## Adding a New Google Drive Remote
@@ -53,7 +53,7 @@ y) Yes this is OK
 ### Non-interactive / headless (copy token from another machine)
 
 1. Run `rclone config` on desktop → complete OAuth → copy token JSON from `rclone.conf`
-2. On headless host: manually add section to `~/.config/rclone/rclone.conf`:
+2. On headless host: manually add section to `$HOME/.config/rclone/rclone.conf`:
 
 ```ini
 [<remote-name>]
@@ -96,8 +96,8 @@ Template: `assets/rclone-gdrive.service`
 Copy + adapt for each new mount:
 
 ```bash
-cp ~/.agents/skills/k-rclone/assets/rclone-gdrive.service \
-   ~/.config/systemd/user/rclone-<name>.service
+cp $HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service \
+   $HOME/.config/systemd/user/rclone-<name>.service
 # Edit: Description, ExecStart remote/mountpoint
 systemctl --user daemon-reload
 systemctl --user enable --now rclone-<name>.service
@@ -108,12 +108,12 @@ systemctl --user status rclone-<name>.service
 
 After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:` returns content):
 
-1. **Verify mount** — `ls ~/MountPoint/ | head -5` (check content is visible)
-2. **Update `~/.agents/AGENTS.md`** — add row to Storage table in Identity section
+1. **Verify mount** — `ls $HOME/MountPoint/ | head -5` (check content is visible)
+2. **Update `$HOME/.agents/AGENTS.md`** — add row to Storage table in Identity section
 3. **Update k-context** — add session log entry, bump version
 4. **Update `.skill-lock.json`** — only if a new skill was created, not for remotes
 5. **Propose `tutos_live` entry** — document any non-obvious steps or fixes encountered
-6. **Commit + push** — `cd ~/.agents && git add -A && git commit -m "..." && make push`
+6. **Commit + push** — `cd $HOME/.agents && git add -A && git commit -m "..." && make push`
 
 ## Troubleshooting
 
@@ -129,5 +129,6 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.0.2 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
 | 2026-03-31 | [CLAUDE] | v1.0.1 — templates/ → assets/ (skill-creator standard) |
-| 2026-03-29 | [CLAUDE] | v1.0.0 — created: remotes table, Google Drive OAuth flow, mount flags, systemd template ref, post-setup checklist |
+| [SUMMARY] | — | v1.0.0 created the remotes table, Google Drive OAuth flow, mount flags, systemd template ref, and post-setup checklist |

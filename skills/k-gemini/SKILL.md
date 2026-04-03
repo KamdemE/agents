@@ -1,13 +1,13 @@
 ---
 name: k-gemini
 description: >
-  Gemini CLI runtime — Extension system (gemini-extension.json format, ~/Work/AI/gemini_mcps/),
+  Gemini CLI runtime — Extension system (gemini-extension.json format, $HOME/Work/AI/gemini_mcps/),
   mandatory env var block for stdio MCPs, settings.json, KG proactivity, token finesse.
   Load when configuring Gemini, managing extensions/MCPs, or debugging Gemini behavior.
 license: private
 metadata:
   author: KpihX
-  version: "2.4.1"
+  version: "2.5.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -19,12 +19,12 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Runtime Context
 
-- **Agent home:** `~/.gemini/`
-- **Global kernel:** `~/.gemini/GEMINI.md` → `~/.agents/AGENTS.md`
-- **Runtime shortcut:** `~/GEMINI.md` → this file
-- **Skills path:** natively scans `~/.agents/skills/` (1 level deep — no symlink needed)
-- **Settings:** `~/.gemini/settings.json`
-- **Temp data:** `~/.gemini/tmp/kpihx/`
+- **Agent home:** `$HOME/.gemini/`
+- **Global kernel:** `$HOME/.gemini/GEMINI.md` → `$HOME/.agents/AGENTS.md`
+- **Runtime shortcut:** `$HOME/GEMINI.md` → this file
+- **Skills path:** natively scans `$HOME/.agents/skills/` (1 level deep — no symlink needed)
+- **Settings:** `$HOME/.gemini/settings.json`
+- **Temp data:** `$HOME/.gemini/tmp/kpihx/`
 
 ## MCP Server Installation
 
@@ -44,7 +44,7 @@ This is a direct, single-step process.
 This involves creating a standard project structure first.
 
 1.  **Create the MCP Project Directory:**
-    *   Create a dedicated directory for your MCP source: `~/Work/AI/gemini_mcps/<name>_mcp/`
+    *   Create a dedicated directory for your MCP source: `$HOME/Work/AI/gemini_mcps/<name>_mcp/`
 
 2.  **Create Configuration Files:**
     *   Inside the new directory, create a `gemini-extension.json` file defining the server's command.
@@ -68,7 +68,7 @@ Must explicitly declare in `gemini-extension.json`:
 "env": { "MY_TOKEN": "$MY_TOKEN", "MY_API_KEY": "$MY_API_KEY" }
 ```
 
-**Current extension list:** read `~/.gemini/extension-enablement.json` and browse `~/Work/AI/gemini_mcps/` — they are the source of truth.
+Do not enumerate extensions here; read `$HOME/.gemini/extension-enablement.json` and browse `$HOME/Work/AI/gemini_mcps/`.
 
 ## Key Rules
 
@@ -80,17 +80,32 @@ Must explicitly declare in `gemini-extension.json`:
 - **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
 - **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.
 
+## Hooks
+
+`$HOME/.gemini/settings.json` is also the source of truth for Gemini hook wiring.
+
+| Event | Wrapper |
+|------|---------|
+| `SessionStart` | `$HOME/.agents/hooks/gemini/session_start.py` |
+| `BeforeAgent` | `$HOME/.agents/hooks/gemini/before_agent.py` |
+| `AfterAgent` | `$HOME/.agents/hooks/gemini/after_agent.py` |
+| `BeforeTool` | `$HOME/.agents/hooks/gemini/before_tool.py` |
+| `SessionEnd` | `$HOME/.agents/hooks/gemini/session_end.py` |
+
+- `AfterAgent` enforces the final response contract
+- `BeforeTool` is scoped to the relevant write tools and delegates `.agents/` path rules to core
+- `SessionEnd` is advisory because Gemini session-end hooks cannot hard-block
+
 ## Project Context
 
-When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+When working in a project under `$HOME/Work/`, check for `.agents/AGENTS.md` at the project root.
 If found: treat it as project-specific context — architecture rules, stack, evolution rules.
-Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v2.4.1 — standardized name: agent-runtime-gemini → k-gemini |
-| 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
-| 2026-03-28 | [CLAUDE] | v2.3.0 — removed redundant edit reminder; broadened description; changelog condensed |
-| [SUMMARY] | — | v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |
+| 2026-04-03 | [CODEX] | v2.5.0 — added the live Gemini hook wiring map from `$HOME/.gemini/settings.json` and clarified the current AfterAgent/BeforeTool/SessionEnd behavior |
+| 2026-04-03 | [CODEX] | v2.4.2 — normalized all paths to `$HOME`, updated the project AGENTS template path to `k-project/assets/AGENTS.md`, and condensed the changelog to the standard footer format |
+| [SUMMARY] | — | v2.4.1 standardized name to `k-gemini`; v2.4.0 project-context auto-load rule; v2.3.0 broadened description and condensed changelog; v2.2.0 clarified HTTP vs stdio install; v2.1.0 skills path + dedup; v2.0.0 migrated to skills/ |

@@ -1,5 +1,5 @@
 ---
-name: qmd
+name: k-qmd
 description: >
   Search KπX knowledge bases with QMD (BM25+vector hybrid). Collections: tutos_live
   (Ubuntu fixes/tools), presentation (homelab architecture/projects), agents (AGENTS.md,
@@ -10,11 +10,13 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.6.0"
+  version: "2.7.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
-# QMD - Quick Markdown Search
+# K-QMD - Quick Markdown Search
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 Local search engine for markdown content — BM25 + vector + hyde hybrid with local LLM reranking.
 
@@ -28,13 +30,13 @@ Local search engine for markdown content — BM25 + vector + hyde hybrid with lo
 
 ```bash
 # Use npm (NOT bun) — better-sqlite3 is a native module compiled against the
-# active Node.js version. With a custom npm prefix (e.g. ~/.npm-global), use
+# active Node.js version. With a custom npm prefix (e.g. $HOME/.npm-global), use
 # the full binary path in MCP configs instead of bare `qmd`.
 npm install -g @tobilu/qmd
 
 # Add a collection (path first, --name is a flag — NOT positional)
 # --mask overrides the default glob (default: **/*.md)
-qmd collection add ~/path/to/docs --name myname --mask "**/*.{md,txt}"
+qmd collection add $HOME/path/to/docs --name myname --mask "**/*.{md,txt}"
 
 # ALWAYS add a context description right after (improves reranking)
 qmd context add qmd://myname/ "What this collection contains"
@@ -68,7 +70,7 @@ qmd update [--pull] [<name>]           # re-index (--pull runs update-cmd first)
 qmd embed [<name>]                     # re-embed vectors
 ```
 
-### YAML config (alternative to CLI — `~/.config/qmd/index.yml`)
+### YAML config (alternative to CLI — `$HOME/.config/qmd/index.yml`)
 
 Declarative approach; changes take effect immediately:
 
@@ -77,14 +79,14 @@ global_context: "Optional hint applied to all collections."
 
 collections:
   notes:
-    path: ~/Documents/notes
+    path: $HOME/Documents/notes
     pattern: "**/*.md"
     context:
       "/": "Personal notes and ideas"
       "/meetings": "Meeting notes"
 
   code:
-    path: ~/Work/myproject
+    path: $HOME/Work/myproject
     pattern: "**/*.{md,ts,py}"
     context:
       "/": "Source code and docs for myproject"
@@ -186,6 +188,6 @@ qmd multi-get "journals/2026-*.md" -l 40  # batch snippets by glob
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.7.0 — renamed the skill to `k-qmd` and aligned its identity with the KπX `k-*` convention while keeping the `qmd` CLI/MCP runtime unchanged |
 | 2026-03-29 | [CLAUDE] | v2.6.0 — description rewritten: explicit collections list + trigger conditions |
-| 2026-03-28 | [CLAUDE] | v2.5.0 — embed scope hygiene: claude→claude-memory (258→6 files), openclaw→workspace/** (105→77); heavy JSONL/sessions excluded |
-| [SUMMARY] | — | v2.0–2.4: install, --mask, YAML config, update-cmd, query docs, collection scoping, gitignore template |
+| [SUMMARY] | — | v2.0–2.5: install, --mask, YAML config, update-cmd, query docs, collection scoping, gitignore template, embed scope hygiene |

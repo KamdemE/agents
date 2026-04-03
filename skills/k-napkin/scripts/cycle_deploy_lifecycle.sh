@@ -4,7 +4,7 @@ cat > /tmp/napkin_content.md << 'EOF'
 # KpiX Homelab Deploy Lifecycle
 
 ## 1. Code
-Write feature in ~/Work/project/
+Write feature in $HOME/Work/project/
 Follow AGENTS.md architecture rules
 
 ## 2. Commit and Push

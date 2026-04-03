@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.1"
+  version: "1.3.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -19,7 +19,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, remotes) · `k-project` (init, naming)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** `~/Work/tutos_live/` (live Docsify site), `~/Work/Homelab/presentation/` — check via qmd or shell.
+> **Concrete examples:** `$HOME/Work/tutos_live/` (live Docsify site), `$HOME/Work/Homelab/presentation/` — check via `k-qmd` or shell.
 
 ## Stack
 
@@ -109,8 +109,6 @@ Example from tutos_live:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.3.2 — normalized the concrete example paths to `$HOME` and pointed discovery to `k-qmd` |
 | 2026-03-31 | [CLAUDE] | v1.3.1 — templates/ → assets/ (skill-creator standard) |
-| 2026-03-29 | [CLAUDE] | v1.3.0 — full site tree added (Makefile/README/CHANGELOG/TODO/.agents); Setup Steps +Makefile+AGENTS.md |
-| 2026-03-29 | [CLAUDE] | v1.2.0 — description expanded: blog/article site/KB/portfolio use cases; cross-ref to k-project/docs-site.md |
-| 2026-03-29 | [CLAUDE] | v1.1.0 — added Docsify link rules section (absolute blob URLs for non-MD files, image exception) |
-| 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |
+| [SUMMARY] | — | v1.3.0 full site tree plus setup steps and AGENTS integration; v1.2.0 description expanded to blog/article/KB/portfolio use cases with cross-ref to `k-project/references/docs-site.md`; v1.1.0 Docsify link rules section; v1.0.0 initial creation |

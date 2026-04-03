@@ -5,8 +5,8 @@ cat > /tmp/napkin_content.md << 'EOF'
 
 1. Load k-project skill
 2. Choose stack: Python or TypeScript?
-3. Python: uv init --package in ~/Work/
-4. TypeScript: bun init in ~/Work/
+3. Python: uv init --package in $HOME/Work/
+4. TypeScript: bun init in $HOME/Work/
 5. Create .agents/AGENTS.md from template
 6. Initialize git repo with SSH remote
 7. Create GitLab and GitHub remotes

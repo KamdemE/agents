@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.1"
+  version: "1.4.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -17,7 +17,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `~/Work/Homelab/presentation/tutos_live/assets/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via qmd or `ls`.
+> **Concrete examples:** check `$HOME/Work/Homelab/presentation/tutos_live/assets/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via `k-qmd` or `ls`.
 
 ## When to Load
 
@@ -195,9 +195,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.4.2 — normalized the concrete example path to `$HOME` and clarified `k-qmd` as the preferred discovery path |
 | 2026-03-31 | [CLAUDE] | v1.4.1 — templates/ → assets/ (skill-creator standard) |
-| 2026-03-29 | [CLAUDE] | v1.4.0 — sync stage marked legacy; Repo Creation prefers gh+glab at init + make push; GITHUB_TOKEN note updated; PROXY_URL removed |
-| 2026-03-29 | [CLAUDE] | v1.3.0 — group vars table + glab check reminder + project var creation commands |
-| 2026-03-29 | [CLAUDE] | v1.2.0 — DB section (shared postgres, no db in prod compose, override has local pg); 2 CI templates (.gitlab-ci.uv.yml + .gitlab-ci.bun.yml) |
-| 2026-03-29 | [CLAUDE] | v1.1.0 — concrete examples pointer to presentation/tutos_live/assets/ |
-| 2026-03-29 | [CLAUDE] | v1.0.0 — initial creation |
+| [SUMMARY] | — | v1.4.0 sync stage marked legacy with repo-creation guidance update; v1.3.0 group vars table + glab check reminder + project var creation commands; v1.2.0 DB section and CI templates; v1.1.0 concrete examples pointer; v1.0.0 initial creation |

@@ -1,0 +1,52 @@
+{
+  "_comment": "KpihX Codex hooks — deploy to $HOME/.codex/hooks.json. Requires [features] codex_hooks = true in $HOME/.codex/config.toml.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.agents/hooks/codex/session_start.py CODEX",
+            "statusMessage": "Loading KpihX session context"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.agents/hooks/codex/user_prompt_submit.py CODEX",
+            "statusMessage": "Injecting rules reminder"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.agents/hooks/codex/pre_tool_use.py",
+            "statusMessage": "Checking path rules"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 $HOME/.agents/hooks/codex/stop.py",
+            "statusMessage": "Session guard check",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

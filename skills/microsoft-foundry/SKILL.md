@@ -4,7 +4,7 @@ description: "Deploy, evaluate, and manage Foundry agents end-to-end: Docker bui
 license: MIT
 metadata:
   author: Microsoft
-  version: "1.0.7"
+  version: "1.0.8"
 ---
 
 # Microsoft Foundry Skill
@@ -155,3 +155,10 @@ Use `agent_get` MCP tool to determine an agent's type when needed.
 ## SDK Quick Reference
 
 - [Python](references/sdk/foundry-sdk-py.md)
+
+## Changelog
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.0.8 — added the standard footer changelog so the external skill conforms to the global KπX skill-structure guard |
+| [SUMMARY] | — | v1.0.0–v1.0.7 upstream Microsoft Foundry workflow coverage: sub-skills, project/resource/model deploy flows, agent lifecycle, trace/observe/eval guidance, and references |

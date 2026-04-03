@@ -1,16 +1,16 @@
 ---
-name: k-claude
+name: "k-claude"
 description: >
-  Claude Code runtime — MCP config (JSON ~/.claude.json), hooks (settings.json),
+  Claude Code runtime — MCP config ($HOME/.claude.json), hooks ($HOME/.claude/settings.json),
   skills/memory architecture, bw-mcp zenity auth, session model.
   Load when configuring Claude, managing MCPs/hooks, or for Claude-specific tasks.
-license: private
+license: "private"
 metadata:
-  author: KpihX
-  version: "2.3.1"
-  scope: agent-runtime
-  target-agent: claude
-allowed-tools: Bash, Read, Write, Edit
+  author: "KpihX"
+  version: "2.6.0"
+  scope: "agent-runtime"
+  target-agent: "claude"
+allowed-tools: "Bash, Read, Write, Edit"
 ---
 
 # Agent Runtime — Claude Code
@@ -19,20 +19,35 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Runtime Context
 
-- **Agent home:** `~/.claude/`
-- **Global kernel:** `~/.claude/CLAUDE.md` → `~/.agents/AGENTS.md`
-- **Runtime shortcut:** `~/CLAUDE.md` → this file
-- **Skills path:** `~/.claude/skills/` → `~/.agents/skills/` (symlink)
-- **Auto-memory:** `~/.claude/projects/-home-kpihx/memory/` — Read → Edit on existing files, never Write
-- **Session model:** Single long session from `~/` (HOME workspace)
+- **Agent home:** `$HOME/.claude/`
+- **Global kernel:** `$HOME/.claude/CLAUDE.md` → `$HOME/.agents/AGENTS.md`
+- **Runtime shortcut:** `$HOME/CLAUDE.md` → this file
+- **Skills path:** `$HOME/.claude/skills/` → `$HOME/.agents/skills/` (symlink)
+- **Auto-memory:** `$HOME/.claude/projects/-home-kpihx/memory/` — Read → Edit on existing files, never Write
+- **Session model:** Single long session from `$HOME/` (HOME workspace)
+
+## Session History & Logs
+
+- **Main sessions:** `$HOME/.claude/projects/-home-kpihx/*.jsonl`
+- **Per-session subagents:** `$HOME/.claude/projects/-home-kpihx/<session-id>/subagents/*.jsonl`
+- **Tool outputs:** `$HOME/.claude/projects/-home-kpihx/<session-id>/tool-results/*.json`
+- **Workspace memory index:** `$HOME/.claude/projects/-home-kpihx/memory/MEMORY.md`
+- **Workspace memory docs:** `$HOME/.claude/projects/-home-kpihx/memory/*.md`
+
+**Structure:**
+- Each top-level `*.jsonl` file is one Claude session for the `$HOME` workspace
+- Newest discussion = top-level `*.jsonl` with the latest modification time
+- Records are JSON Lines with mixed entry types: `user`, `assistant`, `system`, `last-prompt`, `permission-mode`, `file-history-snapshot`
+- Subagent traces live under the matching `<session-id>/subagents/`
+- Session-level tool payloads live under the matching `<session-id>/tool-results/`
 
 ## MCP Configuration
 
-**Config file:** `~/.claude.json` (NOT `~/.claude/settings.json` — wrong file)
+**Config file:** `$HOME/.claude.json` (NOT `$HOME/.claude/settings.json` — wrong file)
 
 ```json
 // User scope — root-level "mcpServers" key
-// Local scope — projects["/home/kpihx"]["mcpServers"]
+// Local scope — projects["$HOME"]["mcpServers"]
 {
   "<name>": { "command": "$HOME/.local/bin/<binary>", "args": ["serve"] },
   "<name>-http": { "type": "http", "url": "https://<name>.kpihx-labs.com/mcp" }
@@ -44,33 +59,36 @@ allowed-tools: Bash, Read, Write, Edit
 { "command": "zsh", "args": ["-l", "-c", "$HOME/.local/bin/<binary> serve"] }
 ```
 
-After editing `~/.claude.json` → restart Claude Code. Verify with `/mcp`.
+After editing `$HOME/.claude.json` → restart Claude Code. Verify with `/mcp`.
 
-**Current MCP list:** read `~/.claude.json` directly — it is the source of truth.
+Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 
 ## bw-mcp Auth
 
 - Uses `bw` CLI **directly** — independent from `bw-env`
 - Launches `zenity` GUI on-demand — no login shell wrapper needed
 
-## Hooks & Permissions (`~/.claude/settings.json`)
+## Hooks & Permissions (`$HOME/.claude/settings.json`)
 
-- `hooks` — event-driven shell commands (Stop, PreToolUse, etc.)
-- `permissions.allow/deny` — per-tool auto-approvals
-- Active: `Stop` hook → `~/.agents/scripts/session-guard.sh` (k-context final update)
-- Edit this file (not `~/.claude.json`) for hooks/permissions.
+`$HOME/.claude/settings.json` is the source of truth for Claude hook wiring and permission policy.
 
-## Project Context
+| Event | Wrapper |
+|------|---------|
+| `SessionStart` | `$HOME/.agents/hooks/claude/session_start.py` |
+| `UserPromptSubmit` | `$HOME/.agents/hooks/claude/user_prompt_submit.py` |
+| `PreToolUse` | `$HOME/.agents/hooks/claude/pre_tool_use.py` |
+| `Stop` | `$HOME/.agents/hooks/claude/stop.py` |
+| `SessionEnd` | `$HOME/.agents/hooks/claude/session_end.py` |
 
-When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
-If found: treat it as project-specific context — architecture rules, stack, evolution rules.
-Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+- `permissions.allow/deny` are also managed in this file
+- `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
+- `PreToolUse` denies `.agents/` writes or Bash commands that violate `$HOME` / `$USER` generalization
+- edit this file, not `$HOME/.claude.json`, when changing hooks or permissions
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v2.3.1 — standardized name: agent-runtime-claude → k-claude |
-| 2026-03-29 | [CLAUDE] | v2.3.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
-| 2026-03-28 | [CLAUDE] | v2.2.0 — added Hooks section (Stop → session-guard.sh); updated description |
-| [SUMMARY] | — | v2.1.0 removed Tool Discipline; v2.0.0 migrated to skills/k-claude/ |
+| 2026-04-03 | [CODEX] | v2.6.0 — replaced the stale legacy hook note with the real Claude wrapper map from `$HOME/.claude/settings.json` and documented the live Stop/PreToolUse behavior |
+| 2026-04-03 | [CODEX] | v2.5.1 — condensed the changelog to the standard footer format without changing the runtime guidance |
+| [SUMMARY] | — | v2.5.0 documented Claude session history paths and JSONL layout; v2.4.0 normalized paths to `$HOME`, removed duplicate Project Context, and updated hooks ref to `k-hook`; v2.3.1 standardized name to `k-claude`; v2.3.0–v2.0.0 earlier runtime extraction and cleanup |

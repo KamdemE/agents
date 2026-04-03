@@ -1,5 +1,5 @@
 [Unit]
-Description=Rclone mount for Google Drive (<account>@gmail.com) at ~/<MountDir>
+Description=Rclone mount for Google Drive (<account>@gmail.com) at $HOME/<MountDir>
 After=network-online.target
 Wants=network-online.target
 

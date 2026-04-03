@@ -111,13 +111,13 @@
       "installedAt": "2026-03-29T07:30:00.000Z",
       "updatedAt": "2026-03-29T07:30:00.000Z"
     },
-    "qmd": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/qmd/SKILL.md",
-      "installedAt": "2026-03-28T19:00:00.000Z",
-      "updatedAt": "2026-03-28T19:30:00.000Z"
-    },
+      "k-qmd": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/k-qmd/SKILL.md",
+        "installedAt": "2026-03-28T19:00:00.000Z",
+        "updatedAt": "2026-03-28T19:30:00.000Z"
+      },
     "k-docker": {
       "source": "local",
       "sourceType": "local",
@@ -160,13 +160,12 @@
       "installedAt": "2026-04-03T15:19:00.000Z",
       "updatedAt": "2026-04-03T15:19:00.000Z"
     },
-    "skill-creator": {
-      "source": "anthropics/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/anthropics/skills.git",
-      "skillPath": "skills/skill-creator/SKILL.md",
-      "installedAt": "2026-03-28T19:00:00.000Z",
-      "updatedAt": "2026-03-28T19:00:00.000Z"
-    }
+      "k-skill-creator": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/k-skill-creator/SKILL.md",
+        "installedAt": "2026-03-28T19:00:00.000Z",
+        "updatedAt": "2026-04-03T17:10:00.000Z"
+      }
   }
 }

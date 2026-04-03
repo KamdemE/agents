@@ -97,7 +97,7 @@ If arbitrary Python runs inside the main shell → loss of filesystem control bo
 ### Retained option: Hybrid git + auto-sync
 
 ```
-~/.agents/           ← git repo (already in place)
+$HOME/.agents/      ← git repo (already in place)
   make sync-skills   ← git pull → rsync → all agents
   post-commit hook   → automatic propagation
 ```

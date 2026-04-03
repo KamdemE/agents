@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.1"
+  version: "2.5.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -19,20 +19,36 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Runtime Context
 
-- **Home:** `~/.codex/`
-- **Global kernel:** `~/.codex/AGENTS.md` → `~/.agents/AGENTS.md`
-- **Skills path:** `~/.codex/skills/` → `~/.agents/skills/` (symlink)
-- **Config file:** `~/.codex/config.toml`
-- **Logs:** `~/.codex/log/codex-tui.log` — check before bulk troubleshooting
+- **Home:** `$HOME/.codex/`
+- **Global kernel:** `$HOME/.codex/AGENTS.md` → `$HOME/.agents/AGENTS.md`
+- **Skills path:** `$HOME/.codex/skills/` → `$HOME/.agents/skills/` (symlink)
+- **Config file:** `$HOME/.codex/config.toml`
+- **Logs:** `$HOME/.codex/log/codex-tui.log` — check before bulk troubleshooting
 
 ## Key Config Files
 
 | File | Role |
 |------|------|
-| `~/.codex/config.toml` | Model, behavior (sandbox/approvals/trust), MCPs — **source of truth** |
-| `~/.codex/memories/` | Persisted insights from past sessions |
-| `~/.codex/rules/default.rules` | Auto-allow prefix_rule patterns (accumulated by Codex) |
-| `~/.codex/sessions/` | Session history |
+| `$HOME/.codex/config.toml` | Model, behavior (sandbox/approvals/trust), MCPs — **source of truth** |
+| `$HOME/.codex/hooks.json` | Deployed hook config — symlink or copy of `$HOME/.agents/hooks/codex/hooks.json` |
+| `$HOME/.codex/memories/` | Persisted insights from past sessions |
+| `$HOME/.codex/rules/default.rules` | Auto-allow prefix_rule patterns (accumulated by Codex) |
+| `$HOME/.codex/sessions/` | Session history |
+
+## Hooks
+
+Codex hook logic lives in `$HOME/.agents/hooks/codex/`; the deployed runtime entrypoint is `$HOME/.codex/hooks.json`.
+
+| Event | Wrapper |
+|------|---------|
+| `SessionStart` | `$HOME/.agents/hooks/codex/session_start.py` |
+| `UserPromptSubmit` | `$HOME/.agents/hooks/codex/user_prompt_submit.py` |
+| `PreToolUse` | `$HOME/.agents/hooks/codex/pre_tool_use.py` |
+| `Stop` | `$HOME/.agents/hooks/codex/stop.py` |
+
+- `features.codex_hooks = true` in `$HOME/.codex/config.toml` is mandatory
+- `Stop` validates the final response contract and checks dirty `$HOME/.agents/`
+- `PreToolUse` is currently Bash-oriented because that is the practical Codex tool event surface in this setup
 
 ## MCP Config Format (Codex — TOML)
 
@@ -61,7 +77,7 @@ XAUTHORITY = "$XAUTHORITY"
 ```
 **WARNING:** Do NOT add `[mcp_servers.<name>.env]` blocks by default — can break Codex startup.
 
-**Current MCP list:** read `~/.codex/config.toml` directly — it is the source of truth.
+Do not enumerate MCPs here; read `$HOME/.codex/config.toml` directly.
 
 ## Permissions & Escalation
 
@@ -70,15 +86,14 @@ XAUTHORITY = "$XAUTHORITY"
 
 ## Project Context
 
-When working in a project under `~/Work/`, check for `.agents/AGENTS.md` at the project root.
+When working in a project under `$HOME/Work/`, check for `.agents/AGENTS.md` at the project root.
 If found: treat it as project-specific context — architecture rules, stack, evolution rules.
-Template: `~/.agents/skills/k-project/templates/AGENTS.md`.
+Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v2.4.1 — standardized name: agent-runtime-codex → k-codex |
-| 2026-03-29 | [CLAUDE] | v2.4.0 — added Project Context section (.agents/AGENTS.md auto-load rule) |
-| 2026-03-28 | [CLAUDE] | v2.3.0 — added config.toml anatomy + memories/rules; removed TickTick duplication (→ k-ticktick); broadened description |
-| [SUMMARY] | — | v2.2.0 removed ~/AGENTS.md; v2.1.0 Copilot extracted; v2.0.0 initial |
+| 2026-04-03 | [CODEX] | v2.5.0 — added the live Codex hook wiring map, documented `$HOME/.codex/hooks.json` as the deployed entrypoint, and clarified the current Stop/PreToolUse behavior |
+| 2026-04-03 | [CODEX] | v2.4.2 — normalized all paths to `$HOME`, updated the project AGENTS template path to `k-project/assets/AGENTS.md`, and condensed the changelog to the standard footer format |
+| [SUMMARY] | — | v2.4.1 standardized name to `k-codex`; v2.4.0 project-context auto-load rule; v2.3.0 config.toml anatomy + memories/rules; v2.2.0 removed old AGENTS path; v2.1.0 Copilot extracted; v2.0.0 initial |

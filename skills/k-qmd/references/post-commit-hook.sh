@@ -4,7 +4,7 @@
 # Usage: copy to <repo>/.git/hooks/post-commit and set COLLECTION + PATTERN.
 #
 # Install:
-#   cp ~/.agents/skills/qmd/references/post-commit-hook.sh .git/hooks/post-commit
+#   cp $HOME/.agents/skills/k-qmd/references/post-commit-hook.sh .git/hooks/post-commit
 #   chmod +x .git/hooks/post-commit
 # ─────────────────────────────────────────────────────────────────────────────
 

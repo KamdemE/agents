@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.1"
+  version: "2.3.0"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -19,19 +19,19 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Runtime Context
 
-- **Agent home:** `~/.vibe/`
-- **Global kernel:** `~/.vibe/prompts/global.md` → `~/.agents/AGENTS.md`
-- **Runtime skill:** `~/.vibe/prompts/vibe.md` → this file (`system_prompt_id = "global"` in config.toml)
+- **Agent home:** `$HOME/.vibe/`
+- **Global kernel:** `$HOME/.vibe/prompts/global.md` → `$HOME/.agents/AGENTS.md`
+- **Runtime skill:** `$HOME/.vibe/prompts/vibe.md` → this file (`system_prompt_id = "global"` in config.toml)
 - **Skills path:** `skill_paths = ["$HOME/.agents/skills"]` in `config.toml`
-- **Config file:** `~/.vibe/config.toml`
+- **Config file:** `$HOME/.vibe/config.toml`
 
-## Key Config Files
+## Source Of Truth
 
 | File | Role |
 |------|------|
-| `~/.vibe/config.toml` | Model (active_model/alias), providers, skill_paths, tools permissions, MCPs — **source of truth** |
-| `~/.vibe/prompts/global.md` | → AGENTS (system_prompt_id = "global") |
-| `~/.vibe/prompts/vibe.md` | → this skill (runtime context) |
+| `$HOME/.vibe/config.toml` | Model (active_model/alias), providers, skill_paths, tools permissions, MCPs — **source of truth** |
+| `$HOME/.vibe/prompts/global.md` | → AGENTS (system_prompt_id = "global") |
+| `$HOME/.vibe/prompts/vibe.md` | → this skill (runtime context) |
 
 ## MCP Config Format (VIBE — TOML array)
 
@@ -53,12 +53,12 @@ api_key_header = "<header_name>"
 api_key_format = "{token}"
 ```
 
-**Current MCP list:** read `~/.vibe/config.toml` (`[[mcp_servers]]` array) — source of truth.
+Do not list installed MCPs here; read `$HOME/.vibe/config.toml` directly.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-03-31 | [CLAUDE] | v2.2.1 — standardized name: agent-runtime-vibe → k-vibe |
-| 2026-03-28 | [CLAUDE] | v2.2.0 — added config.toml anatomy (model, providers, tools permissions); broadened description |
-| [SUMMARY] | — | v2.1.0 prompts/vibe.md + skills path; v2.0.0 migrated to skills/ |
+| 2026-04-03 | [CODEX] | v2.3.0 — reframed the skill around source-of-truth files and removed the remaining live-inventory wording for MCPs |
+| 2026-04-03 | [CODEX] | v2.2.2 — normalized remaining paths to `$HOME` without changing the VIBE runtime guidance |
+| [SUMMARY] | — | v2.2.1 standardized name to `k-vibe`; v2.2.0 config.toml anatomy plus broader description; v2.1.0 prompts/vibe.md + skills path; v2.0.0 migrated to skills/ |

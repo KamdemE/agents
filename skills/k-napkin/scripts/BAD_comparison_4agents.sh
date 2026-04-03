@@ -16,20 +16,20 @@ cat > /tmp/napkin_content.md << 'EOF'
 # KpiX AI Agents Comparison
 
 ## Claude Code
-- Config: JSON (~/.claude.json)
-- Skills: auto-detected from ~/.agents/skills/
+- Config: JSON ($HOME/.claude.json)
+- Skills: auto-detected from $HOME/.agents/skills/
 - Strengths: best reasoning, hooks system, long context
 - Weaknesses: no TOML config format
 
 ## Gemini CLI
 - Config: gemini-extension.json per server
-- Skills: native scan of ~/.agents/skills/
+- Skills: native scan of $HOME/.agents/skills/
 - Strengths: Google integration, token efficiency
 - Weaknesses: env var injection required for secrets
 
 ## Codex CLI
-- Config: TOML (~/.codex/config.toml)
-- Skills: symlink via ~/.codex/skills/
+- Config: TOML ($HOME/.codex/config.toml)
+- Skills: symlink via $HOME/.codex/skills/
 - Strengths: persistent memories, rules accumulation
 - Weaknesses: env blocks can break startup
 

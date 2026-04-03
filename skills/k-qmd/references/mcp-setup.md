@@ -4,17 +4,17 @@
 
 ```bash
 # Use npm (NOT bun) — better-sqlite3 is a native module.
-# With a custom npm prefix (e.g. ~/.npm-global), use the full binary path
+# With a custom npm prefix (e.g. $HOME/.npm-global), use the full binary path
 # in all MCP configs instead of bare `qmd`.
 npm install -g @tobilu/qmd
 
 # Add a collection — path first, --name and --mask are flags (NOT positional)
 # Default mask: **/*.md  |  Override with --mask for other file types
-qmd collection add ~/path/to/docs --name myknowledge
-qmd collection add ~/notes --name notes --mask "**/*.{md,txt,yml}"
+qmd collection add $HOME/path/to/docs --name myknowledge
+qmd collection add $HOME/notes --name notes --mask "**/*.{md,txt,yml}"
 
 # ⚠️ Hidden dirs must use --name:
-#   CORRECT: qmd collection add ~/.agents --name agents
+#   CORRECT: qmd collection add $HOME/.agents --name agents
 #   WRONG:   qmd collection add agents /home/user/.agents
 
 # ALWAYS add context right after (improves reranking & relevance)
@@ -26,12 +26,12 @@ qmd embed         # all collections
 qmd embed myknowledge  # single collection
 ```
 
-### Alternative: YAML config (`~/.config/qmd/index.yml`)
+### Alternative: YAML config (`$HOME/.config/qmd/index.yml`)
 
 ```yaml
 collections:
   notes:
-    path: ~/Documents/notes
+    path: $HOME/Documents/notes
     pattern: "**/*.md"
     context:
       "/": "Personal notes"
@@ -41,7 +41,7 @@ collections:
 
 ## Configure MCP Client
 
-**Claude Code** (`~/.claude.json`, NOT `~/.claude/settings.json`):
+**Claude Code** (`$HOME/.claude.json`, NOT `$HOME/.claude/settings.json`):
 ```json
 {
   "mcpServers": {
@@ -52,10 +52,10 @@ collections:
   }
 }
 ```
-> Use full binary path if npm prefix is non-standard (e.g. `~/.npm-global/bin/qmd`).
+> Use full binary path if npm prefix is non-standard (e.g. `$HOME/.npm-global/bin/qmd`).
 > Restart Claude Code after editing. Verify with `/mcp`.
 
-**Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+**Claude Desktop** (`$HOME/Library/Application Support/Claude/claude_desktop_config.json`):
 ```json
 {
   "mcpServers": {
@@ -64,7 +64,7 @@ collections:
 }
 ```
 
-**OpenClaw** (`~/.openclaw/openclaw.json`):
+**OpenClaw** (`$HOME/.openclaw/openclaw.json`):
 ```json
 {
   "mcp": {
@@ -91,7 +91,7 @@ qmd mcp stop                # Stop daemon
 
 Copy the template and customize:
 ```bash
-cp ~/.agents/skills/qmd/references/post-commit-hook.sh .git/hooks/post-commit
+cp $HOME/.agents/skills/k-qmd/references/post-commit-hook.sh .git/hooks/post-commit
 # Edit COLLECTION and PATTERN variables inside
 chmod +x .git/hooks/post-commit
 ```
