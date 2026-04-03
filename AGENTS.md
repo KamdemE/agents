@@ -147,9 +147,12 @@ Optional Markdown heading markers such as `## ` are allowed.
 > Agents MUST NOT invent or propose TODOs. If k-context is not already in context memory, read it now.
 > Show only tasks where CONCERNED = [ALL] or the current agent name. Max 3 rows.
 
-| Task / Tache | Urgent | Important |
+Use `Task` (EN response) or `Tache` (FR response) as the first column — match the conversation language.
+
+| Task | Urgent | Important |
 | :--- | :--- | :--- |
 | (Task name) | (YES/NO) | (YES/NO) |
+
 Accepted validator variants: `Task` or `Tache` for the first column — case-insensitive.
 The `TODOs` heading itself may also be written as a Markdown heading such as `## TODOs`.
 

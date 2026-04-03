@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.3.1"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -48,6 +48,7 @@ allowed-tools: Bash, Read, Write, Edit
 - QMD hygiene was tightened for `codex`, `gemini`, `copilot`, and `vibe` by reducing noisy patterns in `$HOME/.config/qmd/index.yml`
 - `tutos_live` and `presentation` are clean knowledge collections
 - `openclaw` is intentionally broad, but it must stay free of stale renamed KπX skill copies such as legacy pre-rename `qmd/` or `skill-creator/`
+- agents should proactively suggest reviewing and cleaning stale AI chat/session history stores when they grow noisy or costly, but must wait for KπX's explicit go-ahead before deleting or pruning any runtime history
 
 ### Actions
 
@@ -66,6 +67,10 @@ allowed-tools: Bash, Read, Write, Edit
    - inspect `qmd ls <collection>` for suspected noisy collections
    - if patterns drift, edit `$HOME/.config/qmd/index.yml`, then run `qmd update <collection>`
    - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
+4. Suggest AI history cleanup when relevant:
+   - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, `k-openclaw`, or `k-ai`
+   - propose the cleanup proactively when history size or noise is part of the optimization problem
+   - wait for KπX approval before any prune, delete, archive, or reset action
 
 ## Ubuntu
 
@@ -129,6 +134,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v1.3.1 — added the rule that agents should proactively suggest AI chat/session-history cleanup when relevant, while always waiting for KπX approval before any destructive history action |
 | 2026-04-03 | [CODEX] | v1.3.0 — added the low-token documentation rule to the optimization posture so `.agents/` hygiene explicitly includes compacting verbose skills/docs back to source-of-truth pointers |
-| 2026-04-03 | [CODEX] | v1.2.1 — moved the shared `.agents/` recheck entrypoint reference to `$HOME/.agents/hooks/audit.py` so the optimization map points to the real top-level hooks audit |
-| [SUMMARY] | — | v1.2.1–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map, normalized paths to the `$HOME` standard, added the AGENTS↔hooks sync reminder, and now includes the low-token doc compaction rule |
+| [SUMMARY] | — | v1.3.0–v1.0.0 established the initial `.agents/`, QMD, Ubuntu, and Homelab optimization map, normalized paths to the `$HOME` standard, added the AGENTS↔hooks sync reminder, the low-token doc compaction rule, and the proactive-but-approved AI history cleanup reminder |
