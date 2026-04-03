@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.0"
+  version: "2.9.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -37,6 +37,7 @@ Hooks are the governance layer of the KπX agent stack.
 | `SKILL.md` structure guard | `$HOME/.agents/hooks/core/skill_structure_guard.py` |
 | Bundled-file coverage guard | `$HOME/.agents/hooks/core/skill_content_guard.py` |
 | Hook feature toggles | `$HOME/.agents/hooks/core/settings.py` |
+| Human-readable runtime/checker map | `$HOME/.agents/hooks/README.md` |
 | Full recheck entrypoint | `$HOME/.agents/hooks/core/audit.py` |
 | Normative writing and changelog rules | `$HOME/.agents/AGENTS.md` |
 
@@ -157,11 +158,12 @@ $HOME/.agents/hooks/
 
 - Run `python3 $HOME/.agents/hooks/core/audit.py` after hook or skill-governance changes
 - The audit is the compact health check for wrapper syntax, config wiring, YAML validity, and KπX skill guards
+- Read `$HOME/.agents/hooks/README.md` when you need the quick checker → runtime map with concrete examples
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.9.0 — added `$HOME/.agents/hooks/README.md` as the synthetic checker/runtime map with concrete runtime examples and explicit “not implemented” justifications per agent |
 | 2026-04-03 | [CODEX] | v2.8.0 — documented the new `skill_edit_guard.py`, clarified that per-turn reminders now stay minimal and point back to `AGENTS.md`, and updated the runtime map so write-time enforcement is centered on real file edits instead of shell policing |
-| 2026-04-03 | [CODEX] | v2.7.0 — added `$HOME/.agents/hooks/core/settings.py` as the single source of truth for hook feature toggles, documented the new global enable/disable model, and tightened the “no desync” rule so wrappers stay schema-thin while behavior is switched centrally |
-| [SUMMARY] | — | v2.7.0–v2.0.0: settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.8.0–v2.0.0: `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, compact source-of-truth rewrite, generic-core plus thin-wrapper clarification, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
