@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.15.2"
+  version: "2.15.3"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -34,7 +34,7 @@ allowed-tools: "Bash(*), *"
 | Project | Status | Next |
 |---------|--------|------|
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs |
-| **Centralized Hooks** | ✅ wrappers aligned, centralized feature flags added, audit smoke coverage widened | maintain via `make audit` and runtime smoke checks after schema changes |
+| **Centralized Hooks** | ✅ wrappers aligned, centralized feature flags added, runtime configs normalized where safe | maintain via `make audit` and runtime smoke checks after schema changes |
 | **Optimization map** | ✅ `k-optim` created for `.agents/`, QMD, and Ubuntu cleanup posture | extend Homelab section when the server side is formalized |
 | **QMD post-commit hygiene** | ✅ non-blocking hook pattern propagated to templates and active Work repos | watch for future repos still using blocking embed-on-commit |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools |
@@ -46,9 +46,9 @@ allowed-tools: "Bash(*), *"
 ## Session Log
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-03 | [CODEX] | v2.15.3 — removed the live Tailscale/IP snapshot from `k-workspace`, normalized the safe shell-command paths in `.gemini/settings.json` and `.claude/settings.json` to `$HOME`, and rechecked `.agents` cleanliness plus hook audit status. |
 | 2026-04-03 | [CODEX] | v2.15.2 — verified Gemini, Claude, Codex, and OpenClaw wrappers against the shared core model, added centralized hook feature flags in `hooks/core/settings.py`, taught the wrappers to degrade cleanly when flags are disabled, and expanded `hooks/core/audit.py` smoke coverage beyond Codex. |
-| 2026-04-03 | [CODEX] | v2.15.1 — fixed the live Codex hook contract after runtime failures by aligning `SessionStart` and `UserPromptSubmit` to `hookSpecificOutput.additionalContext`, making `PreToolUse` emit its block reason on stderr, teaching `Stop` to prefer `last_assistant_message`, and syncing `k-codex` and `k-hook` to the real wire schema. |
-| [SUMMARY] | — | 2026-04-03 v2.15.1–v2.8.8: multi-agent wrapper conformity pass, centralized hook feature flags, Codex hook wire-contract fix, non-blocking QMD post-commit propagation, `k-optim`, QMD collection hygiene, hook rollout completion, audit hardening, final legacy cleanup, dynamic-context enrichment, and VSCode/profile work. 2026-04-02 v2.8.4–v2.8.1: Codex/Ollama timeout and warmup diagnosis and fixes. 2026-04-01 v2.8.0–v2.3.0: Project Sovereignty docs, hook modularization, centralized hook manager, and cleanup. 2026-03-29 and earlier: `.agents/` refonte, k-* skill standardization, qmd integration, OpenClaw/Codex skill sync, and earlier session history condensed. |
+| [SUMMARY] | — | 2026-04-03 v2.15.2–v2.8.8: workspace drift cleanup, safe runtime-config normalization to `$HOME`, multi-agent wrapper conformity pass, centralized hook feature flags, Codex hook wire-contract fix, non-blocking QMD post-commit propagation, `k-optim`, QMD collection hygiene, hook rollout completion, audit hardening, final legacy cleanup, dynamic-context enrichment, and VSCode/profile work. 2026-04-02 v2.8.4–v2.8.1: Codex/Ollama timeout and warmup diagnosis and fixes. 2026-04-01 v2.8.0–v2.3.0: Project Sovereignty docs, hook modularization, centralized hook manager, and cleanup. 2026-03-29 and earlier: `.agents/` refonte, k-* skill standardization, qmd integration, OpenClaw/Codex skill sync, and earlier session history condensed. |
 
 ## References
 
@@ -58,6 +58,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.15.3 — session log updated for the `k-workspace` source-of-truth cleanup and the safe `$HOME` normalization pass in the Gemini/Claude runtime configs |
 | 2026-04-03 | [CODEX] | v2.15.2 — session log updated for the cross-agent wrapper conformity pass, centralized hook feature flags, and the expanded smoke tests in `hooks/core/audit.py` |
-| 2026-04-03 | [CODEX] | v2.15.1 — session log updated for the live Codex hook-contract repair and the matching documentation sync in `k-codex` and `k-hook` |
-| [SUMMARY] | — | v1.0.0–v2.15.1: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined `max 2 + [SUMMARY]` format. |
+| [SUMMARY] | — | v1.0.0–v2.15.2: prior session-log maintenance and historical entries condensed after structural normalization to the AGENTS-defined `max 2 + [SUMMARY]` format. |

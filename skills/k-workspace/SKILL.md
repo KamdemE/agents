@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.4"
+  version: "2.9.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -127,21 +127,17 @@ npm global prefix: `$HOME/.npmrc` → `prefix=$HOME/.npm-global` (no EACCES, no 
 
 ## Homelab & Tailscale
 
-- **SSH:** `ssh kpihx-labs` / `ssh docker-host` / `ssh docker-host-x` (Tailscale Magic DNS — see `$HOME/.ssh/config`)
+- **SSH:** `ssh kpihx-labs` / `ssh docker-host` / `ssh docker-host-x` (Tailscale Magic DNS — source of truth: `$HOME/.ssh/config`)
 - **Vault:** `vault.kpihx-labs.com` — private, Tailscale-only
-
-| Device | Tailscale IP | OS | Status |
-|--------|-------------|-----|--------|
-| `kpihx-ubuntu` | `100.82.95.70` | Linux | this machine |
-| `kpihx-labs` | `100.123.81.21` | Linux | homelab server (active, direct) |
-| `kpihx-phone` | `100.125.54.1` | Android | active (relay) |
-| `kpihx-tablet` | `100.89.79.87` | Android | offline |
-| `kpihx-windows` | `100.108.7.86` | Windows | offline |
+- **Do not hardcode live Tailscale inventory here.** Read the current state directly from:
+  - `tailscale status` or `tailscale status --json`
+  - `$HOME/.ssh/config` for active host aliases and routing names
+  - `k-homelab` for stable homelab topology and operational access patterns
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-03 | [CODEX] | v2.9.0 — removed the live Tailscale/IP snapshot and replaced it with source-of-truth pointers (`tailscale status`, `$HOME/.ssh/config`, and `k-homelab`) so the workspace skill stays stable instead of drifting |
 | 2026-04-03 | [CODEX] | v2.8.4 — linked the workspace skill to `k-optim` as the dedicated optimization and cleanup posture map instead of duplicating that maintenance workflow here |
-| 2026-04-03 | [CODEX] | v2.8.3 — moved the mandatory edit reminder directly under the H1 so the skill conforms to the shared structural guard |
-| [SUMMARY] | — | v2.8.3–v1.0.0 kept runtime inventory source-of-truth oriented, normalized paths to `$HOME`, documented the cleanup suite, `.kshrc` discipline, routing rules, Tailscale, CLI tooling, and the broader workspace baseline |
+| [SUMMARY] | — | v2.8.4–v1.0.0 kept runtime inventory source-of-truth oriented, normalized paths to `$HOME`, documented the cleanup suite, `.kshrc` discipline, routing rules, Tailscale access patterns, CLI tooling, and the broader workspace baseline |
