@@ -73,7 +73,11 @@ def build_agents_maintenance_checklist(
 def _build_finalization_message(changed_files: list, agents_dir: str) -> str:
     skill_files = [f for f in changed_files if "skills/" in f]
     other_files = [f for f in changed_files if "skills/" not in f]
-    skill_paths = [_status_line_to_abs_path(line, agents_dir) for line in skill_files if _status_line_to_path(line).endswith("SKILL.md")]
+    skill_paths = [
+        _status_line_to_abs_path(line, agents_dir)
+        for line in skill_files
+        if _status_line_to_path(line).endswith("SKILL.md")
+    ]
 
     msg = "SESSION FINALIZATION REQUIRED: $HOME/.agents/ has uncommitted changes.\n\n"
 
@@ -128,7 +132,9 @@ def check_agents_git_status() -> dict:
     try:
         result = subprocess.run(
             ["git", "-C", AGENTS_DIR, "status", "--porcelain"],
-            capture_output=True, text=True, timeout=5
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         lines = [ln.rstrip() for ln in result.stdout.splitlines() if ln.strip()]
         has_changes = bool(lines)
