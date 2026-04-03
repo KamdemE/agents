@@ -4,11 +4,11 @@ description: >
   KπX optimization state and action map. Load before any cleanup/optim work
   to reuse existing standards and scripts, inspect last known states, and log
   key results for perennial reference. Covers .agents/ governance, QMD hygiene,
-  Ubuntu local cleanup, and Homelab maintenance.
+  Ubuntu local cleanup, home media dirs, and Homelab maintenance.
 license: private
 metadata:
   author: KpihX
-  version: "1.5.0"
+  version: "1.6.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -25,7 +25,7 @@ allowed-tools: Bash, Read, Write, Edit
 `k-optim` is the compact operational map for KπX optimization work, organized in three scopes:
 
 - **Meta scope** — `.agents/` governance hygiene, QMD cleanliness, hook/skill alignment. Covers general configs shared across all agents.
-- **Ubuntu scope** — local machine storage cleanup, project artifact removal, cache management. Covers KπX's Ubuntu workstation and its projects.
+- **Ubuntu scope** — local machine storage cleanup, project artifact removal, cache management, home media directories. Covers KπX's Ubuntu workstation and its projects.
 - **Homelab scope** — server-side maintenance, Docker hygiene, client-side backup verification.
 
 In all scopes: **load this skill before starting any cleanup/optim work** — reuse existing standards and scripts instead of reinventing. Log new scripts, key actions, and notable results in the relevant `### Last Known State` section and `## Script & Action Log` so the state stays current.
@@ -54,7 +54,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
 - QMD collections are clean; `codex`, `gemini`, `copilot`, `vibe` tightened in `index.yml`; `tutos_live` and `presentation` clean; `openclaw` intentionally broad — watch for stale renamed skill copies
 - agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
-- `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed (proactivity, TODOs reminder, QMD when-to-query verbosity), changelog limits deduped; k-optim description updated to load-before-optim standard
+- `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
 
 ### Actions
 
@@ -80,17 +80,17 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ## Ubuntu
 
-> Scope: KπX Ubuntu workstation — local storage, project artifacts, caches.
+> Scope: KπX Ubuntu workstation — local storage, project artifacts, caches, home media dirs.
 
 ### Last Known State
 
 - the active cleanup suite lives in `$HOME/Work/sh/clean/`
 - `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`; `auto_clean.sh` is the weekly automation wrapper
 - the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression
-- **home cleanup 2026-04-03**: removed 22 entries (~1.3GB confirmed direct): `.conda`, `.condarc`, `.continue`, `.gradle` (786MB), `.node-llama-cpp` (314MB), `.ai-cli`, `.redhat`, `.overgrive.log`, `.minikube`, `.android`, `.tmp`, `.cloud-locale-test.skip`, `cfg`, `.blogwatcher`, `.net` (120MB), `.dbclient`, `.aitk`, `.azure`, `Archive`, `Test`, `src`, `OneDrive`
-- **pending review**: `lancedb/` (orphaned RAG prototype, no QMD ref); `.agent/` (old kernel git repo, predecessor to `.agents/`, has changelogs + history); `backup/` (root-owned, Jul 2025)
-- **kept intentionally**: `intel/` (IPEX-LLM), `.grip/`, `.mcporter/` (OpenClaw), `nvm`+`npm-global` (coupled: openclaw, whats-mcp, @anthropic-ai, @google packages)
-- `_dg_backup_check` zsh hook intercepts `rm -rf` — verify deletions explicitly after any `rm` operation
+- **home cleanup 2026-04-03**: removed 22 debris entries (~1.3GB): `.conda`, `.gradle` (786MB), `.node-llama-cpp` (314MB), `.net` (120MB), `.continue`, `.ai-cli`, `.redhat`, `.overgrive.log`, `.minikube`, `.android`, `.aitk`, `.dbclient`, `.azure`, and others
+- **home media cleanup 2026-04-04**: `Downloads/`, `Pictures/`, `Documents/` all emptied; `wine_mastery.md` migrated to `tutos_live/wine.md` (EN, reformatted)
+- **pending review**: `.agent/` (old kernel git repo, predecessor to `.agents/`); `backup/` (root-owned, Jul 2025)
+- `_dg_backup_check` zsh hook intercepts `rm -rf` — always verify deletions explicitly
 
 ### Actions
 
@@ -102,8 +102,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 3. Use purge or system modes only intentionally:
    - `-p` removes heavier caches, dependency folders, or unused Docker assets
    - `-y` is privileged/system cleanup and should be treated as an explicit maintenance step
-4. Re-read the relevant script before running it if the target scope matters:
-   - these scripts are the real behavior contract, not this summary
+4. Re-read the relevant script before running it if the target scope matters
 
 ### Script Map
 
@@ -117,6 +116,26 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | `$HOME/Work/sh/clean/clean_work.sh` | `$HOME/Work` analysis, git GC, temp artifacts, and optional env/dependency purge |
 | `$HOME/Work/sh/clean/clean_docker.sh` | Docker space analysis and unused image/container/volume cleanup |
 | `$HOME/Work/sh/clean/clean_ai.sh` | Ollama and HuggingFace storage cleanup |
+
+### Home Media Directories
+
+> Policy: these dirs are **transit zones**, not storage. Keep them empty or near-empty at all times.
+> Permanent files belong in `$HOME/Work/`, `Gdrive/`, or `Gdrive_X/`.
+
+| Dir | Policy |
+|-----|--------|
+| `Downloads/` | Install artifacts (.deb, .tar.gz) → install immediately then delete. Backup CSVs → move to Gdrive. Keep empty after each session. |
+| `Documents/` | No permanent storage here. Docs → `Gdrive_X/` (academic/pro) or `Gdrive/` (personal). Keep empty. |
+| `Pictures/` | Screenshots → review and clear. Profile assets → `Gdrive/`. Napkin exports → only if referenced. Keep empty. |
+| `Videos/` | Keep empty — recordings go to `Gdrive/` directly. |
+| `Music/` | Keep empty. |
+| `Desktop/` | Keep empty — no file dumping here. |
+
+**Cleanup check:**
+```bash
+du -sh ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
+ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
+```
 
 ## Homelab
 
@@ -146,17 +165,17 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 ## Script & Action Log
 
 > Log new scripts, key optimization actions, or notable results here for perennial reference.
-> Format: `| Date | Scope | Script/Action | Notes |`
 > Newest first. Keep entries concise — one line per item. No limit enforced.
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
-| 2026-04-03 | Ubuntu | Manual home cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
+| 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to tutos_live/wine.md |
+| 2026-04-03 | Ubuntu | Manual home debris cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CLAUDE] | v1.5.0 — updated Ubuntu LKS with 2026-04-03 home cleanup results (22 entries, ~1.3GB); added first Script & Action Log entry; added `_dg_backup_check` hook note |
-| 2026-04-03 | [CLAUDE] | v1.4.0 — added max-7 Last Known State rule; clarified Meta/Ubuntu/Homelab scope descriptions; updated Meta LKS with 2026-04-03 AGENTS.md cleanup state; updated description for load-before-optim standard |
-| [SUMMARY] | — | v1.3.1–v1.0.0: initial map, path normalization, AGENTS↔hooks sync reminder, low-token doc compaction rule, proactive-but-approved AI history cleanup reminder |
+| 2026-04-04 | [CLAUDE] | v1.6.0 — added Home Media Directories section (policy + cleanup check); updated Ubuntu LKS and Script Log with 2026-04-04 media cleanup |
+| 2026-04-03 | [CLAUDE] | v1.5.0 — Ubuntu LKS with 2026-04-03 home cleanup results; first Script & Action Log entry; `_dg_backup_check` hook noted |
+| [SUMMARY] | — | v1.4.0–v1.0.0: max-7 LKS rule, Meta/Ubuntu/Homelab scopes, load-before-optim standard, initial map and path normalization |
