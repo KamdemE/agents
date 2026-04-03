@@ -46,28 +46,28 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 
 | Key Skills | Load when |
 |-------|-----------|
-| `k-context` ($HOME/.agents/skills/k-context/) | **HOT — every session start** |
-| `k-workspace` ($HOME/.agents/skills/k-workspace/) | **MANDATORY — every session in KπX environment or any project** |
-| `k-homelab` ($HOME/.agents/skills/k-homelab/) | Homelab infra, projects, SSH, presentation KB |
-| `k-git` ($HOME/.agents/skills/k-git/) | Any git / repo operation |
-| `k-project` ($HOME/.agents/skills/k-project/) | Creating / initializing any project |
-| `k-docker` ($HOME/.agents/skills/k-docker/) | Any project deployed on the homelab server |
-| `k-git-pages` ($HOME/.agents/skills/k-git-pages/) | GitHub Pages + Docsify docs site for any project |
-| `k-whatsapp` ($HOME/.agents/skills/k-whatsapp/) | Before any whats-mcp call |
-| `k-mail` ($HOME/.agents/skills/k-mail/) | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
-| `k-linkedin` ($HOME/.agents/skills/k-linkedin/) | Before any linkedin-mcp call |
-| `k-ticktick` ($HOME/.agents/skills/k-ticktick/) | Before any tick-mcp call |
-| `k-claude` ($HOME/.agents/skills/k-claude/) | MCPs for Claude; Claude-specific tasks |
-| `k-gemini` ($HOME/.agents/skills/k-gemini/) | MCPs for Gemini; Gemini-specific tasks |
-| `k-codex` ($HOME/.agents/skills/k-codex/) | MCPs for Codex |
-| `k-copilot` ($HOME/.agents/skills/k-copilot/) | MCPs for Copilot |
-| `k-vibe` ($HOME/.agents/skills/k-vibe/) | MCPs for VIBE |
-| `k-openclaw` ($HOME/.agents/skills/k-openclaw/) | MCPs for OpenClaw |
-| `k-rclone` ($HOME/.agents/skills/k-rclone/) | Adding cloud remotes, rclone mount setup, systemd service |
-| `k-ai` ($HOME/.agents/skills/k-ai/) | k-ai runtime memory and operating notes |
-| `k-qmd` ($HOME/.agents/skills/k-qmd/) | Before any QMD search, KB lookup, or local markdown retrieval |
-| `k-skill-creator` ($HOME/.agents/skills/k-skill-creator/) | Creating, standardizing, auditing, or evaluating any skill |
-| `k-optim` ($HOME/.agents/skills/k-optim/) | Optimization audits for `.agents/`, QMD hygiene, and Ubuntu cleanup workflows |
+| `k-context` | **HOT — every session start** |
+| `k-workspace` | **MANDATORY — every session in KπX environment or any project** |
+| `k-homelab` | Homelab infra, projects, SSH, presentation KB |
+| `k-git` | Any git / repo operation |
+| `k-project` | Creating / initializing any project |
+| `k-docker` | Any project deployed on the homelab server |
+| `k-git-pages` | GitHub Pages + Docsify docs site for any project |
+| `k-whatsapp` | Before any whats-mcp call |
+| `k-mail` | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
+| `k-linkedin` | Before any linkedin-mcp call |
+| `k-ticktick` | Before any tick-mcp call |
+| `k-claude` | MCPs for Claude; Claude-specific tasks |
+| `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
+| `k-codex` | MCPs for Codex |
+| `k-copilot` | MCPs for Copilot |
+| `k-vibe` | MCPs for VIBE |
+| `k-openclaw` | MCPs for OpenClaw |
+| `k-rclone` | Adding cloud remotes, rclone mount setup, systemd service |
+| `k-ai` | k-ai runtime memory and operating notes |
+| `k-qmd` | Before any QMD search, KB lookup, or local markdown retrieval |
+| `k-skill-creator` | Creating, standardizing, auditing, or evaluating any skill |
+| `k-optim` | Load before any cleanup/optim work — reuse existing standards and scripts, inspect last known states, and log key results for perennial reference |
 
 ## External Template Directories
 
@@ -95,7 +95,6 @@ Concrete, project-specific examples live alongside generic skill templates:
 ## Working with KπX
 
 > **📝 tutos_live reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/`. This is a living knowledge base — document as it happens.
-- **Proactivity is mandatory** — never stop passively; always suggest the next useful checks, cleanups, or extensions of the work.
 
 ### Knowledge Base — k-qmd
 
@@ -118,11 +117,7 @@ Main collections:
 
 Exact indexing procedures, setup details, and live collection behavior remain in `k-qmd` and the qmd runtime/config.
 
-**When to query:**
-- Unsure how something is done or where it lives → query k-qmd (collection-specific if scope is known, generic otherwise)
-- Asked to do something without full spec → **first** check `$HOME/Work/tutos_live/templates/` and query k-qmd to match existing patterns before inventing a new approach
-- Ubuntu/system fix → `tutos_live` · Homelab/project → `presentation` · Agent/workflow → `agents`
-- Inspect another agent's config/history → query the corresponding agent collection (claude/codex/gemini/copilot/vibe/openclaw)
+**When to query:** before inventing an approach, when unsure where something lives, or to inspect another agent's config/history. Match scope to collection — `tutos_live` (Ubuntu), `presentation` (homelab), `agents` (workflows), agent-named collections (their history). Always check `$HOME/Work/tutos_live/templates/` before creating new files from scratch.
 
 ### Style
 
@@ -164,7 +159,6 @@ The `TODOs` heading itself may also be written as a Markdown heading such as `##
 Accepted validator variants: `Suggestions Proactives:` or `Proactive Suggestions:` — case-insensitive.
 Optional Markdown heading markers such as `## ` are allowed.
 
-- **MANDATORY NOTIFICATION: AGENTS MUST NOTIFY KπX OF ALL URGENT TASKS IMMEDIATELY AFTER LOADING `k-context` IN EVERY SESSION.**
 - **Brainstorm first** — propose strategy, wait for "go ahead" before acting
 - **Constructive debate** — challenge bad approaches proactively; never be a yes-man
 - **Proactive** — never end passively; always suggest next paths
@@ -187,7 +181,6 @@ Optional Markdown heading markers such as `## ` are allowed.
 ### Session & Memory
 
 - TODOs in `k-context` — only KπX adds; agents execute + remove.
-- Every response end: remind KπX of open TODOs.
 - **k-context live updates (agent-owned):** The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit or even just a new evolution not committed (non-trivial), issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
 - **`Active Projects` limit:** max 10 live rows. Only when full, condense stale/completed items into a short bounded `[ARCHIVE]` row.
 - **`Session Log` limit:** max 10 entries, newest-first. Only when full, condense older entries into a short bounded `[SUMMARY]` row; do not summarize early.
@@ -202,7 +195,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Source-of-truth-first writing** — when something can change, name the source file or directory to inspect instead of enumerating its current contents.
 - **Concise writing** — tables/bullets over prose; one line if possible; no filler.
 - **Low-token docs** — `AGENTS.md`, `SKILL.md`, and other operational Markdown must stay compact. If a document starts restating details already owned by another source, replace that detail with a pointer to the source.
-- **Changelog and summary limits:** newest-first. SKILL.md: max 2 entries + `[SUMMARY]`. k-context log: max 10 + `[SUMMARY]`. Summary rows must stay short and bounded; never replace real entries before the section limit is reached.
+- **Changelog limits:** newest-first. SKILL.md: max 2 real entries + `[SUMMARY]`. Summary rows must stay short and bounded; never replace real entries before the limit is reached.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
 - **SKILL.md edit completion** — any edit to a KπX-owned `k-*` `SKILL.md` must update both the header (`metadata.version`) and the footer (`## Changelog`) in the same pass.
