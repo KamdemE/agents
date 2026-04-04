@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.12.0"
+  version: "2.12.1"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -55,6 +55,10 @@ After editing `$HOME/.claude.json` → restart Claude Code. Verify with `/mcp`.
 
 Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 
+QMD policy: do not configure QMD as a Claude MCP. Use local CLI directly:
+- `qmd status`, `qmd get`, `qmd embed` for admin/read paths
+- `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
+
 ## bw-mcp Auth
 
 - Uses `bw` CLI **directly** — independent from `bw-env`
@@ -92,6 +96,7 @@ Structure and content checks remain blocking in PreToolUse.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.12.1 — documented the CLI-only QMD policy for Claude: no qmd MCP; use `qmd` for admin/read paths and `qmdr` for important searches |
 | 2026-04-04 | [CLAUDE] | v2.12.0 — live wrappers list: added missing `post_tool_use.py` (desync fix) |
 | 2026-04-04 | [CLAUDE] | v2.11.0 — Edit Protocol updated: header/footer check moved to PostToolUse advisory; natural multi-step edits now allowed for Claude |
-| [SUMMARY] | — | v2.10.0–v2.0.0: single-call Edit Protocol, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime extraction/cleanup |
+| [SUMMARY] | — | v2.12.0–v2.0.0: CLI-only QMD policy, single-call Edit Protocol, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime extraction/cleanup |

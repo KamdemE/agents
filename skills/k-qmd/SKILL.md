@@ -1,15 +1,15 @@
 ---
 name: k-qmd
 description: >
-  Search KπX knowledge bases with QMD (BM25+vector hybrid). Load before any
-  mcp__qmd-mcp__* call, or when searching past sessions, agent history, Ubuntu
-  tutorials, homelab docs, or any local markdown knowledge base.
+  Search KπX knowledge bases with QMD (BM25+vector hybrid) through the local CLI.
+  Load when searching past sessions, agent history, Ubuntu tutorials, homelab
+  docs, or any local markdown knowledge base.
 license: MIT
-compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
+compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.13.0"
-allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
+  version: "2.13.1"
+allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
 # K-QMD - Quick Markdown Search
@@ -20,7 +20,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 
 `k-qmd` is the entrypoint for searching local KπX knowledge bases.
 
-- use it before any `mcp__qmd-mcp__*` call
+- use it before any important QMD CLI search flow
 - use it when you need past sessions, local docs, or agent/runtime knowledge
 - keep this skill compact: exact setup and long command examples live in references
 
@@ -58,6 +58,7 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 - run `qmd embed <collection>` only when new files were added or content changed materially
 - before any important semantic or exploratory search, run `qmd status`; if `Pending > 0`, run `qmd embed` before querying
 - prefer `qmdr query/search/vsearch ...` for important searches so the freshness gate is enforced automatically
+- use plain `qmd` for admin/read flows: `status`, `get`, `multi-get`, `embed`, `update`, `cleanup`, `collection ...`
 - keep QMD hot-only; large raw transcripts and chat/session histories do not belong in the index
 - when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
 - always scope searches to the relevant collections when possible
@@ -66,25 +67,20 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 
 ## Querying
 
-### MCP
+### CLI
 
-Use `query` with:
-- `collections` to scope
-- `searches` for `lex`, `vec`, or mixed retrieval
-- `intent` only when disambiguation helps
-
-Other qmd MCP tools to remember:
-- `get`
-- `multi_get`
-- `status`
-
-### CLI Fallback
-
-When MCP is unavailable, use the qmd CLI directly:
+QMD is now CLI-first in KπX runtimes. Use:
 - `qmd query ...`
 - `qmd search ...`
 - `qmd get ...`
 - `qmd multi-get ...`
+- `qmdr query ...`
+- `qmdr search ...`
+- `qmdr vsearch ...`
+
+Rule of thumb:
+- `qmd` = inspect, administer, or fetch exact content
+- `qmdr` = important search/exploration where freshness must be guaranteed first
 
 Exact command shapes and setup details live in `references/mcp-setup.md`.
 
@@ -114,8 +110,9 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.13.1 — made `k-qmd` explicitly CLI-only: no qmd MCP should remain configured in agent runtimes; `qmdr` is the preferred freshness-enforcing entrypoint for important searches |
 | 2026-04-04 | [CODEX] | v2.13.0 — added `scripts/qmdr`, an explicit wrapper that auto-runs the freshness gate (`qmd status`, then `qmd embed` if needed) before important `query/search/vsearch` calls |
 | 2026-04-04 | [CODEX] | v2.12.3 — made the freshness gate explicit: before any important semantic or exploratory QMD search, check `qmd status` and run `qmd embed` first when `Pending > 0` |
 | 2026-04-04 | [CODEX] | v2.12.2 — made the shared `post-commit` hook safe for repos without an active QMD collection: it now exits cleanly instead of treating the repo as indexing drift |
 | 2026-04-04 | [CODEX] | v2.12.1 — clarified in the optimization reference that the first Vulkan rebuild may print a temporary CPU/no-GPU warning and that the steady-state device truth must be checked with `qmd status` |
-| [SUMMARY] | — | v2.12.3–v2.0.0 covered the explicit freshness gate, the safe shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| [SUMMARY] | — | v2.13.0–v2.0.0 covered the explicit `qmdr` freshness wrapper, the explicit freshness gate, the safe shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |

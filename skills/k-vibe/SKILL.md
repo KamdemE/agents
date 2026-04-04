@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.4.1"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -57,10 +57,15 @@ api_key_format = "{token}"
 
 Do not list installed MCPs here; read `$HOME/.vibe/config.toml` directly.
 
+QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
+- `qmd status`, `qmd get`, `qmd embed` for admin/read paths
+- `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.4.1 — documented the CLI-only QMD policy for VIBE (`qmd` for admin/read, `qmdr` for important searches) |
 | 2026-04-03 | [CODEX] | v2.4.0 — added the real VIBE session-history paths and kept the skill compact around the owning runtime files |
 | 2026-04-03 | [CODEX] | v2.3.0 — reframed the skill around source-of-truth files and removed the remaining live-inventory wording for MCPs |
-| [SUMMARY] | — | v2.3.0–v2.0.0: VIBE history pointers, source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |
+| [SUMMARY] | — | v2.4.0–v2.0.0: CLI-only QMD policy, VIBE history pointers, source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |

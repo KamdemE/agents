@@ -1,5 +1,7 @@
 # QMD MCP Server Setup
 
+> Historical reference only. KπX runtimes are now CLI-first for QMD: use `qmd` / `qmdr`, not `qmd mcp`, unless you intentionally decide to reintroduce a dedicated MCP setup.
+
 ## Install
 
 ```bash

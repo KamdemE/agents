@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.10.1"
+  version: "1.10.2"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -81,12 +81,14 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 - skill reload happens from the OpenClaw side without needing a gateway restart after skill sync
 - Google provider: use the API-key-backed `google` provider, not `google-gemini-cli`
 - keep Telegram disabled unless `TELEGRAM_OPENCLAW_UBUNTU_TOKEN` is actually resolved; do not leave unresolved secret placeholders in active channel config
+- do not configure QMD as an OpenClaw MCP; use local CLI instead: `qmd` for admin/read, `qmdr` for important searches
 - for shared optimization posture, `.agents/` hygiene, and QMD cleanup rules, load `k-optim` instead of duplicating that maintenance playbook here
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.10.2 — documented the CLI-only QMD policy for OpenClaw and removed the expectation that QMD should stay in `mcporter.json` |
 | 2026-04-04 | [CODEX] | v1.10.1 — documented the active local Ollama endpoint/model and the Telegram-token guard needed to keep the gateway healthy |
 | 2026-04-03 | [CODEX] | v1.10.0 — added the real OpenClaw session-history and memory paths while keeping the runtime skill compact and source-of-truth first |
-| [SUMMARY] | — | v1.9.0–v1.0.0: compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.10.1–v1.0.0: CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |

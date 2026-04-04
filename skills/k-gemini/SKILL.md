@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.0"
+  version: "2.8.1"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -61,7 +61,6 @@ This involves creating a standard project structure first.
     ```bash
     gemini mcp add --scope user <server_name> <command> [args...]
     ```
-    *   **Example:** `gemini mcp add --scope user qmd-mcp zsh -l -c "/path/to/qmd mcp"`
 
 4.  **Finalization:**
     *   After the command completes, no further steps like mirroring or manual registration are needed.
@@ -75,6 +74,10 @@ Must explicitly declare in `gemini-extension.json`:
 ```
 
 Do not enumerate extensions here; read `$HOME/.gemini/extension-enablement.json` and browse `$HOME/Work/AI/gemini_mcps/`.
+
+QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
+- `qmd status`, `qmd get`, `qmd embed` for admin/read paths
+- `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
 
 ## Key Rules
 
@@ -103,6 +106,7 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.8.1 — removed the qmd-mcp example and documented the CLI-only QMD policy for Gemini (`qmd` for admin/read, `qmdr` for important searches) |
 | 2026-04-03 | [CODEX] | v2.8.0 — added the real Gemini conversation-history paths and kept the skill compact by exposing only the owning dirs to inspect |
 | 2026-04-03 | [CODEX] | v2.7.0 — compacted the hooks section so this skill now points to the Gemini runtime config and `$HOME/.agents/hooks/README.md` instead of repeating the live hook behavior inline |
-| [SUMMARY] | — | v2.7.0–v2.0.0: compact hook guidance, Gemini history paths, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
+| [SUMMARY] | — | v2.8.0–v2.0.0: CLI-only QMD policy, Gemini history paths, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
