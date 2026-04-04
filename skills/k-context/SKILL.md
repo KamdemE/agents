@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.28.0"
+  version: "2.30.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -34,7 +34,7 @@ allowed-tools: "Bash(*), *"
 |---------|--------|---------------|
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
 | **Centralized Hooks** | ✅ Pre+Post hook split complete; k-hook v2.13.0, k-claude v2.12.0 | maintain via `make audit` · `$HOME/.agents/hooks/` |
-| **Optimization map** | ✅ `k-optim` v1.6.0 — home media dirs policy added; Downloads/Documents/Pictures emptied | maintain; log future cleanup actions · `$HOME/.agents/skills/k-optim/` |
+| **Optimization map** | ✅ QMD lean-index cleanup applied; home media dirs policy added; Downloads/Documents/Pictures emptied | maintain hot-only indexing discipline · `$HOME/.config/qmd/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **OpenClaw** | ✅ gateway restored; local Ollama unified on `127.0.0.1:11434`; default model is `phi4-mini:latest` | keep Telegram disabled until token exists · `$HOME/.openclaw/` |
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.30.0 — QMD lean cleanup applied: raw runtime histories removed from `$HOME/.config/qmd/index.yml`; archive vectors purged; post-commit hook stays update-only by default |
 | 2026-04-04 | [CLAUDE] | v2.28.0 — project rule added to preamble; folder paths on all Active Project rows; inline ref rules removed |
 | 2026-04-04 | [CLAUDE] | v2.27.0 — dot_guard disabled (`$HOME/.kshrc`); dotguard project row added; Active Projects consolidated |
 | 2026-04-04 | [CLAUDE] | v2.26.0 — k-claude v2.12.0; OpenClaw `$HOME/.agents/hooks/openclaw/path-guard/handler.ts` indent fixed; README Gemini note |
@@ -58,9 +59,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-04 | [CODEX] | v2.23.1 — OpenClaw gateway restored: `$HOME/.openclaw/` Telegram token removed, port `18789` healthy |
 | 2026-04-04 | [CLAUDE] | v2.23.0 — bw-env (`$HOME/Work/sh/bw-env/`) delivered: 4s→226ms, tray+30s poll; install.sh+purge.sh pushed |
 | 2026-04-04 | [CODEX] | v2.22.1 — OpenClaw config repaired: Ollama `127.0.0.1:11434`, `phi4-mini:latest` |
-| 2026-04-04 | [CODEX] | v2.22.0 — `ollama-ipex` (`$HOME/Work/sh/ollama-ipex/`) switches native/IPEX on `11434` |
-| 2026-04-04 | [CLAUDE] | v2.21.0 — bw-env: .agent/→.agents/ migration; install.sh+purge.sh sandbox-validated |
-| [SUMMARY] | — | v2.20.0–v2.16.0: bw-env install.sh, media cleanup, k-optim v1.6.0–v1.4.0, hooks audit, lean hook rollout |
+| [SUMMARY] | — | v2.29.0–v2.21.0: QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -70,6 +69,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.30.0 — logged the completed QMD lean cleanup and marked `$HOME/.config/qmd/` as a maintenance thread rather than an active cleanup |
 | 2026-04-04 | [CLAUDE] | v2.28.0 — global project rule in preamble (read order: AGENTS→CHANGELOG→README→TODO); folder paths on all project rows; inline ref rules removed |
-| 2026-04-04 | [CLAUDE] | v2.27.0 — dot_guard disabled; dotguard project row; Active Projects consolidated |
-| [SUMMARY] | — | v1.0.0–v2.26.0: prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| [SUMMARY] | — | v2.29.0–v1.0.0: QMD redesign start, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |

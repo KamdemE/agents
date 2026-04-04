@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.8.1"
+  version: "2.10.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -41,18 +41,21 @@ allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 | `tutos_live` | `$HOME/Work/tutos_live/` | Ubuntu fixes, tools, shell patterns |
 | `presentation` | `$HOME/Work/Homelab/presentation/` | homelab architecture and project knowledge |
 | `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
-| `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
 | `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
-| `codex` | `$HOME/.codex/` | Codex config and history |
-| `gemini` | `$HOME/.gemini/` | Gemini config and history |
-| `copilot` | `$HOME/.copilot/` | Copilot config and history |
-| `vibe` | `$HOME/.vibe/` | VIBE config and history |
-| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw workspace knowledge |
+| `codex` | `$HOME/.codex/` | Codex config/rules/docs only |
+| `gemini` | `$HOME/.gemini/` | Gemini config/extensions only |
+| `copilot` | `$HOME/.copilot/` | Copilot config and state checkpoints |
+| `vibe` | `$HOME/.vibe/` | VIBE config and prompts |
+| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw KπX-local workspace knowledge |
+
+Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` runtime skill to find their on-disk paths, then inspect the files directly only when needed.
 
 ## Operational Rules
 
 - run `qmd update <collection>` before searching when freshness matters
 - run `qmd embed <collection>` only when new files were added or content changed materially
+- keep QMD hot-only; large raw transcripts and chat/session histories do not belong in the index
+- when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
 - always scope searches to the relevant collections when possible
 - do not hardcode live collection inventories in other skills; point back here or to qmd itself
 
@@ -85,8 +88,8 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - Ubuntu/system fix → `tutos_live`
 - homelab architecture/project memory → `presentation`
 - agent workflow, hooks, AGENTS, skills → `agents`
-- agent-specific runtime/history → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`, `openclaw`
-- KπX AI project → `k-ai`
+- agent-specific runtime config/docs → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`, `openclaw`
+- raw agent histories → use the corresponding `k-*` runtime skill path, not QMD
 
 ## Troubleshooting
 
@@ -104,6 +107,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.8.1 — updated the bundled post-commit hook reference to the non-blocking pattern: collection-scoped `update`, deduplicated background `embed`, and explicit log location |
-| 2026-04-03 | [CODEX] | v2.8.0 — rewrote the skill into a compact source-of-truth map, kept the collection map visible, and moved volatile setup/command detail behind references instead of embedding large live-like inventories in the skill body |
-| [SUMMARY] | — | v2.8.0–v2.0.0 covered the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| 2026-04-04 | [CODEX] | v2.10.0 — removed raw runtime histories from the QMD mental model; the skill now points agents to runtime `k-*` skills for history paths and keeps QMD strictly hot-only |
+| 2026-04-04 | [CODEX] | v2.9.0 — aligned the skill with the new hot/archive collection strategy and updated the bundled post-commit hook reference to default to `update-only` with optional debounced embeds |
+| [SUMMARY] | — | v2.8.1–v2.0.0 covered the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
