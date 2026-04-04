@@ -53,10 +53,12 @@ def _oldest_dirty_age_minutes(changed_files: list[str], agents_dir: str) -> int 
 
 
 def _changed_skill_paths(changed_files: list[str], agents_dir: str) -> list[str]:
+    # Skip deleted files (D status) — they can't be validated and would raise FileNotFoundError.
     return [
-        _status_line_to_abs_path(line, agents_dir)
+        p
         for line in changed_files
         if _status_line_to_path(line).endswith("SKILL.md")
+        and os.path.exists(p := _status_line_to_abs_path(line, agents_dir))
     ]
 
 

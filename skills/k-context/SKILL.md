@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.37.0"
+  version: "2.38.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -49,7 +49,8 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge complete: fixed 5 SKILL.md YAML bugs (Codex over-indent), removed clawhub/clawdhub/mcporter (pnpm) + nanoclaw config; k-openclaw v2.1.0 retrospec enriched · `$HOME/.agents/skills/` |
+| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json skillUsage; stop hook loop root cause identified (missing `:` in section headers) |
+| 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge: 5 SKILL.md YAML fixes, clawhub/clawdhub/mcporter/nanoclaw removed, hooks purged, k-openclaw→deactive · `$HOME/.agents/skills/` |
 | 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness: tray_app.py silent-button fix, control_center timeout=30, sync-daemon log_warn→log_sys; committed+pushed · `$HOME/Work/sh/bw_env/` |
 | 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map, moved durable notes to deactivated skill archive · `$HOME/.agents/skills/` |
 | 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/`; updated all path refs · `$HOME/Work/sh/bw_env/` |
@@ -68,6 +69,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json; stop hook loop root cause (missing `:` in section headers) |
 | 2026-04-04 | [CLAUDE] | v2.37.0 — OpenClaw purge complete + 5 SKILL.md YAML fixes (Codex over-indent bug) |
-| 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map |
 | [SUMMARY] | — | v2.35.2–v1.0.0: exa-only MCPs, bw-env robustness/rename, AfterAgent fix, Ollama benchmark, CLI-only QMD, qmdr, Codex frontmatter, QMD freshness, doc routing, agent-memory, QMD provenance, project rule, dot_guard, PostToolUse hook, and older |

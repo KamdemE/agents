@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.14.0"
+  version: "2.15.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -51,6 +51,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.15.0 — fix `session_guard.py`: skip non-existent paths in `_changed_skill_paths` to prevent `FileNotFoundError` when a SKILL.md is deleted/moved |
 | 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime from the active hook architecture map and audit surface |
-| 2026-04-04 | [CLAUDE] | v2.13.0 — Claude header/footer check moved from PreToolUse blocking to PostToolUse advisory; `post_tool_use.py` added; `pre_tool_use.py` passes `check_header_footer=False` |
-| [SUMMARY] | — | v2.12.0–v2.0.0: compact architectural rewrite, hooks/README.md runtime/checker map, skill_edit_guard.py, settings centralization, Codex wire-contract notes, prompt/session/path guard cleanup, DRY/no-desync enforcement |
+| [SUMMARY] | — | v2.13.0–v2.0.0: PostToolUse advisory for Claude, compact rewrite, hooks/README.md runtime map, skill_edit_guard.py, settings centralization, Codex wire-contract notes, guard cleanup, DRY enforcement |
