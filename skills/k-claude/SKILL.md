@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.11.0"
+  version: "2.12.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -64,7 +64,7 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 
 `$HOME/.claude/settings.json` is the source of truth for Claude hook wiring and permission policy.
 
-- live wrappers: `session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `stop.py`, `session_end.py`
+- live wrappers: `session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `post_tool_use.py`, `stop.py`, `session_end.py`
 - edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
 - exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
 
@@ -92,6 +92,6 @@ Structure and content checks remain blocking in PreToolUse.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.12.0 — live wrappers list: added missing `post_tool_use.py` (desync fix) |
 | 2026-04-04 | [CLAUDE] | v2.11.0 — Edit Protocol updated: header/footer check moved to PostToolUse advisory; natural multi-step edits now allowed for Claude |
-| 2026-04-04 | [CLAUDE] | v2.10.0 — added k-context/k-* SKILL.md Edit Protocol: single-call pattern required by pre_tool_use hook |
-| [SUMMARY] | — | v2.9.0–v2.0.0: compact hook guidance, compact history path map, live hook wiring, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
+| [SUMMARY] | — | v2.10.0–v2.0.0: single-call Edit Protocol, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime extraction/cleanup |

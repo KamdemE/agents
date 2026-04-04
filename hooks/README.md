@@ -132,6 +132,17 @@ Practical consequence:
 - they are intentionally not wired on Codex instead of pretending to protect `Bash`
 - `hooks/codex/pre_tool_use.py` is kept only as a no-op compatibility shim for already-running Codex sessions or stale copied hook configs
 
+### Gemini — No AfterTool Event
+
+Gemini CLI does not publish an `AfterTool` hook event. The registered surface is:
+`SessionStart`, `BeforeAgent`, `AfterAgent`, `BeforeTool`, `SessionEnd` — no post-write event.
+
+Practical consequence:
+
+- The `skill_edit_guard.py` header/footer check **cannot be moved to a PostToolUse-style advisory** on Gemini
+- Full blocking on `BeforeTool` is therefore permanent for Gemini — not a policy choice but a platform constraint
+- Do not add an `after_tool.py` for Gemini: the event does not exist
+
 ### OpenClaw Enforcement
 
 OpenClaw currently uses:

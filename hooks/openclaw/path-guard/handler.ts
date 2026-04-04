@@ -26,14 +26,14 @@ export default function handler(event: Record<string, unknown>) {
         `
 import sys, json, os
 sys.path.insert(0, os.path.join(os.environ["HOME"], ".agents/hooks"))
-  from core import path_guard, skill_edit_guard
-  import json as _json
-  content = sys.argv[1]
-  file_path = sys.argv[2]
-  errors = path_guard.guard_content(content, file_path=file_path)
-  skill = skill_edit_guard.evaluate_skill_edit("Write", {"file_path": file_path, "content": content})
-  errors.extend(skill["errors"])
-  print(_json.dumps({"errors": errors, "notes": skill["notes"]}))
+from core import path_guard, skill_edit_guard
+import json as _json
+content = sys.argv[1]
+file_path = sys.argv[2]
+errors = path_guard.guard_content(content, file_path=file_path)
+skill = skill_edit_guard.evaluate_skill_edit("Write", {"file_path": file_path, "content": content})
+errors.extend(skill["errors"])
+print(_json.dumps({"errors": errors, "notes": skill["notes"]}))
           `.trim(),
           content,
           filePath,
