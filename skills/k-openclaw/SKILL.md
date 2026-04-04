@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.10.2"
+  version: "1.11.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -77,6 +77,9 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 ## Operational Notes
 
 - local Ollama source of truth: `http://127.0.0.1:11434`; default local model: `phi4-mini:latest`
+- current local-only optimization posture on KpihX Ubuntu: `contextTokens=16384`, `maxConcurrent=1`, `subagents.maxConcurrent=1`, `memorySearch.enabled=false`, `verboseDefault=off`
+- active local Ollama model set for OpenClaw should stay lean: `phi4-mini:latest`, `llama3.1:8b`, `qwen2.5-coder:3b`
+- `gemma3:4b` is not part of the active OpenClaw local set because the tested Ollama/OpenClaw tool path rejected it
 - restart the gateway after `openclaw.json` changes: `openclaw gateway --force`
 - skill reload happens from the OpenClaw side without needing a gateway restart after skill sync
 - Google provider: use the API-key-backed `google` provider, not `google-gemini-cli`
@@ -88,7 +91,7 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.11.0 — recorded the lean local-only OpenClaw defaults derived from the Ubuntu benchmark and removed `gemma3:4b` from the active local set |
 | 2026-04-04 | [CODEX] | v1.10.2 — documented the CLI-only QMD policy for OpenClaw and removed the expectation that QMD should stay in `mcporter.json` |
 | 2026-04-04 | [CODEX] | v1.10.1 — documented the active local Ollama endpoint/model and the Telegram-token guard needed to keep the gateway healthy |
-| 2026-04-03 | [CODEX] | v1.10.0 — added the real OpenClaw session-history and memory paths while keeping the runtime skill compact and source-of-truth first |
-| [SUMMARY] | — | v1.10.1–v1.0.0: CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.10.2–v1.0.0: CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |

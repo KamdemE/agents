@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.33.1"
+  version: "2.34.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -37,7 +37,7 @@ allowed-tools: "Bash(*), *"
 | **Optimization map** | ✅ QMD lean-index cleanup applied; home media dirs policy added; Downloads/Documents/Pictures emptied | maintain hot-only indexing discipline · `$HOME/.config/qmd/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
-| **OpenClaw** | ✅ gateway restored; local Ollama unified on `127.0.0.1:11434`; default model is `phi4-mini:latest` | keep Telegram disabled until token exists · `$HOME/.openclaw/` |
+| **OpenClaw** | ✅ lean local-only defaults applied; `phi4-mini:latest` remains default; `gemma3:4b` removed from the active local set | restart gateway after config edits and keep Telegram disabled until token exists · `$HOME/.openclaw/` |
 | **dot_guard** | ⏸️ DISABLED — `rm` wrapper causes subshell fn-not-found; needs redesign | redesign: drop shell-fn wrapping · `$HOME/Work/sh/dot_guard/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -50,17 +50,17 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-04 | [CODEX] | v2.33.1 — benchmarked `phi4-mini`, `llama3.1:8b`, `qwen2.5-coder:3b`, and `gemma3:4b` on Ollama IPEX + OpenClaw; `phi4-mini` remains best default, `gemma3:4b` rejected for OpenClaw tools · `$HOME/.openclaw/` |
-| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/`; updated all path refs in install.sh, purge.sh, shell.sh, profile.sh, README.md, .agents/AGENTS.md, .kshrc · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness: tray_app.py silent-button fix, control_center timeout=30, sync-daemon log_warn→log_sys, install.sh bw-login step 1.5; committed+pushed · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [CODEX] | v2.34.0 — k-ollama benchmark memo, lean OpenClaw defaults, removed `gemma3:4b` from active local set · `$HOME/.agents/skills/k-ollama/` |
+| 2026-04-04 | [CODEX] | v2.33.1 — benchmarked `phi4-mini`, `llama3.1:8b`, `qwen2.5-coder:3b`, and `gemma3:4b` on Ollama IPEX + OpenClaw; `phi4-mini` remains best default · `$HOME/.openclaw/` |
+| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/`; updated all path refs across project and `.kshrc` · `$HOME/Work/sh/bw_env/` |
 | 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: skip validation when response has no section markers · `$HOME/.agents/hooks/gemini/after_agent.py` |
 | 2026-04-04 | [CLAUDE] | v2.32.8 — initial AfterAgent cancel-loop fix: skip on empty/cancelled `prompt_response` · `$HOME/.agents/hooks/gemini/after_agent.py` |
 | 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini, and OpenClaw configs; QMD is now CLI-only |
 | 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint |
 | 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` now requires a frontmatter re-read/validation after any `SKILL.md` header edit |
 | 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` freshness gate explicit: check `qmd status`, run `qmd embed` if `Pending > 0` |
-| 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex routes new knowledge to `tutos_live/` (Ubuntu) or `presentation/` (homelab) |
-| 2026-04-04 | [CODEX] | v2.32.2–v2.32.0 — shared QMD hook skip, agent-owned `k-<agent>` rule, and QMD CPU/no-GPU warning note |
-| [SUMMARY] | — | v2.31.0–v2.21.0: QMD provenance hardening, QMD lean cleanup, project rule, dot_guard disable, k-claude hook work, bw-env rollout, OpenClaw repair, and older maintenance |
+| [SUMMARY] | — | v2.32.3–v2.21.0: AGENTS doc routing, QMD hook skip, agent-owned k-agent rule, QMD provenance hardening, QMD lean cleanup, project rule, dot_guard disable, k-claude hook work, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -70,7 +70,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.33.1 — logged the Ollama IPEX + OpenClaw 4-model benchmark and final default-model recommendation |
-| 2026-04-04 | [CLAUDE] | v2.33.0 — bw-env → bw_env rename; all path refs updated across project and .kshrc |
-| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: no-section-marker guard added |
-| [SUMMARY] | — | v2.32.9–v1.0.0: AfterAgent fix, CLI-only QMD shift, qmdr wrapper, Codex frontmatter-safety, QMD freshness gate, doc routing, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, PostToolUse hook, bw-env, OpenClaw repair, and older entries condensed. |
+| 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness fixes committed+pushed: tray error handling, control_center timeout, install bw-login |
+| 2026-04-04 | [CODEX] | v2.34.0 — k-ollama benchmark memo, lean OpenClaw defaults, removed `gemma3:4b` |
+| [SUMMARY] | — | v2.33.1–v1.0.0: bw-env rename, AfterAgent fix, Ollama benchmark, CLI-only QMD, qmdr, Codex frontmatter, QMD freshness, doc routing, agent-memory, QMD provenance, project rule, dot_guard, PostToolUse hook, OpenClaw repair, and older. |
