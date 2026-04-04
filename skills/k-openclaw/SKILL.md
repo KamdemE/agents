@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.11.1"
+  version: "1.12.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -81,6 +81,8 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 - active local Ollama model set for OpenClaw should stay lean: `phi4-mini:latest`, `llama3.1:8b`, `qwen2.5-coder:3b`
 - `gemma3:4b` is not part of the active OpenClaw local set because the tested Ollama/OpenClaw tool path rejected it
 - active OpenClaw MCP policy is now minimal: keep only `exa` in `$HOME/.openclaw/workspace/config/mcporter.json` unless a specific runtime need is reintroduced deliberately
+- if the TUI starts showing stale model choices or polluted conversation state, reset `$HOME/.openclaw/agents/main/sessions/sessions.json`, remove the active session `.jsonl`, and reopen the TUI on a fresh session
+- `session-memory` is intentionally disabled in `$HOME/.openclaw/openclaw.json` because its pre-compaction flush prompts polluted short interactive sessions and triggered misleading "untrusted metadata" responses
 - restart the gateway after `openclaw.json` changes: `openclaw gateway --force`
 - skill reload happens from the OpenClaw side without needing a gateway restart after skill sync
 - Google provider: use the API-key-backed `google` provider, not `google-gemini-cli`
@@ -92,8 +94,6 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.12.0 — disabled `session-memory` in the runtime, documented the stale-session reset procedure, and kept OpenClaw on a fresh-session-first posture |
 | 2026-04-04 | [CODEX] | v1.11.1 — reduced OpenClaw `mcporter.json` to `exa` only so the runtime stays minimal and local-first |
-| 2026-04-04 | [CODEX] | v1.11.0 — recorded the lean local-only OpenClaw defaults derived from the Ubuntu benchmark and removed `gemma3:4b` from the active local set |
-| 2026-04-04 | [CODEX] | v1.10.2 — documented the CLI-only QMD policy for OpenClaw and removed the expectation that QMD should stay in `mcporter.json` |
-| 2026-04-04 | [CODEX] | v1.10.1 — documented the active local Ollama endpoint/model and the Telegram-token guard needed to keep the gateway healthy |
 | [SUMMARY] | — | v1.11.0–v1.0.0: lean local defaults, CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |

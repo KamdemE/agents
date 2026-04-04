@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.10.0"
+  version: "1.10.1"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -48,7 +48,7 @@ Use the control plane only to switch/inspect the backend:
 ollama-ipex start
 ollama-ipex native
 ollama-ipex status
-ollama-ipex preload qwen2.5:latest
+ollama-ipex preload qwen2.5-coder:3b
 ollama-ipex logs --lines 200
 ```
 
@@ -87,7 +87,6 @@ ollama run phi4-mini:latest
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.10.1 — replaced the stale `qwen2.5:latest` preload example with the active `qwen2.5-coder:3b` model |
 | 2026-04-04 | [CODEX] | v1.10.0 — added the timestamped local agentic benchmark reference for this Ubuntu Intel Arc machine and recorded the final recommended active model set |
-| 2026-04-04 | [CODEX] | v1.9.1 — removed the duplicated `v1.8.0` changelog row to keep the skill compact and single-sourced |
-| 2026-04-04 | [CODEX] | v1.9.0 — pointed the skill to the finalized `Work/AI/ollama/ipex` repo, added GitHub/GitLab URLs, surfaced the project-level `AGENTS.md`, and summarized the surrounding Ollama directories and stores |
 | [SUMMARY] | — | v1.9.1–v1.0.0 covered the same-endpoint validation on `127.0.0.1:11434`, the legacy proxy/wrapper era, the move into `$HOME/Work/AI/ollama/ipex`, preload guidance, and the initial GPU/IPEX setup history |
