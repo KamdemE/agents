@@ -43,6 +43,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 **Reference baseline:** `k-skill-creator` is the upstream/base reference skill that KπX forks and overlays with additional governance rules. Treat it as the structural and workflow baseline for skill creation, not as an anti-pattern to "normalize away".
 **New skill install:** always `$HOME/.agents/skills/<name>/` — **MUST follow the KπX fork of the k-skill-creator standard** (valid YAML frontmatter, ⚠️ edit reminder after H1, Changelog, and the standard bundled dirs `scripts/` / `references/` / `assets/` when needed). Never install to agent-specific dirs. Never deviate from this structure without an explicit KπX-level exception.
 **Skill writing rule:** skills must stay compact and source-of-truth first. Give the minimum operational map, then point to the owning file/dir to inspect. Do not re-copy long procedures, hook matrices, inventories, or rules that already live elsewhere.
+**Agent-owned runtime memory:** each agent owns its matching runtime skill (`k-codex`, `k-claude`, `k-gemini`, `k-openclaw`, etc.). That `k-<agent>` skill is the agent's durable operational memory. As soon as the agent learns a new runtime fact, workaround, escalation pattern, config rule, failure mode, or repeated mistake for itself, it MUST update its own `k-<agent>/SKILL.md` proactively, in the same workstream, without asking KπX first.
 
 | Key Skills | Load when |
 |-------|-----------|
@@ -197,6 +198,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Low-token docs** — `AGENTS.md`, `SKILL.md`, and other operational Markdown must stay compact. If a document starts restating details already owned by another source, replace that detail with a pointer to the source.
 - **Changelog limits:** newest-first. SKILL.md: max 2 real entries + `[SUMMARY]`. Summary rows must stay short and bounded; never replace real entries before the limit is reached.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
+- **Agent-memory update mandate** — if the new knowledge is specific to one agent runtime, update that agent's own `k-<agent>` skill immediately; do not leave the learning only in conversation output.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
 - **SKILL.md edit completion** — any edit to a KπX-owned `k-*` `SKILL.md` must update both the header (`metadata.version`) and the footer (`## Changelog`) in the same pass.
 - **Hook reminder discipline** — hooks must point back to `AGENTS.md` instead of re-listing AGENTS rules, except for concrete validation errors or targeted finalization messages.

@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.31.0"
+  version: "2.32.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states that each agent owns and must auto-update its own `k-<agent>` runtime skill; `k-codex` learned the scoped escalation reflex for blocked commit/push operations |
 | 2026-04-04 | [CODEX] | v2.31.0 — QMD provenance hardened: `references/qmd-optimization.md` expanded with Vulkan/hook checks, shared `post-commit` hook symlinked from `$HOME/Work/tutos_live/.git/hooks/` and `$HOME/Work/Homelab/presentation/.git/hooks/`, and VSCode exported profiles now point back to `$HOME/.agents/skills/k-vscode/references/` |
 | 2026-04-04 | [CODEX] | v2.30.0 — QMD lean cleanup applied: raw runtime histories removed from `$HOME/.config/qmd/index.yml`; archive vectors purged; post-commit hook stays update-only by default |
 | 2026-04-04 | [CLAUDE] | v2.28.0 — project rule added to preamble; folder paths on all Active Project rows; inline ref rules removed |
@@ -57,10 +58,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-04 | [CLAUDE] | v2.26.0 — k-claude v2.12.0; OpenClaw `$HOME/.agents/hooks/openclaw/path-guard/handler.ts` indent fixed; README Gemini note |
 | 2026-04-04 | [CLAUDE] | v2.25.0 — `.agents/` pushed (677bc15); tg.md desync eliminated (`$HOME/Work/tutos_live/`); tools.md path fix |
 | 2026-04-04 | [CLAUDE] | v2.24.0 — PostToolUse hook: `$HOME/.agents/hooks/claude/post_tool_use.py` created; k-hook v2.13.0, k-claude v2.11.0 |
-| 2026-04-04 | [CODEX] | v2.23.1 — OpenClaw gateway restored: `$HOME/.openclaw/` Telegram token removed, port `18789` healthy |
-| 2026-04-04 | [CLAUDE] | v2.23.0 — bw-env (`$HOME/Work/sh/bw-env/`) delivered: 4s→226ms, tray+30s poll; install.sh+purge.sh pushed |
-| 2026-04-04 | [CODEX] | v2.22.1 — OpenClaw config repaired: Ollama `127.0.0.1:11434`, `phi4-mini:latest` |
-| [SUMMARY] | — | v2.29.0–v2.21.0: QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
+| [SUMMARY] | — | v2.29.0–v2.21.0: agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -70,6 +68,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.32.0 — logged the new agent-owned runtime-memory rule in AGENTS and the Codex-specific scoped-escalation learning for blocked commit/push work |
 | 2026-04-04 | [CODEX] | v2.31.0 — logged the QMD provenance hardening pass: guide expansion, shared hook symlinks in `Work`, and corrected VSCode profile source-of-truth direction |
-| 2026-04-04 | [CLAUDE] | v2.28.0 — global project rule in preamble (read order: AGENTS→CHANGELOG→README→TODO); folder paths on all project rows; inline ref rules removed |
-| [SUMMARY] | — | v2.30.0–v1.0.0: QMD cleanup/provenance hardening, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| [SUMMARY] | — | v2.30.0–v1.0.0: QMD cleanup/provenance hardening, agent-memory rule, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |

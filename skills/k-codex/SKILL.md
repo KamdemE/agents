@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.1"
+  version: "2.10.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -77,6 +77,9 @@ Do not enumerate MCPs here; read `$HOME/.codex/config.toml` directly.
 ## Permissions & Escalation
 
 - **Sudo required** → STOP before retry loop; ask KπX to run the command manually; then resume.
+- if sandbox restrictions block a legitimate Codex maintenance action (for example `.agents` commit/push or a repo push), rerun the exact command with scoped escalation instead of inventing shell workarounds
+- for Git/network maintenance, prefer a narrow `prefix_rule` tied to the real command family (`git ... push`, `git ... commit`, `make -C $HOME/.agents push`) so the approval stays reusable but bounded
+- when an escalated command fails because it still needs user authentication or a manual step, stop there; tell KπX exactly what to run/fix, then continue once KπX says it is done
 - **rules/default.rules** — prefix_rule patterns auto-accumulated by Codex. Edit directly to remove stale entries.
 
 ## Project Context
@@ -94,6 +97,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.10.0 — added the sandbox/escalation reflex learned in practice: rerun blocked commit/push operations with scoped escalation, and stop cleanly when a sudo/auth step must be completed manually by KπX |
 | 2026-04-03 | [CODEX] | v2.9.1 — made the Codex history pointers explicit by adding `history.jsonl` and `session_index.jsonl` alongside the sessions dir |
-| 2026-04-03 | [CODEX] | v2.9.0 — compacted the hooks section so this skill now points to the live runtime files and `$HOME/.agents/hooks/README.md` instead of duplicating the Codex hook contract inline |
-| [SUMMARY] | — | v2.9.0–v2.0.0: explicit history pointers, compact hook guidance, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
+| [SUMMARY] | — | v2.9.0–v2.0.0: compact hook guidance, explicit history pointers, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
