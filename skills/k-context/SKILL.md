@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.22.0"
+  version: "2.22.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -38,7 +38,7 @@ allowed-tools: "Bash(*), *"
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools |
 | **$HOME/.agents/ refonte** | ✅ normalized, committed, and pushed | maintain and avoid drift |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | see `references/agentic-architecture-brainstorm.md` |
-| **OpenClaw** | skills fixed (rsync copies), exec-approvals ask=always | file-edit approval gates (if OpenClaw adds support) |
+| **OpenClaw** | ✅ default local model switched to `phi4-mini:latest`; old `11435` Ollama endpoint and invalid `tools.allow + alsoAllow` config fixed | restart gateway cleanly and reduce unused-provider warning noise |
 | **bw-env refactor** | ✅ install.sh + purge.sh written + sandbox-tested; .agent/→.agents/ migration done | commit + `make push` |
 | **ollama-ipex** | ✅ same-endpoint native/IPEX switch validated on `127.0.0.1:11434`; editable `uv tool` CLI ready | create remotes, push, and keep `ollama` commands backend-agnostic |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD post-commit hygiene stable; DXO internship accepted |
@@ -51,6 +51,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.22.1 — OpenClaw config repaired: local Ollama endpoint unified on `127.0.0.1:11434`, default model moved to `phi4-mini:latest`, invalid `tools` merge fixed |
 | 2026-04-04 | [CODEX] | v2.22.0 — `ollama-ipex` now switches native/IPEX on the shared `11434` endpoint; editable CLI, verbose phase output, and plain `ollama ...` validation completed |
 | 2026-04-04 | [CLAUDE] | v2.21.0 — bw-env: .agent/→.agents/ migration; install.sh + purge.sh sandbox-validated; Makefile + README + .gitignore updated |
 | 2026-04-04 | [CLAUDE] | v2.20.0 — bw-env install.sh written: bw CLI auto-install, install path prompt, .env config, systemd sync daemon, GUI tray optional, -y flag |
@@ -70,6 +71,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.22.1 — session log + Active Projects updated for the OpenClaw local-Ollama repair and `phi4-mini:latest` default-model alignment |
 | 2026-04-04 | [CODEX] | v2.22.0 — session log + Active Projects updated for the `ollama-ipex` same-endpoint control-plane validation and packaging work |
-| 2026-04-04 | [CLAUDE] | v2.21.0 — session log + Active Projects updated for bw-env .agents/ migration |
-| [SUMMARY] | — | v1.0.0–v2.20.0: prior session-log maintenance and historical entries condensed. |
+| [SUMMARY] | — | v1.0.0–v2.21.0: prior session-log maintenance, bw-env migration, and older historical entries condensed. |

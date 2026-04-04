@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "1.9.1"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -84,7 +84,6 @@ ollama run phi4-mini:latest
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.9.1 — removed the duplicated `v1.8.0` changelog row to keep the skill compact and single-sourced |
 | 2026-04-04 | [CODEX] | v1.9.0 — pointed the skill to the finalized `Work/AI/ollama/ipex` repo, added GitHub/GitLab URLs, surfaced the project-level `AGENTS.md`, and summarized the surrounding Ollama directories and stores |
-| 2026-04-04 | [CODEX] | v1.8.0 — live-validated the same-endpoint switch on `127.0.0.1:11434`, kept plain `ollama ...` as the model-facing interface, and documented both `ollama-ipex` and `ipex` as control-plane entrypoints |
-| 2026-04-04 | [CODEX] | v1.8.0 — live-validated the same-endpoint switch on `127.0.0.1:11434`, kept plain `ollama ...` as the model-facing interface, and documented both `ollama-ipex` and `ipex` as control-plane entrypoints |
-| [SUMMARY] | — | v1.7.0–v1.0.0 covered the legacy proxy/wrapper era, the move into `$HOME/Work/AI/ollama/ipex`, preload guidance, single-port redesign, and the initial GPU/IPEX setup history |
+| [SUMMARY] | — | v1.8.0–v1.0.0 covered the same-endpoint validation on `127.0.0.1:11434`, the legacy proxy/wrapper era, the move into `$HOME/Work/AI/ollama/ipex`, preload guidance, and the initial GPU/IPEX setup history |
