@@ -16,7 +16,24 @@ from core import response_validator
 # PART 1: EVENT HANDLER
 # ==============================================================================
 
-def handle_after_agent(prompt_response: str) -> dict:
+def handle_after_agent(input_data: dict) -> dict:
+    prompt_response = input_data.get("prompt_response", "")
+    # Skip validation on cancelled/interrupted turns (empty response or
+    # explicit cancelled flag from Gemini CLI).
+    if input_data.get("cancelled") or not prompt_response.strip():
+        return {"decision": "allow"}
+    # Skip validation if the response contains NO section markers at all.
+    # This covers two cases that both cause infinite retry loops on deny:
+    #   1. Partial response generated before user cancelled (pre-section content)
+    #   2. Model meta-response ("I'll fix the sections") after a prior deny
+    # In both cases the model cannot self-correct in the retry; allow silently
+    # and let the BeforeAgent injection remind it on the next real user turn.
+    has_any_section = any(
+        pattern.search(prompt_response)
+        for _, pattern in response_validator._SECTION_DEFS
+    )
+    if not has_any_section:
+        return {"decision": "allow"}
     result = response_validator.validate_response(prompt_response)
     if not result["passed"]:
         return {
@@ -33,8 +50,7 @@ def handle_after_agent(prompt_response: str) -> dict:
 def main():
     try:
         input_data = json.load(sys.stdin)
-        response = input_data.get("prompt_response", "")
-        print(json.dumps(handle_after_agent(response)))
+        print(json.dumps(handle_after_agent(input_data)))
     except Exception:
         print(json.dumps({"decision": "allow"}))
 

@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.32.7"
+  version: "2.32.9"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,19 +50,17 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini, and OpenClaw configs; QMD is now CLI-only across runtimes, with `qmd` for admin/read and `qmdr` for important searches |
-| 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint for important QMD `query/search/vsearch` calls |
-| 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` now requires a frontmatter re-read/validation after any `SKILL.md` header edit, to prevent repeated YAML breakage before commit/push |
-| 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` now makes the freshness gate explicit: before any important semantic/exploratory query, check `qmd status` and run `qmd embed` first if `Pending > 0` |
-| 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex now routes new knowledge explicitly to `$HOME/Work/tutos_live/` for Ubuntu/tooling scope or `$HOME/Work/Homelab/presentation/` for homelab/project scope |
-| 2026-04-04 | [CODEX] | v2.32.2 — shared QMD `post-commit` hook now skips cleanly when a repo has no active collection; `k-ai` memory corrected to point to direct disk session history instead of a presumed QMD collection |
-| 2026-04-04 | [CODEX] | v2.32.1 — QMD doc clarified that the first Vulkan rebuild may print a temporary CPU/no-GPU warning; the real steady-state device check is `qmd status` |
-| 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states that each agent owns and must auto-update its own `k-<agent>` runtime skill; `k-codex` learned the scoped escalation reflex for blocked commit/push operations |
-| 2026-04-04 | [CODEX] | v2.31.0 — QMD provenance hardened: `references/qmd-optimization.md` expanded with Vulkan/hook checks, shared `post-commit` hook symlinked from `$HOME/Work/tutos_live/.git/hooks/` and `$HOME/Work/Homelab/presentation/.git/hooks/`, and VSCode exported profiles now point back to `$HOME/.agents/skills/k-vscode/references/` |
-| 2026-04-04 | [CODEX] | v2.30.0 — QMD lean cleanup applied: raw runtime histories removed from `$HOME/.config/qmd/index.yml`; archive vectors purged; post-commit hook stays update-only by default |
-| 2026-04-04 | [CLAUDE] | v2.28.0 — project rule added to preamble; folder paths on all Active Project rows; inline ref rules removed |
-| 2026-04-04 | [CLAUDE] | v2.27.0 — dot_guard disabled (`$HOME/.kshrc`); dotguard project row added; Active Projects consolidated |
-| [SUMMARY] | — | v2.32.0–v2.21.0: explicit doc routing to tutos_live/presentation, safe missing-collection hook, k-ai memory correction, QMD GPU-warning note, agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
+| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: skip validation when response has no section markers (covers partial + meta-retry) · `$HOME/.agents/hooks/gemini/after_agent.py` |
+| 2026-04-04 | [CLAUDE] | v2.32.8 — initial AfterAgent cancel-loop fix: skip on empty/cancelled `prompt_response` · `$HOME/.agents/hooks/gemini/after_agent.py` |
+| 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini, and OpenClaw configs; QMD is now CLI-only across runtimes |
+| 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint for important QMD calls |
+| 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` now requires a frontmatter re-read/validation after any `SKILL.md` header edit |
+| 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` freshness gate explicit: check `qmd status`, run `qmd embed` if `Pending > 0` before important queries |
+| 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex routes new knowledge to `tutos_live/` (Ubuntu) or `presentation/` (homelab) |
+| 2026-04-04 | [CODEX] | v2.32.2 — shared QMD `post-commit` hook skips cleanly when repo has no active collection |
+| 2026-04-04 | [CODEX] | v2.32.1 — QMD doc clarified: first Vulkan rebuild may print a CPU/no-GPU warning; steady-state check is `qmd status` |
+| 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states each agent owns and must auto-update its own `k-<agent>` runtime skill |
+| [SUMMARY] | — | v2.31.0–v2.21.0: QMD provenance hardening, QMD lean cleanup, project rule, dot_guard disable, k-claude hook work, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -72,10 +70,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.32.7 — logged the CLI-only QMD runtime shift: removed active qmd MCP configs and standardized `qmd` vs `qmdr` usage across agent runtime skills |
-| 2026-04-04 | [CODEX] | v2.32.6 — logged the new `qmdr` wrapper as the explicit freshness-enforcing entrypoint for important QMD searches |
-| 2026-04-04 | [CODEX] | v2.32.5 — logged the new Codex frontmatter-safety reflex for `SKILL.md` edits after repeated YAML breakage during top-of-file patches |
-| 2026-04-04 | [CODEX] | v2.32.4 — logged the explicit QMD freshness gate: check `qmd status` first, then run `qmd embed` whenever `Pending > 0` before important semantic/exploratory use |
-| 2026-04-04 | [CODEX] | v2.32.3 — logged the explicit AGENTS documentation routing rule: `tutos_live` for Ubuntu/tooling scope, `presentation` for homelab/project scope |
-| 2026-04-04 | [CODEX] | v2.32.2 — logged the safe missing-collection QMD hook behavior and the corrected k-ai memory note about direct disk session history |
-| [SUMMARY] | — | v2.32.6–v1.0.0: CLI-only QMD runtime shift, `qmdr` wrapper, Codex frontmatter-safety reflex, QMD freshness gate, explicit doc routing, safe missing-collection hook, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: no-section-marker guard added |
+| 2026-04-04 | [CLAUDE] | v2.32.8 — initial AfterAgent cancel-loop fix + session log/changelog condensed |
+| [SUMMARY] | — | v2.32.7–v1.0.0: CLI-only QMD shift, `qmdr` wrapper, Codex frontmatter-safety, QMD freshness gate, doc routing, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, PostToolUse hook, bw-env, OpenClaw repair, and older entries condensed. |
