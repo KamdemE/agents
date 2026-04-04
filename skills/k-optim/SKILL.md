@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.8.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -38,6 +38,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | Current hot session state and TODOs | `$HOME/.agents/skills/k-context/SKILL.md` |
 | Shared hook and skill audits | `$HOME/.agents/hooks/audit.py` |
 | QMD declarative config | `$HOME/.config/qmd/index.yml` |
+| QMD optimization guide | `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
 | Homelab maintenance scripts | `$HOME/Work/Homelab/sh/` |
@@ -52,7 +53,8 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
 - operational Markdown must stay low-token and source-of-truth first; compact and point back when a skill starts duplicating detail owned elsewhere
 - `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
-- QMD collections are clean; `codex`, `gemini`, `copilot`, `vibe` tightened in `index.yml`; `tutos_live` and `presentation` clean; `openclaw` intentionally broad — watch for stale renamed skill copies
+- QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; `openclaw` narrowed to KπX-local docs and `k-*` skills; use the dedicated optimization guide for checks and cleanup
+- static reusable templates should live in `.agents`; external consumers should point back via symlink instead of drifting copies whenever the file is meant to be used as-is
 - agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
 - `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
 
@@ -69,10 +71,13 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
    - propagate any rename/add/remove to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and `$HOME/.agents/skills/k-context/SKILL.md`
    - commit and `make -C $HOME/.agents push`
 3. Recheck QMD cleanliness:
+   - start with `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md`
    - inspect `qmd collection list`
    - inspect `qmd ls <collection>` for suspected noisy collections
    - if patterns drift, edit `$HOME/.config/qmd/index.yml`, then run `qmd update <collection>`
+   - run `qmd cleanup` after structural changes
    - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
+   - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
 4. Suggest AI history cleanup when relevant:
    - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, `k-openclaw`, or `k-ai`
    - propose the cleanup proactively when history size or noise is part of the optimization problem
@@ -169,6 +174,8 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `tutos_live` and `presentation`; `glslc` presence confirmed before retesting embeds |
+| 2026-04-04 | Meta/QMD | Hot-only QMD cleanup + `qmd-optimization.md` | raw runtime histories removed from active index; guide added for inspection, SQLite checks, and cleanup flow |
 | 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to tutos_live/wine.md |
 | 2026-04-03 | Ubuntu | Manual home debris cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
 
@@ -176,6 +183,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.8.0 — added the static-template provenance rule, noted the shared QMD hook symlink model, and recorded the Vulkan `glslc` check as part of the QMD optimization workflow |
 | 2026-04-04 | [CLAUDE] | v1.6.0 — added Home Media Directories section (policy + cleanup check); updated Ubuntu LKS and Script Log with 2026-04-04 media cleanup |
-| 2026-04-03 | [CLAUDE] | v1.5.0 — Ubuntu LKS with 2026-04-03 home cleanup results; first Script & Action Log entry; `_dg_backup_check` hook noted |
-| [SUMMARY] | — | v1.4.0–v1.0.0: max-7 LKS rule, Meta/Ubuntu/Homelab scopes, load-before-optim standard, initial map and path normalization |
+| [SUMMARY] | — | v1.7.0–v1.0.0: QMD guide and cleanup state, Ubuntu cleanup state, max-7 LKS rule, Meta/Ubuntu/Homelab scopes, load-before-optim standard, initial map and path normalization |

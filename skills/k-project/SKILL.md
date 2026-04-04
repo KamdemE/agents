@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.1"
+  version: "2.0.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -202,6 +202,6 @@ Load `k-git-pages` for Docsify templates + link rules.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.0.2 — corrected the `docs-site.md` reference paths so project docs guidance points to the current `assets/` source of truth instead of the removed `templates/` wording |
 | 2026-04-03 | [CODEX] | v2.0.1 — tightened the wording around per-package config/env ownership so the skill stays concise and aligned with the source-of-truth-first style used across the refreshed runtime skills |
-| 2026-04-03 | [CODEX] | v2.0.0 — repaired the corrupted architecture section, normalized paths to `$HOME`, removed the duplicate changelog block, and condensed the footer to the standard format |
-| [SUMMARY] | — | v1.9.2 templates/ → assets/ and docs-site reference move; v1.9.1 proactive LICENSE rule; v1.9.0 Makefile standard task runner; v1.8.0 config.ts rewrite to match config.py; v1.7.0 Makefile templates moved from `k-git`; v1.6.0 docs-site cleanup; v1.5.0–v1.0.0 references, docs-site, enriched description, config templates, related skills, and initial creation |
+| [SUMMARY] | — | v2.0.1–v1.0.0 covered the architecture rewrite, `templates/` → `assets/`, docs-site moves, proactive LICENSE rule, Makefile standard task runner, config.ts rewrite, prior template moves, docs-site cleanup, references, and initial creation |

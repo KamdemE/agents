@@ -1,7 +1,8 @@
 #!/bin/sh
 # QMD post-commit hook template
 # ─────────────────────────────────────────────────────────────────────────────
-# Usage: copy to <repo>/.git/hooks/post-commit and set COLLECTION + PATTERN.
+# Usage: symlink or copy to <repo>/.git/hooks/post-commit.
+# If COLLECTION is unset, the hook derives it from the git repo root name.
 #
 # Install:
 #   cp $HOME/.agents/skills/k-qmd/references/post-commit-hook.sh .git/hooks/post-commit
@@ -9,8 +10,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Configure these for each repo ────────────────────────────────────────────
-COLLECTION="agents"                        # qmd collection name for this repo
-PATTERN="\.(md|yml|yaml|toml)$"           # file extensions that trigger refresh
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+REPO_NAME="$(basename "$REPO_ROOT")"
+COLLECTION="${COLLECTION:-$REPO_NAME}"    # qmd collection name for this repo
+PATTERN="${PATTERN:-\.(md|yml|yaml|toml)$}" # file extensions that trigger refresh
 QMD="${QMD:-$HOME/.npm-global/bin/qmd}"   # full path (bun version may be broken)
 EMBED_MODE="${EMBED_MODE:-update-only}"   # update-only | debounced
 EMBED_DEBOUNCE_SECONDS="${EMBED_DEBOUNCE_SECONDS:-1800}"

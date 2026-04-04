@@ -13,11 +13,11 @@ Source code lives at repo root; docs live in `docs/`.
 my-project/
 ├── src/
 ├── docs/
-│   ├── index.html        ← copy from k-git-pages templates
-│   ├── _sidebar.md       ← copy from k-git-pages templates
+│   ├── index.html        ← copy from `$HOME/.agents/skills/k-git-pages/assets/github-pages-index.html`
+│   ├── _sidebar.md       ← copy from `$HOME/.agents/skills/k-git-pages/assets/_sidebar.md`
 │   ├── README.md         ← docs homepage
 │   └── .nojekyll         ← MANDATORY
-├── Makefile              ← from k-project/templates/Makefile.uv or .npm-bun
+├── Makefile              ← from `$HOME/.agents/skills/k-project/assets/Makefile.uv` or `Makefile.npm-bun`
 ├── README.md
 ├── CHANGELOG.md
 ├── TODO.md

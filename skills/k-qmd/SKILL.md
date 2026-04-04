@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.10.0"
+  version: "2.12.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -29,6 +29,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 | Topic | Where to look |
 |------|----------------|
 | Full install and MCP setup | `references/mcp-setup.md` |
+| Optimization playbook | `references/qmd-optimization.md` |
 | Embedded-folder `.gitignore` pattern | `references/gitignore-embedded-folder.template` |
 | Auto-refresh hook example | `references/post-commit-hook.sh` |
 | Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
@@ -58,6 +59,7 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 - when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
 - always scope searches to the relevant collections when possible
 - do not hardcode live collection inventories in other skills; point back here or to qmd itself
+- when a repo collection name matches the repo root name, prefer symlinking `.git/hooks/post-commit` directly to the shared hook template instead of copying it
 
 ## Querying
 
@@ -100,13 +102,14 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 ## References
 
 - `references/mcp-setup.md` — full installation, config, and CLI/MCP usage details
+- `references/qmd-optimization.md` — inspection checklist, SQLite probes, cleanup flow, and latest QMD optimization actions
 - `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
-- `references/post-commit-hook.sh` — example git hook to refresh a collection synchronously and launch embeddings in the background without blocking commits
+- `references/post-commit-hook.sh` — shared git hook template for repo-name-derived collections; safe by default (`update-only`, optional debounced embeddings)
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.12.0 — documented the shared symlinkable post-commit hook model and aligned the hook reference with the repo-name-derived collection behavior |
 | 2026-04-04 | [CODEX] | v2.10.0 — removed raw runtime histories from the QMD mental model; the skill now points agents to runtime `k-*` skills for history paths and keeps QMD strictly hot-only |
-| 2026-04-04 | [CODEX] | v2.9.0 — aligned the skill with the new hot/archive collection strategy and updated the bundled post-commit hook reference to default to `update-only` with optional debounced embeds |
-| [SUMMARY] | — | v2.8.1–v2.0.0 covered the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| [SUMMARY] | — | v2.11.0–v2.0.0 covered the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |

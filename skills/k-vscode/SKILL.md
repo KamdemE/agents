@@ -4,7 +4,7 @@ description: "KπX VSCode ecosystem — profiles, settings, extension registry, 
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.0.1"
+  version: "3.1.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -98,27 +98,31 @@ $HOME/.agents/skills/k-vscode/scripts/build_profile_extensions.py \
 
 ## References
 
-The `references/` directory contains direct local references to the current VSCode assets:
-- `references/clean_vscode.sh`
+The `references/` directory is the source of truth for the exported `.code-profile` snapshots:
 - `references/general.code-profile`
 - `references/java.code-profile`
 - `references/latex.code-profile`
 - `references/cpp.code-profile`
 
-Prefer these references for quick inspection; use the real files under `$HOME/.config/Code/User/` when editing or validating state.
+The runtime files under `$HOME/.config/Code/User/profiles/*.code-profile` should point back to these files via symlink.
+
+`references/clean_vscode.sh` is different:
+- it points to the live cleanup script in `$HOME/Work/sh/clean/clean_vscode.sh`
+- the source of truth for that script remains the cleanup workspace, not this skill
 
 ## Operational Rules
 
 - **Close VSCode before editing `storage.json`** — the running app rewrites it from memory
 - Never handcraft profile `extensions.json` from scratch; derive it from `$HOME/.vscode/extensions/extensions.json`
 - Prefer changing profile ownership through the helper script instead of ad hoc edits
+- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-vscode/references/`; external VSCode profile files should symlink back to them
 - When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
 - Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
 
 ## Current Conformity Notes
 
 - No broken symlinks were found under `$HOME/.agents/skills/*/references/` during the 2026-04-03 audit
-- `k-vscode/references/` now points to `general.code-profile` instead of the old `default.code-profile`
+- the `.code-profile` link direction was corrected: `$HOME/.agents/skills/k-vscode/references/` now owns the snapshots and `$HOME/.config/Code/User/profiles/*.code-profile` points back to them
 - The stray `%24HOME`-escaped workspace association was removed from `storage.json`
 - At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
@@ -126,6 +130,6 @@ Prefer these references for quick inspection; use the real files under `$HOME/.c
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v3.1.0 — fixed the `.code-profile` source-of-truth direction: snapshots now live in `k-vscode/references/` and runtime files under `$HOME/.config/Code/User/profiles/` should symlink back to them |
 | 2026-04-03 | [CODEX] | v3.0.1 — removed the last hardcoded home-path wording from the conformity notes by describing the cleaned `%24HOME`-escaped workspace entry generically |
-| 2026-04-03 | [CODEX] | v3.0.0 — full rewrite: made the skill uniform and stable, removed volatile inventories, focused documentation on source-of-truth paths, added a proper references section, and recorded the cleaned VSCode state |
-| [SUMMARY] | — | v3.0.0–v1.0.0 covered the compact rewrite, profile-registry scripts, `General` profile rename, post-migration verification, YAML repair, and the original VSCode skill bootstrap |
+| [SUMMARY] | — | v3.0.1–v1.0.0 covered the full rewrite, profile-registry scripts, `General` profile rename, post-migration verification, YAML repair, and the original VSCode skill bootstrap |
