@@ -21,5 +21,14 @@ status:  ## git status --short
 log:  ## Last 10 commits oneline
 	@git log --oneline -10
 
+install:  ## Install project (systemd units, dirs, enable timer) — requires sudo
+	@sudo bash scripts/install.sh
+
+purge:  ## Purge project (disable timer, remove units) — requires sudo
+	@sudo bash scripts/purge.sh
+
+log:  ## Show recent service logs via journald (adapt unit name)
+	@journalctl -u <project> -n 50 --no-pager
+
 lint:  ## Shellcheck on all .sh files (adjust as needed)
 	@shellcheck --shell=bash *.sh

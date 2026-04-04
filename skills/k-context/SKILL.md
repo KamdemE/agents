@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.39.0"
+  version: "2.40.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -49,16 +49,14 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge + 5 YAML fixes; k-openclaw→deactive · `$HOME/.agents/skills/` |
 | 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness; committed+pushed · `$HOME/Work/sh/bw_env/` |
 | 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map · `$HOME/.agents/skills/` |
 | 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
-| 2026-04-04 | [CLAUDE] | v2.32.9 — AfterAgent cancel-loop fix · `$HOME/.agents/hooks/gemini/after_agent.py` |
-| 2026-04-04 | [CODEX] | v2.32.7 — removed QMD MCP entries; QMD CLI-only |
-| 2026-04-04 | [CODEX] | v2.32.6 — added `qmdr` freshness-safe entrypoint · `$HOME/.agents/skills/k-qmd/scripts/` |
-| [SUMMARY] | — | v2.32.5–v2.21.0: k-codex frontmatter rule, QMD freshness gate, AGENTS routing, QMD hook skip, agent-owned k-agent, QMD provenance, lean cleanup, project rule, dot_guard, k-claude hook work, bw-env rollout |
+| [SUMMARY] | — | v2.32.9–v2.21.0: AfterAgent fix, QMD CLI-only, qmdr entrypoint, k-codex frontmatter rule, QMD freshness gate, AGENTS routing, agent-owned k-agent, dot_guard, k-claude hook work, bw-env rollout |
 
 ## References
 
@@ -68,6 +66,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py: `:` now optional in section regexes (Comments/Remarks/Suggestions) |
-| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json |
-| [SUMMARY] | — | v2.37.0–v1.0.0: OpenClaw purge, YAML fixes, AfterAgent fix, bw-env, CLI-only QMD, qmdr, QMD freshness, doc routing, project rule, dot_guard, PostToolUse hook, and older |
+| 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README; k-project Bash case + journald rule |
+| [SUMMARY] | — | v2.39.0–v1.0.0: validator colon opt, session_guard fix, OpenClaw purge, YAML fixes, AfterAgent fix, bw-env, CLI-only QMD, qmdr, freshness gate, doc routing, project rule, dot_guard, PostToolUse hook, and older |

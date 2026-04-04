@@ -33,3 +33,4 @@
 - Breaking change → bump version in `pyproject.toml` / `package.json` + entry in `CHANGELOG.md`
 - Destructive / architectural changes → **stop and confirm with KπX first**
 - **Makefile is the standard task runner** — use `make push` (not raw `git push`), `make build`, `make release`, etc.; check available targets with `make help` before running ad-hoc commands
+- **Shell/systemd projects:** keep `scripts/install.sh` and `scripts/purge.sh` in sync with every new module, unit file, or directory the project introduces. These scripts are the contract for deploy and teardown — never let them drift from reality.

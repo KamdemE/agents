@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.2"
+  version: "2.1.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -154,6 +154,7 @@ Stored in `assets/` — copy to project root as `Makefile` and adapt:
 | `assets/Makefile.npm-bun` | JS/TS/bun — test, build, publish to npm, release pipeline |
 
 For scripts/shell/misc projects with no package manager → use `k-git/assets/Makefile.git` (baseline git workflow only).
+See also **Project Init — Bash/Shell** below.
 
 **Publish secrets** (inject via bw-env before running):
 - `Makefile.uv` → `UV_PUBLISH_TOKEN`
@@ -189,6 +190,43 @@ To set up a Docsify GitHub Pages docs site for a project → **`references/docs-
 Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages `main/docs` config.
 Load `k-git-pages` for Docsify templates + link rules.
 
+## Project Init — Bash/Shell (no package manager)
+
+For pure shell scripts, CLI wrappers, or systemd-managed tools with no `uv`/`npm`/`bun`:
+
+```
+<project-name>/
+├── <scripts>.sh         # Main scripts at root or in a flat structure
+├── systemd/             # Unit files (source of truth) — copied by install.sh
+│   ├── *.service
+│   └── *.timer
+├── scripts/
+│   ├── install.sh       # Install units, create dirs, enable timer/service
+│   └── purge.sh         # Disable + remove units (idempotent)
+├── .env.example         # Required env vars (keys only, no values)
+├── README.md
+├── CHANGELOG.md
+└── .agents/
+    └── AGENTS.md
+```
+
+**Mandatory scripts:**
+- `scripts/install.sh` — installs the project (systemd units, directories, symlinks, etc.)
+- `scripts/purge.sh` — fully removes the project (idempotent, no side effects)
+
+Templates: `k-project/assets/install.sh` and `k-project/assets/purge.sh`.
+Both must be kept in sync with the project as it evolves.
+For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.
+
+**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, and `log` targets.
+
+**Logging:** use `StandardOutput=journal` in systemd units — do **not** create a custom `logs/` directory or `tee` pipeline. Log access via `journalctl -u <project>`. Expose this in the Makefile as a `log` target:
+```makefile
+log:  ## Show recent logs (journald)
+	@journalctl -u <project> -n 50 --no-pager
+```
+Document the `make log` / `journalctl` commands in the README — that is the only log admin needed.
+
 ## Agent Proactivity
 
 - **LICENSE file**: Proactively propose creating a `LICENSE` file (e.g., MIT, GNU) if a project does not have one.
@@ -202,6 +240,5 @@ Load `k-git-pages` for Docsify templates + link rules.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.0.2 — corrected the `docs-site.md` reference paths so project docs guidance points to the current `assets/` source of truth instead of the removed `templates/` wording |
-| 2026-04-03 | [CODEX] | v2.0.1 — tightened the wording around per-package config/env ownership so the skill stays concise and aligned with the source-of-truth-first style used across the refreshed runtime skills |
-| [SUMMARY] | — | v2.0.1–v1.0.0 covered the architecture rewrite, `templates/` → `assets/`, docs-site moves, proactive LICENSE rule, Makefile standard task runner, config.ts rewrite, prior template moves, docs-site cleanup, references, and initial creation |
+| 2026-04-04 | [CLAUDE] | v2.1.0 — Bash/Shell project case: install.sh/purge.sh templates in assets/, journald logging rule, Makefile.git install/purge/log targets |
+| [SUMMARY] | — | v2.0.2–v1.0.0: docs-site refs, config/env per-package, architecture rewrite, assets/ migration, Makefile standard, proactive LICENSE rule, and earlier |
