@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.12.0"
+  version: "2.12.1"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -110,6 +110,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.12.1 — clarified in the optimization reference that the first Vulkan rebuild may print a temporary CPU/no-GPU warning and that the steady-state device truth must be checked with `qmd status` |
 | 2026-04-04 | [CODEX] | v2.12.0 — documented the shared symlinkable post-commit hook model and aligned the hook reference with the repo-name-derived collection behavior |
-| 2026-04-04 | [CODEX] | v2.10.0 — removed raw runtime histories from the QMD mental model; the skill now points agents to runtime `k-*` skills for history paths and keeps QMD strictly hot-only |
-| [SUMMARY] | — | v2.11.0–v2.0.0 covered the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| [SUMMARY] | — | v2.12.0–v2.0.0 covered the shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |

@@ -143,10 +143,16 @@ qmd embed agents
 
 If `glslc` is present and embeddings still look CPU-bound, inspect the local `node-llama-cpp` stderr rather than assuming QMD config drift.
 
+Also distinguish two phases:
+
+- during the first local Vulkan rebuild, `qmd embed` may still print a temporary `no GPU acceleration` warning while `node-llama-cpp` is rebuilding its native backend
+- after the rebuild, trust `qmd status` for the real steady-state device report
+
 ## Action Log
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | Documented the temporary false-negative GPU warning during the first `qmd embed` Vulkan rebuild; steady-state device truth should be checked with `qmd status` |
 | 2026-04-04 | [CODEX] | Confirmed `glslc` availability (`/usr/bin/glslc`) and re-ran `qmd embed agents`; Vulkan toolchain blocker is cleared and the embed path no longer fails on missing shader compiler |
 | 2026-04-04 | [CODEX] | Reworked the shared `post-commit` hook for repo-name-derived collections and pointed `$HOME/Work/tutos_live/.git/hooks/post-commit` plus `$HOME/Work/Homelab/presentation/.git/hooks/post-commit` back to the shared template via symlink |
 | 2026-04-04 | [CODEX] | Switched QMD to hot-only indexing: raw `codex`, `gemini`, and `k-ai` histories removed from `$HOME/.config/qmd/index.yml`; index shrank from ~1.4GB to ~1003.5MB; active docs 536→270; vectors 115625→640 |

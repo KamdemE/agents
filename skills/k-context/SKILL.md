@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.32.0"
+  version: "2.32.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.32.1 — QMD doc clarified that the first Vulkan rebuild may print a temporary CPU/no-GPU warning; the real steady-state device check is `qmd status` |
 | 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states that each agent owns and must auto-update its own `k-<agent>` runtime skill; `k-codex` learned the scoped escalation reflex for blocked commit/push operations |
 | 2026-04-04 | [CODEX] | v2.31.0 — QMD provenance hardened: `references/qmd-optimization.md` expanded with Vulkan/hook checks, shared `post-commit` hook symlinked from `$HOME/Work/tutos_live/.git/hooks/` and `$HOME/Work/Homelab/presentation/.git/hooks/`, and VSCode exported profiles now point back to `$HOME/.agents/skills/k-vscode/references/` |
 | 2026-04-04 | [CODEX] | v2.30.0 — QMD lean cleanup applied: raw runtime histories removed from `$HOME/.config/qmd/index.yml`; archive vectors purged; post-commit hook stays update-only by default |
@@ -57,8 +58,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-04 | [CLAUDE] | v2.27.0 — dot_guard disabled (`$HOME/.kshrc`); dotguard project row added; Active Projects consolidated |
 | 2026-04-04 | [CLAUDE] | v2.26.0 — k-claude v2.12.0; OpenClaw `$HOME/.agents/hooks/openclaw/path-guard/handler.ts` indent fixed; README Gemini note |
 | 2026-04-04 | [CLAUDE] | v2.25.0 — `.agents/` pushed (677bc15); tg.md desync eliminated (`$HOME/Work/tutos_live/`); tools.md path fix |
-| 2026-04-04 | [CLAUDE] | v2.24.0 — PostToolUse hook: `$HOME/.agents/hooks/claude/post_tool_use.py` created; k-hook v2.13.0, k-claude v2.11.0 |
-| [SUMMARY] | — | v2.29.0–v2.21.0: agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
+| [SUMMARY] | — | v2.30.0–v2.21.0: QMD GPU-warning note, agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -68,6 +68,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.32.1 — logged the QMD runtime clarification that the first Vulkan rebuild can emit a temporary false CPU/no-GPU warning while `qmd status` remains the steady-state truth |
 | 2026-04-04 | [CODEX] | v2.32.0 — logged the new agent-owned runtime-memory rule in AGENTS and the Codex-specific scoped-escalation learning for blocked commit/push work |
-| 2026-04-04 | [CODEX] | v2.31.0 — logged the QMD provenance hardening pass: guide expansion, shared hook symlinks in `Work`, and corrected VSCode profile source-of-truth direction |
-| [SUMMARY] | — | v2.30.0–v1.0.0: QMD cleanup/provenance hardening, agent-memory rule, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| [SUMMARY] | — | v2.31.0–v1.0.0: QMD provenance hardening, agent-memory rule, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
