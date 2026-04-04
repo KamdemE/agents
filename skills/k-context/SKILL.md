@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.32.2"
+  version: "2.32.3"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex now routes new knowledge explicitly to `$HOME/Work/tutos_live/` for Ubuntu/tooling scope or `$HOME/Work/Homelab/presentation/` for homelab/project scope |
 | 2026-04-04 | [CODEX] | v2.32.2 — shared QMD `post-commit` hook now skips cleanly when a repo has no active collection; `k-ai` memory corrected to point to direct disk session history instead of a presumed QMD collection |
 | 2026-04-04 | [CODEX] | v2.32.1 — QMD doc clarified that the first Vulkan rebuild may print a temporary CPU/no-GPU warning; the real steady-state device check is `qmd status` |
 | 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states that each agent owns and must auto-update its own `k-<agent>` runtime skill; `k-codex` learned the scoped escalation reflex for blocked commit/push operations |
@@ -57,8 +58,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-04 | [CODEX] | v2.30.0 — QMD lean cleanup applied: raw runtime histories removed from `$HOME/.config/qmd/index.yml`; archive vectors purged; post-commit hook stays update-only by default |
 | 2026-04-04 | [CLAUDE] | v2.28.0 — project rule added to preamble; folder paths on all Active Project rows; inline ref rules removed |
 | 2026-04-04 | [CLAUDE] | v2.27.0 — dot_guard disabled (`$HOME/.kshrc`); dotguard project row added; Active Projects consolidated |
-| 2026-04-04 | [CLAUDE] | v2.26.0 — k-claude v2.12.0; OpenClaw `$HOME/.agents/hooks/openclaw/path-guard/handler.ts` indent fixed; README Gemini note |
-| [SUMMARY] | — | v2.31.0–v2.21.0: safe missing-collection hook, k-ai memory correction, QMD GPU-warning note, agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
+| [SUMMARY] | — | v2.32.0–v2.21.0: explicit doc routing to tutos_live/presentation, safe missing-collection hook, k-ai memory correction, QMD GPU-warning note, agent-memory rule, QMD provenance hardening, QMD redesign start, project rule, dot_guard disable, k-claude hook work, `.agents/` push, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
 
@@ -68,6 +68,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.32.3 — logged the explicit AGENTS documentation routing rule: `tutos_live` for Ubuntu/tooling scope, `presentation` for homelab/project scope |
 | 2026-04-04 | [CODEX] | v2.32.2 — logged the safe missing-collection QMD hook behavior and the corrected k-ai memory note about direct disk session history |
-| 2026-04-04 | [CODEX] | v2.32.1 — logged the QMD runtime clarification that the first Vulkan rebuild can emit a temporary false CPU/no-GPU warning while `qmd status` remains the steady-state truth |
-| [SUMMARY] | — | v2.32.0–v1.0.0: agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| [SUMMARY] | — | v2.32.1–v1.0.0: safe missing-collection hook, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |

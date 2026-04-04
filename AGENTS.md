@@ -95,7 +95,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 ## Working with KπX
 
-> **📝 tutos_live reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/`. This is a living knowledge base — document as it happens.
+> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/` for Ubuntu/local-tooling scope, or in `$HOME/Work/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
 
 ### Knowledge Base — k-qmd
 
