@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.12.0"
+  version: "2.13.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -53,6 +53,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.13.0 — Claude header/footer check moved from PreToolUse blocking to PostToolUse advisory; `post_tool_use.py` added; `pre_tool_use.py` passes `check_header_footer=False`; README runtime map split into two rows for skill_edit_guard |
 | 2026-04-03 | [CODEX] | v2.12.0 — compacted the skill to the minimal architectural map, removed duplicated runtime/checker detail, and pushed exact mapping/examples down to `$HOME/.agents/hooks/README.md` |
-| 2026-04-03 | [CODEX] | v2.11.1 — fixed the runtime-mapping table so Claude keeps `PreToolUse` for write guards while Codex stays explicitly unwired for structured `.agents/` file-edit enforcement in the current setup |
 | [SUMMARY] | — | v2.11.1–v2.0.0: compact architectural rewrite, corrected runtime-mapping table, top-level `hooks/audit.py`, `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |

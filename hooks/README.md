@@ -115,7 +115,8 @@ Next:
 | `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — current OpenClaw surface has no clean per-turn text-injection event |
 | `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — same reason as `prompt_injector.py` |
 | `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `message:sent` advisory when `filePath` is present |
-| `skill_edit_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — same Codex limitation as `path_guard.py` | `message:sent` advisory when `filePath` is present |
+| `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` | `message:sent` advisory when `filePath` is present |
+| `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired | not wired |
 | `response_validator.py` | `AfterAgent` | `Stop` | `Stop` | not wired — current OpenClaw surface is advisory/bootstrap-oriented and has no final-answer blocking hook here |
 | `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block | `command:stop` advisory |
 

@@ -124,8 +124,14 @@ def _build_notes(file_path: str) -> list[str]:
     return []
 
 
-def evaluate_skill_edit(tool_name: str, tool_input: dict) -> dict:
-    """Return a normalized result for one prospective skill edit."""
+def evaluate_skill_edit(tool_name: str, tool_input: dict, check_header_footer: bool = True) -> dict:
+    """Return a normalized result for one prospective skill edit.
+
+    Args:
+        check_header_footer: When False, skip the version/Changelog/SessionLog
+            completeness check. Use False in PreToolUse hooks that delegate the
+            check to a PostToolUse advisory instead.
+    """
     file_path = tool_input.get(_TOOL_SPECS[tool_name]["path_field"], "") if tool_name in _TOOL_SPECS else ""
     if not is_hook_feature_enabled("skill_edit_guard") or not _is_kpi_skill_path(file_path):
         return {"file_path": file_path, "errors": [], "notes": []}
@@ -139,7 +145,8 @@ def evaluate_skill_edit(tool_name: str, tool_input: dict) -> dict:
         errors.extend(validate_skill_structure_text(file_path, candidate_text))
     if is_hook_feature_enabled("skill_edit_content_check"):
         errors.extend(validate_skill_content_text(file_path, candidate_text))
-    errors.extend(_check_required_updates(file_path, previous_text, candidate_text))
+    if check_header_footer:
+        errors.extend(_check_required_updates(file_path, previous_text, candidate_text))
     return {
         "file_path": file_path,
         "errors": errors,

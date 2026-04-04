@@ -33,7 +33,10 @@ def handle_pre_tool_use(tool_name: str, tool_input: dict) -> dict:
         content = tool_input.get(content_field, "")
         file_path = tool_input.get(path_field, "")
         errors = path_guard.guard_content(content, file_path=file_path)
-        skill_result = skill_edit_guard.evaluate_skill_edit(tool_name, tool_input)
+        # Header/footer check (version + Changelog + SessionLog) is delegated to
+        # PostToolUse as a non-blocking advisory. Only structure + content checks
+        # remain here as blocking guards.
+        skill_result = skill_edit_guard.evaluate_skill_edit(tool_name, tool_input, check_header_footer=False)
         errors.extend(skill_result["errors"])
         if errors:
             return _build_deny(

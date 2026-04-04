@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.10.0"
+  version: "2.11.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -68,33 +68,30 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 - edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
 - exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
 
-## k-context / k-* SKILL.md Edit Protocol
+## k-* SKILL.md Edit Protocol
 
-The `pre_tool_use` hook validates **each `Edit` call independently**. It blocks any call that doesn't include all required updates in the same replacement string.
+For Claude, the **header/footer completeness check** (version bump, Changelog, SessionLog) is now a
+**PostToolUse advisory** — the edit goes through, and a warning appears if sections are missing.
+Structure and content checks remain blocking in PreToolUse.
 
-**Required sections per file type:**
+**Required sections per file type (complete before session end):**
 
-| File | Must include in ONE Edit call |
-|------|-------------------------------|
+| File | Required updates |
+|------|-----------------|
 | `k-context/SKILL.md` | `metadata.version` bump + `## Session Log` update + `## Changelog` update |
 | Any other `k-*/SKILL.md` | `metadata.version` bump + `## Changelog` update |
 
-**Pattern — always replace from the `version:` line through the end of `## Changelog`:**
+**Workflow:**
+1. Do natural multi-step Edits — no longer blocked mid-sequence
+2. After each Edit on a SKILL.md, PostToolUse will warn if sections are still incomplete
+3. Follow up with another Edit to complete — session_guard blocks at Stop if still incomplete
 
-```
-# ✅ One Edit — old_string spans version → last Changelog line
-Edit(old_string='  version: "2.9.0"\n...\n| [SUMMARY] | ...',
-     new_string='  version: "2.10.0"\n...\n| [SUMMARY] | ...')
-
-# ❌ Two separate Edits — each blocked independently by the hook
-Edit(old_string='  version: "2.9.0"', ...)      # blocked: Changelog missing
-Edit(old_string='## Changelog\n...', ...)        # blocked: version missing
-```
+> **Note:** Gemini still uses full PreToolUse blocking (unchanged). This change is Claude-only.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.11.0 — Edit Protocol updated: header/footer check moved to PostToolUse advisory; natural multi-step edits now allowed for Claude |
 | 2026-04-04 | [CLAUDE] | v2.10.0 — added k-context/k-* SKILL.md Edit Protocol: single-call pattern required by pre_tool_use hook |
-| 2026-04-03 | [CODEX] | v2.9.0 — compacted the runtime history section to the minimum useful path map |
-| [SUMMARY] | — | v2.8.0–v2.0.0: compact hook guidance, compact history path map, live hook wiring, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
+| [SUMMARY] | — | v2.9.0–v2.0.0: compact hook guidance, compact history path map, live hook wiring, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
