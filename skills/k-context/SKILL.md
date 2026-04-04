@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.24.0"
+  version: "2.25.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CLAUDE] | v2.25.0 — `.agents/` committed+pushed (677bc15); tg.md desync eliminated from tutos_live; tools.md install path fixed (`~/Work/Tools/tg`) |
 | 2026-04-04 | [CLAUDE] | v2.24.0 — PostToolUse advisory hook for Claude: `post_tool_use.py` created, PreToolUse no longer blocks on header/footer, k-hook v2.13.0 + k-claude v2.11.0; bw-env README improved + tutos_live qmd dup removed; ollama-ipex push confirmed |
 | 2026-04-04 | [CODEX] | v2.23.1 — OpenClaw gateway restored: unresolved Telegram token removed from active channel config, port `18789` healthy again, local `phi4-mini:latest` loads and the gateway agent path reaches Ollama |
 | 2026-04-04 | [CLAUDE] | v2.23.0 — bw-env fully delivered: dbus silence, auth guard, 4 hot-path bw status→RAM checks (4s→226ms), tray timeout+30s poll; install.sh+purge.sh committed+pushed; "Optimize bw-env" TODO closed |
@@ -59,8 +60,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-04 | [CLAUDE] | v2.20.0 — bw-env install.sh written: bw CLI auto-install, install path prompt, .env config, systemd sync daemon, GUI tray optional, -y flag |
 | 2026-04-04 | [CLAUDE] | v2.19.0 — home media cleanup: Downloads/Documents/Pictures emptied; wine.md migrated to tutos_live; k-optim v1.6.0 with Home Media Directories section |
 | 2026-04-03 | [CLAUDE] | v2.18.0 — home debris cleanup (22 entries, ~1.3GB); hooks audit: skill_edit_guard:129 fixed, settings.json PreToolUse indentation fixed; k-optim v1.5.0 |
-| 2026-04-03 | [CLAUDE] | v2.17.0 — AGENTS.md cleaned (6 redundancies); k-optim v1.4.0 (max-7 LKS rule, Meta/Ubuntu/Homelab scope, load-before-optim standard) |
-| [SUMMARY] | — | v2.16.10–v2.16.0: session-log guard aligned, history/session pointers, proactive AI history cleanup, audit entrypoint, dead Codex path removal, lean hook rollout |
+| [SUMMARY] | — | v2.17.0–v2.16.0: AGENTS.md cleaned, k-optim v1.4.0, session-log guard, proactive AI history cleanup, audit entrypoint, lean hook rollout |
 
 ## References
 
@@ -70,6 +70,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CLAUDE] | v2.25.0 — `.agents/` committed+pushed (677bc15); tg.md desync eliminated + tools.md path fix committed to tutos_live (91adeab) |
 | 2026-04-04 | [CLAUDE] | v2.24.0 — PostToolUse advisory hook delivered; Active Projects updated (bw-env closed, ollama-ipex closed, Centralized Hooks updated); session log condensed |
-| 2026-04-04 | [CODEX] | v2.23.1 — session log + Active Projects updated for the restored OpenClaw gateway, Telegram-token fix, and verified local `phi4-mini:latest` path |
-| [SUMMARY] | — | v1.0.0–v2.23.0: prior session-log maintenance, OpenClaw repair, bw-env migration, ollama-ipex, bw-env optimization, and older historical entries condensed. |
+| [SUMMARY] | — | v1.0.0–v2.23.1: prior session-log maintenance, OpenClaw repair, bw-env migration+optimization, ollama-ipex, and older historical entries condensed. |
