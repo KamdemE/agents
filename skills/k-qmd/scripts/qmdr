@@ -1,0 +1,60 @@
+#!/bin/sh
+
+set -eu
+
+QMD_BIN="${QMD_BIN:-$HOME/.npm-global/bin/qmd}"
+
+if ! command -v "$QMD_BIN" >/dev/null 2>&1; then
+    QMD_BIN="$(command -v qmd 2>/dev/null || true)"
+fi
+
+if [ -z "${QMD_BIN:-}" ] || ! command -v "$QMD_BIN" >/dev/null 2>&1; then
+    echo "qmdr: qmd not found in PATH." >&2
+    exit 127
+fi
+
+if [ "$#" -eq 0 ]; then
+    cat >&2 <<'EOF'
+Usage: qmdr <subcommand> [args...]
+
+Freshness gate is enforced for:
+  query | search | vsearch
+
+Other subcommands are passed through unchanged.
+EOF
+    exit 2
+fi
+
+subcommand="$1"
+shift
+
+needs_freshness=0
+case "$subcommand" in
+    query|search|vsearch)
+        needs_freshness=1
+        ;;
+esac
+
+if [ "$needs_freshness" -eq 1 ]; then
+    status_output="$("$QMD_BIN" status)"
+    pending="$(
+        printf '%s\n' "$status_output" | awk '
+            /^[[:space:]]*Pending:/ {
+                value=$2
+                gsub(/[^0-9]/, "", value)
+                print value
+                found=1
+            }
+            END {
+                if (!found) print 0
+            }
+        '
+    )"
+
+    if [ "${pending:-0}" -gt 0 ]; then
+        echo "qmdr: pending embeddings detected ($pending). Running qmd embed first..." >&2
+        "$QMD_BIN" embed
+    fi
+fi
+
+exec "$QMD_BIN" "$subcommand" "$@"

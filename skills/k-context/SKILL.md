@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.32.5"
+  version: "2.32.6"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,6 +50,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint for important QMD `query/search/vsearch` calls |
 | 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` now requires a frontmatter re-read/validation after any `SKILL.md` header edit, to prevent repeated YAML breakage before commit/push |
 | 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` now makes the freshness gate explicit: before any important semantic/exploratory query, check `qmd status` and run `qmd embed` first if `Pending > 0` |
 | 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex now routes new knowledge explicitly to `$HOME/Work/tutos_live/` for Ubuntu/tooling scope or `$HOME/Work/Homelab/presentation/` for homelab/project scope |
@@ -70,8 +71,9 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.32.6 — logged the new `qmdr` wrapper as the explicit freshness-enforcing entrypoint for important QMD searches |
 | 2026-04-04 | [CODEX] | v2.32.5 — logged the new Codex frontmatter-safety reflex for `SKILL.md` edits after repeated YAML breakage during top-of-file patches |
 | 2026-04-04 | [CODEX] | v2.32.4 — logged the explicit QMD freshness gate: check `qmd status` first, then run `qmd embed` whenever `Pending > 0` before important semantic/exploratory use |
 | 2026-04-04 | [CODEX] | v2.32.3 — logged the explicit AGENTS documentation routing rule: `tutos_live` for Ubuntu/tooling scope, `presentation` for homelab/project scope |
 | 2026-04-04 | [CODEX] | v2.32.2 — logged the safe missing-collection QMD hook behavior and the corrected k-ai memory note about direct disk session history |
-| [SUMMARY] | — | v2.32.4–v1.0.0: QMD freshness gate, explicit doc routing, safe missing-collection hook, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |
+| [SUMMARY] | — | v2.32.5–v1.0.0: Codex frontmatter-safety reflex, QMD freshness gate, explicit doc routing, safe missing-collection hook, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, prior maintenance, PostToolUse hook, bw-env, tg.md desync, OpenClaw repair, k-claude fixes, and older entries condensed. |

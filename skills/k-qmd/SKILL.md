@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.12.3"
+  version: "2.13.0"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -32,6 +32,7 @@ allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 | Optimization playbook | `references/qmd-optimization.md` |
 | Embedded-folder `.gitignore` pattern | `references/gitignore-embedded-folder.template` |
 | Auto-refresh hook example | `references/post-commit-hook.sh` |
+| Fresh-search wrapper | `scripts/qmdr` |
 | Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
 | Declarative config | `$HOME/.config/qmd/index.yml` |
 
@@ -56,6 +57,7 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 - run `qmd update <collection>` before searching when freshness matters
 - run `qmd embed <collection>` only when new files were added or content changed materially
 - before any important semantic or exploratory search, run `qmd status`; if `Pending > 0`, run `qmd embed` before querying
+- prefer `qmdr query/search/vsearch ...` for important searches so the freshness gate is enforced automatically
 - keep QMD hot-only; large raw transcripts and chat/session histories do not belong in the index
 - when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
 - always scope searches to the relevant collections when possible
@@ -106,12 +108,14 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - `references/qmd-optimization.md` — inspection checklist, SQLite probes, cleanup flow, and latest QMD optimization actions
 - `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
 - `references/post-commit-hook.sh` — shared git hook template for repo-name-derived collections; safe by default (`update-only`, optional debounced embeddings)
+- `scripts/qmdr` — explicit wrapper that auto-runs the freshness gate before `query`, `search`, or `vsearch`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.13.0 — added `scripts/qmdr`, an explicit wrapper that auto-runs the freshness gate (`qmd status`, then `qmd embed` if needed) before important `query/search/vsearch` calls |
 | 2026-04-04 | [CODEX] | v2.12.3 — made the freshness gate explicit: before any important semantic or exploratory QMD search, check `qmd status` and run `qmd embed` first when `Pending > 0` |
 | 2026-04-04 | [CODEX] | v2.12.2 — made the shared `post-commit` hook safe for repos without an active QMD collection: it now exits cleanly instead of treating the repo as indexing drift |
 | 2026-04-04 | [CODEX] | v2.12.1 — clarified in the optimization reference that the first Vulkan rebuild may print a temporary CPU/no-GPU warning and that the steady-state device truth must be checked with `qmd status` |
-| [SUMMARY] | — | v2.12.2–v2.0.0 covered the safe shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| [SUMMARY] | — | v2.12.3–v2.0.0 covered the explicit freshness gate, the safe shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
