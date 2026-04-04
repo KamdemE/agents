@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.10.0"
+  version: "1.10.1"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -76,15 +76,17 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 ## Operational Notes
 
+- local Ollama source of truth: `http://127.0.0.1:11434`; default local model: `phi4-mini:latest`
 - restart the gateway after `openclaw.json` changes: `openclaw gateway --force`
 - skill reload happens from the OpenClaw side without needing a gateway restart after skill sync
 - Google provider: use the API-key-backed `google` provider, not `google-gemini-cli`
+- keep Telegram disabled unless `TELEGRAM_OPENCLAW_UBUNTU_TOKEN` is actually resolved; do not leave unresolved secret placeholders in active channel config
 - for shared optimization posture, `.agents/` hygiene, and QMD cleanup rules, load `k-optim` instead of duplicating that maintenance playbook here
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.10.1 — documented the active local Ollama endpoint/model and the Telegram-token guard needed to keep the gateway healthy |
 | 2026-04-03 | [CODEX] | v1.10.0 — added the real OpenClaw session-history and memory paths while keeping the runtime skill compact and source-of-truth first |
-| 2026-04-03 | [CODEX] | v1.9.0 — compacted the OpenClaw hook section so this skill now points to the managed hook dir and `$HOME/.agents/hooks/README.md` instead of restating the advisory runtime map inline |
-| [SUMMARY] | — | v1.9.0–v1.0.0: OpenClaw history pointers, compact hook guidance, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw MCP/runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.9.0–v1.0.0: compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |
