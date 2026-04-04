@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.38.0"
+  version: "2.39.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -49,17 +49,16 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json skillUsage; stop hook loop root cause identified (missing `:` in section headers) |
-| 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge: 5 SKILL.md YAML fixes, clawhub/clawdhub/mcporter/nanoclaw removed, hooks purged, k-openclaw→deactive · `$HOME/.agents/skills/` |
-| 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness: tray_app.py silent-button fix, control_center timeout=30, sync-daemon log_warn→log_sys; committed+pushed · `$HOME/Work/sh/bw_env/` |
-| 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map, moved durable notes to deactivated skill archive · `$HOME/.agents/skills/` |
-| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/`; updated all path refs · `$HOME/Work/sh/bw_env/` |
-| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix · `$HOME/.agents/hooks/gemini/after_agent.py` |
-| 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini; QMD is CLI-only |
-| 2026-04-04 | [CODEX] | v2.32.6 — added `qmdr` as explicit freshness-safe QMD entrypoint · `$HOME/.agents/skills/k-qmd/scripts/` |
-| 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` requires frontmatter re-read/validation after any SKILL.md header edit |
-| 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` freshness gate: check `qmd status`, run `qmd embed` if `Pending > 0` |
-| [SUMMARY] | — | v2.32.3–v2.21.0: AGENTS doc routing, QMD hook skip, agent-owned k-agent rule, QMD provenance hardening, QMD lean cleanup, project rule, dot_guard disable, k-claude hook work, bw-env rollout, older maintenance |
+| 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
+| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
+| 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge + 5 YAML fixes; k-openclaw→deactive · `$HOME/.agents/skills/` |
+| 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness; committed+pushed · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map · `$HOME/.agents/skills/` |
+| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [CLAUDE] | v2.32.9 — AfterAgent cancel-loop fix · `$HOME/.agents/hooks/gemini/after_agent.py` |
+| 2026-04-04 | [CODEX] | v2.32.7 — removed QMD MCP entries; QMD CLI-only |
+| 2026-04-04 | [CODEX] | v2.32.6 — added `qmdr` freshness-safe entrypoint · `$HOME/.agents/skills/k-qmd/scripts/` |
+| [SUMMARY] | — | v2.32.5–v2.21.0: k-codex frontmatter rule, QMD freshness gate, AGENTS routing, QMD hook skip, agent-owned k-agent, QMD provenance, lean cleanup, project rule, dot_guard, k-claude hook work, bw-env rollout |
 
 ## References
 
@@ -69,6 +68,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json; stop hook loop root cause (missing `:` in section headers) |
-| 2026-04-04 | [CLAUDE] | v2.37.0 — OpenClaw purge complete + 5 SKILL.md YAML fixes (Codex over-indent bug) |
-| [SUMMARY] | — | v2.35.2–v1.0.0: exa-only MCPs, bw-env robustness/rename, AfterAgent fix, Ollama benchmark, CLI-only QMD, qmdr, Codex frontmatter, QMD freshness, doc routing, agent-memory, QMD provenance, project rule, dot_guard, PostToolUse hook, and older |
+| 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py: `:` now optional in section regexes (Comments/Remarks/Suggestions) |
+| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json |
+| [SUMMARY] | — | v2.37.0–v1.0.0: OpenClaw purge, YAML fixes, AfterAgent fix, bw-env, CLI-only QMD, qmdr, QMD freshness, doc routing, project rule, dot_guard, PostToolUse hook, and older |

@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.15.0"
+  version: "2.16.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -51,6 +51,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.15.0 — fix `session_guard.py`: skip non-existent paths in `_changed_skill_paths` to prevent `FileNotFoundError` when a SKILL.md is deleted/moved |
-| 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime from the active hook architecture map and audit surface |
-| [SUMMARY] | — | v2.13.0–v2.0.0: PostToolUse advisory for Claude, compact rewrite, hooks/README.md runtime map, skill_edit_guard.py, settings centralization, Codex wire-contract notes, guard cleanup, DRY enforcement |
+| 2026-04-04 | [CLAUDE] | v2.16.0 — make `:` optional in `response_validator.py` section regexes (Comments/Remarks/Suggestions) — semantic detection, not punctuation |
+| 2026-04-04 | [CLAUDE] | v2.15.0 — fix `session_guard.py`: `os.path.exists()` filter in `_changed_skill_paths` prevents `FileNotFoundError` on deleted SKILL.md |
+| [SUMMARY] | — | v2.14.0–v2.0.0: retired runtime removal, PostToolUse advisory for Claude, compact rewrite, hooks/README.md runtime map, skill_edit_guard.py, settings centralization, guard cleanup, DRY enforcement |

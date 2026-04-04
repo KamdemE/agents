@@ -19,17 +19,17 @@ _HEADING_PREFIX = r"^(?:#{1,6}\s*)?"
 _SECTION_DEFS = [
     (
         "comments",
-        re.compile(_HEADING_PREFIX + r"(Commentaires|Comments)\s*:\s*$", re.IGNORECASE | re.MULTILINE),
+        re.compile(_HEADING_PREFIX + r"(Commentaires|Comments)(?:\s*:)?\s*$", re.IGNORECASE | re.MULTILINE),
     ),
     (
         "remarks",
-        re.compile(_HEADING_PREFIX + r"(Remarques|Remarks)\s*:\s*$", re.IGNORECASE | re.MULTILINE),
+        re.compile(_HEADING_PREFIX + r"(Remarques|Remarks)(?:\s*:)?\s*$", re.IGNORECASE | re.MULTILINE),
     ),
     ("todos", re.compile(_HEADING_PREFIX + r"TODOs\s*$", re.IGNORECASE | re.MULTILINE)),
     (
         "suggestions",
         re.compile(
-            _HEADING_PREFIX + r"(Suggestions\s+Proactives|Proactive\s+Suggestions)\s*:\s*$",
+            _HEADING_PREFIX + r"(Suggestions\s+Proactives|Proactive\s+Suggestions)(?:\s*:)?\s*$",
             re.IGNORECASE | re.MULTILINE,
         ),
     ),
