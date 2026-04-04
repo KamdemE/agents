@@ -155,7 +155,7 @@ def evaluate_skill_edit(tool_name: str, tool_input: dict, check_header_footer: b
 
 
 def build_edit_block_message(tool_name: str, file_path: str, errors: list[str], notes: list[str] | None = None) -> str:
-    """Format one human-readable blocking message for Gemini/Claude/OpenClaw wrappers."""
+    """Format one human-readable blocking message for runtime wrappers."""
     details = "\n".join(f"- {item}" for item in errors)
     message = (
         f"CRITICAL: Tool `{tool_name}` cannot write {display_path(file_path)} until the skill update is complete.\n"

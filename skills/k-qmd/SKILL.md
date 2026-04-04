@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.13.1"
+  version: "2.14.0"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -48,7 +48,6 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | `gemini` | `$HOME/.gemini/` | Gemini config/extensions only |
 | `copilot` | `$HOME/.copilot/` | Copilot config and state checkpoints |
 | `vibe` | `$HOME/.vibe/` | VIBE config and prompts |
-| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw KπX-local workspace knowledge |
 
 Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` runtime skill to find their on-disk paths, then inspect the files directly only when needed.
 
@@ -89,7 +88,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - Ubuntu/system fix → `tutos_live`
 - homelab architecture/project memory → `presentation`
 - agent workflow, hooks, AGENTS, skills → `agents`
-- agent-specific runtime config/docs → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`, `openclaw`
+- agent-specific runtime config/docs → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`
 - raw agent histories → use the corresponding `k-*` runtime skill path, not QMD
 
 ## Troubleshooting
@@ -110,9 +109,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.13.1 — made `k-qmd` explicitly CLI-only: no qmd MCP should remain configured in agent runtimes; `qmdr` is the preferred freshness-enforcing entrypoint for important searches |
-| 2026-04-04 | [CODEX] | v2.13.0 — added `scripts/qmdr`, an explicit wrapper that auto-runs the freshness gate (`qmd status`, then `qmd embed` if needed) before important `query/search/vsearch` calls |
-| 2026-04-04 | [CODEX] | v2.12.3 — made the freshness gate explicit: before any important semantic or exploratory QMD search, check `qmd status` and run `qmd embed` first when `Pending > 0` |
-| 2026-04-04 | [CODEX] | v2.12.2 — made the shared `post-commit` hook safe for repos without an active QMD collection: it now exits cleanly instead of treating the repo as indexing drift |
-| 2026-04-04 | [CODEX] | v2.12.1 — clarified in the optimization reference that the first Vulkan rebuild may print a temporary CPU/no-GPU warning and that the steady-state device truth must be checked with `qmd status` |
-| [SUMMARY] | — | v2.13.0–v2.0.0 covered the explicit `qmdr` freshness wrapper, the explicit freshness gate, the safe shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |
+| 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime collection from the active KπX QMD map |
+| 2026-04-04 | [CODEX] | v2.13.1 — made `k-qmd` explicitly CLI-only: no qmd MCP in agent runtimes; `qmdr` is the preferred freshness-enforcing entrypoint |
+| [SUMMARY] | — | v2.13.1–v2.0.0: `qmdr` freshness wrapper, explicit freshness gate, safe shared `post-commit` hook, optimization guide, hot-only rewrite, prior collection strategy, compact rewrite, `k-qmd` rename, install/setup, query flows, embed hygiene |

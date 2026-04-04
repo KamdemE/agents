@@ -33,8 +33,8 @@ cat > /tmp/napkin_content.md << 'EOF'
 - Strengths: persistent memories, rules accumulation
 - Weaknesses: env blocks can break startup
 
-## OpenClaw
-- Config: mcporter.json in workspace
+## Gateway Runtime
+- Config: workspace-scoped tool config
 - Skills: rsync copies only, no symlinks
 - Strengths: security root, Telegram exec approvals
 - Weaknesses: rsync overhead for skill sync

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.0"
+  version: "2.10.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -97,7 +97,6 @@ Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l"
 | `claude` | `$HOME/.local/bin/claude` | Native installer (curl) |
 | `gemini` | `$HOME/.npm-global/bin/gemini` | `npm install -g` |
 | `codex` | `$HOME/.npm-global/bin/codex` | `npm install -g` |
-| `openclaw` | `$HOME/.local/bin/openclaw` | `npm install -g` + symlink |
 | `vibe` | `$HOME/.local/bin/vibe` | `uv tool install` |
 | `m365` | in PATH | `npm install -g @pnp/cli-microsoft365` |
 
@@ -110,7 +109,7 @@ Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l"
 WaveTerm widgets: `$HOME/.config/waveterm/widgets.json` — all use `zsh -l -c '...'` wrapper.
 npm global prefix: `$HOME/.npmrc` → `prefix=$HOME/.npm-global` (no EACCES, no sudo needed).
 
-> For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (`k-claude`, `k-gemini`, `k-codex`, `k-openclaw`, `k-vibe`, `k-copilot`) and `k-hook` rather than duplicating agent-specific snapshots here.
+> For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (`k-claude`, `k-gemini`, `k-codex`, `k-vibe`, `k-copilot`) and `k-hook` rather than duplicating agent-specific snapshots here.
 > For optimization posture, QMD hygiene, and cleanup actions, read `k-optim` rather than duplicating maintenance playbooks here.
 
 ## Engineering Standards (quick ref)
@@ -137,6 +136,6 @@ npm global prefix: `$HOME/.npmrc` → `prefix=$HOME/.npm-global` (no EACCES, no 
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.9.0 — removed the live Tailscale/IP snapshot and replaced it with source-of-truth pointers (`tailscale status`, `$HOME/.ssh/config`, and `k-homelab`) so the workspace skill stays stable instead of drifting |
-| 2026-04-03 | [CODEX] | v2.8.4 — linked the workspace skill to `k-optim` as the dedicated optimization and cleanup posture map instead of duplicating that maintenance workflow here |
-| [SUMMARY] | — | v2.8.4–v1.0.0 kept runtime inventory source-of-truth oriented, normalized paths to `$HOME`, documented the cleanup suite, `.kshrc` discipline, routing rules, Tailscale access patterns, CLI tooling, and the broader workspace baseline |
+| 2026-04-04 | [CODEX] | v2.10.0 — removed one retired runtime binary from the active workspace tool inventory |
+| 2026-04-03 | [CODEX] | v2.9.0 — replaced live Tailscale/IP snapshot with source-of-truth pointers (`tailscale status`, `$HOME/.ssh/config`, `k-homelab`) |
+| [SUMMARY] | — | v2.8.4–v1.0.0: k-optim link for cleanup posture, runtime inventory source-of-truth orientation, path normalization to `$HOME`, cleanup suite, `.kshrc` discipline, routing rules, CLI tooling baseline |

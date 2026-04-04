@@ -21,7 +21,7 @@ Root identity, language rules, security, mantras
 - k-codex: config.toml and memories
 - k-vibe: providers and permissions
 - k-copilot: mcp-config.json format
-- k-openclaw: workspace root and approvals
+- deactivated runtime archive: retired workspace-root and approval notes
 
 ### Tool Integration
 - k-napkin: visual generation via API

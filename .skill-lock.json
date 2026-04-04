@@ -97,18 +97,25 @@
       "installedAt": "2026-03-25T02:00:00.000Z",
       "updatedAt": "2026-03-28T18:50:00.000Z"
     },
-    "k-copilot": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/k-copilot/SKILL.md",
-      "installedAt": "2026-03-25T03:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
-    },
-    "k-ai": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/k-ai/SKILL.md",
-      "installedAt": "2026-03-29T07:30:00.000Z",
+      "k-copilot": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/k-copilot/SKILL.md",
+        "installedAt": "2026-03-25T03:00:00.000Z",
+        "updatedAt": "2026-03-28T18:50:00.000Z"
+      },
+      "k-openclaw": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/deactive/k-openclaw/SKILL.md",
+        "installedAt": "2026-04-04T16:38:00.000Z",
+        "updatedAt": "2026-04-04T16:38:00.000Z"
+      },
+      "k-ai": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/k-ai/SKILL.md",
+        "installedAt": "2026-03-29T07:30:00.000Z",
       "updatedAt": "2026-03-29T07:30:00.000Z"
     },
       "k-qmd": {

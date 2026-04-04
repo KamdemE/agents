@@ -2,11 +2,11 @@
 name: k-hook
 description: >
   KπX Hook Architecture — design rules and source-of-truth map for lifecycle hooks.
-  Generic core/ policy layer plus thin per-agent wrappers. Python-first, TypeScript for OpenClaw.
+  Generic core/ policy layer plus thin per-agent wrappers.
 license: private
 metadata:
   author: KpihX
-  version: "2.13.0"
+  version: "2.14.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 ## Overview
 
 - `core/` owns shared policy and validation logic
-- one subdir per runtime (`gemini/`, `claude/`, `codex/`, `openclaw/`) binds that core to the agent lifecycle
+- one subdir per runtime (`gemini/`, `claude/`, `codex/`) binds that core to the agent lifecycle
 - normative rule text stays in `$HOME/.agents/AGENTS.md`
 - detailed checker/runtime mapping stays in `$HOME/.agents/hooks/README.md`
 
@@ -47,12 +47,10 @@ allowed-tools: Bash, Read, Write, Edit
 | Gemini | `$HOME/.gemini/settings.json` |
 | Codex | `$HOME/.codex/hooks.json` plus `$HOME/.codex/config.toml` |
 | Claude | `$HOME/.claude/settings.json` |
-| OpenClaw | `$HOME/.openclaw/openclaw.json` plus `$HOME/.agents/hooks/openclaw/` |
-
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.13.0 — Claude header/footer check moved from PreToolUse blocking to PostToolUse advisory; `post_tool_use.py` added; `pre_tool_use.py` passes `check_header_footer=False`; README runtime map split into two rows for skill_edit_guard |
-| 2026-04-03 | [CODEX] | v2.12.0 — compacted the skill to the minimal architectural map, removed duplicated runtime/checker detail, and pushed exact mapping/examples down to `$HOME/.agents/hooks/README.md` |
-| [SUMMARY] | — | v2.11.1–v2.0.0: compact architectural rewrite, corrected runtime-mapping table, top-level `hooks/audit.py`, `hooks/README.md` runtime/checker map, `skill_edit_guard.py`, settings centralization, Codex wire-contract notes, prompt/session/path guard cleanup, codex/openclaw wrapper rollout, and DRY/no-desync enforcement |
+| 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime from the active hook architecture map and audit surface |
+| 2026-04-04 | [CLAUDE] | v2.13.0 — Claude header/footer check moved from PreToolUse blocking to PostToolUse advisory; `post_tool_use.py` added; `pre_tool_use.py` passes `check_header_footer=False` |
+| [SUMMARY] | — | v2.12.0–v2.0.0: compact architectural rewrite, hooks/README.md runtime/checker map, skill_edit_guard.py, settings centralization, Codex wire-contract notes, prompt/session/path guard cleanup, DRY/no-desync enforcement |

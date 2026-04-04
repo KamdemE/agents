@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -53,7 +53,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
 - operational Markdown must stay low-token and source-of-truth first; compact and point back when a skill starts duplicating detail owned elsewhere
 - `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
-- QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; `openclaw` narrowed to KπX-local docs and `k-*` skills; use the dedicated optimization guide for checks and cleanup
+- QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; use the dedicated optimization guide for checks and cleanup
 - static reusable templates should live in `.agents`; external consumers should point back via symlink instead of drifting copies whenever the file is meant to be used as-is
 - agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
 - `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
@@ -79,7 +79,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
    - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
    - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
 4. Suggest AI history cleanup when relevant:
-   - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, `k-openclaw`, or `k-ai`
+   - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, or `k-ai`
    - propose the cleanup proactively when history size or noise is part of the optimization problem
    - wait for KπX approval before any prune, delete, archive, or reset action
 

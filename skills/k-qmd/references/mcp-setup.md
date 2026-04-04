@@ -66,17 +66,6 @@ collections:
 }
 ```
 
-**OpenClaw** (`$HOME/.openclaw/openclaw.json`):
-```json
-{
-  "mcp": {
-    "servers": {
-      "qmd": { "command": "qmd", "args": ["mcp"] }
-    }
-  }
-}
-```
-
 ---
 
 ## HTTP Mode

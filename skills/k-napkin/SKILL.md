@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.2"
+  version: "1.1.3"
   scope: tool-integration
   api-version: v0.10.5
 allowed-tools: Bash
@@ -183,6 +183,6 @@ $HOME/Pictures/Napkin/
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v1.1.2 — surfaced every bundled example script explicitly so the skill stays aligned with the shared content-coverage guard |
-| 2026-04-03 | [CODEX] | v1.1.1 — normalized remaining output-path literals to `$HOME` without changing the Napkin workflow |
-| [SUMMARY] | — | v1.1.0 quota table, fixed function (python3 parsing, --arg, auth download, vstatus), batch script ref, comparison warning, and examples moved to assets/; v1.0.1 HTTP 402 gotcha documented with output dir normalization; v1.0.0 initial skill creation |
+| 2026-04-04 | [CODEX] | v1.1.3 — scrubbed retired-runtime references from bundled scripts/examples; skill stays runtime-agnostic |
+| 2026-04-03 | [CODEX] | v1.1.2 — surfaced every bundled example script explicitly for content-coverage alignment |
+| [SUMMARY] | — | v1.1.1–v1.0.0: `$HOME` path normalization, quota table, fixed python3/--arg/auth/vstatus parsing, batch script ref, comparison warning, examples moved to assets/, HTTP 402 gotcha, initial creation |

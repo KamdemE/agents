@@ -28,7 +28,6 @@ GEMINI_SETTINGS = Path(HOME) / ".gemini/settings.json"
 CLAUDE_SETTINGS = Path(HOME) / ".claude/settings.json"
 CODEX_CONFIG = Path(HOME) / ".codex/config.toml"
 CODEX_HOOKS = Path(HOME) / ".codex/hooks.json"
-OPENCLAW_CONFIG = Path(HOME) / ".openclaw/openclaw.json"
 
 
 def _display(path: Path | str) -> str:
@@ -133,35 +132,6 @@ def _check_codex() -> list[str]:
     for expected in ("SessionStart", "UserPromptSubmit", "Stop"):
         if expected not in data.get("hooks", {}):
             findings.append(f"{_display(CODEX_HOOKS)}: missing expected Codex hook `{expected}`.")
-    return findings
-
-
-def _check_openclaw() -> list[str]:
-    findings: list[str] = []
-    data = json.loads(OPENCLAW_CONFIG.read_text(encoding="utf-8"))
-    hooks = data.get("hooks", {}).get("internal", {})
-    extra_dirs = hooks.get("load", {}).get("extraDirs", [])
-    expected_dir = f"{HOME}/.agents/hooks/openclaw"
-    if expected_dir not in extra_dirs:
-        findings.append(
-            f"{_display(OPENCLAW_CONFIG)}: missing hooks.internal.load.extraDirs entry for `{expected_dir}`."
-        )
-    entries = hooks.get("entries", {})
-    for expected in ("context-injector", "path-guard", "session-guard"):
-        if not entries.get(expected, {}).get("enabled", False):
-            findings.append(f"{_display(OPENCLAW_CONFIG)}: custom OpenClaw hook `{expected}` is not enabled.")
-
-    for hook_dir in sorted((HOOKS_DIR / "openclaw").iterdir()):
-        if not hook_dir.is_dir():
-            continue
-        hook_md = hook_dir / "HOOK.md"
-        handler = hook_dir / "handler.ts"
-        if not hook_md.exists() or not handler.exists():
-            findings.append(f"{_display(hook_dir)}: OpenClaw hook must contain both `HOOK.md` and `handler.ts`.")
-            continue
-        text = hook_md.read_text(encoding="utf-8")
-        if "metadata:" not in text or "openclaw:" not in text or "events:" not in text:
-            findings.append(f"{_display(hook_md)}: missing `metadata.openclaw.events` frontmatter.")
     return findings
 
 
@@ -327,12 +297,10 @@ def run_audit() -> list[str]:
     findings.extend(_wrapper_smoke_tests())
     yaml_paths = [ROOT / "AGENTS.md", ROOT / "INIT.md"]
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
-    yaml_paths.extend(sorted((HOOKS_DIR / "openclaw").glob("*/HOOK.md")))
     findings.extend(_parse_yaml_frontmatters(yaml_paths))
     findings.extend(_check_gemini())
     findings.extend(_check_claude())
     findings.extend(_check_codex())
-    findings.extend(_check_openclaw())
     return findings
 
 

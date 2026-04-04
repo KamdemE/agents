@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.10.1"
+  version: "1.11.0"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -79,14 +79,13 @@ ollama run phi4-mini:latest
 - Keep one public endpoint only: `11434`
 - Do not reintroduce shell wrappers or proxy layers
 - Docker/container tuning lives in the project config, not in this skill
-- Local agentic benchmark reference: `$HOME/.agents/skills/k-ollama/references/agentic-local-benchmark-2026-04-04.md`
 - Current recommended active local set on this Ubuntu machine: `phi4-mini:latest` (default), `llama3.1:8b`, `qwen2.5-coder:3b`
-- `gemma3:4b` was removed from the active IPEX store after benchmark because the tested OpenClaw tool flow rejected it
+- `gemma3:4b` was removed from the active IPEX store after benchmark because the tested agentic runtime flow rejected it
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v1.10.1 — replaced the stale `qwen2.5:latest` preload example with the active `qwen2.5-coder:3b` model |
-| 2026-04-04 | [CODEX] | v1.10.0 — added the timestamped local agentic benchmark reference for this Ubuntu Intel Arc machine and recorded the final recommended active model set |
-| [SUMMARY] | — | v1.9.1–v1.0.0 covered the same-endpoint validation on `127.0.0.1:11434`, the legacy proxy/wrapper era, the move into `$HOME/Work/AI/ollama/ipex`, preload guidance, and the initial GPU/IPEX setup history |
+| 2026-04-04 | [CODEX] | v1.11.0 — removed retired benchmark reference; kept only current local model guidance |
+| 2026-04-04 | [CODEX] | v1.10.1 — replaced stale `qwen2.5:latest` preload example with active `qwen2.5-coder:3b` model |
+| [SUMMARY] | — | v1.10.1–v1.0.0: timestamped agentic benchmark ref, same-endpoint validation, legacy proxy/wrapper era, move to `$HOME/Work/AI/ollama/ipex`, preload guidance, initial GPU/IPEX setup history |

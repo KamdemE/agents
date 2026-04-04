@@ -17,7 +17,7 @@ cat > /tmp/napkin_content.md << 'EOF'
 - config.toml (TOML format)
 - Memories and rules system
 
-## OpenClaw
+## Gateway Runtime
 - Workspace security root
 - rsync skills (not symlinks)
 - Exec approvals via Telegram

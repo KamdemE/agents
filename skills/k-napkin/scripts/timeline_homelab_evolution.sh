@@ -19,7 +19,7 @@ First MCP servers built. HTTP MCPs on kpihx-labs.com domain.
 AGENTS.md created. Skills system standardized. k-* naming adopted.
 
 ## Mid 2025 - Multi-Agent
-OpenClaw and VIBE added. Cross-agent skill sharing via rsync. bw-env built.
+Additional runtimes and VIBE added. Cross-agent skill sharing via rsync. bw-env built.
 
 ## Late 2025 - Automation
 n8n personal ops, wa-bot, sentinel. Tailscale mesh 5 devices.

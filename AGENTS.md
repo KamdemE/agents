@@ -43,7 +43,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 **Reference baseline:** `k-skill-creator` is the upstream/base reference skill that KπX forks and overlays with additional governance rules. Treat it as the structural and workflow baseline for skill creation, not as an anti-pattern to "normalize away".
 **New skill install:** always `$HOME/.agents/skills/<name>/` — **MUST follow the KπX fork of the k-skill-creator standard** (valid YAML frontmatter, ⚠️ edit reminder after H1, Changelog, and the standard bundled dirs `scripts/` / `references/` / `assets/` when needed). Never install to agent-specific dirs. Never deviate from this structure without an explicit KπX-level exception.
 **Skill writing rule:** skills must stay compact and source-of-truth first. Give the minimum operational map, then point to the owning file/dir to inspect. Do not re-copy long procedures, hook matrices, inventories, or rules that already live elsewhere.
-**Agent-owned runtime memory:** each agent owns its matching runtime skill (`k-codex`, `k-claude`, `k-gemini`, `k-openclaw`, etc.). That `k-<agent>` skill is the agent's durable operational memory. As soon as the agent learns a new runtime fact, workaround, escalation pattern, config rule, failure mode, or repeated mistake for itself, it MUST update its own `k-<agent>/SKILL.md` proactively, in the same workstream, without asking KπX first.
+**Agent-owned runtime memory:** each agent owns its matching runtime skill (`k-codex`, `k-claude`, `k-gemini`, etc.). That `k-<agent>` skill is the agent's durable operational memory. As soon as the agent learns a new runtime fact, workaround, escalation pattern, config rule, failure mode, or repeated mistake for itself, it MUST update its own `k-<agent>/SKILL.md` proactively, in the same workstream, without asking KπX first.
 
 | Key Skills | Load when |
 |-------|-----------|
@@ -63,7 +63,6 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-codex` | MCPs for Codex |
 | `k-copilot` | MCPs for Copilot |
 | `k-vibe` | MCPs for VIBE |
-| `k-openclaw` | MCPs for OpenClaw |
 | `k-rclone` | Adding cloud remotes, rclone mount setup, systemd service |
 | `k-ai` | k-ai runtime memory and operating notes |
 | `k-qmd` | Before any QMD search, KB lookup, or local markdown retrieval |
@@ -114,7 +113,6 @@ Main collections:
 | `gemini` | `$HOME/.gemini/` | Gemini runtime history and config |
 | `copilot` | `$HOME/.copilot/` | Copilot runtime history and config |
 | `vibe` | `$HOME/.vibe/` | VIBE runtime history and config |
-| `openclaw` | `$HOME/.openclaw/workspace/` | OpenClaw workspace knowledge and runtime docs |
 
 Exact indexing procedures, setup details, and live collection behavior remain in `k-qmd` and the qmd runtime/config.
 

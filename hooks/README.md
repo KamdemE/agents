@@ -3,7 +3,7 @@
 This directory contains the KπX hook stack:
 
 - `core/` owns the reusable policy and validation logic
-- `gemini/`, `claude/`, `codex/`, and `openclaw/` only bind that core to each runtime's real hook surface
+- `gemini/`, `claude/`, and `codex/` only bind that core to each runtime's real hook surface
 
 Use this file to answer 2 questions quickly:
 
@@ -109,16 +109,16 @@ Next:
 
 ## Runtime Map
 
-| Checker | Gemini | Claude | Codex | OpenClaw |
-|------|--------|--------|-------|----------|
-| `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` | `agent:bootstrap` |
-| `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — current OpenClaw surface has no clean per-turn text-injection event |
-| `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | not wired — same reason as `prompt_injector.py` |
-| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `message:sent` advisory when `filePath` is present |
-| `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` | `message:sent` advisory when `filePath` is present |
-| `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired | not wired |
-| `response_validator.py` | `AfterAgent` | `Stop` | `Stop` | not wired — current OpenClaw surface is advisory/bootstrap-oriented and has no final-answer blocking hook here |
-| `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block | `command:stop` advisory |
+| Checker | Gemini | Claude | Codex |
+|------|--------|--------|-------|
+| `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` |
+| `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here |
+| `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` |
+| `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired |
+| `response_validator.py` | `AfterAgent` | `Stop` | `Stop` |
+| `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block |
 
 ## Why Some Checkers Are Missing
 
@@ -143,36 +143,15 @@ Practical consequence:
 - Full blocking on `BeforeTool` is therefore permanent for Gemini — not a policy choice but a platform constraint
 - Do not add an `after_tool.py` for Gemini: the event does not exist
 
-### OpenClaw Enforcement
-
-OpenClaw currently uses:
-
-- `agent:bootstrap`
-- `message:sent`
-- `command:stop`
-
-That surface is good for:
-
-- startup injection
-- advisory file warnings
-- advisory finalization reminders
-
-It is not the same as Gemini/Claude/Codex hard blocking.
-
-Practical consequence:
-
-- OpenClaw can warn
-- OpenClaw does not currently enforce these checks as a hard deny in the same way
-
 ## At What Moment The Agent Sees Each Thing
 
-| Moment | Gemini | Claude | Codex | OpenClaw |
-|------|--------|--------|-------|----------|
-| Session starts | startup context | startup context | startup context | startup context |
-| User sends prompt | dynamic context + AGENTS reminder before planning | dynamic context + AGENTS reminder before processing | dynamic context + AGENTS reminder before model call | nothing extra at this moment |
-| Agent tries to edit `.agents/` | hard deny if path/skill edit is invalid | hard deny if path/skill edit is invalid | nothing in practice with current `Bash`-only matcher | advisory warning if `filePath` is exposed |
-| Agent finishes answer | answer validated | answer validated | answer validated | no final-answer validator |
-| Session/turn ends with stale `.agents/` dirty state | advisory finalization reminder | block on `Stop`, advisory on `SessionEnd` | block on `Stop` | advisory finalization reminder |
+| Moment | Gemini | Claude | Codex |
+|------|--------|--------|-------|
+| Session starts | startup context | startup context | startup context |
+| User sends prompt | dynamic context + AGENTS reminder before planning | dynamic context + AGENTS reminder before processing | dynamic context + AGENTS reminder before model call |
+| Agent tries to edit `.agents/` | hard deny if path/skill edit is invalid | hard deny if path/skill edit is invalid | nothing in practice with current `Bash`-only matcher |
+| Agent finishes answer | answer validated | answer validated | answer validated |
+| Session/turn ends with stale `.agents/` dirty state | advisory finalization reminder | block on `Stop`, advisory on `SessionEnd` | block on `Stop` |
 
 ## Recheck
 

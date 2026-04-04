@@ -13,7 +13,6 @@ Bootstrap for any agent joining the KπX workspace. Read once on first session.
 | CODEX | `$HOME/.codex/` | `$HOME/.codex/AGENTS.md` → `$HOME/.agents/AGENTS.md` | `$HOME/.codex/config.toml` | Yes |
 | COPILOT | `$HOME/.copilot/` | `$HOME/.copilot/copilot-instructions.md` → `$HOME/.agents/AGENTS.md` | `$HOME/.copilot/mcp-config.json` | Yes |
 | VIBE | `$HOME/.vibe/` | `$HOME/.vibe/prompts/global.md` → `$HOME/.agents/AGENTS.md` | `$HOME/.vibe/config.toml` | Yes |
-| OPENCLAW | `$HOME/.openclaw/` | `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/.agents/AGENTS.md` | `$HOME/.openclaw/openclaw.json` | Yes (workspace/skills/) |
 | K-AI | `$HOME/.k-ai/` | `$HOME/.k-ai/AGENTS.md` → `$HOME/.agents/AGENTS.md` | `$HOME/.k-ai/config.yaml` | Yes |
 
 ---
@@ -86,7 +85,6 @@ This is the most common approach. The target filename inside the agent's home di
 - **Copilot:** `ln -sf $HOME/.agents/AGENTS.md $HOME/.copilot/copilot-instructions.md`
 - **Gemini:** `ln -sf $HOME/.agents/AGENTS.md $HOME/.gemini/GEMINI.md`
 - **k-ai:** `ln -sf $HOME/.agents/AGENTS.md $HOME/.k-ai/AGENTS.md`
-- **OpenClaw:** `ln -sf $HOME/.agents/AGENTS.md $HOME/.openclaw/workspace/AGENTS.md`
 
 ### Approach 2: Symlink with `config.toml` modification
 
@@ -123,7 +121,7 @@ ln -sf $HOME/.agents/skills $HOME/.<agent>/skills
 ```
 
 **Auto-sync via post-commit hook** (for agents with a pre-existing managed dir):
-Agents whose skills dir has native content (e.g. Codex `.system/`, OpenClaw built-ins) cannot be replaced wholesale. Instead, the `$HOME/.agents/.git/hooks/post-commit` hook handles sync on every commit.
+Agents whose skills dir has native content (e.g. Codex `.system/`) cannot be replaced wholesale. Instead, the `$HOME/.agents/.git/hooks/post-commit` hook handles sync on every commit.
 
 There are two sync modes in the hook (see `SYNC_TARGETS` and `COPY_TARGETS`):
 
@@ -136,7 +134,6 @@ To manually trigger a sync: `cd $HOME/.agents && git commit --allow-empty -m "sy
 - **Claude:** `ln -sf $HOME/.agents/skills $HOME/.claude/skills` *(direct replacement)*
 - **Codex:** auto-synced by post-commit hook (`SYNC_TARGETS`) into `$HOME/.codex/skills/` *(has `.system/` — cannot replace wholesale)*
 - **Copilot:** `ln -sf $HOME/.agents/skills $HOME/.copilot/skills` *(create if absent)*
-- **OpenClaw:** auto-synced by post-commit hook (`COPY_TARGETS`) into `$HOME/.openclaw/workspace/skills/` *(workspace root rejects out-of-root symlinks → rsync copies)*
 
 ### Approach 3: Configuration via `skill_paths` key
 
@@ -156,10 +153,6 @@ After a successful init, **do this proactively** without waiting to be asked:
 2. **If you used the auto-sync approach (Approach 2 — symlink-case like Codex):**
    - Edit `$HOME/.agents/.git/hooks/post-commit` → add your skills dir path to `SYNC_TARGETS`.
    - Add your entry to the **Known Configurations** list in §④ Approach 2 above.
-2b. **If you used the auto-sync approach (Approach 2 — copy-case like OpenClaw):**
-   - Edit `$HOME/.agents/.git/hooks/post-commit` → add your skills dir path to `COPY_TARGETS`.
-   - Add your entry to the **Known Configurations** list in §④ Approach 2 above.
-   - Note: rsync runs on every commit, so no manual initial copy needed.
 3. **Propose Adjustments:** Suggest edits to your runtime skill `$HOME/.agents/skills/k-<name>/SKILL.md` if it is not yet source-of-truth first and compact.
 4. **Commit & Push:** Propose a `git commit` + `make push` on `$HOME/.agents/` to save the updated INIT.md and post-commit hook.
 
