@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.40.0"
+  version: "2.41.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -49,6 +49,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [CLAUDE] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
@@ -66,5 +67,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README; k-project Bash case + journald rule |
-| [SUMMARY] | — | v2.39.0–v1.0.0: validator colon opt, session_guard fix, OpenClaw purge, YAML fixes, AfterAgent fix, bw-env, CLI-only QMD, qmdr, freshness gate, doc routing, project rule, dot_guard, PostToolUse hook, and older |
+| 2026-04-04 | [CLAUDE] | v2.41.0 — clean-sh submodule; HOME export fix; arithmetic crashes; DU_EXCLUDES; Makefile test-run |
+| [SUMMARY] | — | v2.40.0–v1.0.0: clean-system $HOME fix, journald, k-project Bash case, validator colon opt, session_guard fix, OpenClaw purge, bw-env, CLI-only QMD, and older |
