@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.9.0"
+  version: "2.10.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -68,10 +68,33 @@ Do not enumerate MCPs here; read `$HOME/.claude.json` directly.
 - edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
 - exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
 
+## k-context / k-* SKILL.md Edit Protocol
+
+The `pre_tool_use` hook validates **each `Edit` call independently**. It blocks any call that doesn't include all required updates in the same replacement string.
+
+**Required sections per file type:**
+
+| File | Must include in ONE Edit call |
+|------|-------------------------------|
+| `k-context/SKILL.md` | `metadata.version` bump + `## Session Log` update + `## Changelog` update |
+| Any other `k-*/SKILL.md` | `metadata.version` bump + `## Changelog` update |
+
+**Pattern — always replace from the `version:` line through the end of `## Changelog`:**
+
+```
+# ✅ One Edit — old_string spans version → last Changelog line
+Edit(old_string='  version: "2.9.0"\n...\n| [SUMMARY] | ...',
+     new_string='  version: "2.10.0"\n...\n| [SUMMARY] | ...')
+
+# ❌ Two separate Edits — each blocked independently by the hook
+Edit(old_string='  version: "2.9.0"', ...)      # blocked: Changelog missing
+Edit(old_string='## Changelog\n...', ...)        # blocked: version missing
+```
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.9.0 — compacted the runtime history section to the minimum useful path map while keeping the real Claude conversation, subagent, tool-output, and memory locations explicit |
-| 2026-04-03 | [CODEX] | v2.8.0 — compacted the hook section so this skill points to the real Claude runtime config and `$HOME/.agents/hooks/README.md` instead of re-describing the live wrapper behavior inline |
+| 2026-04-04 | [CLAUDE] | v2.10.0 — added k-context/k-* SKILL.md Edit Protocol: single-call pattern required by pre_tool_use hook |
+| 2026-04-03 | [CODEX] | v2.9.0 — compacted the runtime history section to the minimum useful path map |
 | [SUMMARY] | — | v2.8.0–v2.0.0: compact hook guidance, compact history path map, live hook wiring, path normalization, hooks ref cleanup, name standardization, and earlier runtime extraction/cleanup |
