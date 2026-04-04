@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.12.0"
+  version: "1.12.2"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -81,6 +81,8 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 - active local Ollama model set for OpenClaw should stay lean: `phi4-mini:latest`, `llama3.1:8b`, `qwen2.5-coder:3b`
 - `gemma3:4b` is not part of the active OpenClaw local set because the tested Ollama/OpenClaw tool path rejected it
 - active OpenClaw MCP policy is now minimal: keep only `exa` in `$HOME/.openclaw/workspace/config/mcporter.json` unless a specific runtime need is reintroduced deliberately
+- simple external provider policy: keep local `ollama` as default and add only `mistral/mistral-small-latest` as the external fallback; keep the secret referenced as `${MISTRAL_API_KEY}` in `$HOME/.openclaw/openclaw.json`
+- when OpenClaw needs external-provider secrets, keep the systemd gateway on `zsh -l -c 'openclaw gateway --port 18789'` so `$HOME/.kshrc` can inject `bw-env` secrets before the process starts
 - if the TUI starts showing stale model choices or polluted conversation state, reset `$HOME/.openclaw/agents/main/sessions/sessions.json`, remove the active session `.jsonl`, and reopen the TUI on a fresh session
 - `session-memory` is intentionally disabled in `$HOME/.openclaw/openclaw.json` because its pre-compaction flush prompts polluted short interactive sessions and triggered misleading "untrusted metadata" responses
 - restart the gateway after `openclaw.json` changes: `openclaw gateway --force`
@@ -94,6 +96,7 @@ openclaw approvals set --file $HOME/.openclaw/exec-approvals.json
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.12.2 — switched the systemd gateway launch path back to `zsh -l -c` so `bw-env` can inject `${MISTRAL_API_KEY}` for external providers |
+| 2026-04-04 | [CODEX] | v1.12.1 — added the single external provider policy: `mistral/mistral-small-latest` via `${MISTRAL_API_KEY}` while keeping local Ollama primary |
 | 2026-04-04 | [CODEX] | v1.12.0 — disabled `session-memory` in the runtime, documented the stale-session reset procedure, and kept OpenClaw on a fresh-session-first posture |
-| 2026-04-04 | [CODEX] | v1.11.1 — reduced OpenClaw `mcporter.json` to `exa` only so the runtime stays minimal and local-first |
-| [SUMMARY] | — | v1.11.0–v1.0.0: lean local defaults, CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |
+| [SUMMARY] | — | v1.12.1–v1.0.0: `bw-env`-backed gateway launch for external secrets, exa-only MCPs, lean local defaults, CLI-only QMD policy, compact hook guidance, history pointers, `k-optim` pointer, stale-copy cleanup after renames, hook discovery, workspace-root, provider, approvals, and broader OpenClaw runtime guidance with paths normalized to `$HOME` |
