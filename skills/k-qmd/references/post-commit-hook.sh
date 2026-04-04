@@ -36,6 +36,12 @@ EMBED_LOG="${TMPDIR:-/tmp}/qmd-embed-${COLLECTION}.log"
 STAMP_DIR="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/qmd-hooks"
 STAMP_FILE="${STAMP_DIR}/${COLLECTION}.embed.stamp"
 
+# 1b. Skip safely when this repo does not map to an active QMD collection
+if ! "$QMD_BIN" collection show "$COLLECTION" > /dev/null 2>&1; then
+    echo "--- [QMD Hook] Collection '$COLLECTION' not found. Skipping."
+    exit 0
+fi
+
 # 2. Check if relevant files were modified in this commit
 if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -qE "$PATTERN"; then
     echo "--- [QMD Hook] Relevant files modified. Updating QMD index..."

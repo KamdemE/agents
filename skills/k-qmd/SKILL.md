@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires qmd CLI or MCP server. See references/mcp-setup.md for full setup.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.12.1"
+  version: "2.12.2"
 allowed-tools: Bash(qmd:*), mcp__qmd-mcp__*
 ---
 
@@ -110,6 +110,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.12.2 — made the shared `post-commit` hook safe for repos without an active QMD collection: it now exits cleanly instead of treating the repo as indexing drift |
 | 2026-04-04 | [CODEX] | v2.12.1 — clarified in the optimization reference that the first Vulkan rebuild may print a temporary CPU/no-GPU warning and that the steady-state device truth must be checked with `qmd status` |
-| 2026-04-04 | [CODEX] | v2.12.0 — documented the shared symlinkable post-commit hook model and aligned the hook reference with the repo-name-derived collection behavior |
 | [SUMMARY] | — | v2.12.0–v2.0.0 covered the shared hook model, the optimization guide, the hot-only rewrite, prior collection strategy, the compact rewrite, the `k-qmd` rename, trigger clarifications, install/setup, masks, YAML config, query flows, collection scoping, gitignore template, and embed hygiene |

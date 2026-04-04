@@ -4,7 +4,7 @@ description: k-ai runtime memory, preferences, and operating notes.
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.3.1"
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -53,12 +53,12 @@ allowed-tools: Read, Edit, Write
 - [13] When a file or directory is not found, perform successive or recursive `ls` commands to explore the filesystem instead of concluding it doesn't exist too quickly.
 - [15] When searching for files, distinguish between project and general searches. For PROJECT-RELATED files, ALWAYS scope the search to `$HOME/Work`. For general files, AVOID a global search on `$HOME`. A RECURSIVE `tree -L 2` is often more efficient than an exhaustive file search.
 - [16] To save tokens, when creating a file from a known template, prefer copying it with `cp <template_path> <destination_path>` rather than using `write_file`. The content can then be adjusted with `edit_file` if necessary.
-- [17] My own session history is indexed in the 'k-ai' QMD collection. The 'agents' collection is for global context for other agents.
+- [17] My own session history is stored in `$HOME/.k-ai/sessions/` and should be inspected directly from disk when needed; do not assume a dedicated active QMD collection exists for it.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v1.3.1 — corrected the runtime-memory note: k-ai session history should be read from `$HOME/.k-ai/sessions/` directly and is no longer assumed to live in an active dedicated QMD collection |
 | 2026-04-03 | [CODEX] | v1.3.0 — added the real k-ai session-history paths so the skill exposes the owning runtime dirs without expanding the memory rules further |
-| 2026-04-03 | [CODEX] | v1.2.2 — added the standard edit reminder directly under the H1 so the skill conforms to the shared structural guard |
-| [SUMMARY] | — | v1.2.2–v1.1.0: k-ai history pointers, standard edit reminder, normalized `$HOME` paths, rename from `k-ai-memory`, project references, and initial memory entries |
+| [SUMMARY] | — | v1.3.0–v1.1.0: k-ai history pointers, standard edit reminder, normalized `$HOME` paths, rename from `k-ai-memory`, project references, and initial memory entries |
