@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.32.9"
+  version: "2.33.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -50,16 +50,16 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: skip validation when response has no section markers (covers partial + meta-retry) · `$HOME/.agents/hooks/gemini/after_agent.py` |
+| 2026-04-04 | [CODEX] | v2.33.1 — benchmarked `phi4-mini`, `llama3.1:8b`, `qwen2.5-coder:3b`, and `gemma3:4b` on Ollama IPEX + OpenClaw; `phi4-mini` remains best default, `gemma3:4b` rejected for OpenClaw tools · `$HOME/.openclaw/` |
+| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/`; updated all path refs in install.sh, purge.sh, shell.sh, profile.sh, README.md, .agents/AGENTS.md, .kshrc · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: skip validation when response has no section markers · `$HOME/.agents/hooks/gemini/after_agent.py` |
 | 2026-04-04 | [CLAUDE] | v2.32.8 — initial AfterAgent cancel-loop fix: skip on empty/cancelled `prompt_response` · `$HOME/.agents/hooks/gemini/after_agent.py` |
-| 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini, and OpenClaw configs; QMD is now CLI-only across runtimes |
-| 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint for important QMD calls |
+| 2026-04-04 | [CODEX] | v2.32.7 — removed active qmd MCP entries from Claude, Copilot, Gemini, and OpenClaw configs; QMD is now CLI-only |
+| 2026-04-04 | [CODEX] | v2.32.6 — added `$HOME/.agents/skills/k-qmd/scripts/qmdr` and made `qmdr` the explicit safe entrypoint |
 | 2026-04-04 | [CODEX] | v2.32.5 — `k-codex` now requires a frontmatter re-read/validation after any `SKILL.md` header edit |
-| 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` freshness gate explicit: check `qmd status`, run `qmd embed` if `Pending > 0` before important queries |
+| 2026-04-04 | [CODEX] | v2.32.4 — `k-qmd` freshness gate explicit: check `qmd status`, run `qmd embed` if `Pending > 0` |
 | 2026-04-04 | [CODEX] | v2.32.3 — AGENTS documentation reflex routes new knowledge to `tutos_live/` (Ubuntu) or `presentation/` (homelab) |
-| 2026-04-04 | [CODEX] | v2.32.2 — shared QMD `post-commit` hook skips cleanly when repo has no active collection |
-| 2026-04-04 | [CODEX] | v2.32.1 — QMD doc clarified: first Vulkan rebuild may print a CPU/no-GPU warning; steady-state check is `qmd status` |
-| 2026-04-04 | [CODEX] | v2.32.0 — AGENTS now states each agent owns and must auto-update its own `k-<agent>` runtime skill |
+| 2026-04-04 | [CODEX] | v2.32.2–v2.32.0 — shared QMD hook skip, agent-owned `k-<agent>` rule, and QMD CPU/no-GPU warning note |
 | [SUMMARY] | — | v2.31.0–v2.21.0: QMD provenance hardening, QMD lean cleanup, project rule, dot_guard disable, k-claude hook work, bw-env rollout, OpenClaw repair, and older maintenance |
 
 ## References
@@ -70,6 +70,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-04 | [CODEX] | v2.33.1 — logged the Ollama IPEX + OpenClaw 4-model benchmark and final default-model recommendation |
+| 2026-04-04 | [CLAUDE] | v2.33.0 — bw-env → bw_env rename; all path refs updated across project and .kshrc |
 | 2026-04-04 | [CLAUDE] | v2.32.9 — hardened AfterAgent cancel-loop fix: no-section-marker guard added |
-| 2026-04-04 | [CLAUDE] | v2.32.8 — initial AfterAgent cancel-loop fix + session log/changelog condensed |
-| [SUMMARY] | — | v2.32.7–v1.0.0: CLI-only QMD shift, `qmdr` wrapper, Codex frontmatter-safety, QMD freshness gate, doc routing, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, PostToolUse hook, bw-env, OpenClaw repair, and older entries condensed. |
+| [SUMMARY] | — | v2.32.9–v1.0.0: AfterAgent fix, CLI-only QMD shift, qmdr wrapper, Codex frontmatter-safety, QMD freshness gate, doc routing, agent-memory rule, QMD provenance hardening, project rule, dot_guard disable, PostToolUse hook, bw-env, OpenClaw repair, and older entries condensed. |
