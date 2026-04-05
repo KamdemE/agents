@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.12.1"
+  version: "2.13.0"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -59,6 +59,11 @@ QMD policy: do not configure QMD as a Claude MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
 - `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
 
+## Sudo Gate
+
+When a task requires a `sudo` command: **STOP**, show the exact command to KπX, wait for confirmation ("c'est bon" / "done"), then continue.
+Never attempt `sudo` autonomously — Claude runs as the user and sudo prompts fail silently in the agent flow.
+
 ## bw-mcp Auth
 
 - Uses `bw` CLI **directly** — independent from `bw-env`
@@ -96,7 +101,6 @@ Structure and content checks remain blocking in PreToolUse.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.12.1 — documented the CLI-only QMD policy for Claude: no qmd MCP; use `qmd` for admin/read paths and `qmdr` for important searches |
-| 2026-04-04 | [CLAUDE] | v2.12.0 — live wrappers list: added missing `post_tool_use.py` (desync fix) |
-| 2026-04-04 | [CLAUDE] | v2.11.0 — Edit Protocol updated: header/footer check moved to PostToolUse advisory; natural multi-step edits now allowed for Claude |
-| [SUMMARY] | — | v2.12.0–v2.0.0: CLI-only QMD policy, single-call Edit Protocol, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime extraction/cleanup |
+| 2026-04-05 | [CLAUDE] | v2.13.0 — sudo gate: stop and ask KπX to run sudo commands, then wait for confirmation before continuing |
+| 2026-04-04 | [CODEX] | v2.12.1 — CLI-only QMD policy: no qmd MCP; use `qmd` for admin/read, `qmdr` for important searches |
+| [SUMMARY] | — | v2.12.0–v2.0.0: post_tool_use.py desync fix, Edit Protocol PostToolUse advisory, CLI-only QMD policy, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime cleanup |

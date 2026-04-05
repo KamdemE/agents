@@ -14,7 +14,7 @@ from core import path_guard, skill_edit_guard
 
 # Map Gemini tool name → (content_field, path_field)
 _TOOL_FIELDS = {
-    "write_file": ("content", "path"),
+    "write_file": ("content", "file_path"),
     "replace":    ("new_string", "file_path"),
 }
 
