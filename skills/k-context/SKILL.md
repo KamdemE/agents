@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.52.0"
+  version: "2.53.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -35,7 +35,7 @@ allowed-tools: "Bash(*), *"
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **AppArmor Mitigation** | ✅ DONE (Option A) — unprivileged_userns → complain mode | Option B: custom profile ready · `$HOME/.agents/skills/k-context/references/apparmor-custom-profile.md` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **Centralized Hooks** | ✅ Copilot VS Code runtime wrappers added under `.agents/hooks/copilot/` | validate with chat hook logs + `make audit` · `$HOME/.agents/hooks/` |
+| **Centralized Hooks** | ✅ Copilot VS Code runtime wrappers added + audit passing · k-codex/gemini/vibe changelogs fixed | all hooks tested · `$HOME/.agents/hooks/` |
 | **Optimization map** | ✅ QMD lean-index cleanup applied; home media dirs policy added; Downloads/Documents/Pictures emptied | maintain hot-only indexing discipline · `$HOME/.config/qmd/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
@@ -72,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.53.0 — fixed audit failures: k-codex/gemini/vibe changelog compaction, after_agent smoke test; all audit checks passing |
 | 2026-04-05 | [CLAUDE] | v2.52.0 — restored `k-mail` skill (`skills/k-mail/SKILL.md`); `.skill-lock.json` timestamp refresh |
-| 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync commit: Copilot hooks tree, README runtime map, k-context reference files, k-code `install_cursor.sh`; pushed remotes |
-| [SUMMARY] | — | v2.50.0 Copilot VS Code hooks; v2.49.0 backup-restore alerts; v2.48.0–v1.0.0: Cursor, log archive, AppArmor, clean/backup, hooks, QMD and earlier history |
+| [SUMMARY] | — | v2.51.0–v1.0.0: kernel sync Copilot hooks + README map, v2.50.0 hooks, v2.49.0–v2.21.0: backup-restore, Cursor, log archive, AppArmor, QMD and earlier history |

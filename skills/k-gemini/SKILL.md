@@ -108,5 +108,4 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 |------|-------|--------|
 | 2026-04-04 | [CODEX] | v2.8.1 — removed the qmd-mcp example and documented the CLI-only QMD policy for Gemini (`qmd` for admin/read, `qmdr` for important searches) |
 | 2026-04-03 | [CODEX] | v2.8.0 — added the real Gemini conversation-history paths and kept the skill compact by exposing only the owning dirs to inspect |
-| 2026-04-03 | [CODEX] | v2.7.0 — compacted the hooks section so this skill now points to the Gemini runtime config and `$HOME/.agents/hooks/README.md` instead of repeating the live hook behavior inline |
-| [SUMMARY] | — | v2.8.0–v2.0.0: CLI-only QMD policy, Gemini history paths, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
+| [SUMMARY] | — | v2.7.0–v2.0.0: compact hooks section, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |

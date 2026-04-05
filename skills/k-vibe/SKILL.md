@@ -67,5 +67,4 @@ QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
 |------|-------|--------|
 | 2026-04-04 | [CODEX] | v2.4.1 — documented the CLI-only QMD policy for VIBE (`qmd` for admin/read, `qmdr` for important searches) |
 | 2026-04-03 | [CODEX] | v2.4.0 — added the real VIBE session-history paths and kept the skill compact around the owning runtime files |
-| 2026-04-03 | [CODEX] | v2.3.0 — reframed the skill around source-of-truth files and removed the remaining live-inventory wording for MCPs |
-| [SUMMARY] | — | v2.4.0–v2.0.0: CLI-only QMD policy, VIBE history pointers, source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |
+| [SUMMARY] | — | v2.3.0–v2.0.0: source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |

@@ -215,7 +215,7 @@ def _wrapper_smoke_tests() -> list[str]:
 
     try:
         gemini_after = _load_module(HOOKS_DIR / "gemini/after_agent.py", "audit_gemini_after")
-        result = gemini_after.handle_after_agent(invalid_response)
+        result = gemini_after.handle_after_agent({"prompt_response": invalid_response})
         if result.get("decision") != "deny":
             findings.append(
                 f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: malformed response was not denied."

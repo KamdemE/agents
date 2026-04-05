@@ -119,6 +119,4 @@ metadata:
 |------|-------|--------|
 | 2026-04-04 | [CODEX] | v2.10.2 — added explicit correct/incorrect frontmatter examples and the rule to never reindent existing `metadata` child keys while patching a skill version line |
 | 2026-04-04 | [CODEX] | v2.10.1 — added the frontmatter safety reflex: after editing any `SKILL.md`, Codex must re-read and validate the YAML header before commit, especially when top-of-file metadata was patched |
-| 2026-04-04 | [CODEX] | v2.10.0 — added the sandbox/escalation reflex learned in practice: rerun blocked commit/push operations with scoped escalation, and stop cleanly when a sudo/auth step must be completed manually by KπX |
-| 2026-04-03 | [CODEX] | v2.9.1 — made the Codex history pointers explicit by adding `history.jsonl` and `session_index.jsonl` alongside the sessions dir |
-| [SUMMARY] | — | v2.10.1–v2.0.0: frontmatter safety reflex, escalation reflex, compact hook guidance, explicit history pointers, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
+| [SUMMARY] | — | v2.10.0–v2.0.0: sandbox/escalation reflex, explicit history pointers, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
