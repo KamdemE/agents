@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.43.0"
+  version: "2.51.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -27,13 +27,15 @@ allowed-tools: "Bash(*), *"
 
 ## Active Projects
 
-> Limit: max 10 active rows.
+> Limit: max 20 active rows.
 > Only when full, condense stale/completed items into one short bounded `[ARCHIVE]` row.
 
 | Project | Status | Next · Folder |
 |---------|--------|---------------|
+| **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
+| **AppArmor Mitigation** | ✅ DONE (Option A) — unprivileged_userns → complain mode | Option B: custom profile ready · `$HOME/.agents/skills/k-context/references/apparmor-custom-profile.md` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **Centralized Hooks** | ✅ Pre+Post hook split complete; k-hook v2.13.0, k-claude v2.12.0 | maintain via `make audit` · `$HOME/.agents/hooks/` |
+| **Centralized Hooks** | ✅ Copilot VS Code runtime wrappers added under `.agents/hooks/copilot/` | validate with chat hook logs + `make audit` · `$HOME/.agents/hooks/` |
 | **Optimization map** | ✅ QMD lean-index cleanup applied; home media dirs policy added; Downloads/Documents/Pictures emptied | maintain hot-only indexing discipline · `$HOME/.config/qmd/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
@@ -42,32 +44,34 @@ allowed-tools: "Bash(*), *"
 ## Session Log
 
 > Limit: max 10 entries, newest-first.
-> Only when full, condense older entries into one short bounded `[SUMMARY]` row.
+> Only when full: **transfer older entries to `references/log.md` FIRST**, then condense into one short bounded `[SUMMARY]` row here.
 > Do not use `[SUMMARY]` before the section actually reaches its limit.
 > Include folder paths or commit hashes in entries so agents can navigate directly.
+> **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-05 | [CLAUDE] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
-| 2026-04-05 | [CLAUDE] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
-| 2026-04-04 | [CLAUDE] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
-| 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
-| 2026-04-04 | [CLAUDE] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
-| 2026-04-04 | [CLAUDE] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
-| 2026-04-04 | [CLAUDE] | v2.37.0 — full OpenClaw purge + 5 YAML fixes; k-openclaw→deactive · `$HOME/.agents/skills/` |
-| 2026-04-04 | [CLAUDE] | v2.34.1 — bw_env robustness; committed+pushed · `$HOME/Work/sh/bw_env/` |
-| 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map · `$HOME/.agents/skills/` |
-| 2026-04-04 | [CLAUDE] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
-| [SUMMARY] | — | v2.32.9–v2.21.0: AfterAgent fix, QMD CLI-only, qmdr entrypoint, k-codex frontmatter rule, QMD freshness gate, AGENTS routing, agent-owned k-agent, k-claude hook work, bw-env rollout |
+| 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
+| 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
+| 2026-04-05 | [GEMINI] | v2.49.0 — backup-restore-sh: implemented Telegram alerts for drive mount failures with manual recovery instructions; v1.2.0. |
+| 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level .cursorrules; only global ~/.cursorrules remains active. |
+| 2026-04-05 | [GEMINI] | v2.45.0 — Cursor discovery: symlinked ~/.cursorrules → AGENTS.md; applied .cursorrules to active projects (ai_voice, mem_mcp, backup_restore, clean) |
+| 2026-04-05 | [GEMINI] | v2.44.0 — ai_voice: mapped whisper-overlay project structure; identified lack of AGENTS.md/CHANGELOG · `$HOME/Work/AI/ai_voice/` |
+| 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
+| 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
+| 2026-04-04 | [COPILOT] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
+| 2026-04-04 | [COPILOT] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
+| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.32.9–v2.21.0 and prior |
 
 ## References
 
 - `references/agentic-architecture-brainstorm.md` — hot/cold context and architecture notes
+- `references/log.md` — unlimited session log archive (transfer overflow here before [SUMMARY])
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule in sh/ |
-| 2026-04-05 | [CLAUDE] | v2.42.0 — clean-sh finalized: dynamic service, /var/log/, git .env detection, sudo gate |
-| [SUMMARY] | — | v2.41.0–v1.0.0: clean-sh submodule+DU_EXCLUDES, clean-system $HOME fix, journald, k-project Bash case, validator colon opt, session_guard fix, OpenClaw purge, bw-env, CLI-only QMD, and older |
+| 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync commit: Copilot hooks tree, README runtime map, k-context reference files, k-code `install_cursor.sh`; pushed remotes |
+| 2026-04-05 | [COPILOT] | v2.50.0 — wired Copilot VS Code hooks runtime (`.agents/hooks/copilot/`) and enabled hook discovery in VS Code settings |
+| [SUMMARY] | — | v2.49.0 backup-restore drive alerts; v2.48.0–v1.0.0: Cursor standardization, log archive policy, AppArmor mitigation, clean/backup, hooks, QMD and earlier history |

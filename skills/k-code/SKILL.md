@@ -4,7 +4,7 @@ description: "KπX VSCode ecosystem — profiles, settings, extension registry, 
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.1.0"
+  version: "4.1.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -126,10 +126,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v4.1.1 — `scripts/cursor/install_cursor.sh`: extract AppImage to `$HOME/Applications/cursor-app`, wrapper calls `AppRun --no-sandbox`, remove raw AppImage after extract (AppArmor userns bypass) |
 | 2026-04-05 | [GEMINI] | v4.1.0 — added `clean_editors.sh` wrapper script orchestrating overall editor caches; updated SKILL.md paths and references |
-| 2026-04-05 | [COPILOT] | v4.0.0 — comprehensive restructuring of `k-code`: split script folders into `profiles/`, `agy/`, `cursor/`; integrated independent `clean_` scripts centralized in `Work/sh/clean/` |
-| 2026-04-05 | [COPILOT] | v3.3.0 — added `sync_forks_to_code.sh` script to flexibly apply the Antigravity synchronization strategy to any VS Code fork (e.g. Cursor) |
-| 2026-04-05 | [COPILOT] | v3.2.0 — renamed skill from `k-vscode` to `k-code`, added Antigravity integration guide referencing `$HOME/.agents/skills/k-code/references/antigravity.md` |
-| 2026-04-04 | [CODEX] | v3.1.0 — fixed the `.code-profile` source-of-truth direction: snapshots now live in `k-code/references/` and runtime files under `$HOME/.config/Code/User/profiles/` should symlink back to them |
-| 2026-04-03 | [CODEX] | v3.0.1 — removed the last hardcoded home-path wording from the conformity notes by describing the cleaned `%24HOME`-escaped workspace entry generically |
-| [SUMMARY] | — | v3.0.1–v1.0.0 covered the full rewrite, profile-registry scripts, `General` profile rename, post-migration verification, YAML repair, and the original VSCode skill bootstrap |
+| [SUMMARY] | — | v4.0.0–v1.0.0: k-code folder split (`profiles/`, `agy/`, `cursor/`), clean scripts in `Work/sh/clean/`, Antigravity/Cursor sync, rename from k-vscode, profile source-of-truth, conformity notes, registry bootstrap |

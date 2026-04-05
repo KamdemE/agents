@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.5.1"
+  version: "1.6.1"
   scope: agent-runtime
   target-agent: copilot
 allowed-tools: Bash, Read, Write, Edit
@@ -64,6 +64,28 @@ HTTP servers: use `"type": "http"`. Restart Copilot + verify via `/mcp` after an
 
 Do not list installed MCPs here; read `$HOME/.copilot/mcp-config.json` directly.
 
+## Copilot VS Code Hooks Wiring (Preview)
+
+Copilot VS Code hooks are wired through:
+
+- Wrapper scripts: `$HOME/.agents/hooks/copilot/`
+- Hook file: `$HOME/.agents/hooks/copilot/hooks.json`
+- VS Code setting: `chat.hookFilesLocations` includes `$HOME/.agents/hooks/copilot/hooks.json` (expand to an absolute path in JSON if required)
+
+Implemented hook events:
+
+- `SessionStart` → `session_start.py`
+- `UserPromptSubmit` → `user_prompt_submit.py`
+- `PreToolUse` → `pre_tool_use.py`
+- `PostToolUse` → `post_tool_use.py`
+- `Stop` → `stop.py`
+
+Notes:
+
+- Wrappers are adapted to VS Code hook event names and payload shape.
+- `PreToolUse` normalizes VS Code tool aliases (for example `create_file`, `replace_string_in_file`) so core guards can reuse existing logic.
+- `PostToolUse` runs header/footer completeness checks as advisory for replace-style edits.
+
 QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
 - `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
@@ -72,7 +94,6 @@ QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v1.5.1 — documented the CLI-only QMD policy for Copilot and removed the expectation that QMD should live in `mcp-config.json` |
-| 2026-04-03 | [CODEX] | v1.5.0 — added the real Copilot session-history paths and kept the skill focused on runtime sources of truth instead of expanding procedural detail |
-| 2026-04-03 | [CODEX] | v1.4.1 — removed the last hardcoded home-path wording from the changelog summary of the earlier normalization pass |
-| [SUMMARY] | — | v1.5.0–v1.0.0: CLI-only QMD policy, Copilot session-history pointers, source-of-truth paths, normalized home-path references, removed duplicated project context, standardized name, runtime context, MCP format, and extraction from agents/ |
+| 2026-04-05 | [CLAUDE] | v1.6.1 — `chat.hookFilesLocations` documented with `$HOME` path form per AGENTS.md (no bare `~` in `.agents/` docs) |
+| 2026-04-05 | [COPILOT] | v1.6.0 — added Copilot VS Code hooks runtime wiring (`$HOME/.agents/hooks/copilot/`) and documented settings integration via `chat.hookFilesLocations` |
+| [SUMMARY] | — | v1.5.1 CLI-only QMD policy; v1.5.0–v1.0.0: session-history pointers, source-of-truth paths, runtime context/MCP format, earlier consolidation |

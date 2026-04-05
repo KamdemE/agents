@@ -1,15 +1,16 @@
 #!/bin/bash
 # ==============================================================================
 # SCRIPT: install_cursor.sh
-# AUTHOR: Gemini CLI (for KpihX)
+# AUTHOR: Gemini CLI (for KpihX) / AI
 # DESCRIPTION: Professional installer for Cursor AI on Ubuntu 24.04+.
-# FEATURES: Sandbox bypass, Icon extraction, Wrapper binary, Desktop integration.
+# FEATURES: Sandbox bypass via appimage extraction, Desktop integration.
 # ==============================================================================
 
 set -e # Exit on error
 
 # --- CONFIGURATION ---
 INSTALL_DIR="$HOME/Applications"
+EXTRACT_DIR="$INSTALL_DIR/cursor-app"
 BIN_DIR="$HOME/.local/bin"
 ICON_DIR="$HOME/.local/share/icons"
 DESKTOP_DIR="$HOME/.local/share/applications"
@@ -34,25 +35,29 @@ echo "📥 Downloading Cursor AppImage..."
 wget --no-check-certificate -O "$INSTALL_DIR/cursor.AppImage" "$DOWNLOAD_URL"
 chmod +x "$INSTALL_DIR/cursor.AppImage"
 
+# --- EXTRACTION FOR SANDBOX BYPASS ---
+echo "📦 Extracting AppImage to bypass AppArmor unprivileged_userns restrictions..."
+cd "$INSTALL_DIR"
+rm -rf "$EXTRACT_DIR"
+./cursor.AppImage --appimage-extract > /dev/null
+mv squashfs-root "$EXTRACT_DIR"
+
 # --- BINARY WRAPPER ---
 echo "🏗️ Creating transparent wrapper in $BIN_DIR/cursor..."
-cat <<EOF > "$BIN_DIR/cursor"
+cat <<WRAPPER > "$BIN_DIR/cursor"
 #!/bin/bash
-# Wrapper to bypass Ubuntu 24.04+ sandbox restrictions
-"$INSTALL_DIR/cursor.AppImage" --no-sandbox "\$@"
-EOF
+# Wrapper to bypass Ubuntu 24.04+ sandbox restrictions pointing to extracted app
+"$EXTRACT_DIR/AppRun" --no-sandbox "\$@"
+WRAPPER
 chmod +x "$BIN_DIR/cursor"
 
 # --- ICON EXTRACTION ---
 echo "🖼️ Extracting official high-resolution icon..."
-cd "$TMP_DIR"
-"$INSTALL_DIR/cursor.AppImage" --appimage-extract "co.anysphere.cursor.png" > /dev/null
-cp "squashfs-root/co.anysphere.cursor.png" "$ICON_DIR/cursor.png"
-rm -rf "squashfs-root"
+cp "$EXTRACT_DIR/cursor.png" "$ICON_DIR/cursor.png" || true
 
 # --- DESKTOP INTEGRATION ---
 echo "🚀 Creating system desktop launcher..."
-cat <<EOF > "$DESKTOP_DIR/cursor.desktop"
+cat <<DESKTOP > "$DESKTOP_DIR/cursor.desktop"
 [Desktop Entry]
 Name=Cursor
 Exec=$BIN_DIR/cursor %F
@@ -70,12 +75,13 @@ Keywords=vscode;cursor;ai;
 Name=New Empty Window
 Exec=$BIN_DIR/cursor --new-window
 Icon=$ICON_DIR/cursor.png
-EOF
+DESKTOP
 
 # --- CLEANUP ---
-echo "🧹 Cleaning up temporary files..."
+echo "🧹 Cleaning up temporary files and raw AppImage..."
+rm -f "$INSTALL_DIR/cursor.AppImage"
 rm -rf "$TMP_DIR"
 update-desktop-database "$DESKTOP_DIR" || true
 
-echo "✨ [SUCCESS] Cursor AI is installed and stabilized!"
+echo "✨ [SUCCESS] Cursor AI is installed and fully extracted to bypass AppArmor!"
 echo "🚀 Run it with: 'cursor' or find it in your application menu."

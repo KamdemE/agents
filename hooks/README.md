@@ -3,7 +3,7 @@
 This directory contains the KπX hook stack:
 
 - `core/` owns the reusable policy and validation logic
-- `gemini/`, `claude/`, and `codex/` only bind that core to each runtime's real hook surface
+- `gemini/`, `claude/`, `codex/`, and `copilot/` only bind that core to each runtime's real hook surface
 
 Use this file to answer 2 questions quickly:
 
@@ -15,7 +15,7 @@ Use this file to answer 2 questions quickly:
 | Checker | Role | Example the agent sees |
 |------|------|----------------|
 | `context_injector.py` | Inject startup context from the configured startup skills list | `Session date: 2026-04-03 (Friday)` + `k-context` + `k-workspace` |
-| `prompt_injector.py` | Inject lightweight per-turn runtime context | `<dynamic-context> ... Current directory: /home/kpihx ... </dynamic-context>` |
+| `prompt_injector.py` | Inject lightweight per-turn runtime context | `<dynamic-context> ... Current directory: /home/$USER ... </dynamic-context>` |
 | `skill_watcher.py` | Inject a compact reminder that points back to `AGENTS.md` | `AGENTS CHECK:` then 3 short lines pointing to `$HOME/.agents/AGENTS.md` |
 | `path_guard.py` | Reject literal home paths or bare `~` in `.agents/` file edits | `Literal home-directory path or bare ~ detected in .agents content...` |
 | `skill_edit_guard.py` | Reject incomplete edits to KπX-owned `SKILL.md` files | `edited SKILL.md without bumping metadata.version` |
@@ -48,7 +48,7 @@ MANDATORY STARTUP CONTEXT:
 Date: 2026-04-03 (Friday)
 Time: 22:23
 Prompt: ─[kpihx@KpihX-Ubuntu]
-Current directory: /home/kpihx
+Current directory: /home/$USER
 </dynamic-context>
 ```
 
@@ -109,16 +109,16 @@ Next:
 
 ## Runtime Map
 
-| Checker | Gemini | Claude | Codex |
-|------|--------|--------|-------|
-| `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` |
-| `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` |
-| `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` |
-| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here |
-| `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` |
-| `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired |
-| `response_validator.py` | `AfterAgent` | `Stop` | `Stop` |
-| `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block |
+| Checker | Gemini | Claude | Codex | Copilot VS Code |
+|------|--------|--------|-------|-------|
+| `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` | `SessionStart` |
+| `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `PreToolUse` for `create_file`, `replace_string_in_file`, and related aliases |
+| `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` | `PreToolUse` for normalized write/replace operations |
+| `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired | `PostToolUse` advisory for replace-style edits |
+| `response_validator.py` | `AfterAgent` | `Stop` | `Stop` | `Stop` |
+| `session_guard.py` | `SessionEnd` advisory | `Stop` block + `SessionEnd` advisory | `Stop` block | `Stop` block |
 
 ## Why Some Checkers Are Missing
 
@@ -145,13 +145,13 @@ Practical consequence:
 
 ## At What Moment The Agent Sees Each Thing
 
-| Moment | Gemini | Claude | Codex |
-|------|--------|--------|-------|
-| Session starts | startup context | startup context | startup context |
-| User sends prompt | dynamic context + AGENTS reminder before planning | dynamic context + AGENTS reminder before processing | dynamic context + AGENTS reminder before model call |
-| Agent tries to edit `.agents/` | hard deny if path/skill edit is invalid | hard deny if path/skill edit is invalid | nothing in practice with current `Bash`-only matcher |
-| Agent finishes answer | answer validated | answer validated | answer validated |
-| Session/turn ends with stale `.agents/` dirty state | advisory finalization reminder | block on `Stop`, advisory on `SessionEnd` | block on `Stop` |
+| Moment | Gemini | Claude | Codex | Copilot VS Code |
+|------|--------|--------|-------|-------|
+| Session starts | startup context | startup context | startup context | startup context |
+| User sends prompt | dynamic context + AGENTS reminder before planning | dynamic context + AGENTS reminder before processing | dynamic context + AGENTS reminder before model call | dynamic context + AGENTS reminder before model call |
+| Agent tries to edit `.agents/` | hard deny if path/skill edit is invalid | hard deny if path/skill edit is invalid | nothing in practice with current `Bash`-only matcher | hard deny if path/skill edit is invalid (normalized tool aliases) |
+| Agent finishes answer | answer validated | answer validated | answer validated | answer validated |
+| Session/turn ends with stale `.agents/` dirty state | advisory finalization reminder | block on `Stop`, advisory on `SessionEnd` | block on `Stop` | block on `Stop` |
 
 ## Recheck
 
