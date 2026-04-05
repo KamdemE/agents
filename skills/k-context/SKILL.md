@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.42.0"
+  version: "2.43.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -48,6 +48,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
 | 2026-04-05 | [CLAUDE] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [CLAUDE] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [CLAUDE] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
@@ -67,6 +68,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule in sh/ |
 | 2026-04-05 | [CLAUDE] | v2.42.0 — clean-sh finalized: dynamic service, /var/log/, git .env detection, sudo gate |
-| 2026-04-04 | [CLAUDE] | v2.41.0 — clean-sh submodule; HOME export fix; arithmetic crashes; DU_EXCLUDES; Makefile test-run |
-| [SUMMARY] | — | v2.40.0–v1.0.0: clean-system $HOME fix, journald, k-project Bash case, validator colon opt, session_guard fix, OpenClaw purge, bw-env, CLI-only QMD, and older |
+| [SUMMARY] | — | v2.41.0–v1.0.0: clean-sh submodule+DU_EXCLUDES, clean-system $HOME fix, journald, k-project Bash case, validator colon opt, session_guard fix, OpenClaw purge, bw-env, CLI-only QMD, and older |

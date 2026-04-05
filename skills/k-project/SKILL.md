@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -227,6 +227,32 @@ log:  ## Show recent logs (journald)
 ```
 Document the `make log` / `journalctl` commands in the README — that is the only log admin needed.
 
+## Git Submodules
+
+When a project directory embeds another standalone git repo (submodule), declare it in `.gitmodules`:
+
+```bash
+# Add a submodule (run from the parent repo root)
+git submodule add git@github.com:KpihX/<repo>.git <path>
+# e.g.:
+git submodule add git@github.com:KpihX/clean-sh.git clean
+```
+
+This creates/updates `.gitmodules`:
+```ini
+[submodule "clean"]
+    path = clean
+    url = git@github.com:KpihX/clean-sh.git
+```
+
+**Rules:**
+- Always use **SSH remotes** in `.gitmodules` (never HTTPS)
+- Parent repo tracks submodule at a specific commit — update with `git submodule update --remote <path>` then commit
+- `.gitmodules` is committed and tracked by the parent repo
+- `docs/` site repos (Docsify GitHub Pages) can also be submodules — see `references/docs-site.md`
+- Clone with submodules: `git clone --recurse-submodules git@github.com:...`
+- Init after plain clone: `git submodule update --init --recursive`
+
 ## Agent Proactivity
 
 - **LICENSE file**: Proactively propose creating a `LICENSE` file (e.g., MIT, GNU) if a project does not have one.
@@ -240,5 +266,6 @@ Document the `make log` / `journalctl` commands in the README — that is the on
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.2.0 — Git Submodules section: .gitmodules format, SSH remotes, clone/update commands, docs-site pointer |
 | 2026-04-04 | [CLAUDE] | v2.1.0 — Bash/Shell project case: install.sh/purge.sh templates in assets/, journald logging rule, Makefile.git install/purge/log targets |
 | [SUMMARY] | — | v2.0.2–v1.0.0: docs-site refs, config/env per-package, architecture rewrite, assets/ migration, Makefile standard, proactive LICENSE rule, and earlier |
