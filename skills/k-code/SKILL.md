@@ -1,10 +1,10 @@
 ---
-name: "k-vscode"
+name: "k-code"
 description: "KπX VSCode ecosystem — profiles, settings, extension registry, cleanup, and profile-maintenance scripts. Load when auditing VSCode config, managing profiles, reviewing extensions, or updating VSCode state programmatically."
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.1.0"
+  version: "4.1.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -26,10 +26,13 @@ allowed-tools: "Bash(*), *"
 | Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
 | Installed extension payloads | `$HOME/.vscode/extensions/` |
-| Cleanup script | `$HOME/Work/sh/clean/clean_vscode.sh` |
-| Skill references | `$HOME/.agents/skills/k-vscode/references/` |
-| Registry helper | `$HOME/.agents/skills/k-vscode/scripts/update_profile_registry.py` |
-| Extensions helper | `$HOME/.agents/skills/k-vscode/scripts/build_profile_extensions.py` |
+| Cleanup wrapper | `$HOME/Work/sh/clean/clean_editors.sh` |
+| Code cleanup script | `$HOME/Work/sh/clean/clean_vscode.sh` |
+| Cursor cleanup script | `$HOME/Work/sh/clean/clean_cursor.sh` |
+| AGY cleanup script | `$HOME/Work/sh/clean/clean_agy.sh` |
+| Skill references | `$HOME/.agents/skills/k-code/references/` |
+| Registry helper | `$HOME/.agents/skills/k-code/scripts/profiles/profile_update.py` |
+| Extensions helper | `$HOME/.agents/skills/k-code/scripts/profiles/profile_build.py` |
 
 ## Current Profiles
 
@@ -56,8 +59,8 @@ allowed-tools: "Bash(*), *"
 | Which extensions a profile enables | `$HOME/.config/Code/User/profiles/<hash>/extensions.json` |
 | Full installed extension metadata | `$HOME/.vscode/extensions/extensions.json` |
 | Human-readable exported profile snapshot | `$HOME/.config/Code/User/profiles/*.code-profile` |
-| Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` and `references/clean_vscode.sh` |
-| Ready-made local references | `$HOME/.agents/skills/k-vscode/references/` |
+| Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` |
+| Ready-made local references | `$HOME/.agents/skills/k-code/references/` |
 
 ## Runtime Model
 
@@ -70,59 +73,52 @@ allowed-tools: "Bash(*), *"
 
 ## Scripts
 
-### `update_profile_registry.py`
+### Scripts Architecture
 
-Use when VSCode is closed and you need to:
-- register or rename a custom profile
-- move workspaces off `__default__profile__`
-- bind a workspace path to a specific profile hash
+The scripts managing your IDE profiles and forks reside in `$HOME/.agents/skills/k-code/scripts/`:
 
-Example:
-```bash
-$HOME/.agents/skills/k-vscode/scripts/update_profile_registry.py \
-  --register 6c61ca05:General \
-  --promote-default-to 6c61ca05 \
-  --assign "$HOME/Gdrive_X/CV_ATF:-3b9d8381"
-```
+#### Profiles Generation & Updates
+Located in `scripts/profiles/`:
+- `profile_update.py`: Use when VSCode is closed to register a custom profile, move workspaces away from `__default__profile__`, or assign paths to hashes.
+- `profile_build.py`: Use to rebuild a specific profile's `extensions.json` from text lists directly based on global payloads.
 
-### `build_profile_extensions.py`
-
-Use when you want to rebuild one profile's `extensions.json` from the global registry instead of editing JSON by hand.
-
-Example:
-```bash
-$HOME/.agents/skills/k-vscode/scripts/build_profile_extensions.py \
-  --profile-hash 6c61ca05 \
-  --extension-file /abs/path/to/extensions.txt
-```
+#### Forks Synchronization
+Located in `scripts/cursor/` and `scripts/agy/`:
+- `cursor/install_cursor.sh`: Advanced installer downloading Cursor AppImage with system integrations.
+- `cursor/sync_cursor.sh`: Hard-links `cursor`'s internal storage parameters directly back to `k-code`.
+- `agy/sync_agy.sh`: Hard-links `antigravity`'s internal storage parameters directly back to `k-code`.
 
 ## References
 
-The `references/` directory is the source of truth for the exported `.code-profile` snapshots:
+The `references/` directory is the source of truth for snapshots and forks configuration procedures:
 - `references/general.code-profile`
 - `references/java.code-profile`
-- `references/latex.code-profile`
 - `references/cpp.code-profile`
+- `references/latex.code-profile`
 
-The runtime files under `$HOME/.config/Code/User/profiles/*.code-profile` should point back to these files via symlink.
+For specific forks implementation and maintenance details, refer to:
+- `$HOME/.agents/skills/k-code/references/agy.md`
+- `$HOME/.agents/skills/k-code/references/cursor.md`
 
-`references/clean_vscode.sh` is different:
-- it points to the live cleanup script in `$HOME/Work/sh/clean/clean_vscode.sh`
-- the source of truth for that script remains the cleanup workspace, not this skill
+Regarding editor cleanup and cache purging, all scripts reside centrally in your `Work` space and not as symlinks defined in the skill memory itself. The generic wrapper `clean_editors.sh` calls the individual scripts:
+- `$HOME/Work/sh/clean/clean_editors.sh`
+- `$HOME/Work/sh/clean/clean_vscode.sh`
+- `$HOME/Work/sh/clean/clean_cursor.sh`
+- `$HOME/Work/sh/clean/clean_agy.sh`
 
 ## Operational Rules
 
 - **Close VSCode before editing `storage.json`** — the running app rewrites it from memory
 - Never handcraft profile `extensions.json` from scratch; derive it from `$HOME/.vscode/extensions/extensions.json`
 - Prefer changing profile ownership through the helper script instead of ad hoc edits
-- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-vscode/references/`; external VSCode profile files should symlink back to them
+- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/`; external VSCode profile files should symlink back to them
 - When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
 - Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
 
 ## Current Conformity Notes
 
 - No broken symlinks were found under `$HOME/.agents/skills/*/references/` during the 2026-04-03 audit
-- the `.code-profile` link direction was corrected: `$HOME/.agents/skills/k-vscode/references/` now owns the snapshots and `$HOME/.config/Code/User/profiles/*.code-profile` points back to them
+- the `.code-profile` link direction was corrected: `$HOME/.agents/skills/k-code/references/` now owns the snapshots and `$HOME/.config/Code/User/profiles/*.code-profile` points back to them
 - The stray `%24HOME`-escaped workspace association was removed from `storage.json`
 - At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
@@ -130,6 +126,10 @@ The runtime files under `$HOME/.config/Code/User/profiles/*.code-profile` should
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v3.1.0 — fixed the `.code-profile` source-of-truth direction: snapshots now live in `k-vscode/references/` and runtime files under `$HOME/.config/Code/User/profiles/` should symlink back to them |
+| 2026-04-05 | [GEMINI] | v4.1.0 — added `clean_editors.sh` wrapper script orchestrating overall editor caches; updated SKILL.md paths and references |
+| 2026-04-05 | [COPILOT] | v4.0.0 — comprehensive restructuring of `k-code`: split script folders into `profiles/`, `agy/`, `cursor/`; integrated independent `clean_` scripts centralized in `Work/sh/clean/` |
+| 2026-04-05 | [COPILOT] | v3.3.0 — added `sync_forks_to_code.sh` script to flexibly apply the Antigravity synchronization strategy to any VS Code fork (e.g. Cursor) |
+| 2026-04-05 | [COPILOT] | v3.2.0 — renamed skill from `k-vscode` to `k-code`, added Antigravity integration guide referencing `$HOME/.agents/skills/k-code/references/antigravity.md` |
+| 2026-04-04 | [CODEX] | v3.1.0 — fixed the `.code-profile` source-of-truth direction: snapshots now live in `k-code/references/` and runtime files under `$HOME/.config/Code/User/profiles/` should symlink back to them |
 | 2026-04-03 | [CODEX] | v3.0.1 — removed the last hardcoded home-path wording from the conformity notes by describing the cleaned `%24HOME`-escaped workspace entry generically |
 | [SUMMARY] | — | v3.0.1–v1.0.0 covered the full rewrite, profile-registry scripts, `General` profile rename, post-migration verification, YAML repair, and the original VSCode skill bootstrap |

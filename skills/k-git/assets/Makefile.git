@@ -1,5 +1,6 @@
 .DEFAULT_GOAL := help
-BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
+# NOTE: no top-level $(shell git ...) — runs as root under 'sudo make' and pollutes .git/.
+# Use inline $$(...) inside recipes only.
 
 help:  ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
@@ -15,20 +16,28 @@ push:  ## Push current branch to all remotes
 push-tags:  ## Push all tags to all remotes
 	@for remote in $$(git remote); do git push "$$remote" --tags; done
 
-status:  ## git status --short
+git-status:  ## git status --short
 	@git status --short
 
-log:  ## Last 10 commits oneline
-	@git log --oneline -10
+# ── Service (systemd) ─────────────────────────────────────────────────────────
+# Adapt unit names below to match the project. Remove section if not a service.
 
-install:  ## Install project (systemd units, dirs, enable timer) — requires sudo
-	@sudo bash scripts/install.sh
+status:  ## Show <project> service + timer status (systemd)
+	@systemctl status <project>.service <project>.timer --no-pager 2>/dev/null || true
 
-purge:  ## Purge project (disable timer, remove units) — requires sudo
-	@sudo bash scripts/purge.sh
-
-log:  ## Show recent service logs via journald (adapt unit name)
+log:  ## Show recent service logs via journald
 	@journalctl -u <project> -n 50 --no-pager
 
-lint:  ## Shellcheck on all .sh files (adjust as needed)
+test-run:  ## Run service immediately (requires sudo)
+	@sudo bash <main-script>.sh
+
+# ── Project lifecycle ─────────────────────────────────────────────────────────
+
+install:  ## Install project (systemd units, dirs, enable timer) — requires sudo
+	@sudo bash install.sh
+
+purge:  ## Purge project (disable timer, remove units) — requires sudo
+	@sudo bash purge.sh
+
+lint:  ## Shellcheck on all .sh files
 	@shellcheck --shell=bash *.sh

@@ -160,10 +160,10 @@
       "installedAt": "2026-03-31T00:00:00.000Z",
       "updatedAt": "2026-03-31T00:00:00.000Z"
     },
-    "k-vscode": {
+    "k-code": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-vscode/SKILL.md",
+      "skillPath": "skills/k-code/SKILL.md",
       "installedAt": "2026-04-03T15:19:00.000Z",
       "updatedAt": "2026-04-03T15:19:00.000Z"
     },

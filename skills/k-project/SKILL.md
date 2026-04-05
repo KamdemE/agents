@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -218,7 +218,13 @@ Templates: `k-project/assets/install.sh` and `k-project/assets/purge.sh`.
 Both must be kept in sync with the project as it evolves.
 For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.
 
-**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, and `log` targets.
+**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `test-run` targets.
+
+**`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
+**`make test-run`** → `sudo bash <main-script>.sh` — run the service immediately for manual verification.
+**`make install`** → call via `make install` (not `sudo make install`) — the Makefile calls sudo internally. Running `sudo make` runs make as root, which pollutes `.git/` via `git rev-parse` in Makefile variables.
+
+**Machine-specific config** (excludes, paths) that varies per deployment must go in a gitignored conf file (e.g. `excludes.conf`) rather than being hardcoded in scripts. Ship an `.example` variant tracking the expected keys.
 
 **Logging:** use `StandardOutput=journal` in systemd units — do **not** create a custom `logs/` directory or `tee` pipeline. Log access via `journalctl -u <project>`. Expose this in the Makefile as a `log` target:
 ```makefile
@@ -266,6 +272,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.3.0 — Bash/Shell: make status→systemctl, test-run, make install ≠ sudo make install, excludes.conf pattern; k-git Makefile.git svc-status+test-run |
 | 2026-04-05 | [CLAUDE] | v2.2.0 — Git Submodules section: .gitmodules format, SSH remotes, clone/update commands, docs-site pointer |
-| 2026-04-04 | [CLAUDE] | v2.1.0 — Bash/Shell project case: install.sh/purge.sh templates in assets/, journald logging rule, Makefile.git install/purge/log targets |
-| [SUMMARY] | — | v2.0.2–v1.0.0: docs-site refs, config/env per-package, architecture rewrite, assets/ migration, Makefile standard, proactive LICENSE rule, and earlier |
+| [SUMMARY] | — | v2.1.0–v1.0.0: Bash/Shell case, install/purge templates, journald rule, docs-site refs, config/env per-package, architecture rewrite, assets/ migration, and earlier |
