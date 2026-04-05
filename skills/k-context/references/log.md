@@ -8,6 +8,10 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.49.0 — backup-restore-sh: implemented Telegram alerts for drive mount failures with manual recovery instructions; v1.2.0. |
+| 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level .cursorrules; only global ~/.cursorrules remains active. |
+| 2026-04-05 | [GEMINI] | v2.45.0 — Cursor discovery: symlinked ~/.cursorrules → AGENTS.md; applied .cursorrules to active projects (ai_voice, mem_mcp, backup_restore, clean) |
+| 2026-04-05 | [GEMINI] | v2.44.0 — ai_voice: mapped whisper-overlay project structure; identified lack of AGENTS.md/CHANGELOG · `$HOME/Work/AI/ai_voice/` |
 | 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
 | 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [COPILOT] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |

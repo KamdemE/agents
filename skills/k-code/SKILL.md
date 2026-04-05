@@ -1,10 +1,10 @@
 ---
 name: "k-code"
-description: "KπX VSCode ecosystem — profiles, settings, extension registry, cleanup, and profile-maintenance scripts. Load when auditing VSCode config, managing profiles, reviewing extensions, or updating VSCode state programmatically."
+description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP, chat models), storage.json registry, profile extensions, workspaceStorage + GitHub Copilot Chat JSONL, references/profiles snapshots, profile_update.py / profile_build.py, Cursor & Antigravity sync scripts + references/cursor.md & agy.md, Work/sh/clean. Load for Code, Cursor, or AGY audits, profiles, forks, extensions, or Copilot history recovery."
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.1.1"
+  version: "4.1.4"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -22,6 +22,9 @@ allowed-tools: "Bash(*), *"
 | Base MCP config | `$HOME/.config/Code/User/mcp.json` |
 | Base chat model config | `$HOME/.config/Code/User/chatLanguageModels.json` |
 | Profile registry | `$HOME/.config/Code/User/globalStorage/storage.json` |
+| Per-workspace storage (folder name = hash of workspace URI) | `$HOME/.config/Code/User/workspaceStorage/<hash>/` |
+| GitHub Copilot Chat sessions (one JSONL file per chat) | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/*.jsonl` |
+| Copilot Chat tool/attachment artifacts | `$HOME/.config/Code/User/workspaceStorage/<hash>/GitHub.copilot-chat/chat-session-resources/<session-id>/` |
 | Profile hash directories | `$HOME/.config/Code/User/profiles/<hash>/` |
 | Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
@@ -59,6 +62,7 @@ allowed-tools: "Bash(*), *"
 | Which extensions a profile enables | `$HOME/.config/Code/User/profiles/<hash>/extensions.json` |
 | Full installed extension metadata | `$HOME/.vscode/extensions/extensions.json` |
 | Human-readable exported profile snapshot | `$HOME/.config/Code/User/profiles/*.code-profile` |
+| Recover or search a GitHub Copilot Chat transcript | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/` — each `*.jsonl` is one session (often very long lines); locate `<hash>` via `globalStorage/storage.json` (`backupWorkspaces`, `profileAssociations.workspaces`) or by searching JSONL with `rg`/a small script |
 | Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` |
 | Ready-made local references | `$HOME/.agents/skills/k-code/references/` |
 
@@ -91,10 +95,10 @@ Located in `scripts/cursor/` and `scripts/agy/`:
 ## References
 
 The `references/` directory is the source of truth for snapshots and forks configuration procedures:
-- `references/general.code-profile`
-- `references/java.code-profile`
-- `references/cpp.code-profile`
-- `references/latex.code-profile`
+- `references/profiles/general.code-profile`
+- `references/profiles/java.code-profile`
+- `references/profiles/cpp.code-profile`
+- `references/profiles/latex.code-profile`
 
 For specific forks implementation and maintenance details, refer to:
 - `$HOME/.agents/skills/k-code/references/agy.md`
@@ -111,14 +115,14 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 - **Close VSCode before editing `storage.json`** — the running app rewrites it from memory
 - Never handcraft profile `extensions.json` from scratch; derive it from `$HOME/.vscode/extensions/extensions.json`
 - Prefer changing profile ownership through the helper script instead of ad hoc edits
-- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/`; external VSCode profile files should symlink back to them
+- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/profiles/`; live `$HOME/.config/Code/User/profiles/*.code-profile` should symlink back to them
 - When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
 - Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
 
 ## Current Conformity Notes
 
 - No broken symlinks were found under `$HOME/.agents/skills/*/references/` during the 2026-04-03 audit
-- the `.code-profile` link direction was corrected: `$HOME/.agents/skills/k-code/references/` now owns the snapshots and `$HOME/.config/Code/User/profiles/*.code-profile` points back to them
+- the `.code-profile` link direction was corrected: `$HOME/.agents/skills/k-code/references/profiles/` owns the snapshots and `$HOME/.config/Code/User/profiles/*.code-profile` points back to them
 - The stray `%24HOME`-escaped workspace association was removed from `storage.json`
 - At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
@@ -126,6 +130,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v4.1.1 — `scripts/cursor/install_cursor.sh`: extract AppImage to `$HOME/Applications/cursor-app`, wrapper calls `AppRun --no-sandbox`, remove raw AppImage after extract (AppArmor userns bypass) |
-| 2026-04-05 | [GEMINI] | v4.1.0 — added `clean_editors.sh` wrapper script orchestrating overall editor caches; updated SKILL.md paths and references |
-| [SUMMARY] | — | v4.0.0–v1.0.0: k-code folder split (`profiles/`, `agy/`, `cursor/`), clean scripts in `Work/sh/clean/`, Antigravity/Cursor sync, rename from k-vscode, profile source-of-truth, conformity notes, registry bootstrap |
+| 2026-04-05 | [CLAUDE] | v4.1.4 — compact single-line frontmatter `description` (same scope as v4.1.3) |
+| 2026-04-05 | [CLAUDE] | v4.1.3 — fuller description + `references/profiles/` path fixes in body |
+| [SUMMARY] | — | v4.1.2 Copilot Chat paths; v4.1.1 install_cursor; v4.1.0 clean_editors; v4.0.0–v1.0.0: layout, fork sync, rename k-vscode, registry |
