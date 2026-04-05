@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.60.0"
+  version: "2.60.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -72,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.60.1 — log archive: v2.49 row agent tag [GEMINI] |
 | 2026-04-05 | [CLAUDE] | v2.60.0 — kernel finalization commit + push; v2.49 session row archived to `references/log.md` |
-| 2026-04-05 | [CLAUDE] | v2.59.0 — k-code v4.1.4: compact frontmatter description |
-| [SUMMARY] | — | v2.58 k-code v4.1.3 `references/profiles/` fixes; v2.57 Copilot JSONL paths; v2.56 .mcps; v2.55 Gdrive; v2.54 AGENTS + k-hook; v2.53–v1.0.0: audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |
+| [SUMMARY] | — | v2.59 k-code v4.1.4 description; v2.58 profiles fixes; v2.57 Copilot JSONL; v2.56 .mcps; v2.55 Gdrive; v2.54 AGENTS + k-hook; v2.53–v1.0.0: audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |
