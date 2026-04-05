@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.61.0"
+  version: "2.62.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,6 +51,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [GEMINI] | v2.62.0 — Finalized maintenance window: Clean (21:30), Backup (22:00) every 2 days. Synchronized READMEs, systemd/ timers, and Makefiles across `sh/clean` and `sh/backup_restore`. |
 | 2026-04-05 | [CLAUDE] | v2.61.0 — k-git `Makefile.git` + k-project: standard target **`run`** (not `test-run`); kernel sync · `$HOME/.agents/skills/k-git/` · `$HOME/.agents/skills/k-project/` |
 | 2026-04-05 | [CLAUDE] | v2.60.0 — kernel finalization: committed pending k-code v4.1.2–v4.1.4 + k-context/log rotation; `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [CLAUDE] | v2.59.0 — k-code v4.1.4: compact single-line frontmatter `description` · `$HOME/.agents/skills/k-code/` |
@@ -72,6 +73,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [GEMINI] | v2.62.0 — Standardized Maintenance: Clean (21:30) & Backup (22:00) every 2nd day |
 | 2026-04-05 | [CLAUDE] | v2.61.0 — k-git v2.6.3 + k-project v2.3.1: **`make run`** in `Makefile.git` (replaces `test-run` naming in template + docs) |
 | 2026-04-05 | [CLAUDE] | v2.60.1 — log archive: v2.49 row agent tag [GEMINI]; v2.60.0 kernel finalize + push |
 | [SUMMARY] | — | v2.59 k-code v4.1.4; v2.58 profiles; v2.57 Copilot JSONL; v2.56 .mcps; v2.55 Gdrive; v2.54 AGENTS + k-hook; v2.53–v1.0.0: audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |
