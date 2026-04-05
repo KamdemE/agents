@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.53.0"
+  version: "2.56.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,6 +51,9 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [GEMINI] | v2.56.0 — Mass cleanup of legacy debris (.zcompdump, .wget-hsts, .keras, .wacli) and migrated MCP metadata (.livemem, .ticktick-mcp, .n8n-mcp, .k-vpn) following .mcps/ standard transition. |
+| 2026-04-05 | [GEMINI] | v2.55.0 — Uniformized Gdrive casing (capital G) across .env files; removed legacy gdrive mount/folder debris. |
+| 2026-04-05 | [CLAUDE] | v2.54.0 — AGENTS: Active Projects limit **20** rows; k-hook v2.17.0 Copilot VS Code runtime registration · `$HOME/.agents/` |
 | 2026-04-05 | [CLAUDE] | v2.52.0 — restored `skills/k-mail/SKILL.md` (accidental removal); v2.0.1 · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
@@ -58,9 +61,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level .cursorrules; only global ~/.cursorrules remains active. |
 | 2026-04-05 | [GEMINI] | v2.45.0 — Cursor discovery: symlinked ~/.cursorrules → AGENTS.md; applied .cursorrules to active projects (ai_voice, mem_mcp, backup_restore, clean) |
 | 2026-04-05 | [GEMINI] | v2.44.0 — ai_voice: mapped whisper-overlay project structure; identified lack of AGENTS.md/CHANGELOG · `$HOME/Work/AI/ai_voice/` |
-| 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
-| 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
-| 2026-04-04 | [COPILOT] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
 | [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.32.9–v2.21.0 and prior |
 
 ## References
@@ -72,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.53.0 — fixed audit failures: k-codex/gemini/vibe changelog compaction, after_agent smoke test; all audit checks passing |
-| 2026-04-05 | [CLAUDE] | v2.52.0 — restored `k-mail` skill (`skills/k-mail/SKILL.md`); `.skill-lock.json` timestamp refresh |
-| [SUMMARY] | — | v2.51.0–v1.0.0: kernel sync Copilot hooks + README map, v2.50.0 hooks, v2.49.0–v2.21.0: backup-restore, Cursor, log archive, AppArmor, QMD and earlier history |
+| 2026-04-05 | [GEMINI] | v2.56.0 — Mass debris/metadata cleanup (.mcps/ standard transition) |
+| 2026-04-05 | [GEMINI] | v2.55.0 — Uniformized Gdrive casing (capital G); legacy gdrive mount cleanup |
+| [SUMMARY] | — | v2.54.0 AGENTS Active Projects limit 20 + k-hook Copilot VS Code registration; v2.53.0 audit fixes; v2.52–v1.0.0: k-mail restore, Copilot hooks, backup-restore, Cursor, AppArmor, QMD and earlier history |

@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
+| 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
+| 2026-04-04 | [COPILOT] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [COPILOT] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [COPILOT] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [COPILOT] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
