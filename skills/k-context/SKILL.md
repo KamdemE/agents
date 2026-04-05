@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.60.1"
+  version: "2.61.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,6 +51,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.61.0 — k-git `Makefile.git` + k-project: standard target **`run`** (not `test-run`); kernel sync · `$HOME/.agents/skills/k-git/` · `$HOME/.agents/skills/k-project/` |
 | 2026-04-05 | [CLAUDE] | v2.60.0 — kernel finalization: committed pending k-code v4.1.2–v4.1.4 + k-context/log rotation; `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [CLAUDE] | v2.59.0 — k-code v4.1.4: compact single-line frontmatter `description` · `$HOME/.agents/skills/k-code/` |
 | 2026-04-05 | [CLAUDE] | v2.58.0 — k-code v4.1.3: expanded skill `description` from full tree; corrected `references/profiles/` paths in SKILL body · `$HOME/.agents/skills/k-code/` |
@@ -60,7 +61,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-05 | [CLAUDE] | v2.54.0 — AGENTS: Active Projects limit **20** rows; k-hook v2.17.0 Copilot VS Code runtime registration · `$HOME/.agents/` |
 | 2026-04-05 | [CLAUDE] | v2.52.0 — restored `skills/k-mail/SKILL.md` (accidental removal); v2.0.1 · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
-| 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
 | [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.32.9–v2.21.0 and prior |
 
 ## References
@@ -72,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.60.1 — log archive: v2.49 row agent tag [GEMINI] |
-| 2026-04-05 | [CLAUDE] | v2.60.0 — kernel finalization commit + push; v2.49 session row archived to `references/log.md` |
-| [SUMMARY] | — | v2.59 k-code v4.1.4 description; v2.58 profiles fixes; v2.57 Copilot JSONL; v2.56 .mcps; v2.55 Gdrive; v2.54 AGENTS + k-hook; v2.53–v1.0.0: audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |
+| 2026-04-05 | [CLAUDE] | v2.61.0 — k-git v2.6.3 + k-project v2.3.1: **`make run`** in `Makefile.git` (replaces `test-run` naming in template + docs) |
+| 2026-04-05 | [CLAUDE] | v2.60.1 — log archive: v2.49 row agent tag [GEMINI]; v2.60.0 kernel finalize + push |
+| [SUMMARY] | — | v2.59 k-code v4.1.4; v2.58 profiles; v2.57 Copilot JSONL; v2.56 .mcps; v2.55 Gdrive; v2.54 AGENTS + k-hook; v2.53–v1.0.0: audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |

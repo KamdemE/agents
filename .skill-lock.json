@@ -25,7 +25,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-context/SKILL.md",
       "installedAt": "2026-03-28T20:00:00.000Z",
-      "updatedAt": "2026-04-05T17:15:00.000Z"
+      "updatedAt": "2026-04-05T18:30:00.000Z"
     },
     "k-workspace": {
       "source": "local",
@@ -39,7 +39,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-git/SKILL.md",
       "installedAt": "2026-03-25T00:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
+      "updatedAt": "2026-04-05T18:30:00.000Z"
     },
     "k-whatsapp": {
       "source": "local",
@@ -137,7 +137,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-project/SKILL.md",
       "installedAt": "2026-03-29T00:00:00.000Z",
-      "updatedAt": "2026-03-29T06:08:00.000Z"
+      "updatedAt": "2026-04-05T18:30:00.000Z"
     },
     "k-git-pages": {
       "source": "local",

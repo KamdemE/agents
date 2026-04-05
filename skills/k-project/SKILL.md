@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.3.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -218,10 +218,10 @@ Templates: `k-project/assets/install.sh` and `k-project/assets/purge.sh`.
 Both must be kept in sync with the project as it evolves.
 For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.
 
-**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `test-run` targets.
+**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
 
 **`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
-**`make test-run`** → `sudo bash <main-script>.sh` — run the service immediately for manual verification.
+**`make run`** → `sudo bash <main-script>.sh` — run the service immediately for manual verification.
 **`make install`** → call via `make install` (not `sudo make install`) — the Makefile calls sudo internally. Running `sudo make` runs make as root, which pollutes `.git/` via `git rev-parse` in Makefile variables.
 
 **Machine-specific config** (excludes, paths) that varies per deployment must go in a gitignored conf file (e.g. `excludes.conf`) rather than being hardcoded in scripts. Ship an `.example` variant tracking the expected keys.
@@ -272,6 +272,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.3.0 — Bash/Shell: make status→systemctl, test-run, make install ≠ sudo make install, excludes.conf pattern; k-git Makefile.git svc-status+test-run |
-| 2026-04-05 | [CLAUDE] | v2.2.0 — Git Submodules section: .gitmodules format, SSH remotes, clone/update commands, docs-site pointer |
-| [SUMMARY] | — | v2.1.0–v1.0.0: Bash/Shell case, install/purge templates, journald rule, docs-site refs, config/env per-package, architecture rewrite, assets/ migration, and earlier |
+| 2026-04-05 | [CLAUDE] | v2.3.1 — Bash/Shell Makefile: standard target **`run`** (k-git `Makefile.git`); doc must not regress to `test-run` |
+| 2026-04-05 | [CLAUDE] | v2.3.0 — Bash/Shell: make status→systemctl, manual exec target, make install ≠ sudo make install, excludes.conf; k-git Makefile.git service targets |
+| [SUMMARY] | — | v2.2.0 Git Submodules; v2.1.0–v1.0.0: Bash/Shell case, install/purge, journald, docs-site, config/env per-package, assets/ migration, and earlier |

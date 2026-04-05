@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.2"
+  version: "2.6.3"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -94,6 +94,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.6.3 — `assets/Makefile.git`: **`run`** target for manual service execution (replaces `test-run`) |
 | 2026-04-03 | [CODEX] | v2.6.2 — normalized remaining paths to `$HOME`, pointed concrete examples to `k-qmd`, and condensed the changelog to the standard footer format |
-| 2026-03-31 | [CLAUDE] | v2.6.1 — templates/ → assets/ (skill-creator standard) |
-| [SUMMARY] | — | v2.6.0 Makefile.general→Makefile.git with uv/npm-bun templates moved to `k-project`; v2.5.0 examples pointer added; v2.4.0 Related skills header; v2.3.0 template split; v2.2.0–v1.0.0 Git workflow baseline and refonte |
+| [SUMMARY] | — | v2.6.1 templates→assets; v2.6.0 Makefile.general→Makefile.git + uv/npm-bun to `k-project`; v2.5.0 examples; v2.4.0 Related skills; v2.3.0 template split; v2.2.0–v1.0.0 baseline |

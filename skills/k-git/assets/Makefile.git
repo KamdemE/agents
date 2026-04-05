@@ -28,7 +28,7 @@ status:  ## Show <project> service + timer status (systemd)
 log:  ## Show recent service logs via journald
 	@journalctl -u <project> -n 50 --no-pager
 
-test-run:  ## Run service immediately (requires sudo)
+run:  ## Run service immediately (requires sudo)
 	@sudo bash <main-script>.sh
 
 # ── Project lifecycle ─────────────────────────────────────────────────────────
