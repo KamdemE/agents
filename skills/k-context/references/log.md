@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-04 | [COPILOT] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [COPILOT] | v2.39.0 — response_validator.py `:` optional in section regexes; sh/clean/ audit · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [COPILOT] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [COPILOT] | v2.37.0 — full OpenClaw purge + 5 YAML fixes; k-openclaw→deactive · `$HOME/.agents/skills/` |

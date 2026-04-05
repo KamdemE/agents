@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.51.0"
+  version: "2.52.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,6 +51,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.52.0 — restored `skills/k-mail/SKILL.md` (accidental removal); v2.0.1 · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
 | 2026-04-05 | [GEMINI] | v2.49.0 — backup-restore-sh: implemented Telegram alerts for drive mount failures with manual recovery instructions; v1.2.0. |
@@ -60,7 +61,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
 | 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |
 | 2026-04-04 | [COPILOT] | v2.41.0 — clean-sh extracted as submodule; HOME fix, crashes, DU_EXCLUDES, Makefile · `$HOME/Work/sh/clean/` |
-| 2026-04-04 | [COPILOT] | v2.40.0 — fix clean-system.service $HOME bug; install.sh/purge.sh/README + journald; k-project Bash case + templates · `$HOME/Work/sh/clean/` |
 | [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.32.9–v2.21.0 and prior |
 
 ## References
@@ -72,6 +72,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-05 | [CLAUDE] | v2.52.0 — restored `k-mail` skill (`skills/k-mail/SKILL.md`); `.skill-lock.json` timestamp refresh |
 | 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync commit: Copilot hooks tree, README runtime map, k-context reference files, k-code `install_cursor.sh`; pushed remotes |
-| 2026-04-05 | [COPILOT] | v2.50.0 — wired Copilot VS Code hooks runtime (`.agents/hooks/copilot/`) and enabled hook discovery in VS Code settings |
-| [SUMMARY] | — | v2.49.0 backup-restore drive alerts; v2.48.0–v1.0.0: Cursor standardization, log archive policy, AppArmor mitigation, clean/backup, hooks, QMD and earlier history |
+| [SUMMARY] | — | v2.50.0 Copilot VS Code hooks; v2.49.0 backup-restore alerts; v2.48.0–v1.0.0: Cursor, log archive, AppArmor, clean/backup, hooks, QMD and earlier history |
