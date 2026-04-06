@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.2"
+  version: "1.7.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -40,10 +40,14 @@ Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump
 | `kpihx-tablet` | `100.89.79.87` | Android | offline |
 | `kpihx-windows` | `100.108.7.86` | Windows | offline |
 
-## Infrastructure (`$HOME/Work/Homelab/kpihx_labs/`)
+## Infrastructure (`$HOME/Work/Homelab/sh/`)
 
-Main Docker Compose stack — Traefik, Vaultwarden, Portainer, Ollama + personal apps.
-Vault: `vault.kpihx-labs.com` (private, Tailscale-only).
+**Phoenix v3.1 Architecture** (Source: `Homelab/sh/README.md`):
+- **Proxmox node (`kpihx-labs`)**: /root/proxmox/ (Backup hooks, network watchdog, maintenance)
+- **Docker-host node (`docker-host`)**: /root/docker_host/ (Vaultwarden backup/restore)
+- **Local Dispatcher**: `hsh` (at root of `sh/` or via `make install`)
+
+Vaultwarden: `vault.kpihx-labs.com` (Tailscale-only).
 
 ## Projects (`$HOME/Work/Homelab/`)
 
@@ -80,6 +84,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v1.6.2 — added an explicit pointer to `k-optim` for homelab maintenance and optimization posture so this skill stays focused on topology, projects, and knowledge sources |
-| 2026-04-03 | [CODEX] | v1.6.1 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
-| [SUMMARY] | — | v1.6.1–v1.0.0 covered path normalization, n8n cleanup, service list clarification, SSH aliases, Tailscale, the knowledge-base rewrite, and the original homelab runtime baseline |
+| 2026-04-06 | [GEMINI] | v1.7.0 — updated to **Phoenix v3.1** architecture; modularized server paths (/root/proxmox, /root/docker_host) and introduced the `hsh` dispatcher |
+| 2026-04-03 | [CODEX] | v1.6.2 — added an explicit pointer to `k-optim` for homelab maintenance and optimization posture |
+| [SUMMARY] | — | v1.6.1–v1.0.0 covered path normalization, knowledge-base rewrite, and original baseline |

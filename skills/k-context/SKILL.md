@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.73.0"
+  version: "2.74.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -35,6 +35,7 @@ allowed-tools: "Bash(*), *"
 | Project | Status | Next · Folder |
 |---------|--------|---------------|
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
+| **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **AppArmor Mitigation** | ✅ DONE (Option A) — unprivileged_userns → complain mode | Option B: custom profile ready · `$HOME/.agents/skills/k-context/references/apparmor-custom-profile.md` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
@@ -70,6 +71,8 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-06 | [GEMINI] | v2.74.1 — session fix: restored lost `sh (Phoenix)` project and rotates session log properly; kernel audit green · `$HOME/.agents/` |
+| 2026-04-06 | [GEMINI] | v2.74.0 — **Phoenix v3.1 Finalization**: Modular Node Architecture stabilized; `hsh` dispatcher installed; `k-homelab` (v1.7.0) & `k-optim` (v2.4.0) updated; Dual-Link mandate applied · `$HOME/Work/Homelab/sh/` |
 | 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; audit GREEN; make push · `$HOME/.agents/` |
 | 2026-04-06 | [COPILOT] | v2.72.0 — refined `Brainstorm Registry`: `references/log.md` excluded from brainstorm listing and nested brainstorms represented at folder level (`references/mac-studio/`) as requested · `$HOME/.agents/skills/k-context/` |
 | 2026-04-06 | [GEMINI] | v2.70.0 — Restored full `agy.md` (Operational + Debug + inotify fixes); kernel audit GREEN; session wrap. |
@@ -78,8 +81,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: k-tg skill + k-workspace committed; k-context reconciled (**sh** Phoenix row + **sh_mcp** brainstorm references restored) · `$HOME/.agents/` |
 | 2026-04-06 | [GEMINI] | v2.63.0 — Phoenix Protocol v2.1.2: `$HOME/Work/sh/` root Makefile, multi-remote sync, ksh dispatcher, submodule alignment |
 | 2026-04-06 | [CLAUDE] | v2.65.0 — `references/sh-mcp-agent-sandbox-vision.md` + AGENTS brainstorm archive pointer; Active Projects **sh_mcp** row · `$HOME/.agents/skills/k-context/` |
-| 2026-04-05 | [COPILOT] | v2.64.0 — fixed k-context guard limits and explicitly logged tg repair context (uv editable reinstall from `$HOME/Work/Tools/tg`, tg --help + tg user chats verified) · `$HOME/.agents/skills/k-context/` |
-| 2026-04-05 | [GEMINI] | v2.62.0 — Finalized maintenance window: Clean (21:30), Backup (22:00) every 2 days. Synchronized READMEs, systemd/ timers, and Makefiles across sh/clean and sh/backup_restore. |
 | [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.61.0–v2.58.0 and prior |
 
 ## References
@@ -94,6 +95,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.74.0 — Phoenix v3.1 Finalization: modular homelab nodes, `hsh` dispatcher, skill updates (v1.7.0, v2.4.0), dual-link documentation mandate |
 | 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; Session Log rotation (v2.61 → log.md) |
-| 2026-04-06 | [COPILOT] | v2.72.0 — Brainstorm Registry refinement: `references/log.md` excluded and nested brainstorms listed by folder (`references/mac-studio/`) |
-| [SUMMARY] | — | v2.71 registry baseline; v2.70–v2.62 stability/session passes; v2.67 mail scaffold; v2.66 session finalize; v2.65 sh_mcp brainstorm; v2.64 tg recovery; v2.63 Phoenix. |
+| [SUMMARY] | — | v2.72–v2.62 stability/session passes; v2.67 mail scaffold; v2.66 session finalize; v2.65 sh_mcp brainstorm; v2.64 tg recovery; v2.63 Phoenix. |

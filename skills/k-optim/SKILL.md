@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.3.3"
+   version: "2.4.0"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -44,6 +44,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | QMD optimization guide | `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
 | Workstation Orchestrator (ksh) | `$HOME/Work/sh/` |
+| Homelab Orchestrator (hsh) | `$HOME/Work/Homelab/sh/` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
 | Homelab maintenance scripts | `$HOME/Work/Homelab/sh/` |
 
@@ -114,24 +115,34 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 ### Last Known State
 
-- the operational homelab maintenance scripts live in `$HOME/Work/Homelab/sh/`
-- `maintenance.sh` is the weekly server-side routine: apt update/upgrade/autoremove/autoclean, Docker prune inside container `100`, Telegram notifications, then reboot
-- `backup_homelab.sh` is the client-side backup routine: SSH pull from `/var/lib/vz/dump`, local HDD mirror and rotation, then upload only the latest archive to `gdrive-x:Backup_Homelab`
-- broader maintenance rationale and schedule documented in `$HOME/Work/Homelab/presentation/tutos_live/security/1-sauvegarde-maintenance-321.md` and `…/2-automatisation-watchtower.md`
+- the operational homelab scripts live in `$HOME/Work/Homelab/sh/` (Phoenix v3.1 modular architecture)
+- `hsh` is the local dispatcher: `hsh status` (audit), `hsh backup host` (PVE), `hsh backup vault` (DKD), `hsh maintenance` (Server)
+- `maintenance.sh` is the weekly server routine: apt update/upgrade/autoremove, Docker prune, Telegram notify, and REBOOT
+- backups follow the **3-2-1 rule**: 3 copies (SSD, HDD, Cloud), 2 supports, 1 off-site; Vault uses Deterministic Key Derivation (DKD)
 
 ### Actions
 
-1. Re-read the real scripts before acting:
-   - `maintenance.sh` for server cleanup/reboot behavior
-   - `backup_homelab.sh` for backup destinations, retention, and notification flow
-2. For documentation or architectural context:
-   - use the `presentation` QMD collection or read the two security guides directly
-3. Treat homelab optimization as two separate lanes:
-   - server-side maintenance and Docker hygiene
-   - client-side storage rotation and mirroring checks
-4. If you change the maintenance rhythm or backup workflow:
-   - update `k-homelab` and `k-optim`
-   - recheck whether the presentation docs have drifted from the scripts
+1. Start with local audit:
+   - run `hsh status` to check node connectivity and latest log entries
+2. Prefer local-first orchestration:
+   - use `hsh backup host` for hypervisor snapshot pull to local HDD mirror
+   - use `hsh backup vault` for encrypted Vaultwarden backup (Master Password required)
+3. Server-Side Maintenance:
+   - run `hsh maintenance` to trigger the weekly loop on `kpihx-labs`
+   - manual fallback: `ssh -t kpihx-labs "sudo /root/proxmox/maintenance.sh"`
+4. Manual Fallback (Backups):
+   - if `hsh` fails, run `backup_docker_host_server.sh` directly on `kpihx-labs` for cloud exfiltration
+
+### Automated Tasks & Logs
+
+| Task | Frequency | Script (Server Path) | Log Path |
+| :--- | :--- | :--- | :--- |
+| Vault Cloud Backup | Sun 02:00 | `/root/docker_host/backup_vault/backup_vault_server.sh` | `/var/log/vault-backup.log` |
+| PVE Snapshot | Sat 03:00 | (Proxmox VZDump) | `/var/log/vzdump-*.log` |
+| PVE Cloud Sync | After Backup | `/root/proxmox/backup_docker_host/vzdump-hook.sh` | `/var/log/vzdump-rclone.log` |
+| System Maint | Sat 04:00 | `/root/proxmox/maintenance.sh` | `/var/log/maintenance.log` |
+| Network Watchdog | Every 4 min | `/root/proxmox/network/network_watchdog.sh` | `/var/log/network_watchdog.log` |
+| Boot Notifier | @reboot | `/root/proxmox/network/boot_notify.sh` | `/var/log/boot_notify_debug.log` |
 
 ## Agents
 
@@ -215,6 +226,7 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-04-06 | Homelab | Phoenix v3.1 | Modular architecture stabilized; `hsh` dispatcher introduced; server log map finalized |
 | 2026-04-06 | Homelab | Client-Side Sync | Executed `backup_homelab.sh`: 10GB mirrored from Proxmox, 4.7GiB uploaded to gdrive-x (Rclone) |
 | 2026-04-06 | Meta | QMD Hygiene | `qmd cleanup` run successfully (DB vacuumed); AI histories flagged for manual prune when needed |
 | 2026-04-06 | Ubuntu | Full Phoenix Loop | Executed `ksh clean run` and `ksh backup run`; 27GiB compressed to 15GiB archive; old backup rotated |
@@ -228,5 +240,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.4.0 — integrated Phoenix v3.1 Homelab orchestration (`hsh`), maintenance procedures, and automated task log map |
 | 2026-04-06 | [GEMINI] | v2.3.2–v2.2.1 — separated Antigravity history from Gemini CLI cleanup, enforced safe-isolation policy, added Agents scope, and completed Meta/Homelab scopes |
 | [SUMMARY] | — | v2.2.0–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |
