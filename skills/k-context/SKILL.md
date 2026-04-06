@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.68.0"
+  version: "2.69.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -52,8 +52,7 @@ allowed-tools: "Bash(*), *"
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
-| Date | Agent | Entry |
-|------|-------|-------|
+| 2026-04-06 | [GEMINI] | v2.69.0 — Stabilized workstation (ENOSPC fix: 524288 watches); documented Post-Mortem in `k-code/references/agy.md`. Final sync for **sh** Phoenix v2.1.2. |
 | 2026-04-06 | [CLAUDE] | v2.67.0 — created `Work/AI/mail/` scaffold (cli/mcp/admin/skill split) and added durable mail tooling brainstorm in `references/mail-tooling-rewrite-brainstorm.md` · `$HOME/Work/AI/mail/` · `$HOME/.agents/skills/k-context/references/` |
 | 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: `k-tg` skill + `k-workspace` committed; k-context reconciled (**sh** Phoenix row + **sh_mcp** brainstorm `references/` restored) · `$HOME/.agents/` |
 | 2026-04-06 | [GEMINI] | v2.63.0 — Phoenix Protocol v2.1.2: `$HOME/Work/sh/` root Makefile, multi-remote sync, `ksh` dispatcher, submodule alignment |
@@ -78,6 +77,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.69.0 — Persistence: Antigravity stability Post-Mortem (`agy.md`), `k-gemini` v2.9.0, `k-optim` v2.1.0 backup relocate. |
 | 2026-04-06 | [GEMINI] | v2.68.0 — Stability Validation: Resolved ENOSPC (Inotify) edit loops via global watcher exclusions; k-workspace/k-context integrity verified. |
 | 2026-04-06 | [CLAUDE] | v2.67.0 — mail workspace scaffold in `Work/AI/mail/`; durable mail tooling brainstorm archived in `references/mail-tooling-rewrite-brainstorm.md` |
 | 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: `k-tg` + `k-workspace`; reconcile **sh** Phoenix + **sh_mcp** brainstorm refs; Session Log cap (v2.56–v2.55 → `references/log.md`) |

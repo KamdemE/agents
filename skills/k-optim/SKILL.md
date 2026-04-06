@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.1"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -102,6 +102,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 1. Start with analysis:
    - run `ksh status` for a global health audit (Clean/Backup/Vault)
+   - run `ksh backup status` to check the current safety window
    - run `<script> --infos` before cleanup when the goal is diagnosis rather than blind deletion
 2. Prefer safe cleanup first:
    - use `clean_all.sh -s` via `ksh clean-run` (or root `make clean-s`) for a broad low-risk sweep
@@ -109,7 +110,9 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 3. Use purge or system modes only intentionally:
    - `-p` removes heavier caches, dependency folders, or unused Docker assets
    - `-y` is privileged/system cleanup and should be treated as an explicit maintenance step
-4. Re-read the relevant script before running it if the target scope matters
+4. Finalize and Secure:
+   - **run `ksh backup run`** only after cleanup is done to archive the stabilized, clean state of the workstation.
+5. Re-read the relevant script before running it if the target scope matters.
 
 ### Script Map
 
@@ -164,7 +167,7 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
    - use the `presentation` QMD collection or read the two security guides directly
 3. Treat homelab optimization as two separate lanes:
    - server-side maintenance and Docker hygiene
-   - client-side backup verification via `ksh status` and storage rotation
+   - client-side storage rotation and mirroring checks
 4. If you change the maintenance rhythm or backup workflow:
    - update `k-homelab` and `k-optim`
    - recheck whether the presentation docs have drifted from the scripts
@@ -176,7 +179,7 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
-| 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow |
+| 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow; moved backup SOT to Ubuntu |
 | 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `tutos_live` and `presentation`; `glslc` presence confirmed before retesting embeds |
 | 2026-04-04 | Meta/QMD | Hot-only QMD cleanup + `qmd-optimization.md` | raw runtime histories removed from active index; guide added for inspection, SQLite checks, and cleanup flow |
 | 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to tutos_live/wine.md |
@@ -186,6 +189,7 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.1.0 — Reassigned backup verification to Ubuntu scope; integrated ksh backup commands into daily optimization flow |
 | 2026-04-06 | [GEMINI] | v2.0.0 — Integrated Phoenix Protocol (ksh, clean -s, backup status) into standard optimization workflows |
 | 2026-04-04 | [CODEX] | v1.8.0 — added the static-template provenance rule, noted the shared QMD hook symlink model, and recorded the Vulkan `glslc` check as part of the QMD optimization workflow |
 | [SUMMARY] | — | v1.9.0 - QMD guide cleanup and path normalization; v1.8.0–v1.0.0: static provenance, QMD guides, media directories policy, initial map |

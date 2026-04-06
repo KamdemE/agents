@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.1"
+  version: "2.9.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -88,6 +88,7 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 - **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
 - **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.
+- **Edit Stability (ENOSPC):** If `replace_file_content` or `write_to_file` hangs or loops indefinitely, check `fs.inotify.max_user_watches` and ensure global watcher exclusions are set in `~/.config/Code/User/settings.json`. Refer to `k-code/references/agy.md` for the full debug procedure.
 
 ## Hooks
 
@@ -106,6 +107,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.9.0 — Integrated ENOSPC (Inotify) stability rule for edit tools; added reference to agy.md post-mortem |
 | 2026-04-04 | [CODEX] | v2.8.1 — removed the qmd-mcp example and documented the CLI-only QMD policy for Gemini (`qmd` for admin/read, `qmdr` for important searches) |
-| 2026-04-03 | [CODEX] | v2.8.0 — added the real Gemini conversation-history paths and kept the skill compact by exposing only the owning dirs to inspect |
-| [SUMMARY] | — | v2.7.0–v2.0.0: compact hooks section, project-context auto-load, name normalization, HTTP vs stdio install guidance, skills-path behavior, and the original migration into `skills/` |
+| [SUMMARY] | — | v2.8.0–v2.0.0: conversation history paths, compact hooks, project-context auto-load, HTTP/Stdio guidance, skills-path, original migration |
