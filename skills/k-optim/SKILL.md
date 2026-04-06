@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.4.0"
+   version: "2.4.1"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -151,8 +151,8 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 ### Last Known State
 
 - Agents store chat history in transparent local files (JSONL, SQLite, UUID folders).
-- Except for Gemini CLI (`--delete-session`), agents do not provide native snapshot purging; manual deletion is the accepted method.
-- Claude Code leverages a `projects/` structure reflecting absolute paths with `-home-kpihx-...` identifiers, persisting large `.jsonl` files and establishing inter-session long-term memory in `memory/*.md`.
+- **Phoenix v3.1 finalization (2026-04-06)**: Purged ~412MB of Codex history; Antigravity history preserved for current context.
+- Claude Code leverages a `projects/` structure reflecting absolute paths with `-home-kpihx-...` identifiers.
 
 ### Actions
 
@@ -226,8 +226,9 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-04-06 | Agents | AI History Purge | Pruned ~412MB of Codex and Vibe history |
 | 2026-04-06 | Homelab | Phoenix v3.1 | Modular architecture stabilized; `hsh` dispatcher introduced; server log map finalized |
-| 2026-04-06 | Homelab | Client-Side Sync | Executed `backup_homelab.sh`: 10GB mirrored from Proxmox, 4.7GiB uploaded to gdrive-x (Rclone) |
+| 2026-04-06 | Homelab | Maintenance | Executed `hsh maintenance` on kpihx-labs (PVE upgrade, docker prune, reboot) |
 | 2026-04-06 | Meta | QMD Hygiene | `qmd cleanup` run successfully (DB vacuumed); AI histories flagged for manual prune when needed |
 | 2026-04-06 | Ubuntu | Full Phoenix Loop | Executed `ksh clean run` and `ksh backup run`; 27GiB compressed to 15GiB archive; old backup rotated |
 | 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow; moved backup SOT to Ubuntu |
@@ -240,6 +241,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.4.1 — purged ~412MB Codex history; updated `k-optim` with Phoenix v3.1 maintenance and cleanup loop results |
 | 2026-04-06 | [GEMINI] | v2.4.0 — integrated Phoenix v3.1 Homelab orchestration (`hsh`), maintenance procedures, and automated task log map |
-| 2026-04-06 | [GEMINI] | v2.3.2–v2.2.1 — separated Antigravity history from Gemini CLI cleanup, enforced safe-isolation policy, added Agents scope, and completed Meta/Homelab scopes |
-| [SUMMARY] | — | v2.2.0–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |
+| [SUMMARY] | — | v2.2.0–v1.0.0: Phoenix orchestration, QMD cleanup, media policy, static provenance |
