@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.11.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -132,6 +132,6 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [CLAUDE] | v2.11.1 — Session finalize: path tables use bare `$HOME` tokens; `ksh` + Phoenix v2.1.2 row in AI CLI table; committed with `k-tg` |
 | 2026-04-05 | [GEMINI] | v2.11.0 — Unified Workstation Orchestrator: Phoenix v2.1.2, ksh dispatcher, multi-remote push standard |
-| 2026-04-04 | [CODEX] | v2.10.0 — removed one retired runtime binary from the active workspace tool inventory |
-| [SUMMARY] | — | v2.9.0–v1.0.0: Tailscale SOT pointers, cleanup suite, .kshrc discipline, routing rules, CLI tooling baseline |
+| [SUMMARY] | — | v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale SOT pointers, cleanup suite, .kshrc discipline, routing rules, CLI tooling baseline |
