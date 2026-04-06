@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.1"
+  version: "2.2.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -21,6 +21,8 @@ allowed-tools: Bash, Read, Write, Edit
 > When the limit is reached, condense the oldest into a single `[SUMMARY]` item.
 
 ## Role
+
+> **AFTER PERFORMING AN OPTIMIZATION, THIS FILE (k-optim) MUST BE UPDATED WITH EVENTUAL FIXES OF COMMANDS AND THE LAST KNOWN STATE.**
 
 `k-optim` is the compact operational map for KπX optimization work, organized in three scopes:
 
@@ -93,10 +95,8 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - the active cleanup suite lives in `$HOME/Work/sh/clean/`
 - `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`; `auto_clean.sh` is the weekly automation wrapper
 - the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression
-- **home cleanup 2026-04-03**: removed 22 debris entries (~1.3GB): `.conda`, `.gradle` (786MB), `.node-llama-cpp` (314MB), `.net` (120MB), `.continue`, `.ai-cli`, `.redhat`, `.overgrive.log`, `.minikube`, `.android`, `.aitk`, `.dbclient`, `.azure`, and others
-- **home media cleanup 2026-04-04**: `Downloads/`, `Pictures/`, `Documents/` all emptied; `wine_mastery.md` migrated to `tutos_live/wine.md` (EN, reformatted)
-- **pending review**: `.agent/` (old kernel git repo, predecessor to `.agents/`); `backup/` (root-owned, Jul 2025)
-- `_dg_backup_check` zsh hook intercepts `rm -rf` — always verify deletions explicitly
+- **[SUMMARY]** Spring 2026 context: 1.3GB debris and redundant media emptied; legacy `.agent/` & `backup/` pending review; `_dg` safe-rm hook active
+- **phoenix optim 2026-04-06**: Executed full automated loop (`ksh clean run` → `ksh backup run`). 27GiB compressed to 15GiB (zstd). Safe-cleanup rotated workspace caches and AI models automatically.
 
 ### Actions
 
@@ -105,7 +105,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
    - run `ksh backup status` to check the current safety window
    - run `<script> --infos` before cleanup when the goal is diagnosis rather than blind deletion
 2. Prefer safe cleanup first:
-   - use `clean_all.sh -s` via `ksh clean-run` (or root `make clean-s`) for a broad low-risk sweep
+   - use `auto_clean.sh` via `ksh clean run` for a broad low-risk sweep without manual prompts
    - use module-specific `-s` modes when the pressure is localized
 3. Use purge or system modes only intentionally:
    - `-p` removes heavier caches, dependency folders, or unused Docker assets
@@ -179,6 +179,7 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-04-06 | Ubuntu | Full Phoenix Loop | Executed `ksh clean run` and `ksh backup run`; 27GiB compressed to 15GiB archive; old backup rotated |
 | 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow; moved backup SOT to Ubuntu |
 | 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `tutos_live` and `presentation`; `glslc` presence confirmed before retesting embeds |
 | 2026-04-04 | Meta/QMD | Hot-only QMD cleanup + `qmd-optimization.md` | raw runtime histories removed from active index; guide added for inspection, SQLite checks, and cleanup flow |
@@ -189,6 +190,5 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.1.1 — Operational Order: Clean -> Backup run finalized in standard optimization loop; version bump |
-| 2026-04-06 | [GEMINI] | v2.1.0–v2.0.0 — Phoenix Integration: `ksh` audits, backup relocation, and ENOSPC stabilization standardized |
-| [SUMMARY] | — | v1.9.0–v1.0.0: QMD cleanup, media directories policy, initial map, static provenance |
+| 2026-04-06 | [GEMINI] | v2.2.0 — Executed full Phoenix loop (`ksh clean run`, `ksh backup run`); mapped automated syntax to avoid prompts |
+| [SUMMARY] | — | v2.1.1–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |
