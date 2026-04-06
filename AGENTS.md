@@ -216,7 +216,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **`.skill-lock.json` sync** — skill added/removed/moved → update `$HOME/.agents/.skill-lock.json`.
 - **Agent provenance** — tag edits with `[CLAUDE]`, `[GEMINI]`, etc. (last writer wins).
 - **Context save gate** — propose → WAIT for KπX approval before writing AGENTS.md.
-- **Kernel sync** — after any `$HOME/.agents/` change → propose `git commit` + `make push`.
+- **Kernel sync** — after any `$HOME/.agents/` change → **ALWAYS run `make audit` and fix errors BEFORE** proposing `git commit` + `make push`.
 
 ### MCP Protocol
 
