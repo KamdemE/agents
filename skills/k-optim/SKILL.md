@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.2.1"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -179,6 +179,8 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-04-06 | Homelab | Client-Side Sync | Executed `backup_homelab.sh`: 10GB mirrored from Proxmox, 4.7GiB uploaded to gdrive-x (Rclone) |
+| 2026-04-06 | Meta | QMD Hygiene | `qmd cleanup` run successfully (DB vacuumed); AI histories flagged for manual prune when needed |
 | 2026-04-06 | Ubuntu | Full Phoenix Loop | Executed `ksh clean run` and `ksh backup run`; 27GiB compressed to 15GiB archive; old backup rotated |
 | 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow; moved backup SOT to Ubuntu |
 | 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `tutos_live` and `presentation`; `glslc` presence confirmed before retesting embeds |
@@ -190,5 +192,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.2.1 — Completed Meta (`qmd`) & Homelab (client backup 4.7GB sync) scopes for full optimization |
 | 2026-04-06 | [GEMINI] | v2.2.0 — Executed full Phoenix loop (`ksh clean run`, `ksh backup run`); mapped automated syntax to avoid prompts |
 | [SUMMARY] | — | v2.1.1–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |

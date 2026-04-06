@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.70.0"
+  version: "2.72.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -18,6 +18,7 @@ allowed-tools: "Bash(*), *"
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
+> **Brainstorm Registry Rule (MANDATORY):** every new idea file added under `references/` (including nested subfolders such as `references/mac-studio/`) MUST be explicitly registered in `## Brainstorm Registry` below, with one entry per file.
 > **Visual reference asset:** `assets/mac-studio-m4-max-config.png` — current Project Sovereignty hardware target snapshot.
 
 ## Active TODOs
@@ -45,6 +46,20 @@ allowed-tools: "Bash(*), *"
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
+## Brainstorm Registry
+
+> No length limit for this section.
+> This section is the mandatory index of ideas living in `references/`.
+> Any new brainstorm file in `references/` or any nested subfolder must be added here immediately.
+
+| File | Type | Topic |
+|------|------|-------|
+| `references/agentic-architecture-brainstorm.md` | Brainstorm | hot/cold context, 3-layer architecture, MCP qualification logic |
+| `references/mail-tooling-rewrite-brainstorm.md` | Brainstorm | mail refactor vision: cli + mcp + admin + skill split, secret-safe design |
+| `references/sh-mcp-agent-sandbox-vision.md` | Brainstorm | sh_mcp sandbox and future user-side sh-exec separation |
+| `references/mac-studio/` | Brainstorm folder | grouped Mac Studio sovereignty ideas (business, hardware, models, performance, stack, vision) |
+| `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
+
 ## Session Log
 
 > Limit: max 10 entries, newest-first.
@@ -55,6 +70,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-06 | [COPILOT] | v2.72.0 — refined `Brainstorm Registry`: `references/log.md` excluded from brainstorm listing and nested brainstorms represented at folder level (`references/mac-studio/`) as requested · `$HOME/.agents/skills/k-context/` |
 | 2026-04-06 | [GEMINI] | v2.70.0 — Restored full `agy.md` (Operational + Debug + inotify fixes); kernel audit GREEN; session wrap. |
 | 2026-04-06 | [GEMINI] | v2.69.0 — Stabilized workstation (ENOSPC fix: 524288 watches); documented Post-Mortem in `k-code/references/agy.md`. Final sync for **sh** Phoenix v2.1.2. |
 | 2026-04-06 | [CLAUDE] | v2.67.0 — created `Work/AI/mail/` scaffold (cli/mcp/admin/skill split) and added durable mail tooling brainstorm in `references/mail-tooling-rewrite-brainstorm.md` · `$HOME/Work/AI/mail/` · `$HOME/.agents/skills/k-context/references/` |
@@ -78,6 +94,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [COPILOT] | v2.72.0 — Brainstorm Registry refinement: `references/log.md` excluded and nested brainstorms listed by folder (`references/mac-studio/`) |
 | 2026-04-06 | [GEMINI] | v2.70.0 — Restoration Pass: fixed Active Projects (Agentic), Session Log granularity, and exhaustive References descriptions per visual feedback. |
-| 2026-04-06 | [GEMINI] | v2.69.0–v2.68.0 — Stability: ENOSPC Post-Mortem, `k-gemini` v2.9.0, `k-optim` v2.1.0 backup relocate. |
-| [SUMMARY] | — | v2.67 mail scaffold; v2.66 session finalize; v2.64 tg recovery; v2.63 Phoenix; v2.62 maintenance; `references/log.md` updated. |
+| [SUMMARY] | — | v2.71 registry baseline; v2.69.0–v2.68.0 stability pass; v2.67 mail scaffold; v2.66 session finalize; v2.64 tg recovery; v2.63 Phoenix; v2.62 maintenance; `references/log.md` updated. |
