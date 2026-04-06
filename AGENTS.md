@@ -118,6 +118,16 @@ Exact indexing procedures, setup details, and live collection behavior remain in
 
 **When to query:** before inventing an approach, when unsure where something lives, or to inspect another agent's config/history. Match scope to collection — `tutos_live` (Ubuntu), `presentation` (homelab), `agents` (workflows), agent-named collections (their history). Always check `$HOME/Work/tutos_live/templates/` before creating new files from scratch.
 
+### Brainstorm & vision archive
+
+**Long-lived ideas, work-in-progress project visions, and architecture drafts** that are not yet folded into a skill or a `Work/` repo live under:
+
+`$HOME/.agents/skills/k-context/references/`
+
+Add a new `.md` file there when a brainstorm should survive sessions and QMD indexing (agents collection). **Do not** treat these files as operational runbooks until promoted to a skill or `tutos_live` / `presentation`.
+
+**Example:** `sh-mcp` agent sandbox MCP + future user-side executor — `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md`.
+
 ### Style
 
 - **MANDATORY GENERALIZATION (applies to all files within `$HOME/.agents/`): NEVER USE HARDCODED PATHS LIKE `/home/<user>` OR `~` IN FILES INSIDE `$HOME/.agents/`. ALWAYS USE `$HOME`. NEVER USE THE HARDCODED USERNAME. ALWAYS USE `$USER`.**

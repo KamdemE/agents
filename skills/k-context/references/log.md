@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.54.0 — AGENTS: Active Projects limit **20** rows; k-hook v2.17.0 Copilot VS Code runtime registration · `$HOME/.agents/` |
+| 2026-04-05 | [CLAUDE] | v2.52.0 — restored `skills/k-mail/SKILL.md` (accidental removal); v2.0.1 · `$HOME/.agents/skills/k-mail/` |
+| 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
 | 2026-04-05 | [GEMINI] | v2.49.0 — backup-restore-sh: implemented Telegram alerts for drive mount failures with manual recovery instructions; v1.2.0. |
 | 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level .cursorrules; only global ~/.cursorrules remains active. |
