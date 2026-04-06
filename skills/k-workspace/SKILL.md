@@ -13,7 +13,9 @@ allowed-tools: Bash(*), "*"
 
 # KπX — Workspace & Engineering
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG). IT IS CRITICAL TO ENSURE THIS FILE IS ALWAYS SYNCHRONIZED WITH THE ACTUAL PHYSICAL WORKSPACE.**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> **IT IS CRITICAL TO ENSURE THIS FILE IS ALWAYS SYNCHRONIZED WITH THE ACTUAL PHYSICAL WORKSPACE.**
 
 ## Directory Layout
 
@@ -134,7 +136,6 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.12.0 — Stability Validation: ENOSPC (Inotify) loops resolved via global `files.watcherExclude`. Workstation synced v2.1.2. |
-| 2026-04-06 | [CLAUDE] | v2.11.1 — Session finalize: path tables use bare `$HOME` tokens; `ksh` + Phoenix v2.1.2 row in AI CLI table; committed with `k-tg` |
-| 2026-04-05 | [GEMINI] | v2.11.0 — Unified Workstation Orchestrator: Phoenix v2.1.2, ksh dispatcher, multi-remote push standard |
-| [SUMMARY] | — | v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale SOT pointers, cleanup suite, .kshrc discipline, routing rules, CLI tooling baseline |
+| 2026-04-06 | [GEMINI] | v2.13.0–v2.12.0 — Final Stability Pass: ENOSPC fix synchronized in global settings.json; reality audit (Gdrive/Others/go) complete; `ksh` is key entrypoint |
+| 2026-04-06 | [CLAUDE] | v2.11.1 — Session finalize: path tables use bare `$HOME` tokens; `ksh` + Phoenix v2.1.2 row in AI CLI table |
+| [SUMMARY] | — | v2.11.0 Phoenix Protocol v2.1.2; v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale, cleanup suite, .kshrc discipline, routing rules, CLI baseline |

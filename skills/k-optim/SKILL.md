@@ -189,7 +189,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.1.0 — Reassigned backup verification to Ubuntu scope; integrated ksh backup commands into daily optimization flow |
-| 2026-04-06 | [GEMINI] | v2.0.0 — Integrated Phoenix Protocol (ksh, clean -s, backup status) into standard optimization workflows |
-| 2026-04-04 | [CODEX] | v1.8.0 — added the static-template provenance rule, noted the shared QMD hook symlink model, and recorded the Vulkan `glslc` check as part of the QMD optimization workflow |
-| [SUMMARY] | — | v1.9.0 - QMD guide cleanup and path normalization; v1.8.0–v1.0.0: static provenance, QMD guides, media directories policy, initial map |
+| 2026-04-06 | [GEMINI] | v2.1.1 — Operational Order: Clean -> Backup run finalized in standard optimization loop; version bump |
+| 2026-04-06 | [GEMINI] | v2.1.0–v2.0.0 — Phoenix Integration: `ksh` audits, backup relocation, and ENOSPC stabilization standardized |
+| [SUMMARY] | — | v1.9.0–v1.0.0: QMD cleanup, media directories policy, initial map, static provenance |

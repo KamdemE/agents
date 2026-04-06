@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.69.0"
+  version: "2.70.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -52,18 +52,18 @@ allowed-tools: "Bash(*), *"
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
+| Date | Agent | Entry |
+|------|-------|-------|
+| 2026-04-06 | [GEMINI] | v2.70.0 — Restored full `agy.md` (Operational + Debug + inotify fixes); kernel audit GREEN; session wrap. |
 | 2026-04-06 | [GEMINI] | v2.69.0 — Stabilized workstation (ENOSPC fix: 524288 watches); documented Post-Mortem in `k-code/references/agy.md`. Final sync for **sh** Phoenix v2.1.2. |
 | 2026-04-06 | [CLAUDE] | v2.67.0 — created `Work/AI/mail/` scaffold (cli/mcp/admin/skill split) and added durable mail tooling brainstorm in `references/mail-tooling-rewrite-brainstorm.md` · `$HOME/Work/AI/mail/` · `$HOME/.agents/skills/k-context/references/` |
-| 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: `k-tg` skill + `k-workspace` committed; k-context reconciled (**sh** Phoenix row + **sh_mcp** brainstorm `references/` restored) · `$HOME/.agents/` |
-| 2026-04-06 | [GEMINI] | v2.63.0 — Phoenix Protocol v2.1.2: `$HOME/Work/sh/` root Makefile, multi-remote sync, `ksh` dispatcher, submodule alignment |
+| 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: k-tg skill + k-workspace committed; k-context reconciled (**sh** Phoenix row + **sh_mcp** brainstorm references restored) · `$HOME/.agents/` |
+| 2026-04-06 | [GEMINI] | v2.63.0 — Phoenix Protocol v2.1.2: `$HOME/Work/sh/` root Makefile, multi-remote sync, ksh dispatcher, submodule alignment |
 | 2026-04-06 | [CLAUDE] | v2.65.0 — `references/sh-mcp-agent-sandbox-vision.md` + AGENTS brainstorm archive pointer; Active Projects **sh_mcp** row · `$HOME/.agents/skills/k-context/` |
-| 2026-04-05 | [COPILOT] | v2.64.0 — fixed k-context guard limits and explicitly logged tg repair context (uv editable reinstall from `$HOME/Work/Tools/tg`, `tg --help` + `tg user chats` verified) · `$HOME/.agents/skills/k-context/` |
-| 2026-04-05 | [GEMINI] | v2.62.0 — Finalized maintenance window: Clean (21:30), Backup (22:00) every 2 days. Synchronized READMEs, systemd/ timers, and Makefiles across `sh/clean` and `sh/backup_restore`. |
-| 2026-04-05 | [CLAUDE] | v2.61.0 — k-git `Makefile.git` + k-project: standard target **`run`** (not `test-run`); kernel sync · `$HOME/.agents/skills/k-git/` · `$HOME/.agents/skills/k-project/` |
-| 2026-04-05 | [CLAUDE] | v2.60.0 — kernel finalization: committed pending k-code v4.1.2–v4.1.4 + k-context/log rotation; `make push` · `$HOME/.agents/` |
-| 2026-04-05 | [CLAUDE] | v2.59.0 — k-code v4.1.4: compact single-line frontmatter `description` · `$HOME/.agents/skills/k-code/` |
-| 2026-04-05 | [CLAUDE] | v2.58.0 — k-code v4.1.3: expanded skill `description` from full tree; corrected `references/profiles/` paths in SKILL body · `$HOME/.agents/skills/k-code/` |
-| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.32.9–v2.21.0 and prior |
+| 2026-04-05 | [COPILOT] | v2.64.0 — fixed k-context guard limits and explicitly logged tg repair context (uv editable reinstall from `$HOME/Work/Tools/tg`, tg --help + tg user chats verified) · `$HOME/.agents/skills/k-context/` |
+| 2026-04-05 | [GEMINI] | v2.62.0 — Finalized maintenance window: Clean (21:30), Backup (22:00) every 2 days. Synchronized READMEs, systemd/ timers, and Makefiles across sh/clean and sh/backup_restore. |
+| 2026-04-05 | [CLAUDE] | v2.61.0 — k-git Makefile.git + k-project: standard target **run** (not test-run); kernel sync · `$HOME/.agents/skills/k-git/` · `$HOME/.agents/skills/k-project/` |
+| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.60.0–v2.58.0 and prior |
 
 ## References
 
@@ -77,8 +77,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.69.0 — Persistence: Antigravity stability Post-Mortem (`agy.md`), `k-gemini` v2.9.0, `k-optim` v2.1.0 backup relocate. |
-| 2026-04-06 | [GEMINI] | v2.68.0 — Stability Validation: Resolved ENOSPC (Inotify) edit loops via global watcher exclusions; k-workspace/k-context integrity verified. |
-| 2026-04-06 | [CLAUDE] | v2.67.0 — mail workspace scaffold in `Work/AI/mail/`; durable mail tooling brainstorm archived in `references/mail-tooling-rewrite-brainstorm.md` |
-| 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: `k-tg` + `k-workspace`; reconcile **sh** Phoenix + **sh_mcp** brainstorm refs; Session Log cap (v2.56–v2.55 → `references/log.md`) |
-| [SUMMARY] | — | v2.66 session finalize; v2.65 sh-mcp brainstorm; v2.64 tg recovery; v2.63 Phoenix (GEMINI); v2.62 maintenance; v2.61 k-git run; v2.60.1 archive; v2.59–v2.53 k-code, .mcps, Gdrive, AGENTS + k-hook, audit, k-mail, hooks, backup-restore, Cursor, AppArmor, QMD |
+| 2026-04-06 | [GEMINI] | v2.70.0 — Restoration Pass: fixed Active Projects (Agentic), Session Log granularity, and exhaustive References descriptions per visual feedback. |
+| 2026-04-06 | [GEMINI] | v2.69.0–v2.68.0 — Stability: ENOSPC Post-Mortem, `k-gemini` v2.9.0, `k-optim` v2.1.0 backup relocate. |
+| [SUMMARY] | — | v2.67 mail scaffold; v2.66 session finalize; v2.64 tg recovery; v2.63 Phoenix; v2.62 maintenance; `references/log.md` updated. |
