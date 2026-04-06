@@ -7,7 +7,7 @@ description: >
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.13.0"
+  version: "2.14.1"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -31,7 +31,10 @@ allowed-tools: "Bash, Read, Write, Edit"
 - **Session history:** `$HOME/.claude/projects/-home-kpihx/*.jsonl`
 - **Subagent traces:** `$HOME/.claude/projects/-home-kpihx/<session-id>/subagents/*.jsonl`
 - **Tool outputs:** `$HOME/.claude/projects/-home-kpihx/<session-id>/tool-results/*.json`
-- **Workspace memory:** `$HOME/.claude/projects/-home-kpihx/memory/`
+- **Workspace memory:** `$HOME/.claude/projects/-home-kpihx/memory/` (Long-term persistent markdown memory)
+- **Caches & Global Logs:** `$HOME/.claude/history.jsonl`, `$HOME/.claude/shell-snapshots/`, `$HOME/.claude/debug/`, `$HOME/.claude/paste-cache/`
+
+> **Optimization Rule:** When purging history, strictly target raw logs and caches. DO NOT blindly purge `projects/` as it destroys Claude's contextual logic and inter-session memory sandboxes.
 
 ## MCP Configuration
 
@@ -101,6 +104,6 @@ Structure and content checks remain blocking in PreToolUse.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.13.0 — sudo gate: stop and ask KπX to run sudo commands, then wait for confirmation before continuing |
-| 2026-04-04 | [CODEX] | v2.12.1 — CLI-only QMD policy: no qmd MCP; use `qmd` for admin/read, `qmdr` for important searches |
+| 2026-04-06 | [GEMINI] | v2.14.0 — Mapped exact cache locations and added strict caution against purging `projects/` sandboxes |
+| 2026-04-05 | [CLAUDE] | v2.13.0–v2.12.1 — sudo gate added; CLI-only QMD policy enforced for admin/read and important searches |
 | [SUMMARY] | — | v2.12.0–v2.0.0: post_tool_use.py desync fix, Edit Protocol PostToolUse advisory, CLI-only QMD policy, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime cleanup |

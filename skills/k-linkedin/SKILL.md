@@ -4,7 +4,7 @@ description: linkedin-mcp operational memory — KπX LinkedIn identity, OAuth s
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.0.3"
 allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--fallback__*
 ---
 
@@ -41,9 +41,14 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--fallback__*
 - **Structure:** Hook (question or bold statement) → short paragraphs → call to action or reflection
 - **Topics:** AI/ML, systems architecture, hackathons, student life at X, tech projects, career insights, African tech ecosystem
 
+## MCP Setup Reference
+
+- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-linkedin/references/mcp.md`
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — switched MCP install/reference to Bun-first ownership, then added the MCP setup reference pointer (`references/mcp.md`) |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/linkedin/ |
 | [SUMMARY] | — | Prior: profile fetched, post history inaccessible (missing scope), style inferred |

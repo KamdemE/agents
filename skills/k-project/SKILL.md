@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.1"
+  version: "2.4.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -169,6 +169,9 @@ uv tool install . --editable
 # JS/TS — bun link (preferred) or npm link
 bun link / npm link <project-name>
 # then in consumer: bun link <project-name>
+
+For owned JS/TS MCP servers, keep the package manager and the runtime owner aligned: Bun first, npm only when a third-party package or tool explicitly requires it. Document the install command in `references/mcp.md` and keep VS Code configs pointed at the login-shell-resolved binary name.
+For owned JS/TS MCP servers, choose Bun only after runtime verification; if the package breaks under Bun, keep the stable owner documented in `references/mcp.md` and point VS Code at the login-shell-resolved binary name.
 ```
 
 ## Versioning & Release
@@ -272,6 +275,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.3.1 — Bash/Shell Makefile: standard target **`run`** (k-git `Makefile.git`); doc must not regress to `test-run` |
-| 2026-04-05 | [CLAUDE] | v2.3.0 — Bash/Shell: make status→systemctl, manual exec target, make install ≠ sudo make install, excludes.conf; k-git Makefile.git service targets |
+| 2026-04-06 | [CLAUDE] | v2.4.0 — added MCP ownership/alignment rule for JS/TS projects and VS Code binary resolution |
+| 2026-04-05 | [CLAUDE] | v2.3.1–v2.3.0 — Bash/Shell Makefile target `run`, systemctl status mapping, manual exec target, install/purge guards, excludes.conf, service targets |
 | [SUMMARY] | — | v2.2.0 Git Submodules; v2.1.0–v1.0.0: Bash/Shell case, install/purge, journald, docs-site, config/env per-package, assets/ migration, and earlier |

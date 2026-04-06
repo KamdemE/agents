@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.1.4"
+  version: "4.2.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -103,6 +103,7 @@ The `references/` directory is the source of truth for snapshots and forks confi
 For specific forks implementation and maintenance details, refer to:
 - `$HOME/.agents/skills/k-code/references/agy.md`
 - `$HOME/.agents/skills/k-code/references/cursor.md`
+- `$HOME/.agents/skills/k-code/references/mcp/vscode.md`
 
 Regarding editor cleanup and cache purging, all scripts reside centrally in your `Work` space and not as symlinks defined in the skill memory itself. The generic wrapper `clean_editors.sh` calls the individual scripts:
 - `$HOME/Work/sh/clean/clean_editors.sh`
@@ -118,6 +119,7 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 - keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/profiles/`; live `$HOME/.config/Code/User/profiles/*.code-profile` should symlink back to them
 - When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
 - Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
+- MCP profile safety rule: if a workspace is attached to a profile, MCP servers must be configured in that profile or linked from it (for example, symlink `profiles/<hash>/mcp.json` to `$HOME/.config/Code/User/mcp.json`)
 
 ## Current Conformity Notes
 
@@ -130,6 +132,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [CLAUDE] | v4.2.0 — added MCP setup reference (`references/mcp/vscode.md`) and profile-scoped MCP safety rule |
 | 2026-04-05 | [CLAUDE] | v4.1.4 — compact single-line frontmatter `description` (same scope as v4.1.3) |
-| 2026-04-05 | [CLAUDE] | v4.1.3 — fuller description + `references/profiles/` path fixes in body |
-| [SUMMARY] | — | v4.1.2 Copilot Chat paths; v4.1.1 install_cursor; v4.1.0 clean_editors; v4.0.0–v1.0.0: layout, fork sync, rename k-vscode, registry |
+| [SUMMARY] | — | v4.1.3 fuller description/path fixes; v4.1.2 Copilot Chat paths; v4.1.1 install_cursor; v4.1.0 clean_editors; v4.0.0–v1.0.0: layout, fork sync, rename k-vscode, registry |

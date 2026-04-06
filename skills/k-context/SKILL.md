@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.72.0"
+  version: "2.73.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -70,6 +70,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; audit GREEN; make push · `$HOME/.agents/` |
 | 2026-04-06 | [COPILOT] | v2.72.0 — refined `Brainstorm Registry`: `references/log.md` excluded from brainstorm listing and nested brainstorms represented at folder level (`references/mac-studio/`) as requested · `$HOME/.agents/skills/k-context/` |
 | 2026-04-06 | [GEMINI] | v2.70.0 — Restored full `agy.md` (Operational + Debug + inotify fixes); kernel audit GREEN; session wrap. |
 | 2026-04-06 | [GEMINI] | v2.69.0 — Stabilized workstation (ENOSPC fix: 524288 watches); documented Post-Mortem in `k-code/references/agy.md`. Final sync for **sh** Phoenix v2.1.2. |
@@ -79,8 +80,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-06 | [CLAUDE] | v2.65.0 — `references/sh-mcp-agent-sandbox-vision.md` + AGENTS brainstorm archive pointer; Active Projects **sh_mcp** row · `$HOME/.agents/skills/k-context/` |
 | 2026-04-05 | [COPILOT] | v2.64.0 — fixed k-context guard limits and explicitly logged tg repair context (uv editable reinstall from `$HOME/Work/Tools/tg`, tg --help + tg user chats verified) · `$HOME/.agents/skills/k-context/` |
 | 2026-04-05 | [GEMINI] | v2.62.0 — Finalized maintenance window: Clean (21:30), Backup (22:00) every 2 days. Synchronized READMEs, systemd/ timers, and Makefiles across sh/clean and sh/backup_restore. |
-| 2026-04-05 | [CLAUDE] | v2.61.0 — k-git Makefile.git + k-project: standard target **run** (not test-run); kernel sync · `$HOME/.agents/skills/k-git/` · `$HOME/.agents/skills/k-project/` |
-| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.60.0–v2.58.0 and prior |
+| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.61.0–v2.58.0 and prior |
 
 ## References
 
@@ -94,6 +94,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; Session Log rotation (v2.61 → log.md) |
 | 2026-04-06 | [COPILOT] | v2.72.0 — Brainstorm Registry refinement: `references/log.md` excluded and nested brainstorms listed by folder (`references/mac-studio/`) |
-| 2026-04-06 | [GEMINI] | v2.70.0 — Restoration Pass: fixed Active Projects (Agentic), Session Log granularity, and exhaustive References descriptions per visual feedback. |
-| [SUMMARY] | — | v2.71 registry baseline; v2.69.0–v2.68.0 stability pass; v2.67 mail scaffold; v2.66 session finalize; v2.64 tg recovery; v2.63 Phoenix; v2.62 maintenance; `references/log.md` updated. |
+| [SUMMARY] | — | v2.71 registry baseline; v2.70–v2.62 stability/session passes; v2.67 mail scaffold; v2.66 session finalize; v2.65 sh_mcp brainstorm; v2.64 tg recovery; v2.63 Phoenix. |

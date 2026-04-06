@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.2"
+  version: "2.11.1"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -113,10 +113,16 @@ metadata:
   target-agent: codex
 ```
 
+## Optimization (History & Cache)
+
+- **History Logs:** `$HOME/.codex/history.jsonl`, `$HOME/.codex/sessions/`, `$HOME/.codex/archived_sessions/`
+- **Internal Storage:** Temporary session states and traces are accumulated in `.sqlite` databases such as `logs_1.sqlite` and `state_5.sqlite`, and shell caches in `tmp/` and `shell_snapshots/`.
+- **Rules:** Codex has no built-in cleanup CLI command. Safely execute `rm -rf ~/.codex/sessions/* ~/.codex/archived_sessions/* ~/.codex/history.jsonl ~/.codex/log/* ~/.codex/*.sqlite* ~/.codex/tmp/*` to deeply wipe historical buildup, retaining only the latest/active context when needed.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.10.2 — added explicit correct/incorrect frontmatter examples and the rule to never reindent existing `metadata` child keys while patching a skill version line |
-| 2026-04-04 | [CODEX] | v2.10.1 — added the frontmatter safety reflex: after editing any `SKILL.md`, Codex must re-read and validate the YAML header before commit, especially when top-of-file metadata was patched |
+| 2026-04-06 | [GEMINI] | v2.11.0 — Added specific CLI cache/storage paths for optimization and history purge routines |
+| 2026-04-04 | [CODEX] | v2.10.2–v2.10.1 — added frontmatter examples, kept `metadata` child keys aligned, and required YAML header validation after `SKILL.md` edits |
 | [SUMMARY] | — | v2.10.0–v2.0.0: sandbox/escalation reflex, explicit history pointers, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |

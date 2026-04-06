@@ -223,6 +223,8 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **KπX MCPs:** source in `$HOME/Work/AI/MCPs/` · HTTP at `<name>.kpihx-labs.com/mcp` · stdio via `uv tool list` / `npm list -g` / `bun pm ls -g` · configs are source of truth.
 - **Fallback** — HTTP unreachable → suggest `--fallback` stdio counterpart immediately.
 - **Load k-* skill before any tool MCP call** (see Skills above).
+- **HARD MCP PRE-FLIGHT + FEEDBACK RULE (MANDATORY):** before using any MCP, first search whether a matching `k-*` skill exists under `$HOME/.agents/skills/`, then read it. After any meaningful MCP outcome (fix, failure mode, workaround, behavior change, new constraint), update that skill immediately in both the main operational content and `## Changelog` (with version bump). Never leave MCP learnings only in chat output.
+- **Ownership rule:** owned JS/TS MCPs should be Bun-first; Python MCPs should be uv-first; npm-global is reserved for third-party daily-driver CLIs unless a package doc explicitly says otherwise.
 
 ### Security
 

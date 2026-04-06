@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.1"
+  version: "1.7.1"
   scope: agent-runtime
   target-agent: copilot
 allowed-tools: Bash, Read, Write, Edit
@@ -90,10 +90,17 @@ QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
 - `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
 
+## Optimization (History & Cache)
+
+- **Execution Logs:** `$HOME/.copilot/logs/`
+- **Session State:** `$HOME/.copilot/session-state/`
+- **Command History:** `$HOME/.copilot/command-history-state.json`
+- **Rules:** Copilot CLI stores historical context transparently. There is no internal prune command; flush cleanly via `rm -rf ~/.copilot/logs/* ~/.copilot/session-state/* ~/.copilot/command-history-state.json`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v1.6.1 — `chat.hookFilesLocations` documented with `$HOME` path form per AGENTS.md (no bare `~` in `.agents/` docs) |
-| 2026-04-05 | [COPILOT] | v1.6.0 — added Copilot VS Code hooks runtime wiring (`$HOME/.agents/hooks/copilot/`) and documented settings integration via `chat.hookFilesLocations` |
+| 2026-04-06 | [GEMINI] | v1.7.0 — Documented Execution Logs and Session State paths for manual history purging |
+| 2026-04-05 | [CLAUDE] | v1.6.1–v1.6.0 — documented `chat.hookFilesLocations` with `$HOME` form and added Copilot hooks runtime wiring via settings integration |
 | [SUMMARY] | — | v1.5.1 CLI-only QMD policy; v1.5.0–v1.0.0: session-history pointers, source-of-truth paths, runtime context/MCP format, earlier consolidation |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.0"
+  version: "2.10.1"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -103,10 +103,16 @@ When working in a project under `$HOME/Work/`, check for `.agents/AGENTS.md` at 
 If found: treat it as project-specific context — architecture rules, stack, evolution rules.
 Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
+## Optimization (History & Cache)
+
+- **Session History:** `$HOME/.gemini/antigravity/brain/<uuid>/`
+- **Internal Storage:** Each UUID folder stores `.system_generated/`, `media__*.png`, `tempMediaStorage`, et al.
+- **Rules:** Use `gemini --delete-session <index>` to selectively prune, or safely wipe `$HOME/.gemini/antigravity/brain/*` as a brute-force memory reset for stale runs. No persistent graph relies on these raw files.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.9.0 — Integrated ENOSPC (Inotify) stability rule for edit tools; added reference to agy.md post-mortem |
+| 2026-04-06 | [GEMINI] | v2.10.0–v2.9.0 — documented raw `brain/` cache limits/paths and added the ENOSPC inotify stability rule |
 | 2026-04-04 | [CODEX] | v2.8.1 — removed the qmd-mcp example and documented the CLI-only QMD policy for Gemini (`qmd` for admin/read, `qmdr` for important searches) |
 | [SUMMARY] | — | v2.8.0–v2.0.0: conversation history paths, compact hooks, project-context auto-load, HTTP/Stdio guidance, skills-path, original migration |

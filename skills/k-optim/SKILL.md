@@ -7,9 +7,9 @@ description: >
   Ubuntu local cleanup, home media dirs, and Homelab maintenance.
 license: private
 metadata:
-  author: KpihX
-  version: "2.2.1"
-  scope: optimization
+   author: KpihX
+   version: "2.3.3"
+   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
 
@@ -24,11 +24,12 @@ allowed-tools: Bash, Read, Write, Edit
 
 > **AFTER PERFORMING AN OPTIMIZATION, THIS FILE (k-optim) MUST BE UPDATED WITH EVENTUAL FIXES OF COMMANDS AND THE LAST KNOWN STATE.**
 
-`k-optim` is the compact operational map for KπX optimization work, organized in three scopes:
+`k-optim` is the compact operational map for KπX optimization work, organized in four scopes (executed in order):
 
-- **Meta scope** — `.agents/` governance hygiene, QMD cleanliness, hook/skill alignment. Covers general configs shared across all agents.
-- **Ubuntu scope** — local machine storage cleanup, project artifact removal, cache management, home media directories. Covers KπX's Ubuntu workstation and its projects.
+- **Ubuntu scope** — local machine storage cleanup, project artifact removal, cache management, home media directories.
 - **Homelab scope** — server-side maintenance, Docker hygiene, client-side backup verification.
+- **Agents scope** — AI runtime specific cache and historical data purging (gemini, claude, codex, copilot, vibe).
+- **Meta scope** — `.agents/` governance hygiene, QMD cleanliness, hook/skill alignment. (Final cleanup step)
 
 In all scopes: **load this skill before starting any cleanup/optim work** — reuse existing standards and scripts instead of reinventing. Log new scripts, key actions, and notable results in the relevant `### Last Known State` section and `## Script & Action Log` so the state stays current.
 
@@ -45,46 +46,6 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | Workstation Orchestrator (ksh) | `$HOME/Work/sh/` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
 | Homelab maintenance scripts | `$HOME/Work/Homelab/sh/` |
-
-## Meta
-
-> Scope: `.agents/` governance, QMD, hooks, shared agent configs.
-
-### Last Known State
-
-- `.agents/` governance is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills aligned and validated with `make -C $HOME/.agents audit`
-- `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
-- operational Markdown must stay low-token and source-of-truth first; compact and point back when a skill starts duplicating detail owned elsewhere
-- `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
-- QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; use the dedicated optimization guide for checks and cleanup
-- static reusable templates should live in `.agents`; external consumers should point back via symlink instead of drifting copies whenever the file is meant to be used as-is
-- agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
-- `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
-
-### Actions
-
-1. Recheck `.agents/` integrity:
-   - `make -C $HOME/.agents audit`
-   - `git -C $HOME/.agents status --short`
-   - `git -C $HOME/.agents log --oneline -5`
-   - re-read `$HOME/.agents/AGENTS.md` against the active hook behavior whenever response rules, path rules, or session-finalization behavior changed
-2. If hooks or skills changed:
-   - update the touched `SKILL.md`
-   - check that `$HOME/.agents/AGENTS.md` still matches the real reminder text and enforced hook behavior
-   - propagate any rename/add/remove to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and `$HOME/.agents/skills/k-context/SKILL.md`
-   - commit and `make -C $HOME/.agents push`
-3. Recheck QMD cleanliness:
-   - start with `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md`
-   - inspect `qmd collection list`
-   - inspect `qmd ls <collection>` for suspected noisy collections
-   - if patterns drift, edit `$HOME/.config/qmd/index.yml`, then run `qmd update <collection>`
-   - run `qmd cleanup` after structural changes
-   - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
-   - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
-4. Suggest AI history cleanup when relevant:
-   - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, or `k-ai`
-   - propose the cleanup proactively when history size or noise is part of the optimization problem
-   - wait for KπX approval before any prune, delete, archive, or reset action
 
 ## Ubuntu
 
@@ -172,6 +133,81 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
    - update `k-homelab` and `k-optim`
    - recheck whether the presentation docs have drifted from the scripts
 
+## Agents
+
+> Scope: AI runtime specific cache and historical data purging. Covers gemini, claude, codex, copilot, vibe.
+
+### Last Known State
+
+- Agents store chat history in transparent local files (JSONL, SQLite, UUID folders).
+- Except for Gemini CLI (`--delete-session`), agents do not provide native snapshot purging; manual deletion is the accepted method.
+- Claude Code leverages a `projects/` structure reflecting absolute paths with `-home-kpihx-...` identifiers, persisting large `.jsonl` files and establishing inter-session long-term memory in `memory/*.md`.
+
+### Actions
+
+**Rule of thumb:** Inspect storage paths before any deletion. Identify the latest active conversation thread and safely isolate it. Only delete files that are 100% conclusively tied to old, stale discussions. If there is any doubt about a file's relevance, **do not delete it**. Do not use blind or brute-force `rm` commands.
+
+1. **Antigravity (Agentic backend)**:
+   - Inspect `$HOME/.gemini/antigravity/brain/`
+   - Identify the most recent UUID session folders. Remove older UUID folders only if you are certain they are dead history.
+2. **Gemini CLI**:
+   - Avoid manual file deletion; rely on the CLI tool.
+   - Run `gemini --list-sessions` to review history.
+   - Use `gemini --delete-session <index>` thoughtfully to remove all sessions except the most recent one.
+3. **Claude Code**:
+   - Inspect `$HOME/.claude/` for `sessions/`, `history.jsonl`, `shell-snapshots/`, `debug/`, `paste-cache/`.
+   - Before clearing `history.jsonl` or sessions, ensure no active context relies on them.
+   - *Caution:* Never blindly delete `projects/` subfolders; they contain Claude's long-term memory (`memory/*.md`).
+4. **Codex CLI**:
+   - Inspect `$HOME/.codex/` for `sessions/`, `archived_sessions/`, `history.jsonl`, `log/`, `.sqlite` caches, and `tmp/`.
+   - Remove stale SQLite artifacts and jsonl logs only when they accumulate heavily and are not tied to the active run.
+5. **GitHub Copilot CLI**:
+   - Inspect `$HOME/.copilot/` for `logs/`, `session-state/`, and `command-history-state.json`.
+   - Clear only the definitively old logs and orphaned states.
+6. **Mistral Vibe**:
+   - Inspect `$HOME/.vibe/logs/` and `$HOME/.vibe/vibehistory`.
+   - Clear log debris only when confirmed stale.
+
+## Meta
+
+> Scope: `.agents/` governance, QMD, hooks, shared agent configs (Final cleanup step).
+
+### Last Known State
+
+- `.agents/` governance is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills aligned and validated with `make -C $HOME/.agents audit`
+- `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
+- operational Markdown must stay low-token and source-of-truth first; compact and point back when a skill starts duplicating detail owned elsewhere
+- `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
+- QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; use the dedicated optimization guide for checks and cleanup
+- static reusable templates should live in `.agents`; external consumers should point back via symlink instead of drifting copies whenever the file is meant to be used as-is
+- agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
+- `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
+
+### Actions
+
+1. Recheck `.agents/` integrity:
+   - `make -C $HOME/.agents audit`
+   - `git -C $HOME/.agents status --short`
+   - `git -C $HOME/.agents log --oneline -5`
+   - re-read `$HOME/.agents/AGENTS.md` against the active hook behavior whenever response rules, path rules, or session-finalization behavior changed
+2. If hooks or skills changed:
+   - update the touched `SKILL.md`
+   - check that `$HOME/.agents/AGENTS.md` still matches the real reminder text and enforced hook behavior
+   - propagate any rename/add/remove to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and `$HOME/.agents/skills/k-context/SKILL.md`
+   - commit and `make -C $HOME/.agents push`
+3. Recheck QMD cleanliness:
+   - start with `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md`
+   - inspect `qmd collection list`
+   - inspect `qmd ls <collection>` for suspected noisy collections
+   - if patterns drift, edit `$HOME/.config/qmd/index.yml`, then run `qmd update <collection>`
+   - run `qmd cleanup` after structural changes
+   - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
+   - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
+4. Suggest AI history cleanup when relevant:
+   - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, or `k-ai`
+   - propose the cleanup proactively when history size or noise is part of the optimization problem
+   - wait for KπX approval before any prune, delete, archive, or reset action
+
 ## Script & Action Log
 
 > Log new scripts, key optimization actions, or notable results here for perennial reference.
@@ -192,6 +228,5 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.2.1 — Completed Meta (`qmd`) & Homelab (client backup 4.7GB sync) scopes for full optimization |
-| 2026-04-06 | [GEMINI] | v2.2.0 — Executed full Phoenix loop (`ksh clean run`, `ksh backup run`); mapped automated syntax to avoid prompts |
-| [SUMMARY] | — | v2.1.1–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |
+| 2026-04-06 | [GEMINI] | v2.3.2–v2.2.1 — separated Antigravity history from Gemini CLI cleanup, enforced safe-isolation policy, added Agents scope, and completed Meta/Homelab scopes |
+| [SUMMARY] | — | v2.2.0–v1.0.0: Phoenix orchestration order, QMD cleanup, media directories policy, static provenance |

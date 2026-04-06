@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.1"
+  version: "2.0.3"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
 ---
 
@@ -73,10 +73,14 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
 
 `*@polytechnique.edu` · `*@polytechnique.fr` · `*@ip-paris.fr` · `*@dxo.com` · Yousign · DFHM
 
+## MCP Setup Reference
+
+- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-mail/references/mcp.md`
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-05 | [CLAUDE] | v2.0.1 — restored `skills/k-mail/SKILL.md` (removed in error during kernel governance); changelog compacted to AGENTS limits |
+| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added the MCP setup reference pointer (`references/mcp.md`) and restored `skills/k-mail/SKILL.md` during kernel governance |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: mail-mcp operational memory under `skills/k-mail/` |
 | [SUMMARY] | — | 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |

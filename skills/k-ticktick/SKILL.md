@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.1"
+  version: "2.0.2"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--fallback__*
 ---
 
@@ -34,10 +34,14 @@ These are **silent failures** — no error thrown, data simply not saved:
 | Update habit | `PATCH /habits/batch` = full replacement | Always read-modify-write before updating |
 | Move tasks with children | `move_tasks` does NOT cascade to children | Fetch `childIds` and move atomically in one batch |
 
+## MCP Setup Reference
+
+- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-ticktick/references/mcp.md`
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.0.1 — normalized the changelog summary wording to the current AGENTS kernel naming |
+| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added MCP setup reference pointer (`references/mcp.md`) and normalized the changelog summary wording to the current AGENTS kernel naming |
 | 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/ticktick/ |
 | [SUMMARY] | — | v1.0.0 — initial creation, migrated from the legacy agent kernel section in `$HOME/.agents/AGENTS.md` |

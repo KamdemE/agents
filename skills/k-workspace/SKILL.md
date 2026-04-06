@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.13.0"
+  version: "2.14.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -50,9 +50,9 @@ allowed-tools: Bash(*), "*"
 | Language | Toolchain | Install pattern |
 |----------|-----------|-----------------|
 | Python | uv ($HOME/.local/bin/uv) | CLIs: uv tool install --editable . · Scripts: uv run --with |
-| JS/TS | **Bun** (primary) | bun add/run/build/test/publish |
-| JS tools (3rd party) | npm-global ($HOME/.npm-global/) | npm install -g → symlink to $HOME/.local/bin/ if needed |
-| Node.js | nvm v22.22.1 | Symlink: $HOME/.local/bin/node → $HOME/.nvm/versions/node/v22.22.1/bin/node |
+| JS/TS (owned projects / MCP servers) | **Bun** when runtime-compatible | bun add/run/build/test/publish · bun link / bun install -g |
+| JS tools (3rd party) | npm-global ($HOME/.npm-global/) | npm install -g for daily-driver CLIs that must stay version-agnostic |
+| Node.js | nvm v22.22.1 | per-project versions only; no MCP/global CLI ownership |
 
 **Never:** pip install globally · npm install -g <local-path> · hatchling/poetry/setuptools
 
@@ -91,6 +91,8 @@ export OLLAMA_URL="$OLLAMA_HOST"
 > - HTTP endpoints: <name>.kpihx-labs.com/mcp
 > - Installed stdio binaries: uv tool list · npm list -g · bun pm ls -g
 > - Agent configs (which MCPs are active per agent): read config files directly
+
+> **Ownership rule:** JS/TS MCP servers you own should use Bun when the runtime is compatible and verified; if a package fails Bun verification, keep the stable owner documented in its skill. Python MCPs stay with uv; npm-global is for third-party daily-driver CLIs, not owned MCPs.
 
 Secrets wrap pattern for MCPs needing bw-env: { "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }
 
@@ -136,6 +138,6 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.13.0–v2.12.0 — Final Stability Pass: ENOSPC fix synchronized in global settings.json; reality audit (Gdrive/Others/go) complete; `ksh` is key entrypoint |
-| 2026-04-06 | [CLAUDE] | v2.11.1 — Session finalize: path tables use bare `$HOME` tokens; `ksh` + Phoenix v2.1.2 row in AI CLI table |
+| 2026-04-06 | [CLAUDE] | v2.14.0 — finalized MCP ownership rule: Bun when compatible, npm-global for third-party CLIs, nvm for versions only |
+| 2026-04-06 | [CLAUDE] | v2.13.0–v2.11.1 — Final Stability Pass: ENOSPC fix synchronized in global settings.json; reality audit complete; path tables use bare `$HOME` tokens |
 | [SUMMARY] | — | v2.11.0 Phoenix Protocol v2.1.2; v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale, cleanup suite, .kshrc discipline, routing rules, CLI baseline |

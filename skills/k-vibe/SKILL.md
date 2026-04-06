@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.1"
+  version: "2.5.1"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -61,10 +61,16 @@ QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
 - `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
 
+## Optimization (History & Cache)
+
+- **Session Logs:** `$HOME/.vibe/logs/`
+- **History Index:** `$HOME/.vibe/vibehistory`
+- **Rules:** VIBE lacks an integrated cache-busting tool. For a full reset of all historical baggage, perform manual removal: `rm -rf ~/.vibe/logs/* ~/.vibe/vibehistory`.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v2.4.1 — documented the CLI-only QMD policy for VIBE (`qmd` for admin/read, `qmdr` for important searches) |
-| 2026-04-03 | [CODEX] | v2.4.0 — added the real VIBE session-history paths and kept the skill compact around the owning runtime files |
+| 2026-04-06 | [GEMINI] | v2.5.0 — Defined History Index and Session Logs absolute paths for explicit CLI cache-clearing rules |
+| 2026-04-04 | [CODEX] | v2.4.1–v2.4.0 — documented the CLI-only QMD policy and the real VIBE session-history paths while keeping the skill compact |
 | [SUMMARY] | — | v2.3.0–v2.0.0: source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |
