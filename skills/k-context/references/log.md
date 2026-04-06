@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-05 | [CLAUDE] | v2.57.0 — k-code v4.1.2: VS Code GitHub Copilot Chat history paths (`workspaceStorage/.../chatSessions`, `GitHub.copilot-chat/`) · `$HOME/.agents/skills/k-code/` |
 | 2026-04-05 | [GEMINI] | v2.56.0 — Mass cleanup of legacy debris (.zcompdump, .wget-hsts, .keras, .wacli) and migrated MCP metadata (.livemem, .ticktick-mcp, .n8n-mcp, .k-vpn) following .mcps/ standard transition. |
 | 2026-04-05 | [GEMINI] | v2.55.0 — Uniformized Gdrive casing (capital G) across .env files; removed legacy gdrive mount/folder debris. |
 | 2026-04-05 | [CLAUDE] | v2.54.0 — AGENTS: Active Projects limit **20** rows; k-hook v2.17.0 Copilot VS Code runtime registration · `$HOME/.agents/` |

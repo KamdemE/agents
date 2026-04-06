@@ -7,13 +7,13 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.1"
+  version: "2.13.0"
 allowed-tools: Bash(*), "*"
 ---
 
 # KπX — Workspace & Engineering
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG). IT IS CRITICAL TO ENSURE THIS FILE IS ALWAYS SYNCHRONIZED WITH THE ACTUAL PHYSICAL WORKSPACE.**
 
 ## Directory Layout
 
@@ -33,13 +33,15 @@ allowed-tools: Bash(*), "*"
 |------|---------|
 | $HOME/Work/AI/MCPs/ | All MCP servers source code |
 | $HOME/Work/AI/gemini_mcps/ | Gemini Extension wrappers |
-| $HOME/Work/sh/bw-env/ | Bitwarden env manager — secrets in RAM via /dev/shm |
-| $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.2) — Root Makefile with smart proxies (clean-%, backup-%, bw-%); Multi-Remote (GitHub/GitLab) sync. |
-| $HOME/Work/sh/clean/ | Unified Cleanup Suite (systemd, Saturday 10:00) — modules: snap, cache, vscode, work, docker, ai. VSCode module: $HOME/.config/Code/ (VSIX cache, Electron cache, logs, CachedData, WebStorage) |
+| $HOME/Work/sh/bw_env/ | Bitwarden env manager — secrets in RAM via /dev/shm |
+| $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.2) — Root Makefile with smart proxies; Multi-Remote sync; **ksh dispatcher (v2.1.0) is the key entrypoint.** |
+| $HOME/Work/sh/clean/ | Unified Cleanup Suite (systemd, Saturday 10:00) — modules: snap, cache, vscode, work, docker, ai. |
 | $HOME/Work/Homelab/ | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
-| $HOME/Work/tutos_live/ | Ubuntu living KB — real fixes documented as they happen. Root: flat .md per tool/topic (bun, bw-env, qmd, tailscale, gh…). templates/ — reusable doc templates. mcps/ — MCP tutorials. sh/ — shell/scripting. |
-| $HOME/Work/Test/ | Sandbox for new patterns |
-| $HOME/Gdrive_X/ | Google Drive X via rclone (remote: gdrive-x:) |
+| $HOME/Work/tutos_live/ | Ubuntu living KB — real fixes documented as they happen. Root: flat .md per tool/topic. |
+| $HOME/Work/Others/ | Miscellaneous / Non-project files / Transit zone |
+| $HOME/Gdrive/ | Personal Google Drive via rclone (account: kapoivha@gmail.com) |
+| $HOME/Gdrive_X/ | Pro/Academic Google Drive via rclone (account: ivann.kamdem-pouokam.2024@polytechnique.org) |
+| $HOME/go/ | Go workspace (GOPATH) |
 
 ## Package Management (strict)
 
@@ -132,6 +134,7 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-06 | [GEMINI] | v2.12.0 — Stability Validation: ENOSPC (Inotify) loops resolved via global `files.watcherExclude`. Workstation synced v2.1.2. |
 | 2026-04-06 | [CLAUDE] | v2.11.1 — Session finalize: path tables use bare `$HOME` tokens; `ksh` + Phoenix v2.1.2 row in AI CLI table; committed with `k-tg` |
 | 2026-04-05 | [GEMINI] | v2.11.0 — Unified Workstation Orchestrator: Phoenix v2.1.2, ksh dispatcher, multi-remote push standard |
 | [SUMMARY] | — | v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale SOT pointers, cleanup suite, .kshrc discipline, routing rules, CLI tooling baseline |
