@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.8.0"
+   version: "2.9.0"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -59,6 +59,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression
 - **[SUMMARY]** Spring 2026 context: 1.3GB debris and redundant media emptied; legacy `.agent/` & `backup/` pending review; `_dg` safe-rm hook active
 - **phoenix optim 2026-04-06**: Executed full automated loop (`ksh clean run` → `ksh backup run`). 27GiB compressed to 15GiB (zstd). Safe-cleanup rotated workspace caches and AI models automatically.
+- **Auto-mount active**: KpihX-Backup is structurally guaranteed via `fstab` and `x-systemd.automount` on a permanent mount point. No manual click required. [GEMINI] 2026-04-07.
 
 ### Actions
 
@@ -106,15 +107,15 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 |-----|--------|
 | `Downloads/` | Install artifacts (.deb, .tar.gz) → install immediately then delete. Backup CSVs → move to Gdrive. Keep empty after each session. |
 | `Documents/` | No permanent storage here. Docs → `Gdrive_X/` (academic/pro) or `Gdrive/` (personal). Keep empty. |
-| `Pictures/` | Screenshots → review and clear. Profile assets → `Gdrive/`. Napkin exports → only if referenced. Keep empty. |
+| `Pictures/` | **Screenshots are transit**: during every optim cycle, review → move the keepers to `Gdrive/` or the relevant `$HOME/Work/` project → **empty `Pictures/`**. Profile assets → `Gdrive/`. Napkin exports → only if referenced. |
 | `Videos/` | Keep empty — recordings go to `Gdrive/` directly. |
 | `Music/` | Keep empty. |
 | `Desktop/` | Keep empty — no file dumping here. |
 
 **Cleanup check:**
 ```bash
-du -sh ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
-ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
+du -sh "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Music" "$HOME/Desktop"
+ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Music" "$HOME/Desktop"
 ```
 
 ## Homelab
@@ -252,8 +253,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 ## Changelog
 
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-04-07 | [GEMINI] | v2.8.0 — Corrected Ubuntu frequency: every 2 days (cycle 1, 3, 5...) with persistent resume. Added audit CLI commands. |
-| 2026-04-07 | [GEMINI] | v2.7.0 — Clarified Ubuntu frequency: runs on ODD month-days (1, 3, 5...). |
-| [SUMMARY] | — | v2.6.0 automated tasks; v2.5.0 reporting mandate; v2.4.1 Phoenix loop results |
+| 2026-04-07 | [GEMINI] | v2.9.0 — Documented KpihX-Backup structural automount guarantee via systemd. |
+| 2026-04-07 | [CLAUDE] | v2.8.2 — Replaced `~` with `$HOME` in `Home Media Directories` cleanup commands (no-hardcoded-path rule). |
+| [SUMMARY] | — | v2.8.1 screenshot policy; v2.8.0 Ubuntu frequency; v2.5.0 reporting; v2.4.1 Phoenix loop results |

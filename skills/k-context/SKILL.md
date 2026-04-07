@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.9"
+  version: "2.74.12"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -71,16 +71,9 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive [SUMMARY]. |
-| 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); added diagnostic commands (`systemctl list-timers`, `log-scan`, `tg read`) to `k-optim` and `k-tg` (v1.5.0) for easier auditing. |
-| 2026-04-07 | [GEMINI] | v2.74.6 — **Ubuntu frequency map (REFINED)**: Clarified that clean/backup run on ODD month-days (1, 3, 5...) in `k-optim` (v2.7.0) and `k-workspace` (v2.15.0); reverted accidental systemd timer modifications. |
-| 2026-04-07 | [GEMINI] | v2.74.5 — **Ubuntu frequency map**: documented cleanup (21:30) and backup (22:00) tasks in `k-optim` (v2.6.0) with an automated tasks table for Ubuntu, mirroring the homelab structure. · `$HOME/.agents/skills/k-optim/` |
-| 2026-04-07 | [GEMINI] | v2.74.4 — **Telegram Bot Infrastructure & Governance**: Centralized management via BotFather (ID 93372553); deployed /clean, /status, /backup listeners on Ubuntu (@k_ubuntu_bot) and Homelab (@sentinel_homelab_bot) with CHAT_ID filtering and systemd persistence; updated k-tg (v2.5.0) with rich examples and k-optim (v2.5.0) with reporting mandate. · `$HOME/Work/sh/bot.py` |
-| 2026-04-06 | [GEMINI] | v2.74.3 — **Bot Synchronization & Test**: Confirmed `k-tg` sync with `tg bots`; mapped all hidden bots; sent two test messages from Ubuntu/Homelab bots for full operational confirmation. · `$HOME/.agents/` |
-| 2026-04-06 | [GEMINI] | v2.74.2 — **System Stability & Bot Inventory**: Applied inotify `watcherExclude` fix in VSCode settings; documented full Telegram bot inventory in `k-tg/SKILL.md` (Groups: Ubuntu & Homelab); identified OpenClaw agent status. · `$HOME/.agents/` |
-| 2026-04-06 | [GEMINI] | v2.74.1 — session fix: restored lost `sh (Phoenix)` project and rotates session log properly; kernel audit green · `$HOME/.agents/` |
-| 2026-04-06 | [GEMINI] | v2.74.0 — **Phoenix v3.1 Finalization**: Modular Node Architecture stabilized; `hsh` dispatcher installed; `k-homelab` (v1.7.0) & `k-optim` (v2.4.0) updated; Dual-Link mandate applied · `$HOME/Work/Homelab/sh/` |
-| 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; audit GREEN; make push · `$HOME/.agents/` |
+| 2026-04-07 | [GEMINI] | v2.74.13 — Audit pass: verified `k-optim` v2.9.0, `k-context` v2.74.13, and session log rotation. |
+| 2026-04-07 | [GEMINI] | v2.74.12 — Implemented KpihX-Backup structural auto-mount via `fstab` + `x-systemd.automount`; Created "Universal Auto-Mount" tutorial in `tutos_live` and updated `k-optim` (v2.9.0). |
+| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced `~` with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
 | [SUMMARY] | — | older entries (v2.72–v2.63) moved to `references/log.md`; topics: mac-studio config, agy.md/ENOSPC fix, mail scaffold, Phoenix v2.1.2, sh-mcp brainstorm. |
 
 ## References
@@ -95,6 +88,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive [SUMMARY]. |
-| 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); diagnostic commands added. |
-| [SUMMARY] | — | v2.74.6–v2.74.4 Ubuntu/TG bots; v2.74.2 stability (inotify); v2.74.0 Phoenix v3.1; v2.73-v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |
+| 2026-04-07 | [GEMINI] | v2.74.12 — KpihX-Backup auto-mount implemented & documented in tutos_live. Updated k-optim 2.9.0. |
+| 2026-04-07 | [CLAUDE] | v2.74.11 — logged `k-optim` v2.8.2 (`~` → `$HOME`) cleanup snippet fix in Session Log. |
+| [SUMMARY] | — | v2.74.10–v2.74.4 Ubuntu/TG bots; v2.74.2 stability (inotify); v2.74.0 Phoenix v3.1; v2.73-v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |
