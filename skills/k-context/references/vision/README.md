@@ -14,6 +14,7 @@
 | `social-media-apis.md` | Platform APIs for automated content distribution (YouTube, LinkedIn, X, Facebook, Instagram) |
 | `content-engine.md` | End-to-end pipeline: idea → script → visual → render → publish — with time/cost estimates |
 | `blender-scripting.md` | Blender MCP/API/scripting: bpy, official MCP, better-blender, headless execution |
+| `edge-automation.md` | Edge automation stack: favorites, Playwright/CDP, accessibility fallback, vision fallback, safety model |
 
 ## Status
 
