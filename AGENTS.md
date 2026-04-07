@@ -182,9 +182,9 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
-- **Security check** — env vars: key names only: `env | grep -E "API|TOKEN" | cut -d= -f1`
-- **Project scope** — `$HOME/` is not a project root. Projects live in `$HOME/Work/`.
-- **Post-write verification** — read back after every file write.
+- **Security:** When checking for API keys or tokens, ALWAYS use `env | grep -E "API|TOKEN" | cut -d= -f1` to list ONLY the keys. NEVER output values.
+- **Zero-Deletion Policy (Mandatory):** Agents MUST NEVER delete logs or historical entries from `k-context/SKILL.md` or any other skill. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved (rotated) to a dedicated archive (e.g., `$HOME/.agents/skills/k-context/references/log.md`) BEFORE the main file is compacted. Every removal from a primary log MUST be an addition to its archive. [GEMINI]
+- **Context Save Proposal Gate:** Agents MUST proactively signal when new context should be saved, then WAIT for explicit user decision (`approve`, `reject`, or `adjust`) before writing to `AGENT.md` or `~/.agent/<AGENT_NAME>.md`.
 - **Workspace troubleshooting** — unknown error → load `k-workspace` first.
 - **New tool/skill detected** → propose updating / creating the corresponding `k-*` skill or general immediately.
 
