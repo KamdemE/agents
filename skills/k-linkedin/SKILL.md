@@ -4,8 +4,8 @@ description: linkedin-mcp operational memory — KπX LinkedIn identity, OAuth s
 license: private
 metadata:
   author: KpihX
-  version: "2.0.3"
-allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--fallback__*
+  version: "2.0.4"
+allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 ---
 
 # Tool Memory — LinkedIn (linkedin-mcp)
@@ -43,12 +43,12 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--fallback__*
 
 ## MCP Setup Reference
 
-- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-linkedin/references/mcp.md`
+- Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-linkedin/references/mcp.md`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-07 | [CODEX] | v2.0.4 — aligned LinkedIn MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
 | 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — switched MCP install/reference to Bun-first ownership, then added the MCP setup reference pointer (`references/mcp.md`) |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/linkedin/ |
-| [SUMMARY] | — | Prior: profile fetched, post history inaccessible (missing scope), style inferred |
+| [SUMMARY] | — | v2.0.0 refonte/migration to `skills/kpihx/linkedin/`; prior: profile fetched, post history inaccessible (missing scope), style inferred |

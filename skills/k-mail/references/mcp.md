@@ -22,10 +22,10 @@ Generic MCP setup reference for `mail-mcp`.
   - `-c`
   - `$HOME/.local/bin/mail-mcp serve`
 
-## STDIO Fallback
+## STDIO Alternate
 
 - command: `zsh`
 - args:
   - `-l`
   - `-c`
-  - `$HOME/.local/bin/mail-mcp serve --fallback`
+  - `$HOME/.local/bin/mail-mcp serve`

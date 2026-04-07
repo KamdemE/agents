@@ -4,8 +4,8 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.0.4"
-allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--fallback__*
+  version: "2.0.5"
+allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 ---
 
 # Tool Memory — WhatsApp (whats-mcp)
@@ -85,13 +85,13 @@ CORRECT:
 
 ## MCP Setup Reference
 
-- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-whatsapp/references/mcp.md`
+- Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-whatsapp/references/mcp.md`
 ```
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-07 | [CODEX] | v2.0.5 — aligned tool suffix and setup reference with stdio-only command mode (`--fallback` removed from MCP reference). |
 | 2026-04-06 | [CLAUDE] | v2.0.3–v2.0.1 — reverted Whats MCP to stable npm-global local-source ownership after Bun runtime failure, then documented the Bun-first experiment and the MCP setup reference pointer (`references/mcp.md`) |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/whatsapp/ |
-| [SUMMARY] | — | Prior: initial scan 19 groups, community maps built, Binet Bad added, X24⚔️🔥 added |
+| [SUMMARY] | — | v2.0.0 refonte/migration to `skills/kpihx/whatsapp/`; prior: initial scan 19 groups, community maps built, Binet Bad added, X24⚔️🔥 added |

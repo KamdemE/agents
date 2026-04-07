@@ -4,8 +4,8 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.3"
-allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
+  version: "2.0.4"
+allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
 # Tool Memory — Mail (mail-mcp)
@@ -75,12 +75,12 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--fallback__*
 
 ## MCP Setup Reference
 
-- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-mail/references/mcp.md`
+- Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-mail/references/mcp.md`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-07 | [CODEX] | v2.0.4 — aligned mail MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
 | 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added the MCP setup reference pointer (`references/mcp.md`) and restored `skills/k-mail/SKILL.md` during kernel governance |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte: mail-mcp operational memory under `skills/k-mail/` |
-| [SUMMARY] | — | 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |
+| [SUMMARY] | — | v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |

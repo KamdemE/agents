@@ -21,10 +21,10 @@ Generic MCP setup reference for `tick-mcp`.
   - `-c`
   - `$HOME/.local/bin/tick-mcp serve`
 
-## STDIO Fallback
+## STDIO Alternate
 
 - command: `zsh`
 - args:
   - `-l`
   - `-c`
-  - `$HOME/.local/bin/tick-mcp serve --fallback`
+  - `$HOME/.local/bin/tick-mcp serve`

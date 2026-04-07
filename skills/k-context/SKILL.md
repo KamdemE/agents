@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.22"
+  version: "2.74.23"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -76,6 +76,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-08 | [CODEX] | v2.74.23 — finalized MCP naming cleanup for whatsapp/mail/linkedin/ticktick skills: removed `--fallback` references from `references/mcp.md`, aligned SKILL allowed-tools to `--stdio`, and prepared `.agents` audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.21 — QMD maintenance finalized (`qmd embed` + `qmd cleanup`), Edge automation capability audit completed (favorites/bookmarks APIs, MCP options, DOM vs vision control strategy, Mac Studio feasibility notes). · `$HOME/.cache/qmd/` · edge automation analysis in chat |
 | 2026-04-07 | [CLAUDE] | v2.74.20 — added `references/vision/blender-scripting.md` and updated `references/vision/README.md` index; finalized pending `.agents` session update + audit/push cycle. · `$HOME/.agents/skills/k-context/references/vision/` |
@@ -85,7 +86,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-07 | [CLAUDE] | v2.74.16 — created `k-pptx` skill from live `powerpoint` MCP CLI inspection, random-explorer deck pipeline, and upstream metadata; updated AGENTS + skill-lock. · `$HOME/.agents/skills/k-pptx/` |
 | 2026-04-07 | [CLAUDE] | v2.74.15 — session finalization: validated AGENTS/k-context/log consistency, ran `make audit`, committed and pushed kernel updates. · `$HOME/.agents/` |
 | 2026-04-07 | [GEMINI] | v2.74.14 — restored 10 most recent session logs and graved the Zero-Deletion Policy into AGENTS and k-context rules. |
-| 2026-04-07 | [GEMINI] | v2.74.13 — Audit pass: verified `k-optim` v2.9.0, `k-context` v2.74.13, and session log rotation. |
 | [SUMMARY] | — | older entries (v2.74.12–v2.63, incl. k-optim v2.8.2/v2.8.1) moved to `references/log.md`; topics: backup automount, session log rotation, Ubuntu frequency audit, mac-studio config, agy.md/ENOSPC fix, mail scaffold, Phoenix v2.1.2, sh-mcp brainstorm. |
 
 ## References
@@ -100,6 +100,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-08 | [CODEX] | v2.74.23 — logged MCP naming cleanup session for whatsapp/mail/linkedin/ticktick skills and finalization workflow (`audit` + commit/push). |
 | 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` and updated `references/vision/README.md` index. |
-| 2026-04-07 | [CLAUDE] | v2.74.21 — finalized QMD maintenance (`embed` + `cleanup`) and logged Edge automation capability audit for favorites + browser control strategy. |
-| [SUMMARY] | — | v2.74.20 blender-scripting + vision index; v2.74.19 scien_curieux reorg + techskills rename + vision folder; v2.74.18 visual-ai-vision.md; v2.74.17 AGENTS.pptx/pdf deck; v2.74.14 restored 10 logs + zero-deletion; v2.74.13–v2.74.4 rotation/backup/TG bots; v2.74.2 stability; v2.74.0 Phoenix v3.1; v2.73–v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |
+| [SUMMARY] | — | v2.74.21 QMD maintenance + edge automation audit; v2.74.20 blender-scripting + vision index; v2.74.19 scien_curieux reorg + techskills rename + vision folder; v2.74.18 visual-ai-vision.md; v2.74.17 AGENTS.pptx/pdf deck; v2.74.14 restored 10 logs + zero-deletion; v2.74.13–v2.74.4 rotation/backup/TG bots; v2.74.2 stability; v2.74.0 Phoenix v3.1; v2.73–v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |

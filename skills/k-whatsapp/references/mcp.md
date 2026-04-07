@@ -21,10 +21,10 @@ Generic MCP setup reference for `whats-mcp`.
   - `-c`
   - `whats-mcp serve`
 
-## STDIO Fallback
+## STDIO Alternate
 
 - command: `zsh`
 - args:
   - `-l`
   - `-c`
-  - `whats-mcp serve --fallback`
+  - `whats-mcp serve`

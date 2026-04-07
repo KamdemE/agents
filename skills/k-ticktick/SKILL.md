@@ -4,8 +4,8 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.2"
-allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--fallback__*
+  version: "2.0.3"
+allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
 # Tool Memory — TickTick (tick-mcp)
@@ -36,12 +36,12 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 ## MCP Setup Reference
 
-- Generic setup (HTTP + stdio + fallback): `$HOME/.agents/skills/k-ticktick/references/mcp.md`
+- Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-ticktick/references/mcp.md`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-07 | [CODEX] | v2.0.3 — aligned TickTick MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
 | 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added MCP setup reference pointer (`references/mcp.md`) and normalized the changelog summary wording to the current AGENTS kernel naming |
-| 2026-03-25 | [CLAUDE] | v2.0.0 — refonte, migrated to skills/kpihx/ticktick/ |
-| [SUMMARY] | — | v1.0.0 — initial creation, migrated from the legacy agent kernel section in `$HOME/.agents/AGENTS.md` |
+| [SUMMARY] | — | v2.0.0 refonte/migration to `skills/kpihx/ticktick/`; v1.0.0 initial creation migrated from the legacy agent kernel section in `$HOME/.agents/AGENTS.md`. |

@@ -22,10 +22,10 @@ Generic MCP setup reference for `linkedin-mcp`.
   - `-c`
   - `linkedin-mcp serve`
 
-## STDIO Fallback
+## STDIO Alternate
 
 - command: `zsh`
 - args:
   - `-l`
   - `-c`
-  - `linkedin-mcp serve --fallback`
+  - `linkedin-mcp serve`
