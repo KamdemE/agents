@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.4.1"
+   version: "2.8.0"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -64,8 +64,9 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 1. Start with analysis:
    - run `ksh status` for a global health audit (Clean/Backup/Vault)
+   - run `systemctl list-timers` to see next/last runs and their concrete frequency
+   - run `make -C $HOME/Work/sh/clean log-scan` for the last workspace scan report
    - run `ksh backup status` to check the current safety window
-   - run `<script> --infos` before cleanup when the goal is diagnosis rather than blind deletion
 2. Prefer safe cleanup first:
    - use `auto_clean.sh` via `ksh clean run` for a broad low-risk sweep without manual prompts
    - use module-specific `-s` modes when the pressure is localized
@@ -88,6 +89,13 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | `$HOME/Work/sh/clean/clean_work.sh` | `$HOME/Work` analysis, git GC, temp artifacts, and optional env/dependency purge |
 | `$HOME/Work/sh/clean/clean_docker.sh` | Docker space analysis and unused image/container/volume cleanup |
 | `$HOME/Work/sh/clean/clean_ai.sh` | Ollama and HuggingFace storage cleanup |
+
+### Automated Tasks & Logs
+
+| Task | Frequency | Script Path | Log Path |
+| :--- | :--- | :--- | :--- |
+| System Cleanup | Every 2 days (starting Sun) + Persistent | `$HOME/Work/sh/clean/auto_clean.sh` | `/var/log/clean-system/workspace_scan.log` |
+| Workstation Backup | Every 2 days (starting Sun) + Persistent | `$HOME/Work/sh/backup_restore/backup_workstation.sh` | (Journal systemd) |
 
 ### Home Media Directories
 
@@ -214,6 +222,11 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
    - run `qmd cleanup` after structural changes
    - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
    - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
+5. **Telegram Reporting Mandatory**:
+    - At the very end of any k-optim cycle (after Meta scope), a concise synthesis MUST be sent via Telegram.
+    - **Homelab Bot (@sentinel_homelab_bot)**: Send the synthesis of Homelab status and backups.
+    - **Ubuntu Bot (@k_ubuntu_bot)**: Send the synthesis of Ubuntu workstation cleanup and Meta/Governance state.
+    - Usage: `tg user send <bot_id> "SENSY: (content)"`
 4. Suggest AI history cleanup when relevant:
    - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, or `k-ai`
    - propose the cleanup proactively when history size or noise is part of the optimization problem
@@ -241,6 +254,6 @@ ls ~/Downloads ~/Documents ~/Pictures ~/Videos ~/Music ~/Desktop
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.4.1 — purged ~412MB Codex history; updated `k-optim` with Phoenix v3.1 maintenance and cleanup loop results |
-| 2026-04-06 | [GEMINI] | v2.4.0 — integrated Phoenix v3.1 Homelab orchestration (`hsh`), maintenance procedures, and automated task log map |
-| [SUMMARY] | — | v2.2.0–v1.0.0: Phoenix orchestration, QMD cleanup, media policy, static provenance |
+| 2026-04-07 | [GEMINI] | v2.8.0 — Corrected Ubuntu frequency: every 2 days (cycle 1, 3, 5...) with persistent resume. Added audit CLI commands. |
+| 2026-04-07 | [GEMINI] | v2.7.0 — Clarified Ubuntu frequency: runs on ODD month-days (1, 3, 5...). |
+| [SUMMARY] | — | v2.6.0 automated tasks; v2.5.0 reporting mandate; v2.4.1 Phoenix loop results |

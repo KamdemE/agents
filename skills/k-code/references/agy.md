@@ -32,25 +32,47 @@ If AGY experiences visual bugs, freezing, or state errors, it shares the same El
 2.  **IDE Symptom**: Red notification: "Unable to watch for file changes. Please follow the instructions...".
 3.  **Agent Symptom**: `replace_file_content` repeats the same operation without error but without success.
 
-### Definitive Fix
-Instead of pushing kernel limits (which might not persist or be restricted), **reduce consumption** by excluding heavy/irrelevant directories from the watcher.
+### Definitive Fix (Phoenix v3.1 Standard)
+
+Instead of pushing kernel limits (which might not persist or be restricted), **reduce consumption** by excluding heavy/irrelevant directories from the watcher and explicitly defining hook locations for Copilot Chat.
 
 **Update `~/.config/Code/User/settings.json`**:
 ```json
-"files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/node_modules/**": true,
-    "**/Downloads/**": true,
-    "**/Documents/**": true,
-    "**/Pictures/**": true,
-    "**/Videos/**": true,
-    "**/Gdrive/**": true,
-    "**/Gdrive_X/**": true,
-    "**/.cache/**": true,
-    "**/Work/Homelab/data/**": true
+{
+    "workbench.colorTheme": "Dark Modern",
+    "chat.hookFilesLocations": {
+        ".github/hooks": true,
+        "~/.agents/hooks/copilot/hooks.json": true,
+        ".claude/settings.json": false,
+        ".claude/settings.local.json": false,
+        "~/.claude/settings.json": false
+    },
+    "chat.useCustomAgentHooks": true,
+    "chat.useAgentsMdFile": true,
+    "chat.useCustomizationsInParentRepositories": true,
+    "github.copilot.chat.agentDebugLog.enabled": true,
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/.hg/store/**": true,
+        "**/Downloads/**": true,
+        "**/Documents/**": true,
+        "**/Pictures/**": true,
+        "**/Videos/**": true,
+        "**/Gdrive_X/**": true,
+        "**/Gdrive/**": true,
+        "**/.npm-global/**": true,
+        "**/Work/Others/**": true,
+        "**/Work/X/**": true,
+        "**/Work/Homelab/presentation/**": true,
+        "**/.venv/**": true,
+        "**/.tox/**": true,
+        "**/.cache/**": true,
+        "**/Work/Homelab/data/**": true
+    }
 }
 ```
 
 ### Result
-This fix restores immediate responsiveness to all agentic editing tools. Load this reference whenever an agent experiences "edit hanging" or "sync loops".
+This configuration restores immediate responsiveness to all agentic editing tools and ensures that Copilot Chat correctly loads the specialized KπX agent hooks while ignoring legacy Claude settings. Load this reference whenever an agent experiences "edit hanging", "sync loops", or hook failures.

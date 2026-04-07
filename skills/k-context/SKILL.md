@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.1"
+  version: "2.74.9"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -71,17 +71,17 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive [SUMMARY]. |
+| 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); added diagnostic commands (`systemctl list-timers`, `log-scan`, `tg read`) to `k-optim` and `k-tg` (v1.5.0) for easier auditing. |
+| 2026-04-07 | [GEMINI] | v2.74.6 — **Ubuntu frequency map (REFINED)**: Clarified that clean/backup run on ODD month-days (1, 3, 5...) in `k-optim` (v2.7.0) and `k-workspace` (v2.15.0); reverted accidental systemd timer modifications. |
+| 2026-04-07 | [GEMINI] | v2.74.5 — **Ubuntu frequency map**: documented cleanup (21:30) and backup (22:00) tasks in `k-optim` (v2.6.0) with an automated tasks table for Ubuntu, mirroring the homelab structure. · `$HOME/.agents/skills/k-optim/` |
+| 2026-04-07 | [GEMINI] | v2.74.4 — **Telegram Bot Infrastructure & Governance**: Centralized management via BotFather (ID 93372553); deployed /clean, /status, /backup listeners on Ubuntu (@k_ubuntu_bot) and Homelab (@sentinel_homelab_bot) with CHAT_ID filtering and systemd persistence; updated k-tg (v2.5.0) with rich examples and k-optim (v2.5.0) with reporting mandate. · `$HOME/Work/sh/bot.py` |
+| 2026-04-06 | [GEMINI] | v2.74.3 — **Bot Synchronization & Test**: Confirmed `k-tg` sync with `tg bots`; mapped all hidden bots; sent two test messages from Ubuntu/Homelab bots for full operational confirmation. · `$HOME/.agents/` |
+| 2026-04-06 | [GEMINI] | v2.74.2 — **System Stability & Bot Inventory**: Applied inotify `watcherExclude` fix in VSCode settings; documented full Telegram bot inventory in `k-tg/SKILL.md` (Groups: Ubuntu & Homelab); identified OpenClaw agent status. · `$HOME/.agents/` |
 | 2026-04-06 | [GEMINI] | v2.74.1 — session fix: restored lost `sh (Phoenix)` project and rotates session log properly; kernel audit green · `$HOME/.agents/` |
 | 2026-04-06 | [GEMINI] | v2.74.0 — **Phoenix v3.1 Finalization**: Modular Node Architecture stabilized; `hsh` dispatcher installed; `k-homelab` (v1.7.0) & `k-optim` (v2.4.0) updated; Dual-Link mandate applied · `$HOME/Work/Homelab/sh/` |
 | 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; audit GREEN; make push · `$HOME/.agents/` |
-| 2026-04-06 | [COPILOT] | v2.72.0 — refined `Brainstorm Registry`: `references/log.md` excluded from brainstorm listing and nested brainstorms represented at folder level (`references/mac-studio/`) as requested · `$HOME/.agents/skills/k-context/` |
-| 2026-04-06 | [GEMINI] | v2.70.0 — Restored full `agy.md` (Operational + Debug + inotify fixes); kernel audit GREEN; session wrap. |
-| 2026-04-06 | [GEMINI] | v2.69.0 — Stabilized workstation (ENOSPC fix: 524288 watches); documented Post-Mortem in `k-code/references/agy.md`. Final sync for **sh** Phoenix v2.1.2. |
-| 2026-04-06 | [CLAUDE] | v2.67.0 — created `Work/AI/mail/` scaffold (cli/mcp/admin/skill split) and added durable mail tooling brainstorm in `references/mail-tooling-rewrite-brainstorm.md` · `$HOME/Work/AI/mail/` · `$HOME/.agents/skills/k-context/references/` |
-| 2026-04-06 | [CLAUDE] | v2.66.0 — Session finalize: k-tg skill + k-workspace committed; k-context reconciled (**sh** Phoenix row + **sh_mcp** brainstorm references restored) · `$HOME/.agents/` |
-| 2026-04-06 | [GEMINI] | v2.63.0 — Phoenix Protocol v2.1.2: `$HOME/Work/sh/` root Makefile, multi-remote sync, ksh dispatcher, submodule alignment |
-| 2026-04-06 | [CLAUDE] | v2.65.0 — `references/sh-mcp-agent-sandbox-vision.md` + AGENTS brainstorm archive pointer; Active Projects **sh_mcp** row · `$HOME/.agents/skills/k-context/` |
-| [SUMMARY] | — | older entries moved to `references/log.md`; historical baseline remains v2.61.0–v2.58.0 and prior |
+| [SUMMARY] | — | older entries (v2.72–v2.63) moved to `references/log.md`; topics: mac-studio config, agy.md/ENOSPC fix, mail scaffold, Phoenix v2.1.2, sh-mcp brainstorm. |
 
 ## References
 
@@ -95,6 +95,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.74.0 — Phoenix v3.1 Finalization: modular homelab nodes, `hsh` dispatcher, skill updates (v1.7.0, v2.4.0), dual-link documentation mandate |
-| 2026-04-06 | [CLAUDE] | v2.73.0 — session finalize: committed 13 pending skills + AGENTS.md + new references/ dirs; Session Log rotation (v2.61 → log.md) |
-| [SUMMARY] | — | v2.72–v2.62 stability/session passes; v2.67 mail scaffold; v2.66 session finalize; v2.65 sh_mcp brainstorm; v2.64 tg recovery; v2.63 Phoenix. |
+| 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive [SUMMARY]. |
+| 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); diagnostic commands added. |
+| [SUMMARY] | — | v2.74.6–v2.74.4 Ubuntu/TG bots; v2.74.2 stability (inotify); v2.74.0 Phoenix v3.1; v2.73-v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |

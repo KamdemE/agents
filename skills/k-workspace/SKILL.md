@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.14.0"
+  version: "2.16.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -37,7 +37,8 @@ allowed-tools: Bash(*), "*"
 | $HOME/Work/AI/gemini_mcps/ | Gemini Extension wrappers |
 | $HOME/Work/sh/bw_env/ | Bitwarden env manager — secrets in RAM via /dev/shm |
 | $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.2) — Root Makefile with smart proxies; Multi-Remote sync; **ksh dispatcher (v2.1.0) is the key entrypoint.** |
-| $HOME/Work/sh/clean/ | Unified Cleanup Suite (systemd, Saturday 10:00) — modules: snap, cache, vscode, work, docker, ai. |
+| $HOME/Work/sh/clean/ | System Cleanup (systemd, every 2 days starting Sun at 21:30) — logs: /var/log/clean-system/workspace_scan.log. |
+| $HOME/Work/sh/backup_restore/ | Workstation Backup (systemd, every 2 days starting Sun at 22:00) — archiving to HDD. |
 | $HOME/Work/Homelab/ | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
 | $HOME/Work/tutos_live/ | Ubuntu living KB — real fixes documented as they happen. Root: flat .md per tool/topic. |
 | $HOME/Work/Others/ | Miscellaneous / Non-project files / Transit zone |
@@ -138,6 +139,5 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [CLAUDE] | v2.14.0 — finalized MCP ownership rule: Bun when compatible, npm-global for third-party CLIs, nvm for versions only |
-| 2026-04-06 | [CLAUDE] | v2.13.0–v2.11.1 — Final Stability Pass: ENOSPC fix synchronized in global settings.json; reality audit complete; path tables use bare `$HOME` tokens |
-| [SUMMARY] | — | v2.11.0 Phoenix Protocol v2.1.2; v2.10.0 retired binary cleanup; v2.9.0–v1.0.0: Tailscale, cleanup suite, .kshrc discipline, routing rules, CLI baseline |
+| 2026-04-07 | [GEMINI] | v2.16.0 — Refined frequencies: every 2 days starting Sunday with persistent resume |
+| [SUMMARY] | — | v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13-2.11 Phoenix v2.1.2; v2.10 retiring legacy; v1.0 initial |
