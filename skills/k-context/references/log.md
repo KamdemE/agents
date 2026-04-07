@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced `~` with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
 | 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive SUMMARY. |
 | 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); added diagnostic commands (`systemctl list-timers`, `log-scan`, `tg read`) to `k-optim` and `k-tg` (v1.5.0) for easier auditing. |
 | 2026-04-07 | [GEMINI] | v2.74.6 — **Ubuntu frequency map (REFINED)**: Clarified that clean/backup run on ODD month-days (1, 3, 5...) in `k-optim` (v2.7.0) and `k-workspace` (v2.15.0); reverted accidental systemd timer modifications. |
