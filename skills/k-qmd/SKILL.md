@@ -40,7 +40,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 
 | Collection | Root path | Use for |
 |-----------|-----------|---------|
-| `tutos_live` | `$HOME/Work/tutos_live/` | Ubuntu fixes, tools, shell patterns |
+| `techskills` | `$HOME/Work/techskills/` | Ubuntu fixes, tools, shell patterns |
 | `presentation` | `$HOME/Work/Homelab/presentation/` | homelab architecture and project knowledge |
 | `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
 | `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
@@ -85,7 +85,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 ## Collection Scope Reflex
 
-- Ubuntu/system fix → `tutos_live`
+- Ubuntu/system fix → `techskills`
 - homelab architecture/project memory → `presentation`
 - agent workflow, hooks, AGENTS, skills → `agents`
 - agent-specific runtime config/docs → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`

@@ -37,7 +37,7 @@ Cross-boundary workflows should use **explicit steps** (artifact in sandbox → 
 
 ## Content inside the sandbox (directional)
 
-- **Git clones:** e.g. mirror or fork of `$HOME/.agents` (kernel), `tutos_live`, `presentation` — for QMD indexing, docs, and agent-maintained commits **inside the sandbox copy**, with normal **pull / branch / push** discipline (hooks and CI as on any other clone).
+- **Git clones:** e.g. mirror or fork of `$HOME/.agents` (kernel), `techskills`, `presentation` — for QMD indexing, docs, and agent-maintained commits **inside the sandbox copy**, with normal **pull / branch / push** discipline (hooks and CI as on any other clone).
 - **QMD:** optional phase 1.5 — CLI + index inside the volume, or a thin MCP tool that wraps the existing `qmd` / `qmdr` contract.
 
 ## Git and multi-writer reality

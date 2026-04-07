@@ -3,7 +3,7 @@
 # Secrets are injected at deploy time via CI → generated .env file.
 # Local dev overrides go in docker-compose.override.yml (never committed with values).
 #
-# See also: k-homelab/presentation/tutos_live/templates/ for traefik, postgres, etc.
+# See also: k-homelab/presentation/techskills/templates/ for traefik, postgres, etc.
 
 name: project-name   # used as compose project name: docker compose -p project-name
 

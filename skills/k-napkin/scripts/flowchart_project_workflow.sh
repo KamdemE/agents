@@ -16,6 +16,6 @@ cat > /tmp/napkin_content.md << 'EOF'
 11. Create docker-compose.prod.yml
 12. Setup GitLab CI pipeline
 13. Deploy via Traefik with domain label
-14. Document new patterns in tutos_live
+14. Document new patterns in techskills
 EOF
 napkin_gen /tmp/napkin_content.md flowchart svg

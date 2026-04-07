@@ -246,9 +246,9 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 | 2026-04-06 | Meta | QMD Hygiene | `qmd cleanup` run successfully (DB vacuumed); AI histories flagged for manual prune when needed |
 | 2026-04-06 | Ubuntu | Full Phoenix Loop | Executed `ksh clean run` and `ksh backup run`; 27GiB compressed to 15GiB archive; old backup rotated |
 | 2026-04-06 | Meta/Ubuntu | Unified Phoenix Orchestration | Integrated ksh status audits, clean -s routines, and backup checks into the core workflow; moved backup SOT to Ubuntu |
-| 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `tutos_live` and `presentation`; `glslc` presence confirmed before retesting embeds |
+| 2026-04-04 | Meta/QMD | Shared `post-commit` hook symlink model + Vulkan check | repo-name-derived hook template now symlinked from `techskills` and `presentation`; `glslc` presence confirmed before retesting embeds |
 | 2026-04-04 | Meta/QMD | Hot-only QMD cleanup + `qmd-optimization.md` | raw runtime histories removed from active index; guide added for inspection, SQLite checks, and cleanup flow |
-| 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to tutos_live/wine.md |
+| 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to techskills/wine.md |
 | 2026-04-03 | Ubuntu | Manual home debris cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
 
 ## Changelog

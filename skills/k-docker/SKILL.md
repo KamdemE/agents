@@ -17,7 +17,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `$HOME/Work/Homelab/presentation/tutos_live/assets/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via `k-qmd` or `ls`.
+> **Concrete examples:** check `$HOME/Work/Homelab/presentation/techskills/assets/` (polytask, wa-bot docker-compose are symlinks to real projects) — browse via `k-qmd` or `ls`.
 
 ## When to Load
 

@@ -108,7 +108,7 @@ This removes:
 
 ```bash
 qmd embed agents
-qmd embed tutos_live
+qmd embed techskills
 ```
 
 Do **not** run blanket `qmd embed` unless all active collections truly need fresh vectors.
@@ -154,6 +154,6 @@ Also distinguish two phases:
 |------|-------|--------|
 | 2026-04-04 | [CODEX] | Documented the temporary false-negative GPU warning during the first `qmd embed` Vulkan rebuild; steady-state device truth should be checked with `qmd status` |
 | 2026-04-04 | [CODEX] | Confirmed `glslc` availability (`/usr/bin/glslc`) and re-ran `qmd embed agents`; Vulkan toolchain blocker is cleared and the embed path no longer fails on missing shader compiler |
-| 2026-04-04 | [CODEX] | Reworked the shared `post-commit` hook for repo-name-derived collections and pointed `$HOME/Work/tutos_live/.git/hooks/post-commit` plus `$HOME/Work/Homelab/presentation/.git/hooks/post-commit` back to the shared template via symlink |
+| 2026-04-04 | [CODEX] | Reworked the shared `post-commit` hook for repo-name-derived collections and pointed `$HOME/Work/techskills/.git/hooks/post-commit` plus `$HOME/Work/Homelab/presentation/.git/hooks/post-commit` back to the shared template via symlink |
 | 2026-04-04 | [CODEX] | Switched QMD to hot-only indexing: raw `codex`, `gemini`, and `k-ai` histories removed from `$HOME/.config/qmd/index.yml`; index shrank from ~1.4GB to ~1003.5MB; active docs 536→270; vectors 115625→640 |
 | 2026-04-04 | [CODEX] | Purged stale archive vectors and inactive ghost documents directly from `$HOME/.cache/qmd/index.sqlite`, then ran `qmd cleanup` to vacuum the DB |

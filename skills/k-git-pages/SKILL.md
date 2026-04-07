@@ -19,7 +19,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, remotes) · `k-project` (init, naming)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** `$HOME/Work/tutos_live/` (live Docsify site), `$HOME/Work/Homelab/presentation/` — check via `k-qmd` or shell.
+> **Concrete examples:** `$HOME/Work/techskills/` (live Docsify site), `$HOME/Work/Homelab/presentation/` — check via `k-qmd` or shell.
 
 ## Stack
 
@@ -54,7 +54,7 @@ my-site/
 |-------------|---------|
 | `SITE_TITLE` | `KpihX Ubuntu Live` |
 | `SITE_NAME` | `🐧 KpihX Ubuntu Live` |
-| `GITHUB_REPO_URL` | `https://github.com/kpihx/tutos_live` |
+| `GITHUB_REPO_URL` | `https://github.com/kpihx/techskills` |
 | `SEARCH_PLACEHOLDER` | `🔍 Search tutorials...` |
 
 ### Placeholders in `_sidebar.md`
@@ -89,9 +89,9 @@ Docsify intercepts **all relative links** in `.md` files and tries to fetch the 
 ```
 https://github.com/USERNAME/REPO/blob/BRANCH/path/to/file.ext
 ```
-Example from tutos_live:
+Example from techskills:
 ```markdown
-[`config.py`](https://github.com/kpihx/tutos_live/blob/master/assets/config.py)
+[`config.py`](https://github.com/kpihx/techskills/blob/master/assets/config.py)
 ```
 
 > This rule applies to every `.md` in the Docsify site — tutorials, README, _sidebar references, etc.

@@ -3,7 +3,7 @@ name: k-workspace
 description: >
   ⚑ MANDATORY — load at the start of ANY session involving KπX environment, projects, or system.
   Directory layout ($HOME/Work/), package managers (uv/bun/npm), shell architecture (.kshrc),
-  MCP ecosystem, AI CLI tools, tutos_live Ubuntu knowledge base, engineering standards.
+  MCP ecosystem, AI CLI tools, techskills Ubuntu knowledge base, engineering standards.
 license: private
 metadata:
   author: KpihX
@@ -40,7 +40,7 @@ allowed-tools: Bash(*), "*"
 | $HOME/Work/sh/clean/ | System Cleanup (systemd, every 2 days starting Sun at 21:30) — logs: /var/log/clean-system/workspace_scan.log. |
 | $HOME/Work/sh/backup_restore/ | Workstation Backup (systemd, every 2 days starting Sun at 22:00) — archiving to HDD. |
 | $HOME/Work/Homelab/ | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
-| $HOME/Work/tutos_live/ | Ubuntu living KB — real fixes documented as they happen. Root: flat .md per tool/topic. |
+| $HOME/Work/techskills/ | Ubuntu living KB — real fixes documented as they happen. Root: flat .md per tool/topic. |
 | $HOME/Work/Others/ | Miscellaneous / Non-project files / Transit zone |
 | $HOME/Gdrive/ | Personal Google Drive via rclone (account: kapoivha@gmail.com) |
 | $HOME/Gdrive_X/ | Pro/Academic Google Drive via rclone (account: ivann.kamdem-pouokam.2024@polytechnique.org) |

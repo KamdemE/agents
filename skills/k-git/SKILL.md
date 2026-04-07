@@ -14,7 +14,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 > **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab or elsewhere)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `$HOME/Work/tutos_live/templates/` for Python/Makefile examples — browse via `ls` or `k-qmd`.
+> **Concrete examples:** check `$HOME/Work/techskills/templates/` for Python/Makefile examples — browse via `ls` or `k-qmd`.
 
 ## Rules
 

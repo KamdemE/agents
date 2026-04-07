@@ -112,7 +112,7 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 2. **Update `$HOME/.agents/AGENTS.md`** — add row to Storage table in Identity section
 3. **Update k-context** — add session log entry, bump version
 4. **Update `.skill-lock.json`** — only if a new skill was created, not for remotes
-5. **Propose `tutos_live` entry** — document any non-obvious steps or fixes encountered
+5. **Propose `techskills` entry** — document any non-obvious steps or fixes encountered
 6. **Commit + push** — `cd $HOME/.agents && git add -A && git commit -m "..." && make push`
 
 ## Troubleshooting

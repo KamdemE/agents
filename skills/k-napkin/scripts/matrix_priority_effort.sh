@@ -4,7 +4,7 @@ cat > /tmp/napkin_content.md << 'EOF'
 # KpiX Projects Priority vs Effort Matrix
 
 ## High Priority, Low Effort (Do Now)
-- Document tutos_live entries as work happens
+- Document techskills entries as work happens
 - Verify all MCP connections health
 - Update k-* skills after tool changes
 

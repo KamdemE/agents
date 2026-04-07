@@ -19,7 +19,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `$HOME/Work/tutos_live/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
+> **Concrete examples:** check `$HOME/Work/techskills/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
 
 ## Naming Conventions
 

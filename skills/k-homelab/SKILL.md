@@ -67,7 +67,7 @@ Source code for all kpihx-labs projects lives here. When a KπX project is menti
 
 Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS`, `STATE_OF_THE_ART`, `EVOLUTION`, `PORTABILITY`. Docsify site published at `kpihx-labs.github.io/presentation/` (`_sidebar.md`, `index.html`). Sub-structure:
 
-- **`tutos_live/`** — Step-by-step homelab implementation series, Problem-first approach. Sections:
+- **`techskills/`** — Step-by-step homelab implementation series, Problem-first approach. Sections:
   - Root: 6 core infra guides (Proxmox/802.1X → Docker host → DevOps/CI → Tailscale/AdGuard → Cloudflare/Zero Trust → Vaultwarden/DNS-01)
   - `n8n/` — n8n deployment (private cerveau, PostgreSQL reuse)
   - `security/` — backup 3-2-1, Watchtower, SSH hardening

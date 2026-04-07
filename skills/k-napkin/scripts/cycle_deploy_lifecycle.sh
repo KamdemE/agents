@@ -24,7 +24,7 @@ Sentinel checks service health endpoints
 Portainer shows live container status
 
 ## 6. Document
-New pattern: add to tutos_live
+New pattern: add to techskills
 Tool change: update k-* skill
 EOF
 napkin_gen /tmp/napkin_content.md cycle svg

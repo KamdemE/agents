@@ -77,7 +77,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 | Path | Scope |
 |------|-------|
-| `$HOME/Work/tutos_live/templates/` | Python boilerplate (pyproject.toml, config.py), Docsify (index.html, _sidebar.md), WaveTerm. pyproject/config/docsify files are symlinks → skills. |
+| `$HOME/Work/techskills/templates/` | Python boilerplate (pyproject.toml, config.py), Docsify (index.html, _sidebar.md), WaveTerm. pyproject/config/docsify files are symlinks → skills. |
 | `$HOME/Work/Homelab/presentation/tutos_live/templates/` | Homelab docker-compose files (polytask, wa-bot, n8n-personal-ops → symlinks to project dirs), gitlab-ci history (leave as-is). |
 
 > When creating a new project: check these dirs for concrete examples before writing from scratch. Use `ls` or `k-qmd` to browse.
@@ -96,7 +96,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 ## Working with KπX
 
-> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/tutos_live/` for Ubuntu/local-tooling scope, or in `$HOME/Work/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
+> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/techskills/` for Ubuntu/local-tooling scope, or in `$HOME/Work/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
 
 ### Knowledge Base — k-qmd
 
@@ -106,7 +106,7 @@ Main collections:
 
 | Collection | Path | Scope |
 |------------|------|-------|
-| `tutos_live` | `$HOME/Work/tutos_live/` | Ubuntu tools, fixes, patterns documented live |
+| `techskills` | `$HOME/Work/techskills/` | Ubuntu tools, fixes, patterns documented live |
 | `presentation` | `$HOME/Work/Homelab/presentation/` | Homelab architecture, projects, research, vision |
 | `agents` | `$HOME/.agents/` | Agent workflows, AGENTS.md, skills, session history |
 | `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
@@ -118,7 +118,7 @@ Main collections:
 
 Exact indexing procedures, setup details, and live collection behavior remain in `k-qmd` and the qmd runtime/config.
 
-**When to query:** before inventing an approach, when unsure where something lives, or to inspect another agent's config/history. Match scope to collection — `tutos_live` (Ubuntu), `presentation` (homelab), `agents` (workflows), agent-named collections (their history). Always check `$HOME/Work/tutos_live/templates/` before creating new files from scratch.
+**When to query:** before inventing an approach, when unsure where something lives, or to inspect another agent's config/history. Match scope to collection — `techskills` (Ubuntu), `presentation` (homelab), `agents` (workflows), agent-named collections (their history). Always check `$HOME/Work/techskills/templates/` before creating new files from scratch.
 
 ### Brainstorm & vision archive
 
@@ -126,7 +126,7 @@ Exact indexing procedures, setup details, and live collection behavior remain in
 
 `$HOME/.agents/skills/k-context/references/`
 
-Add a new `.md` file there when a brainstorm should survive sessions and QMD indexing (agents collection). **Do not** treat these files as operational runbooks until promoted to a skill or `tutos_live` / `presentation`.
+Add a new `.md` file there when a brainstorm should survive sessions and QMD indexing (agents collection). **Do not** treat these files as operational runbooks until promoted to a skill or `techskills` / `presentation`.
 
 **Example:** `sh-mcp` agent sandbox MCP + future user-side executor — `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md`.
 
