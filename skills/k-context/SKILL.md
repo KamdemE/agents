@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.17"
+  version: "2.74.18"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -60,7 +60,7 @@ allowed-tools: "Bash(*), *"
 | `references/agentic-architecture-brainstorm.md` | Brainstorm | hot/cold context, 3-layer architecture, MCP qualification logic |
 | `references/mail-tooling-rewrite-brainstorm.md` | Brainstorm | mail refactor vision: cli + mcp + admin + skill split, secret-safe design |
 | `references/sh-mcp-agent-sandbox-vision.md` | Brainstorm | sh_mcp sandbox and future user-side sh-exec separation |
-| `references/mac-studio/` | Brainstorm folder | grouped Mac Studio sovereignty ideas (business, hardware, models, performance, stack, vision) |
+| `references/mac-studio/` | Brainstorm folder | grouped Mac Studio sovereignty ideas (business, hardware, models, performance, stack, vision, visual-ai-vision) |
 | `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
 
 ## Session Log
@@ -73,6 +73,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [CLAUDE] | v2.74.18 — created `references/mac-studio/visual-ai-vision.md`: visual-first AI paradigm, image/video gen state-of-art (April 2026), NotebookLM/Nano Banana pipeline analysis, education thesis, 3-horizon roadmap. · `$HOME/.agents/skills/k-context/references/mac-studio/` |
 | 2026-04-07 | [CLAUDE] | v2.74.17 — generated 7-slide `.agents/` architecture deck (AI images via GenerateImage + python-pptx dark-tech theme); published `docs/AGENTS.pptx` + `docs/AGENTS.pdf`; image/video gen state-of-art analysis + NotebookLM/Nano Banana pipeline research. · `$HOME/.agents/docs/` |
 | 2026-04-07 | [CLAUDE] | v2.74.16 — created `k-pptx` skill from live `powerpoint` MCP CLI inspection, random-explorer deck pipeline, and upstream metadata; updated AGENTS + skill-lock. · `$HOME/.agents/skills/k-pptx/` |
 | 2026-04-07 | [CLAUDE] | v2.74.15 — session finalization: validated AGENTS/k-context/log consistency, ran `make audit`, committed and pushed kernel updates. · `$HOME/.agents/` |
@@ -96,6 +97,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-07 | [CLAUDE] | v2.74.18 — added `visual-ai-vision.md` (image/video state-of-art, NotebookLM pipeline, education thesis, roadmap); brainstorm registry updated. |
 | 2026-04-07 | [CLAUDE] | v2.74.17 — added `docs/AGENTS.pptx` + `docs/AGENTS.pdf` (7-slide architecture deck); session log rotation; finalize. |
-| 2026-04-07 | [CLAUDE] | v2.74.16 — added `k-pptx` skill (powerpoint MCP/CLI workflow), plus AGENTS key-skill row and `.skill-lock.json` sync. |
 | [SUMMARY] | — | v2.74.14 restored 10 logs + zero-deletion references; v2.74.13–v2.74.4 rotation/backup/TG bots; v2.74.2 stability (inotify); v2.74.0 Phoenix v3.1; v2.73–v2.62 stability/session passes; v2.67 mail; v2.63 Phoenix. |
