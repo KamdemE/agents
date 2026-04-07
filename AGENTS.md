@@ -59,6 +59,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-linkedin` | Before any linkedin-mcp call |
 | `k-ticktick` | Before any tick-mcp call |
 | `k-tg` | Before any `tg` Telegram CLI work (bots, Telethon user, webhooks) |
+| `k-pptx` | Before any PowerPoint deck generation/edit flow using `powerpoint` CLI/MCP |
 | `k-claude` | MCPs for Claude; Claude-specific tasks |
 | `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
 | `k-codex` | MCPs for Codex |
