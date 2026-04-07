@@ -13,6 +13,7 @@
 | `code-as-visual.md` | Code-driven visuals: Manim, Mermaid, D3, HTML/CSS/JS vs pixel-gen — the precision-first approach |
 | `social-media-apis.md` | Platform APIs for automated content distribution (YouTube, LinkedIn, X, Facebook, Instagram) |
 | `content-engine.md` | End-to-end pipeline: idea → script → visual → render → publish — with time/cost estimates |
+| `blender-scripting.md` | Blender MCP/API/scripting: bpy, official MCP, better-blender, headless execution |
 
 ## Status
 
