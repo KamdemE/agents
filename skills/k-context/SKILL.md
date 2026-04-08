@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.30"
+  version: "2.74.31"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -17,6 +17,7 @@ allowed-tools: "Bash(*), *"
 > - **Zero-Deletion Policy (Mandatory):** NEVER delete logs or historical entries. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved to `references/log.md` BEFORE the main file is compacted. Every removal MUST be an addition to the archive. [GEMINI]
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
 > **Kernel Sync Rule:** ALWAYS run `make audit` in `.agents/` and fix any errors BEFORE proposing session finalization (`git commit` + `make push`).
+> **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-workspace` cross-links.
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
@@ -77,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-08 | [CODEX] | v2.74.29 — finalized communication-safety governance update in `.agents`: added mandatory dry-run before WhatsApp group sends in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; prepared session finalization commit/push. · `$HOME/.agents/skills/k-whatsapp/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-08 | [CURSOR] | v2.74.28 — rewrote entire `docs/` site in French (all pages + sidebar + index.html), added Mermaid plugin to Docsify (mermaid@10 + MutationObserver), replaced ASCII diagram with Mermaid flowchart, created TickTick task for Overleaf report session (Graph Tool + Heuristic Reranking, Sat 11/04 20h). Committed and pushed `envision-copilot-presentation`. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X/📅 Agenda` |
@@ -86,8 +88,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-08 | [CODEX] | v2.74.24 — finalized `.agents` mail/whatsapp/ticktick skill governance updates: added proactive TickTick proposal rules, enforced changelog-limit compaction, updated runtime memory references, and prepared final audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-08 | [CODEX] | v2.74.23 — finalized MCP naming cleanup for whatsapp/mail/linkedin/ticktick skills: removed `--fallback` references from `references/mcp.md`, aligned SKILL allowed-tools to `--stdio`, and prepared `.agents` audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
-| 2026-04-07 | [CLAUDE] | v2.74.21 — QMD maintenance finalized (`qmd embed` + `qmd cleanup`), Edge automation capability audit completed (favorites/bookmarks APIs, MCP options, DOM vs vision control strategy, Mac Studio feasibility notes). · `$HOME/.cache/qmd/` · edge automation analysis in chat |
-| [SUMMARY] | — | older entries (v2.74.20–v2.63 incl. blender-scripting index, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim v2.8.2/v2.8.1) moved to `references/log.md`; topics: PPTX skill, deck generation, visual-ai-vision, backup automount, session log rotation, Ubuntu frequency audit, mac-studio config, agy.md/ENOSPC fix, mail scaffold, Phoenix v2.1.2, sh-mcp brainstorm. |
+| [SUMMARY] | — | v2.74.21 QMD+edge automation audit; v2.74.20–v2.63 (blender index, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, session rotation, Ubuntu audit, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
 
 ## References
 
@@ -101,6 +102,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.30 — introduced `k-final` post-work workflow skill; kernel table + file routing + skill-lock sync. |
-| 2026-04-08 | [CODEX] | v2.74.29 — logged finalization of WhatsApp group dry-run governance in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; ready for audit + commit/push. |
-| [SUMMARY] | — | v2.74.28 Cursor Envision docs FR + Mermaid + TickTick + log compaction; v2.74.27–v2.74.26 PSC/TickTick; v2.74.25 AGENTS proactive-suggestions; v2.74.24–v2.74.23 skill/MCP governance; v2.74.21 QMD + edge automation; v2.74.20 blender-scripting; v2.74.19 scien_curieux + techskills; v2.74.18–v2.62 PPTX deck, visual-ai, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.31 — **`k-final`** mandatory on project closure across kernel (`AGENTS`, `k-project`, `k-git`, `k-workspace`, `k-context`); session log rotation (v2.74.21 → log) |
+| [SUMMARY] | — | v2.74.30 `k-final` skill + skill-lock + routing; v2.74.29 WhatsApp dry-run + mail send-gate; v2.74.28–v2.74.23 Envision/PSC/TickTick/AGENTS/MCP; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |

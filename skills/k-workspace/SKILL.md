@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.0"
+  version: "2.16.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -16,6 +16,10 @@ allowed-tools: Bash(*), "*"
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **IT IS CRITICAL TO ENSURE THIS FILE IS ALWAYS SYNCHRONIZED WITH THE ACTUAL PHYSICAL WORKSPACE.**
+
+## Project finalization
+
+Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding down** — explicit release, "clean this up", "we're done", or you would otherwise stop touching the tree — **load `k-final`** (`$HOME/.agents/skills/k-final/SKILL.md`) **before** claiming completion and execute **all** applicable phases (tests, hygiene, docs, semver, `make push`, CI/CD, deploy logs, local install, build/publish). Do not substitute ad-hoc habits for that checklist.
 
 ## Directory Layout
 
@@ -139,5 +143,5 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-07 | [GEMINI] | v2.16.0 — Refined frequencies: every 2 days starting Sunday with persistent resume |
-| [SUMMARY] | — | v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13-2.11 Phoenix v2.1.2; v2.10 retiring legacy; v1.0 initial |
+| 2026-04-09 | [CURSOR] | v2.16.1 — **`k-final`** mandate: full project-closure checklist before leaving a repo |
+| [SUMMARY] | — | v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |

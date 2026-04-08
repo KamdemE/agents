@@ -52,7 +52,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-homelab` | Homelab infra, projects, SSH, presentation KB |
 | `k-git` | Any git / repo operation |
 | `k-project` | Creating / initializing any project |
-| `k-final` | Finishing a project workstream — tests, cleanup, docs, version bump, push, CI/CD, deploy verification, install, publish |
+| `k-final` | **MANDATORY when finalizing any project repo** — read fully, then execute the full checklist (tests → hygiene → docs → version → git → CI/deploy → install → publish). Load on explicit wrap-up, implicit "done", or user asks to finalize / clean / close the project |
 | `k-docker` | Any project deployed on the homelab server |
 | `k-git-pages` | GitHub Pages + Docsify docs site for any project |
 | `k-whatsapp` | Before any whats-mcp call |
@@ -93,7 +93,6 @@ Concrete, project-specific examples live alongside generic skill templates:
 | "ajuste VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
 | "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
-| "ajuste FINAL" | `$HOME/.agents/skills/k-final/SKILL.md` |
 | "ajuste FINAL" | `$HOME/.agents/skills/k-final/SKILL.md` |
 | "suis SKILL-CREATOR" | `$HOME/.agents/skills/k-skill-creator/SKILL.md` |
 
@@ -194,6 +193,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Session & Memory
 
+- **`k-final` (project closure):** Before treating any **project** work as finished — whether KπX said "finalize", "clean up", "close the loop", or you judge the task complete enough to walk away — **load `$HOME/.agents/skills/k-final/SKILL.md` and run every applicable phase** (do not skip steps from habit). Pair with `k-git` / `k-project` as referenced inside `k-final`.
 - TODOs in `k-context` — only KπX adds; agents execute + remove.
 - **k-context live updates (agent-owned):** The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit or even just a new evolution not committed (non-trivial), issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
 - **`Active Projects` limit:** max 20 live rows. Only when full, condense stale/completed items into a short bounded `[ARCHIVE]` row.

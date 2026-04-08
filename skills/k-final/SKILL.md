@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.0.1"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -23,6 +23,8 @@ allowed-tools: Bash, Read, Write, Edit
 ## Role
 
 Mandatory **closing pass** after substantive work on a repo: every phase below is executed **as far as the project type allows**. Skip only what is **not applicable** (e.g. no `tests/` in a shell-only repo — still document why in `CHANGELOG` or `README` if relevant).
+
+**Kernel contract:** `AGENTS.md`, `k-context`, `k-workspace`, `k-project`, and `k-git` all instruct agents to **load this file** when finalizing or "cleaning" a project — treat that as a hard gate, not a suggestion.
 
 ## Phase A — Tests
 
@@ -113,5 +115,5 @@ Prefer, in order:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v1.0.0 — initial skill: post-work test → hygiene → config-docs → markdown → ignores/docker → semver → git order → CI → runtime logs → local install → build/publish; resume token `continue`. |
-| [SUMMARY] | — | initial baseline |
+| 2026-04-09 | [CURSOR] | v1.0.1 — kernel mandates (`AGENTS`, `k-context`, `k-workspace`, `k-project`, `k-git`) require loading this skill on every project closure |
+| [SUMMARY] | — | v1.0.0 initial phases A–J; resume token `continue` |

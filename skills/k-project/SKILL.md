@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.4.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -17,7 +17,7 @@ allowed-tools: Bash(*), "*"
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site)
+> **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** check `$HOME/Work/techskills/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
 
@@ -176,6 +176,8 @@ For owned JS/TS MCP servers, choose Bun only after runtime verification; if the 
 
 ## Versioning & Release
 
+> **Closure:** Treat this section as the **content** of a release pass; the **process order** and gates (tests, CI, deploy logs, `dist/` wipe, tokens) live in **`k-final`** — load it whenever you finalize or "clean" the project so nothing is forgotten.
+
 1. Bump `version` in `pyproject.toml` / `package.json`
 2. Check `TODO.md` — remove completed items
 3. Add entry to `CHANGELOG.md` (from TODO.md or general summary)
@@ -275,6 +277,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.4.1 — linked **`k-final`** as mandatory for project closure; Versioning & Release points to `k-final` for full process gates |
 | 2026-04-06 | [CLAUDE] | v2.4.0 — added MCP ownership/alignment rule for JS/TS projects and VS Code binary resolution |
-| 2026-04-05 | [CLAUDE] | v2.3.1–v2.3.0 — Bash/Shell Makefile target `run`, systemctl status mapping, manual exec target, install/purge guards, excludes.conf, service targets |
-| [SUMMARY] | — | v2.2.0 Git Submodules; v2.1.0–v1.0.0: Bash/Shell case, install/purge, journald, docs-site, config/env per-package, assets/ migration, and earlier |
+| [SUMMARY] | — | v2.3.1–v2.3.0 Bash/Shell `run`/journald/install-purge; v2.2.0 Git Submodules; v2.1.0–v1.0.0: docs-site, config/env, assets/ migration, and earlier |

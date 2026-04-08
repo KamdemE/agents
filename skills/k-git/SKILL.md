@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.3"
+  version: "2.6.4"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -12,7 +12,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-docker` (load if project will be deployed on homelab or elsewhere)
+> **Related skills:** `k-project` (init, naming — load always alongside k-git) · `k-final` (**mandatory** when finalizing a project — read fully; covers `make push`, CI watch, deploy verification, then install/publish order) · `k-docker` (load if project will be deployed on homelab or elsewhere)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** check `$HOME/Work/techskills/templates/` for Python/Makefile examples — browse via `ls` or `k-qmd`.
 
@@ -77,6 +77,8 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 
 ## Post-Push Workflow: CI/CD Verification
 
+During a **project finalization** pass, **`k-final`** owns the full sequence (tests and docs *before* push, then CI, then runtime logs, then local install/publish). This section remains the **git-focused** rule: after `make push`, watch pipelines until green.
+
 After any `make push` to a project that has a `.gitlab-ci.yml`, it is mandatory to monitor the pipeline's status to ensure the changes deploy successfully.
 
 **Always check the pipeline status until it completes.**
@@ -94,6 +96,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.6.4 — **`k-final`** cross-link: mandatory on project closure; CI section defers full finalization sequence to `k-final` |
 | 2026-04-05 | [CLAUDE] | v2.6.3 — `assets/Makefile.git`: **`run`** target for manual service execution (replaces `test-run`) |
-| 2026-04-03 | [CODEX] | v2.6.2 — normalized remaining paths to `$HOME`, pointed concrete examples to `k-qmd`, and condensed the changelog to the standard footer format |
-| [SUMMARY] | — | v2.6.1 templates→assets; v2.6.0 Makefile.general→Makefile.git + uv/npm-bun to `k-project`; v2.5.0 examples; v2.4.0 Related skills; v2.3.0 template split; v2.2.0–v1.0.0 baseline |
+| [SUMMARY] | — | v2.6.2 paths→`$HOME`+k-qmd; v2.6.1 templates→assets; v2.6.0 Makefile.git + uv/npm-bun to `k-project`; v2.5.0–v1.0.0 baseline |
