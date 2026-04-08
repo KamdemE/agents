@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.0.9"
+  version: "2.0.10"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -25,6 +25,11 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 - You have full control over the whole `k-whatsapp/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
 - Before ending, you must run a final self-check: "Are all files in `k-whatsapp/` reflecting current reality?" If not, update them immediately.
 - If you detect key actionable information in WhatsApp content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.
+- For any WhatsApp group message, mandatory dry-run first.
+- Step 1: produce preview (`target_jid`, `target_name`, `final_text`, optional mentions/quote).
+- Step 2: wait for explicit user approval (`OK ENVOI` or equivalent).
+- Step 3: only then call `send_text`.
+- If approval is missing or ambiguous, do not send.
 - `SKILL.md` describes stable operating rules and how to use whats-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
 
@@ -119,6 +124,6 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-08 | [CODEX] | v2.0.10 — added mandatory dry-run policy for WhatsApp group messages (preview + explicit approval + send gate + no-send on ambiguity). |
 | 2026-04-08 | [CODEX] | v2.0.9 — added mandatory proactive TickTick proposal rule for actionable WhatsApp info and compacted changelog to kernel limit (2 rows + `[SUMMARY]`). |
-| 2026-04-08 | [CODEX] | v2.0.7 — granted full agent ownership over all `k-whatsapp/` files, made proactive Open Threads updates mandatory, and added end-of-task full-folder reality self-check. |
-| [SUMMARY] | — | v2.0.6 runtime memory protocol (`insights.md` + `log.md`) + v2.0.5 stdio suffix alignment + v2.0.0 migration/history (community maps, Binet Bad, X24⚔️🔥). |
+| [SUMMARY] | — | v2.0.7 full-folder ownership + open-threads maintenance + end-of-task reality self-check; v2.0.6 runtime memory protocol (`insights.md` + `log.md`); v2.0.5 stdio suffix alignment; v2.0.0 migration/history (community maps, Binet Bad, X24⚔️🔥). |

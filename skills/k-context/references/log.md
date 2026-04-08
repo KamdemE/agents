@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [CLAUDE] | v2.74.19 — mega session: scien_curieux reorganized (math/ subfolder, k-project AGENTS.md, Docsify); GitHub rename maths-articles→scien_curieux + Pages; tutos_live→techskills rename (dir, QMD, all .agents/ refs, GitHub repo); cloned 3b1b/manim; created `references/vision/` (5 docs: visual-ai, k-visual arch, code-as-visual, social APIs, content engine); QMD collection + post-commit hook for scien_curieux. · `$HOME/Work/scien_curieux/` · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.16 — created `k-pptx` skill from live `powerpoint` MCP CLI inspection, random-explorer deck pipeline, and upstream metadata; updated AGENTS + skill-lock. · `$HOME/.agents/skills/k-pptx/` |
 | 2026-04-07 | [CLAUDE] | v2.74.17 — generated 7-slide `.agents/` architecture deck (AI images via GenerateImage + python-pptx dark-tech theme); published `docs/AGENTS.pptx` + `docs/AGENTS.pdf`; image/video gen state-of-art analysis + NotebookLM/Nano Banana pipeline research. · `$HOME/.agents/docs/` |
 | 2026-04-07 | [CLAUDE] | v2.74.18 — created `references/mac-studio/visual-ai-vision.md`: visual-first AI paradigm, image/video gen state-of-art (April 2026), NotebookLM/Nano Banana pipeline analysis, education thesis, 3-horizon roadmap. · `$HOME/.agents/skills/k-context/references/mac-studio/` |

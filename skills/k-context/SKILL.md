@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.28"
+  version: "2.74.29"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -77,6 +77,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-08 | [CODEX] | v2.74.29 — finalized communication-safety governance update in `.agents`: added mandatory dry-run before WhatsApp group sends in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; prepared session finalization commit/push. · `$HOME/.agents/skills/k-whatsapp/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-08 | [CURSOR] | v2.74.28 — rewrote entire `docs/` site in French (all pages + sidebar + index.html), added Mermaid plugin to Docsify (mermaid@10 + MutationObserver), replaced ASCII diagram with Mermaid flowchart, created TickTick task for Overleaf report session (Graph Tool + Heuristic Reranking, Sat 11/04 20h). Committed and pushed `envision-copilot-presentation`. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X/📅 Agenda` |
 | 2026-04-08 | [CODEX] | v2.74.27 — moved `Soutenance PSC` into `🎓 X/📅 Agenda`, finalized academic `docs/` pages from main-branch Envision state + source PDFs in `source/`, created and pushed `KpihX/envision-psc`, enabled GitHub Pages (`main/docs`), and verified live site. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
 | 2026-04-08 | [CODEX] | v2.74.26 — synchronized PSC planning in TickTick (report final deadline + soutenance period + soutenance date reminders `-7d/-1d/-1h`) and created Docsify `docs/` scaffold in main PSC project `envision` (without `.agents`, AGENTS, CHANGELOG, TODO). · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
@@ -86,7 +87,6 @@ allowed-tools: "Bash(*), *"
 | 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.21 — QMD maintenance finalized (`qmd embed` + `qmd cleanup`), Edge automation capability audit completed (favorites/bookmarks APIs, MCP options, DOM vs vision control strategy, Mac Studio feasibility notes). · `$HOME/.cache/qmd/` · edge automation analysis in chat |
 | 2026-04-07 | [CLAUDE] | v2.74.20 — added `references/vision/blender-scripting.md` and updated `references/vision/README.md` index; finalized pending `.agents` session update + audit/push cycle. · `$HOME/.agents/skills/k-context/references/vision/` |
-| 2026-04-07 | [CLAUDE] | v2.74.19 — mega session: scien_curieux reorganized (math/ subfolder, k-project AGENTS.md, Docsify); GitHub rename maths-articles→scien_curieux + Pages; tutos_live→techskills rename (dir, QMD, all .agents/ refs, GitHub repo); cloned 3b1b/manim; created `references/vision/` (5 docs: visual-ai, k-visual arch, code-as-visual, social APIs, content engine); QMD collection + post-commit hook for scien_curieux. · `$HOME/Work/scien_curieux/` · `$HOME/.agents/skills/k-context/references/vision/` |
 | [SUMMARY] | — | older entries (v2.74.18–v2.63 incl. k-pptx creation, AGENTS deck, mac-studio visual-ai, k-optim v2.8.2/v2.8.1) moved to `references/log.md`; topics: PPTX skill, deck generation, visual-ai-vision, backup automount, session log rotation, Ubuntu frequency audit, mac-studio config, agy.md/ENOSPC fix, mail scaffold, Phoenix v2.1.2, sh-mcp brainstorm. |
 
 ## References
@@ -101,6 +101,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-08 | [CODEX] | v2.74.29 — logged finalization of WhatsApp group dry-run governance in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; ready for audit + commit/push. |
 | 2026-04-08 | [CURSOR] | v2.74.28 — logged Cursor session: docs FR rewrite, Mermaid plugin, TickTick Overleaf report task, session log compaction (archived v2.74.16–v2.74.18 to log.md). |
-| 2026-04-08 | [CODEX] | v2.74.27 — logged TickTick soutenance move to agenda plus full Envision PSC publication cycle (academic docs refinement, source PDFs, new GitHub repo, Pages enabled, live verification). |
-| [SUMMARY] | — | v2.74.26 PSC TickTick sync + docs scaffold; v2.74.25 AGENTS proactive-suggestions + TickTick updates; v2.74.24 skill governance finalization; v2.74.23 MCP naming cleanup; v2.74.21 QMD + edge automation; v2.74.20 blender-scripting; v2.74.19 scien_curieux + techskills rename + vision folder; v2.74.18 visual-ai-vision; v2.74.17 AGENTS deck; v2.74.14 zero-deletion; v2.74.0 Phoenix v3.1; v2.73–v2.62 stability/session passes. |
+| [SUMMARY] | — | v2.74.27 TickTick soutenance move + Envision PSC publication cycle; v2.74.26 PSC TickTick sync + docs scaffold; v2.74.25 AGENTS proactive-suggestions + TickTick updates; v2.74.24 skill governance finalization; v2.74.23 MCP naming cleanup; v2.74.21 QMD + edge automation; v2.74.20 blender-scripting; v2.74.19 scien_curieux + techskills rename + vision folder; v2.74.18 visual-ai-vision; v2.74.17 AGENTS deck; v2.74.14 zero-deletion; v2.74.0 Phoenix v3.1; v2.73–v2.62 stability/session passes. |
