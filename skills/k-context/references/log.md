@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.21 — QMD maintenance finalized (`qmd embed` + `qmd cleanup`), Edge automation capability audit completed (favorites/bookmarks APIs, MCP options, DOM vs vision control strategy, Mac Studio feasibility notes). · `$HOME/.cache/qmd/` · edge automation analysis in chat |
 | 2026-04-07 | [CLAUDE] | v2.74.20 — added `references/vision/blender-scripting.md` and updated `references/vision/README.md` index; finalized pending `.agents` session update + audit/push cycle. · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.19 — mega session: scien_curieux reorganized (math/ subfolder, k-project AGENTS.md, Docsify); GitHub rename maths-articles→scien_curieux + Pages; tutos_live→techskills rename (dir, QMD, all .agents/ refs, GitHub repo); cloned 3b1b/manim; created `references/vision/` (5 docs: visual-ai, k-visual arch, code-as-visual, social APIs, content engine); QMD collection + post-commit hook for scien_curieux. · `$HOME/Work/scien_curieux/` · `$HOME/.agents/skills/k-context/references/vision/` |

@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.31"
+  version: "2.74.32"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -78,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-08 | [CODEX] | v2.74.29 — finalized communication-safety governance update in `.agents`: added mandatory dry-run before WhatsApp group sends in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; prepared session finalization commit/push. · `$HOME/.agents/skills/k-whatsapp/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
@@ -87,8 +88,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-08 | [CODEX] | v2.74.25 — updated `$HOME/.agents/AGENTS.md` proactive-suggestions rule (no upper limit), then applied TickTick execution updates: refreshed CSC_43042 course note, created TD5→TD10 reminders (-1d/-1h), and added X24 events for PA campaign + spring break. · `$HOME/.agents/AGENTS.md` · TickTick (`🎓 X/📒 Notes`, `🎓 X/📅 Agenda`) |
 | 2026-04-08 | [CODEX] | v2.74.24 — finalized `.agents` mail/whatsapp/ticktick skill governance updates: added proactive TickTick proposal rules, enforced changelog-limit compaction, updated runtime memory references, and prepared final audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-08 | [CODEX] | v2.74.23 — finalized MCP naming cleanup for whatsapp/mail/linkedin/ticktick skills: removed `--fallback` references from `references/mcp.md`, aligned SKILL allowed-tools to `--stdio`, and prepared `.agents` audit/commit/push cycle. · `$HOME/.agents/skills/` |
-| 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
-| [SUMMARY] | — | v2.74.21 QMD+edge automation audit; v2.74.20–v2.63 (blender index, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, session rotation, Ubuntu audit, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
+| [SUMMARY] | — | v2.74.22 edge-automation vision index; v2.74.21 QMD+edge audit; v2.74.20–v2.63 (blender, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, rotation, Ubuntu, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
 
 ## References
 
@@ -102,5 +102,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.31 — **`k-final`** mandatory on project closure across kernel (`AGENTS`, `k-project`, `k-git`, `k-workspace`, `k-context`); session log rotation (v2.74.21 → log) |
-| [SUMMARY] | — | v2.74.30 `k-final` skill + skill-lock + routing; v2.74.29 WhatsApp dry-run + mail send-gate; v2.74.28–v2.74.23 Envision/PSC/TickTick/AGENTS/MCP; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.32 — logged `k-final` v1.0.2 Phase K (.agents closure: k-context, audit, push); session log rotation (v2.74.22 → log) |
+| [SUMMARY] | — | v2.74.31 `k-final` kernel mandates; v2.74.30 skill + lock + routing; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.23 Envision/PSC/TickTick/AGENTS/MCP; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |
