@@ -4,13 +4,29 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.4"
+  version: "2.0.7"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
 # Tool Memory — Mail (mail-mcp)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Runtime Discipline (mandatory)
+
+- You must read `$HOME/.agents/skills/k-mail/references/insights.md` before doing any mail task.
+- You must append one detailed entry to `$HOME/.agents/skills/k-mail/references/log.md` after every mail-mcp tool use.
+- You must proactively update `references/insights.md` at the end of the task with reusable learnings:
+  - communication style and tone patterns
+  - recurring message categories received
+  - recurring response patterns and preferred phrasing
+  - open loops, blockers, and follow-up behavior
+- You must proactively update `## Open Threads (operational memory)` when thread status changes.
+- You have full control over the whole `k-mail/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
+- Before ending, you must run a final self-check: "Are all files in `k-mail/` reflecting current reality?" If not, update them immediately.
+- If you detect key actionable information in mail content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.
+- `SKILL.md` describes stable operating rules and how to use mail-mcp transports (`stdio` and/or `http`).
+- `## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
 
 ## Account
 
@@ -77,10 +93,22 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-mail/references/mcp.md`
 
+## Open Threads (operational memory)
+
+| Thread | Contacts | Last State | Next Action |
+|--------|----------|------------|-------------|
+| *(none)* | | | |
+
+## Runtime Memory Files
+
+- `references/log.md` — detailed action log for every mail-mcp usage (timestamp, action, outcome, ids, notes)
+- `references/insights.md` — durable behavioral memory and extracted patterns for proactive future drafting
+- `references/mcp.md` — transport and setup reference for mail-mcp (`http` and `stdio`)
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-07 | [CODEX] | v2.0.4 — aligned mail MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
-| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added the MCP setup reference pointer (`references/mcp.md`) and restored `skills/k-mail/SKILL.md` during kernel governance |
-| [SUMMARY] | — | v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |
+| 2026-04-08 | [CODEX] | v2.0.7 — added mandatory proactive TickTick proposal rule when key actionable academic/professional info is detected in emails. |
+| 2026-04-08 | [CODEX] | v2.0.6 — granted full agent ownership over all `k-mail/` files, made proactive Open Threads updates mandatory, and added end-of-task full-folder reality self-check. |
+| [SUMMARY] | — | v2.0.5 runtime memory protocol + open threads; v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |

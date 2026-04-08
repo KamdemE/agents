@@ -225,6 +225,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Fallback** — HTTP unreachable → suggest `--fallback` stdio counterpart immediately.
 - **Load k-* skill before any tool MCP call** (see Skills above).
 - **HARD MCP PRE-FLIGHT + FEEDBACK RULE (MANDATORY):** before using any MCP, first search whether a matching `k-*` skill exists under `$HOME/.agents/skills/`, then read it. After any meaningful MCP outcome (fix, failure mode, workaround, behavior change, new constraint), update that skill immediately in both the main operational content and `## Changelog` (with version bump). Never leave MCP learnings only in chat output.
+- **Cross-MCP proactive planning rule (MANDATORY):** if you detect key actionable information in mail content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.
 - **Ownership rule:** owned JS/TS MCPs should be Bun-first; Python MCPs should be uv-first; npm-global is reserved for third-party daily-driver CLIs unless a package doc explicitly says otherwise.
 
 ### Security

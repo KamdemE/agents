@@ -4,13 +4,28 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.3"
+  version: "2.0.5"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
 # Tool Memory — TickTick (tick-mcp)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Runtime Discipline (mandatory)
+
+- You must read `$HOME/.agents/skills/k-ticktick/references/insights.md` before doing any TickTick task.
+- You must append one detailed entry to `$HOME/.agents/skills/k-ticktick/references/log.md` after every tick-mcp tool use.
+- You must proactively update `references/insights.md` at the end of the task with reusable learnings:
+  - planning style and prioritization patterns
+  - recurring calendar/task categories
+  - recurring workflow preferences and phrasing
+  - open loops, blockers, and follow-up behavior
+- You must proactively update `## Open Threads (operational memory)` when planning thread status changes.
+- You have full control over the whole `k-ticktick/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
+- Before ending, you must run a final self-check: "Are all files in `k-ticktick/` reflecting current reality?" If not, update them immediately.
+- `SKILL.md` describes stable operating rules and how to use tick-mcp transports (`stdio` and/or `http`).
+- `## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
 
 ## Project Map
 
@@ -38,10 +53,28 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-ticktick/references/mcp.md`
 
+## Use Cases (agent orientation)
+
+- Use tick-mcp to provide overviews of calendar and tasks (`events_of_today`, `tasks_of_today`, `week_overview`, `week_agenda`, `upcoming_tasks`, `overdue_tasks`).
+- Use tick-mcp to inspect workspace structure and planning context (`workspace_map`, `query_projects`, `query_folders`).
+- For write operations, always verify post-write state with read-back tools to avoid silent V1/V2 failures.
+
+## Open Threads (operational memory)
+
+| Thread | Scope | Last State | Next Action |
+|--------|-------|------------|-------------|
+| *(none)* | | | |
+
+## Runtime Memory Files
+
+- `references/log.md` — detailed action log for every tick-mcp usage (timestamp, action, outcome, ids, notes)
+- `references/insights.md` — durable behavioral memory and extracted patterns for proactive future planning support
+- `references/mcp.md` — transport and setup reference for tick-mcp (`http` and `stdio`)
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-08 | [CODEX] | v2.0.5 — added mandatory runtime memory protocol (`insights.md` + `log.md`), full-folder ownership + reality self-check, open-threads maintenance, explicit calendar/task overview orientation, and changelog compaction to kernel limit. |
 | 2026-04-07 | [CODEX] | v2.0.3 — aligned TickTick MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
-| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — added MCP setup reference pointer (`references/mcp.md`) and normalized the changelog summary wording to the current AGENTS kernel naming |
-| [SUMMARY] | — | v2.0.0 refonte/migration to `skills/kpihx/ticktick/`; v1.0.0 initial creation migrated from the legacy agent kernel section in `$HOME/.agents/AGENTS.md`. |
+| [SUMMARY] | — | v2.0.2–v2.0.1 setup reference pointer + wording normalization; v2.0.0 migration and v1.0.0 initial creation from legacy kernel section. |
