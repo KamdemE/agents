@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.32"
+  version: "2.74.33"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -78,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: committed pending **`k-mail`** v2.0.10 (IME contact) + v2.0.11 (sensitive-mail post-send verification); `make audit` + push `.agents`. · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
@@ -87,8 +88,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-08 | [CODEX] | v2.74.26 — synchronized PSC planning in TickTick (report final deadline + soutenance period + soutenance date reminders `-7d/-1d/-1h`) and created Docsify `docs/` scaffold in main PSC project `envision` (without `.agents`, AGENTS, CHANGELOG, TODO). · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
 | 2026-04-08 | [CODEX] | v2.74.25 — updated `$HOME/.agents/AGENTS.md` proactive-suggestions rule (no upper limit), then applied TickTick execution updates: refreshed CSC_43042 course note, created TD5→TD10 reminders (-1d/-1h), and added X24 events for PA campaign + spring break. · `$HOME/.agents/AGENTS.md` · TickTick (`🎓 X/📒 Notes`, `🎓 X/📅 Agenda`) |
 | 2026-04-08 | [CODEX] | v2.74.24 — finalized `.agents` mail/whatsapp/ticktick skill governance updates: added proactive TickTick proposal rules, enforced changelog-limit compaction, updated runtime memory references, and prepared final audit/commit/push cycle. · `$HOME/.agents/skills/` |
-| 2026-04-08 | [CODEX] | v2.74.23 — finalized MCP naming cleanup for whatsapp/mail/linkedin/ticktick skills: removed `--fallback` references from `references/mcp.md`, aligned SKILL allowed-tools to `--stdio`, and prepared `.agents` audit/commit/push cycle. · `$HOME/.agents/skills/` |
-| [SUMMARY] | — | v2.74.22 edge-automation vision index; v2.74.21 QMD+edge audit; v2.74.20–v2.63 (blender, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, rotation, Ubuntu, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
+| [SUMMARY] | — | v2.74.23 MCP naming cleanup (mail/whatsapp/linkedin/ticktick mcp.md, stdio tools); v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 (blender, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, rotation, Ubuntu, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
 
 ## References
 
@@ -102,5 +102,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.32 — logged `k-final` v1.0.2 Phase K (.agents closure: k-context, audit, push); session log rotation (v2.74.22 → log) |
-| [SUMMARY] | — | v2.74.31 `k-final` kernel mandates; v2.74.30 skill + lock + routing; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.23 Envision/PSC/TickTick/AGENTS/MCP; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: landed pending `k-mail` v2.0.10–v2.0.11; session log rotation (v2.74.23 → log) |
+| [SUMMARY] | — | v2.74.32 `k-final` Phase K; v2.74.31 kernel k-final mandates; v2.74.30 skill + lock; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.24 Envision/PSC/TickTick/AGENTS; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |

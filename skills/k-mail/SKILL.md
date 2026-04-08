@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.9"
+  version: "2.0.11"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -31,6 +31,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - Step 2: wait for explicit user approval (`OK ENVOI` or equivalent).
 - Step 3: only then call `send_text`.
 - If approval is missing or ambiguous, do not send.
+- For sensitive outbound emails, mandatory post-send verification: check `Sent` for the message copy, then check `INBOX` for DSN/bounce (`MAILER-DAEMON`) in a short window before considering delivery healthy.
 - `SKILL.md` describes stable operating rules and how to use mail-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
 
@@ -61,6 +62,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 | `camille.challant@polytechnique.edu` | Notes publication, academic schedule | HIGH |
 | `anne.taupin@polytechnique.edu` | Career Center — stage 2A guidance | HIGH |
 | `stages.x2a@polytechnique.fr` | Official 2A internship office | HIGH |
+| `pauline.alessandra@polytechnique.edu` | IME teaching contact — assignment feedback/follow-up | HIGH |
 
 ### DFHM / Military Hierarchy
 | Address | Role |
@@ -115,6 +117,6 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-08 | [CODEX] | v2.0.9 — added mandatory dry-run policy for WhatsApp group messages initiated from mail context (preview + explicit approval + send gate + no-send on ambiguity). |
-| 2026-04-08 | [CODEX] | v2.0.8 — added local-attachment transport rule (HTTP cannot access local PC files, stdio required) and kept proactive TickTick proposal rule for actionable academic/professional mail info. |
-| [SUMMARY] | — | v2.0.8 local-attachment transport rule; v2.0.7 proactive TickTick proposal rule; v2.0.6 full-folder ownership + open-threads maintenance + end-of-task reality self-check; v2.0.5 runtime memory protocol + open threads; v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI full Zimbra review (unread, contacts, DXO, Lokad NDA); earlier folded |
+| 2026-04-08 | [CODEX] | v2.0.11 — added mandatory post-send verification policy for sensitive emails (`Sent` copy check + short-window DSN/bounce check in `INBOX`). |
+| 2026-04-08 | [CODEX] | v2.0.10 — added `pauline.alessandra@polytechnique.edu` as high-priority IME teaching contact for assignment follow-up to prevent address confusion. |
+| [SUMMARY] | — | v2.0.9 WhatsApp group dry-run from mail context; v2.0.8 local-attachment transport; v2.0.7 TickTick proposals; v2.0.6–v2.0.5 open threads + self-check; v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI Zimbra review; earlier folded |
