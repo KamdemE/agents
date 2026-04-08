@@ -166,7 +166,7 @@ The `TODOs` heading itself may also be written as a Markdown heading such as `##
 1. (Suggestion 1)
 2. (Suggestion 2)
 3. (Suggestion 3)
-(At least 3 proactive suggestions are mandatory).
+(At least 3 proactive suggestions are mandatory, with no upper limit. Agents should suggest as many relevant proactive items as needed to avoid missing any important point.)
 Accepted validator variants: `Suggestions Proactives:` or `Proactive Suggestions:` — case-insensitive.
 Optional Markdown heading markers such as `## ` are allowed.
 

@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.5"
+  version: "2.0.6"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -24,6 +24,7 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 - You must proactively update `## Open Threads (operational memory)` when planning thread status changes.
 - You have full control over the whole `k-ticktick/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
 - Before ending, you must run a final self-check: "Are all files in `k-ticktick/` reflecting current reality?" If not, update them immediately.
+- Before creating any task/note/event, you must first identify the correct destination (folder/project) by inspecting existing TickTick structure and examples, even if it requires multiple MCP calls.
 - `SKILL.md` describes stable operating rules and how to use tick-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
 
@@ -75,6 +76,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-08 | [CODEX] | v2.0.5 — added mandatory runtime memory protocol (`insights.md` + `log.md`), full-folder ownership + reality self-check, open-threads maintenance, explicit calendar/task overview orientation, and changelog compaction to kernel limit. |
+| 2026-04-08 | [CODEX] | v2.0.6 — enforced mandatory destination-discovery workflow before any task/note/event creation (inspect structure/examples first, multi-call allowed). |
 | 2026-04-07 | [CODEX] | v2.0.3 — aligned TickTick MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
-| [SUMMARY] | — | v2.0.2–v2.0.1 setup reference pointer + wording normalization; v2.0.0 migration and v1.0.0 initial creation from legacy kernel section. |
+| [SUMMARY] | — | v2.0.5 runtime memory protocol + full-folder ownership + reality self-check + open-threads maintenance + calendar/task overview orientation; v2.0.2–v2.0.1 setup reference pointer + wording normalization; v2.0.0 migration and v1.0.0 initial creation from legacy kernel section. |

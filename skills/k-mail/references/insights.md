@@ -12,6 +12,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 - Important workflows often involve: detect thread context (mail/whatsapp), draft, user validation, send, then verify sent and delivered state.
 - For verification requests, user expects both source-side (`Sent` in Zimbra) and target-side reception checks.
+- For inbox reviews, user expects exhaustive detail plus concrete next actions (reply / relaunch / ticktick task suggestion), not only summaries.
 
 ## Tooling Patterns
 
