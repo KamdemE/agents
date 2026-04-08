@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.33"
+  version: "2.74.34"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -78,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.34 — **mail_mcp** closure: `e7a2aac` v0.2.3 (SMTP `delivery_status` + optional bounce probe) → `make push` + **PyPI** `k-mail-mcp==0.2.3` + tag `v0.2.3` + `uv tool install --editable`; `.agents` **`210d3c9`** pushed to both remotes after SSH recovery. · `$HOME/Work/AI/MCPs/mail_mcp/` · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: committed pending **`k-mail`** v2.0.10 (IME contact) + v2.0.11 (sensitive-mail post-send verification); `make audit` + push `.agents`. · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
@@ -87,8 +88,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-08 | [CODEX] | v2.74.27 — moved `Soutenance PSC` into `🎓 X/📅 Agenda`, finalized academic `docs/` pages from main-branch Envision state + source PDFs in `source/`, created and pushed `KpihX/envision-psc`, enabled GitHub Pages (`main/docs`), and verified live site. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
 | 2026-04-08 | [CODEX] | v2.74.26 — synchronized PSC planning in TickTick (report final deadline + soutenance period + soutenance date reminders `-7d/-1d/-1h`) and created Docsify `docs/` scaffold in main PSC project `envision` (without `.agents`, AGENTS, CHANGELOG, TODO). · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
 | 2026-04-08 | [CODEX] | v2.74.25 — updated `$HOME/.agents/AGENTS.md` proactive-suggestions rule (no upper limit), then applied TickTick execution updates: refreshed CSC_43042 course note, created TD5→TD10 reminders (-1d/-1h), and added X24 events for PA campaign + spring break. · `$HOME/.agents/AGENTS.md` · TickTick (`🎓 X/📒 Notes`, `🎓 X/📅 Agenda`) |
-| 2026-04-08 | [CODEX] | v2.74.24 — finalized `.agents` mail/whatsapp/ticktick skill governance updates: added proactive TickTick proposal rules, enforced changelog-limit compaction, updated runtime memory references, and prepared final audit/commit/push cycle. · `$HOME/.agents/skills/` |
-| [SUMMARY] | — | v2.74.23 MCP naming cleanup (mail/whatsapp/linkedin/ticktick mcp.md, stdio tools); v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 (blender, k-pptx, AGENTS deck, mac-studio visual-ai, k-optim, rotation, Ubuntu, agy/ENOSPC, mail, Phoenix, sh-mcp) in `references/log.md` |
+| [SUMMARY] | — | v2.74.24 mail/whatsapp/ticktick governance + changelog compaction; v2.74.23 MCP naming cleanup; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
 
 ## References
 
@@ -102,5 +102,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: landed pending `k-mail` v2.0.10–v2.0.11; session log rotation (v2.74.23 → log) |
-| [SUMMARY] | — | v2.74.32 `k-final` Phase K; v2.74.31 kernel k-final mandates; v2.74.30 skill + lock; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.24 Envision/PSC/TickTick/AGENTS; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.34 — mail_mcp v0.2.3 ship + PyPI + tags; `.agents` push retry OK; session log rotation (v2.74.24 → log) |
+| [SUMMARY] | — | v2.74.33 k-mail skill landed; v2.74.32 `k-final` Phase K; v2.74.31–v2.74.30 k-final kernel; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.25 Envision/PSC/TickTick/AGENTS; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |

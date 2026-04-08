@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-08 | [CODEX] | v2.74.24 — finalized `.agents` mail/whatsapp/ticktick skill governance updates: added proactive TickTick proposal rules, enforced changelog-limit compaction, updated runtime memory references, and prepared final audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-08 | [CODEX] | v2.74.23 — finalized MCP naming cleanup for whatsapp/mail/linkedin/ticktick skills: removed `--fallback` references from `references/mcp.md`, aligned SKILL allowed-tools to `--stdio`, and prepared `.agents` audit/commit/push cycle. · `$HOME/.agents/skills/` |
 | 2026-04-07 | [CLAUDE] | v2.74.22 — added `references/vision/edge-automation.md` (Edge favorites + browser automation architecture with DOM/UI/vision fallback model) and updated `references/vision/README.md` index. · `$HOME/.agents/skills/k-context/references/vision/` |
 | 2026-04-07 | [CLAUDE] | v2.74.21 — QMD maintenance finalized (`qmd embed` + `qmd cleanup`), Edge automation capability audit completed (favorites/bookmarks APIs, MCP options, DOM vs vision control strategy, Mac Studio feasibility notes). · `$HOME/.cache/qmd/` · edge automation analysis in chat |
