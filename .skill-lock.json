@@ -194,6 +194,13 @@
         "skillPath": "skills/k-pptx/SKILL.md",
         "installedAt": "2026-04-07T23:00:00.000Z",
         "updatedAt": "2026-04-07T23:00:00.000Z"
+      },
+      "k-final": {
+        "source": "local",
+        "sourceType": "local",
+        "skillPath": "skills/k-final/SKILL.md",
+        "installedAt": "2026-04-09T12:00:00.000Z",
+        "updatedAt": "2026-04-09T12:00:00.000Z"
       }
   }
 }

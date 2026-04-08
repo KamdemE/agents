@@ -52,6 +52,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-homelab` | Homelab infra, projects, SSH, presentation KB |
 | `k-git` | Any git / repo operation |
 | `k-project` | Creating / initializing any project |
+| `k-final` | Finishing a project workstream — tests, cleanup, docs, version bump, push, CI/CD, deploy verification, install, publish |
 | `k-docker` | Any project deployed on the homelab server |
 | `k-git-pages` | GitHub Pages + Docsify docs site for any project |
 | `k-whatsapp` | Before any whats-mcp call |
@@ -92,6 +93,8 @@ Concrete, project-specific examples live alongside generic skill templates:
 | "ajuste VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
 | "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
+| "ajuste FINAL" | `$HOME/.agents/skills/k-final/SKILL.md` |
+| "ajuste FINAL" | `$HOME/.agents/skills/k-final/SKILL.md` |
 | "suis SKILL-CREATOR" | `$HOME/.agents/skills/k-skill-creator/SKILL.md` |
 
 ## Working with KπX
