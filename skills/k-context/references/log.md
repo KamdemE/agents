@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-07 | [CLAUDE] | v2.74.16 — created `k-pptx` skill from live `powerpoint` MCP CLI inspection, random-explorer deck pipeline, and upstream metadata; updated AGENTS + skill-lock. · `$HOME/.agents/skills/k-pptx/` |
+| 2026-04-07 | [CLAUDE] | v2.74.17 — generated 7-slide `.agents/` architecture deck (AI images via GenerateImage + python-pptx dark-tech theme); published `docs/AGENTS.pptx` + `docs/AGENTS.pdf`; image/video gen state-of-art analysis + NotebookLM/Nano Banana pipeline research. · `$HOME/.agents/docs/` |
+| 2026-04-07 | [CLAUDE] | v2.74.18 — created `references/mac-studio/visual-ai-vision.md`: visual-first AI paradigm, image/video gen state-of-art (April 2026), NotebookLM/Nano Banana pipeline analysis, education thesis, 3-horizon roadmap. · `$HOME/.agents/skills/k-context/references/mac-studio/` |
 | 2026-04-07 | [CLAUDE] | v2.74.15 — session finalization: validated AGENTS/k-context/log consistency, ran `make audit`, committed and pushed kernel updates. · `$HOME/.agents/` |
 | 2026-04-07 | [GEMINI] | v2.74.14 — restored 10 most recent session logs and graved the Zero-Deletion Policy into AGENTS and k-context rules. |
 | 2026-04-07 | [GEMINI] | v2.74.12 — Implemented KpihX-Backup structural auto-mount via `fstab` + `x-systemd.automount`; Created "Universal Auto-Mount" tutorial in `techskills` and updated `k-optim` (v2.9.0). |
