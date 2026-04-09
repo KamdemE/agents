@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.1.0"
+  version: "3.1.1"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -205,6 +205,6 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v3.1.1 — Cleaned `[SUMMARY]` row to remove duplicated v3.1.0/v3.0.3 mention already present in concrete rows. |
 | 2026-04-09 | [COPILOT] | v3.1.0 — Enforce autonomous read-only deep inspection (screenshots, SSH, logs) without asking for a "go"; instruct to run password-prompting commands immediately. |
-| 2026-04-09 | [CURSOR] | v3.0.3 — Compact **BotFather** map + snippets; bridge **@usernames** + `TELEGRAM_*_HOMELAB_TOKEN` matrix; **Openclaw Ubuntu** dropped (no longer in `/mybots`); `/tmp/tokens` export note. |
-| [SUMMARY] | — | v3.0.2 *What's up* implementation gate; v3.0.1 `/setname` General/Issues; v3.0.0 capture bots + deep *What's up* + `references/`; v3.1.0+v3.0.3 + `references/` finalized in `.agents` 2026-04-09; v1.5.0–v1.0.0 prior `tg` / inventory |
+| [SUMMARY] | — | v3.0.3 BotFather map + homelab token matrix + Openclaw removal; v3.0.2 *What's up* implementation gate; v3.0.1 `/setname` General/Issues; v3.0.0 capture bots + deep *What's up* + `references/`; v1.5.0–v1.0.0 prior `tg` / inventory |
