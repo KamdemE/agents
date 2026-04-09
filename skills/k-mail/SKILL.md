@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.11"
+  version: "2.0.12"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -113,10 +113,12 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - `references/insights.md` — durable behavioral memory and extracted patterns for proactive future drafting
 - `references/mcp.md` — transport and setup reference for mail-mcp (`http` and `stdio`)
 
+**Upstream `k-mail-mcp`:** from **v0.2.4**, `/health` and `mail_guide()` report the installed **distribution** version (`k-mail-mcp`). After upgrading the MCP host, call **`mail_guide()`** once so the agent text matches tool schemas (`verify_bounce_window_seconds`, `delivery_status`, etc.).
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.0.12 — documented **k-mail-mcp 0.2.4** version/`mail_guide` alignment + reminder to refresh `mail_guide()` after MCP upgrades |
 | 2026-04-08 | [CODEX] | v2.0.11 — added mandatory post-send verification policy for sensitive emails (`Sent` copy check + short-window DSN/bounce check in `INBOX`). |
-| 2026-04-08 | [CODEX] | v2.0.10 — added `pauline.alessandra@polytechnique.edu` as high-priority IME teaching contact for assignment follow-up to prevent address confusion. |
-| [SUMMARY] | — | v2.0.9 WhatsApp group dry-run from mail context; v2.0.8 local-attachment transport; v2.0.7 TickTick proposals; v2.0.6–v2.0.5 open threads + self-check; v2.0.0 refonte (`skills/k-mail/`) + 2026-03-24 GEMINI Zimbra review; earlier folded |
+| [SUMMARY] | — | v2.0.10 IME contact `pauline.alessandra@polytechnique.edu`; v2.0.9 WhatsApp dry-run from mail context; v2.0.8 local-attachment transport; v2.0.7 TickTick proposals; v2.0.6–v2.0.5 open threads + self-check; v2.0.0 refonte + 2026-03-24 Zimbra review; earlier folded |

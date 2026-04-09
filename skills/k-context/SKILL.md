@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.36"
+  version: "2.74.37"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -78,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.37 — **`k-final`** closure **mail_mcp 0.2.4**: `f3491d6` — fix `APP_VERSION` via **`k-mail-mcp`** dist, dynamic **`mail_guide`**, tests; pipeline **2438908338** jobs green; **`/health` → 0.2.4**; PyPI + tag **`v0.2.4`**; MCP probe sends (hotmail **`delivered_hint`**, wrong TLD **`delivered_hint`** @25s — no DSN in window); **`k-mail` v2.0.12** sync. · `$HOME/Work/AI/MCPs/mail_mcp/` |
 | 2026-04-09 | [CURSOR] | v2.74.36 — **AGENTS.md**: mandatory **`k-*` proactive freshness** — after using or touching a skill’s domain, keep `$HOME/.agents/skills/k-<name>/SKILL.md` aligned; record working fixes in-skill, not only in chat. · `$HOME/.agents/AGENTS.md` |
 | 2026-04-09 | [CURSOR] | v2.74.35 — **`k-final` v1.0.3** obligation pass + **mail_mcp** Phase G/H proof: `glab api …/pipelines/2438880154/jobs` → `validate_project`+`deploy_homelab` **success**; `curl` health + `ssh docker-host docker logs mail-mcp` → **running healthy** (runtime JSON still reports `version` **0.2.0** vs PyPI **0.2.3** — image/metadata drift to fix separately). · `$HOME/.agents/skills/k-final/SKILL.md` · `$HOME/Work/AI/MCPs/mail_mcp/` |
 | 2026-04-09 | [CURSOR] | v2.74.34 — **mail_mcp** closure: `e7a2aac` v0.2.3 (SMTP `delivery_status` + optional bounce probe) → `make push` + **PyPI** `k-mail-mcp==0.2.3` + tag `v0.2.3` + `uv tool install --editable`; `.agents` **`210d3c9`** pushed to both remotes after SSH recovery. · `$HOME/Work/AI/MCPs/mail_mcp/` · `$HOME/.agents/` |
@@ -86,9 +87,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-08 | [CODEX] | v2.74.29 — finalized communication-safety governance update in `.agents`: added mandatory dry-run before WhatsApp group sends in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; prepared session finalization commit/push. · `$HOME/.agents/skills/k-whatsapp/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
-| 2026-04-08 | [CURSOR] | v2.74.28 — rewrote entire `docs/` site in French (all pages + sidebar + index.html), added Mermaid plugin to Docsify (mermaid@10 + MutationObserver), replaced ASCII diagram with Mermaid flowchart, created TickTick task for Overleaf report session (Graph Tool + Heuristic Reranking, Sat 11/04 20h). Committed and pushed `envision-copilot-presentation`. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X/📅 Agenda` |
-| 2026-04-08 | [CODEX] | v2.74.27 — moved `Soutenance PSC` into `🎓 X/📅 Agenda`, finalized academic `docs/` pages from main-branch Envision state + source PDFs in `source/`, created and pushed `KpihX/envision-psc`, enabled GitHub Pages (`main/docs`), and verified live site. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X` |
-| [SUMMARY] | — | v2.74.26 PSC TickTick + Envision docs scaffold; v2.74.25 AGENTS proactive-suggestions + TickTick X24; v2.74.24 mail/whatsapp/ticktick governance; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
+| [SUMMARY] | — | v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
 
 ## References
 
@@ -102,5 +101,5 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.36 — AGENTS: `k-*` proactive freshness mandate; session log rotation (v2.74.26 → log) |
-| [SUMMARY] | — | v2.74.35 k-final v1.0.3 + mail_mcp G/H; v2.74.34 mail_mcp PyPI; v2.74.33 k-mail; v2.74.32–v2.74.30 k-final; v2.74.29 WhatsApp/mail; v2.74.28–v2.74.27 Envision/PSC; v2.74.21–v2.62 QMD, blender, scien_curieux, PPTX, visual-ai, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.37 — mail_mcp 0.2.4 k-final closure + k-mail v2.0.12; session log rotation (v2.74.27–28 → log) |
+| [SUMMARY] | — | v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 PyPI 0.2.3; v2.74.33 k-mail; v2.74.32–v2.74.30 k-final; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC scaffold; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |
