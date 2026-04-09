@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.61"
+  version: "2.74.62"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,7 +51,7 @@ allowed-tools: "Bash(*), *"
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **sciencurious** | 🟢 ACTIVE — Docsify + KaTeX visual articles (math, physics, CS) | add Manim visuals to integration article · `$HOME/Work/sciencurious/` |
 | **envision (PSC)** | 🟢 ACTIVE — main PSC project; academic docs site finalized, source PDFs added, GitHub Pages live | continue final report + soutenance prep from published docs baseline · `$HOME/Work/X/envision/envision/` |
-| **flow** | ✅ RELEASED — `k-flow` v0.2.1 published to PyPI; GitHub+GitLab repos created and synced | implement backend execution layer (`whispercpp`/`ctranslate2`/`openvino`) + failover policy runtime · `$HOME/Work/AI/flow/` |
+| **flow** | ✅ RELEASED — `k-flow` v0.2.2 published path ready; MCP adapter split into explicit per-tool functions, legacy adapter shims removed | implement backend execution layer (`whispercpp`/`ctranslate2`/`openvino`) + failover policy runtime · `$HOME/Work/AI/flow/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -94,6 +94,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.62 — finalized MCP adapter split in `flow`: explicit per-tool functions + compatibility dispatcher, removed legacy `adapters_*` shim modules, tests green (`23 passed`), and pushed commit `815cefd`. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.61 — completed full `flow` release finalization: auto-bootstrapped `github/gitlab` remotes, pushed `master`, published `k-flow==0.2.1` to PyPI, and validated installed CLIs (`flow`, `flow-stdio`, `flow-ws`). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.60 — finalized `flow` repository with `k-final`: tests/hygiene/docs/semver complete, initial commit `1f7030b`, transport subpackage + Typer CLI validated (`22 passed`), `make push` blocked because no remotes configured. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.59 — `.agents` finalization required again: synchronized `k-workspace` hardware-first policy update, refreshed context tracking, and resumed kernel sync flow (`make audit`, commit, push). · `$HOME/.agents/skills/k-workspace/SKILL.md` |
@@ -103,7 +104,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-09 | [CURSOR] | v2.74.53 — **`k-tg` v3.0.0**: capture bots General (`8089748360`) + Issues (`8656241501`), deep *What's up* pipeline, `references/` processed cursors; **`AGENTS.md`** default ladder now ends with **`k-tg`**. · `$HOME/.agents/skills/k-tg/` · `$HOME/.agents/AGENTS.md` |
 | 2026-04-09 | [CURSOR] | v2.74.52 — added Google Workspace full-MCP vision note in `references/`, registered in Brainstorm Registry, and recorded fresh HTTP WhatsApp probe result after server restart (`No valid session ID provided`). · `$HOME/.agents/skills/k-context/references/google-workspace-full-mcp-vision.md` |
 | 2026-04-09 | [CURSOR] | v2.74.51 — added hybrid memory-curation vision (immediate minimal logs + deferred curator agent) and `wa-core` central auth mini-design; updated Brainstorm Registry accordingly. · `$HOME/.agents/skills/k-context/references/agents-memory-curator-hybrid-vision.md` · `$HOME/.agents/skills/k-context/references/whatsapp-wa-core-central-auth-mini.md` |
-| 2026-04-09 | [CURSOR] | v2.74.50 — executed mail hard-cleanup (INBOX archived except Certificat Anglais DLC), removed residual `AI` labels, and investigated WhatsApp runtime/storage across Edge, stdio state, and docker-host logs for centralized-auth design. · `$HOME/.agents/skills/k-mail/` · `$HOME/.config/microsoft-edge/` · `$HOME/Work/AI/MCPs/whats_mcp/` |
 | [SUMMARY] | — | v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
 
 ## References
@@ -118,6 +118,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.74.62 — synced `flow` MCP refactor closure (explicit MCP functions, shim cleanup, tests+push complete) and refreshed Active Projects release status. |
 | 2026-04-09 | [CURSOR] | v2.74.61 — tracked `flow` release completion (`k-flow` v0.2.1 on PyPI, remote bootstrap + push success) and updated Active Projects state to released. |
-| 2026-04-09 | [CURSOR] | v2.74.60 — logged `flow` k-final closure (v0.2.0, commit `1f7030b`, test gate green) and updated Active Projects with next backend-layer milestone; rotated oldest Session Log entry to `references/log.md`. |
-| [SUMMARY] | — | v2.74.59 forced `.agents` finalization follow-up; v2.74.57 **whats-mcp v0.2.0 finalization**; v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
+| [SUMMARY] | — | v2.74.60 logged `flow` k-final closure v0.2.0; v2.74.59 forced `.agents` finalization follow-up; v2.74.57 **whats-mcp v0.2.0 finalization**; v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
