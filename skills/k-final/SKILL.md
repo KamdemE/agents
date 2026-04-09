@@ -4,11 +4,12 @@ description: >
   Post-work project closure workflow: tests, hygiene, config-as-docs, markdown
   sync, versioning, git (submodules order), CI/CD watch, deploy log check,
   local install, build/publish, then `.agents/` kernel sync (k-context, audit,
-  push). Load when finishing a feature or release pass on any KπX project.
+  push). Every phase is obligatory when it applies — no silent skips. Load when
+  finishing a feature or release pass on any KπX project.
 license: private
 metadata:
   author: KpihX
-  version: "1.0.2"
+  version: "1.0.3"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -22,7 +23,13 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Role
 
-Mandatory **closing pass** after substantive work on a repo: every phase below is executed **as far as the project type allows**. Skip only what is **not applicable** (e.g. no `tests/` in a shell-only repo — still document why in `CHANGELOG` or `README` if relevant).
+Mandatory **closing pass** after substantive work on a repo: you **must** execute **every phase A→K** whose preconditions are true for that repo. **None of these steps are facultative** — forgetting or hand-waving a gate (e.g. assuming CI is green, skipping `docker logs`, skipping `glab` job inspection) is a **process violation**.
+
+### Obligation rule (non-negotiable)
+
+1. Walk phases **in order**, respecting documented ordering (e.g. Phase **I** after **H** when the project is deployed).
+2. **Skip** a phase only when a precondition is **objectively false** for that tree (example: no `tests/` and no test target in `Makefile` → state the skip in `CHANGELOG` or the session note). **Fatigue, time pressure, or “probably fine” are never valid skips.**
+3. If you discover a missed gate after the fact, **go back**, run the missing steps, fix what they reveal, then update **`k-context`** (and project docs) in the same closure pass.
 
 **Kernel contract:** `AGENTS.md`, `k-context`, `k-workspace`, `k-project`, and `k-git` all instruct agents to **load this file** when finalizing or "cleaning" a project — treat that as a hard gate, not a suggestion.
 
@@ -77,17 +84,26 @@ Keep a single coherent version across monorepo packages if the repo defines that
 
 ## Phase G — CI/CD (deployed projects)
 
-If `.gitlab-ci.yml` and/or GitHub Actions exists:
+**Obligatory** if `.gitlab-ci.yml` and/or GitHub Actions exists — until fully verified you do **not** call the project “done”.
 
-1. Watch pipelines to **green**: `glab pipeline list --repo <namespace>/<repo>`, `gh run watch` / `gh run list` as appropriate.
-2. On failure: fix, recommit, `make push`, re-watch until **all** required jobs pass.
+1. **GitLab (`glab`) — pipelines *and* jobs:** `glab pipeline list --repo <group>/<project>` is **insufficient by itself** (it often shows “No pipelines” while CI still ran). You **must**:
+   - `glab ci status --repo <group>/<project>` (or resolve the latest pipeline for the pushed `ref` via API),
+   - then **list every job** on that pipeline and confirm **each required job** is `success` (deploy stages included — e.g. `deploy_homelab`):
+   ```bash
+   glab ci status --repo <group>/<repo>
+   glab api "projects/<group>%2F<repo>/pipelines/<PIPELINE_ID>/jobs"
+   ```
+   Parse job names + `status`; **do not skip** deploy jobs when they exist in `.gitlab-ci.yml`.
+2. **GitHub Actions:** `gh run watch` / `gh run list` for the branch you pushed; every required workflow must be green.
+3. On any failure: fix, recommit, `make push`, re-run this phase until **all** required jobs pass.
 
 ## Phase H — Runtime verification (after deploy)
 
-For Docker / homelab / server workloads (load `k-docker`, `k-homelab`):
+**Obligatory** whenever Phase **G** included a **deploy** job or any Docker/Kubernetes rollout for that service (not optional “if you care”).
 
-1. After CI deploy succeeds, inspect **service logs** (`docker logs`, `journalctl`, Portainer, Traefik — whatever the project uses) on **docker-host** or target environment.
-2. Fix forward (config, image tag, compose) until logs are **healthy** (no recurring errors; startup clean).
+1. After deploy jobs are **success**, inspect **service logs** on the target host (`ssh docker-host` per `k-homelab`, then `docker logs <container> --tail …`, or the project’s `make log` target).
+2. **HTTP health:** if the service exposes a public or internal health URL, **`curl -fsS`** it (e.g. `https://<public-host>/health`) and record failure modes.
+3. Fix forward (image tag, compose, env) until the container is **healthy** and logs show no recurring errors.
 
 ## Phase I — Local install (after H when deploy applies)
 
@@ -108,7 +124,7 @@ Prefer, in order:
 
 ## Phase K — `$HOME/.agents/` kernel (always)
 
-Run **after** the project repo is in a good state (typically after Phase F or J, depending on whether you publish). This phase is **mandatory** for any finalization that touched a project under `$HOME/Work/` or changed how agents should behave — not optional cleanup.
+**Obligatory** after the project closure pass touched anything under `$HOME/Work/` or agent behavior. Run after the project repo steps (typically after **F** or **J**, depending on publish). This is **not** optional cleanup.
 
 1. **`k-context` (`$HOME/.agents/skills/k-context/SKILL.md`) — always touch when the project pass mattered:**
    - Update **`## Active Projects`** if status, next step, or scope changed for any row.
@@ -129,5 +145,5 @@ Run **after** the project repo is in a good state (typically after Phase F or J,
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v1.0.2 — Phase K: mandatory `$HOME/.agents/` closure — `k-context` (Active Projects + Session Log + version/changelog rules), optional `k-workspace`, `make audit` until green, commit + `make push` |
-| [SUMMARY] | — | v1.0.1 kernel load mandate on project closure; v1.0.0 phases A–J; resume token `continue` |
+| 2026-04-09 | [CURSOR] | v1.0.3 — **all phases obligatory** when preconditions hold; Phase G: `glab ci status` + **per-pipeline jobs API** (deploy jobs mandatory); Phase H: **obligatory** after deploy + `curl` health + `docker logs` |
+| [SUMMARY] | — | v1.0.2 Phase K `.agents` closure; v1.0.1 kernel load mandate; v1.0.0 phases A–J; resume token `continue` |
