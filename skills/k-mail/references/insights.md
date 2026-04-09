@@ -20,6 +20,8 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - Use `m365`/Graph for Hotmail mailbox verification.
 - Bulk Outlook folder moves: list ids via `m365 outlook message list --folderName Inbox`, resolve Archive id via `m365 request -u 'https://graph.microsoft.com/v1.0/me/mailFolders/archive' -m get`, then POST Graph `$batch` (max 20 sub-requests) with `m365 request ... -b @file.json --content-type application/json` (body-only POSTs **require** explicit JSON content-type).
 - Treat Outlook forwarding notifications from `postmaster@zimbra.polytechnique.fr` as delivery receipts, not conversational messages.
+- On poly/mail-mcp stdio, `Important` behaves as a keyword label queryable via `search_messages(keyword="Important")`; favorites/star state is the IMAP `\\Flagged` flag queryable via `flagged_only=true` and editable via `mark_messages(flagged=...)`.
+- User expects active tag hygiene: when triaging open threads, prioritize `Important`, suggest tag cleanup proactively, and keep `SKILL.md` tag inventory aligned with observed Zimbra labels.
 
 ## Open Behavior Rules
 

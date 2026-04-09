@@ -95,7 +95,7 @@ CRITICAL: Your last response violates AGENTS.md rules:
 ```text
 SESSION FINALIZATION REQUIRED
 
-$HOME/.agents/ is still dirty and the oldest pending change is older than 10 minute(s).
+$HOME/.agents/ is still dirty and the oldest pending change is older than 30 minute(s).
 
 Changed skill files:
   $HOME/.agents/skills/k-context/SKILL.md

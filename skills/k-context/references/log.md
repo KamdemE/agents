@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.39 — **`k-mail` v2.0.14** + **`k-whatsapp` v2.0.12**: `references/mcp.md` post-send tooling (`verify_bounce_window_seconds` complement; WhatsApp **`get_messages`** vs **`read_messages`**); `.agents` commit + push; mail-mcp digest 2026-04-08 INBOX+Archive. · `$HOME/.agents/skills/k-mail/` · `$HOME/.agents/skills/k-whatsapp/` |
 | 2026-04-09 | [CURSOR] | v2.74.38 — **`k-mail` v2.0.13** + **`k-whatsapp` v2.0.11**: mandatory post-send verification — mail: ≥~5s then **`Sent` + `INBOX`**; WhatsApp: ≥~5s then **re-read thread** for outbound presence. · `$HOME/.agents/skills/k-mail/SKILL.md` · `$HOME/.agents/skills/k-whatsapp/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.37 — **`k-final`** closure **mail_mcp 0.2.4**: `f3491d6` — fix `APP_VERSION` via **`k-mail-mcp`** dist, dynamic **`mail_guide`**, tests; pipeline **2438908338** jobs green; **`/health` → 0.2.4**; PyPI + tag **`v0.2.4`**; MCP probe sends (hotmail **`delivered_hint`**, wrong TLD **`delivered_hint`** @25s — no DSN in window); **`k-mail` v2.0.12** sync. · `$HOME/Work/AI/MCPs/mail_mcp/` |
 | 2026-04-09 | [CURSOR] | v2.74.36 — **AGENTS.md**: mandatory **`k-*` proactive freshness** — after using or touching a skill’s domain, keep `$HOME/.agents/skills/k-<name>/SKILL.md` aligned; record working fixes in-skill, not only in chat. · `$HOME/.agents/AGENTS.md` |

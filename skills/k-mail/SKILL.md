@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.22"
+  version: "2.0.24"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -23,6 +23,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
   - recurring response patterns and preferred phrasing
   - open loops, blockers, and follow-up behavior
 - You must proactively update `## Open Threads (operational memory)` when thread status changes.
+- You must proactively maintain the Zimbra tag inventory in this file (`## Zimbra Tag Inventory`) after tag operations, and propose `set_labels` / `mark_messages` actions when a message is clearly important or an open thread deserves prioritization.
 - You have full control over the whole `k-mail/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
 - Before ending, you must run a final self-check: "Are all files in `k-mail/` reflecting current reality?" If not, update them immediately.
 - If you detect key actionable information in mail content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.
@@ -44,6 +45,10 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - **Folders:** INBOX · Sent · Archive · Drafts · Outbox · Junk · Trash (7 flat, no sub-folders)
 - **Stats (2026-03-24):** 1,519 total · 86 unread
 - **Custom labels:** `Dx0` (DXO internship) · `Hi-ParisAI:FLAG7760` (IPAI Hackathon) · `Important`
+- **Flags/labels operations (mail-mcp stdio):**
+  - `mark_messages` manages IMAP system flags (`seen`, `flagged`, `answered`, `draft`) on target UIDs.
+  - `set_labels` adds/removes custom keyword labels (including Zimbra tags surfaced by `list_labels`).
+  - `search_messages` supports `flagged_only=true` and `keyword="<label>"` (e.g. `Important`) to audit priority mail.
 - **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; see `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook mail list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
 - **`.agents` git (KπX 2026-04-09):** Do **not** `git commit` / `make push` this repo unless KπX explicitly requests end-of-session finalization (see `k-context` HOT block).
 
@@ -112,6 +117,19 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 `*@polytechnique.edu` · `*@polytechnique.fr` · `*@ip-paris.fr` · `*@dxo.com` · `*@lokad.com` · DFHM
 
+## Zimbra Tag Inventory
+
+> Source of truth: live mail-mcp stdio checks (`search_messages keyword=...`, `flagged_only`, `set_labels`, `mark_messages`).
+> Keep this section synchronized after each non-trivial tag/flag operation.
+
+| Tag / Flag | Type | Current observed scope | Notes |
+|------------|------|------------------------|-------|
+| `Important` | IMAP keyword label | Active (currently concentrated in `INBOX` after archive cleanup) | Priority triage tag; managed with `set_labels` and queried via `keyword="Important"` |
+| `Hi-ParisAI:FLAG7760` | IMAP keyword label | Active (`INBOX` + `Archive`) | IPAI / Hi! PARIS thread grouping |
+| `Dx0` | IMAP keyword label | Active (`INBOX` + `Archive`) | DXO internship thread grouping |
+| `Eco` | IMAP keyword label | Active (mostly `Archive`, some `INBOX`) | ECO course thread grouping |
+| `\\Flagged` | IMAP system flag (favorite/star) | Active (`INBOX` and some `Archive`) | Use for short-term follow-up; managed by `mark_messages(flagged=...)` |
+
 ## KπX interest lens (mail + cross-reference for WhatsApp)
 
 Use this list to **rank** and **highlight** messages in any *What's up* mail slice (and align with `k-whatsapp` **KπX interest lens**): **academic** (Moodle, QCMs, grades, TD/TP, IME, scolarité, Challant schedule), **professional** (internships, Career Center, conventions stage 2A, certifications e.g. English Linguaskill), **AI** (IPAI, Hi-Paris, hackathons, research mail), **missions / jobs / tech** (XProjets, HR, labs), **stages** (DXO, administrative threads), **hackathons**, **PSC**, **DFHM / soft skills**, **poly admin**, **conferences**, **legal / contracts**, **bounces / MAILER-DAEMON** (surface as incidents).
@@ -140,7 +158,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 ### Order of presentation (same assistant turn, maximum exhaustivity)
 
-1. **Open pipelines (unread first, any age)** — For every row in **`## Open Threads`** and **`## Flagged Items`**, run `search_messages` / `list_messages` on **`INBOX`** then **`Archive`** (and `Sent` if tracking your own pending replies): surface **unread** or **unanswered** messages tied to those threads **even if weeks old**. Full headers + body summary + suggested next action + optional TickTick.
+1. **Open pipelines (unread first, any age; Important-priority)** — For every row in **`## Open Threads`** and **`## Flagged Items`**, run `search_messages` / `list_messages` on **`INBOX`** then **`Archive`** (and `Sent` if tracking your own pending replies): surface **unread** or **unanswered** messages tied to those threads **even if weeks old**. Within this block, prioritize messages carrying `Important` first, then the rest. Full headers + body summary + suggested next action + optional TickTick.
 2. **Today’s mail — poly (`Zimbra`)** — All messages **dated today** in `INBOX` (then optionally filed **today** in `Archive`): blocks **Admin / Academic / Professional** using **KπX interest lens**; sort by contact priority.
 3. **Today / recent — Outlook (m365), deduplicated** — Query **`m365 outlook mail list`** (e.g. unread and/or last 24–48h). **Poly is canonical** for **X / school** mail that is **mirrored** from Zimbra. **Suppress** from the Outlook summary any message **already represented** in poly (`INBOX`, `Archive`, or `Sent`): match by **`Message-ID`** when both APIs expose it; else **fallback fingerprint** = **normalized `Subject` + primary `From` + received time within ±3 minutes** (or obvious thread id if present). **Highlight net-new:** personal mail, external senders **not** in poly, Hotmail-only receipts, and **`## Key contacts (Microsoft 365 / Outlook)`** traffic even when a duplicate exists (summarize once, note *also in poly* if applicable).
 4. **Microsoft 365 — key contacts pulse** — Short pass over **`## Microsoft 365 / Outlook (Hotmail) — key people`** (priority: **Clément Liu (Lokad PSC)**, then other rows): any **recent** thread not already summarized; **enrich** `*@lokad.com` details when surfaced.
@@ -172,5 +190,5 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.22 — Remove homonym Meyer/Garcia block; drop **Kevin Ea** + **Yousign** PSC rows; strip **NDA** / Yousign triggers from Liu row, **Attention Triggers**, **KπX interest lens**. |
-| [SUMMARY] | — | v2.0.21 Clément Liu from Graph + `@lokad.com` trigger; v2.0.20 Lokad vs Meyer; v2.0.18–v2.0.0 What's up / closure / stdio / mail stack |
+| 2026-04-09 | [CURSOR] | v2.0.24 — Added `## Zimbra Tag Inventory`, proactive tag-maintenance rule, and What's up Step-1 priority rule for `Important` within open-thread handling. |
+| [SUMMARY] | — | v2.0.23 flags/labels playbook (`mark_messages`, `set_labels`, `keyword`/`flagged_only`); v2.0.22 cleanup (drop Meyer/Garcia, Kevin/Yousign/NDA refs); v2.0.21–v2.0.0 mail stack |

@@ -20,7 +20,7 @@ STARTUP_SKILLS = ("k-context", "k-workspace")
 # ==============================================================================
 
 HOOK_TIMINGS = {
-    "session_dirty_grace_minutes": 10,
+    "session_dirty_grace_minutes": 30,
     "subprocess_timeout_seconds": 5,
 }
 
