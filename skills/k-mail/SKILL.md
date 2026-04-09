@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.15"
+  version: "2.0.17"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -43,6 +43,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - **Stats (2026-03-24):** 1,519 total · 86 unread
 - **Custom labels:** `Dx0` (DXO internship) · `Hi-ParisAI:FLAG7760` (IPAI Hackathon) · `Important`
 - **Outlook rule:** `ivann.kamdem@hotmail.com` receives forwarding notifications from `postmaster@zimbra.polytechnique.fr` — these are delivery receipts, NOT real emails. Use `m365 outlook *` CLI for Outlook.
+- **`.agents` git (KπX 2026-04-09):** Do **not** `git commit` / `make push` this repo unless KπX explicitly requests end-of-session finalization (see `k-context` HOT block).
 
 ## Messaging Style
 
@@ -63,6 +64,8 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 | `anne.taupin@polytechnique.edu` | Career Center — stage 2A guidance | HIGH |
 | `stages.x2a@polytechnique.fr` | Official 2A internship office | HIGH |
 | `pauline.alessandra@polytechnique.edu` | IME teaching contact — assignment feedback/follow-up | HIGH |
+
+**IME Alessandra — addressing rule:** Use **`@polytechnique.edu` only**. **`pauline.alessandra@polytechnique.fr` is invalid** (SMTP **550 Non-existent address** on outbound poly relay). Same pattern may apply to other `@polytechnique.edu` mailboxes — never assume a `.fr` twin exists.
 
 ### DFHM / Military Hierarchy
 | Address | Role |
@@ -91,13 +94,30 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 ## Flagged Items (action required)
 
-1. **English certification** (`certification-anglais-dlc@polytechnique.edu`) — test to schedule
+1. **English certification** (`certification-anglais-dlc@polytechnique.fr` — official sender in school mailings) — test to schedule; reply with existing C1 proof per their instructions
 2. **IME IME_43031_EP — re-feedback pending** — Buurtzorg part 1: Moodle feedback received **2026-04-08** (message archived); **awaiting next feedback / iteration or clarification** from teaching side (`pauline.alessandra@polytechnique.edu`, Moodle course thread).
 3. **IPAI Hackathon — prize payout pending** — `hannah.conrad@join-nxtgn.com` **2026-04-08** (archived): transfer delayed; **Isabel Camps Tscherwitschke** (`isabel.camps_tscherwitschke@ipai-foundation.ai`) to confirm when funds sent.
 
 ## Attention Triggers
 
 `*@polytechnique.edu` · `*@polytechnique.fr` · `*@ip-paris.fr` · `*@dxo.com` · Yousign · DFHM
+
+## KπX interest lens (mail + cross-reference for WhatsApp)
+
+Use this list to **rank** and **highlight** messages in any *What's up* mail slice (and align with `k-whatsapp` **KπX interest lens**): **academic** (Moodle, QCMs, grades, TD/TP, IME, scolarité, Challant schedule), **professional** (internships, Career Center, conventions stage 2A, certifications e.g. English Linguaskill), **AI** (IPAI, Hi-Paris, hackathons, research mail), **missions / jobs / tech** (XProjets, HR, labs), **stages** (DXO, administrative threads), **hackathons**, **PSC**, **DFHM / soft skills**, **poly admin**, **conferences**, **Yousign / legal**, **bounces / MAILER-DAEMON** (surface as incidents).
+
+## What's up (mail briefing)
+
+**Calendar / timezone:** **Europe/Paris** for *today* unless stated otherwise.
+
+**Order of presentation (maximum exhaustivity within this single skill turn):**
+
+1. **Open pipelines (unread first, any age)** — For every row in **`## Open Threads`** and **`## Flagged Items`**, run `search_messages` / `list_messages` on **`INBOX`** then **`Archive`** (and `Sent` if tracking your own pending replies): surface **unread** or **unanswered** messages tied to those threads **even if weeks old**. Full headers + body summary + suggested next action + optional TickTick.
+2. **Today’s mail** — All messages **dated today** in `INBOX` (then optionally already-filed **today** in `Archive`): classify blocks **Admin / Academic / Professional** (use **KπX interest lens**); within each block, sort by descending importance (CRITICAL contacts from `## Key Contacts` first).
+3. **Backward window** — **Yesterday** (full pass if non-trivial unread remains); optional **last 7 days** for stragglers (unread only unless KπX asks deeper).
+4. **Proactive close** — For every item that implies work: propose **draft reply** (French/English per `## Messaging Style`) and **TickTick** create/update (load `k-ticktick` in a **later** turn per AGENTS ladder — here **propose** only unless this turn is mail-only and KπX approved MCP writes).
+
+**Sequential ladder:** When KπX runs the **full** *what's up*, **mail is exactly one assistant response** — do not combine with `k-context`, `k-whatsapp`, or `k-ticktick` output in the same generation.
 
 ## MCP Setup Reference
 
@@ -122,6 +142,6 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.15 — **2026-04-08** INBOX triage: archived 3 msgs (`8444,8445,8449`); **Open Threads** + **Flagged Items** for **IME re-feedback** + **IPAI prize payout**; Apr 8 items already in Archive left as-is. |
-| 2026-04-09 | [CURSOR] | v2.0.14 — `references/mcp.md`: `verify_bounce_window_seconds` as **optional complement only** after mandatory manual **`Sent` + `INBOX`** re-reads. |
-| [SUMMARY] | — | v2.0.13 absolute post-send `Sent`+`INBOX`; v2.0.12 mail_guide / k-mail-mcp 0.2.4; v2.0.11–v2.0.0 IME contact, WhatsApp dry-run, attachments, TickTick, open threads, refonte, Zimbra review |
+| 2026-04-09 | [CURSOR] | v2.0.17 — **`## What's up` (mail)** + **KπX interest lens** table; open-thread/flagged sweep (unread any age) → today → yesterday/week; one skill per AGENTS ladder turn. |
+| 2026-04-09 | [CURSOR] | v2.0.16 — **Alessandra** **`.edu` only**; English cert **`@polytechnique.fr`**; INBOX bulk archive except **8323**+**8318**. |
+| [SUMMARY] | — | v2.0.15 Apr8 triage + IME/IPAI threads; v2.0.14–v2.0.12 mcp post-send, mail_guide; v2.0.11–v2.0.0 verification, IME, WhatsApp dry-run, attachments, TickTick, open threads, refonte, Zimbra review |

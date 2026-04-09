@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: committed pending **`k-mail`** v2.0.10 (IME contact) + v2.0.11 (sensitive-mail post-send verification); `make audit` + push `.agents`. · `$HOME/.agents/skills/k-mail/SKILL.md` |
+| 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
+| 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-08 | [CODEX] | v2.74.29 — finalized communication-safety governance update in `.agents`: added mandatory dry-run before WhatsApp group sends in `k-whatsapp` and mirrored mail-context send-gate in `k-mail`; prepared session finalization commit/push. · `$HOME/.agents/skills/k-whatsapp/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-08 | [CURSOR] | v2.74.28 — rewrote entire `docs/` site in French (all pages + sidebar + index.html), added Mermaid plugin to Docsify (mermaid@10 + MutationObserver), replaced ASCII diagram with Mermaid flowchart, created TickTick task for Overleaf report session (Graph Tool + Heuristic Reranking, Sat 11/04 20h). Committed and pushed `envision-copilot-presentation`. · `$HOME/Work/X/envision/envision/` · TickTick `🎓 X/📅 Agenda` |

@@ -133,6 +133,27 @@ Add a new `.md` file there when a brainstorm should survive sessions and QMD ind
 
 **Example:** `sh-mcp` agent sandbox MCP + future user-side executor — `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md`.
 
+### What's up (greetings / status digest)
+
+**Triggers (non-exhaustive):** English *what's up*, *what’s new*, French *quoi de neuf*, *des nouvelles*, a **simple greeting** (*hey*, *salut*, *cc*, etc.) when KπX clearly expects a **status snapshot** rather than a task — treat as **What's up**.
+
+**Skill map — what to load and deliver:**
+
+| Intent | Load | Deliver (per skill `## What's up` section) |
+|--------|------|---------------------------------------------|
+| **Full** *what's up* (no qualifier) | See **sequential rule** below | **One domain per assistant response only** — never merge. |
+| *what's up* **context** / **projects** / *what's context* | `k-context` | `## Active Projects` + `## Session Log` + `## Brainstorm Registry` — narrative, exhaustive. |
+| *what's up* **mail** / *what's mail* | `k-mail` | Mail briefing procedure in `k-mail`. |
+| *what's up* **whats** / *what's whats* / *whatsapp* | `k-whatsapp` | WhatsApp briefing procedure in `k-whatsapp`. |
+| *what's up* **tick** / *what's tick* | `k-ticktick` | TickTick briefing procedure in `k-ticktick`. |
+| *what's mail tick* / *what's tick mail* | `k-mail` **then** `k-ticktick` (or the reverse if KπX names tick first) | **Two assistant turns minimum** — never both in one generation. |
+
+**Default full sequence (when KπX says only *what's up*):** `k-context` → `k-mail` → `k-whatsapp` → `k-ticktick`.
+
+**Hard rule — one generation = one What's up slice:** When executing the **full** sequence, the agent MUST deliver **exactly one** of the four domains per assistant turn. **PROHIBITED:** running two or more What's up briefings (e.g. context + mail) in a **single** generation. After each slice, **stop** and offer: *« What's up suivant : [mail | whats | tick] — dis `continue` ou le nom du canal. »*
+
+**Gold standard:** **Maximum detail and exhaustivity** within the active slice — see each skill for section order, lenses (academic / pro / AI / stages / hackathons / …), and proactive reply + TickTick suggestions where applicable.
+
 ### Style
 
 - **MANDATORY GENERALIZATION (applies to all files within `$HOME/.agents/`): NEVER USE HARDCODED PATHS LIKE `/home/<user>` OR `~` IN FILES INSIDE `$HOME/.agents/`. ALWAYS USE `$HOME`. NEVER USE THE HARDCODED USERNAME. ALWAYS USE `$USER`.**

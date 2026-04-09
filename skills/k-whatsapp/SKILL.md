@@ -4,13 +4,34 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.0.12"
+  version: "2.1.0"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 ---
 
 # Tool Memory — WhatsApp (whats-mcp)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## What's up — core policy and procedure
+
+**Open threads first (definition):** A *What's up* for WhatsApp **always** includes fetching **recent traffic for every row in `## Open Threads (operational memory)`** using `get_messages` (and `fetch_history` / `history_wait_ms` when needed). **Ignore calendar age** for this pass — if the thread is still open, surface **all relevant recent messages** until the story is clear.
+
+**Calendar day:** Use **Europe/Paris** for *today* / *unread today* boundaries unless KπX specifies otherwise.
+
+**KπX interest lens (elevate these in every section below):** Academic (courses, Moodle, exams, QCMs, grades, IME, DFHM, scolarité), professional (internships DXO/stage 2A, Career Center, conventions, certifications English), **AI** (Binet IA, IPAI, hackathons, X-IA, agents, research talks), **missions / jobs / tech** (XProjets *Offres de Missions*, *Missions XProjets*, JobTeaser-style leads if mirrored on WA), **stages**, **hackathons**, **PSC**, **soft skills**, **poly admin**, **conferences**, **sports performance** when tied to X24 — extend with anything matching `## Attention Triggers` in `k-mail` when overlapping. Messages hitting this lens get **maximum visual emphasis** (headline, bullets, quoted text).
+
+**Section order for a full WhatsApp *What's up* slice** (single assistant turn — **only this skill**):
+
+1. **Open-thread traffic** — per `## Open Threads`, JID by JID: sender, time, full text (or faithful summary if media-only), quoted lines for decisions/deadlines.
+2. **Today’s unread** — all WhatsApp messages **received today** still **unread**, ordered by **`## Group Index` priority** (HIGH → VERY LOW), then by time. Full detail: group name, JID, author, timestamp, body. Apply **KπX interest lens** — reorder within priority band so lens hits come first.
+3. **Infos X24** (school pulse) — scan **`X24 — Announcements`** (`120363400296786956@g.us`) and **`Info X24`** (`120363417591278511@g.us`): today’s traffic **plus** any **unread** from the last few days not yet acknowledged; highlight **course-choice campaigns**, **school events**, **amphis**, **RSE**, **4A / international**, **tech & AI** school line.
+4. **Badminton X24** (`120363393577104884@g.us`) — **critical.** Surface anything about: **rassos** (time/place, e.g. early morning *levée des couleurs*), **sport slots** (*T5*, *T6*, *bulle*, gym assignment, **group 2**), **FFSU / compétitions**, **Google Sheets** / forms to fill, orders from **`mathieu.lesoualch@polytechnique.edu`** (Adjudant, CDS — see `k-mail` DFHM) or **`henry.develey@polytechnique.edu`** (Capitaine, CDU) or any staff echoing them, **chef de section** messages, equipment, cancellations.
+5. **Péri-scolaire & interest groups** — prioritize **`Opportunites IA : Stages, PSC, Projets`**, **`Offres de Missions`**, **`IPAI Hackathon group 7`**, **`Sympathisants Binet IA`** (both), **`PSC IA`**, **`Competiteurs FFSU`**, **`Missions XProjets`**, **`X24⚔️🔥`**: events, deadlines, badminton-adjacent comps, binet announcements. Exhaustive for **unread**; summarize read-but-recent if action-heavy.
+6. **Awaiting your reply / reaction** — messages (any chat) that **expect** an answer, poll, RSVP, reaction, or private follow-up; sort by **HIGH → LOW** contact/group match, then lens. For each: **proposed reply** (draft) and **proposed action** (e.g. *add TickTick task …*, *archive after reply*) — same proactive standard **applies to all sections above**, not only this one.
+
+**Tools:** Prefer `get_messages` for per-chat history; `find_messages` / `search_messages` when correlating keywords across chats; `list_chats` for unread counts. See `references/mcp.md` for post-send re-read rules.
+
+**Sequential ladder:** If KπX started a **full** *what's up*, this skill is **one turn** in the chain — **AGENTS.md → What's up**. Do not bundle `k-mail` or `k-ticktick` in the same generation.
 
 ## Runtime Discipline (mandatory)
 
@@ -125,6 +146,6 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.1.0 — **`## What's up`**: open-thread scan (any date), today’s unread by priority, **KπX interest lens**, **Infos X24** + **Badminton X24** (group 2, CDS/CDU names), péri-scolaire, awaiting-reply + proactive drafts/TickTick; **one skill per turn** ladder per AGENTS. |
 | 2026-04-09 | [CURSOR] | v2.0.12 — `references/mcp.md`: post-send re-read via **`get_messages`** (same `jid`, sufficient `limit`, optional `since`); **`read_messages`** is read-receipts only. |
-| 2026-04-09 | [CURSOR] | v2.0.11 — **Absolute** post-send verification: after every send, wait ≥~5s, **re-read the conversation** and confirm the outbound message is present before closing. |
-| [SUMMARY] | — | v2.0.10 group dry-run gate; v2.0.9 TickTick proposals; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |
+| [SUMMARY] | — | v2.0.11 post-send verify; v2.0.10 group dry-run; v2.0.9 TickTick; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |

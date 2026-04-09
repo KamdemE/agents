@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.6"
+  version: "2.0.7"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -60,6 +60,22 @@ These are **silent failures** — no error thrown, data simply not saved:
 - Use tick-mcp to inspect workspace structure and planning context (`workspace_map`, `query_projects`, `query_folders`).
 - For write operations, always verify post-write state with read-back tools to avoid silent V1/V2 failures.
 
+## What's up (TickTick briefing)
+
+**When:** KπX says *what's up* **tick**, *what's tick*, or the **fourth** step of the full *what's up* ladder (after context, mail, WhatsApp) — **this skill only** in that turn.
+
+**Tools (non-exhaustive):** `tasks_of_today`, `events_of_today`, `week_agenda`, `week_overview`, `upcoming_tasks`, `overdue_tasks`, `workspace_map`, `query_projects`, `query_folders`, `priority_dashboard` — combine so nothing is missed.
+
+**Presentation order — exhaustive detail:**
+
+1. **Today — academic / professional first** — Tasks and calendar events touching **`Scolaire X`**, **`Careers`**, exam/deadline keywords, stage, PSC, certifications, IPAI/hackathon, poly admin mirrors; include time, project, folder, notes, recurrence.
+2. **Today — personal projects & other folders** — **`Tech & Dev`**, **`Homelab`**, **`Flow`**, **`Persos`** (condense only if empty).
+3. **Overdue** — Every overdue task: age, project, suggested next step (one line each); **propose** rescheduling or completion.
+4. **Horizon — soon** — Buckets: **within a few hours**, **tomorrow**, **day after tomorrow**; include events (location, time zone Europe/Paris default) and tasks with due time.
+5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless KπX scoped only tick + already provided context.
+
+**Sequential ladder:** **AGENTS.md → What's up** — one domain per assistant response; **never** pair with `k-mail` or `k-whatsapp` fetches in the same generation.
+
 ## Open Threads (operational memory)
 
 | Thread | Scope | Last State | Next Action |
@@ -76,6 +92,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-08 | [CODEX] | v2.0.6 — enforced mandatory destination-discovery workflow before any task/note/event creation (inspect structure/examples first, multi-call allowed). |
-| 2026-04-07 | [CODEX] | v2.0.3 — aligned TickTick MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
-| [SUMMARY] | — | v2.0.5 runtime memory protocol + full-folder ownership + reality self-check + open-threads maintenance + calendar/task overview orientation; v2.0.2–v2.0.1 setup reference pointer + wording normalization; v2.0.0 migration and v1.0.0 initial creation from legacy kernel section. |
+| 2026-04-09 | [CURSOR] | v2.0.7 — **`## What's up (TickTick briefing)`**: today academic/pro → other folders → overdue → horizon (hours / tomorrow / +2d); tools list; proactive cross-links; one turn per AGENTS ladder. |
+| 2026-04-08 | [CODEX] | v2.0.6 — mandatory destination-discovery before any task/note/event creation (inspect structure first, multi-call allowed). |
+| [SUMMARY] | — | v2.0.5 runtime memory + open-threads + calendar/task orientation; v2.0.3 stdio setup; v2.0.2–v2.0.0 migration |

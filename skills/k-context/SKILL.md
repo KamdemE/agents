@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.40"
+  version: "2.74.43"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -17,6 +17,7 @@ allowed-tools: "Bash(*), *"
 > - **Zero-Deletion Policy (Mandatory):** NEVER delete logs or historical entries. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved to `references/log.md` BEFORE the main file is compacted. Every removal MUST be an addition to the archive. [GEMINI]
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
 > **Kernel Sync Rule:** ALWAYS run `make audit` in `.agents/` and fix any errors BEFORE proposing session finalization (`git commit` + `make push`).
+> **KπX directive — `.agents` VCS (2026-04-09):** Do **not** run `git commit`, `git push`, or `make push` on `$HOME/.agents/` **unless KπX explicitly requests** end-of-session finalization. **No autonomous** commit/push after skill or kernel edits by default.
 > **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-workspace` cross-links.
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
@@ -68,6 +69,17 @@ allowed-tools: "Bash(*), *"
 | `references/vision/` | Brainstorm folder | visual-first AI content creation: visual-ai-vision, k-visual architecture, code-as-visual paradigm, social media APIs, content engine pipeline, blender MCP/API/scripting |
 | `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
 
+## What's up (context-only slice)
+
+When KπX asks *what's up* **context** / **projects** (or the first step of a full *what's up*), load this file and present — **exhaustively**, in prose + tables as needed:
+
+1. **`## Active Projects`** — every row: status, next action, folder path; expand any row that needs narrative (blockers, recent commits, CI).
+2. **`## Session Log`** — newest-first; include enough rows that recent kernel/work threads are visible; point to `references/log.md` for deeper history.
+3. **`## Brainstorm Registry`** — each registered file/folder: one-line topic + why it matters now if inferable.
+4. **`## Active TODOs`** if non-empty.
+
+Do **not** fold mail/WhatsApp/TickTick into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
+
 ## Session Log
 
 > Limit: max 10 entries, newest-first.
@@ -78,6 +90,9 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.43 — **`.agents` session finalization:** explicit KπX request — `git commit` + `make push` for **What's up** stack (`AGENTS.md`, `k-context` **v2.74.42**, `k-mail` **v2.0.17**, `k-whatsapp` **v2.1.0**, `k-ticktick` **v2.0.7`, runtime logs); `make audit` green. · `$HOME/.agents/` |
+| 2026-04-09 | [CURSOR] | v2.74.42 — **What's up protocol:** `AGENTS.md` ladder + **`## What's up`** slices in `k-context`, `k-mail`, `k-whatsapp` **v2.1.0**, `k-ticktick`; **one domain per assistant turn**; context-only section in k-context. · `$HOME/.agents/AGENTS.md` · skills |
+| 2026-04-09 | [CURSOR] | v2.74.41 — **`.agents` VCS:** no auto commit/push unless KπX asks; **`k-mail`** INBOX bulk archive (**56** msgs, keep **8323**+**8318**); Alessandra **`.edu` only** rule; read UIDs **8323**/**8318**. · `$HOME/.agents/skills/k-context/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.40 — **`k-mail` v2.0.15**: archived **2026-04-08** INBOX trio (`8444,8445,8449`); **Flagged/Open Threads** = **IME re-feedback** + **IPAI prize**; INBOX sweep since **2026-03-25** (48 msgs). · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.39 — **`k-mail` v2.0.14** + **`k-whatsapp` v2.0.12**: `references/mcp.md` post-send tooling (`verify_bounce_window_seconds` complement; WhatsApp **`get_messages`** vs **`read_messages`**); `.agents` commit + push; mail-mcp digest 2026-04-08 INBOX+Archive. · `$HOME/.agents/skills/k-mail/` · `$HOME/.agents/skills/k-whatsapp/` |
 | 2026-04-09 | [CURSOR] | v2.74.38 — **`k-mail` v2.0.13** + **`k-whatsapp` v2.0.11**: mandatory post-send verification — mail: ≥~5s then **`Sent` + `INBOX`**; WhatsApp: ≥~5s then **re-read thread** for outbound presence. · `$HOME/.agents/skills/k-mail/SKILL.md` · `$HOME/.agents/skills/k-whatsapp/SKILL.md` |
@@ -85,10 +100,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-09 | [CURSOR] | v2.74.36 — **AGENTS.md**: mandatory **`k-*` proactive freshness** — after using or touching a skill’s domain, keep `$HOME/.agents/skills/k-<name>/SKILL.md` aligned; record working fixes in-skill, not only in chat. · `$HOME/.agents/AGENTS.md` |
 | 2026-04-09 | [CURSOR] | v2.74.35 — **`k-final` v1.0.3** obligation pass + **mail_mcp** Phase G/H proof: `glab api …/pipelines/2438880154/jobs` → `validate_project`+`deploy_homelab` **success**; `curl` health + `ssh docker-host docker logs mail-mcp` → **running healthy** (runtime JSON still reports `version` **0.2.0** vs PyPI **0.2.3** — image/metadata drift to fix separately). · `$HOME/.agents/skills/k-final/SKILL.md` · `$HOME/Work/AI/MCPs/mail_mcp/` |
 | 2026-04-09 | [CURSOR] | v2.74.34 — **mail_mcp** closure: `e7a2aac` v0.2.3 (SMTP `delivery_status` + optional bounce probe) → `make push` + **PyPI** `k-mail-mcp==0.2.3` + tag `v0.2.3` + `uv tool install --editable`; `.agents` **`210d3c9`** pushed to both remotes after SSH recovery. · `$HOME/Work/AI/MCPs/mail_mcp/` · `$HOME/.agents/` |
-| 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: committed pending **`k-mail`** v2.0.10 (IME contact) + v2.0.11 (sensitive-mail post-send verification); `make audit` + push `.agents`. · `$HOME/.agents/skills/k-mail/SKILL.md` |
-| 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
-| 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
-| [SUMMARY] | — | v2.74.30 k-final skill + AGENTS sync; v2.74.29 WhatsApp/mail send-gate (archived `references/log.md`); v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
+| [SUMMARY] | — | v2.74.33 k-mail v2.0.10–v2.0.11 session finalize (archived `references/log.md`); v2.74.32 k-final Phase K closure (archived `references/log.md`); v2.74.31 k-final read mandate (archived `references/log.md`); v2.74.30 k-final skill + AGENTS sync; v2.74.29 WhatsApp/mail send-gate (archived `references/log.md`); v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
 
 ## References
 
@@ -102,6 +114,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.40 — k-mail v2.0.15 Apr8 INBOX archive + IME/IPAI open threads; k-context log rotate (v2.74.30 → archive). |
-| 2026-04-09 | [CURSOR] | v2.74.39 — k-mail/k-whatsapp `references/mcp.md` post-send tooling notes; session log rotate (v2.74.29 → archive); `.agents` push. |
-| [SUMMARY] | — | v2.74.38 k-mail/k-whatsapp post-send verification; v2.74.37 mail_mcp 0.2.4 + k-mail v2.0.12; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 PyPI 0.2.3; v2.74.33 k-mail; v2.74.32–v2.74.31 k-final; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC scaffold; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.43 — `.agents` commit+push: What's up kernel + skills + logs; session log rotate (v2.74.33 → archive). |
+| 2026-04-09 | [CURSOR] | v2.74.42 — AGENTS **What's up** + k-context/mail/whatsapp/ticktick briefing sections; session log rotate (v2.74.32 → archive). |
+| [SUMMARY] | — | v2.74.41 no auto push + k-mail v2.0.16; v2.74.40 k-mail Apr8+IME/IPAI; v2.74.39 mcp post-send + push; v2.74.38 k-mail/k-whatsapp post-send verification; v2.74.37 mail_mcp 0.2.4; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 PyPI 0.2.3; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |
