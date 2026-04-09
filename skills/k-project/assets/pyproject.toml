@@ -20,6 +20,10 @@
 #       ├── config.py       ← @lru_cache config loader
 #       ├── config.yaml     ← non-sensitive settings
 #       └── .env.example    ← required secret keys (no values)
+#
+# Metadata rule:
+#   - Keep package/app/contract metadata here in pyproject.toml.
+#   - Keep src/**/config.yaml strictly runtime-focused.
 
 
 [project]
@@ -63,6 +67,12 @@ dev = [
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+# Example: contract metadata (project-specific, optional)
+# [tool.PROJECT_NAME.contract]
+# schema_version = "flow.contract.v1"
+# contract_version = "1.0.0"
+# source = "CONTRACT.md"
 
 # ── Common optional extras ───────────────────────────────────────────────────
 # Uncomment as needed:

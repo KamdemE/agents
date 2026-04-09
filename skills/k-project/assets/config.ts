@@ -6,6 +6,11 @@
 //   - Login-shell secret resolution (production, via bw-env)
 //   - Cached singleton + runtime override support
 //
+// IMPORTANT:
+//   - Keep this module runtime-focused.
+//   - Never store package/app metadata here (name, version, contract schema/version).
+//   - Metadata belongs to package.json (or pyproject.toml for Python).
+//
 // HOW TO USE:
 //   1. Copy to: src/config.ts
 //   2. Copy config.yaml.example to: src/config.yaml

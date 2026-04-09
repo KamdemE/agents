@@ -7,6 +7,11 @@ Template for any Python project that needs:
   - Login-shell secret resolution (production, via bw-env)
   - Cached singleton + runtime override support
 
+IMPORTANT:
+  - Keep this module runtime-focused.
+  - Never store package/app metadata here (name, version, contract schema/version).
+  - Metadata belongs to pyproject.toml (or package.json for JS/TS).
+
 HOW TO USE:
   1. Copy to: src/<your_package>/config.py
   2. Copy config.yaml.example to: src/<your_package>/config.yaml

@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.48 — finalized mail/tag governance pass: session-guard grace raised to 30 min, `k-mail` updated with Zimbra tag inventory + Important-priority in What's up open-thread scan, and runtime logs synced after Important cleanup + EX240207 discovery in Drive docs. · `$HOME/.agents/hooks/` · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-09 | [CURSOR] | v2.74.46 — **`.agents` session finalization:** `git commit` + `make push` — **AGENTS** mail-mcp **stdio exception**; **`k-mail` v2.0.21** (Lokad **Clément Liu** / Kevin Ea, *What's up* Step 0, Outlook dedup, **`## Closure hygiene`**, `mcp.md`); **`k-ticktick` v2.0.8**; **`k-whatsapp` v2.1.2** + `mcp.md`; `make audit` green. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.45 — **`k-mail` v2.0.18** *What's up*: stdio+**m365** preflight, Outlook **dedup** vs poly, M365 contacts + Clement row; **`## Closure hygiene`** mail + **`k-ticktick` v2.0.8** + **`k-whatsapp` v2.1.2**; **AGENTS** mail-mcp **stdio exception**. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.44 — **AGENTS.md → MCP Protocol:** **HTTP preferred**, **stdio fallback** for KπX MCPs; **`k-whatsapp` v2.1.1** (`allowed-tools`, **`## Runtime Discipline`**, `references/mcp.md` HTTP-first). · `$HOME/.agents/AGENTS.md` · `$HOME/.agents/skills/k-whatsapp/` |

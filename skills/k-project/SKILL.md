@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.1"
+  version: "2.5.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -66,7 +66,7 @@ Initial structure:
 
 Next steps:
 1. Replace `pyproject.toml` → `assets/pyproject.toml` (adapt name + deps)
-2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` defaults file alongside it
+2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` runtime defaults file alongside it
 3. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
 Autonomous packages may each own their own `.env.example`, `.env`, `config.yaml`, and `config.py` when the boundary is real and intentional.
 
@@ -121,7 +121,8 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 ## Architecture Philosophy
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
-- **No hardcoding** — all values in `config.yaml`; secrets in `.env`
+- **No hardcoding** — runtime values in `config.yaml`; secrets in `.env`
+- **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.yaml` / `config.ts` payloads to avoid desync.
 - **OO** — encapsulation; internals prefixed `_`; public API explicit
 - **Config pattern** — `ConfigManager` per package (`assets/config.py` / `config.ts`):
   - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
@@ -277,6 +278,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.5.0 — enforced metadata/runtime separation: metadata must live in `pyproject.toml` / `package.json`; `config*` templates are runtime-only |
 | 2026-04-09 | [CURSOR] | v2.4.1 — linked **`k-final`** as mandatory for project closure; Versioning & Release points to `k-final` for full process gates |
-| 2026-04-06 | [CLAUDE] | v2.4.0 — added MCP ownership/alignment rule for JS/TS projects and VS Code binary resolution |
-| [SUMMARY] | — | v2.3.1–v2.3.0 Bash/Shell `run`/journald/install-purge; v2.2.0 Git Submodules; v2.1.0–v1.0.0: docs-site, config/env, assets/ migration, and earlier |
+| [SUMMARY] | — | v2.4.0–v2.0.0 MCP ownership/alignment; Bash/Shell `run`/journald/install-purge; Git Submodules; docs-site, config/env, assets/ migration, and earlier |
