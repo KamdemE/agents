@@ -18,4 +18,6 @@ Purpose: detailed runtime execution log for mail operations (different from `SKI
 | 2026-04-09T14:30:10Z | [CURSOR] | mail-mcp http | `search_messages` | folder=`INBOX`, since=`2026-03-25`, limit=300 | 48 hits | uids 8460..8260 | post-archive INBOX inventory for user |
 | 2026-04-09T16:00:00Z | [CURSOR] | mail-mcp http | `get_message` | uid=`8323`,`8318`, folder=`INBOX` | bodies retrieved | certification + MT180 | user summary |
 | 2026-04-09T16:00:10Z | [CURSOR] | mail-mcp http | `archive_messages` | source=`INBOX`, 56 uids (all since 2026-03-25 **except** 8323, 8318) | archived=56 | — | user keep certif + MT180 |
+| 2026-04-09T18:45:00Z | [CURSOR] | mail-mcp stdio + m365 Graph | `list_messages`, `search_messages`, `get_message`, `m365 request` | poly INBOX + Outlook/Graph `$search` | what's-up briefing (FR) | uids 8323, 8318, 8462, 8463; Clément Liu thread | user: quoi de neuf mail |
+| 2026-04-09T20:15:00Z | [CURSOR] | m365 Graph | `outlook message list` + `m365 request` POST `$batch` | folder=`Inbox` → `Archive` | moved=2126, inbox_count_after=0 | 107 batches × 20; `--content-type application/json` required on `m365 request` when using `-b` | user: archive all Hotmail Inbox on m365 only (poly already cleaned via mail-stdio earlier) |
 

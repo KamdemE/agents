@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.21"
+  version: "2.0.22"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -88,17 +88,13 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Name | Address | Role / context | Discovery |
 |------|---------|----------------|-----------|
-| **Liu Clément** (Outlook: *Clément Liu*) | `clement.liu@lokad.com` | **Lokad** **PSC INF01** coordinator (company side, with poly supervisor **`johannes.lutzeyer@polytechnique.edu`**). Threads in Hotmail/poly mirror: **PSC** cadence, **contract / Yousign NDA** alignment, **API tokens** and **benchmark** / **rapport final** with the student group (**Gaétan**, CC to you on **`ivann.kamdem@hotmail.com`**). **Kevin Ea** (`kevin.ea@lokad.com`) often on **NDA / classification** legal threads. | **Verified 2026-04-09** — Microsoft Graph (CLI v11): `m365 request -m get -u 'https://graph.microsoft.com/v1.0/me/messages?$search=%22lokad%22&$top=30&$select=subject,from,toRecipients,ccRecipients,receivedDateTime'` + poly `search_messages`; **not** `clement.meyer@polytechnique.edu`. |
-
-**Homonym (not Lokad):** Meyer Clément — `clement.meyer@polytechnique.edu` — **X24 Badminton** peer, **DFHM soft-skills** lists only; Garcia-Junisson Clément — **X24 RAID** — confirm handle in poly if ever needed; **do not** conflate with **Lokad Clement**.
+| **Liu Clément** (Outlook: *Clément Liu*) | `clement.liu@lokad.com` | **Lokad** **PSC INF01** coordinator (company side, with poly supervisor **`johannes.lutzeyer@polytechnique.edu`**). Threads in Hotmail/poly mirror: **PSC** cadence, **contract** alignment, **API tokens** and **benchmark** / **rapport final** with the student group (**Gaétan**, CC to you on **`ivann.kamdem@hotmail.com`**). | **Verified 2026-04-09** — Microsoft Graph (CLI v11): `m365 request -m get -u 'https://graph.microsoft.com/v1.0/me/messages?$search=%22lokad%22&$top=30&$select=subject,from,toRecipients,ccRecipients,receivedDateTime'` + poly `search_messages`. |
 
 ### PSC INF01 — Lokad Project
 | Address | Role |
 |---------|------|
 | `johannes.lutzeyer@polytechnique.edu` | PSC supervisor (poly) |
 | `clement.liu@lokad.com` | **Clément Liu** — PSC coordinator (Lokad) |
-| `kevin.ea@lokad.com` | **Kevin Ea** — Lokad (PSC INF01 **NDA** / contract / classification threads — often **CC** with Clément) |
-| `notifications@yousign.app` | Lokad NDA — PENDING SIGNATURE |
 
 ## Active Courses (P2)
 
@@ -114,11 +110,11 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 ## Attention Triggers
 
-`*@polytechnique.edu` · `*@polytechnique.fr` · `*@ip-paris.fr` · `*@dxo.com` · `*@lokad.com` · Yousign · DFHM
+`*@polytechnique.edu` · `*@polytechnique.fr` · `*@ip-paris.fr` · `*@dxo.com` · `*@lokad.com` · DFHM
 
 ## KπX interest lens (mail + cross-reference for WhatsApp)
 
-Use this list to **rank** and **highlight** messages in any *What's up* mail slice (and align with `k-whatsapp` **KπX interest lens**): **academic** (Moodle, QCMs, grades, TD/TP, IME, scolarité, Challant schedule), **professional** (internships, Career Center, conventions stage 2A, certifications e.g. English Linguaskill), **AI** (IPAI, Hi-Paris, hackathons, research mail), **missions / jobs / tech** (XProjets, HR, labs), **stages** (DXO, administrative threads), **hackathons**, **PSC**, **DFHM / soft skills**, **poly admin**, **conferences**, **Yousign / legal**, **bounces / MAILER-DAEMON** (surface as incidents).
+Use this list to **rank** and **highlight** messages in any *What's up* mail slice (and align with `k-whatsapp` **KπX interest lens**): **academic** (Moodle, QCMs, grades, TD/TP, IME, scolarité, Challant schedule), **professional** (internships, Career Center, conventions stage 2A, certifications e.g. English Linguaskill), **AI** (IPAI, Hi-Paris, hackathons, research mail), **missions / jobs / tech** (XProjets, HR, labs), **stages** (DXO, administrative threads), **hackathons**, **PSC**, **DFHM / soft skills**, **poly admin**, **conferences**, **legal / contracts**, **bounces / MAILER-DAEMON** (surface as incidents).
 
 ## Closure hygiene (mandatory)
 
@@ -147,7 +143,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 1. **Open pipelines (unread first, any age)** — For every row in **`## Open Threads`** and **`## Flagged Items`**, run `search_messages` / `list_messages` on **`INBOX`** then **`Archive`** (and `Sent` if tracking your own pending replies): surface **unread** or **unanswered** messages tied to those threads **even if weeks old**. Full headers + body summary + suggested next action + optional TickTick.
 2. **Today’s mail — poly (`Zimbra`)** — All messages **dated today** in `INBOX` (then optionally filed **today** in `Archive`): blocks **Admin / Academic / Professional** using **KπX interest lens**; sort by contact priority.
 3. **Today / recent — Outlook (m365), deduplicated** — Query **`m365 outlook mail list`** (e.g. unread and/or last 24–48h). **Poly is canonical** for **X / school** mail that is **mirrored** from Zimbra. **Suppress** from the Outlook summary any message **already represented** in poly (`INBOX`, `Archive`, or `Sent`): match by **`Message-ID`** when both APIs expose it; else **fallback fingerprint** = **normalized `Subject` + primary `From` + received time within ±3 minutes** (or obvious thread id if present). **Highlight net-new:** personal mail, external senders **not** in poly, Hotmail-only receipts, and **`## Key contacts (Microsoft 365 / Outlook)`** traffic even when a duplicate exists (summarize once, note *also in poly* if applicable).
-4. **Microsoft 365 — key contacts pulse** — Short pass over **`## Microsoft 365 / Outlook (Hotmail) — key people`** (priority: **Clement (Lokad PSC)**, then other rows): any **recent** thread not already summarized; **enrich** `*@lokad.com` address when surfaced.
+4. **Microsoft 365 — key contacts pulse** — Short pass over **`## Microsoft 365 / Outlook (Hotmail) — key people`** (priority: **Clément Liu (Lokad PSC)**, then other rows): any **recent** thread not already summarized; **enrich** `*@lokad.com` details when surfaced.
 5. **Backward window (poly)** — **Yesterday**; optional **last 7 days** unread stragglers.
 6. **Proactive close** — Drafts + TickTick **proposals** (execute TickTick in a **later** turn per AGENTS unless KπX scoped mail-only and approved writes). **Apply `## Closure hygiene (mandatory)`** for any item marked done in this pass.
 
@@ -176,5 +172,5 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.21 — **Clément Liu** `clement.liu@lokad.com` + **`kevin.ea@lokad.com`** from **Graph** (`$search=lokad`); PSC table filled; **`@lokad.com`** attention trigger. |
-| [SUMMARY] | — | v2.0.20 Lokad Clement ≠ Meyer; v2.0.19 header drift; v2.0.18 What's up Step 0 / dedup / closure / stdio-first; v2.0.17–v2.0.0 mail/TickTick/Zimbra |
+| 2026-04-09 | [CURSOR] | v2.0.22 — Remove homonym Meyer/Garcia block; drop **Kevin Ea** + **Yousign** PSC rows; strip **NDA** / Yousign triggers from Liu row, **Attention Triggers**, **KπX interest lens**. |
+| [SUMMARY] | — | v2.0.21 Clément Liu from Graph + `@lokad.com` trigger; v2.0.20 Lokad vs Meyer; v2.0.18–v2.0.0 What's up / closure / stdio / mail stack |
