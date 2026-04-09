@@ -6,6 +6,10 @@
 
 | ISO date (UTC) | Agent | Action | Outcome |
 |----------------|-------|--------|---------|
+| 2026-04-09 | [CURSOR] | `.agents` session finalization | **`k-context` v2.74.55** + **`k-tg` v3.1.0** bundle committed; `k-tg/references/` triage log rows normalized; **`k-ticktick/references/log.md`** LEN_43314_EP row fixed; Session Log overflow → **`k-context/references/log.md`**; `make audit` + `make push`. |
+| 2026-04-09 | [CURSOR] | BotFather `/token` batch + skill sync | Wrote **six** `TELEGRAM_*.env` files under `/tmp/tokens` (General, Issues, Tick/Whats/LinkedIn/Mail homelab); **`k-tg` v3.0.3** BotFather compact map + bridge @handles; Openclaw Ubuntu absent from `/mybots` (treated as removed). |
 | 2026-04-09 | [CURSOR] | `.agents` session finalization | Skill folder + `AGENTS` ladder + `.skill-lock` committed; **`k-tg` v3.0.2** (implementation gate) on record. |
 | 2026-04-09 | [CURSOR] | BotFather `/setname` ×2 | Display names set to **General** (`@kpihx_general_capture_bot`) and **Issues** (`@kpihx_issues_capture_bot`). |
 | 2026-04-09 | [CURSOR] | BotFather `/newbot` ×2 | Created capture bots `@kpihx_general_capture_bot` id **8089748360**; `@kpihx_issues_capture_bot` id **8656241501**; user `/start` both via `tg user send` |
+| 2026-04-09 | [CURSOR] | *What's up* Telegram triage (read-only) | Issues: 5 photos; General: 4 photos; Homelab: PVE backup error; Ubuntu: backup PC OK — cursors updated in `telegram-processed-state.md` |
+| 2026-04-09 | [CURSOR] | *What's up* Telegram triage (deep) | Issues: UCSI laptop boot hypothesis; General: Shakespeare/Brutus notes; Homelab: PVE backup error (GDrive quota hypothesis) — pistes only per implementation gate |

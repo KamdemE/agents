@@ -8,6 +8,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.46 — **`.agents` session finalization:** `git commit` + `make push` — **AGENTS** mail-mcp **stdio exception**; **`k-mail` v2.0.21** (Lokad **Clément Liu** / Kevin Ea, *What's up* Step 0, Outlook dedup, **`## Closure hygiene`**, `mcp.md`); **`k-ticktick` v2.0.8**; **`k-whatsapp` v2.1.2** + `mcp.md`; `make audit` green. · `$HOME/.agents/` |
+| 2026-04-09 | [CURSOR] | v2.74.45 — **`k-mail` v2.0.18** *What's up*: stdio+**m365** preflight, Outlook **dedup** vs poly, M365 contacts + Clement row; **`## Closure hygiene`** mail + **`k-ticktick` v2.0.8** + **`k-whatsapp` v2.1.2**; **AGENTS** mail-mcp **stdio exception**. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.44 — **AGENTS.md → MCP Protocol:** **HTTP preferred**, **stdio fallback** for KπX MCPs; **`k-whatsapp` v2.1.1** (`allowed-tools`, **`## Runtime Discipline`**, `references/mcp.md` HTTP-first). · `$HOME/.agents/AGENTS.md` · `$HOME/.agents/skills/k-whatsapp/` |
 | 2026-04-09 | [CURSOR] | v2.74.43 — **`.agents` session finalization:** explicit KπX request — `git commit` + `make push` for **What's up** stack (`AGENTS.md`, `k-context` **v2.74.42**, `k-mail` **v2.0.17**, `k-whatsapp` **v2.1.0**, `k-ticktick` **v2.0.7`, runtime logs); `make audit` green. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.42 — **What's up protocol:** `AGENTS.md` ladder + **`## What's up`** slices in `k-context`, `k-mail`, `k-whatsapp` **v2.1.0**, `k-ticktick`; **one domain per assistant turn**; context-only section in k-context. · `$HOME/.agents/AGENTS.md` · skills |

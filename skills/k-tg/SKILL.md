@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.0.2"
+  version: "3.1.0"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -33,7 +33,7 @@ allowed-tools: "Bash(*), Read(*), Glob(*), *"
 - **BotFather only** for bot create/delete/token/privacy/commands — entity id **`93372553`**.
 - **Run-speed policy (immediate minimal):** during active runs, log only **critical** facts (bot id, action, error). Put narratives into deferred curation or `references/log.md` once per slice.
 - **No secret exfiltration:** never print full **`TELEGRAM_*_TOKEN`** values in chat; use Vaultwarden names (`TELEGRAM_GENERAL_TOKEN`, `TELEGRAM_ISSUES_TOKEN`, …).
-- **What’s up / Telegram — implementation gate (mandatory):** The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations — no TickTick API writes, no mail sends, no writes/copies into `Gdrive_X` or project trees, no service/config/deploy changes, no corrective shell that mutates state — **until** KπX gives **explicit** go-ahead (e.g. *feu vert*, *go*, *OK implémente*). **Read-only** investigation (read logs, inspect files, SSH **diagnostic** cat/grep/journalctl) **is** in scope and expected before proposals. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** after triage is **bookkeeping** (avoid re-triage), not remediation.
+- **What’s up / Telegram — implementation gate (mandatory):** You must **autonomously perform ALL read-only investigations** (reading screenshots/media, server exploration via SSH, parsing logs and diagnostic files). **Do not require a "go" for inspection**. You are obliged to investigate as deeply as possible yourself before making proposals. If a password is required (e.g., for `sudo`), simply launch the command in the terminal and wait; KπX will enter the password. The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations (e.g., no TickTick API writes, no mail sends, no service/config mutative changes) **until** KπX gives explicit go-ahead. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** is bookkeeping, not remediation.
 
 ## What's up — Telegram slice (single assistant turn, **k-tg only**)
 
@@ -108,7 +108,11 @@ When KπX runs the **full** *what's up*, **Telegram is the last turn** — **AGE
 | `TELEGRAM_HOMELAB_TOKEN` | `homelab` | Sentinel / Homelab |
 | `TELEGRAM_UBUNTU_TOKEN` | `ubuntu` | Ubuntu workstation reports |
 | `TELEGRAM_N8N_HOMELAB_TOKEN` | `n8n-homelab` | N8N signals |
-| `TELEGRAM_*_TOKEN` | `*` auto | Other bridge bots when present |
+| `TELEGRAM_TICK_HOMELAB_TOKEN` | `tick-homelab` | Tick MCP bridge (`@tick_homelab_bot`) |
+| `TELEGRAM_WHATS_HOMELAB_TOKEN` | `whats-homelab` | Whats MCP bridge (`@whats_homelab_bot`) |
+| `TELEGRAM_LINKEDIN_HOMELAB_TOKEN` | `linkedin-homelab` | LinkedIn MCP bridge (`@linkedin_homelab_bot`) |
+| `TELEGRAM_MAIL_HOMELAB_TOKEN` | `mail-homelab` | Mail MCP bridge (`@mail_homelab_bot`) |
+| `TELEGRAM_*_TOKEN` | `*` auto | Other bots when present |
 
 Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.yaml` when used.
 
@@ -119,14 +123,13 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 | **Capture** | General | `8089748360` | `@kpihx_general_capture_bot` | **New — add token to Vault** |
 | **Capture** | Issues | `8656241501` | `@kpihx_issues_capture_bot` | **New — add token to Vault** |
 | **Homelab** | Homelab | `8589111784` | `@sentinel_homelab_bot` | Active |
-| **Homelab** | Mail Homelab | `8385666882` | — | Active (token often via `bw-env`) |
-| **Homelab** | LinkedIn Homelab | `8662033588` | — | Active (token often via `bw-env`) |
-| **Homelab** | Whats Homelab | `8449692658` | — | Active (token often via `bw-env`) |
-| **Homelab** | Tick Homelab | `8357989597` | — | Active (token often via `bw-env`) |
+| **Homelab** | Mail Homelab | `8385666882` | `@mail_homelab_bot` | Active |
+| **Homelab** | LinkedIn Homelab | `8662033588` | `@linkedin_homelab_bot` | Active |
+| **Homelab** | Whats Homelab | `8449692658` | `@whats_homelab_bot` | Active |
+| **Homelab** | Tick Homelab | `8357989597` | `@tick_homelab_bot` | Active |
 | **Homelab** | N8N Homelab | `8724946664` | `@k_n8n_x_bot` | Active |
 | **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active |
-| **Ubuntu** | Openclaw Ubuntu | `8758962418` | — | **Inactive / token 401** |
-| **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive |
+| **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive (legacy) |
 
 *Third-party bots (e.g. “Nano Banana”, “ChatGPT”) are **not** KπX infra — exclude from *What's up* unless KπX asks.*
 
@@ -145,16 +148,41 @@ uv tool install --editable $HOME/Work/Tools/tg
 tg --help
 ```
 
-## BotFather quick map
+## BotFather (entity id **`93372553`**)
 
-| Command | Use |
-|---------|-----|
-| `/newbot` | Create capture or infra bot |
-| `/token` | Retrieve token (sensitive) |
-| `/setcommands` | Bot menu |
-| `/setprivacy` | Group message visibility |
+Compact command map (official names — always use BotFather, never third-party “bot managers”):
 
-Full table lives in older agent transcripts; keep **BotFather id** `93372553` immutable.
+| Area | Commands |
+|------|----------|
+| **Entry** | `/start` · `/help` (full list) |
+| **Lifecycle** | `/newbot` · `/mybots` (manager) · `/deletebot` |
+| **Profile / UX** | `/setname` · `/setdescription` · `/setabouttext` · `/setuserpic` · `/setcommands` · `/setdomain` |
+| **Security** | `/token` **(sensitive)** · `/revoke` |
+| **Groups** | `/setprivacy` · `/setjoingroups` |
+| **Inline** | `/setinline` · `/setinlinegeo` · `/setinlinefeedback` |
+| **Web Apps** | `/newapp` · `/myapps` · `/listapps` · `/editapp` · `/deleteapp` |
+| **Games** | `/newgame` · `/mygames` · `/listgames` · `/editgame` · `/deletegame` |
+
+### Operational snippets (`tg user`)
+
+**Token (copy from BotFather message into Vault — do not paste into skills or chat):**
+
+```bash
+tg user send 93372553 "/token"
+sleep 3 && tg user read 93372553 --limit 6
+# If prompted for which bot:
+tg user send 93372553 "@your_bot_username"
+```
+
+**New bot:** `/newbot` → display name → `@username` ending in `bot` → read last BotFather message for token.
+
+**Set commands menu:** `/setcommands` → pick `@bot` → paste `command - Description` lines (or `/empty`).
+
+**Delete bot:** `/deletebot` → select bot (CLI may need Telegram UI for inline keyboards; or use Telethon `click` on `/mybots` rows).
+
+**Audit DM (no bot token):** `tg user read <bot_user_id> --limit 50`
+
+**Ephemeral token files:** one-off exports may land under `$TMPDIR/tokens/` (e.g. `/tmp/tokens/*.env`) — **chmod 600**, import into Vaultwarden / `bw-env`, then **delete** local copies.
 
 ## Command surface (essentials)
 
@@ -177,6 +205,6 @@ Full table lives in older agent transcripts; keep **BotFather id** `93372553` im
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v3.0.2 — *What’s up / Telegram* **implementation gate**: proposals/pistes only; no remediations until KπX explicit go-ahead; read-only investigation remains mandatory. |
-| 2026-04-09 | [CURSOR] | v3.0.1 — BotFather `/setname`: capture bots display names shortened to **General** and **Issues** (@usernames unchanged). |
-| [SUMMARY] | — | v3.0.0 capture bots + deep *What's up* + `references/`; v1.5.0–v1.0.0 BotFather tables, `tg` install, prior inventory |
+| 2026-04-09 | [COPILOT] | v3.1.0 — Enforce autonomous read-only deep inspection (screenshots, SSH, logs) without asking for a "go"; instruct to run password-prompting commands immediately. |
+| 2026-04-09 | [CURSOR] | v3.0.3 — Compact **BotFather** map + snippets; bridge **@usernames** + `TELEGRAM_*_HOMELAB_TOKEN` matrix; **Openclaw Ubuntu** dropped (no longer in `/mybots`); `/tmp/tokens` export note. |
+| [SUMMARY] | — | v3.0.2 *What's up* implementation gate; v3.0.1 `/setname` General/Issues; v3.0.0 capture bots + deep *What's up* + `references/`; v3.1.0+v3.0.3 + `references/` finalized in `.agents` 2026-04-09; v1.5.0–v1.0.0 prior `tg` / inventory |

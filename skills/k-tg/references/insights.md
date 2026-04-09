@@ -11,8 +11,9 @@
 
 ## Infra bots
 
-- **`tg bots`** only lists bots with **`TELEGRAM_*_TOKEN`** present in the **current** environment; several homelab bridge bots may exist but only appear after `bw-env` (or similar) loads their tokens.
-- **Openclaw Ubuntu** may show **401** if the token is revoked — clean up env vars to avoid noisy errors.
+- **`tg bots`** only lists bots with **`TELEGRAM_*_TOKEN`** present in the **current** environment; load `bw-env` (or `set -a; source /tmp/tokens/*.env; set +a` **temporarily**) so all aliases appear.
+- Homelab MCP bridges use **`@tick_homelab_bot`**, **`@whats_homelab_bot`**, **`@linkedin_homelab_bot`**, **`@mail_homelab_bot`** (see **`## Bot inventory`** in `SKILL.md`).
+- **Openclaw Ubuntu** was retired — remove **`TELEGRAM_OPENCLAW_UBUNTU_TOKEN`** from any secret shell if it is still exported.
 
 ## Media
 

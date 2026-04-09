@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.10"
+  version: "2.0.11"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -95,5 +95,5 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.10 — Added immediate-minimal run policy in runtime discipline (critical ids/actions/incidents first, deferred rich memory later). |
-| [SUMMARY] | — | v2.0.9 open-thread Linguaskill tracking; v2.0.8 closure hygiene + nudge loop; v2.0.7–v2.0.0 prior runtime memory/migration |
+| 2026-04-09 | [CURSOR] | v2.0.11 — `references/log.md`: fixed **`LEN_43314_EP`** row to full 8-column schema (replacing malformed line). |
+| [SUMMARY] | — | v2.0.10 immediate-minimal run policy; v2.0.9 open-thread Linguaskill; v2.0.8 closure hygiene + nudge; v2.0.7–v2.0.0 prior |
