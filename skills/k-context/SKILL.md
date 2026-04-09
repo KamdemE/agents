@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.39"
+  version: "2.74.40"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -78,6 +78,7 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.40 — **`k-mail` v2.0.15**: archived **2026-04-08** INBOX trio (`8444,8445,8449`); **Flagged/Open Threads** = **IME re-feedback** + **IPAI prize**; INBOX sweep since **2026-03-25** (48 msgs). · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.39 — **`k-mail` v2.0.14** + **`k-whatsapp` v2.0.12**: `references/mcp.md` post-send tooling (`verify_bounce_window_seconds` complement; WhatsApp **`get_messages`** vs **`read_messages`**); `.agents` commit + push; mail-mcp digest 2026-04-08 INBOX+Archive. · `$HOME/.agents/skills/k-mail/` · `$HOME/.agents/skills/k-whatsapp/` |
 | 2026-04-09 | [CURSOR] | v2.74.38 — **`k-mail` v2.0.13** + **`k-whatsapp` v2.0.11**: mandatory post-send verification — mail: ≥~5s then **`Sent` + `INBOX`**; WhatsApp: ≥~5s then **re-read thread** for outbound presence. · `$HOME/.agents/skills/k-mail/SKILL.md` · `$HOME/.agents/skills/k-whatsapp/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.37 — **`k-final`** closure **mail_mcp 0.2.4**: `f3491d6` — fix `APP_VERSION` via **`k-mail-mcp`** dist, dynamic **`mail_guide`**, tests; pipeline **2438908338** jobs green; **`/health` → 0.2.4**; PyPI + tag **`v0.2.4`**; MCP probe sends (hotmail **`delivered_hint`**, wrong TLD **`delivered_hint`** @25s — no DSN in window); **`k-mail` v2.0.12** sync. · `$HOME/Work/AI/MCPs/mail_mcp/` |
@@ -87,8 +88,7 @@ allowed-tools: "Bash(*), *"
 | 2026-04-09 | [CURSOR] | v2.74.33 — session finalization: committed pending **`k-mail`** v2.0.10 (IME contact) + v2.0.11 (sensitive-mail post-send verification); `make audit` + push `.agents`. · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.32 — `k-final` v1.0.2 **Phase K**: mandatory `$HOME/.agents/` closure — `k-context`/`k-workspace` updates, `make audit` until green, commit + push. · `$HOME/.agents/skills/k-final/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.31 — kernel mandate: **`k-final`** must be read and applied whenever finalizing a project (`AGENTS.md`, `k-project`, `k-git`, `k-workspace`, `k-context`); removed duplicate File Routing row. · `$HOME/.agents/` |
-| 2026-04-09 | [CURSOR] | v2.74.30 — added `k-final` skill (post-work project closure: tests → hygiene → config-docs → markdown → semver → git/CI/deploy → install/publish); synced `AGENTS.md`, `.cursorrules`, `.skill-lock.json`. · `$HOME/.agents/skills/k-final/SKILL.md` |
-| [SUMMARY] | — | v2.74.29 WhatsApp/mail send-gate (archived `references/log.md`); v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
+| [SUMMARY] | — | v2.74.30 k-final skill + AGENTS sync; v2.74.29 WhatsApp/mail send-gate (archived `references/log.md`); v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
 
 ## References
 
@@ -102,6 +102,6 @@ allowed-tools: "Bash(*), *"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.74.40 — k-mail v2.0.15 Apr8 INBOX archive + IME/IPAI open threads; k-context log rotate (v2.74.30 → archive). |
 | 2026-04-09 | [CURSOR] | v2.74.39 — k-mail/k-whatsapp `references/mcp.md` post-send tooling notes; session log rotate (v2.74.29 → archive); `.agents` push. |
-| 2026-04-09 | [CURSOR] | v2.74.38 — k-mail v2.0.13 + k-whatsapp v2.0.11 absolute post-send verification (Sent+INBOX / thread re-read). |
-| [SUMMARY] | — | v2.74.37 mail_mcp 0.2.4 + k-mail v2.0.12; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 PyPI 0.2.3; v2.74.33 k-mail; v2.74.32–v2.74.30 k-final; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC scaffold; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |
+| [SUMMARY] | — | v2.74.38 k-mail/k-whatsapp post-send verification; v2.74.37 mail_mcp 0.2.4 + k-mail v2.0.12; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 PyPI 0.2.3; v2.74.33 k-mail; v2.74.32–v2.74.31 k-final; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC scaffold; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |

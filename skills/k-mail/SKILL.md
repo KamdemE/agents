@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.14"
+  version: "2.0.15"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -92,6 +92,8 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ## Flagged Items (action required)
 
 1. **English certification** (`certification-anglais-dlc@polytechnique.edu`) — test to schedule
+2. **IME IME_43031_EP — re-feedback pending** — Buurtzorg part 1: Moodle feedback received **2026-04-08** (message archived); **awaiting next feedback / iteration or clarification** from teaching side (`pauline.alessandra@polytechnique.edu`, Moodle course thread).
+3. **IPAI Hackathon — prize payout pending** — `hannah.conrad@join-nxtgn.com` **2026-04-08** (archived): transfer delayed; **Isabel Camps Tscherwitschke** (`isabel.camps_tscherwitschke@ipai-foundation.ai`) to confirm when funds sent.
 
 ## Attention Triggers
 
@@ -105,7 +107,8 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Thread | Contacts | Last State | Next Action |
 |--------|----------|------------|-------------|
-| *(none)* | | | |
+| IME Buurtzorg / follow-up | `pauline.alessandra@polytechnique.edu`, Moodle | Part 1 feedback notified **2026-04-08** (mail archived) | Await **re-feedback** or submit next milestone per course rules; ping if stalled |
+| IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com`, `isabel.camps_tscherwitschke@ipai-foundation.ai` | Payout delayed per **2026-04-08** update (mail archived) | No reply needed unless silence; watch inbox for payout confirmation |
 
 ## Runtime Memory Files
 
@@ -119,6 +122,6 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.0.15 — **2026-04-08** INBOX triage: archived 3 msgs (`8444,8445,8449`); **Open Threads** + **Flagged Items** for **IME re-feedback** + **IPAI prize payout**; Apr 8 items already in Archive left as-is. |
 | 2026-04-09 | [CURSOR] | v2.0.14 — `references/mcp.md`: `verify_bounce_window_seconds` as **optional complement only** after mandatory manual **`Sent` + `INBOX`** re-reads. |
-| 2026-04-09 | [CURSOR] | v2.0.13 — **Absolute** post-send verification for **every** outbound send: ≥~5s delay, mandatory re-read **`Sent`** + **`INBOX`** (bounce/DSN); MCP `delivery_status` remains hint-only. |
-| [SUMMARY] | — | v2.0.12 mail_guide / k-mail-mcp 0.2.4; v2.0.11–v2.0.0 sensitive check superseded, IME contact, WhatsApp dry-run from mail, attachments, TickTick, open threads, refonte, Zimbra review |
+| [SUMMARY] | — | v2.0.13 absolute post-send `Sent`+`INBOX`; v2.0.12 mail_guide / k-mail-mcp 0.2.4; v2.0.11–v2.0.0 IME contact, WhatsApp dry-run, attachments, TickTick, open threads, refonte, Zimbra review |
