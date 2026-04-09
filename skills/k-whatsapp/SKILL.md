@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.2"
+  version: "2.1.3"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -45,6 +45,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 - **MCP transport:** **Prefer HTTP** — use the **`whats-mcp-http`** / **`user-whats-mcp-http`** MCP server (`https://whats.kpihx-labs.com/mcp`). Use **stdio** (`whats-mcp--stdio` / `user-whats-mcp--stdio`) **only as fallback** if HTTP fails; see **AGENTS.md → MCP Protocol → Transport preference**.
 - You must read `$HOME/.agents/skills/k-whatsapp/references/insights.md` before doing any WhatsApp task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-whatsapp/references/log.md` after every whats-mcp tool use.
+- **Run-speed policy (immediate minimal):** during active execution, record only critical facts (target JID/thread, action, incident/error). Keep broader narrative and secondary patterns for deferred memory curation.
 - You must proactively update `references/insights.md` at the end of the task with reusable learnings:
   - communication style and tone patterns by contact/group
   - recurring topics and message categories
@@ -154,5 +155,5 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.1.2 — **`## Closure hygiene`**: archive **1:1** when done, **never** blanket-archive **groups**; nudge loop; *What's up* item **7**; cross-ref `k-mail` / `k-ticktick`. |
-| [SUMMARY] | — | v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12 `get_messages` vs `read_messages`; v2.0.11 post-send verify; v2.0.10 group dry-run; v2.0.9 TickTick; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |
+| 2026-04-09 | [CURSOR] | v2.1.3 — Added immediate-minimal run policy in runtime discipline (critical target/action/incident first, deferred rich memory later). |
+| [SUMMARY] | — | v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior runtime governance/history |

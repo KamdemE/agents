@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.48"
+  version: "2.74.51"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -62,6 +62,8 @@ allowed-tools: "Bash(*), *"
 
 | File | Type | Topic |
 |------|------|-------|
+| `references/agents-memory-curator-hybrid-vision.md` | Brainstorm | hybrid memory update model: immediate minimal logs + deferred memory-curator batch updates |
+| `references/whatsapp-wa-core-central-auth-mini.md` | Brainstorm | centralized Baileys auth (`wa-core`) + HTTP/stdio strategy + Edge fallback constraints |
 | `references/agentic-architecture-brainstorm.md` | Brainstorm | hot/cold context, 3-layer architecture, MCP qualification logic |
 | `references/mail-tooling-rewrite-brainstorm.md` | Brainstorm | mail refactor vision: cli + mcp + admin + skill split, secret-safe design |
 | `references/sh-mcp-agent-sandbox-vision.md` | Brainstorm | sh_mcp sandbox and future user-side sh-exec separation |
@@ -90,15 +92,15 @@ Do **not** fold mail/WhatsApp/TickTick into this same response when the full *wh
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.51 — added hybrid memory-curation vision (immediate minimal logs + deferred curator agent) and `wa-core` central auth mini-design; updated Brainstorm Registry accordingly. · `$HOME/.agents/skills/k-context/references/agents-memory-curator-hybrid-vision.md` · `$HOME/.agents/skills/k-context/references/whatsapp-wa-core-central-auth-mini.md` |
+| 2026-04-09 | [CURSOR] | v2.74.50 — executed mail hard-cleanup (INBOX archived except Certificat Anglais DLC), removed residual `AI` labels, and investigated WhatsApp runtime/storage across Edge, stdio state, and docker-host logs for centralized-auth design. · `$HOME/.agents/skills/k-mail/` · `$HOME/.config/microsoft-edge/` · `$HOME/Work/AI/MCPs/whats_mcp/` |
+| 2026-04-09 | [CURSOR] | v2.74.49 — certification follow-up pass: `k-mail` open thread enriched for UID `8323` (form submitted, matricule EX240207, session windows + message-id), TickTick events/reminders created for both windows and daily prep loop (06:30/20:00 to 2026-04-25), new `k-drive` skill created, and WhatsApp MCP diagnosis run (HTTP session-id failure vs stdio fallback). · `$HOME/.agents/skills/k-mail/` · `$HOME/.agents/skills/k-ticktick/` · `$HOME/.agents/skills/k-drive/` |
 | 2026-04-09 | [CURSOR] | v2.74.48 — finalized mail/tag governance pass: session-guard grace raised to 30 min, `k-mail` updated with Zimbra tag inventory + Important-priority in What's up open-thread scan, and runtime logs synced after Important cleanup + EX240207 discovery in Drive docs. · `$HOME/.agents/hooks/` · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-09 | [CURSOR] | v2.74.46 — **`.agents` session finalization:** `git commit` + `make push` — **AGENTS** mail-mcp **stdio exception**; **`k-mail` v2.0.21** (Lokad **Clément Liu** / Kevin Ea, *What's up* Step 0, Outlook dedup, **`## Closure hygiene`**, `mcp.md`); **`k-ticktick` v2.0.8**; **`k-whatsapp` v2.1.2** + `mcp.md`; `make audit` green. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.45 — **`k-mail` v2.0.18** *What's up*: stdio+**m365** preflight, Outlook **dedup** vs poly, M365 contacts + Clement row; **`## Closure hygiene`** mail + **`k-ticktick` v2.0.8** + **`k-whatsapp` v2.1.2**; **AGENTS** mail-mcp **stdio exception**. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.44 — **AGENTS.md → MCP Protocol:** **HTTP preferred**, **stdio fallback** for KπX MCPs; **`k-whatsapp` v2.1.1** (`allowed-tools`, **`## Runtime Discipline`**, `references/mcp.md` HTTP-first). · `$HOME/.agents/AGENTS.md` · `$HOME/.agents/skills/k-whatsapp/` |
 | 2026-04-09 | [CURSOR] | v2.74.43 — **`.agents` session finalization:** explicit KπX request — `git commit` + `make push` for **What's up** stack (`AGENTS.md`, `k-context` **v2.74.42**, `k-mail` **v2.0.17**, `k-whatsapp` **v2.1.0**, `k-ticktick` **v2.0.7`, runtime logs); `make audit` green. · `$HOME/.agents/` |
-| 2026-04-09 | [CURSOR] | v2.74.42 — **What's up protocol:** `AGENTS.md` ladder + **`## What's up`** slices in `k-context`, `k-mail`, `k-whatsapp` **v2.1.0**, `k-ticktick`; **one domain per assistant turn**; context-only section in k-context. · `$HOME/.agents/AGENTS.md` · skills |
-| 2026-04-09 | [CURSOR] | v2.74.41 — **`.agents` VCS:** no auto commit/push unless KπX asks; **`k-mail`** INBOX bulk archive (**56** msgs, keep **8323**+**8318**); Alessandra **`.edu` only** rule; read UIDs **8323**/**8318**. · `$HOME/.agents/skills/k-context/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
-| 2026-04-09 | [CURSOR] | v2.74.40 — **`k-mail` v2.0.15**: archived **2026-04-08** INBOX trio (`8444,8445,8449`); **Flagged/Open Threads** = **IME re-feedback** + **IPAI prize**; INBOX sweep since **2026-03-25** (48 msgs). · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | [SUMMARY] | — | v2.74.37 mail_mcp 0.2.4 closure (archived `references/log.md`); v2.74.36 AGENTS k-* freshness (archived `references/log.md`); v2.74.35 k-final v1.0.3 + mail_mcp G/H (archived `references/log.md`); v2.74.34 mail_mcp v0.2.3 PyPI push (archived `references/log.md`); v2.74.33 k-mail v2.0.10–v2.0.11 session finalize (archived `references/log.md`); v2.74.32 k-final Phase K closure (archived `references/log.md`); v2.74.31 k-final read mandate (archived `references/log.md`); v2.74.30 k-final skill + AGENTS sync; v2.74.29 WhatsApp/mail send-gate (archived `references/log.md`); v2.74.28 Envision docs FR + Mermaid + TickTick; v2.74.27 Envision PSC Pages + PDFs; v2.74.26 PSC TickTick + docs scaffold; v2.74.25 AGENTS + TickTick X24; v2.74.24 mail/whatsapp/ticktick; v2.74.23 MCP naming; v2.74.22 edge-automation; v2.74.21 QMD+edge; v2.74.20–v2.63 in `references/log.md` |
 
 ## References
@@ -113,5 +115,5 @@ Do **not** fold mail/WhatsApp/TickTick into this same response when the full *wh
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.48 — recorded finalization of hook grace 30 min + k-mail tag governance updates (inventory, proactive maintenance, Important-first open-thread pass) and synced runtime logs after Important cleanup/matricule lookup. |
-| [SUMMARY] | — | v2.74.47 m365 bulk-archive workflow + runtime sync; v2.74.46 commit+push (k-mail 2.0.21 + stdio exception + tick/whats); v2.74.45 mail preflight + m365 dedup + closure + AGENTS stdio; v2.74.44 HTTP whatsapp + session rotate; v2.74.43 finalize push; v2.74.42 What's up slices; v2.74.41–v2.74.38 mail/whatsapp; v2.74.34 PyPI 0.2.3; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC; v2.74.25–v2.74.21 mail/MCP/edge/QMD; v2.74.20–v2.62 blender, PPTX, k-optim, Phoenix, session passes. |
+| 2026-04-09 | [CURSOR] | v2.74.51 — Added two reference visions (`agents-memory-curator-hybrid-vision.md`, `whatsapp-wa-core-central-auth-mini.md`) and registered them in Brainstorm Registry; aligned with run-speed memory policy request. |
+| [SUMMARY] | — | v2.74.50 mail hard-cleanup + AI tag zeroing + WhatsApp auth/storage investigation; v2.74.49 certification follow-up + TickTick + k-drive + WhatsApp diagnostics; v2.74.48–v2.74.38 prior mail/whatsapp/session passes; v2.74.34 PyPI 0.2.3; v2.74.29 WhatsApp/mail; v2.74.26 Envision PSC; v2.74.25–v2.74.20 in `references/log.md`. |

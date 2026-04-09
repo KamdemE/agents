@@ -17,6 +17,10 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 - Use whats-mcp (`http` or `stdio`) for conversation and sending actions.
 - Community root JIDs are structural containers, not direct messaging targets.
+- HTTP streamable transport can reject calls with `Bad Request: No valid session ID provided` when the MCP client lost/never established its session header context; stdio fallback can still work in the same moment.
+- Server-side health/admin endpoints are useful to separate transport-session issues from WhatsApp account connectivity (`/health`, `/admin/status`).
+- Edge keeps WhatsApp Web data under profile IndexedDB (`$HOME/.config/microsoft-edge/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.*`), but this browser session store is not drop-in compatible with Baileys auth files.
+- For deterministic reuse across tools, prefer one canonical Baileys auth/state directory (`WHATSAPP_STATE_DIR`) and let clients consume that service over MCP/HTTP rather than trying to share browser internals.
 
 ## Open Behavior Rules
 

@@ -10,6 +10,7 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 - **Nom d'usage:** KAMDEM Ivann · **Full name:** KAMDEM POUOKAM Ivann Harold
 - **Alias:** `KpihX` / `KπX`
 - **Role:** System Architect · École Polytechnique X24 (Applied Math & CS, graduation 2028)
+- **Matricule X:** `EX240207`
 - **Email (academic/X):** `ivann.kamdem-pouokam@polytechnique.edu` · `ivann.kamdem-pouokam.2024@polytechnique.org` (adresse à vie X)
 - **Email (pro/Outlook):** `ivann.kamdem@hotmail.com` — m365 CLI only, never mail-mcp
 - **Email (default):** `kapoivha@gmail.com` — use for any project/public context unless specified otherwise
@@ -68,6 +69,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-copilot` | MCPs for Copilot |
 | `k-vibe` | MCPs for VIBE |
 | `k-rclone` | Adding cloud remotes, rclone mount setup, systemd service |
+| `k-drive` | Google Drive structure discovery (`Gdrive_X`, `Gdrive`) and document retrieval workflows |
 | `k-ai` | k-ai runtime memory and operating notes |
 | `k-qmd` | Before any QMD search, KB lookup, or local markdown retrieval |
 | `k-skill-creator` | Creating, standardizing, auditing, or evaluating any skill |

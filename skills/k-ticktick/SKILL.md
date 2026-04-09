@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.8"
+  version: "2.0.10"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -16,6 +16,7 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 
 - You must read `$HOME/.agents/skills/k-ticktick/references/insights.md` before doing any TickTick task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-ticktick/references/log.md` after every tick-mcp tool use.
+- **Run-speed policy (immediate minimal):** during active execution, record only critical task/event facts (ids, write action, silent-failure incident). Defer broader retrospective synthesis to batch memory curation.
 - You must proactively update `references/insights.md` at the end of the task with reusable learnings:
   - planning style and prioritization patterns
   - recurring calendar/task categories
@@ -82,7 +83,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Thread | Scope | Last State | Next Action |
 |--------|-------|------------|-------------|
-| *(none)* | | | |
+| Linguaskill certification windows | `🎓 X/📅 Agenda` | Created 3 items on 2026-04-09: session windows (`13-17` and `20-24` Apr) + daily prep loop to 2026-04-25 (06:30 and 20:00 reminders) | Watch mailbox assignment from certification thread UID `8323`; complete irrelevant duplicates once slot is assigned |
 
 ## Runtime Memory Files
 
@@ -94,5 +95,5 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.8 — **Closure hygiene:** mark **done** via MCP + read-back; nudge until closed; *What's up* item **6** closure nudge; cross-ref `k-mail` / `k-whatsapp`. |
-| [SUMMARY] | — | v2.0.7 What's up tick briefing; v2.0.6 destination-discovery before create; v2.0.5 runtime memory + open-threads; v2.0.3 stdio; v2.0.2–v2.0.0 migration |
+| 2026-04-09 | [CURSOR] | v2.0.10 — Added immediate-minimal run policy in runtime discipline (critical ids/actions/incidents first, deferred rich memory later). |
+| [SUMMARY] | — | v2.0.9 open-thread Linguaskill tracking; v2.0.8 closure hygiene + nudge loop; v2.0.7–v2.0.0 prior runtime memory/migration |

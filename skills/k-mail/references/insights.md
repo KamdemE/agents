@@ -22,6 +22,9 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - Treat Outlook forwarding notifications from `postmaster@zimbra.polytechnique.fr` as delivery receipts, not conversational messages.
 - On poly/mail-mcp stdio, `Important` behaves as a keyword label queryable via `search_messages(keyword="Important")`; favorites/star state is the IMAP `\\Flagged` flag queryable via `flagged_only=true` and editable via `mark_messages(flagged=...)`.
 - User expects active tag hygiene: when triaging open threads, prioritize `Important`, suggest tag cleanup proactively, and keep `SKILL.md` tag inventory aligned with observed Zimbra labels.
+- Certification follow-up pattern: when user confirms form submission for UID `8323`, keep thread open with `Message-ID`, session windows (13-17 and 20-24 Apr), and explicit "waiting assignment" state until WeFit slot is received.
+- Large mailbox cleanup pattern: fetch full INBOX snapshot, compute exclusion list for protected sender(s), archive in deterministic UID batches, then verify with `list_messages` to ensure only protected messages remain.
+- For custom label hygiene (`AI`, `Important`, etc.), use `search_messages(keyword=...)` across `INBOX` + `Archive`, apply `set_labels(add=false)`, then re-run the same keyword search to prove zero residue.
 
 ## Open Behavior Rules
 

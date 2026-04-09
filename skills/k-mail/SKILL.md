@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.24"
+  version: "2.0.26"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -17,6 +17,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - **mail-mcp transport:** **Prefer STDIO** when both HTTP and stdio are available (**attachments**, local paths, full fidelity) — **AGENTS.md → MCP Protocol → KπX exception — mail-mcp** and `references/mcp.md`. Use **HTTP** only if stdio is missing or for **read-only** triage.
 - You must read `$HOME/.agents/skills/k-mail/references/insights.md` before doing any mail task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-mail/references/log.md` after every mail-mcp tool use.
+- **Run-speed policy (immediate minimal):** during active execution, log only critical facts (`UID/Message-ID`, action performed, incident/error). Keep rich synthesis and non-critical learnings for deferred memory curation.
 - You must proactively update `references/insights.md` at the end of the task with reusable learnings:
   - communication style and tone patterns
   - recurring message categories received
@@ -175,6 +176,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Thread | Contacts | Last State | Next Action |
 |--------|----------|------------|-------------|
+| English certification / Linguaskill (UID `8323`) | `certification-anglais-dlc@polytechnique.fr` | Form submitted by KπX (including matricule **EX240207**); two windows announced in mail: **2026-04-13..17** and **2026-04-20..24**; waiting assigned slot from WeFit; message remains `Important` in INBOX. `Message-ID`: `<1496528695.157357129.1775126042536.JavaMail.zimbra@zimbra.polytechnique.fr>` | Watch `INBOX` + `Archive` for assignment/confirmation; keep TickTick reminders active; archive thread only after assigned slot and completion |
 | IME Buurtzorg / follow-up | `pauline.alessandra@polytechnique.edu`, Moodle | Part 1 feedback notified **2026-04-08** (mail archived) | Await **re-feedback** or submit next milestone per course rules; ping if stalled |
 | IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com`, `isabel.camps_tscherwitschke@ipai-foundation.ai` | Payout delayed per **2026-04-08** update (mail archived) | No reply needed unless silence; watch inbox for payout confirmation |
 
@@ -190,5 +192,5 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.24 — Added `## Zimbra Tag Inventory`, proactive tag-maintenance rule, and What's up Step-1 priority rule for `Important` within open-thread handling. |
-| [SUMMARY] | — | v2.0.23 flags/labels playbook (`mark_messages`, `set_labels`, `keyword`/`flagged_only`); v2.0.22 cleanup (drop Meyer/Garcia, Kevin/Yousign/NDA refs); v2.0.21–v2.0.0 mail stack |
+| 2026-04-09 | [CURSOR] | v2.0.26 — Added immediate-minimal run policy to runtime discipline: critical IDs/actions/incidents now, rich memory deferred. |
+| [SUMMARY] | — | v2.0.25 certification open-thread enrichment (UID 8323, matricule, windows, message-id); v2.0.24 tag inventory + proactive maintenance + Important-first open-thread pass; v2.0.23–v2.0.0 mail stack |

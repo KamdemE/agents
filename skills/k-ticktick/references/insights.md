@@ -15,6 +15,7 @@ Purpose: durable behavioral memory to improve proactive planning support and red
 - User preference: when asking for an overview, use live MCP data (not static skill memory) and report concrete counts.
 - For academic milestones (PSC), prefer `🎓 X/📅 Agenda` for dated deadline/event tracking.
 - For deadline-sensitive items, apply reminder triple by default: `-7 days`, `-1 day`, `-1 hour` (`[10080, 1440, 60]`).
+- For daily prep loops requiring two times per day (morning + evening), a single recurring task can encode both by using due time at evening and dual reminders (example: `20:00` due with reminders `[810, 0]` => `06:30` + `20:00`).
 - When a precise soutenance date already exists in TickTick, update that task instead of duplicating, and add a separate period-range task only if requested.
 - If a dated academic task is found in `🎓 X/✅ Todos`, move it to `🎓 X/📅 Agenda` to keep planning views clean.
 
