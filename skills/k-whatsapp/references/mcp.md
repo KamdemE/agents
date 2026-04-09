@@ -2,24 +2,27 @@
 
 Generic MCP setup reference for `whats-mcp`.
 
-## Install (required before STDIO)
+## Preferred: HTTP
 
-- npm package: local source at `$HOME/Work/AI/MCPs/whats_mcp`
-- Install command: `npm install -g $HOME/Work/AI/MCPs/whats_mcp`
-- Upgrade command: `npm install -g $HOME/Work/AI/MCPs/whats_mcp`
-
-## HTTP
-
-- Works only on the Tailscale network.
+- **Use first** when the agent exposes both transports.
+- Works on the Tailscale network (and paths that reach the homelab endpoint).
 - URL: `https://whats.kpihx-labs.com/mcp`
+- Cursor / runtime server id is typically **`user-whats-mcp-http`** / **`whats-mcp-http`** (see local MCP config).
 
-## STDIO
+## Fallback: STDIO
 
+- Use when HTTP is unreachable, blocked, or not configured.
 - command: `zsh`
 - args:
   - `-l`
   - `-c`
   - `whats-mcp serve`
+
+## Install (required for stdio / local binary)
+
+- npm package: local source at `$HOME/Work/AI/MCPs/whats_mcp`
+- Install command: `npm install -g $HOME/Work/AI/MCPs/whats_mcp`
+- Upgrade command: `npm install -g $HOME/Work/AI/MCPs/whats_mcp`
 
 ## STDIO Alternate
 

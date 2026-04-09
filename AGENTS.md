@@ -247,8 +247,9 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### MCP Protocol
 
-- **KπX MCPs:** source in `$HOME/Work/AI/MCPs/` · HTTP at `<name>.kpihx-labs.com/mcp` · stdio via `uv tool list` / `npm list -g` / `bun pm ls -g` · configs are source of truth.
-- **Fallback** — HTTP unreachable → suggest `--fallback` stdio counterpart immediately.
+- **KπX MCPs:** source in `$HOME/Work/AI/MCPs/` · HTTP at `https://<name>.kpihx-labs.com/mcp` · stdio via `uv tool list` / `npm list -g` / `bun pm ls -g` · configs are source of truth.
+- **Transport preference:** For any KπX MCP that exposes **both** HTTP and stdio in the active agent/runtime config, **prefer HTTP** for normal calls (shared homelab endpoint, typically warmer state). Use **stdio only as fallback** when HTTP is unreachable, misconfigured, auth-blocked, or absent — then switch to the stdio server (or tell KπX to enable it) without waiting.
+- **KπX exception — mail-mcp:** Prefer **stdio** when both transports are configured (**attachments**, local file paths, full send/receive fidelity on this machine). Use **HTTP** for mail-mcp only when stdio is unavailable or for **read-only** triage. See `k-mail` and `k-mail/references/mcp.md`.
 - **Load k-* skill before any tool MCP call** (see Skills above).
 - **HARD MCP PRE-FLIGHT + FEEDBACK RULE (MANDATORY):** before using any MCP, first search whether a matching `k-*` skill exists under `$HOME/.agents/skills/`, then read it. After any meaningful MCP outcome (fix, failure mode, workaround, behavior change, new constraint), update that skill immediately in both the main operational content and `## Changelog` (with version bump). Never leave MCP learnings only in chat output.
 - **Cross-MCP proactive planning rule (MANDATORY):** if you detect key actionable information in mail content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.

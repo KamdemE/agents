@@ -4,8 +4,8 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
-allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
+  version: "2.1.2"
+allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
 # Tool Memory — WhatsApp (whats-mcp)
@@ -27,14 +27,22 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 3. **Infos X24** (school pulse) — scan **`X24 — Announcements`** (`120363400296786956@g.us`) and **`Info X24`** (`120363417591278511@g.us`): today’s traffic **plus** any **unread** from the last few days not yet acknowledged; highlight **course-choice campaigns**, **school events**, **amphis**, **RSE**, **4A / international**, **tech & AI** school line.
 4. **Badminton X24** (`120363393577104884@g.us`) — **critical.** Surface anything about: **rassos** (time/place, e.g. early morning *levée des couleurs*), **sport slots** (*T5*, *T6*, *bulle*, gym assignment, **group 2**), **FFSU / compétitions**, **Google Sheets** / forms to fill, orders from **`mathieu.lesoualch@polytechnique.edu`** (Adjudant, CDS — see `k-mail` DFHM) or **`henry.develey@polytechnique.edu`** (Capitaine, CDU) or any staff echoing them, **chef de section** messages, equipment, cancellations.
 5. **Péri-scolaire & interest groups** — prioritize **`Opportunites IA : Stages, PSC, Projets`**, **`Offres de Missions`**, **`IPAI Hackathon group 7`**, **`Sympathisants Binet IA`** (both), **`PSC IA`**, **`Competiteurs FFSU`**, **`Missions XProjets`**, **`X24⚔️🔥`**: events, deadlines, badminton-adjacent comps, binet announcements. Exhaustive for **unread**; summarize read-but-recent if action-heavy.
-6. **Awaiting your reply / reaction** — messages (any chat) that **expect** an answer, poll, RSVP, reaction, or private follow-up; sort by **HIGH → LOW** contact/group match, then lens. For each: **proposed reply** (draft) and **proposed action** (e.g. *add TickTick task …*, *archive after reply*) — same proactive standard **applies to all sections above**, not only this one.
+6. **Awaiting your reply / reaction** — messages (any chat) that **expect** an answer, poll, RSVP, reaction, or private follow-up; sort by **HIGH → LOW** contact/group match, then lens. For each: **proposed reply** (draft) and **proposed action** (e.g. *add TickTick task …*, *archive 1:1 after reply per `## Closure hygiene`*) — same proactive standard **applies to all sections above**, not only this one.
+7. **Closure nudge** — List **1:1** chats that are **logically done** but **not archived**; do not suggest archiving **groups**.
 
 **Tools:** Prefer `get_messages` for per-chat history; `find_messages` / `search_messages` when correlating keywords across chats; `list_chats` for unread counts. See `references/mcp.md` for post-send re-read rules.
 
 **Sequential ladder:** If KπX started a **full** *what's up*, this skill is **one turn** in the chain — **AGENTS.md → What's up**. Do not bundle `k-mail` or `k-ticktick` in the same generation.
 
+## Closure hygiene (mandatory)
+
+- **1:1 chat fully handled** (you sent the last needed message, or KπX confirms the matter closed): **archive the chat** (WhatsApp **Archive**), then confirm state. **Do not** archive **groups** (`@g.us`) as a blanket action — groups stay active; only mute/leave per explicit KπX instruction.
+- **KπX says *I replied elsewhere* / *c’est bon*:** Still **verify** the 1:1 thread; if the story is closed, **archive** (or confirm already archived) **before** continuing.
+- **Persistent nudge:** On later turns touching WhatsApp, if a **closed** 1:1 is **still unarchived**, one line *Still to archive: …* until fixed. Align with **`k-mail` `## Closure hygiene`** and **`k-ticktick`** for mail + tasks.
+
 ## Runtime Discipline (mandatory)
 
+- **MCP transport:** **Prefer HTTP** — use the **`whats-mcp-http`** / **`user-whats-mcp-http`** MCP server (`https://whats.kpihx-labs.com/mcp`). Use **stdio** (`whats-mcp--stdio` / `user-whats-mcp--stdio`) **only as fallback** if HTTP fails; see **AGENTS.md → MCP Protocol → Transport preference**.
 - You must read `$HOME/.agents/skills/k-whatsapp/references/insights.md` before doing any WhatsApp task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-whatsapp/references/log.md` after every whats-mcp tool use.
 - You must proactively update `references/insights.md` at the end of the task with reusable learnings:
@@ -52,7 +60,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 - Step 3: only then call `send_text`.
 - If approval is missing or ambiguous, do not send.
 - **Absolute post-send verification (all sends, no exceptions):** After every successful `send_text` (or equivalent send tool), **do not** treat the tool return alone as proof the message landed in the thread. Wait **at least ~5 seconds**, then **re-fetch the conversation** for that chat (same JID): confirm the outbound text is **visible in the recent message list** (content + ordering). If it is missing or the thread looks stale, report it explicitly before closing the task.
-- `SKILL.md` describes stable operating rules and how to use whats-mcp transports (`stdio` and/or `http`).
+- `SKILL.md` describes stable operating rules and how to use whats-mcp transports (**HTTP preferred**, stdio fallback).
 - `## Changelog` in this file tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
 
 ## Identity
@@ -146,6 +154,5 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.1.0 — **`## What's up`**: open-thread scan (any date), today’s unread by priority, **KπX interest lens**, **Infos X24** + **Badminton X24** (group 2, CDS/CDU names), péri-scolaire, awaiting-reply + proactive drafts/TickTick; **one skill per turn** ladder per AGENTS. |
-| 2026-04-09 | [CURSOR] | v2.0.12 — `references/mcp.md`: post-send re-read via **`get_messages`** (same `jid`, sufficient `limit`, optional `since`); **`read_messages`** is read-receipts only. |
-| [SUMMARY] | — | v2.0.11 post-send verify; v2.0.10 group dry-run; v2.0.9 TickTick; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |
+| 2026-04-09 | [CURSOR] | v2.1.2 — **`## Closure hygiene`**: archive **1:1** when done, **never** blanket-archive **groups**; nudge loop; *What's up* item **7**; cross-ref `k-mail` / `k-ticktick`. |
+| [SUMMARY] | — | v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12 `get_messages` vs `read_messages`; v2.0.11 post-send verify; v2.0.10 group dry-run; v2.0.9 TickTick; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |

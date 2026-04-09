@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.7"
+  version: "2.0.8"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -25,6 +25,7 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 - You have full control over the whole `k-ticktick/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
 - Before ending, you must run a final self-check: "Are all files in `k-ticktick/` reflecting current reality?" If not, update them immediately.
 - Before creating any task/note/event, you must first identify the correct destination (folder/project) by inspecting existing TickTick structure and examples, even if it requires multiple MCP calls.
+- **Closure hygiene — TickTick:** When a task is **done** (work finished, or KπX says they completed it), **mark it completed** via tick-mcp **in the same workstream**, then **read back** state to catch silent API failures. **Do not** continue as if closed while the task still shows open. **Persistent nudge:** on later turns, if a named done-task is still open, repeat *Still to mark done: …* until fixed (see **`k-mail` / `k-whatsapp` `## Closure hygiene`** for the same loop across channels).
 - `SKILL.md` describes stable operating rules and how to use tick-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
 
@@ -73,6 +74,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 3. **Overdue** — Every overdue task: age, project, suggested next step (one line each); **propose** rescheduling or completion.
 4. **Horizon — soon** — Buckets: **within a few hours**, **tomorrow**, **day after tomorrow**; include events (location, time zone Europe/Paris default) and tasks with due time.
 5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless KπX scoped only tick + already provided context.
+6. **Closure nudge** — List any task **explicitly discussed as done** in the session that is **still open** in TickTick; propose **`complete`** (or equivalent) before closing the slice.
 
 **Sequential ladder:** **AGENTS.md → What's up** — one domain per assistant response; **never** pair with `k-mail` or `k-whatsapp` fetches in the same generation.
 
@@ -92,6 +94,5 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.7 — **`## What's up (TickTick briefing)`**: today academic/pro → other folders → overdue → horizon (hours / tomorrow / +2d); tools list; proactive cross-links; one turn per AGENTS ladder. |
-| 2026-04-08 | [CODEX] | v2.0.6 — mandatory destination-discovery before any task/note/event creation (inspect structure first, multi-call allowed). |
-| [SUMMARY] | — | v2.0.5 runtime memory + open-threads + calendar/task orientation; v2.0.3 stdio setup; v2.0.2–v2.0.0 migration |
+| 2026-04-09 | [CURSOR] | v2.0.8 — **Closure hygiene:** mark **done** via MCP + read-back; nudge until closed; *What's up* item **6** closure nudge; cross-ref `k-mail` / `k-whatsapp`. |
+| [SUMMARY] | — | v2.0.7 What's up tick briefing; v2.0.6 destination-discovery before create; v2.0.5 runtime memory + open-threads; v2.0.3 stdio; v2.0.2–v2.0.0 migration |
