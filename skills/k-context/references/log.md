@@ -89,3 +89,4 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-04 | [COPILOT] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
 | *(entries will accumulate here as k-context Session Log is compacted)* | | |
 
+| 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |

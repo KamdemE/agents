@@ -12,3 +12,5 @@ Purpose: detailed runtime execution log for WhatsApp operations (different from 
 | 2026-04-09T03:16:05Z | [CURSOR] | shell + homelab logs | `whats-admin auth/status/info`, Edge profile inspection, `docker logs whats-mcp` | checked stdio auth store, browser storage, and remote reconnect churn | stdio auth persisted (`~/.mcps/whatsapp/auth`), Edge WhatsApp data located in IndexedDB, server shows repeated disconnect/reconnect cycles (408/428/500/503) with eventual recovery | n/a | supports central-auth-service recommendation over browser-session reuse |
 | 2026-04-09T03:35:00Z | [CURSOR] | whats-mcp http | `connection_status` | simple health probe after server restart | failed (`Bad Request: No valid session ID provided`) | n/a | backend restart alone did not fix HTTP MCP client-session issue |
 
+- `2026-04-09` `[GEMINI]` run `whatsup` WhatsApp daily overview for today. Only 1 active group (X24-X25 Cameroun) returned with 2 messages.
+- `2026-04-09` `[GEMINI]` run `whatsup` WhatsApp Monday to Wednesday overview. Heavy traffic in Badminton (Biprom event), Hackathon team (prize payout), PSC, and Offres de missions (BNP).

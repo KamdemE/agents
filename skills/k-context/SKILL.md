@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.55"
+  version: "2.74.57"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -93,6 +93,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [COPILOT] | v2.74.57 — **whats-mcp v0.2.0 closure**: implemented local media download (`download_media` saving to `$HOME/.cache/whats_media/`) and cache management (`cleanup_media`) for safely handling large files; passed `k-final` (tests, commit, CI, local link, NPM publish, and tags). · `$HOME/Work/AI/MCPs/whats_mcp/` |
+| 2026-04-09 | [GEMINI] | v2.74.56 — **Tools tg closure**: implémentation de `download` (bot/user), `cleanup`, `send --file`, `bot-action`, `mark-read` et ajouts architecturels au TODO. · `$HOME/Work/Tools/tg/` |
 | 2026-04-09 | [CURSOR] | v2.74.55 — **`.agents` session finalization** (explicit): **`k-tg` v3.1.0** bundle (autonomous read-only inspection gate, BotFather map + ops snippets, homelab MCP bridge token rows + `@username` inventory), **`k-tg/references/`** (`insights`, `log`, **`telegram-processed-state.md`** cursors for capture + Homelab/Ubuntu), **`k-ticktick/references/log.md`** LEN_43314_EP row normalized to table schema; `make audit`, `git commit`, `make push`. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.54 — **`.agents` session finalization** (explicit): `git commit` + `make push` after `make audit` — **`k-tg` v3.0.2** (General/Issues capture bots, deep *What's up*, **implementation gate**, `references/`), **`AGENTS.md`** *what's up* ladder ends with **`k-tg`**, `google-workspace-full-mcp-vision.md`, **`k-whatsapp`** runtime log, **`.skill-lock`**. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.53 — **`k-tg` v3.0.0**: capture bots General (`8089748360`) + Issues (`8656241501`), deep *What's up* pipeline, `references/` processed cursors; **`AGENTS.md`** default ladder now ends with **`k-tg`**. · `$HOME/.agents/skills/k-tg/` · `$HOME/.agents/AGENTS.md` |
@@ -101,8 +103,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-09 | [CURSOR] | v2.74.50 — executed mail hard-cleanup (INBOX archived except Certificat Anglais DLC), removed residual `AI` labels, and investigated WhatsApp runtime/storage across Edge, stdio state, and docker-host logs for centralized-auth design. · `$HOME/.agents/skills/k-mail/` · `$HOME/.config/microsoft-edge/` · `$HOME/Work/AI/MCPs/whats_mcp/` |
 | 2026-04-09 | [CURSOR] | v2.74.49 — certification follow-up pass: `k-mail` open thread enriched for UID `8323` (form submitted, matricule EX240207, session windows + message-id), TickTick events/reminders created for both windows and daily prep loop (06:30/20:00 to 2026-04-25), new `k-drive` skill created, and WhatsApp MCP diagnosis run (HTTP session-id failure vs stdio fallback). · `$HOME/.agents/skills/k-mail/` · `$HOME/.agents/skills/k-ticktick/` · `$HOME/.agents/skills/k-drive/` |
 | 2026-04-09 | [CURSOR] | v2.74.48 — finalized mail/tag governance pass: session-guard grace raised to 30 min, `k-mail` updated with Zimbra tag inventory + Important-priority in What's up open-thread scan, and runtime logs synced after Important cleanup + EX240207 discovery in Drive docs. · `$HOME/.agents/hooks/` · `$HOME/.agents/skills/k-mail/` |
-| 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |
-| [SUMMARY] | — | v2.74.46–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
+| [SUMMARY] | — | v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
 
 ## References
 
@@ -116,5 +117,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.55 — `.agents` finalize: commit + push **`k-tg` v3.1.0** + `references/` + **`k-ticktick` log** table fix; `make audit` green. |
-| [SUMMARY] | — | v2.74.54 `.agents` k-tg v3.0.2 + ladder + `k-whatsapp` log; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
+| 2026-04-09 | [COPILOT] | v2.74.57 — **whats-mcp v0.2.0 finalization** |
+| 2026-04-09 | [GEMINI] | v2.74.56 — Fin session Work/Tools/tg/ |
+| [SUMMARY] | — | v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
