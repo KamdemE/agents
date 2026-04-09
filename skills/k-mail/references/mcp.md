@@ -29,3 +29,8 @@ Generic MCP setup reference for `mail-mcp`.
   - `-l`
   - `-c`
   - `$HOME/.local/bin/mail-mcp serve`
+
+## Post-send verification (tooling hints)
+
+- **Mandatory manual pass** stays in `SKILL.md`: after `send_message`, wait ≥~5s, then re-read **`Sent`** and **`INBOX`** via `list_messages` / `search_messages` (never skip).
+- **Optional complement only:** on `send_message`, you may set `verify_bounce_window_seconds` to a small value (e.g. 25–30) so the server can watch for an early DSN — **after** you still perform the **manual** `Sent` + `INBOX` checks. `delivery_status` / `bounce_details` are **hints**, not a substitute for folder re-reads.

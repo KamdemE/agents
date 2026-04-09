@@ -12,4 +12,6 @@ Purpose: detailed runtime execution log for mail operations (different from `SKI
 | 2026-04-08T11:40:00Z | [CODEX] | mail-mcp http | `search_messages` + `get_message` | since=`2026-04-07`, folders=`INBOX,Archive`, then detailed reads by UID | 16 received emails analyzed | uids=8426..8407 | built actionable response + TickTick proposals |
 | 2026-04-09T00:20:00Z | [CURSOR] | mail-mcp http | `send_message` | to=`ivann.kamdem@hotmail.com`, verify_bounce_window_seconds=10 | smtp_accepted=true, delivery_status=delivered_hint, saved_to_sent=true | message_id from response | k-final closure test after mail_mcp 0.2.4 deploy |
 | 2026-04-09T00:21:00Z | [CURSOR] | mail-mcp http | `send_message` | to=`pauline.alessandra@polytechnique.fr` (wrong TLD probe), verify_bounce_window_seconds=25 | smtp_accepted=true, delivery_status=delivered_hint, bounce_details=null | message_id from response | no MAILER-DAEMON match in 25s window |
+| 2026-04-09T12:00:00Z | [CURSOR] | mail-mcp http | `search_messages` | folder=`INBOX`, since=`2026-04-08`, before=`2026-04-09`, limit=200 | 3 hits | uids 8449,8445,8444 | user digest poly INBOX only |
+| 2026-04-09T12:00:05Z | [CURSOR] | mail-mcp http | `search_messages` | folders=`INBOX,Archive`, since=`2026-04-08`, before=`2026-04-09`, limit=200 | 12 hits | uids 8457..8435 | full-day received digest for user triage |
 

@@ -28,3 +28,8 @@ Generic MCP setup reference for `whats-mcp`.
   - `-l`
   - `-c`
   - `whats-mcp serve`
+
+## Post-send verification (preferred read tool)
+
+- After `send_text` (or another send tool), wait ≥~5s, then call **`get_messages`** with the **same chat `jid`**, a **`limit`** large enough to include the tail of the thread (e.g. 50–100), and optionally **`since`** (Unix time) set just before the send to narrow results. Confirm your outbound text appears in the returned list.
+- Do **not** use **`read_messages`** for this check — that tool **marks messages as read** (read receipts), it does **not** fetch history.

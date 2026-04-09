@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.12"
+  version: "2.0.14"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -31,7 +31,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - Step 2: wait for explicit user approval (`OK ENVOI` or equivalent).
 - Step 3: only then call `send_text`.
 - If approval is missing or ambiguous, do not send.
-- For sensitive outbound emails, mandatory post-send verification: check `Sent` for the message copy, then check `INBOX` for DSN/bounce (`MAILER-DAEMON`) in a short window before considering delivery healthy.
+- **Absolute post-send verification (all outbound sends, no exceptions):** After every successful `send_message` (or equivalent), **do not** treat the tool JSON alone as proof of delivery. Wait **at least ~5 seconds** (use a deliberate delay so IMAP/SMTP side effects settle), then **re-read** (1) **`Sent`** — confirm the outbound copy is present (subject/recipients/`Message-ID` match when exposed by the API) — and (2) **`INBOX`** — scan for **`MAILER-DAEMON`**, DSN, or bounce content tied to that send. If the copy is missing from `Sent` or a bounce appears in `INBOX`, report it and stop treating the send as healthy. If the MCP exposes `verify_bounce_window_seconds` / `delivery_status`, treat those as **hints only**; this manual **Sent + INBOX** pass remains **mandatory**.
 - `SKILL.md` describes stable operating rules and how to use mail-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
 
@@ -119,6 +119,6 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.12 — documented **k-mail-mcp 0.2.4** version/`mail_guide` alignment + reminder to refresh `mail_guide()` after MCP upgrades |
-| 2026-04-08 | [CODEX] | v2.0.11 — added mandatory post-send verification policy for sensitive emails (`Sent` copy check + short-window DSN/bounce check in `INBOX`). |
-| [SUMMARY] | — | v2.0.10 IME contact `pauline.alessandra@polytechnique.edu`; v2.0.9 WhatsApp dry-run from mail context; v2.0.8 local-attachment transport; v2.0.7 TickTick proposals; v2.0.6–v2.0.5 open threads + self-check; v2.0.0 refonte + 2026-03-24 Zimbra review; earlier folded |
+| 2026-04-09 | [CURSOR] | v2.0.14 — `references/mcp.md`: `verify_bounce_window_seconds` as **optional complement only** after mandatory manual **`Sent` + `INBOX`** re-reads. |
+| 2026-04-09 | [CURSOR] | v2.0.13 — **Absolute** post-send verification for **every** outbound send: ≥~5s delay, mandatory re-read **`Sent`** + **`INBOX`** (bounce/DSN); MCP `delivery_status` remains hint-only. |
+| [SUMMARY] | — | v2.0.12 mail_guide / k-mail-mcp 0.2.4; v2.0.11–v2.0.0 sensitive check superseded, IME contact, WhatsApp dry-run from mail, attachments, TickTick, open threads, refonte, Zimbra review |

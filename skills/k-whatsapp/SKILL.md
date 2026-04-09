@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.0.10"
+  version: "2.0.12"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -30,6 +30,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp--stdio__*
 - Step 2: wait for explicit user approval (`OK ENVOI` or equivalent).
 - Step 3: only then call `send_text`.
 - If approval is missing or ambiguous, do not send.
+- **Absolute post-send verification (all sends, no exceptions):** After every successful `send_text` (or equivalent send tool), **do not** treat the tool return alone as proof the message landed in the thread. Wait **at least ~5 seconds**, then **re-fetch the conversation** for that chat (same JID): confirm the outbound text is **visible in the recent message list** (content + ordering). If it is missing or the thread looks stale, report it explicitly before closing the task.
 - `SKILL.md` describes stable operating rules and how to use whats-mcp transports (`stdio` and/or `http`).
 - `## Changelog` in this file tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
 
@@ -124,6 +125,6 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-08 | [CODEX] | v2.0.10 — added mandatory dry-run policy for WhatsApp group messages (preview + explicit approval + send gate + no-send on ambiguity). |
-| 2026-04-08 | [CODEX] | v2.0.9 — added mandatory proactive TickTick proposal rule for actionable WhatsApp info and compacted changelog to kernel limit (2 rows + `[SUMMARY]`). |
-| [SUMMARY] | — | v2.0.7 full-folder ownership + open-threads maintenance + end-of-task reality self-check; v2.0.6 runtime memory protocol (`insights.md` + `log.md`); v2.0.5 stdio suffix alignment; v2.0.0 migration/history (community maps, Binet Bad, X24⚔️🔥). |
+| 2026-04-09 | [CURSOR] | v2.0.12 — `references/mcp.md`: post-send re-read via **`get_messages`** (same `jid`, sufficient `limit`, optional `since`); **`read_messages`** is read-receipts only. |
+| 2026-04-09 | [CURSOR] | v2.0.11 — **Absolute** post-send verification: after every send, wait ≥~5s, **re-read the conversation** and confirm the outbound message is present before closing. |
+| [SUMMARY] | — | v2.0.10 group dry-run gate; v2.0.9 TickTick proposals; v2.0.7–v2.0.5 ownership, insights/log, stdio; v2.0.0 community maps, Binet Bad, X24⚔️🔥 |
