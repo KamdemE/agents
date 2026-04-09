@@ -1,262 +1,182 @@
 ---
 name: k-tg
-description: tg CLI operational memory — local source path, uv tool install pattern, user workflow commands, and troubleshooting notes for ModuleNotFoundError/import issues.
+description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFather governance, deep *What's up* triage (Issues → General → Homelab/Ubuntu/…), processed cursors in references/.
 license: private
 metadata:
   author: KpihX
-  version: "1.5.0"
+  version: "3.0.2"
   scope: tool-memory
-allowed-tools: "Bash(*), *"
+allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
 
-# Tool Memory — tg CLI
+# Tool Memory — Telegram (k-tg)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-## Purpose
+## Operating focus
 
-Use this skill before working with the `tg` CLI so runtime fixes and usage patterns stay consistent.
+~**99%** of KπX Telegram use is **loop-back orchestration**: **`tg`**, **BotFather**, **capture bots** (General / Issues), **infrastructure bridge bots** (Homelab, Ubuntu, Tick, Whats, Mail, LinkedIn, N8N), and **your own account** (`tg user`). Groups, channels, and third-party DMs exist but are **out of scope** unless explicitly requested.
 
-## Source Of Truth
+## Identity (Telethon user)
+
+| Field | Value |
+|-------|--------|
+| Telegram user ID | `1397540599` |
+| @username | `@KpihX` |
+| Phone | `+33605957785` (E.164 — use only in skills when already public per kernel) |
+
+## Runtime discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-tg/references/insights.md` before non-trivial Telegram work.
+- Read `$HOME/.agents/skills/k-tg/references/telegram-processed-state.md` before a *What's up* **Telegram** slice; **update cursors** after triage in the **same** workstream.
+- Append **one** row to `$HOME/.agents/skills/k-tg/references/log.md` after meaningful `tg` / BotFather / triage sessions.
+- **BotFather only** for bot create/delete/token/privacy/commands — entity id **`93372553`**.
+- **Run-speed policy (immediate minimal):** during active runs, log only **critical** facts (bot id, action, error). Put narratives into deferred curation or `references/log.md` once per slice.
+- **No secret exfiltration:** never print full **`TELEGRAM_*_TOKEN`** values in chat; use Vaultwarden names (`TELEGRAM_GENERAL_TOKEN`, `TELEGRAM_ISSUES_TOKEN`, …).
+- **What’s up / Telegram — implementation gate (mandatory):** The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations — no TickTick API writes, no mail sends, no writes/copies into `Gdrive_X` or project trees, no service/config/deploy changes, no corrective shell that mutates state — **until** KπX gives **explicit** go-ahead (e.g. *feu vert*, *go*, *OK implémente*). **Read-only** investigation (read logs, inspect files, SSH **diagnostic** cat/grep/journalctl) **is** in scope and expected before proposals. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** after triage is **bookkeeping** (avoid re-triage), not remediation.
+
+## What's up — Telegram slice (single assistant turn, **k-tg only**)
+
+**Calendar / timezone:** **Europe/Paris** unless KπX specifies otherwise.
+
+This slice is **not** a shallow inbox scan. The agent must **close the diagnostic loop**: ingest, **inspect** (including SSH / logs / scripts when an infra bot reports breakage), and return **actionable** conclusions and **ready-to-run** next steps — not a list of “still TODO” without diagnosis. **Stopping point:** proposals and pistes only; **execution** waits for **Runtime discipline → implementation gate** above.
+
+### Step 0 — Preconditions (blocking)
+
+1. **`tg` / Telethon:** `tg user me` must succeed (session at `$HOME/.config/tg/user.session`).
+2. **Capture bots (recommended):** `TELEGRAM_GENERAL_TOKEN` and `TELEGRAM_ISSUES_TOKEN` available (e.g. via `bw-env`) so `tg updates --bot general` / `--bot issues` works.
+3. **Cross-skills:** load **`k-homelab`** before **any** SSH / docker-host / Proxmox investigation triggered by Homelab bot alerts; load **`k-ticktick`** / **`k-drive`** when suggestions include tasks or `Gdrive_X` placement.
+
+If Telethon is broken: **STOP** and give recovery steps (`tg user setup`, session file, API id/hash). Do **not** emit the *What's up* body until Step 0 passes or KπX scopes a reduced slice.
+
+### Section 1 — **Issues** capture bot (highest priority)
+
+Display name **Issues** (Telegram). Target: `@kpihx_issues_capture_bot` (**bot user id** `8656241501`).
+
+1. Read **`references/telegram-processed-state.md`** → row `issues`.
+2. List **new** user→bot traffic since the last triaged **`message_id`**:
+   - Prefer **`tg updates --bot issues`** (Bot API) for structured payloads + file hints.
+   - Complement with **`tg user read @kpihx_issues_capture_bot`** for the human-side thread if needed.
+3. For **each** new item: classify (bug / incident / env / “needs screenshot”), quote text, note **media**.
+4. **Media:** stage under **`$TMPDIR/k-tg/<UTC-ISO>/issues/`** (create dir). If `tg` cannot download yet, document **file_id / message_id** and use Bot API **getFile** (script or manual) — do not pretend binary content was read when only `[Photo]` was shown.
+5. **Deep dive mandate:** for each issue, pursue root cause **until** you have a concrete hypothesis validated by **evidence** (log lines, config snippets, command output — **no secrets**). Use `k-homelab` SSH / journal / compose **when** the issue touches servers or backups.
+6. **Deliver:** exhaustive per-item **analysis**, **fix proposal**, and **draft** `k-ticktick` / `.md` / `k-mail` **actions** (wording + target) — **do not execute** them in this slice without KπX go-ahead.
+7. **Update** `telegram-processed-state.md` with the **latest fully processed** message ids.
+
+### Section 2 — **General** capture bot
+
+Display name **General** (Telegram). Target: `@kpihx_general_capture_bot` (**bot user id** `8089748360`).
+
+Same pipeline as Issues, but theme = **facts, links, credentials reminders (never store secrets in skills)**, school/admin **screenshots**, forward dumps.
+
+- Extract structured facts; propose **where** to persist (`$HOME/Work/techskills/`, project `AGENTS.md`, `k-mail` open threads, **TickTick**) — **describe** the write; **do not** perform it until KπX approves.
+- For **school PDFs / transcripts:** suggest **`Gdrive_X`** paths using **`k-drive`** conventions (e.g. academic subtree under `$HOME/Gdrive_X/X/`).
+- Update **processed cursors** after triage.
+
+### Section 3 — Infrastructure bots (incoming, priority order)
+
+For **each** bot below, read **new** bot→user messages since the stored cursor (**`tg user read <bot_user_id>`** or `@username` when resolvable). If a bot lacks a token in the **current** env, say so and **still** try **Telethon read** (user inbox).
+
+| Order | Bot | Numeric ID |
+|-------|-----|------------|
+| 1 | Homelab | `8589111784` |
+| 2 | Ubuntu | `8331655781` |
+| 3 | Tick Homelab | `8357989597` |
+| 4 | Whats Homelab | `8449692658` |
+| 5 | LinkedIn Homelab | `8662033588` |
+| 6 | Mail Homelab | `8385666882` |
+| 7 | N8N Homelab | `8724946664` |
+
+**Escalation examples (non-exhaustive):**
+
+- **Homelab / backup / sentinel errors:** SSH per **`k-homelab`**, inspect **units**, **scripts**, **remote backup** logs, **docker** — do **not** stop at “backup failed” without reading **why**.
+- **Ubuntu / cleanup / vault:** read the **report message**, then inspect the **invoked script**, **cron/systemd**, **local logs** on the workstation.
+- **Bridge bots (Tick/Whats/Mail/LinkedIn):** correlate with MCP health on homelab + **local** MCP config; propose concrete fixes (restart, token, tunnel, Cursor MCP reload).
+
+After each bot’s pass: **update** `telegram-processed-state.md`.
+
+### Sequential ladder
+
+When KπX runs the **full** *what's up*, **Telegram is the last turn** — **AGENTS.md → What's up** — do **not** combine with mail / WhatsApp / TickTick in one generation.
+
+## Secrets matrix
+
+| Env var | Alias (`tg`) | Purpose |
+|---------|----------------|---------|
+| `TELEGRAM_GENERAL_TOKEN` | `general` | **General** (display name) — agent inbox |
+| `TELEGRAM_ISSUES_TOKEN` | `issues` | **Issues** (display name) — bug/incident inbox |
+| `TELEGRAM_HOMELAB_TOKEN` | `homelab` | Sentinel / Homelab |
+| `TELEGRAM_UBUNTU_TOKEN` | `ubuntu` | Ubuntu workstation reports |
+| `TELEGRAM_N8N_HOMELAB_TOKEN` | `n8n-homelab` | N8N signals |
+| `TELEGRAM_*_TOKEN` | `*` auto | Other bridge bots when present |
+
+Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.yaml` when used.
+
+## Bot inventory
+
+| Group | Bot name | ID | @username | Status |
+|-------|----------|----|-----------|--------|
+| **Capture** | General | `8089748360` | `@kpihx_general_capture_bot` | **New — add token to Vault** |
+| **Capture** | Issues | `8656241501` | `@kpihx_issues_capture_bot` | **New — add token to Vault** |
+| **Homelab** | Homelab | `8589111784` | `@sentinel_homelab_bot` | Active |
+| **Homelab** | Mail Homelab | `8385666882` | — | Active (token often via `bw-env`) |
+| **Homelab** | LinkedIn Homelab | `8662033588` | — | Active (token often via `bw-env`) |
+| **Homelab** | Whats Homelab | `8449692658` | — | Active (token often via `bw-env`) |
+| **Homelab** | Tick Homelab | `8357989597` | — | Active (token often via `bw-env`) |
+| **Homelab** | N8N Homelab | `8724946664` | `@k_n8n_x_bot` | Active |
+| **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active |
+| **Ubuntu** | Openclaw Ubuntu | `8758962418` | — | **Inactive / token 401** |
+| **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive |
+
+*Third-party bots (e.g. “Nano Banana”, “ChatGPT”) are **not** KπX infra — exclude from *What's up* unless KπX asks.*
+
+## Source of truth (tooling)
 
 | Item | Path |
 |------|------|
-| Local project root | `$HOME/Work/Tools/tg/` |
-| Tool shim | `$HOME/.local/bin/tg` |
-| uv tool env | `$HOME/.local/share/uv/tools/tg/` |
+| `tg` project | `$HOME/Work/Tools/tg/` |
+| Shim | `$HOME/.local/bin/tg` |
+| Optional YAML | `$HOME/.config/tg/config.yaml` |
 
-Do not treat global PyPI `tg` as source of truth for KpihX runtime behavior.
-
-## Install / Repair
-
-Preferred install is editable from local source:
+## Install / repair
 
 ```bash
 uv tool install --editable $HOME/Work/Tools/tg
-```
-
-If launcher breaks with `ModuleNotFoundError: No module named 'tg'`:
-
-```bash
-uv tool install --editable $HOME/Work/Tools/tg
-```
-
-Verification:
-
-```bash
 tg --help
-tg user chats --limit 5
 ```
 
-## Runtime Checks
+## BotFather quick map
 
-```bash
-command -v tg
-ls -l $(command -v tg)
-sed -n '1,40p' $(command -v tg)
-sed -n '1,80p' $HOME/.local/share/uv/tools/tg/uv-receipt.toml
-```
+| Command | Use |
+|---------|-----|
+| `/newbot` | Create capture or infra bot |
+| `/token` | Retrieve token (sensitive) |
+| `/setcommands` | Bot menu |
+| `/setprivacy` | Group message visibility |
 
-Expected receipt pattern:
+Full table lives in older agent transcripts; keep **BotFather id** `93372553` immutable.
 
-- `requirements` includes editable source at `$HOME/Work/Tools/tg`
-- entrypoint `from = "tg"`
+## Command surface (essentials)
 
-## Command Surface (Runtime Help)
+| Command | Role |
+|---------|------|
+| `tg bots` / `tg status` | Bot API identity (needs tokens in env) |
+| `tg updates -n N --bot ALIAS` | Bot-side inbox (capture + bridges) |
+| `tg user me` / `read` / `send` | Telethon user (human-side DMs) |
+| `tg send` / `tg updates` | Bot API send / poll |
 
-From `tg --help`:
+## Runtime memory layout
 
-- `bots` — list configured bots with Telegram identity
-- `status` — bot identity/capabilities/webhook status
-- `send` — send message via bot
-- `updates` — fetch recent bot updates
-- `version` — show tg version
-- `webhook` — webhook management
-- `commands` — bot command management
-- `chat` — chat/group inspection
-- `user` — Telethon user-account commands
-
-From `tg user --help`:
-
-- `setup`, `me`, `chats`, `read`, `send`, `edit`, `delete`, `contacts`
-
-From `tg webhook --help`:
-
-- `get`, `set`, `del`
-
-From `tg commands --help`:
-
-- `get`, `set`
-
-From `tg chat --help`:
-
-- `info`, `admins`
-
-## Secrets Matrix
-
-| Secret | Required For | Purpose |
-|--------|---------------|---------|
-| `TELEGRAM_<ALIAS>_TOKEN` | Bot API commands (`bots`, `status`, `send`, `updates`, `webhook`, `commands`, `chat`) | Authenticates one Telegram bot; alias is derived from env var name. |
-| `CHAT_ID` | Bot `send` fallback | Default target chat when `--to` is not provided. |
-| `TG_API_ID` | `tg user *` | Telethon user API key id for MTProto login. |
-| `TG_API_HASH` | `tg user *` | Telethon user API hash paired with `TG_API_ID`. |
-
-Additional local auth artifact:
-
-- `$HOME/.config/tg/user.session` — Telethon persisted login session after OTP setup.
-
-## Bot Manager Mode (BotFather)
-
-> [!IMPORTANT]
-> **MASTER RULE:** All bot administration, lifecycle management (creation/deletion), and global security settings (token rotation, privacy, commands) **MUST** pass through **BotFather** (`93372553`). This is the exclusive and mandatory gateway for bot governance.
-
-Use `tg user` to communicate with BotFather directly from the CLI. This ensures full transparency and centralized control without depending on the Telegram UI.
-
-### BotFather Reference (ID: `93372553`)
-
-| Category | Command | Description |
-|----------|---------|-------------|
-| **General** | `/start` | Activate BotFather and see intro |
-| | `/help` | **(ROOT)** Show this exhaustive command list |
-| **Lifecycle** | `/newbot` | Initialize and create a new Telegram bot |
-| | `/mybots` | **(MANAGER)** Entry point to edit/manage all your existing bots |
-| | `/deletebot` | Irreversibly delete a bot and its token |
-| **Profile & UX** | `/setname` | Update the bot's public display name |
-| | `/setdescription` | Update the "What can this bot do?" long-form text |
-| | `/setabouttext` | Update the short blurb seen on the bot's profile |
-| | `/setuserpic` | Upload/Change the bot's profile avatar photo |
-| | `/setcommands` | **(UI)** Define the '/' command list for the user menu |
-| | `/setdomain` | Bind a website domain (mandatory for some Link/Web login features) |
-| **Security** | `/token` | **(SENSITIVE)** Generate or view the Bot API token |
-| | `/revoke` | Immediately kill current token and issue a new one |
-| **Group Settings** | `/setprivacy` | Toggle if bot can read all group messages (OFF) or only '/' commands (ON) |
-| | `/setjoingroups` | Toggle if the bot can be added to Telegram groups at all |
-| **Capabilities** | `/setinline` | Enable/Disable Inline Mode (use bot from anywhere via @username) |
-| | `/setinlinegeo` | Toggle requests for location in Inline Mode |
-| | `/setinlinefeedback` | Adjust how much feedback the bot gets about inline usage |
-| **Web Apps** | `/newapp` | Create a new integrated Telegram Web App |
-| | `/myapps` | Manage and edit your existing Web Apps |
-| | `/listapps` | View the full list of your registered Web Apps |
-| | `/editapp` | Modify configuration for a specific Web App |
-| | `/deleteapp` | Remove a Web App registration |
-| **Games** | `/newgame` | Create a new interactive Telegram game |
-| | `/mygames` | Manage and edit your game catalog |
-| | `/listgames` | View the full list of your registered games |
-| | `/editgame` | Modify configuration for a specific game |
-| | `/deletegame` | Remove a game from the platform |
-
-### Operational Patterns (Bot Management)
-
-**1. Retrieve a Bot Token:**
-```bash
-tg user send 93372553 "/token"
-# Wait 3s then read
-tg user read 93372553 --limit 5
-# If prompted, send the bot's @username
-tg user send 93372553 "@k_your_bot"
-```
-
-**2. Audit Bot Interactions (User Perspective):**
-To see what a bot is receiving or sending (even if you don't have the token), use the User API:
-```bash
-tg user read <bot_id> --limit 50
-```
-
-**3. Set Bot Commands:**
-```bash
-tg user send 93372553 "/setcommands"
-# Follow prompts to select bot and send command list:
-# status - Get current system status
-# help - Show available commands
-```
-
-### Rich Operational Examples
-
-**1. Creating a New Assistive Bot (Full Cycle):**
-```bash
-# A. Start sequence
-tg user send 93372553 "/newbot"
-# B. Provide display name (after reading BotFather reply)
-tg user send 93372553 "My Helper Bot"
-# C. Provide unique @username
-tg user send 93372553 "k_my_helper_bot"
-# D. Retrieve API Token from the confirmation message
-tg user read 93372553 --limit 3
-```
-
-**2. Deleting an Obsolete Bot:**
-```bash
-tg user send 93372553 "/deletebot"
-# Wait and read the list of bots
-tg user read 93372553 --limit 10
-# Select the bot by its @username or by sending the confirmation string if prompted
-tg user send 93372553 "@k_obsolete_bot"
-# Confirm deletion (usually by sending 'Yes, I am totally sure.')
-tg user send 93372553 "Yes, I am totally sure."
-```
-
-**3. Automated Command Dispatch & Retrieval:**
-To verify a bot's logic remotely (e.g., the new /clean command):
-```bash
-# A. Trigger the action
-tg user send <bot_id> "/clean"
-# B. Monitor the 'typing' status or wait for the initial 'Starting...' message
-tg user read <bot_id> --limit 1
-# C. Final Verification: read the result report once complete
-tg user read <bot_id> --limit 5
-
-**4. Audit Bot History (Full Report Retrieval):**
-To see the latest automated reports (e.g., Weekly Cleanup):
-```bash
-tg user read 8331655781 --limit 50
-# Search for specific reports in history
-tg user read 8331655781 --limit 100 | grep -C 5 "Cleanup Report"
-```
-```
-
-**4. Setting Command Menu for an Infrastructure Bot:**
-```bash
-tg user send 93372553 "/setcommands"
-tg user send 93372553 "@k_ubuntu_bot"
-# Send the pre-formatted list:
-tg user send 93372553 "status - Global health audit
-clean - Full system maintenance
-backup - Run workstation backup
-vault - Verify Bitwarden RAM bridge"
-```
-
-## API Boundaries
-
-- Bot API layer is stateless and token-scoped: strong for bot operations, limited to bot permissions.
-- User API layer (Telethon/MTProto) is broader for personal-account actions, but still constrained by Telegram permissions and rate limits.
-- `tg` does not auto-load `.env`; secrets must already exist in process env (for example via `bw-env`) or in `$HOME/.config/tg/config.yaml` where supported.
-
-## Common Pitfalls
-
-- Installing `tg` from index instead of local source can remove expected executable behavior.
-- A stale uv tool venv can keep a launcher while dropping the importable module.
-- Debug from launcher shebang first, then receipt binding, then reinstall editable.
-
-## Bot Inventory
-
-| Group | Bot Name | ID | Status | Mission |
-|-------|----------|----|--------|---------|
-| **Ubuntu** | Ubuntu | `8331655781` | Active | kpihx-ubuntu weekly cleanup reports |
-| | Openclaw Ubuntu | `8758962418` | **Inactive** | Assistive server bot |
-| | Openclaw Watcher | `8393219020` | **Inactive** | *Uninstalled* (was responsible for group surveillance) |
-| **Homelab** | Homelab | `8589111784` | Active | Sentinel system status (default_bot) |
-| | Mail Homelab | `8385666882` | Active | mail-mcp health & bridge |
-| | LinkedIn Homelab | `8662033588` | Active | linkedin-mcp health & bridge |
-| | Whats Homelab | `8449692658` | Active | whats-mcp health & bridge |
-| | Tick Homelab | `8357989597` | Active | tick-mcp health & bridge |
-| | N8N Homelab | `8724946664` | Active | N8N workflow signals |
-
-*Note: Nano Banana (`8442646954`) and ChatGPT are not KpihX private bots and are excluded from this inventory.*
+| File | Role |
+|------|------|
+| `references/telegram-processed-state.md` | Last triaged **message_id**s per chat |
+| `references/log.md` | Action log |
+| `references/insights.md` | Durable patterns |
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-07 | [GEMINI] | v1.5.0 — Added history audit commands (tg user read + grep) for report retrieval. |
-| 2026-04-07 | [GEMINI] | v2.5.0 — Mandated Telegram reporting at the end of optimization cycles. |
-| [SUMMARY] | — | v2.4.1 Phoenix loop; v1.3.0 Bot Manager; v1.2.0 Bot Inventory; v1.1.1–v1.0.0 Initial setup |
+| 2026-04-09 | [CURSOR] | v3.0.2 — *What’s up / Telegram* **implementation gate**: proposals/pistes only; no remediations until KπX explicit go-ahead; read-only investigation remains mandatory. |
+| 2026-04-09 | [CURSOR] | v3.0.1 — BotFather `/setname`: capture bots display names shortened to **General** and **Issues** (@usernames unchanged). |
+| [SUMMARY] | — | v3.0.0 capture bots + deep *What's up* + `references/`; v1.5.0–v1.0.0 BotFather tables, `tg` install, prior inventory |

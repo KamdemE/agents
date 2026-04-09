@@ -148,11 +148,12 @@ Add a new `.md` file there when a brainstorm should survive sessions and QMD ind
 | *what's up* **mail** / *what's mail* | `k-mail` | Mail briefing procedure in `k-mail`. |
 | *what's up* **whats** / *what's whats* / *whatsapp* | `k-whatsapp` | WhatsApp briefing procedure in `k-whatsapp`. |
 | *what's up* **tick** / *what's tick* | `k-ticktick` | TickTick briefing procedure in `k-ticktick`. |
+| *what's up* **tg** / *what's tg* / *telegram* | `k-tg` | Deep Telegram triage procedure in `k-tg` (Issues → General → infra bots); **last** in the default ladder. |
 | *what's mail tick* / *what's tick mail* | `k-mail` **then** `k-ticktick` (or the reverse if KπX names tick first) | **Two assistant turns minimum** — never both in one generation. |
 
-**Default full sequence (when KπX says only *what's up*):** `k-context` → `k-mail` → `k-whatsapp` → `k-ticktick`.
+**Default full sequence (when KπX says only *what's up*):** `k-context` → `k-mail` → `k-whatsapp` → `k-ticktick` → `k-tg`.
 
-**Hard rule — one generation = one What's up slice:** When executing the **full** sequence, the agent MUST deliver **exactly one** of the four domains per assistant turn. **PROHIBITED:** running two or more What's up briefings (e.g. context + mail) in a **single** generation. After each slice, **stop** and offer: *« What's up suivant : [mail | whats | tick] — dis `continue` ou le nom du canal. »*
+**Hard rule — one generation = one What's up slice:** When executing the **full** sequence, the agent MUST deliver **exactly one** of the **five** domains per assistant turn. **PROHIBITED:** running two or more What's up briefings (e.g. context + mail) in a **single** generation. After each slice, **stop** and offer: *« What's up suivant : [mail | whats | tick | tg] — dis `continue` ou le nom du canal. »*
 
 **Gold standard:** **Maximum detail and exhaustivity** within the active slice — see each skill for section order, lenses (academic / pro / AI / stages / hackathons / …), and proactive reply + TickTick suggestions where applicable.
 

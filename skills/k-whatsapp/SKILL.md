@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.3"
+  version: "2.1.4"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -155,5 +155,5 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.1.3 — Added immediate-minimal run policy in runtime discipline (critical target/action/incident first, deferred rich memory later). |
-| [SUMMARY] | — | v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior runtime governance/history |
+| 2026-04-09 | [CURSOR] | v2.1.4 — `references/log.md`: post-restart HTTP `connection_status` probe still fails (`No valid session ID provided`). |
+| [SUMMARY] | — | v2.1.3 immediate-minimal run policy; v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior history |

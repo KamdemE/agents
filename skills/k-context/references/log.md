@@ -8,6 +8,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.44 — **AGENTS.md → MCP Protocol:** **HTTP preferred**, **stdio fallback** for KπX MCPs; **`k-whatsapp` v2.1.1** (`allowed-tools`, **`## Runtime Discipline`**, `references/mcp.md` HTTP-first). · `$HOME/.agents/AGENTS.md` · `$HOME/.agents/skills/k-whatsapp/` |
+| 2026-04-09 | [CURSOR] | v2.74.43 — **`.agents` session finalization:** explicit KπX request — `git commit` + `make push` for **What's up** stack (`AGENTS.md`, `k-context` **v2.74.42**, `k-mail` **v2.0.17**, `k-whatsapp` **v2.1.0**, `k-ticktick` **v2.0.7`, runtime logs); `make audit` green. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.42 — **What's up protocol:** `AGENTS.md` ladder + **`## What's up`** slices in `k-context`, `k-mail`, `k-whatsapp` **v2.1.0**, `k-ticktick`; **one domain per assistant turn**; context-only section in k-context. · `$HOME/.agents/AGENTS.md` · skills |
 | 2026-04-09 | [CURSOR] | v2.74.41 — **`.agents` VCS:** no auto commit/push unless KπX asks; **`k-mail`** INBOX bulk archive (**56** msgs, keep **8323**+**8318**); Alessandra **`.edu` only** rule; read UIDs **8323**/**8318**. · `$HOME/.agents/skills/k-context/SKILL.md` · `$HOME/.agents/skills/k-mail/SKILL.md` |
 | 2026-04-09 | [CURSOR] | v2.74.40 — **`k-mail` v2.0.15**: archived **2026-04-08** INBOX trio (`8444,8445,8449`); **Flagged/Open Threads** = **IME re-feedback** + **IPAI prize**; INBOX sweep since **2026-03-25** (48 msgs). · `$HOME/.agents/skills/k-mail/SKILL.md` |
