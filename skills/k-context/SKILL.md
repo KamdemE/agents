@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.64"
+  version: "2.74.65"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -51,7 +51,7 @@ allowed-tools: "Bash(*), *"
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **sciencurious** | 🟢 ACTIVE — Docsify + KaTeX visual articles (math, physics, CS) | add Manim visuals to integration article · `$HOME/Work/sciencurious/` |
 | **envision (PSC)** | 🟢 ACTIVE — main PSC project; academic docs site finalized, source PDFs added, GitHub Pages live | continue final report + soutenance prep from published docs baseline · `$HOME/Work/X/envision/envision/` |
-| **flow** | ✅ RELEASED — `k-flow` v0.3.2 docs refresh shipped; README now includes current Linux prerequisite install baseline while runtime code remains diagnostic-only for missing dependencies | implement OpenVINO backend + comparative benchmarks · `$HOME/Work/AI/flow/` |
+| **flow** | ✅ RELEASED — `k-flow` v0.3.4 published; CLI is now agent-first discoverable (`flow --help` lists top-level session operations), `flow-ws`/`flow-stdio` managed with help/status/stop and configurable runtime defaults | implement OpenVINO backend + comparative benchmarks · `$HOME/Work/AI/flow/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -94,6 +94,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.65 — finalized `flow` k-final closure end-to-end after auth unlock: published `k-flow 0.3.4`, pushed `master` to `github` and `gitlab`, shipped top-level intuitive CLI aliases (`start-session`, `stop-session`, etc.) and hid low-level `op` from public help. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.64 — finalized `flow` docs/installability pass: added Linux prerequisite install guidance in README, kept code install-agnostic (bootstrap checks only), pushed `0376a89`, published `k-flow 0.3.2` (index propagation check pending). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.63 — completed Flow STT runtime implementation pass: backend modules + runtime fallback orchestrator + bootstrap + 16k mono normalization + stream/file wiring + new tests (`27 passed`), pushed `fa51e18`, published `k-flow 0.3.0` (index propagation check still pending). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.62 — finalized MCP adapter split in `flow`: explicit per-tool functions + compatibility dispatcher, removed legacy `adapters_*` shim modules, tests green (`23 passed`), and pushed commit `815cefd`. · `$HOME/Work/AI/flow/` |
@@ -103,7 +104,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-09 | [GEMINI] | v2.74.56 — **Tools tg closure**: implémentation de `download` (bot/user), `cleanup`, `send --file`, `bot-action`, `mark-read` et ajouts architecturels au TODO. · `$HOME/Work/Tools/tg/` |
 | 2026-04-09 | [CURSOR] | v2.74.55 — **`.agents` session finalization** (explicit): **`k-tg` v3.1.0** bundle (autonomous read-only inspection gate, BotFather map + ops snippets, homelab MCP bridge token rows + `@username` inventory), **`k-tg/references/`** (`insights`, `log`, **`telegram-processed-state.md`** cursors for capture + Homelab/Ubuntu), **`k-ticktick/references/log.md`** LEN_43314_EP row normalized to table schema; `make audit`, `git commit`, `make push`. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.54 — **`.agents` session finalization** (explicit): `git commit` + `make push` after `make audit` — **`k-tg` v3.0.2** (General/Issues capture bots, deep *What's up*, **implementation gate**, `references/`), **`AGENTS.md`** *what's up* ladder ends with **`k-tg`**, `google-workspace-full-mcp-vision.md`, **`k-whatsapp`** runtime log, **`.skill-lock`**. · `$HOME/.agents/` |
-| 2026-04-09 | [CURSOR] | v2.74.53 — **`k-tg` v3.0.0**: capture bots General (`8089748360`) + Issues (`8656241501`), deep *What's up* pipeline, `references/` processed cursors; **`AGENTS.md`** default ladder now ends with **`k-tg`**. · `$HOME/.agents/skills/k-tg/` · `$HOME/.agents/AGENTS.md` |
 | [SUMMARY] | — | v2.74.52 Google Workspace note + WhatsApp probe; v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
 
 ## References
@@ -118,6 +118,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.74.65 — finalized `flow` k-final closure after auth unlock: published `k-flow 0.3.4`, pushed both remotes, and shipped top-level discoverable session aliases in `flow --help`. |
 | 2026-04-09 | [CURSOR] | v2.74.64 — recorded `flow` docs + prerequisite guidance release (`k-flow 0.3.2`) and updated project row to reflect diagnostic-only bootstrap policy. |
-| 2026-04-09 | [CURSOR] | v2.74.63 — logged `flow` STT runtime release pass (`fa51e18`, `27 passed`, published `k-flow 0.3.0`) and updated Active Projects next step to OpenVINO/benchmark milestone. |
-| [SUMMARY] | — | v2.74.62 synced MCP split closure; v2.74.61 tracked `flow` release v0.2.1; v2.74.60 logged `flow` k-final closure v0.2.0; v2.74.59 forced `.agents` finalization follow-up; v2.74.57 **whats-mcp v0.2.0 finalization**; v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
+| [SUMMARY] | — | v2.74.63 logged `flow` STT runtime release; v2.74.62 synced MCP split closure; v2.74.61 tracked `flow` release v0.2.1; v2.74.60 logged `flow` k-final closure v0.2.0; v2.74.59 forced `.agents` finalization follow-up; v2.74.57 **whats-mcp v0.2.0 finalization**; v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
