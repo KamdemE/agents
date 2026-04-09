@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.6.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -67,7 +67,8 @@ Initial structure:
 Next steps:
 1. Replace `pyproject.toml` → `assets/pyproject.toml` (adapt name + deps)
 2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` runtime defaults file alongside it
-3. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
+3. Add `CONTRACT.md` from `references/contract-template.md` (mandatory; source-of-truth for external behavior)
+4. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
 Autonomous packages may each own their own `.env.example`, `.env`, `config.yaml`, and `config.py` when the boundary is real and intentional.
 
 ## Project Init — JS/TS
@@ -80,6 +81,7 @@ bun init -y / npm init -y
 
 - **TypeScript over JS** — always, no exceptions
 - Add `src/config.ts` → `templates/config.ts` + `config.yaml` defaults
+- Add `CONTRACT.md` from `references/contract-template.md` (mandatory before transport/API implementation)
 
 ## Standard Files at Init
 
@@ -89,6 +91,7 @@ bun init -y / npm init -y
 │   ├── __init__.py
 │   ├── config.py          ← from assets/config.py
 │   └── config.yaml
+├── CONTRACT.md            ← from references/contract-template.md (mandatory)
 ├── tests/
 ├── Makefile               ← from assets/Makefile.uv or Makefile.npm-bun
 ├── pyproject.toml         ← from assets/pyproject.toml
@@ -123,6 +126,7 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
 - **No hardcoding** — runtime values in `config.yaml`; secrets in `.env`
 - **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.yaml` / `config.ts` payloads to avoid desync.
+- **Contract-first by default** — `CONTRACT.md` is mandatory at init; define operation surface/types/error model/transport mapping in English before scaling implementation.
 - **OO** — encapsulation; internals prefixed `_`; public API explicit
 - **Config pattern** — `ConfigManager` per package (`assets/config.py` / `config.ts`):
   - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
@@ -273,11 +277,12 @@ This creates/updates `.gitmodules`:
 
 - **Git workflow + Makefile templates** → `k-git`
 - **Server deployment** → `k-docker`
+- **Contract template** → `references/contract-template.md`
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.6.0 — made `CONTRACT.md` mandatory at project init (Python + JS/TS), added contract-first guidance and reference template pointer, and clarified metadata-vs-runtime split enforcement |
 | 2026-04-09 | [CURSOR] | v2.5.0 — enforced metadata/runtime separation: metadata must live in `pyproject.toml` / `package.json`; `config*` templates are runtime-only |
-| 2026-04-09 | [CURSOR] | v2.4.1 — linked **`k-final`** as mandatory for project closure; Versioning & Release points to `k-final` for full process gates |
-| [SUMMARY] | — | v2.4.0–v2.0.0 MCP ownership/alignment; Bash/Shell `run`/journald/install-purge; Git Submodules; docs-site, config/env, assets/ migration, and earlier |
+| [SUMMARY] | — | v2.4.1 linked **`k-final`** closure gates; v2.4.0–v2.0.0 MCP ownership/alignment; Bash/Shell `run`/journald/install-purge; Git Submodules; docs-site, config/env, assets/ migration, and earlier |

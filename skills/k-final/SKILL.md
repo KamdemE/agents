@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.3"
+  version: "1.1.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -80,6 +80,10 @@ Keep a single coherent version across monorepo packages if the repo defines that
 1. **Docs submodule first** (if `docs/` is a separate repo): commit + `make push` **inside** `docs/`, then return to parent.
 2. Parent repo: commit all applicable changes (never stage `.agents/` if gitignored).
 3. **All remotes:** `make push` (never push a single remote alone) — `k-git`.
+4. **Missing remotes are not a stop condition:** if required remotes are absent, create them first (SSH only, standard names `github` and `gitlab`), then run `make push`.
+   - GitHub bootstrap: create repo and wire `github` remote.
+   - GitLab bootstrap: create repo and wire `gitlab` remote.
+   - Do not continue closure with only one remote configured.
 4. **SSH / Bitwarden:** if push fails with auth, **stop** — remind KπX to unlock **Bitwarden Desktop** + approve SSH; retry after `continue`.
 
 ## Phase G — CI/CD (deployed projects)
@@ -119,8 +123,18 @@ Prefer, in order:
 
 1. **Remove old build output** before build: e.g. `rm -rf dist/` build dirs (or `make clean` if defined).
 2. `make build` then publish via Makefile (`make publish` / `make release` — see project Makefile).
+   - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
 3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via **bw-env** (`k-project`). If missing or invalid → **stop**; tell KπX to unlock **Vaultwarden / bw-env** and export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
+
+## Contract coherence gate (before closure decision)
+
+Before calling a repository "finalized", verify contract coherence explicitly:
+
+1. If `CONTRACT.md` exists, documented operations/types/errors must match implementation (`dispatch`/public API) and tests.
+2. Contract drift tests must pass (or equivalent automated checks).
+3. Wrapper behavior (CLI/stdio/ws/mcp) must not contradict contract semantics or error codes.
+4. If mismatch is found, fix code/docs/tests first, then continue A→K.
 
 ## Phase K — `$HOME/.agents/` kernel (always)
 
@@ -145,5 +159,6 @@ Prefer, in order:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v1.1.0 — Phase F now requires automatic remote bootstrap (`github`/`gitlab`) when missing; Phase J now enforces k-project naming fallback on registry collisions; added explicit contract coherence gate before closure |
 | 2026-04-09 | [CURSOR] | v1.0.3 — **all phases obligatory** when preconditions hold; Phase G: `glab ci status` + **per-pipeline jobs API** (deploy jobs mandatory); Phase H: **obligatory** after deploy + `curl` health + `docker logs` |
 | [SUMMARY] | — | v1.0.2 Phase K `.agents` closure; v1.0.1 kernel load mandate; v1.0.0 phases A–J; resume token `continue` |

@@ -1,0 +1,27 @@
+{
+  "name": "PROJECT_NAME",
+  "version": "VERSION",
+  "description": "DESCRIPTION",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "SCRIPT_CMD": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "test": "bun test",
+    "lint": "bun run lint"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "contract": {
+    "schema_version": "PROJECT.contract.v1",
+    "contract_version": "1.0.0",
+    "source": "CONTRACT.md"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

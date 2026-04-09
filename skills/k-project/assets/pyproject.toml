@@ -68,11 +68,11 @@ dev = [
 asyncio_mode = "auto"
 testpaths = ["tests"]
 
-# Example: contract metadata (project-specific, optional)
-# [tool.PROJECT_NAME.contract]
-# schema_version = "flow.contract.v1"
-# contract_version = "1.0.0"
-# source = "CONTRACT.md"
+# Contract metadata (mandatory when CONTRACT.md exists)
+[tool.PROJECT_NAME.contract]
+schema_version = "PROJECT.contract.v1"
+contract_version = "1.0.0"
+source = "CONTRACT.md"
 
 # ── Common optional extras ───────────────────────────────────────────────────
 # Uncomment as needed:
