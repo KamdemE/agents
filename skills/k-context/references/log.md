@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.54 — **`.agents` session finalization** (explicit): `git commit` + `make push` after `make audit` — **`k-tg` v3.0.2** (General/Issues capture bots, deep *What's up*, **implementation gate**, `references/`), **`AGENTS.md`** *what's up* ladder ends with **`k-tg`**, `google-workspace-full-mcp-vision.md`, **`k-whatsapp`** runtime log, **`.skill-lock`**. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.53 — **`k-tg` v3.0.0**: capture bots General (`8089748360`) + Issues (`8656241501`), deep *What's up* pipeline, `references/` processed cursors; **`AGENTS.md`** default ladder now ends with **`k-tg`**. · `$HOME/.agents/skills/k-tg/` · `$HOME/.agents/AGENTS.md` |
 | 2026-04-09 | [CURSOR] | v2.74.51 — added hybrid memory-curation vision (immediate minimal logs + deferred curator agent) and `wa-core` central auth mini-design; updated Brainstorm Registry accordingly. · `$HOME/.agents/skills/k-context/references/agents-memory-curator-hybrid-vision.md` · `$HOME/.agents/skills/k-context/references/whatsapp-wa-core-central-auth-mini.md` |
 | 2026-04-09 | [CURSOR] | v2.74.50 — executed mail hard-cleanup (INBOX archived except Certificat Anglais DLC), removed residual `AI` labels, and investigated WhatsApp runtime/storage across Edge, stdio state, and docker-host logs for centralized-auth design. · `$HOME/.agents/skills/k-mail/` · `$HOME/.config/microsoft-edge/` · `$HOME/Work/AI/MCPs/whats_mcp/` |
