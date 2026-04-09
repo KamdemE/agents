@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.1"
+  version: "2.16.3"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -119,6 +119,26 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 > For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (k-claude, k-gemini, k-codex, k-vibe, k-copilot) and k-hook rather than duplicating agent-specific snapshots here.
 > For optimization posture, QMD hygiene, and cleanup actions, read k-optim rather than duplicating maintenance playbooks here.
 
+## Hardware Profile & Optimization Mandate
+
+Baseline machine profile (source: local shell checks such as `lscpu`, `free -h`, `lspci`, `uname -srmo`):
+
+- CPU: `Intel(R) Core(TM) Ultra 7 155H` (Meteor Lake), 22 logical CPUs.
+- GPU: `Intel Arc Graphics` (Meteor Lake-P iGPU).
+- RAM: ~`30 GiB` system memory, swap configured.
+- OS/kernel: Ubuntu Linux (`6.17.0-20-generic`, `x86_64`).
+
+Non-negotiable optimization rule for any tool/project on this workstation:
+
+- Always choose runtime, backend, and package stack that is optimal for Intel Arc + Intel CPU first.
+- Avoid pulling CUDA/NVIDIA-heavy dependencies unless explicitly requested and justified by a benchmarked gain.
+- Require measured evidence (latency, stability, memory footprint, quality) before adopting a new default stack.
+
+Examples already validated in this workspace:
+
+- Ollama path is Intel-optimized via Docker IPEX control plane (`$HOME/Work/AI/ollama/ipex`) from Intel-aligned tooling.
+- QMD vector/search acceleration uses Vulkan-backed execution path in current local workflow.
+
 ## Engineering Standards (quick ref)
 
 - **Build backend:** uv_build only · Bun for JS/TS
@@ -143,5 +163,6 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-09 | [CURSOR] | v2.16.3 — Replaced narrow ASR note with global hardware profile + mandatory Intel-first optimization policy across all tools/projects (with Ollama IPEX and QMD Vulkan examples). |
 | 2026-04-09 | [CURSOR] | v2.16.1 — **`k-final`** mandate: full project-closure checklist before leaving a repo |
-| [SUMMARY] | — | v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |
+| [SUMMARY] | — | v2.16.2 Intel-first ASR policy; v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |

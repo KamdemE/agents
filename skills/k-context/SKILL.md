@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.58"
+  version: "2.74.59"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -93,7 +93,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-09 | [CURSOR] | v2.74.58 — `.agents` forced finalization pass resumed: fixed `k-tg` changelog structure (max 2 explicit rows before `[SUMMARY]`), prepared kernel sync path (`make audit`, commit, push). · `$HOME/.agents/skills/k-tg/SKILL.md` |
+| 2026-04-09 | [CURSOR] | v2.74.59 — `.agents` finalization required again: synchronized `k-workspace` hardware-first policy update, refreshed context tracking, and resumed kernel sync flow (`make audit`, commit, push). · `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | 2026-04-09 | [GEMINI] | v2.74.56 — **Tools tg closure**: implémentation de `download` (bot/user), `cleanup`, `send --file`, `bot-action`, `mark-read` et ajouts architecturels au TODO. · `$HOME/Work/Tools/tg/` |
 | 2026-04-09 | [CURSOR] | v2.74.55 — **`.agents` session finalization** (explicit): **`k-tg` v3.1.0** bundle (autonomous read-only inspection gate, BotFather map + ops snippets, homelab MCP bridge token rows + `@username` inventory), **`k-tg/references/`** (`insights`, `log`, **`telegram-processed-state.md`** cursors for capture + Homelab/Ubuntu), **`k-ticktick/references/log.md`** LEN_43314_EP row normalized to table schema; `make audit`, `git commit`, `make push`. · `$HOME/.agents/` |
 | 2026-04-09 | [CURSOR] | v2.74.54 — **`.agents` session finalization** (explicit): `git commit` + `make push` after `make audit` — **`k-tg` v3.0.2** (General/Issues capture bots, deep *What's up*, **implementation gate**, `references/`), **`AGENTS.md`** *what's up* ladder ends with **`k-tg`**, `google-workspace-full-mcp-vision.md`, **`k-whatsapp`** runtime log, **`.skill-lock`**. · `$HOME/.agents/` |
@@ -117,6 +117,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.74.58 — Forced `.agents` finalization follow-up: fixed `k-tg` changelog-row policy drift and resumed required audit/commit/push sequence. |
+| 2026-04-09 | [CURSOR] | v2.74.59 — Forced `.agents` finalization follow-up: synced `k-workspace` v2.16.3 hardware-first policy update and resumed required audit/commit/push sequence. |
 | 2026-04-09 | [COPILOT] | v2.74.57 — **whats-mcp v0.2.0 finalization** |
 | [SUMMARY] | — | v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
