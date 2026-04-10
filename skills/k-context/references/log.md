@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CURSOR] | v2.74.66 — completed total `flow` rebuild A→Z per `ARCHITECTURE.md` + `CONTRACT.md`: migrated legacy code to `old/`, shipped new channel architecture + base abstractions + global auth aggregator + live CLI matrix tests, published `k-flow 0.4.1`, and pushed GitLab remote to `kpihx-labs/flow`. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.65 — finalized `flow` k-final closure end-to-end after auth unlock: published `k-flow 0.3.4`, pushed `master` to `github` and `gitlab`, shipped top-level intuitive CLI aliases (`start-session`, `stop-session`, etc.) and hid low-level `op` from public help. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.64 — finalized `flow` docs/installability pass: added Linux prerequisite install guidance in README, kept code install-agnostic (bootstrap checks only), pushed `0376a89`, published `k-flow 0.3.2` (index propagation check pending). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.63 — completed Flow STT runtime implementation pass: backend modules + runtime fallback orchestrator + bootstrap + 16k mono normalization + stream/file wiring + new tests (`27 passed`), pushed `fa51e18`, published `k-flow 0.3.0` (index propagation check still pending). · `$HOME/Work/AI/flow/` |
