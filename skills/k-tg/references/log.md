@@ -13,3 +13,4 @@
 | 2026-04-09 | [CURSOR] | BotFather `/newbot` ×2 | Created capture bots `@kpihx_general_capture_bot` id **8089748360**; `@kpihx_issues_capture_bot` id **8656241501**; user `/start` both via `tg user send` |
 | 2026-04-09 | [CURSOR] | *What's up* Telegram triage (read-only) | Issues: 5 photos; General: 4 photos; Homelab: PVE backup error; Ubuntu: backup PC OK — cursors updated in `telegram-processed-state.md` |
 | 2026-04-09 | [CURSOR] | *What's up* Telegram triage (deep) | Issues: UCSI laptop boot hypothesis; General: Shakespeare/Brutus notes; Homelab: PVE backup error (GDrive quota hypothesis) — pistes only per implementation gate |
+| 2026-04-11 | What's up triage | Parsed general screenshots and homelab errors. Found GDrive full for proxmox backups, network issues, and IME poll photo. |

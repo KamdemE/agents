@@ -101,6 +101,8 @@ def _check_json_hook_commands(config_path: Path, event_map: dict) -> list[str]:
 
 def _check_gemini() -> list[str]:
     findings: list[str] = []
+    if not GEMINI_SETTINGS.exists():
+        return findings
     data = json.loads(GEMINI_SETTINGS.read_text(encoding="utf-8"))
     findings.extend(_check_json_hook_commands(GEMINI_SETTINGS, data.get("hooks", {})))
     for expected in ("SessionStart", "BeforeAgent", "AfterAgent", "BeforeTool", "SessionEnd"):
@@ -111,6 +113,8 @@ def _check_gemini() -> list[str]:
 
 def _check_claude() -> list[str]:
     findings: list[str] = []
+    if not CLAUDE_SETTINGS.exists():
+        return findings
     data = json.loads(CLAUDE_SETTINGS.read_text(encoding="utf-8"))
     findings.extend(_check_json_hook_commands(CLAUDE_SETTINGS, data.get("hooks", {})))
     for expected in ("SessionStart", "UserPromptSubmit", "PreToolUse", "Stop", "SessionEnd"):
@@ -121,6 +125,9 @@ def _check_claude() -> list[str]:
 
 def _check_codex() -> list[str]:
     findings: list[str] = []
+    if not CODEX_CONFIG.exists():
+        findings.append(f"{_display(CODEX_CONFIG)}: missing Codex config file.")
+        return findings
     config = tomllib.loads(CODEX_CONFIG.read_text(encoding="utf-8"))
     if not config.get("features", {}).get("codex_hooks", False):
         findings.append(f"{_display(CODEX_CONFIG)}: `features.codex_hooks` must be enabled.")

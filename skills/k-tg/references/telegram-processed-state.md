@@ -10,7 +10,7 @@ These chats collect **outbound** content from `$USER` for agent ingestion (`issu
 | Bot alias | Display name | @username | Bot user ID | Chat notes | Last triaged outbound `message_id` (from you) | Last triaged inbound `message_id` (bot) | Agent run (ISO date) |
 |-----------|--------------|-----------|-------------|------------|-----------------------------------------------|----------------------------------------|----------------------|
 | `issues` | Issues | `@kpihx_issues_capture_bot` | `8656241501` | Bugs / incidents / screenshots | 6871 | — | 2026-04-09 |
-| `general` | General | `@kpihx_general_capture_bot` | `8089748360` | Facts, screenshots, forward dumps | 6875 | — | 2026-04-09 |
+| `general` | General | `@kpihx_general_capture_bot` | `8089748360` | Facts, screenshots, forward dumps | 6914 | — | 2026-04-11 |
 
 ## Infrastructure bots (bot → you)
 
@@ -18,8 +18,8 @@ Order for **section 3** of *What's up* (after capture bots). Triaged = alert rea
 
 | Priority | Bot name | User ID | @username (if set) | Last triaged `message_id` | Agent run (ISO date) |
 |----------|----------|---------|---------------------|---------------------------|----------------------|
-| 1 | Homelab | `8589111784` | `@sentinel_homelab_bot` | 6835 | 2026-04-09 |
-| 2 | Ubuntu | `8331655781` | `@k_ubuntu_bot` | 6831 | 2026-04-09 |
+| 1 | Homelab | `8589111784` | `@sentinel_homelab_bot` | 6939 | 2026-04-11 |
+| 2 | Ubuntu | `8331655781` | `@k_ubuntu_bot` | 6919 | 2026-04-11 |
 | 3 | Tick Homelab | `8357989597` | `@tick_homelab_bot` | — | — |
 | 4 | Whats Homelab | `8449692658` | `@whats_homelab_bot` | — | — |
 | 5 | LinkedIn Homelab | `8662033588` | `@linkedin_homelab_bot` | — | — |
