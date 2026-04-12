@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.3"
+  version: "2.16.7"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -153,6 +153,7 @@ Examples already validated in this workspace:
 ## Homelab & Tailscale
 
 - **SSH:** ssh kpihx-labs / ssh docker-host / ssh docker-host-x (Tailscale Magic DNS — source of truth: $HOME/.ssh/config)
+  - *Authentication Guard:* SSH keys are managed by the Bitwarden Desktop App (not `bw-env`). During an `ssh` connection, an **explicit authorization popup** will appear from Bitwarden Desktop that MUST be manually approved (otherwise it fails with `Permission denied (publickey)`).
 - **Vault:** vault.kpihx-labs.com — private, Tailscale-only
 - **Do not hardcode live Tailscale inventory here.** Read the current state directly from:
   - tailscale status or tailscale status --json
@@ -163,6 +164,6 @@ Examples already validated in this workspace:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.16.3 — Replaced narrow ASR note with global hardware profile + mandatory Intel-first optimization policy across all tools/projects (with Ollama IPEX and QMD Vulkan examples). |
-| 2026-04-09 | [CURSOR] | v2.16.1 — **`k-final`** mandate: full project-closure checklist before leaving a repo |
-| [SUMMARY] | — | v2.16.2 Intel-first ASR policy; v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |
+| 2026-04-12 | [GEMINI] | v2.16.7 — Translated recent Bitwarden Desktop App SSH authorization popup notes back to English per global rule. |
+| 2026-04-12 | [GEMINI] | v2.16.6 — Specified that the Bitwarden Desktop App triggers an explicit authentication popup during an `ssh` connection. |
+| [SUMMARY] | — | v2.16.5 Clarified SSH key Bitwarden popup requirement; v2.16.4 Unlocked Bitwarden SSH note; v2.16.3 Hardware profile + Intel-first optimization policy; v2.16.1 `k-final` checklist mandate; v2.16.2 Intel-first ASR policy; v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |

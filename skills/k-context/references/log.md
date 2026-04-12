@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-09 | [CODEX] | v2.74.68 — completed `flow` transport/config refactor: channel identity now comes from typed per-channel config, `flow-http` ships a real embedded local server with REST route mapping, global/channel CLIs were de-hardcoded around config discovery, and docs/tests were realigned; tests green (`18 passed`). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CODEX] | v2.74.67 — cleaned `flow` after contract/architecture drift: removed `old/` + dead packages/artifacts, centralized shared primitives in `src/flow/bases/`, expanded the global CLI to cover contract operations, and resynced `ARCHITECTURE.md` / `CONTRACT.md` / `README.md`; tests green (`17 passed`). · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.66 — completed total `flow` rebuild A→Z per `ARCHITECTURE.md` + `CONTRACT.md`: migrated legacy code to `old/`, shipped new channel architecture + base abstractions + global auth aggregator + live CLI matrix tests, published `k-flow 0.4.1`, and pushed GitLab remote to `kpihx-labs/flow`. · `$HOME/Work/AI/flow/` |
 | 2026-04-09 | [CURSOR] | v2.74.65 — finalized `flow` k-final closure end-to-end after auth unlock: published `k-flow 0.3.4`, pushed `master` to `github` and `gitlab`, shipped top-level intuitive CLI aliases (`start-session`, `stop-session`, etc.) and hid low-level `op` from public help. · `$HOME/Work/AI/flow/` |

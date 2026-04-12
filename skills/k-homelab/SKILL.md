@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.0"
+  version: "1.7.4"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -18,6 +18,8 @@ allowed-tools: Bash(*), "*"
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 ## SSH & Tailscale
+
+> **Authentication Guard:** SSH keys are managed by the Bitwarden Desktop App (not `bw-env`). When connecting, the Bitwarden Desktop App will spawn an **explicit authorization popup** that MUST be manually approved for `ssh` to succeed (otherwise it fails instantly with `Permission denied (publickey)`).
 
 Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
 
@@ -84,6 +86,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v1.7.0 — updated to **Phoenix v3.1** architecture; modularized server paths (/root/proxmox, /root/docker_host) and introduced the `hsh` dispatcher |
-| 2026-04-03 | [CODEX] | v1.6.2 — added an explicit pointer to `k-optim` for homelab maintenance and optimization posture |
-| [SUMMARY] | — | v1.6.1–v1.0.0 covered path normalization, knowledge-base rewrite, and original baseline |
+| 2026-04-12 | [GEMINI] | v1.7.4 — Translated recent Bitwarden Desktop App SSH authorization popup notes back to English per global rule. |
+| 2026-04-12 | [GEMINI] | v1.7.3 — Specified that the Bitwarden Desktop App generates an authorization popup to validate SSH key usage. |
+| [SUMMARY] | — | v1.7.2 Clarified `bw-env` limitation; v1.7.1 SSH unlocking rule; v1.7.0 Phoenix v3.1 architecture; v1.6.2 k-optim homelab reference; v1.6.1–v1.0.0 covered path normalization, knowledge-base rewrite, and original baseline |
