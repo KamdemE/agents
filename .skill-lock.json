@@ -69,13 +69,6 @@
       "installedAt": "2026-03-25T00:00:00.000Z",
       "updatedAt": "2026-03-28T18:50:00.000Z"
     },
-    "k-claude": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/k-claude/SKILL.md",
-      "installedAt": "2026-03-25T02:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
-    },
     "k-gemini": {
       "source": "local",
       "sourceType": "local",
@@ -97,34 +90,34 @@
       "installedAt": "2026-03-25T02:00:00.000Z",
       "updatedAt": "2026-03-28T18:50:00.000Z"
     },
-      "k-copilot": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-copilot/SKILL.md",
-        "installedAt": "2026-03-25T03:00:00.000Z",
-        "updatedAt": "2026-03-28T18:50:00.000Z"
-      },
-      "k-openclaw": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/deactive/k-openclaw/SKILL.md",
-        "installedAt": "2026-04-04T16:38:00.000Z",
-        "updatedAt": "2026-04-04T16:38:00.000Z"
-      },
-      "k-ai": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-ai/SKILL.md",
-        "installedAt": "2026-03-29T07:30:00.000Z",
+    "k-copilot": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-copilot/SKILL.md",
+      "installedAt": "2026-03-25T03:00:00.000Z",
+      "updatedAt": "2026-03-28T18:50:00.000Z"
+    },
+    "k-openclaw": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/deactive/k-openclaw/SKILL.md",
+      "installedAt": "2026-04-04T16:38:00.000Z",
+      "updatedAt": "2026-04-04T16:38:00.000Z"
+    },
+    "k-ai": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-ai/SKILL.md",
+      "installedAt": "2026-03-29T07:30:00.000Z",
       "updatedAt": "2026-03-29T07:30:00.000Z"
     },
-      "k-qmd": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-qmd/SKILL.md",
-        "installedAt": "2026-03-28T19:00:00.000Z",
-        "updatedAt": "2026-03-28T19:30:00.000Z"
-      },
+    "k-qmd": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-qmd/SKILL.md",
+      "installedAt": "2026-03-28T19:00:00.000Z",
+      "updatedAt": "2026-03-28T19:30:00.000Z"
+    },
     "k-docker": {
       "source": "local",
       "sourceType": "local",
@@ -181,33 +174,40 @@
       "installedAt": "2026-04-03T17:07:54.000Z",
       "updatedAt": "2026-04-03T17:07:54.000Z"
     },
-      "k-skill-creator": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-skill-creator/SKILL.md",
-        "installedAt": "2026-03-28T19:00:00.000Z",
-        "updatedAt": "2026-04-03T17:10:00.000Z"
-      },
-      "k-tg": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-tg/SKILL.md",
-        "installedAt": "2026-04-05T21:00:00.000Z",
-        "updatedAt": "2026-04-09T14:00:00.000Z"
-      },
-      "k-pptx": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-pptx/SKILL.md",
-        "installedAt": "2026-04-07T23:00:00.000Z",
-        "updatedAt": "2026-04-07T23:00:00.000Z"
-      },
-      "k-final": {
-        "source": "local",
-        "sourceType": "local",
-        "skillPath": "skills/k-final/SKILL.md",
-        "installedAt": "2026-04-09T12:00:00.000Z",
-        "updatedAt": "2026-04-09T22:30:00.000Z"
-      }
+    "k-skill-creator": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-skill-creator/SKILL.md",
+      "installedAt": "2026-03-28T19:00:00.000Z",
+      "updatedAt": "2026-04-03T17:10:00.000Z"
+    },
+    "k-tg": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-tg/SKILL.md",
+      "installedAt": "2026-04-05T21:00:00.000Z",
+      "updatedAt": "2026-04-09T14:00:00.000Z"
+    },
+    "k-pptx": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-pptx/SKILL.md",
+      "installedAt": "2026-04-07T23:00:00.000Z",
+      "updatedAt": "2026-04-07T23:00:00.000Z"
+    },
+    "k-final": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-final/SKILL.md",
+      "installedAt": "2026-04-09T12:00:00.000Z",
+      "updatedAt": "2026-04-09T22:30:00.000Z"
+    },
+    "k-claude": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-claude/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-03-28T18:50:00.000Z"
+    }
   }
 }

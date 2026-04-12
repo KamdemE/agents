@@ -207,7 +207,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege Escalation Rule (Sudo Gate):** Agents MUST NEVER use `sudo` directly. To run root commands locally or remotely, ALWAYS use `sui <cmd>` (local) or `sui @<node> <cmd>` (remote). This tool (`$HOME/.local/bin/sui`, linked from `$HOME/Work/sh/sui.sh`) securely delegates the password prompt to the Wayland graphical environment.
+- **Privilege Escalation Rule (Sudo Gate):** Agents MUST NEVER use `sudo` directly. To run root commands locally or remotely, ALWAYS use `sui <cmd>` (local) or `sui @<node> <cmd>` (remote). This tool (`/usr/local/bin/sui`, copied from `$HOME/Work/sh/sui.sh`) securely delegates the password prompt to the Wayland graphical environment.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
