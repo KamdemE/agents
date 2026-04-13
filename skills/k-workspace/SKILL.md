@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.7"
+  version: "2.16.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -119,26 +119,6 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
 > For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (k-claude, k-gemini, k-codex, k-vibe, k-copilot) and k-hook rather than duplicating agent-specific snapshots here.
 > For optimization posture, QMD hygiene, and cleanup actions, read k-optim rather than duplicating maintenance playbooks here.
 
-## Hardware Profile & Optimization Mandate
-
-Baseline machine profile (source: local shell checks such as `lscpu`, `free -h`, `lspci`, `uname -srmo`):
-
-- CPU: `Intel(R) Core(TM) Ultra 7 155H` (Meteor Lake), 22 logical CPUs.
-- GPU: `Intel Arc Graphics` (Meteor Lake-P iGPU).
-- RAM: ~`30 GiB` system memory, swap configured.
-- OS/kernel: Ubuntu Linux (`6.17.0-20-generic`, `x86_64`).
-
-Non-negotiable optimization rule for any tool/project on this workstation:
-
-- Always choose runtime, backend, and package stack that is optimal for Intel Arc + Intel CPU first.
-- Avoid pulling CUDA/NVIDIA-heavy dependencies unless explicitly requested and justified by a benchmarked gain.
-- Require measured evidence (latency, stability, memory footprint, quality) before adopting a new default stack.
-
-Examples already validated in this workspace:
-
-- Ollama path is Intel-optimized via Docker IPEX control plane (`$HOME/Work/AI/ollama/ipex`) from Intel-aligned tooling.
-- QMD vector/search acceleration uses Vulkan-backed execution path in current local workflow.
-
 ## Engineering Standards (quick ref)
 
 - **Build backend:** uv_build only · Bun for JS/TS
@@ -153,7 +133,6 @@ Examples already validated in this workspace:
 ## Homelab & Tailscale
 
 - **SSH:** ssh kpihx-labs / ssh docker-host / ssh docker-host-x (Tailscale Magic DNS — source of truth: $HOME/.ssh/config)
-  - *Authentication Guard:* SSH keys are managed by the Bitwarden Desktop App (not `bw-env`). During an `ssh` connection, an **explicit authorization popup** will appear from Bitwarden Desktop that MUST be manually approved (otherwise it fails with `Permission denied (publickey)`).
 - **Vault:** vault.kpihx-labs.com — private, Tailscale-only
 - **Do not hardcode live Tailscale inventory here.** Read the current state directly from:
   - tailscale status or tailscale status --json
@@ -164,6 +143,5 @@ Examples already validated in this workspace:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-12 | [GEMINI] | v2.16.7 — Translated recent Bitwarden Desktop App SSH authorization popup notes back to English per global rule. |
-| 2026-04-12 | [GEMINI] | v2.16.6 — Specified that the Bitwarden Desktop App triggers an explicit authentication popup during an `ssh` connection. |
-| [SUMMARY] | — | v2.16.5 Clarified SSH key Bitwarden popup requirement; v2.16.4 Unlocked Bitwarden SSH note; v2.16.3 Hardware profile + Intel-first optimization policy; v2.16.1 `k-final` checklist mandate; v2.16.2 Intel-first ASR policy; v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |
+| 2026-04-09 | [CURSOR] | v2.16.1 — **`k-final`** mandate: full project-closure checklist before leaving a repo |
+| [SUMMARY] | — | v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |

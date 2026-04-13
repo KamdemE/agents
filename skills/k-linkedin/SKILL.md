@@ -4,7 +4,7 @@ description: linkedin-mcp operational memory — KπX LinkedIn identity, OAuth s
 license: private
 metadata:
   author: KpihX
-  version: "2.0.4"
+  version: "2.0.6"
 allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 ---
 
@@ -44,11 +44,12 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 ## MCP Setup Reference
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-linkedin/references/mcp.md`
+- **Missing Tool / MCP Action:** If KπX asks to use linkedin-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`linkedin-mcp-http`** and **`linkedin-mcp-stdio`**.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-07 | [CODEX] | v2.0.4 — aligned LinkedIn MCP setup reference with stdio-only command mode (`--fallback` removed) and updated allowed tool suffix. |
-| 2026-04-06 | [CLAUDE] | v2.0.2–v2.0.1 — switched MCP install/reference to Bun-first ownership, then added the MCP setup reference pointer (`references/mcp.md`) |
-| [SUMMARY] | — | v2.0.0 refonte/migration to `skills/kpihx/linkedin/`; prior: profile fetched, post history inaccessible (missing scope), style inferred |
+| 2026-04-13 | [CODEX] | v2.0.6 — Compacted changelog rows to comply with kernel audit row-cap policy. |
+| 2026-04-13 | [GEMINI] | v2.0.5 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
+| [SUMMARY] | — | v2.0.4 aligned stdio-only command mode and allowed-tool suffix; v2.0.2–v2.0.1 Bun-first install/reference + setup pointer; v2.0.0 refonte/migration to `skills/kpihx/linkedin/`; prior: profile fetched, post history inaccessible (missing scope), style inferred |

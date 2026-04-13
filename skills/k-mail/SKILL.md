@@ -4,7 +4,7 @@ description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.ed
 license: private
 metadata:
   author: KpihX
-  version: "2.0.26"
+  version: "2.0.28"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -171,6 +171,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 ## MCP Setup Reference
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-mail/references/mcp.md`
+- **Missing Tool / MCP Action:** If KπX asks to use mail-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`mail-mcp-http`** and **`mail-mcp-stdio`**.
 
 ## Open Threads (operational memory)
 
@@ -185,6 +186,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 - `references/log.md` — detailed action log for every mail-mcp usage (timestamp, action, outcome, ids, notes)
 - `references/insights.md` — durable behavioral memory and extracted patterns for proactive future drafting
 - `references/mcp.md` — transport and setup reference for mail-mcp (`http` and `stdio`)
+- `references/tool-keep-matrix.md` — permanent YES/NO tool matrix used to drive MCP disabled-tools policy
 
 **Upstream `k-mail-mcp`:** from **v0.2.4**, `/health` and `mail_guide()` report the installed **distribution** version (`k-mail-mcp`). After upgrading the MCP host, call **`mail_guide()`** once so the agent text matches tool schemas (`verify_bounce_window_seconds`, `delivery_status`, etc.).
 
@@ -192,5 +194,6 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.26 — Added immediate-minimal run policy to runtime discipline: critical IDs/actions/incidents now, rich memory deferred. |
-| [SUMMARY] | — | v2.0.25 certification open-thread enrichment (UID 8323, matricule, windows, message-id); v2.0.24 tag inventory + proactive maintenance + Important-first open-thread pass; v2.0.23–v2.0.0 mail stack |
+| 2026-04-13 | [CODEX] | v2.0.28 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for mail tool reduction policy. |
+| 2026-04-13 | [GEMINI] | v2.0.27 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
+| [SUMMARY] | — | v2.0.26 immediate-minimal run policy; v2.0.25 certification open-thread enrichment (UID 8323, matricule, windows, message-id); v2.0.24 tag inventory + proactive maintenance + Important-first open-thread pass; v2.0.23–v2.0.0 mail stack |

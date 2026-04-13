@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.78"
+  version: "2.74.85"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -39,6 +39,7 @@ allowed-tools: "Bash(*), *"
 | Project | Status | Next · Folder |
 |---------|--------|---------------|
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
+| **Phoenix V4.0 Vision** | 🚧 PLANNING — K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **AppArmor Mitigation** | ✅ DONE (Option A) — unprivileged_userns → complain mode | Option B: custom profile ready · `$HOME/.agents/skills/k-context/references/apparmor-custom-profile.md` |
@@ -73,6 +74,7 @@ allowed-tools: "Bash(*), *"
 | `references/vision/` | Brainstorm folder | visual-first AI content creation: visual-ai-vision, k-visual architecture, code-as-visual paradigm, social media APIs, content engine pipeline, blender MCP/API/scripting |
 | `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
 | `references/mcp-central-sync-vision.md` | Brainstorm | Vision for a centralized MCP registry and synchronization pipeline to unified all agent provider configs |
+| `references/phoenix-v4-k3s-agent-sandbox-vision.md` | Brainstorm | Phoenix V4.0 complete distributed cluster vision: K3s, Tailscale Sidecar, Kasm WebTop, and Sovereign AI Identity |
 
 ## What's up (context-only slice)
 
@@ -95,17 +97,14 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-12 | [GEMINI] | v2.74.78 — added `references/mcp-central-sync-vision.md` to brainstorms. Investigated OpenClaw's MCPorter and proposed a KπX-native config-as-code synchronization architecture for unifying MCP deployments across Claude, Gemini, Codex, Vibe, and Cursor without manual repetition. |
-| 2026-04-11 | [CODEX] | v2.74.77 — aligned `env_graph` with the `envision/` repo: moved graph overrides into the root config, rewired the package config loader, replaced `uv` CLI docs with `python -m env_graph.network`, rebuilt `data/network/`, and revalidated the graph API end-to-end. · `$HOME/Work/X/envision/envision/` |
-| 2026-04-10 | [CODEX] | v2.74.76 — finalized `envision` validation pass: strengthened graph/planner prompting, fixed `main.py --status` retriever/index checks, stabilized default runtime config around the dense path, validated one structural and one targeted semantic query end-to-end, and pushed `main` to `origin` (`c3fb3f6`). · `$HOME/Work/X/envision/envision/` |
-| 2026-04-10 | [CODEX] | v2.74.75 — updated `k-context` VCS governance for `$HOME/.agents/`: autonomous finalization is now allowed by default after `make audit` passes, unless KπX explicitly forbids finalization in the active session. · `$HOME/.agents/skills/k-context/SKILL.md` |
-| 2026-04-09 | [CODEX] | v2.74.74 — completed `flow` v0.7.3 endpoint-shape cleanup: replaced channel `local/remote` config blocks with `internal/external.has`, centralized external endpoint description in `src/flow/remote.py`, removed per-channel remote helpers, and kept verification green (`21 passed`, build/install OK). · `$HOME/Work/AI/flow/` |
-| 2026-04-09 | [CODEX] | v2.74.73 — completed `flow` v0.7.2 cleanup: removed `flow_` prefixes from public MCP tool ids, cleaned `flow status` to omit absent local surfaces, reduced dead helpers in `bases/channel.py`, and kept verification green (`21 passed`, build/install OK). · `$HOME/Work/AI/flow/` |
-| 2026-04-09 | [CODEX] | v2.74.72 — completed `flow` v0.7.1 MCP centralization: removed channel-local `mcp.py` files, moved the sole MCP registry into `src/flow/mcp.py`, updated tests/docs, and revalidated the package (`21 passed`, build/install OK). · `$HOME/Work/AI/flow/` |
-| 2026-04-09 | [CODEX] | v2.74.71 — completed `flow` v0.7.0 HTTP remote-only refactor: removed `channels/http/local.py`, converted the HTTP channel to remote HTTPS metadata only, fixed the shared config base so global YAML actually loads correctly, and kept verification green (`21 passed`, build/install OK). · `$HOME/Work/AI/flow/` |
-| 2026-04-09 | [CODEX] | v2.74.70 — simplified `flow` config architecture: added shared cached `YamlConfig` base, reduced channel YAMLs to one canonical name plus executable endpoint fields, removed dead config toggles/duplicates, updated MCP naming/tests/docs, and kept the repo green (`22 passed`, local build/install OK). · `$HOME/Work/AI/flow/` |
-| 2026-04-09 | [CODEX] | v2.74.69 — completed `flow` end-to-end HTTP hardening: embedded HTTP auth, scope enforcement, and in-process rate limiting now ship from channel-local config; contract/docs/TODO were synchronized, local build/install succeeded, and tests are green (`22 passed`). · `$HOME/Work/AI/flow/` |
-| [SUMMARY] | — | v2.74.68 moved to `references/log.md`; v2.74.67 moved to `references/log.md`; v2.74.66 moved to `references/log.md`; v2.74.65 moved to `references/log.md`; v2.74.64 moved to `references/log.md`; v2.74.63 moved to `references/log.md`; v2.74.62 moved to `references/log.md`; v2.74.61 moved to `references/log.md`; v2.74.60 moved to `references/log.md`; v2.74.59 moved to `references/log.md`; v2.74.56 Tools tg closure moved to `references/log.md`; v2.74.55 `k-tg` v3.1.0 finalization moved to `references/log.md`; v2.74.52 Google Workspace note + WhatsApp probe; v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
+| 2026-04-13 | [CODEX] | v2.74.85 — audit-fix pass: compacted changelog rows to 2+summary cap and prepared `.agents` finalization after MCP tool-matrix updates. |
+| 2026-04-13 | [GEMINI] | v2.74.84 — corrected Antigravity (AGY) MCP integration: fixed HTTP fields (switched type/url to `serverUrl`) per UI docs and updated `agy.md` reference. |
+| 2026-04-13 | [GEMINI] | v2.74.83 — completed full Antigravity (AGY) MCP integration: added 8 servers (HTTP and STDIO for whats, tick, mail, linkedin) to `mcp_config.json` and updated skill rules. |
+| 2026-04-13 | [GEMINI] | v2.74.82 — documented Antigravity MCP installation process via agy.md and updated corresponding skill MCP setup references (gemini, whatsapp, ticktick, mail, linkedin). |
+| 2026-04-13 | [GEMINI] | v2.74.81 — added Phase 5 ("Portable AI Stack / Remote Field Operator" via Live USB or Public URL) to Phoenix V4.0 vision blueprint. |
+| 2026-04-13 | [GEMINI] | v2.74.80 — officially registered Phoenix V4.0 distributed vision in k-context Active Projects and AGENTS.md Mantras. |
+| 2026-04-13 | [GEMINI] | v2.74.79 — saved Phoenix V4.0 K3s/Tailscale/WebTop distributed agent sandbox vision blueprint to references. |
+| [SUMMARY] | — | v2.74.78–v2.74.69 moved to `references/log.md`; v2.74.68 moved to `references/log.md`; v2.74.67 moved to `references/log.md`; v2.74.66 moved to `references/log.md`; v2.74.65 moved to `references/log.md`; v2.74.64 moved to `references/log.md`; v2.74.63 moved to `references/log.md`; v2.74.62 moved to `references/log.md`; v2.74.61 moved to `references/log.md`; v2.74.60 moved to `references/log.md`; v2.74.59 moved to `references/log.md`; v2.74.56 Tools tg closure moved to `references/log.md`; v2.74.55 `k-tg` v3.1.0 finalization moved to `references/log.md`; v2.74.52 Google Workspace note + WhatsApp probe; v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
 
 ## References
 
@@ -119,6 +118,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-12 | [GEMINI] | v2.74.78 — logged brainstorm addition for `mcp-central-sync-vision` regarding cross-agent united config management. |
-| 2026-04-11 | [CODEX] | v2.74.77 — logged the `envision/env_graph` alignment pass: root-config integration, repo-native CLI/doc cleanup, and successful rebuild/validation of `data/network/`. |
-| [SUMMARY] | — | v2.74.76 logged `envision` project finalization; v2.74.75 replaced the restrictive `.agents` VCS directive with an audit-first autonomous finalization rule; v2.74.74 tracked `flow` v0.7.3 endpoint-shape cleanup; v2.74.73 tracked `flow` v0.7.2 cleanup; v2.74.72 tracked `flow` v0.7.1 MCP centralization; v2.74.71 tracked `flow` v0.7.0 remote-only HTTP pass; v2.74.70 tracked `flow` v0.6.2 config simplification; v2.74.69 tracked `flow` v0.6.1 hardening closure; v2.74.68 tracked `flow` v0.6.0 refactor; v2.74.67 tracked `flow` cleanup/resync pass; v2.74.66 logged full `flow` v0.4.1 channel-modular refactor; v2.74.65 finalized `flow` v0.3.4 closure; v2.74.64 recorded flow docs/prereq release; v2.74.63 logged `flow` STT runtime release; v2.74.62 synced MCP split closure; v2.74.61 tracked `flow` release v0.2.1; v2.74.60 logged `flow` k-final closure v0.2.0; v2.74.59 forced `.agents` finalization follow-up; v2.74.57 **whats-mcp v0.2.0 finalization**; v2.74.56 Fin session Work/Tools/tg/; v2.74.55 `k-tg` v3.1.0; v2.74.54 k-tg v3.0.2 + ladder; v2.74.53 `k-tg` v3.0.0; v2.74.52 Google Workspace vision + WhatsApp probe; v2.74.51 hybrid curator + wa-core; v2.74.50–v2.74.20 see `references/log.md`. |
+| 2026-04-13 | [CODEX] | v2.74.85 — Compacted changelog rows to satisfy kernel audit cap and tracked `.agents` finalization prep. |
+| 2026-04-13 | [GEMINI] | v2.74.84 — fixed AGY HTTP MCP fields to use `serverUrl` (no `type` needed). |
+| [SUMMARY] | — | v2.74.83 finalized AGY MCP config with 8 server names; v2.74.82 AGY setup documentation baseline updates; v2.74.81 Phase 5 Portable AI Stack (USB/URL); v2.74.80 registered Phoenix V4.0 distributed vision; v2.74.79 saved Phoenix V4.0 vision and rotated logs; v2.74.78 logged `mcp-central-sync-vision`; v2.74.77 `env_graph` alignment; v2.74.76 `envision` finalization; v2.74.75 audit-first `.agents` finalization rule; v2.74.74–v2.74.20 see `references/log.md`. |

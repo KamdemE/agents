@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.1"
+  version: "2.10.3"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -66,6 +66,9 @@ This involves creating a standard project structure first.
     *   After the command completes, no further steps like mirroring or manual registration are needed.
     *   Restart Gemini to ensure the new MCP is connected and available.
 
+**Antigravity (AGY) MCPs:**
+For installing MCPs specifically for the Antigravity (AGY) agent, the process is entirely different and relies on modifying a JSON config. See `$HOME/.agents/skills/k-code/references/mcp/agy.md` for full instructions.
+
 **Env var mandate (mandatory for stdio MCPs needing secrets):**
 Gemini's extension runner is restricted — `bw-env` secrets are NOT auto-inherited from the shell.
 Must explicitly declare in `gemini-extension.json`:
@@ -113,6 +116,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.10.0–v2.9.0 — documented raw `brain/` cache limits/paths and added the ENOSPC inotify stability rule |
-| 2026-04-04 | [CODEX] | v2.8.1 — removed the qmd-mcp example and documented the CLI-only QMD policy for Gemini (`qmd` for admin/read, `qmdr` for important searches) |
-| [SUMMARY] | — | v2.8.0–v2.0.0: conversation history paths, compact hooks, project-context auto-load, HTTP/Stdio guidance, skills-path, original migration |
+| 2026-04-13 | [CODEX] | v2.10.3 — Compacted changelog rows to comply with kernel audit row-cap policy. |
+| 2026-04-13 | [GEMINI] | v2.10.2 — Added pointer to `k-code/references/mcp/agy.md` for Antigravity MCP installation process |
+| [SUMMARY] | — | v2.10.0–v2.9.0 raw `brain/` cache limits + ENOSPC rule; v2.8.1 removed qmd-mcp example + CLI-only QMD policy; v2.8.0–v2.0.0 conversation history paths, compact hooks, project-context auto-load, HTTP/Stdio guidance, skills-path, original migration |

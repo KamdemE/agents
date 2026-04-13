@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.11"
+  version: "2.0.12"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -55,6 +55,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 ## MCP Setup Reference
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-ticktick/references/mcp.md`
+- **Missing Tool / MCP Action:** If KπX asks to use tick-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`tick-mcp-http`** and **`tick-mcp-stdio`**.
 
 ## Use Cases (agent orientation)
 
@@ -90,10 +91,12 @@ These are **silent failures** — no error thrown, data simply not saved:
 - `references/log.md` — detailed action log for every tick-mcp usage (timestamp, action, outcome, ids, notes)
 - `references/insights.md` — durable behavioral memory and extracted patterns for proactive future planning support
 - `references/mcp.md` — transport and setup reference for tick-mcp (`http` and `stdio`)
+- `references/tool-keep-matrix.md` — permanent YES/NO tool matrix used to drive MCP disabled-tools policy
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.0.11 — `references/log.md`: fixed **`LEN_43314_EP`** row to full 8-column schema (replacing malformed line). |
-| [SUMMARY] | — | v2.0.10 immediate-minimal run policy; v2.0.9 open-thread Linguaskill; v2.0.8 closure hygiene + nudge; v2.0.7–v2.0.0 prior |
+| 2026-04-13 | [CODEX] | v2.0.12 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for TickTick tool reduction policy. |
+| 2026-04-13 | [GEMINI] | v2.0.11 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
+| [SUMMARY] | — | v2.0.10 immediate-minimal run policy; v2.0.9 open-thread Linguaskill tracking; v2.0.8 closure hygiene + nudge loop; v2.0.7–v2.0.0 prior runtime memory/migration |

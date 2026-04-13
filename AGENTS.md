@@ -24,6 +24,7 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 
 **Exploration:** Problem First → Why before How → Visualization
 **Architecture:** 0 Trust · 100% Control | 0 Magic · 100% Transparency | 0 Hardcoding · 100% Flexibility
+**Distributed Phoenix V4.0:** Hardware-agnostic (Ubuntu/Mac/Homelab) over Tailscale mesh. Agents use sovereign M2M identity and operate in visual sandboxes (WebTop) via K3s high-availability.
 
 Build a sovereign **Personal OS / Homelab** — independent of any platform or AI provider. Knowledge in local Markdown, zero vendor lock-in. Agents are tools, KπX stays sovereign.
 → Infrastructure & projects: `k-homelab` (`$HOME/.agents/skills/k-homelab/`)

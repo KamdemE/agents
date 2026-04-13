@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.4"
+  version: "2.1.6"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -138,6 +138,7 @@ CORRECT:
 ## MCP Setup Reference
 
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-whatsapp/references/mcp.md`
+- **Missing Tool / MCP Action:** If KπX asks to use whats-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`whats-mcp-http`** and **`whats-mcp-stdio`**.
 
 ## Open Threads (operational memory)
 
@@ -150,10 +151,12 @@ CORRECT:
 - `references/log.md` — detailed action log for every whats-mcp usage (timestamp, action, outcome, ids, notes)
 - `references/insights.md` — durable behavioral memory and extracted patterns for proactive future drafting
 - `references/mcp.md` — transport and setup reference for whats-mcp (`http` and `stdio`)
+- `references/tool-keep-matrix.md` — permanent YES/NO tool matrix used to drive MCP disabled-tools policy
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.1.4 — `references/log.md`: post-restart HTTP `connection_status` probe still fails (`No valid session ID provided`). |
-| [SUMMARY] | — | v2.1.3 immediate-minimal run policy; v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior history |
+| 2026-04-13 | [CODEX] | v2.1.6 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for WhatsApp tool reduction policy. |
+| 2026-04-13 | [GEMINI] | v2.1.5 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
+| [SUMMARY] | — | v2.1.4 HTTP `connection_status` post-restart probe still failing (`No valid session ID provided`); v2.1.3 immediate-minimal run policy; v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior history |
