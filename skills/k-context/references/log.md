@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-15 | [CODEX] | v2.74.94 — Linguaskill execution pass: WEFIT mail UID `10071` set `Important` + `\Flagged`, k-mail/k-ticktick memory refreshed, and TickTick agenda normalized for confirmed slot `2026-04-30 09:00` with reminders (`-7d/-2d/-1d/-90m`) + daily prep loop (06:30/20:00) through exam day. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-13 | [CURSOR] | v2.74.93 — `sui` v3.1.7: Zenity auth back to one `--forms` dialog (password + optional operator comment, RS separator); TTY fallback collects comment on the next line. Repo: `$HOME/Work/sh/sui/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-13 | [CURSOR] | v2.74.91 — Rewrote `$HOME/Work/sh/sui.sh` v3.0.0: unified zenity+sudo (single dialog with full argv), argv-safe remote `sudo` via stdin+bash -s, `--polkit` / `--dry-run`, optional `SUI_LOG` file audit, `logger` authpriv trail (auth.log-class). *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-13 | [CODEX] | v2.74.90 — standardized insights governance and linked `references/insights.md` autonomous maintenance in k-context. *(Rotated from k-context Session Log — audit cap.)* |

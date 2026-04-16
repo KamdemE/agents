@@ -12,4 +12,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 ## Insights
 
 - Initial baseline created automatically from insights governance standard.
-- **`make push` + Permission denied on `refs/remotes/*.lock` inside a submodule:** often **root-owned** files under `$HOME/Work/sh/<submodule>/.git` (e.g. after a root-driven git maintenance). One-shot fix: `sui --reason "Restore user ownership on submodule .git metadata after root git ops"` then `chown -R "$USER:$USER" $HOME/Work/sh/backup_restore/.git $HOME/Work/sh/clean/.git $HOME/Work/sh/bw_env/.git` (adjust list to affected trees only).
+- **`make push` + Permission denied on `refs/remotes/*.lock` inside a submodule:** often **root-owned** files under `$HOME/Work/sh/<submodule>/.git` (e.g. after a root-driven git maintenance). One-shot fix: `sui -r "Restore user ownership on submodule .git metadata after root git ops"` then `chown -R "$USER:$USER" $HOME/Work/sh/backup_restore/.git $HOME/Work/sh/clean/.git $HOME/Work/sh/bw_env/.git` (adjust list to affected trees only).

@@ -211,16 +211,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege — `sui` only, never raw `sudo` (Sudo Gate):**
-  - **`sui`** (Sudo User Interface) is the **only** approved way for agents to run privileged commands here. One controlled flow: Zenity **`--forms`** (RUN/ABORT, optional operator comment, password), full **argv** in the dialog, argv-safe **remote** `sudo` over SSH, and **audit** via `logger(1)` / optional `SUI_LOG` file.
-  - **Why not raw `sudo`:** it skips the rationale step, weakens habit and accountability, and does not produce the same **sui** trace. If KπX types `sudo ...`, treat it as **intent** → rewrite as `sui --reason "..." ...` (unless they explicitly demand raw `sudo` for a controlled debug compare).
-  - **`--reason` (rationale):** **required** on normal runs. It appears in the dialog as **Rationale** for the human. It is **not** pasted into syslog / `audit.log` as free text — only `reason=present` vs `reason=<none>` (see `sui` CHANGELOG). Operator comments stay on **stderr** only, not in audit.
-  - **Source tree and docs:** `$HOME/Work/sh/sui/` (`sui.sh`, `README.md`, `CHANGELOG.md`, `make test` stub suite). Installed entrypoint: `/usr/local/bin/sui`. SSH target names → `$HOME/.ssh/config` and **`k-workspace` / `k-homelab`** (do not invent hosts).
-  - **Three shapes to internalize:**
-    1. **Local:** `sui --reason "Refresh package metadata before maintenance" apt update`
-    2. **Remote (Docker host example):** `sui --reason "Inspect running containers" @docker-host docker ps`
-    3. **Remote (homelab shell host example):** `sui --reason "Apply security updates on lab" @kpihx-labs apt update`
-  - **Discipline:** every agent-driven `sui` must pass **`--reason "..."`** with a specific, honest justification. Never strip or hollow out the reason text in the dialog; the audit layer redacts automatically.
+- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`k-homelab`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @docker-host docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.

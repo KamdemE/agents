@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.7"
+  version: "2.16.8"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -82,7 +82,7 @@ bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes alway
 
 ### Why `sui` instead of `sudo`
 
-- Forces a **human-readable rationale** (`--reason`) before elevation.
+- Forces a **human-readable rationale** (`--reason` or **`-r`**) before elevation.
 - Keeps **one** auditable path and consistent UX; raw `sudo` fragments accountability and skips the rationale gate.
 
 ### Paths (source of truth)
@@ -97,16 +97,16 @@ bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes alway
 
 ### Three canonical invocation shapes
 
-1. **Local:** `sui --reason "Refresh package metadata before maintenance" apt update`
-2. **Remote (Docker host):** `sui --reason "Inspect container state" @docker-host docker ps`
-3. **Remote (homelab):** `sui --reason "Apply security updates on lab host" @kpihx-labs apt update`
+1. **Local:** `sui -r "Refresh package metadata before maintenance" apt update`
+2. **Remote (Docker host):** `sui -r "Inspect container state" @docker-host docker ps`
+3. **Remote (homelab):** `sui -r "Apply security updates on lab host" @kpihx-labs apt update`
 
 Use **real SSH host aliases** from `$HOME/.ssh/config` (see **Homelab & Tailscale** below). `@docker-host` and `@kpihx-labs` are examples, not placeholders for invented names.
 
 ### Agent discipline
 
-- Every **`sui`** from an agent must include **`--reason "..."`** with a concrete justification.
-- If **`git push`** / submodule updates hit **Permission denied** on `.git/refs/remotes/*.lock`, suspect **root-owned** files under a submodule’s `.git` — fix once with `sui --reason "Restore user ownership on submodule .git metadata"` **`chown -R $USER:$USER`** on the affected `$HOME/Work/sh/<module>/.git` trees (see **`k-workspace/references/insights.md`**).
+- Every **`sui`** from an agent must include **`-r "..."`** or **`--reason "..."`** with a concrete justification.
+- If **`git push`** / submodule updates hit **Permission denied** on `.git/refs/remotes/*.lock`, suspect **root-owned** files under a submodule’s `.git` — fix once with `sui -r "Restore user ownership on submodule .git metadata"` **`chown -R $USER:$USER`** on the affected `$HOME/Work/sh/<module>/.git` trees (see **`k-workspace/references/insights.md`**).
 
 ### .kshrc Discipline — No Bloat Rule
 
@@ -210,6 +210,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-17 | [CURSOR] | v2.16.8 — `sui` **`-r`** shorthand documented; examples + chown recovery use `-r`; AGENTS privilege block compacted (pointer). |
 | 2026-04-16 | [CURSOR] | v2.16.7 — Sui Gate expanded: what/why, paths under `$HOME/Work/sh/sui/`, three canonical examples (local, `@docker-host`, `@kpihx-labs`), rationale vs audit, submodule `.git` chown recovery; Phoenix row v2.1.3. |
-| 2026-04-13 | [CURSOR] | v2.16.6 — Sudo Gate: documented `sui --reason` fail-fast + single Zenity form (password + optional operator comment). |
-| [SUMMARY] | — | v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |
+| [SUMMARY] | — | v2.16.6 `sui --reason` fail-fast; v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |

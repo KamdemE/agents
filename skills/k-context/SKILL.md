@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.75.3"
+  version: "2.75.4"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -101,6 +101,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-17 | [CURSOR] | v2.75.4 — **`sui` v3.1.23:** **`-r`** alias for **`--reason`**; stub tests; **`sh` v2.1.4** README submodule note; **AGENTS** privilege bullet compacted; **`k-workspace`** v2.16.8. |
 | 2026-04-16 | [CURSOR] | v2.75.3 — **`sui` policy + ops:** `AGENTS.md` / `k-workspace` expanded Sudo Gate (what/why, rationale vs audit, `$HOME/Work/sh/sui/` paths, three examples); submodule `.git` root-owned refs fixed via **`sui --reason "…" chown …`**; `Work/sh/AGENTS.md` rule 5; insights chown note. |
 | 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. |
 | 2026-04-16 | [CURSOR] | v2.75.1 — `sui` **finalized** v3.1.22: commit `275c6a0` pushed to github+gitlab, tag `v3.1.22`, GitHub Actions CI green; README/`sui.sh` header synced to `--forms` UX; `make test` + stub suite. Repo: `$HOME/Work/sh/sui/`. |
@@ -110,8 +111,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-15 | [CODEX] | v2.74.97 — `sui` v3.1.11 adjustment in `$HOME/Work/sh/sui/sui.sh`: removed final TTY comment prompt; comment output is now GUI-field only and printed as footer iff provided, with best-effort parse on non-OK Zenity exits. |
 | 2026-04-15 | [CODEX] | v2.74.96 — `sui` v3.1.10 simplification in `$HOME/Work/sh/sui/sui.sh`: removed second Zenity cancel-note dialog and added final TTY comment fallback prompt (`finally`) so operator note can still be captured on success/cancel when no GUI comment is available. |
 | 2026-04-15 | [CODEX] | v2.74.95 — Follow-up fix: `k-ticktick` project-map naming synced to live labels (`🎓 X`, `🛠️ Tech & Science`, etc.) and Linguaskill main task enriched with print-ready synthesis + final at-time reminder (`PT0S`) in addition to 07:30. |
-| 2026-04-15 | [CODEX] | v2.74.94 — Linguaskill execution pass: WEFIT mail UID `10071` set `Important` + `\Flagged`, k-mail/k-ticktick memory refreshed, and TickTick agenda normalized for confirmed slot `2026-04-30 09:00` with reminders (`-7d/-2d/-1d/-90m`) + daily prep loop (06:30/20:00) through exam day. |
-| [SUMMARY] | — | v2.74.93 `sui` v3.1.7 forms dialog; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
+| [SUMMARY] | — | v2.74.94 Linguaskill pass; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
 
 ## References
 
@@ -132,6 +132,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-17 | [CURSOR] | v2.75.4 — Session log: `sui` `-r` flag, AGENTS compact, `sh` README + submodule bump, k-workspace v2.16.8. |
 | 2026-04-16 | [CURSOR] | v2.75.3 — Session log: AGENTS + k-workspace `sui` gate expansion; session log trimmed to audit cap; overflow → `references/log.md`. |
-| 2026-04-16 | [CURSOR] | v2.75.2 — Session log: `sh` root bump sui submodule + README, `make push`. |
-| [SUMMARY] | — | v2.75.1 `sui` finalize tag CI; v2.75.0 live-smoke removal; v2.74.99 stubs; v2.74.98–v2.74.90 session notes; older → `references/log.md` |
+| [SUMMARY] | — | v2.75.2 `sh` sui bump; v2.75.1 `sui` tag CI; v2.75.0 live-smoke; v2.74.99 stubs; v2.74.98–v2.74.90; older → `references/log.md` |
