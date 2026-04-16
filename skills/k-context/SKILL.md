@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.74.85"
+  version: "2.75.3"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -22,6 +22,7 @@ allowed-tools: "Bash(*), *"
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
+> **Insights governance (k-context specific):** maintain `references/insights.md` as the general cross-domain operational memory for recurring mistakes, repeated dead-end actions, and validated workarounds. Update it autonomously whenever a durable pattern is learned.
 > **Brainstorm Registry Rule (MANDATORY):** every new idea file added under `references/` (including nested subfolders such as `references/mac-studio/`) MUST be explicitly registered in `## Brainstorm Registry` below, with one entry per file.
 > **Visual reference asset:** `assets/mac-studio-m4-max-config.png` — current Project Sovereignty hardware target snapshot.
 
@@ -54,6 +55,7 @@ allowed-tools: "Bash(*), *"
 | **envision (PSC)** | 🟢 ACTIVE — agentic pipeline stabilized and `env_graph` is now re-aligned with the repo: root config integration, `python -m env_graph.network` CLI usage, and `data/network/` rebuild validated end-to-end | continue final report + soutenance prep from the stabilized dense-RAG baseline; later clean placeholder-resolution path noise and decide whether to expand graph usage in the planner beyond the current fusion attempt · `$HOME/Work/X/envision/envision/` |
 | **flow** | 🟢 ACTIVE — v0.7.3 transport-shape cleanup complete: channel configs now declare `internal/external.has`, remote endpoint description is centralized in `src/flow/remote.py`, and ws/http channel CLIs consume the shared external descriptor path | decide whether the remaining `bases/local.py`, `bases/remote.py`, and `bases/mcp.py` abstractions still earn their keep or should be trimmed too · `$HOME/Work/AI/flow/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
+| **AGY account setup** | 🟠 ISSUE — Antigravity sign-in flow blocks with “There was an unexpected issue setting up your account” and disabled **Next** button | capture reproducible diagnostics and unblock AGY auth flow · `$HOME/.gemini/antigravity/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
 ## Brainstorm Registry
@@ -78,7 +80,9 @@ allowed-tools: "Bash(*), *"
 
 ## What's up (context-only slice)
 
-When KπX asks *what's up* **context** / **projects** (or the first step of a full *what's up*), load this file and present — **exhaustively**, in prose + tables as needed:
+When KπX asks *what's up* **context** / **projects** (or the first step of a full *what's up*), load this file and present — **exhaustively**, in prose + tables as needed.
+This slice is **not a summary**: report facts with **maximum available detail**, avoid synthesis compression, and avoid asking KπX to request extra details in a second pass.
+Run this slice as a **batch deep exploration**: keep opening relevant records until the context is complete enough to avoid information loss.
 
 1. **`## Active Projects`** — every row: status, next action, folder path; expand any row that needs narrative (blockers, recent commits, CI).
 2. **`## Session Log`** — newest-first; include enough rows that recent kernel/work threads are visible; point to `references/log.md` for deeper history.
@@ -97,14 +101,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
-| 2026-04-13 | [CODEX] | v2.74.85 — audit-fix pass: compacted changelog rows to 2+summary cap and prepared `.agents` finalization after MCP tool-matrix updates. |
-| 2026-04-13 | [GEMINI] | v2.74.84 — corrected Antigravity (AGY) MCP integration: fixed HTTP fields (switched type/url to `serverUrl`) per UI docs and updated `agy.md` reference. |
-| 2026-04-13 | [GEMINI] | v2.74.83 — completed full Antigravity (AGY) MCP integration: added 8 servers (HTTP and STDIO for whats, tick, mail, linkedin) to `mcp_config.json` and updated skill rules. |
-| 2026-04-13 | [GEMINI] | v2.74.82 — documented Antigravity MCP installation process via agy.md and updated corresponding skill MCP setup references (gemini, whatsapp, ticktick, mail, linkedin). |
-| 2026-04-13 | [GEMINI] | v2.74.81 — added Phase 5 ("Portable AI Stack / Remote Field Operator" via Live USB or Public URL) to Phoenix V4.0 vision blueprint. |
-| 2026-04-13 | [GEMINI] | v2.74.80 — officially registered Phoenix V4.0 distributed vision in k-context Active Projects and AGENTS.md Mantras. |
-| 2026-04-13 | [GEMINI] | v2.74.79 — saved Phoenix V4.0 K3s/Tailscale/WebTop distributed agent sandbox vision blueprint to references. |
-| [SUMMARY] | — | v2.74.78–v2.74.69 moved to `references/log.md`; v2.74.68 moved to `references/log.md`; v2.74.67 moved to `references/log.md`; v2.74.66 moved to `references/log.md`; v2.74.65 moved to `references/log.md`; v2.74.64 moved to `references/log.md`; v2.74.63 moved to `references/log.md`; v2.74.62 moved to `references/log.md`; v2.74.61 moved to `references/log.md`; v2.74.60 moved to `references/log.md`; v2.74.59 moved to `references/log.md`; v2.74.56 Tools tg closure moved to `references/log.md`; v2.74.55 `k-tg` v3.1.0 finalization moved to `references/log.md`; v2.74.52 Google Workspace note + WhatsApp probe; v2.74.47–v2.74.44 → `references/log.md`; v2.74.37 mail_mcp 0.2.4 closure; v2.74.36 AGENTS k-* freshness; v2.74.35 k-final + mail_mcp G/H; v2.74.34 mail_mcp v0.2.3 PyPI; v2.74.33 k-mail finalize; v2.74.32–v2.74.20 in `references/log.md` |
+| 2026-04-16 | [CURSOR] | v2.75.3 — **`sui` policy + ops:** `AGENTS.md` / `k-workspace` expanded Sudo Gate (what/why, rationale vs audit, `$HOME/Work/sh/sui/` paths, three examples); submodule `.git` root-owned refs fixed via **`sui --reason "…" chown …`**; `Work/sh/AGENTS.md` rule 5; insights chown note. |
+| 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. |
+| 2026-04-16 | [CURSOR] | v2.75.1 — `sui` **finalized** v3.1.22: commit `275c6a0` pushed to github+gitlab, tag `v3.1.22`, GitHub Actions CI green; README/`sui.sh` header synced to `--forms` UX; `make test` + stub suite. Repo: `$HOME/Work/sh/sui/`. |
+| 2026-04-16 | [CURSOR] | v2.75.0 — `sui` v3.1.22: removed `tests/live-smoke.sh`; `make test` = lint + stub tests; README points to `make test-stubs`. Repo: `$HOME/Work/sh/sui/`. |
+| 2026-04-16 | [CURSOR] | v2.74.99 — `sui` v3.1.21: added stub-based automated suite (`tests/run-stub-tests.sh`, stubs for zenity/sudo/ssh/logger), `make test-stubs`, CI step; covers local+remote auth UX, audit `reason=present`, exit codes. Repo: `$HOME/Work/sh/sui/`. |
+| 2026-04-15 | [CODEX] | v2.74.98 — `sui` v3.1.14 in `$HOME/Work/sh/sui/sui.sh`: added `--version`/`-v` fast path (no `--reason` needed) and strengthened shell visibility marker to `**OPERATOR-COMMENT**` for operator guidance lines. |
+| 2026-04-15 | [CODEX] | v2.74.97 — `sui` v3.1.11 adjustment in `$HOME/Work/sh/sui/sui.sh`: removed final TTY comment prompt; comment output is now GUI-field only and printed as footer iff provided, with best-effort parse on non-OK Zenity exits. |
+| 2026-04-15 | [CODEX] | v2.74.96 — `sui` v3.1.10 simplification in `$HOME/Work/sh/sui/sui.sh`: removed second Zenity cancel-note dialog and added final TTY comment fallback prompt (`finally`) so operator note can still be captured on success/cancel when no GUI comment is available. |
+| 2026-04-15 | [CODEX] | v2.74.95 — Follow-up fix: `k-ticktick` project-map naming synced to live labels (`🎓 X`, `🛠️ Tech & Science`, etc.) and Linguaskill main task enriched with print-ready synthesis + final at-time reminder (`PT0S`) in addition to 07:30. |
+| 2026-04-15 | [CODEX] | v2.74.94 — Linguaskill execution pass: WEFIT mail UID `10071` set `Important` + `\Flagged`, k-mail/k-ticktick memory refreshed, and TickTick agenda normalized for confirmed slot `2026-04-30 09:00` with reminders (`-7d/-2d/-1d/-90m`) + daily prep loop (06:30/20:00) through exam day. |
+| [SUMMARY] | — | v2.74.93 `sui` v3.1.7 forms dialog; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
 
 ## References
 
@@ -112,12 +119,19 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 - `references/mail-tooling-rewrite-brainstorm.md` — mail cli/mcp/admin/skill split vision and secret handling
 - `references/sh-mcp-agent-sandbox-vision.md` — sh-mcp agent sandbox MCP + future sh-exec (brainstorm)
 - `references/log.md` — unlimited session log archive (transfer overflow here before [SUMMARY])
+- `references/insights.md` — autonomous general runtime insights (cross-domain mistakes, fixes, and anti-repeat guidance)
 - **Other `references/*.md`** — durable brainstorms and WIP project visions until promoted to a skill or `$HOME/Work/`
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-context/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-context/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.74.85 — Compacted changelog rows to satisfy kernel audit cap and tracked `.agents` finalization prep. |
-| 2026-04-13 | [GEMINI] | v2.74.84 — fixed AGY HTTP MCP fields to use `serverUrl` (no `type` needed). |
-| [SUMMARY] | — | v2.74.83 finalized AGY MCP config with 8 server names; v2.74.82 AGY setup documentation baseline updates; v2.74.81 Phase 5 Portable AI Stack (USB/URL); v2.74.80 registered Phoenix V4.0 distributed vision; v2.74.79 saved Phoenix V4.0 vision and rotated logs; v2.74.78 logged `mcp-central-sync-vision`; v2.74.77 `env_graph` alignment; v2.74.76 `envision` finalization; v2.74.75 audit-first `.agents` finalization rule; v2.74.74–v2.74.20 see `references/log.md`. |
+| 2026-04-16 | [CURSOR] | v2.75.3 — Session log: AGENTS + k-workspace `sui` gate expansion; session log trimmed to audit cap; overflow → `references/log.md`. |
+| 2026-04-16 | [CURSOR] | v2.75.2 — Session log: `sh` root bump sui submodule + README, `make push`. |
+| [SUMMARY] | — | v2.75.1 `sui` finalize tag CI; v2.75.0 live-smoke removal; v2.74.99 stubs; v2.74.98–v2.74.90 session notes; older → `references/log.md` |

@@ -59,7 +59,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-docker` | Any project deployed on the homelab server |
 | `k-git-pages` | GitHub Pages + Docsify docs site for any project |
 | `k-whatsapp` | Before any whats-mcp call |
-| `k-mail` | Before any mail-mcp call (Zimbra/poly — NOT Outlook) |
+| `k-mail` | Before any mail workflow (Zimbra/poly via mail-mcp + Outlook/Hotmail via m365 read commands) |
 | `k-linkedin` | Before any linkedin-mcp call |
 | `k-ticktick` | Before any tick-mcp call |
 | `k-tg` | Before any `tg` Telegram CLI work (bots, Telethon user, webhooks) |
@@ -145,7 +145,7 @@ Add a new `.md` file there when a brainstorm should survive sessions and QMD ind
 | Intent | Load | Deliver (per skill `## What's up` section) |
 |--------|------|---------------------------------------------|
 | **Full** *what's up* (no qualifier) | See **sequential rule** below | **One domain per assistant response only** — never merge. |
-| *what's up* **context** / **projects** / *what's context* | `k-context` | `## Active Projects` + `## Session Log` + `## Brainstorm Registry` — narrative, exhaustive. |
+| *what's up* **context** / **projects** / *what's context* | `k-context` | `## Active Projects` + `## Session Log` + `## Brainstorm Registry` — narrative, exhaustive, no synthesis. |
 | *what's up* **mail** / *what's mail* | `k-mail` | Mail briefing procedure in `k-mail`. |
 | *what's up* **whats** / *what's whats* / *whatsapp* | `k-whatsapp` | WhatsApp briefing procedure in `k-whatsapp`. |
 | *what's up* **tick** / *what's tick* | `k-ticktick` | TickTick briefing procedure in `k-ticktick`. |
@@ -154,9 +154,12 @@ Add a new `.md` file there when a brainstorm should survive sessions and QMD ind
 
 **Default full sequence (when KπX says only *what's up*):** `k-context` → `k-mail` → `k-whatsapp` → `k-ticktick` → `k-tg`.
 
+**What's mail auth safety (mandatory):** In `what's mail` flows, agents must **never** run `m365 login` or `m365 logout` or `m365 setup`. They may only run read/status M365 commands (for example `m365 status`, message list/read queries). If auth is missing, stop and ask KπX to authenticate manually, then resume.
+
 **Hard rule — one generation = one What's up slice:** When executing the **full** sequence, the agent MUST deliver **exactly one** of the **five** domains per assistant turn. **PROHIBITED:** running two or more What's up briefings (e.g. context + mail) in a **single** generation. After each slice, **stop** and offer: *« What's up suivant : [mail | whats | tick | tg] — dis `continue` ou le nom du canal. »*
 
-**Gold standard:** **Maximum detail and exhaustivity** within the active slice — see each skill for section order, lenses (academic / pro / AI / stages / hackathons / …), and proactive reply + TickTick suggestions where applicable.
+**Gold standard (mandatory):** In any *What's up* slice, deliver the **most detailed output possible** by default, with **zero-loss reporting**. Do **not** compress into a short recap, do **not** replace raw facts with synthesis, and do **not** ask KπX to request more detail later. The first response must already contain the full, exhaustive presentation for that slice (subject to tool/access limits that must be stated explicitly).
+**Batch depth rule (mandatory):** Treat each *What's up* slice as a **batch deep-dive workflow**: keep exploring (open matching messages, tasks, threads, related records) until the information set is materially complete for that slice. Stop only when additional fetches are unlikely to add relevant signal; at that point deliver the deep presentation. No relevant information should be ignored.
 
 ### Style
 
@@ -208,7 +211,16 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege Escalation Rule (Sudo Gate):** Agents MUST NEVER use `sudo` directly. To run root commands locally or remotely, ALWAYS use `sui <cmd>` (local) or `sui @<node> <cmd>` (remote). This tool (`/usr/local/bin/sui`, copied from `$HOME/Work/sh/sui.sh`) securely delegates the password prompt to the Wayland graphical environment.
+- **Privilege — `sui` only, never raw `sudo` (Sudo Gate):**
+  - **`sui`** (Sudo User Interface) is the **only** approved way for agents to run privileged commands here. One controlled flow: Zenity **`--forms`** (RUN/ABORT, optional operator comment, password), full **argv** in the dialog, argv-safe **remote** `sudo` over SSH, and **audit** via `logger(1)` / optional `SUI_LOG` file.
+  - **Why not raw `sudo`:** it skips the rationale step, weakens habit and accountability, and does not produce the same **sui** trace. If KπX types `sudo ...`, treat it as **intent** → rewrite as `sui --reason "..." ...` (unless they explicitly demand raw `sudo` for a controlled debug compare).
+  - **`--reason` (rationale):** **required** on normal runs. It appears in the dialog as **Rationale** for the human. It is **not** pasted into syslog / `audit.log` as free text — only `reason=present` vs `reason=<none>` (see `sui` CHANGELOG). Operator comments stay on **stderr** only, not in audit.
+  - **Source tree and docs:** `$HOME/Work/sh/sui/` (`sui.sh`, `README.md`, `CHANGELOG.md`, `make test` stub suite). Installed entrypoint: `/usr/local/bin/sui`. SSH target names → `$HOME/.ssh/config` and **`k-workspace` / `k-homelab`** (do not invent hosts).
+  - **Three shapes to internalize:**
+    1. **Local:** `sui --reason "Refresh package metadata before maintenance" apt update`
+    2. **Remote (Docker host example):** `sui --reason "Inspect running containers" @docker-host docker ps`
+    3. **Remote (homelab shell host example):** `sui --reason "Apply security updates on lab" @kpihx-labs apt update`
+  - **Discipline:** every agent-driven `sui` must pass **`--reason "..."`** with a specific, honest justification. Never strip or hollow out the reason text in the dialog; the audit layer redacts automatically.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
@@ -239,6 +251,10 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Changelog limits:** newest-first. SKILL.md: max 2 real entries + `[SUMMARY]`. Summary rows must stay short and bounded; never replace real entries before the limit is reached.
 - **Skill update mandate** — adjustment to any tool/MCP/workflow → update SKILL.md changelog proactively.
 - **`k-*` proactive freshness (mandatory):** After using any **`k-*`** skill, or after any task in the same domain that skill covers (tool, MCP, CLI command, path, workflow, failure mode), the agent **must** confirm the owning **`$HOME/.agents/skills/k-<name>/SKILL.md`** still matches reality. If something was wrong, incomplete, or the documented steps failed and you found a **working** fix — **patch that skill in the same workstream** (operational text + `metadata.version` bump + `## Changelog` + `references/` or `.skill-lock.json` when touched). **Never** leave skill drift or a successful workaround **only** in chat output.
+- **Insights governance (mandatory):** Every skill domain can maintain a `references/insights.md` runtime-memory file. Agents are the autonomous managers of these files: add/update/restructure/prune entries to keep them useful and avoid repeated mistakes, repeated dead-end searches, and repeated failed action patterns. No user approval is required for these maintenance updates.
+- **Insights auto-create rule (mandatory):** If an agent needs to store a new domain insight and the target skill has no `references/insights.md`, the agent must create it immediately and write the first insights in the same workstream. If it already exists, append/refine insights autonomously.
+- **Insights-to-SKILL sync rule (mandatory):** After creating a missing `references/insights.md`, the agent must update the corresponding `SKILL.md` in the same workstream to explicitly mention the insights file path and how to use it (read before non-trivial domain work, update at task end with durable lessons).
+- **Insights reporting duty:** When new insights are added during work, briefly inform KπX in the same response so the evolution remains visible.
 - **Agent-memory update mandate** — if the new knowledge is specific to one agent runtime, update that agent's own `k-<agent>` skill immediately; do not leave the learning only in conversation output.
 - **SKILL.md version bump** — every edit → bump `metadata.version` (patch = minor edit, minor = new section).
 - **SKILL.md edit completion** — any edit to a KπX-owned `k-*` `SKILL.md` must update both the header (`metadata.version`) and the footer (`## Changelog`) in the same pass.

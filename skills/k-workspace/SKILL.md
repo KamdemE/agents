@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.1"
+  version: "2.16.7"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -40,7 +40,7 @@ Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding d
 | $HOME/Work/AI/MCPs/ | All MCP servers source code |
 | $HOME/Work/AI/gemini_mcps/ | Gemini Extension wrappers |
 | $HOME/Work/sh/bw_env/ | Bitwarden env manager — secrets in RAM via /dev/shm |
-| $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.2) — Root Makefile with smart proxies; Multi-Remote sync; **ksh dispatcher (v2.1.0) is the key entrypoint.** |
+| $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.3) — Root Makefile with smart proxies; Multi-Remote sync; **ksh dispatcher (v2.1.0) is the key entrypoint.** |
 | $HOME/Work/sh/clean/ | System Cleanup (systemd, every 2 days starting Sun at 21:30) — logs: /var/log/clean-system/workspace_scan.log. |
 | $HOME/Work/sh/backup_restore/ | Workstation Backup (systemd, every 2 days starting Sun at 22:00) — archiving to HDD. |
 | $HOME/Work/Homelab/ | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) |
@@ -71,6 +71,42 @@ $HOME/.zshenv    deliberately DOES NOT source .kshrc (security: fires for untrus
 ```
 
 bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes always reload secrets).
+
+## Privilege Elevation — `sui` only (Sudo Gate)
+
+> **Hard rule:** agents **never** invoke raw `sudo`. Use **`sui`** for all privileged local or remote commands. Full policy and examples live in **`$HOME/.agents/AGENTS.md` → Tool Discipline**; this section is the workspace map.
+
+### What `sui` is
+
+- **Sudo User Interface** — wrapper around **local** `sudo` / `pkexec` and **remote** `ssh` + `sudo -S`, with a **single Zenity `--forms`** step (RUN/ABORT, optional operator comment, password), **full argv** visible in the dialog, and **syslog** + optional **`SUI_LOG`** audit (`reason=present` / `<none>` — not the literal `--reason` string).
+
+### Why `sui` instead of `sudo`
+
+- Forces a **human-readable rationale** (`--reason`) before elevation.
+- Keeps **one** auditable path and consistent UX; raw `sudo` fragments accountability and skips the rationale gate.
+
+### Paths (source of truth)
+
+| Role | Path |
+|------|------|
+| Source repo | `$HOME/Work/sh/sui/` |
+| Script | `$HOME/Work/sh/sui/sui.sh` |
+| Docs | `$HOME/Work/sh/sui/README.md`, `$HOME/Work/sh/sui/CHANGELOG.md` |
+| Tests (no real GUI) | `cd $HOME/Work/sh/sui && make test` |
+| Installed CLI | `/usr/local/bin/sui` |
+
+### Three canonical invocation shapes
+
+1. **Local:** `sui --reason "Refresh package metadata before maintenance" apt update`
+2. **Remote (Docker host):** `sui --reason "Inspect container state" @docker-host docker ps`
+3. **Remote (homelab):** `sui --reason "Apply security updates on lab host" @kpihx-labs apt update`
+
+Use **real SSH host aliases** from `$HOME/.ssh/config` (see **Homelab & Tailscale** below). `@docker-host` and `@kpihx-labs` are examples, not placeholders for invented names.
+
+### Agent discipline
+
+- Every **`sui`** from an agent must include **`--reason "..."`** with a concrete justification.
+- If **`git push`** / submodule updates hit **Permission denied** on `.git/refs/remotes/*.lock`, suspect **root-owned** files under a submodule’s `.git` — fix once with `sui --reason "Restore user ownership on submodule .git metadata"` **`chown -R $USER:$USER`** on the affected `$HOME/Work/sh/<module>/.git` trees (see **`k-workspace/references/insights.md`**).
 
 ### .kshrc Discipline — No Bloat Rule
 
@@ -109,12 +145,37 @@ Secrets wrap pattern for MCPs needing bw-env: { "command": "zsh", "args": ["-l",
 | `gemini` | $HOME/.npm-global/bin/gemini | npm install -g | AI Chat |
 | `codex` | $HOME/.npm-global/bin/codex | npm install -g | AI Chat |
 | `vibe` | $HOME/.local/bin/vibe | uv tool install | AI Audio/Voice |
+| `whisper-ctranslate2` | $HOME/.local/bin/whisper-ctranslate2 | uv tool install whisper-ctranslate2 | Local speech-to-text (Whisper) |
 | `m365` | in PATH | npm install -g @pnp/cli-microsoft365 | CLI for M365 |
 | `ksh` | $HOME/.local/bin/ksh | make install (sh root) | Universal Dispatcher |
 | `powerpoint` | uv tool | uv tool install | PPTX generation |
 
 WaveTerm widgets: $HOME/.config/waveterm/widgets.json — all use zsh -l -c '...' wrapper.
 npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo needed).
+
+### Speech-to-text baseline (installed)
+
+- **Detected local STT tool:** `whisper-ctranslate2` (`0.5.7`) is available and currently the fastest ready-to-run local path.
+- **Intel Arc note:** this CLI currently exposes `cpu`/`cuda`; no direct Arc backend flag, so use optimized CPU settings by default.
+- **Recommended command pattern (fast + strong quality):**
+```bash
+whisper-ctranslate2 "audio.m4a" \
+  --model distil-large-v3 \
+  --device cpu \
+  --compute_type int8 \
+  --vad_filter true \
+  --output_format txt \
+  --output_dir .
+```
+- **Model quick picks (speed vs quality):**
+
+| Profile | Model | Typical use |
+|---------|-------|-------------|
+| Fastest practical | `distil-small.en` | English notes and quick drafts |
+| Balanced default | `small` | Mixed languages and daily transcripts |
+| Best quality (still efficient) | `distil-large-v3` | Long or important recordings |
+
+- **Intel Arc acceleration path (advanced):** if you want GPU acceleration on Arc, use a dedicated Intel path (typically `whisper.cpp` with OpenVINO). Keep `whisper-ctranslate2` as the stable baseline until that backend is installed and benchmarked.
 
 > For hook wiring, permissions, and runtime behavior, read the dedicated runtime skills (k-claude, k-gemini, k-codex, k-vibe, k-copilot) and k-hook rather than duplicating agent-specific snapshots here.
 > For optimization posture, QMD hygiene, and cleanup actions, read k-optim rather than duplicating maintenance playbooks here.
@@ -139,9 +200,16 @@ npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo
   - $HOME/.ssh/config for active host aliases and routing names
   - k-homelab for stable homelab topology and operational access patterns
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-workspace/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-workspace/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.16.1 — **`k-final`** mandate: full project-closure checklist before leaving a repo |
-| [SUMMARY] | — | v2.16.0 GEMINI frequencies (every 2 days from Sun + resume); v2.15.0 Ubuntu clean/backup; v2.14.0 MCP ownership; v2.13–v2.11 Phoenix v2.1.2; v2.10 legacy; v1.0 initial |
+| 2026-04-16 | [CURSOR] | v2.16.7 — Sui Gate expanded: what/why, paths under `$HOME/Work/sh/sui/`, three canonical examples (local, `@docker-host`, `@kpihx-labs`), rationale vs audit, submodule `.git` chown recovery; Phoenix row v2.1.3. |
+| 2026-04-13 | [CURSOR] | v2.16.6 — Sudo Gate: documented `sui --reason` fail-fast + single Zenity form (password + optional operator comment). |
+| [SUMMARY] | — | v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |
