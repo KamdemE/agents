@@ -4,7 +4,7 @@ description: linkedin-mcp operational memory — KπX LinkedIn identity, OAuth s
 license: private
 metadata:
   author: KpihX
-  version: "2.0.6"
+  version: "2.0.7"
 allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 ---
 
@@ -46,10 +46,16 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-linkedin/references/mcp.md`
 - **Missing Tool / MCP Action:** If KπX asks to use linkedin-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`linkedin-mcp-http`** and **`linkedin-mcp-stdio`**.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-linkedin/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-linkedin/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v2.0.7 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-13 | [CODEX] | v2.0.6 — Compacted changelog rows to comply with kernel audit row-cap policy. |
-| 2026-04-13 | [GEMINI] | v2.0.5 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
-| [SUMMARY] | — | v2.0.4 aligned stdio-only command mode and allowed-tool suffix; v2.0.2–v2.0.1 Bun-first install/reference + setup pointer; v2.0.0 refonte/migration to `skills/kpihx/linkedin/`; prior: profile fetched, post history inaccessible (missing scope), style inferred |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.3"
+  version: "1.1.4"
   scope: tool-integration
   api-version: v0.10.5
 allowed-tools: Bash
@@ -179,10 +179,16 @@ $HOME/Pictures/Napkin/
 
 > `$HOME/Pictures/Napkin/` is currently **empty** — example renders are in `assets/examples/` of this skill.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-napkin/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-napkin/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.1.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-04 | [CODEX] | v1.1.3 — scrubbed retired-runtime references from bundled scripts/examples; skill stays runtime-agnostic |
-| 2026-04-03 | [CODEX] | v1.1.2 — surfaced every bundled example script explicitly for content-coverage alignment |
-| [SUMMARY] | — | v1.1.1–v1.0.0: `$HOME` path normalization, quota table, fixed python3/--arg/auth/vstatus parsing, batch script ref, comparison warning, examples moved to assets/, HTTP 402 gotcha, initial creation |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

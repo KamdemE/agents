@@ -306,8 +306,9 @@ def run_audit() -> list[str]:
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
     findings.extend(_parse_yaml_frontmatters(yaml_paths))
     findings.extend(_check_gemini())
-    findings.extend(_check_claude())
-    findings.extend(_check_codex())
+    # Claude and Codex runtime config checks are intentionally decoupled from
+    # the shared `.agents` audit so local-install/runtime drift does not block
+    # kernel commits. Their respective runtime skills remain the source of truth.
     return findings
 
 

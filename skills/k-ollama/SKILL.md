@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.11.0"
+  version: "1.11.2"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -71,8 +71,8 @@ ollama run phi4-mini:latest
 | `mem_limit` | `24g` | Leaves real headroom for desktop + editors on a 30 GiB machine |
 
 ### Prerequisites
-- Stop local service: `sudo systemctl stop ollama && sudo systemctl disable ollama`
-- User must be in `video` + `render` groups: `sudo usermod -aG video,render $USER`
+- Stop local service: `sui -r "Stop and disable the local Ollama service before switching backend" systemctl stop ollama && sui -r "Disable the local Ollama service before switching backend" systemctl disable ollama`
+- User must be in `video` + `render` groups: `sui -r "Add the current user to the video and render groups for Ollama GPU access" usermod -aG video,render $USER`
 
 ### Notes
 
@@ -82,10 +82,16 @@ ollama run phi4-mini:latest
 - Current recommended active local set on this Ubuntu machine: `phi4-mini:latest` (default), `llama3.1:8b`, `qwen2.5-coder:3b`
 - `gemma3:4b` was removed from the active IPEX store after benchmark because the tested agentic runtime flow rejected it
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-ollama/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-ollama/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-04 | [CODEX] | v1.11.0 — removed retired benchmark reference; kept only current local model guidance |
-| 2026-04-04 | [CODEX] | v1.10.1 — replaced stale `qwen2.5:latest` preload example with active `qwen2.5-coder:3b` model |
-| [SUMMARY] | — | v1.10.1–v1.0.0: timestamped agentic benchmark ref, same-endpoint validation, legacy proxy/wrapper era, move to `$HOME/Work/AI/ollama/ipex`, preload guidance, initial GPU/IPEX setup history |
+| 2026-04-18 | [CODEX] | v1.11.2 — Replaced raw `sudo` examples with the audited `sui -r` privilege pattern for local Ollama setup. |
+| 2026-04-13 | [CODEX] | v1.11.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| [SUMMARY] | — | v1.11.0 removed retired benchmark reference and kept current local model guidance; +1 older changelog entries kept in file history |

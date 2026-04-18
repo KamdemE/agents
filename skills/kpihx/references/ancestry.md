@@ -66,3 +66,8 @@ She provided the continuity, educational frame, and stable school base of the Ba
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/ACTE_DECES_PERE_KAMDEM_GUELA.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Acte_Naissance_KAMDEM_POUOKAM_Ivann_Harold.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/A maman Hortense - Temoignage - KAMDEM Ivann.docx`
+
+## Scope Boundary
+
+- This file does **not** attribute any school transcript, exam score, or academic ranking to Bruno KAMDEM GUELA.
+- For KGB, the official layer currently rests mainly on the death certificate plus family-linked references and self-reported legacy details.

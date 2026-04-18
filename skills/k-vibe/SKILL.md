@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.1"
+  version: "2.5.3"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -65,12 +65,18 @@ QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
 
 - **Session Logs:** `$HOME/.vibe/logs/`
 - **History Index:** `$HOME/.vibe/vibehistory`
-- **Rules:** VIBE lacks an integrated cache-busting tool. For a full reset of all historical baggage, perform manual removal: `rm -rf ~/.vibe/logs/* ~/.vibe/vibehistory`.
+- **Rules:** VIBE lacks an integrated cache-busting tool. For a full reset of all historical baggage, perform manual removal: `rm -rf $HOME/.vibe/logs/* $HOME/.vibe/vibehistory`.
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-vibe/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-vibe/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.5.0 — Defined History Index and Session Logs absolute paths for explicit CLI cache-clearing rules |
-| 2026-04-04 | [CODEX] | v2.4.1–v2.4.0 — documented the CLI-only QMD policy and the real VIBE session-history paths while keeping the skill compact |
-| [SUMMARY] | — | v2.3.0–v2.0.0: source-of-truth config framing, standardized name, config anatomy, prompts/vibe.md + skills path, and migration to skills/ |
+| 2026-04-18 | [CODEX] | v2.5.3 — Generalized VIBE cache-reset commands from `~` to `$HOME` to match kernel path rules. |
+| 2026-04-13 | [CODEX] | v2.5.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| [SUMMARY] | — | v2.5.0 history/index cache-clearing rules; +1 older changelog entries kept in file history |

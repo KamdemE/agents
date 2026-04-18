@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.12"
+  version: "2.0.17"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -28,18 +28,24 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 - Before creating any task/note/event, you must first identify the correct destination (folder/project) by inspecting existing TickTick structure and examples, even if it requires multiple MCP calls.
 - **Closure hygiene — TickTick:** When a task is **done** (work finished, or KπX says they completed it), **mark it completed** via tick-mcp **in the same workstream**, then **read back** state to catch silent API failures. **Do not** continue as if closed while the task still shows open. **Persistent nudge:** on later turns, if a named done-task is still open, repeat *Still to mark done: …* until fixed (see **`k-mail` / `k-whatsapp` `## Closure hygiene`** for the same loop across channels).
 - `SKILL.md` describes stable operating rules and how to use tick-mcp transports (`stdio` and/or `http`).
-- `## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
+- `## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-ticktick/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-ticktick/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
 
 ## Project Map
 
 | Folder | Projects |
 |--------|---------|
-| Scolaire X | Notes · Todos · Agenda · Extra Scolaire |
-| Careers | Todos · Notes · Agenda |
-| Persos | Courses · Proches · Administratif · Sante · Todos · Notes · Agenda |
-| Tech & Dev | Notes · Prompts · Windows · Ubuntu · Todos · Projets · Agent OS |
-| Flow | Ideas · Tasks · Pense Betes · Research · A voir |
-| Homelab | Todos · Ideas · Notes · Boost |
+| 🎓 X | 📒 Notes · ✅ Todos · 📅 Agenda · 🎭 Extra Scolaire |
+| 💼 Careers | ✅ Todos · 📝 Notes · 📅 Agenda |
+| 🏠 Persos | 🛒 Courses · 👥 Proches · 📋 Administratif · 🏥 Santé · ✅ Todos · 📝 Notes · 📅 Agenda |
+| 🛠️ Tech & Science | 📝 Notes · 💬 Prompts · 🪟 Windows · 🐧 Ubuntu · ✅ Todos · 🗂️ Projets · 🤖 Agent OS · ✍️ Articles & Publications |
+| 🌊 Flow | 💡 Ideas · ✅ Tasks · 📝 Pense Bêtes · 🔬 Research · 👀 À voir |
+| 🖥️ Homelab | ✅ Todos · 💡 Ideas · 📒 Notes · 🚀 Boost |
 
 ## Critical API Gotchas (V1/V2)
 
@@ -47,6 +53,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Operation | Gotcha | Correct approach |
 |-----------|--------|-----------------|
+| 2026-04-13 | [CODEX] | v2.0.15 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | Create subtask | `parentId` silently ignored at creation | `create task` → `set_subtask_parent` (two-step) |
 | Create project group | `groupId` silently ignored by V1 | Follow up with V2 `batch/project` |
 | Update habit | `PATCH /habits/batch` = full replacement | Always read-modify-write before updating |
@@ -71,8 +78,11 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 **Presentation order — exhaustive detail:**
 
-1. **Today — academic / professional first** — Tasks and calendar events touching **`Scolaire X`**, **`Careers`**, exam/deadline keywords, stage, PSC, certifications, IPAI/hackathon, poly admin mirrors; include time, project, folder, notes, recurrence.
-2. **Today — personal projects & other folders** — **`Tech & Dev`**, **`Homelab`**, **`Flow`**, **`Persos`** (condense only if empty).
+**Detail mandate (non-negotiable):** This briefing is **not a summary output**. Deliver full factual details in the first response, avoid synthesis-only compression, and do not postpone detail behind follow-up questions.
+**Batch depth mandate (non-negotiable):** execute this slice as a deep batch exploration (tasks, events, overdue, horizon, linked context) and stop only after materially complete coverage.
+
+1. **Today — academic / professional first** — Tasks and calendar events touching **`🎓 X`**, **`💼 Careers`**, exam/deadline keywords, stage, PSC, certifications, IPAI/hackathon, poly admin mirrors; include time, project, folder, notes, recurrence.
+2. **Today — personal projects & other folders** — **`🛠️ Tech & Science`**, **`🖥️ Homelab`**, **`🌊 Flow`**, **`🏠 Persos`** (condense only if empty).
 3. **Overdue** — Every overdue task: age, project, suggested next step (one line each); **propose** rescheduling or completion.
 4. **Horizon — soon** — Buckets: **within a few hours**, **tomorrow**, **day after tomorrow**; include events (location, time zone Europe/Paris default) and tasks with due time.
 5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless KπX scoped only tick + already provided context.
@@ -84,7 +94,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Thread | Scope | Last State | Next Action |
 |--------|-------|------------|-------------|
-| Linguaskill certification windows | `🎓 X/📅 Agenda` | Created 3 items on 2026-04-09: session windows (`13-17` and `20-24` Apr) + daily prep loop to 2026-04-25 (06:30 and 20:00 reminders) | Watch mailbox assignment from certification thread UID `8323`; complete irrelevant duplicates once slot is assigned |
+| Linguaskill certification confirmed slot | `🎓 X/📅 Agenda` | Slot confirmed for **Thu 2026-04-30 09:00 Europe/Paris**. Main task updated with reminders `-7d/-2d/-1d/-90min`; daily prep loop standardized (06:30 + 20:00) and extended through 2026-04-30; fallback window task completed. | Keep mail watch for convocation/technical notice (`UID 10071` + open certification thread); complete prep loop after exam day |
 
 ## Runtime Memory Files
 
@@ -97,6 +107,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.0.12 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for TickTick tool reduction policy. |
-| 2026-04-13 | [GEMINI] | v2.0.11 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
-| [SUMMARY] | — | v2.0.10 immediate-minimal run policy; v2.0.9 open-thread Linguaskill tracking; v2.0.8 closure hygiene + nudge loop; v2.0.7–v2.0.0 prior runtime memory/migration |
+| 2026-04-15 | [CODEX] | v2.0.17 — Synced Project Map and What's up folder names with live TickTick workspace labels/emojis. |
+| 2026-04-15 | [CODEX] | v2.0.16 — Updated Linguaskill open-thread state after slot confirmation (2026-04-30 09:00), reminder scheme, and prep loop extension. |
+| [SUMMARY] | — | v2.0.14 batch deep-exploration for What's up; v2.0.13 zero-synthesis rule; v2.0.12 tool-keep matrix source-of-truth; v2.0.11 missing-tool MCP add; v2.0.10 immediate-minimal policy; v2.0.9 open-thread tracking; v2.0.8 closure hygiene; v2.0.7–v2.0.0 prior memory/migration |

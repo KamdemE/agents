@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.9.0"
+   version: "2.9.2"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -138,7 +138,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
    - use `hsh backup vault` for encrypted Vaultwarden backup (Master Password required)
 3. Server-Side Maintenance:
    - run `hsh maintenance` to trigger the weekly loop on `kpihx-labs`
-   - manual fallback: `ssh -t kpihx-labs "sudo /root/proxmox/maintenance.sh"`
+   - manual fallback: `sui -r "Run the Proxmox maintenance routine on kpihx-labs" @kpihx-labs /root/proxmox/maintenance.sh`
 4. Manual Fallback (Backups):
    - if `hsh` fails, run `backup_docker_host_server.sh` directly on `kpihx-labs` for cloud exfiltration
 
@@ -251,8 +251,16 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 | 2026-04-04 | Ubuntu/Media | Emptied Downloads/, Documents/, Pictures/ | wine_mastery.md migrated to techskills/wine.md |
 | 2026-04-03 | Ubuntu | Manual home debris cleanup — 22 entries removed | ~1.3GB freed; see Ubuntu LKS for full list |
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-optim/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-optim/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
-| 2026-04-07 | [GEMINI] | v2.9.0 — Documented KpihX-Backup structural automount guarantee via systemd. |
-| 2026-04-07 | [CLAUDE] | v2.8.2 — Replaced `~` with `$HOME` in `Home Media Directories` cleanup commands (no-hardcoded-path rule). |
-| [SUMMARY] | — | v2.8.1 screenshot policy; v2.8.0 Ubuntu frequency; v2.5.0 reporting; v2.4.1 Phoenix loop results |
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-04-18 | [CODEX] | v2.9.2 — Replaced the raw remote-`sudo` maintenance fallback with the audited `sui -r` pattern and cleaned the duplicated changelog block. |
+| 2026-04-13 | [CODEX] | v2.9.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| [SUMMARY] | — | v2.9.0 KpihX-Backup automount guarantee; v2.8.2 `$HOME` cleanup generalization; v2.8.1 screenshot policy; v2.8.0 Ubuntu frequency; older in git history |

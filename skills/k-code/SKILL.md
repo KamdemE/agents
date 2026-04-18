@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.2.0"
+  version: "4.2.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -128,10 +128,16 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 - The stray `%24HOME`-escaped workspace association was removed from `storage.json`
 - At the time of audit, no custom profile had its own `settings.json`, `mcp.json`, or `keybindings.json`; verify live files directly before assuming this is still true later
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-code/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-code/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v4.2.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-06 | [CLAUDE] | v4.2.0 — added MCP setup reference (`references/mcp/vscode.md`) and profile-scoped MCP safety rule |
-| 2026-04-05 | [CLAUDE] | v4.1.4 — compact single-line frontmatter `description` (same scope as v4.1.3) |
-| [SUMMARY] | — | v4.1.3 fuller description/path fixes; v4.1.2 Copilot Chat paths; v4.1.1 install_cursor; v4.1.0 clean_editors; v4.0.0–v1.0.0: layout, fork sync, rename k-vscode, registry |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.6"
+  version: "2.1.14"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -21,6 +21,9 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 **KπX interest lens (elevate these in every section below):** Academic (courses, Moodle, exams, QCMs, grades, IME, DFHM, scolarité), professional (internships DXO/stage 2A, Career Center, conventions, certifications English), **AI** (Binet IA, IPAI, hackathons, X-IA, agents, research talks), **missions / jobs / tech** (XProjets *Offres de Missions*, *Missions XProjets*, JobTeaser-style leads if mirrored on WA), **stages**, **hackathons**, **PSC**, **soft skills**, **poly admin**, **conferences**, **sports performance** when tied to X24 — extend with anything matching `## Attention Triggers` in `k-mail` when overlapping. Messages hitting this lens get **maximum visual emphasis** (headline, bullets, quoted text).
 
 **Section order for a full WhatsApp *What's up* slice** (single assistant turn — **only this skill**):
+
+**Detail mandate (non-negotiable):** This slice is **not a recap**. Provide maximum available detail directly in the first response, with no synthesis-only compression and no "ask me if you want details" fallback.
+**Batch depth mandate (non-negotiable):** run the WhatsApp slice as a batch deep-dive (open threads + unread + relevant historical context) and stop only once the information set is materially complete.
 
 1. **Open-thread traffic** — per `## Open Threads`, JID by JID: sender, time, full text (or faithful summary if media-only), quoted lines for decisions/deadlines.
 2. **Today’s unread** — all WhatsApp messages **received today** still **unread**, ordered by **`## Group Index` priority** (HIGH → VERY LOW), then by time. Full detail: group name, JID, author, timestamp, body. Apply **KπX interest lens** — reorder within priority band so lens hits come first.
@@ -62,7 +65,14 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 - If approval is missing or ambiguous, do not send.
 - **Absolute post-send verification (all sends, no exceptions):** After every successful `send_text` (or equivalent send tool), **do not** treat the tool return alone as proof the message landed in the thread. Wait **at least ~5 seconds**, then **re-fetch the conversation** for that chat (same JID): confirm the outbound text is **visible in the recent message list** (content + ordering). If it is missing or the thread looks stale, report it explicitly before closing the task.
 - `SKILL.md` describes stable operating rules and how to use whats-mcp transports (**HTTP preferred**, stdio fallback).
-- `## Changelog` in this file tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-whatsapp/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-whatsapp/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+This file's `## Changelog` tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
 
 ## Identity
 
@@ -80,6 +90,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 
 | Saved As | JID | Style |
 |----------|-----|-------|
+| Ta Baby (Nathalie) | `127625573986382@lid` | Affectionate, concise, voice-note heavy |
 | Maman | `23795844360@s.whatsapp.net` | Affectionate, reassuring, short messages, religious tone |
 | Ma Ange TOUKO | `23777947720@s.whatsapp.net` | Warm family register |
 | Ma Jakeline SIME | `23777680325@s.whatsapp.net` | Occasional family exchanges |
@@ -140,6 +151,31 @@ CORRECT:
 - Generic setup (HTTP + stdio): `$HOME/.agents/skills/k-whatsapp/references/mcp.md`
 - **Missing Tool / MCP Action:** If KπX asks to use whats-mcp and the agent doesn't already see it in its activated tools, the agent MUST look at `references/mcp.md` for the process of adding it, and proactively add it as an MCP before attempting to continue the task. Use the naming convention **`whats-mcp-http`** and **`whats-mcp-stdio`**.
 
+## Audio transcription helper (local)
+
+- For voice notes/audio files downloaded from WhatsApp, use local Whisper CLI first (fast and no cloud dependency): `whisper-ctranslate2`.
+- Current installed baseline in this workspace: `whisper-ctranslate2` (`0.5.7`) + `ffmpeg`.
+- Intel Arc note: this tool currently exposes `cpu`/`cuda`; use the optimized CPU profile below unless an Arc-specific backend (e.g. OpenVINO path) is explicitly set up.
+- **Command pattern (recommended):**
+```bash
+whisper-ctranslate2 "audio.m4a" \
+  --model distil-large-v3 \
+  --device cpu \
+  --compute_type int8 \
+  --vad_filter true \
+  --output_format txt \
+  --output_dir .
+```
+- **Model quick picks (speed vs quality):**
+
+| Profile | Model | Typical use |
+|---------|-------|-------------|
+| Fastest practical | `distil-small.en` | English voice notes and quick triage |
+| Balanced default | `small` | Mixed-language voice notes |
+| Best quality (still efficient) | `distil-large-v3` | Important or long audio notes |
+
+- **Intel Arc acceleration path (advanced):** for true Arc GPU acceleration, use an Intel-specific backend (typically `whisper.cpp` + OpenVINO). Keep `whisper-ctranslate2` CPU profile as baseline until that path is set up and benchmarked.
+
 ## Open Threads (operational memory)
 
 | Thread | Contact/Group | Last State | Next Action |
@@ -157,6 +193,6 @@ CORRECT:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.1.6 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for WhatsApp tool reduction policy. |
-| 2026-04-13 | [GEMINI] | v2.1.5 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
-| [SUMMARY] | — | v2.1.4 HTTP `connection_status` post-restart probe still failing (`No valid session ID provided`); v2.1.3 immediate-minimal run policy; v2.1.2 closure hygiene (1:1 archive + nudge); v2.1.1 HTTP preferred / stdio fallback; v2.1.0 What's up slice + ladder; v2.0.12–v2.0.0 prior history |
+| 2026-04-13 | [CURSOR] | v2.1.14 — Changelog table capped to 2 explicit rows + `[SUMMARY]` per `.agents` audit. |
+| 2026-04-13 | [CODEX] | v2.1.13 — Registered contact mapping `Ta Baby (Nathalie)` with JID `127625573986382@lid` from voice-note triage. |
+| [SUMMARY] | — | v2.1.12 Key Contacts table fix; v2.1.11 Runtime Discipline/STT/Arc; v2.1.10 `whisper-ctranslate2`; v2.1.8–v2.0.0 → prior rows |

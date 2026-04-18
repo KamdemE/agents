@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.3"
+  version: "2.10.6"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -87,11 +87,11 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 - **MCP reload:** Ask KπX to run `/mcp refresh` after any install. Full restart if still fails.
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
-- **Sudo:** Authorized when strictly necessary (outside `$HOME`). Never sudo within home dir. 
+- **Privilege gate:** Use `sui -r "..."` when strictly necessary outside `$HOME`; never invoke raw `sudo`, and never elevate inside `$HOME`.
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 - **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
 - **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.
-- **Edit Stability (ENOSPC):** If `replace_file_content` or `write_to_file` hangs or loops indefinitely, check `fs.inotify.max_user_watches` and ensure global watcher exclusions are set in `~/.config/Code/User/settings.json`. Refer to `k-code/references/agy.md` for the full debug procedure.
+- **Edit Stability (ENOSPC):** If `replace_file_content` or `write_to_file` hangs or loops indefinitely, check `fs.inotify.max_user_watches` and ensure global watcher exclusions are set in `$HOME/.config/Code/User/settings.json`. Refer to `k-code/references/agy.md` for the full debug procedure.
 
 ## Hooks
 
@@ -112,10 +112,16 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 - **Internal Storage:** Each UUID folder stores `.system_generated/`, `media__*.png`, `tempMediaStorage`, et al.
 - **Rules:** Use `gemini --delete-session <index>` to selectively prune, or safely wipe `$HOME/.gemini/antigravity/brain/*` as a brute-force memory reset for stale runs. No persistent graph relies on these raw files.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-gemini/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-gemini/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.10.3 — Compacted changelog rows to comply with kernel audit row-cap policy. |
-| 2026-04-13 | [GEMINI] | v2.10.2 — Added pointer to `k-code/references/mcp/agy.md` for Antigravity MCP installation process |
-| [SUMMARY] | — | v2.10.0–v2.9.0 raw `brain/` cache limits + ENOSPC rule; v2.8.1 removed qmd-mcp example + CLI-only QMD policy; v2.8.0–v2.0.0 conversation history paths, compact hooks, project-context auto-load, HTTP/Stdio guidance, skills-path, original migration |
+| 2026-04-18 | [CODEX] | v2.10.6 — Replaced the stale raw-`sudo` runtime note with the kernel-wide `sui -r` privilege rule. |
+| 2026-04-18 | [CODEX] | v2.10.5 — Generalized the VS Code watcher-settings reference to `$HOME` to keep runtime docs compliant with kernel path policy. |
+| [SUMMARY] | — | v2.10.4 insights discipline; v2.10.3 changelog compaction; +1 older changelog entries kept in file history |

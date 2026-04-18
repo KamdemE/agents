@@ -4,7 +4,7 @@ description: "Deploy, evaluate, and manage Foundry agents end-to-end: Docker bui
 license: MIT
 metadata:
   author: Microsoft
-  version: "1.0.8"
+  version: "1.0.9"
 ---
 
 # Microsoft Foundry Skill
@@ -156,9 +156,16 @@ Use `agent_get` MCP tool to determine an agent's type when needed.
 
 - [Python](references/sdk/foundry-sdk-py.md)
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/microsoft-foundry/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/microsoft-foundry/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.0.9 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-03 | [CODEX] | v1.0.8 — added the standard footer changelog so the external skill conforms to the global KπX skill-structure guard |
 | [SUMMARY] | — | v1.0.0–v1.0.7 upstream Microsoft Foundry workflow coverage: sub-skills, project/resource/model deploy flows, agent lifecycle, trace/observe/eval guidance, and references |

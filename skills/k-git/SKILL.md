@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.4"
+  version: "2.6.5"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -92,10 +92,16 @@ glab pipeline list --repo kpihx-labs/your-project-name
 
 This ensures that a successful push translates to a successful deployment.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-git/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-git/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v2.6.5 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-09 | [CURSOR] | v2.6.4 — **`k-final`** cross-link: mandatory on project closure; CI section defers full finalization sequence to `k-final` |
-| 2026-04-05 | [CLAUDE] | v2.6.3 — `assets/Makefile.git`: **`run`** target for manual service execution (replaces `test-run`) |
-| [SUMMARY] | — | v2.6.2 paths→`$HOME`+k-qmd; v2.6.1 templates→assets; v2.6.0 Makefile.git + uv/npm-bun to `k-project`; v2.5.0–v1.0.0 baseline |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

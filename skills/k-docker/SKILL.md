@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.2"
+  version: "1.4.3"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -191,10 +191,16 @@ glab pipeline list --repo kpihx-labs/your-project-name
 
 This ensures that a successful push translates to a successful deployment.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-docker/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-docker/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.4.3 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-03 | [CODEX] | v1.4.2 — normalized the concrete example path to `$HOME` and clarified `k-qmd` as the preferred discovery path |
-| 2026-03-31 | [CLAUDE] | v1.4.1 — templates/ → assets/ (skill-creator standard) |
-| [SUMMARY] | — | v1.4.0 sync stage marked legacy with repo-creation guidance update; v1.3.0 group vars table + glab check reminder + project var creation commands; v1.2.0 DB section and CI templates; v1.1.0 concrete examples pointer; v1.0.0 initial creation |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.3.3"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -45,6 +45,24 @@ For every KπX skill:
 - newest-first explicit changelog rows
 - max 2 explicit rows before a final `[SUMMARY]` row
 - provenance tags in `[AGENT]` format
+- a `references/insights.md` file (create if missing) plus an `## Insights Discipline (mandatory)` section in `SKILL.md` that states:
+  - read `references/insights.md` before non-trivial domain work
+  - update it at task end when durable insights are learned
+  - keep the file autonomous/evolutionary (add, refine, reorganize, prune stale)
+
+## Insights Discipline Template
+
+For new or normalized skills, add this block verbatim and replace `<skill-name>`:
+
+```md
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/<skill-name>/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/<skill-name>/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+```
+
+Creation rule: initialize `references/insights.md` during skill creation (not as an optional afterthought).
 
 Runtime guards:
 
@@ -79,6 +97,7 @@ Runtime guards:
 ### References
 
 - `references/schemas.md` is the source of truth for the JSON schemas used by this workflow
+- `references/insights.md` stores durable k-skill-creator runtime lessons and anti-repeat patterns
 
 ### Reviewer Prompts
 
@@ -109,10 +128,16 @@ Do not run the heavy loop for trivial wording changes when structural validation
 - Preserve support dirs that are part of the inherited workflow for this skill itself.
 - For downstream KπX skills, strip accidental sprawl and keep only useful bundled files.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-skill-creator/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-skill-creator/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-03 | [CODEX] | v2.3.0 — made compact, source-of-truth-first skill writing explicit so downstream `k-*` skills point to owning files/dirs instead of duplicating long hook or workflow detail |
-| 2026-04-03 | [CODEX] | v2.2.1 — moved the governance recheck entrypoint reference to `hooks/audit.py` so the skill points to the real top-level hooks audit |
-| [SUMMARY] | — | v2.2.1–v1.0.0: compact skill-writing rule, top-level hooks audit entrypoint, KπX forked-baseline framing, bundled scripts/reviewer prompts/viewer assets surfaced for guard coverage, rename propagation, and the upstream baseline retained with KπX governance overlays |
+| 2026-04-13 | [CODEX] | v2.3.3 — Added a reusable Insights Discipline template, explicit creation rule for `references/insights.md`, and normalized this skill's own Insights Discipline section. |
+| 2026-04-13 | [CODEX] | v2.3.2 — Added explicit skill-creation contract for `references/insights.md` and mandatory `## Insights Discipline` usage in downstream skills. |
+| [SUMMARY] | — | v2.3.1–v1.0.0: standardized insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, and earlier historical rows condensed for table limits. |

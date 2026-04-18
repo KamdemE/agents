@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.1.1"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -142,7 +142,13 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 1. **`k-context` (`$HOME/.agents/skills/k-context/SKILL.md`) — always touch when the project pass mattered:**
    - Update **`## Active Projects`** if status, next step, or scope changed for any row.
-   - Append **`## Session Log`** (newest-first): one line with agent tag, version bump, folder path, and what shipped. Obey **limits** (max 10 dated rows; **rotate** overflow to `references/log.md` first — zero-deletion), then **`metadata.version` patch bump** + **`## Changelog`** (max 2 explicit rows + `[SUMMARY]` — merge older into summary per `AGENTS.md`).
+   - Append **`## Session Log`** (newest-first): one line with agent tag, version bump, folder path, and what shipped. Obey **limits** (max 10 dated rows; **rotate** overflow to `references/log.md` first — zero-deletion), then **`metadata.version` patch bump** + **`## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-final/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-final/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+## Changelog`** (max 2 explicit rows + `[SUMMARY]` — merge older into summary per `AGENTS.md`).
 2. **`k-workspace` — only if** the session revealed new durable workspace facts (paths, tooling versions, policies). Same header/changelog discipline if edited.
 3. Other `$HOME/.agents/` edits only if this pass **required** them (e.g. new skill cross-links already done elsewhere — do not churn).
 4. **`make audit`** from `$HOME/.agents/` — **repeat edit/fix until `ALL_OK`** (no waiving audit errors).
@@ -159,6 +165,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.1.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-09 | [CURSOR] | v1.1.0 — Phase F now requires automatic remote bootstrap (`github`/`gitlab`) when missing; Phase J now enforces k-project naming fallback on registry collisions; added explicit contract coherence gate before closure |
-| 2026-04-09 | [CURSOR] | v1.0.3 — **all phases obligatory** when preconditions hold; Phase G: `glab ci status` + **per-pipeline jobs API** (deploy jobs mandatory); Phase H: **obligatory** after deploy + `curl` health + `docker logs` |
-| [SUMMARY] | — | v1.0.2 Phase K `.agents` closure; v1.0.1 kernel load mandate; v1.0.0 phases A–J; resume token `continue` |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

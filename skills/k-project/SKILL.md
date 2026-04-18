@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.6.2"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -231,8 +231,8 @@ For simple projects (no `systemd/`), scripts can live at project root instead of
 **Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
 
 **`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
-**`make run`** → `sudo bash <main-script>.sh` — run the service immediately for manual verification.
-**`make install`** → call via `make install` (not `sudo make install`) — the Makefile calls sudo internally. Running `sudo make` runs make as root, which pollutes `.git/` via `git rev-parse` in Makefile variables.
+**`make run`** → `sui -r "Run the main service script for manual verification" bash <main-script>.sh` — run the service immediately for manual verification.
+**`make install`** → call via `make install` (not `sui make install`) — the Makefile/install layer should own any targeted privilege escalation. Running the whole Makefile as root pollutes `.git/` via `git rev-parse` in Makefile variables.
 
 **Machine-specific config** (excludes, paths) that varies per deployment must go in a gitignored conf file (e.g. `excludes.conf`) rather than being hardcoded in scripts. Ship an `.example` variant tracking the expected keys.
 
@@ -279,10 +279,16 @@ This creates/updates `.gitmodules`:
 - **Server deployment** → `k-docker`
 - **Contract template** → `references/contract-template.md`
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-project/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-project/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v2.6.0 — made `CONTRACT.md` mandatory at project init (Python + JS/TS), added contract-first guidance and reference template pointer, and clarified metadata-vs-runtime split enforcement |
-| 2026-04-09 | [CURSOR] | v2.5.0 — enforced metadata/runtime separation: metadata must live in `pyproject.toml` / `package.json`; `config*` templates are runtime-only |
-| [SUMMARY] | — | v2.4.1 linked **`k-final`** closure gates; v2.4.0–v2.0.0 MCP ownership/alignment; Bash/Shell `run`/journald/install-purge; Git Submodules; docs-site, config/env, assets/ migration, and earlier |
+| 2026-04-18 | [CODEX] | v2.6.2 — Replaced raw-`sudo` project-init examples with `sui -r` guidance and clarified that privilege must stay scoped inside install logic. |
+| 2026-04-13 | [CODEX] | v2.6.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| [SUMMARY] | — | v2.6.0 made `CONTRACT.md` mandatory and clarified metadata-vs-runtime split enforcement; +1 older changelog entries kept in file history |

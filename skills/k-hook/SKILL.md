@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.17.1"
+  version: "2.17.2"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -49,10 +49,16 @@ allowed-tools: Bash, Read, Write, Edit
 | Claude | `$HOME/.claude/settings.json` |
 | Copilot (VS Code) | `$HOME/.config/Code/User/settings.json` — `chat.hookFilesLocations` → `$HOME/.agents/hooks/copilot/hooks.json` · scripts `$HOME/.agents/hooks/copilot/` |
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-hook/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-hook/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v2.17.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-11 | [CODEX] | v2.17.1 — `hooks/audit.py` now reports missing optional runtime config files as findings instead of crashing the whole audit pass. |
-| 2026-04-05 | [CLAUDE] | v2.17.0 — Overview + Runtime Registration: add Copilot VS Code (`hooks/copilot/`, `settings.json` / `chat.hookFilesLocations`); align with `hooks/README.md` |
-| [SUMMARY] | — | v2.16.0 make `:` optional in `response_validator.py` section regexes; v2.15.0 session_guard deleted-file guard; v2.14.0–v2.0.0: PostToolUse advisory, hooks/README map, skill_edit_guard, settings centralization, DRY enforcement |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

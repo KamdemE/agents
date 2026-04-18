@@ -4,7 +4,7 @@ description: KπX rclone — Google Drive remote setup (OAuth flow), systemd use
 license: private
 metadata:
   author: KpihX
-  version: "1.0.3"
+  version: "1.0.4"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -125,10 +125,16 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 | `--allow-other` denied | Ensure `user_allow_other` in `/etc/fuse.conf` (or use without `--allow-other`) |
 | High API quota usage | Increase `--dir-cache-time` (e.g. `10m`) |
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-rclone/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-rclone/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.0.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-03 | [CODEX] | v1.0.3 — normalized the bundled systemd service template away from hardcoded home paths by using user-home-safe path specifiers |
-| 2026-04-03 | [CODEX] | v1.0.2 — normalized remaining paths to `$HOME` and condensed the changelog to the standard footer format |
-| [SUMMARY] | — | v1.0.1 moved `templates/` to `assets/`; v1.0.0 created the remotes table, Google Drive OAuth flow, mount flags, systemd template ref, and post-setup checklist |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

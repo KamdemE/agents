@@ -4,7 +4,7 @@ description: k-ai runtime memory, preferences, and operating notes.
 license: private
 metadata:
   author: KpihX
-  version: "1.3.1"
+  version: "1.3.2"
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -55,10 +55,16 @@ allowed-tools: Read, Edit, Write
 - [16] To save tokens, when creating a file from a known template, prefer copying it with `cp <template_path> <destination_path>` rather than using `write_file`. The content can then be adjusted with `edit_file` if necessary.
 - [17] My own session history is stored in `$HOME/.k-ai/sessions/` and should be inspected directly from disk when needed; do not assume a dedicated active QMD collection exists for it.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-ai/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-ai/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.3.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-04 | [CODEX] | v1.3.1 — corrected the runtime-memory note: k-ai session history should be read from `$HOME/.k-ai/sessions/` directly and is no longer assumed to live in an active dedicated QMD collection |
-| 2026-04-03 | [CODEX] | v1.3.0 — added the real k-ai session-history paths so the skill exposes the owning runtime dirs without expanding the memory rules further |
-| [SUMMARY] | — | v1.3.0–v1.1.0: k-ai history pointers, standard edit reminder, normalized `$HOME` paths, rename from `k-ai-memory`, project references, and initial memory entries |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

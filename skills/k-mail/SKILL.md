@@ -1,20 +1,21 @@
 ---
 name: k-mail
-description: mail-mcp operational memory — KπX Zimbra inbox (polytechnique.edu, account "poly"), key contacts by category, active courses, flagged items, and attention triggers. Load before any mail-mcp tool call.
+description: "Unified mail operational memory — KπX mail sources: Zimbra (poly account via mail-mcp) and Microsoft 365 Outlook/Hotmail (m365 CLI), with contacts, priorities, and what’s-up briefing rules. Load before any mail-related workflow."
 license: private
 metadata:
   author: KpihX
-  version: "2.0.28"
+  version: "2.0.34"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
-# Tool Memory — Mail (mail-mcp)
+# Tool Memory — Mail (Zimbra + Microsoft 365)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 ## Runtime Discipline (mandatory)
 
 - **mail-mcp transport:** **Prefer STDIO** when both HTTP and stdio are available (**attachments**, local paths, full fidelity) — **AGENTS.md → MCP Protocol → KπX exception — mail-mcp** and `references/mcp.md`. Use **HTTP** only if stdio is missing or for **read-only** triage.
+- **Hard safety rule (M365 auth):** During `what's mail` execution, agents must **never** run `m365 login` or `m365 logout`. Authentication/session lifecycle is user-owned. Agents may run only non-destructive read/status M365 commands (for example `m365 status`, `m365 outlook message list`, `m365 request` in read mode).
 - You must read `$HOME/.agents/skills/k-mail/references/insights.md` before doing any mail task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-mail/references/log.md` after every mail-mcp tool use.
 - **Run-speed policy (immediate minimal):** during active execution, log only critical facts (`UID/Message-ID`, action performed, incident/error). Keep rich synthesis and non-critical learnings for deferred memory curation.
@@ -37,7 +38,13 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - **Absolute post-send verification (all outbound sends, no exceptions):** After every successful `send_message` (or equivalent), **do not** treat the tool JSON alone as proof of delivery. Wait **at least ~5 seconds** (use a deliberate delay so IMAP/SMTP side effects settle), then **re-read** (1) **`Sent`** — confirm the outbound copy is present (subject/recipients/`Message-ID` match when exposed by the API) — and (2) **`INBOX`** — scan for **`MAILER-DAEMON`**, DSN, or bounce content tied to that send. If the copy is missing from `Sent` or a bounce appears in `INBOX`, report it and stop treating the send as healthy. If the MCP exposes `verify_bounce_window_seconds` / `delivery_status`, treat those as **hints only**; this manual **Sent + INBOX** pass remains **mandatory**.
 - **Closure hygiene — mail (see `## Closure hygiene (mandatory)`):** After a message is **handled**, **archive** it; after a **1:1** conversation is **fully closed**, archive the thread. **Nudge** until done. Applies even when KπX says they already acted off-thread — **verify or perform archive** before moving on.
 - `SKILL.md` describes stable operating rules and how to use mail-mcp transports (**stdio preferred**, HTTP fallback).
-- `## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
+- `## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-mail/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-mail/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
 
 ## Account
 
@@ -50,7 +57,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
   - `mark_messages` manages IMAP system flags (`seen`, `flagged`, `answered`, `draft`) on target UIDs.
   - `set_labels` adds/removes custom keyword labels (including Zimbra tags surfaced by `list_labels`).
   - `search_messages` supports `flagged_only=true` and `keyword="<label>"` (e.g. `Important`) to audit priority mail.
-- **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; see `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook mail list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
+- **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; see `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook message list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
 - **`.agents` git (KπX 2026-04-09):** Do **not** `git commit` / `make push` this repo unless KπX explicitly requests end-of-session finalization (see `k-context` HOT block).
 
 ## Messaging Style
@@ -66,6 +73,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ### Academic Administration
 | Address | Role | Priority |
 |---------|------|----------|
+| 2026-04-13 | [CODEX] | v2.0.31 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | `scolarite.1a-2a@polytechnique.fr` | Primary admin — PSC, placements, exams, internship conventions | CRITICAL |
 | `noreply@ip-paris.fr` | Moodle: grades, QCMs, TD feedback | CRITICAL |
 | `camille.challant@polytechnique.edu` | Notes publication, academic schedule | HIGH |
@@ -151,17 +159,36 @@ Use this list to **rank** and **highlight** messages in any *What's up* mail sli
 Before **any** substantive briefing (do **not** run steps 1–6 below until this passes):
 
 1. **mail-mcp (stdio preferred):** Confirm **stdio** mail-mcp works — e.g. `mail_guide()` or **`list_messages`** on account **`poly`** with a **small limit**. If stdio fails, you may try **HTTP** for **read-only** snapshot **or** stop and explain that sends/attachments need stdio. If **poly** is unreachable, **STOP**.
-2. **Microsoft 365 (Hotmail):** Run **`m365 status`** and a trivial read such as **`m365 outlook mail list`** with `$top=1` (see `$HOME/Work/techskills/m365-cli.md`). If auth is missing or the command errors, **STOP**.
+2. **Microsoft 365 (Hotmail):** Run **`m365 status`** and a trivial read such as **`m365 outlook message list`** with a tiny limit (see `$HOME/Work/techskills/m365-cli.md`). If auth is missing or the command errors, **STOP**.
 
-**If either check fails:** Output **diagnostics + concrete recovery** (e.g. `m365 login --authType deviceCode`, fix `mail-mcp serve`, Tailscale, token cache). Tell KπX clearly: **say `continue` when both are healthy** — **do not** present the mail *What's up* body until then.
+**If either check fails:** Output **diagnostics + concrete recovery** (for example: ask KπX to run M365 auth manually outside agent control, fix `mail-mcp serve`, Tailscale, token cache). **Never run `m365 login/logout` as the agent.** Tell KπX clearly: **say `continue` when both are healthy** — **do not** present the mail *What's up* body until then.
+
+**Manual M365 recovery block (user-run only, no agent auth mutation):**
+
+```bash
+m365 cli config set --key autoOpenLinksInBrowser --value false
+m365 cli config set --key copyDeviceCodeToClipboard --value false
+m365 login --authType deviceCode --appId <your-app-id> --tenant consumers
+```
+
+If troubleshooting is needed, use:
+
+```bash
+m365 login --authType deviceCode --appId <your-app-id> --tenant consumers --debug
+```
+
+Interpretation note: `m365 status` may still show `connectedAs` as empty even when Graph reads are working; validate with a real read command (`m365 outlook message list`).
 
 **When both pass:** continue.
 
 ### Order of presentation (same assistant turn, maximum exhaustivity)
 
+**Detail mandate (non-negotiable):** This briefing is **not a résumé**. Present the full factual content with maximum detail available from tools, minimize synthesis, and do not defer detail behind "ask if you want more". The first pass must already be complete.
+**Batch depth mandate (non-negotiable):** execute this slice as a batch workflow: continue opening relevant messages/threads across `INBOX`/`Archive`/Outlook until the mail picture is materially complete; stop only then and present the full result.
+
 1. **Open pipelines (unread first, any age; Important-priority)** — For every row in **`## Open Threads`** and **`## Flagged Items`**, run `search_messages` / `list_messages` on **`INBOX`** then **`Archive`** (and `Sent` if tracking your own pending replies): surface **unread** or **unanswered** messages tied to those threads **even if weeks old**. Within this block, prioritize messages carrying `Important` first, then the rest. Full headers + body summary + suggested next action + optional TickTick.
 2. **Today’s mail — poly (`Zimbra`)** — All messages **dated today** in `INBOX` (then optionally filed **today** in `Archive`): blocks **Admin / Academic / Professional** using **KπX interest lens**; sort by contact priority.
-3. **Today / recent — Outlook (m365), deduplicated** — Query **`m365 outlook mail list`** (e.g. unread and/or last 24–48h). **Poly is canonical** for **X / school** mail that is **mirrored** from Zimbra. **Suppress** from the Outlook summary any message **already represented** in poly (`INBOX`, `Archive`, or `Sent`): match by **`Message-ID`** when both APIs expose it; else **fallback fingerprint** = **normalized `Subject` + primary `From` + received time within ±3 minutes** (or obvious thread id if present). **Highlight net-new:** personal mail, external senders **not** in poly, Hotmail-only receipts, and **`## Key contacts (Microsoft 365 / Outlook)`** traffic even when a duplicate exists (summarize once, note *also in poly* if applicable).
+3. **Today / recent — Outlook (m365), deduplicated** — Query **`m365 outlook message list`** (e.g. unread and/or last 24–48h). **Poly is canonical** for **X / school** mail that is **mirrored** from Zimbra. **Suppress** from the Outlook summary any message **already represented** in poly (`INBOX`, `Archive`, or `Sent`): match by **`Message-ID`** when both APIs expose it; else **fallback fingerprint** = **normalized `Subject` + primary `From` + received time within ±3 minutes** (or obvious thread id if present). **Highlight net-new:** personal mail, external senders **not** in poly, Hotmail-only receipts, and **`## Key contacts (Microsoft 365 / Outlook)`** traffic even when a duplicate exists (summarize once, note *also in poly* if applicable).
 4. **Microsoft 365 — key contacts pulse** — Short pass over **`## Microsoft 365 / Outlook (Hotmail) — key people`** (priority: **Clément Liu (Lokad PSC)**, then other rows): any **recent** thread not already summarized; **enrich** `*@lokad.com` details when surfaced.
 5. **Backward window (poly)** — **Yesterday**; optional **last 7 days** unread stragglers.
 6. **Proactive close** — Drafts + TickTick **proposals** (execute TickTick in a **later** turn per AGENTS unless KπX scoped mail-only and approved writes). **Apply `## Closure hygiene (mandatory)`** for any item marked done in this pass.
@@ -177,7 +204,7 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Thread | Contacts | Last State | Next Action |
 |--------|----------|------------|-------------|
-| English certification / Linguaskill (UID `8323`) | `certification-anglais-dlc@polytechnique.fr` | Form submitted by KπX (including matricule **EX240207**); two windows announced in mail: **2026-04-13..17** and **2026-04-20..24**; waiting assigned slot from WeFit; message remains `Important` in INBOX. `Message-ID`: `<1496528695.157357129.1775126042536.JavaMail.zimbra@zimbra.polytechnique.fr>` | Watch `INBOX` + `Archive` for assignment/confirmation; keep TickTick reminders active; archive thread only after assigned slot and completion |
+| English certification / Linguaskill (UID `8323`, `10071`) | `certification-anglais-dlc@polytechnique.fr`, `service@wefitgroup.com` | Slot now confirmed by WEFIT: **Thu 2026-04-30 09:00 Europe/Paris** (registration success page + confirmation message). `UID 10071` is now `Important` + `\Flagged` in `INBOX`. Primary IDs: `<1496528695.157357129.1775126042536.JavaMail.zimbra@zimbra.polytechnique.fr>`, `<1986239662.360.1776236071674@localhost>` | Keep watch for convocation / technical instructions / username-password send before exam day; archive thread after test completion and results receipt |
 | IME Buurtzorg / follow-up | `pauline.alessandra@polytechnique.edu`, Moodle | Part 1 feedback notified **2026-04-08** (mail archived) | Await **re-feedback** or submit next milestone per course rules; ping if stalled |
 | IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com`, `isabel.camps_tscherwitschke@ipai-foundation.ai` | Payout delayed per **2026-04-08** update (mail archived) | No reply needed unless silence; watch inbox for payout confirmation |
 
@@ -194,6 +221,6 @@ Before **any** substantive briefing (do **not** run steps 1–6 below until this
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.0.28 — Registered `references/tool-keep-matrix.md` as bundled source-of-truth for mail tool reduction policy. |
-| 2026-04-13 | [GEMINI] | v2.0.27 — Added instruction: if requested but absent from tools, verify `references/mcp.md` and add as MCP first. |
-| [SUMMARY] | — | v2.0.26 immediate-minimal run policy; v2.0.25 certification open-thread enrichment (UID 8323, matricule, windows, message-id); v2.0.24 tag inventory + proactive maintenance + Important-first open-thread pass; v2.0.23–v2.0.0 mail stack |
+| 2026-04-16 | [CODEX] | v2.0.34 — Added validated Hotmail recovery runbook (user-run only): set browser/clipboard flags, force `--tenant consumers`, and use `--debug` for diagnostics; updated Outlook read command references to `outlook message list`. |
+| 2026-04-15 | [CODEX] | v2.0.32 — Updated Linguaskill open thread with confirmed slot (2026-04-30 09:00), new WEFIT message IDs, and state (`UID 10071` flagged + Important). |
+| [SUMMARY] | — | v2.0.33 unified scope + no login/logout by agents; v2.0.31 insights discipline; v2.0.30 batch depth; v2.0.29 zero-synthesis; v2.0.28 tool matrix; v2.0.27..v2.0.0 prior stack |

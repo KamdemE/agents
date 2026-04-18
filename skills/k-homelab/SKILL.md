@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.4"
+  version: "1.7.5"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -82,10 +82,16 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 - for homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
 - keep this skill focused on homelab topology, SSH routes, projects, and the presentation knowledge base
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-homelab/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-homelab/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.7.5 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-12 | [GEMINI] | v1.7.4 — Translated recent Bitwarden Desktop App SSH authorization popup notes back to English per global rule. |
-| 2026-04-12 | [GEMINI] | v1.7.3 — Specified that the Bitwarden Desktop App generates an authorization popup to validate SSH key usage. |
-| [SUMMARY] | — | v1.7.2 Clarified `bw-env` limitation; v1.7.1 SSH unlocking rule; v1.7.0 Phoenix v3.1 architecture; v1.6.2 k-optim homelab reference; v1.6.1–v1.0.0 covered path normalization, knowledge-base rewrite, and original baseline |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

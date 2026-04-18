@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.1"
+  version: "2.11.4"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -40,7 +40,8 @@ allowed-tools: Bash, Read, Write, Edit
 ## Hooks
 
 - source of truth: `$HOME/.codex/hooks.json` and `$HOME/.agents/hooks/codex/`
-- required runtime flag: `features.codex_hooks = true` in `$HOME/.codex/config.toml`
+- required runtime flag for **live Codex** (hooks still run): `features.codex_hooks = true` in `$HOME/.codex/config.toml`
+- **`make audit`** (`$HOME/.agents/hooks/audit.py`) no longer inspects Codex config or `hooks.json` — decoupled from local Codex install; re-enable in `audit.py` if you want CI-style enforcement again.
 - live wrappers: `session_start.py`, `user_prompt_submit.py`, `stop.py`
 - Codex-specific JSON envelope details live in `$HOME/.agents/hooks/README.md`
 - `.agents/` write guards are intentionally not wired on Codex in this setup; `pre_tool_use.py` exists only as a compatibility shim
@@ -117,12 +118,18 @@ metadata:
 
 - **History Logs:** `$HOME/.codex/history.jsonl`, `$HOME/.codex/sessions/`, `$HOME/.codex/archived_sessions/`
 - **Internal Storage:** Temporary session states and traces are accumulated in `.sqlite` databases such as `logs_1.sqlite` and `state_5.sqlite`, and shell caches in `tmp/` and `shell_snapshots/`.
-- **Rules:** Codex has no built-in cleanup CLI command. Safely execute `rm -rf ~/.codex/sessions/* ~/.codex/archived_sessions/* ~/.codex/history.jsonl ~/.codex/log/* ~/.codex/*.sqlite* ~/.codex/tmp/*` to deeply wipe historical buildup, retaining only the latest/active context when needed.
+- **Rules:** Codex has no built-in cleanup CLI command. Safely execute `rm -rf $HOME/.codex/sessions/* $HOME/.codex/archived_sessions/* $HOME/.codex/history.jsonl $HOME/.codex/log/* $HOME/.codex/*.sqlite* $HOME/.codex/tmp/*` to deeply wipe historical buildup, retaining only the latest/active context when needed.
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-codex/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-codex/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.11.0 — Added specific CLI cache/storage paths for optimization and history purge routines |
-| 2026-04-04 | [CODEX] | v2.10.2–v2.10.1 — added frontmatter examples, kept `metadata` child keys aligned, and required YAML header validation after `SKILL.md` edits |
-| [SUMMARY] | — | v2.10.0–v2.0.0: sandbox/escalation reflex, explicit history pointers, delayed finalization reminder, lighter per-turn reminder, Codex payload contract, maintenance routing to `k-optim`, hook wiring, path normalization, project-context auto-load, config anatomy, memories/rules, and the initial runtime baseline |
+| 2026-04-18 | [CODEX] | v2.11.4 — Generalized Codex deep-clean commands from `~` to `$HOME` so runtime docs obey shared kernel path policy. |
+| 2026-04-17 | [CURSOR] | v2.11.3 — Documented: `make audit` no longer validates Codex `hooks.json` / `codex_hooks` (runtime flag still required for hooks to execute). |
+| [SUMMARY] | — | v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; +1 older changelog entries kept in file history |

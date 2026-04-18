@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.0"
+  version: "2.14.1"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -105,10 +105,16 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - `references/post-commit-hook.sh` — shared git hook template for repo-name-derived collections; safe by default (`update-only`, optional debounced embeddings)
 - `scripts/qmdr` — explicit wrapper that auto-runs the freshness gate before `query`, `search`, or `vsearch`
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-qmd/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-qmd/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v2.14.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime collection from the active KπX QMD map |
-| 2026-04-04 | [CODEX] | v2.13.1 — made `k-qmd` explicitly CLI-only: no qmd MCP in agent runtimes; `qmdr` is the preferred freshness-enforcing entrypoint |
-| [SUMMARY] | — | v2.13.1–v2.0.0: `qmdr` freshness wrapper, explicit freshness gate, safe shared `post-commit` hook, optimization guide, hot-only rewrite, prior collection strategy, compact rewrite, `k-qmd` rename, install/setup, query flows, embed hygiene |
+| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

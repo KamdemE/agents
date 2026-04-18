@@ -18,11 +18,18 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 - Use mail-mcp (`http` or `stdio`) for Zimbra account operations (`poly`).
 - Use `m365`/Graph for Hotmail mailbox verification.
+- For current Hotmail auth with app `bf3e4ec4-fd28-48aa-89f0-c6d8ae7c6906`, force `--tenant consumers` on `m365 login --authType deviceCode`; `/common` triggers `AADSTS9002346`.
+- On CLI for Microsoft 365 v11.5.0, prefer `m365 outlook message list` (not `m365 outlook mail list`) for inbox reads; use Graph `m365 request` when precise search filters (`$search`, `$select`) are needed.
+- On Linux sessions, set `autoOpenLinksInBrowser=false` and `copyDeviceCodeToClipboard=false` to avoid callback-side instability; this is a stability guard, not the root fix for `AADSTS9002346`.
+- `m365 status` can show empty `connectedAs` even after successful token acquisition; verify mailbox health via real read commands (`m365 outlook message list`) rather than status alone.
 - Bulk Outlook folder moves: list ids via `m365 outlook message list --folderName Inbox`, resolve Archive id via `m365 request -u 'https://graph.microsoft.com/v1.0/me/mailFolders/archive' -m get`, then POST Graph `$batch` (max 20 sub-requests) with `m365 request ... -b @file.json --content-type application/json` (body-only POSTs **require** explicit JSON content-type).
 - Treat Outlook forwarding notifications from `postmaster@zimbra.polytechnique.fr` as delivery receipts, not conversational messages.
 - On poly/mail-mcp stdio, `Important` behaves as a keyword label queryable via `search_messages(keyword="Important")`; favorites/star state is the IMAP `\\Flagged` flag queryable via `flagged_only=true` and editable via `mark_messages(flagged=...)`.
+- mail-mcp stdio search may throw ASCII codec errors on accented query strings; fallback strategy: retry with ASCII-safe keywords (`authentification`, `breve`, sender/domain filters, or `subject_filter` without accents), then open target UIDs with `get_message`.
+- `mail_guide` currently rejects unknown args (including `account_id`); call it with `{}` only, then pass `account_id` on other tools (`search_messages`, `get_message`, etc.).
 - User expects active tag hygiene: when triaging open threads, prioritize `Important`, suggest tag cleanup proactively, and keep `SKILL.md` tag inventory aligned with observed Zimbra labels.
 - Certification follow-up pattern: when user confirms form submission for UID `8323`, keep thread open with `Message-ID`, session windows (13-17 and 20-24 Apr), and explicit "waiting assignment" state until WeFit slot is received.
+- Certification assignment pattern: once WEFIT confirms an exact slot (example UID `10071`, Thu 2026-04-30 09:00), immediately set that message to both `Important` and `\Flagged`, then update `k-mail/SKILL.md` open-thread row with the confirmed datetime and both Message-IDs.
 - Large mailbox cleanup pattern: fetch full INBOX snapshot, compute exclusion list for protected sender(s), archive in deterministic UID batches, then verify with `list_messages` to ensure only protected messages remain.
 - For custom label hygiene (`AI`, `Important`, etc.), use `search_messages(keyword=...)` across `INBOX` + `Archive`, apply `set_labels(add=false)`, then re-run the same keyword search to prove zero residue.
 

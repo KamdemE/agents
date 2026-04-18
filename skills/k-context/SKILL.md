@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.79.0"
+  version: "2.81.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -39,7 +39,7 @@ allowed-tools: "Bash(*), *"
 
 | Project | Status | Next · Folder |
 |---------|--------|---------------|
-| **kpihx** | ✅ STABLE — v2.3.0 Sovereign Hub re-expanded from official Drive records, authored notes, and verified public web | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
+| **kpihx** | ✅ STABLE — v2.4.0 Sovereign Hub with explicit source index and clarified KπX/KGB record boundaries | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Phoenix V4.0 Vision** | 🚧 PLANNING — K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
@@ -104,6 +104,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-18 | [CODEX] | v2.81.0 — Hardened the `.agents` closure pass beyond audit: generalized the last residual `~` / `$HOME` drift, removed remaining operational raw-`sudo` examples in active skills, and prepared the global refresh for final push. |
+| 2026-04-18 | [CODEX] | v2.80.0 — Finalized the remaining `.agents` governance sweep: legacy `k-claude` now lives explicitly under `skills/deactive/`, runtime skills gained insights governance, and audit/runtime rules were aligned before the global commit. |
 | 2026-04-18 | [CODEX] | v2.79.0 — Normalized hardcoded home-path drift inside `k-context/references/`, added `kpihx/references/source_index.md`, and completed a second archival extraction pass over secondary Drive files before `.agents` finalization. |
 | 2026-04-18 | [CODEX] | v2.78.0 — Rebuilt the `kpihx` sovereign hub from Drive records, authored notes, public-web verification, and the long April 18 reconstruction prompt; synchronized `AGENTS.md`, `k-drive`, and `.skill-lock.json` around that reconstruction. |
 | 2026-04-18 | [GEMINI] | v2.77.0 — Restored meticulous details to `kpihx/` hub (v2.1.0) after identifying information loss from the "Ultimate Reconstruction" (SSN, Matricules, KGB legacy details, Mantras). |
@@ -112,9 +114,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-18 | [CODEX] | v2.75.8 — Re-read `flow` project docs plus Gemini reference chat in `$HOME/Downloads/Auditing Active MCP Configurations.md`; audited `src/k_env/` end-to-end to reconstruct architecture, scope cascade semantics, and intended externalization path. |
 | 2026-04-17 | [GEMINI] | v2.75.7 — `flow` v0.7.4: finalized `k-conf` integration; verified package resolution in `src/k_conf/`. |
 | 2026-04-17 | [GEMINI] | v2.75.6 — Project `framework` renamed to `k-conf` (package `k_conf`); global refactoring of imports and variables; project integration in Flow source tree documented as externalizable package. |
-| 2026-04-17 | [GEMINI] | v2.75.5 — MCP Visibility Audit: confirmed `mail`, `tick`, and `whats` stdio servers injected in Antigravity runtime; discussion on missing `linkedin` in current context. |
-| 2026-04-17 | [CURSOR] | v2.75.4 — **`sui` v3.1.23:** **`-r`** alias for **`--reason`**; stub tests; **`sh` v2.1.4** README submodule note; **AGENTS** privilege bullet compacted; **`k-workspace`** v2.16.8. |
-| [SUMMARY] | — | v2.75.3 `sui` policy+ops; v2.75.1 `sui` tag CI; v2.75.0 `sui` live-smoke; v2.74.94 Linguaskill; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
+| [SUMMARY] | — | v2.75.5 MCP visibility audit; v2.75.4 `sui -r` + k-workspace v2.16.8; v2.75.3 `sui` policy+ops; v2.75.1 `sui` tag CI; v2.75.0 `sui` live-smoke; v2.74.94 Linguaskill; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
 
 ## References
 
@@ -135,6 +135,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-18 | [CODEX] | v2.79.0 — Logged the archival gap pass for `kpihx`, normalized `k-context/references` path drift, and prepared `.agents` for final git closure. |
-| 2026-04-18 | [CODEX] | v2.78.0 — Logged the deep `kpihx` reconstruction, refreshed the active-project state, and synchronized the kernel with AGENTS/k-drive/skill-lock after the Drive + public-web evidence pass. |
-| [SUMMARY] | — | v2.77.0 meticulous `kpihx` restoration; v2.76.0 AGENTS+kpihx sync; v2.75.9 k_env extraction; v2.75.8 flow audit; v2.75.4-v2.75.0; older → `references/log.md` |
+| 2026-04-18 | [CODEX] | v2.81.0 — Logged the final `.agents` hardening pass: residual path-policy drift removed, raw-`sudo` examples normalized to `sui -r`, and closure prepared for the global push. |
+| 2026-04-18 | [CODEX] | v2.80.0 — Logged the full `.agents` governance sweep, legacy-skill relocation coherence, and final pre-push alignment of audit/runtime rules. |
+| [SUMMARY] | — | v2.79.0 archival gap pass for `kpihx`; v2.78.0 deep `kpihx` reconstruction; v2.77.0 meticulous `kpihx` restoration; v2.76.0 AGENTS+kpihx sync; v2.75.9 k_env extraction; v2.75.8 flow audit; v2.75.4-v2.75.0; older → `references/log.md` |

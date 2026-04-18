@@ -4,7 +4,7 @@ description: PPTX generation workflow memory — `powerpoint` MCP CLI behavior, 
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.0.1"
   scope: tool-memory
 allowed-tools: "Bash(*), *"
 ---
@@ -77,9 +77,16 @@ ls -la "$HOME/.local/share/uv/tools/powerpoint/lib/python3.12/site-packages/powe
 - `generate-and-save-image` depends on SD WebUI/Forge configuration (`SD_WEBUI_URL`, optional auth env vars).
 - Keep deck assets and markdown close to the target folder to simplify path handling.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-pptx/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-pptx/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-13 | [CODEX] | v1.0.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | 2026-04-07 | [CLAUDE] | v1.0.0 — initial skill: mapped local `powerpoint` MCP CLI, upstream fork, installed tools, and random-explorer markdown+assets deck workflow |
 | [SUMMARY] | — | initial baseline |

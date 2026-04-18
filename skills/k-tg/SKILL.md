@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.1.1"
+  version: "3.1.5"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -33,13 +33,15 @@ allowed-tools: "Bash(*), Read(*), Glob(*), *"
 - **BotFather only** for bot create/delete/token/privacy/commands — entity id **`93372553`**.
 - **Run-speed policy (immediate minimal):** during active runs, log only **critical** facts (bot id, action, error). Put narratives into deferred curation or `references/log.md` once per slice.
 - **No secret exfiltration:** never print full **`TELEGRAM_*_TOKEN`** values in chat; use Vaultwarden names (`TELEGRAM_GENERAL_TOKEN`, `TELEGRAM_ISSUES_TOKEN`, …).
-- **What’s up / Telegram — implementation gate (mandatory):** You must **autonomously perform ALL read-only investigations** (reading screenshots/media, server exploration via SSH, parsing logs and diagnostic files). **Do not require a "go" for inspection**. You are obliged to investigate as deeply as possible yourself before making proposals. If a password is required (e.g., for `sudo`), simply launch the command in the terminal and wait; KπX will enter the password. The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations (e.g., no TickTick API writes, no mail sends, no service/config mutative changes) **until** KπX gives explicit go-ahead. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** is bookkeeping, not remediation.
+- **What’s up / Telegram — implementation gate (mandatory):** You must **autonomously perform ALL read-only investigations** (reading screenshots/media, server exploration via SSH, parsing logs and diagnostic files). **Do not require a "go" for inspection**. You are obliged to investigate as deeply as possible yourself before making proposals. If privileged access is required, use `sui -r "..."` and wait for KπX to approve the audited elevation/password gate. The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations (e.g., no TickTick API writes, no mail sends, no service/config mutative changes) **until** KπX gives explicit go-ahead. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** is bookkeeping, not remediation.
 
 ## What's up — Telegram slice (single assistant turn, **k-tg only**)
 
 **Calendar / timezone:** **Europe/Paris** unless KπX specifies otherwise.
 
 This slice is **not** a shallow inbox scan. The agent must **close the diagnostic loop**: ingest, **inspect** (including SSH / logs / scripts when an infra bot reports breakage), and return **actionable** conclusions and **ready-to-run** next steps — not a list of “still TODO” without diagnosis. **Stopping point:** proposals and pistes only; **execution** waits for **Runtime discipline → implementation gate** above.
+This slice is also **not a résumé**: deliver maximum available evidence and detail in the first response, with no synthesis-only compression and no deferred-detail prompting.
+Treat this as a **batch deep investigation** and stop only once the relevant message/log/evidence set is materially complete.
 
 ### Step 0 — Preconditions (blocking)
 
@@ -201,10 +203,16 @@ tg user send 93372553 "@your_bot_username"
 | `references/log.md` | Action log |
 | `references/insights.md` | Durable patterns |
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-tg/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-tg/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-09 | [CURSOR] | v3.1.1 — Cleaned `[SUMMARY]` row to remove duplicated v3.1.0/v3.0.3 mention already present in concrete rows. |
-| 2026-04-09 | [COPILOT] | v3.1.0 — Enforce autonomous read-only deep inspection (screenshots, SSH, logs) without asking for a "go"; instruct to run password-prompting commands immediately. |
-| [SUMMARY] | — | v3.0.3 BotFather map + homelab token matrix + Openclaw removal; v3.0.2 *What's up* implementation gate; v3.0.1 `/setname` General/Issues; v3.0.0 capture bots + deep *What's up* + `references/`; v1.5.0–v1.0.0 prior `tg` / inventory |
+| 2026-04-18 | [CODEX] | v3.1.5 — Aligned Telegram investigation guidance with the kernel `sui -r` privilege gate instead of raw `sudo`. |
+| 2026-04-13 | [CODEX] | v3.1.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| [SUMMARY] | — | v3.1.3 batch deep-investigation stop condition; +1 older changelog entries kept in file history |

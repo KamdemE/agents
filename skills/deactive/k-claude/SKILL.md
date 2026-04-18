@@ -3,11 +3,11 @@ name: "k-claude"
 description: >
   Claude Code runtime — MCP config ($HOME/.claude.json), hooks ($HOME/.claude/settings.json),
   skills/memory architecture, bw-mcp zenity auth, session model.
-  Load when configuring Claude, managing MCPs/hooks, or for Claude-specific tasks.
+  Legacy reference kept under `skills/deactive/`; load only for archival Claude-specific runtime work.
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.14.1"
+  version: "2.15.1"
   scope: "agent-runtime"
   target-agent: "claude"
 allowed-tools: "Bash, Read, Write, Edit"
@@ -16,6 +16,8 @@ allowed-tools: "Bash, Read, Write, Edit"
 # Agent Runtime — Claude Code
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> Legacy / deactive skill: this file is intentionally kept in `skills/deactive/k-claude/` and is no longer part of the active runtime stack.
 
 ## Runtime Context
 
@@ -62,10 +64,10 @@ QMD policy: do not configure QMD as a Claude MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
 - `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
 
-## Sudo Gate
+## Privilege Gate
 
-When a task requires a `sudo` command: **STOP**, show the exact command to KπX, wait for confirmation ("c'est bon" / "done"), then continue.
-Never attempt `sudo` autonomously — Claude runs as the user and sudo prompts fail silently in the agent flow.
+When a task requires elevation: use `sui -r "..."` and wait for KπX to approve the audited privilege/password gate before continuing.
+Never attempt raw `sudo` autonomously — Claude runs as the user and legacy `sudo` prompts fail silently in the agent flow.
 
 ## bw-mcp Auth
 
@@ -79,6 +81,7 @@ Never attempt `sudo` autonomously — Claude runs as the user and sudo prompts f
 - live wrappers: `session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `post_tool_use.py`, `stop.py`, `session_end.py`
 - edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
 - exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
+- **`make audit`** (`$HOME/.agents/hooks/audit.py`) does **not** validate this file anymore — decoupled from local Claude install; re-enable in `audit.py` if you want automated hook-matrix checks again.
 
 ## k-* SKILL.md Edit Protocol
 
@@ -90,7 +93,13 @@ Structure and content checks remain blocking in PreToolUse.
 
 | File | Required updates |
 |------|-----------------|
-| `k-context/SKILL.md` | `metadata.version` bump + `## Session Log` update + `## Changelog` update |
+| `k-context/SKILL.md` | `metadata.version` bump + `## Session Log` update + `## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-claude/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-claude/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+## Changelog` update |
 | Any other `k-*/SKILL.md` | `metadata.version` bump + `## Changelog` update |
 
 **Workflow:**
@@ -104,6 +113,6 @@ Structure and content checks remain blocking in PreToolUse.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-06 | [GEMINI] | v2.14.0 — Mapped exact cache locations and added strict caution against purging `projects/` sandboxes |
-| 2026-04-05 | [CLAUDE] | v2.13.0–v2.12.1 — sudo gate added; CLI-only QMD policy enforced for admin/read and important searches |
-| [SUMMARY] | — | v2.12.0–v2.0.0: post_tool_use.py desync fix, Edit Protocol PostToolUse advisory, CLI-only QMD policy, compact hook guidance, live hook wiring, path normalization, name standardization, and earlier runtime cleanup |
+| 2026-04-18 | [CODEX] | v2.15.1 — Replaced the old `sudo` gate wording with the kernel-wide `sui -r` privilege model even in this legacy skill. |
+| 2026-04-18 | [CODEX] | v2.15.0 — Marked the skill explicitly as legacy/deactive so the file state matches its new location under `skills/deactive/`. |
+| [SUMMARY] | — | v2.14.2 insights discipline; v2.14.0 cache-location mapping + purge caution; older entries kept in file history and condensed for table limits |

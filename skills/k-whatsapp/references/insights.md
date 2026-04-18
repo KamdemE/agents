@@ -15,6 +15,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 ## Tooling Patterns
 
+- When sending via MCP JSON, **avoid leading emoji / non-UTF-8-safe bytes** at the start of `text`; prefer a plain ASCII opener (e.g. `Pour ...`) to prevent a replacement character or truncation on the first grapheme.
 - Use whats-mcp (`http` or `stdio`) for conversation and sending actions.
 - Community root JIDs are structural containers, not direct messaging targets.
 - HTTP streamable transport can reject calls with `Bad Request: No valid session ID provided` when the MCP client lost/never established its session header context; stdio fallback can still work in the same moment.

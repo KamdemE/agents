@@ -1,5 +1,7 @@
 # Academic Journey
 
+All scores, transcripts, ranks, and diplomas in this file refer to **Ivann Harold KAMDEM POUOKAM (KπX)** unless another person is explicitly named.
+
 ## Primary & Secondary Foundations
 
 | Stage | Facts | Provenance |

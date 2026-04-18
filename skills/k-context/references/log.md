@@ -8,6 +8,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-17 | [GEMINI] | v2.75.5 — MCP Visibility Audit: confirmed `mail`, `tick`, and `whats` stdio servers injected in Antigravity runtime; discussion on missing `linkedin` in current context. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-17 | [CURSOR] | v2.75.4 — **`sui` v3.1.23:** **`-r`** alias for **`--reason`**; stub tests; **`sh` v2.1.4** README submodule note; **AGENTS** privilege bullet compacted; **`k-workspace`** v2.16.8. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-16 | [CURSOR] | v2.75.0 — `sui` v3.1.22: removed `tests/live-smoke.sh`; `make test` = lint + stub tests; README points to `make test-stubs`. Repo: `$HOME/Work/sh/sui/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-15 | [CODEX] | v2.74.94 — Linguaskill execution pass: WEFIT mail UID `10071` set `Important` + `\Flagged`, k-mail/k-ticktick memory refreshed, and TickTick agenda normalized for confirmed slot `2026-04-30 09:00` with reminders (`-7d/-2d/-1d/-90m`) + daily prep loop (06:30/20:00) through exam day. *(Rotated from k-context Session Log — audit cap.)* |

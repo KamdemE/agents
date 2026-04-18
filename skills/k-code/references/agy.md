@@ -5,8 +5,8 @@ Antigravity (AGY) relies on the same architecture as VSCode. To maintain absolut
 ## Installation
 
 ```bash
-sudo apt update
-sudo apt install antigravity
+sui -r "Refresh package metadata before installing Antigravity" apt update
+sui -r "Install the Antigravity package" apt install antigravity
 ```
 
 ## Scripts & Operation
@@ -36,16 +36,16 @@ If AGY experiences visual bugs, freezing, or state errors, it shares the same El
 
 Instead of pushing kernel limits (which might not persist or be restricted), **reduce consumption** by excluding heavy/irrelevant directories from the watcher and explicitly defining hook locations for Copilot Chat.
 
-**Update `~/.config/Code/User/settings.json`**:
+**Update `$HOME/.config/Code/User/settings.json`**:
 ```json
 {
     "workbench.colorTheme": "Dark Modern",
     "chat.hookFilesLocations": {
         ".github/hooks": true,
-        "~/.agents/hooks/copilot/hooks.json": true,
+        "$HOME/.agents/hooks/copilot/hooks.json": true,
         ".claude/settings.json": false,
         ".claude/settings.local.json": false,
-        "~/.claude/settings.json": false
+        "$HOME/.claude/settings.json": false
     },
     "chat.useCustomAgentHooks": true,
     "chat.useAgentsMdFile": true,
