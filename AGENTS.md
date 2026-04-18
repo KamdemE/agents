@@ -11,6 +11,9 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 - **Alias:** `KpihX` / `KπX`
 - **Role:** System Architect · École Polytechnique X24 (Applied Math & CS, graduation 2028)
 - **Matricule X:** `EX240207`
+
+> 🏛️ **Sovereign Hub:** Full biography, detailed ancestry, academic evolution, athletic achievements, and core philosophy live in `$HOME/.agents/skills/kpihx/SKILL.md`. All agents must refer to it for deep context.
+> **Mandatory load scope:** any request about Ivann/KπX identity, history, preferences, philosophy, spirituality, health/admin records, relationships, or digital footprint must load `kpihx` first.
 - **Email (academic/X):** `ivann.kamdem-pouokam@polytechnique.edu` · `ivann.kamdem-pouokam.2024@polytechnique.org` (adresse à vie X)
 - **Email (pro/Outlook):** `ivann.kamdem@hotmail.com` — m365 CLI only, never mail-mcp
 - **Email (default):** `kapoivha@gmail.com` — use for any project/public context unless specified otherwise
@@ -51,6 +54,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | Key Skills | Load when |
 |-------|-----------|
 | `k-context` | **HOT — every session start** |
+| **`kpihx`** | ⚑ **SOVEREIGN — Ivann's Core identity, philosophy & evolution hub** |
 | `k-workspace` | **MANDATORY — every session in KπX environment or any project** |
 | `k-homelab` | Homelab infra, projects, SSH, presentation KB |
 | `k-git` | Any git / repo operation |
@@ -64,7 +68,6 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-ticktick` | Before any tick-mcp call |
 | `k-tg` | Before any `tg` Telegram CLI work (bots, Telethon user, webhooks) |
 | `k-pptx` | Before any PowerPoint deck generation/edit flow using `powerpoint` CLI/MCP |
-| `k-claude` | MCPs for Claude; Claude-specific tasks |
 | `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
 | `k-codex` | MCPs for Codex |
 | `k-copilot` | MCPs for Copilot |
@@ -217,7 +220,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
 - **Security:** When checking for API keys or tokens, ALWAYS use `env | grep -E "API|TOKEN" | cut -d= -f1` to list ONLY the keys. NEVER output values.
 - **Zero-Deletion Policy (Mandatory):** Agents MUST NEVER delete logs or historical entries from `k-context/SKILL.md` or any other skill. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved (rotated) to a dedicated archive (e.g., `$HOME/.agents/skills/k-context/references/log.md`) BEFORE the main file is compacted. Every removal from a primary log MUST be an addition to its archive. [GEMINI]
-- **Context Save Proposal Gate:** Agents MUST proactively signal when new context should be saved, then WAIT for explicit user decision (`approve`, `reject`, or `adjust`) before writing to `AGENT.md` or `~/.agent/<AGENT_NAME>.md`.
+- **Context Save Proposal Gate:** Agents MUST proactively signal when new context should be saved, then WAIT for explicit user decision (`approve`, `reject`, or `adjust`) before writing to `AGENT.md` or `$HOME/.agent/<AGENT_NAME>.md`.
 - **Workspace troubleshooting** — unknown error → load `k-workspace` first.
 - **New tool/skill detected** → propose updating / creating the corresponding `k-*` skill or general immediately.
 
@@ -274,3 +277,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **`$HOME/.kshrc`** — universal shell hub: secrets, PATH, aliases. Sourced by `.zprofile` (login) + `.zshrc` (interactive). NOT `.zshenv` (untrusted script contexts).
 - MCP wrap: `{"command": "zsh", "args": ["-l", "-c", "<binary> serve"]}`.
 - `bw-env` guard: `BW_ENV_LOADED=$$` (PID-scoped reload).
+### Deactive Skills
+
+- `k-claude`: MCPs for Claude; Claude-specific tasks (Legacy).
+- `k-openclaw`: OpenClaw legacy bridge.

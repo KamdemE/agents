@@ -17,7 +17,7 @@ Instead of running the entire `unprivileged_userns` profile in complain mode, cr
 Create `/etc/apparmor.d/custom-kpihx-electron-apps`:
 
 ```bash
-cat << 'PROFILE' | sudo tee /etc/apparmor.d/custom-kpihx-electron-apps
+sui -r "Write the custom AppArmor profile for Electron apps" tee /etc/apparmor.d/custom-kpihx-electron-apps > /dev/null <<'PROFILE'
 #include <tunables/global>
 
 profile kpihx-electron-apps {
@@ -29,9 +29,9 @@ profile kpihx-electron-apps {
   /opt/Bitwarden/bitwarden-app mr,
   /opt/Bitwarden/** mr,
   
-  # Cursor (if extracted)
-  /home/kpihx/Applications/cursor-app/** mr,
-  /home/kpihx/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
+  # Cursor (if extracted) — replace $HOME with the real home path when materializing the profile
+  $HOME/Applications/cursor-app/** mr,
+  $HOME/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
   
   # Antigravity (native install)
   /usr/share/antigravity/** mr,
@@ -60,9 +60,9 @@ profile kpihx-electron-apps {
   /dev/zero rw,
   
   # User-specific dirs
-  /home/kpihx/.config/** rw,
-  /home/kpihx/.cache/** rw,
-  /home/kpihx/.local/** rw,
+  $HOME/.config/** rw,
+  $HOME/.cache/** rw,
+  $HOME/.local/** rw,
   
   # GNOME Shell (if needed)
   /usr/bin/gnome-shell px -> kpihx-electron-apps,
@@ -74,10 +74,10 @@ PROFILE
 
 ```bash
 # Validate syntax
-sudo apparmor_parser -d /etc/apparmor.d/custom-kpihx-electron-apps
+sui -r "Validate the custom AppArmor profile syntax" apparmor_parser -d /etc/apparmor.d/custom-kpihx-electron-apps
 
 # Load in enforce mode
-sudo apparmor_parser -r /etc/apparmor.d/custom-kpihx-electron-apps
+sui -r "Load the custom AppArmor profile" apparmor_parser -r /etc/apparmor.d/custom-kpihx-electron-apps
 
 # Monitor logs (should see no denials for these apps)
 journalctl -f | grep "apparmor.*DENIED"
@@ -94,20 +94,20 @@ profile unprivileged_userns {
     # Transition Electron apps to custom profile
     /opt/Bitwarden/bitwarden-app px -> kpihx-electron-apps,
     /usr/share/antigravity/antigravity px -> kpihx-electron-apps,
-    /home/kpihx/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
+    $HOME/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
 }
 ```
 
 ### 4. Reload and Verify
 
 ```bash
-sudo systemctl reload apparmor
+sui -r "Reload AppArmor after custom profile update" systemctl reload apparmor
 aa-status 2>/dev/null | grep kpihx-electron-apps
 ```
 
 ## Notes & Maintenance
 
-- **Never hardcode full paths** — use `<tunables/global>` and abstractions
+- **Do not keep hardcoded home paths in the reference doc** — materialize `$HOME` to the actual home path only when installing the profile
 - **Audit regularly** → check `/var/log/audit/audit.log` for new denials
 - **Keep profile length minimal** → avoids future maintenance burden
 - **Test in complain mode first** → use `apparmor_parser -C` before enforce

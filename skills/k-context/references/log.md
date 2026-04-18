@@ -8,6 +8,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-16 | [CURSOR] | v2.75.0 — `sui` v3.1.22: removed `tests/live-smoke.sh`; `make test` = lint + stub tests; README points to `make test-stubs`. Repo: `$HOME/Work/sh/sui/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-15 | [CODEX] | v2.74.94 — Linguaskill execution pass: WEFIT mail UID `10071` set `Important` + `\Flagged`, k-mail/k-ticktick memory refreshed, and TickTick agenda normalized for confirmed slot `2026-04-30 09:00` with reminders (`-7d/-2d/-1d/-90m`) + daily prep loop (06:30/20:00) through exam day. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-13 | [CURSOR] | v2.74.93 — `sui` v3.1.7: Zenity auth back to one `--forms` dialog (password + optional operator comment, RS separator); TTY fallback collects comment on the next line. Repo: `$HOME/Work/sh/sui/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-13 | [CURSOR] | v2.74.91 — Rewrote `$HOME/Work/sh/sui.sh` v3.0.0: unified zenity+sudo (single dialog with full argv), argv-safe remote `sudo` via stdin+bash -s, `--polkit` / `--dry-run`, optional `SUI_LOG` file audit, `logger` authpriv trail (auth.log-class). *(Rotated from k-context Session Log — audit cap.)* |
@@ -115,8 +117,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-05 | [CLAUDE] | v2.51.0 — kernel sync: committed Copilot VS Code hooks, hooks README map, k-copilot/k-code/install_cursor, k-context refs (`log.md`, AppArmor Option B); `make push` · `$HOME/.agents/` |
 | 2026-04-05 | [COPILOT] | v2.50.0 — added Copilot VS Code hook runtime wrappers and VS Code hook discovery wiring · `$HOME/.agents/hooks/copilot/` |
 | 2026-04-05 | [GEMINI] | v2.49.0 — backup-restore-sh: implemented Telegram alerts for drive mount failures with manual recovery instructions; v1.2.0. |
-| 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level .cursorrules; only global ~/.cursorrules remains active. |
-| 2026-04-05 | [GEMINI] | v2.45.0 — Cursor discovery: symlinked ~/.cursorrules → AGENTS.md; applied .cursorrules to active projects (ai_voice, mem_mcp, backup_restore, clean) |
+| 2026-04-05 | [GEMINI] | v2.46.0 — Finalized Cursor setup: removed project-level `.cursorrules`; only global `$HOME/.cursorrules` remains active. |
+| 2026-04-05 | [GEMINI] | v2.45.0 — Cursor discovery: symlinked `$HOME/.cursorrules` → AGENTS.md; applied `.cursorrules` to active projects (ai_voice, mem_mcp, backup_restore, clean). |
 | 2026-04-05 | [GEMINI] | v2.44.0 — ai_voice: mapped whisper-overlay project structure; identified lack of AGENTS.md/CHANGELOG · `$HOME/Work/AI/ai_voice/` |
 | 2026-04-05 | [COPILOT] | v2.43.0 — backup-restore-sh: full agnostic refactor, .env externalized, install/purge/systemd templates, GitHub+GitLab repos, submodule added to sh/ · `$HOME/Work/sh/backup_restore/` |
 | 2026-04-05 | [COPILOT] | v2.42.0 — clean-sh: dynamic service (@SCRIPT_DIR@), /var/log/clean-system/, workspace_scan 3-tier git check, sudo gate in k-claude · `$HOME/Work/sh/clean/` |

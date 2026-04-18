@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.75.4"
+  version: "2.79.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -39,6 +39,7 @@ allowed-tools: "Bash(*), *"
 
 | Project | Status | Next · Folder |
 |---------|--------|---------------|
+| **kpihx** | ✅ STABLE — v2.3.0 Sovereign Hub re-expanded from official Drive records, authored notes, and verified public web | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Phoenix V4.0 Vision** | 🚧 PLANNING — K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
@@ -53,7 +54,9 @@ allowed-tools: "Bash(*), *"
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **sciencurious** | 🟢 ACTIVE — Docsify + KaTeX visual articles (math, physics, CS) | add Manim visuals to integration article · `$HOME/Work/sciencurious/` |
 | **envision (PSC)** | 🟢 ACTIVE — agentic pipeline stabilized and `env_graph` is now re-aligned with the repo: root config integration, `python -m env_graph.network` CLI usage, and `data/network/` rebuild validated end-to-end | continue final report + soutenance prep from the stabilized dense-RAG baseline; later clean placeholder-resolution path noise and decide whether to expand graph usage in the planner beyond the current fusion attempt · `$HOME/Work/X/envision/envision/` |
-| **flow** | 🟢 ACTIVE — v0.7.3 transport-shape cleanup complete: channel configs now declare `internal/external.has`, remote endpoint description is centralized in `src/flow/remote.py`, and ws/http channel CLIs consume the shared external descriptor path | decide whether the remaining `bases/local.py`, `bases/remote.py`, and `bases/mcp.py` abstractions still earn their keep or should be trimmed too · `$HOME/Work/AI/flow/` |
+| **flow** | 🟢 ACTIVE — `k_env` extracted out of tree into its own framework repo; `flow` packaging no longer claims `k_env` CLI/tests | continue voice-kernel work as `flow`-only and add a local dependency on `$HOME/Work/Frameworks/k_env/` only if/when runtime imports are introduced · `$HOME/Work/AI/flow/` |
+| **k_env** | 🟢 ACTIVE — autonomous framework repo scaffolded under `Work/Frameworks/`; migrated package + tests now live in their own git root and pass locally | refine autonomous docs/API after extraction and continue the post-SecretStrategy cleanup from the Gemini intent baseline · `$HOME/Work/Frameworks/k_env/` |
+| **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **AGY account setup** | 🟠 ISSUE — Antigravity sign-in flow blocks with “There was an unexpected issue setting up your account” and disabled **Next** button | capture reproducible diagnostics and unblock AGY auth flow · `$HOME/.gemini/antigravity/` |
 | **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
@@ -101,17 +104,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-18 | [CODEX] | v2.79.0 — Normalized hardcoded home-path drift inside `k-context/references/`, added `kpihx/references/source_index.md`, and completed a second archival extraction pass over secondary Drive files before `.agents` finalization. |
+| 2026-04-18 | [CODEX] | v2.78.0 — Rebuilt the `kpihx` sovereign hub from Drive records, authored notes, public-web verification, and the long April 18 reconstruction prompt; synchronized `AGENTS.md`, `k-drive`, and `.skill-lock.json` around that reconstruction. |
+| 2026-04-18 | [GEMINI] | v2.77.0 — Restored meticulous details to `kpihx/` hub (v2.1.0) after identifying information loss from the "Ultimate Reconstruction" (SSN, Matricules, KGB legacy details, Mantras). |
+| 2026-04-18 | [GEMINI] | v2.76.0 — Synchronized **AGENTS.md** and **kpihx** hub (v1.2.0); integrated Sovereign Registry (Matricule, Storage, CV); promoted hub visibility in kernel; deactivated `k-claude` (moved to legacy); updated skill lock and audited. |
+| 2026-04-18 | [CODEX] | v2.75.9 — Extracted `src/k_env/` out of `$HOME/Work/AI/flow/` into the new autonomous repo `$HOME/Work/Frameworks/k_env/`; created project metadata/docs/AGENTS, fixed naming to underscore-based project/package, and validated the new repo with `uv run pytest -q` (14 passed). |
+| 2026-04-18 | [CODEX] | v2.75.8 — Re-read `flow` project docs plus Gemini reference chat in `$HOME/Downloads/Auditing Active MCP Configurations.md`; audited `src/k_env/` end-to-end to reconstruct architecture, scope cascade semantics, and intended externalization path. |
+| 2026-04-17 | [GEMINI] | v2.75.7 — `flow` v0.7.4: finalized `k-conf` integration; verified package resolution in `src/k_conf/`. |
+| 2026-04-17 | [GEMINI] | v2.75.6 — Project `framework` renamed to `k-conf` (package `k_conf`); global refactoring of imports and variables; project integration in Flow source tree documented as externalizable package. |
+| 2026-04-17 | [GEMINI] | v2.75.5 — MCP Visibility Audit: confirmed `mail`, `tick`, and `whats` stdio servers injected in Antigravity runtime; discussion on missing `linkedin` in current context. |
 | 2026-04-17 | [CURSOR] | v2.75.4 — **`sui` v3.1.23:** **`-r`** alias for **`--reason`**; stub tests; **`sh` v2.1.4** README submodule note; **AGENTS** privilege bullet compacted; **`k-workspace`** v2.16.8. |
-| 2026-04-16 | [CURSOR] | v2.75.3 — **`sui` policy + ops:** `AGENTS.md` / `k-workspace` expanded Sudo Gate (what/why, rationale vs audit, `$HOME/Work/sh/sui/` paths, three examples); submodule `.git` root-owned refs fixed via **`sui --reason "…" chown …`**; `Work/sh/AGENTS.md` rule 5; insights chown note. |
-| 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. |
-| 2026-04-16 | [CURSOR] | v2.75.1 — `sui` **finalized** v3.1.22: commit `275c6a0` pushed to github+gitlab, tag `v3.1.22`, GitHub Actions CI green; README/`sui.sh` header synced to `--forms` UX; `make test` + stub suite. Repo: `$HOME/Work/sh/sui/`. |
-| 2026-04-16 | [CURSOR] | v2.75.0 — `sui` v3.1.22: removed `tests/live-smoke.sh`; `make test` = lint + stub tests; README points to `make test-stubs`. Repo: `$HOME/Work/sh/sui/`. |
-| 2026-04-16 | [CURSOR] | v2.74.99 — `sui` v3.1.21: added stub-based automated suite (`tests/run-stub-tests.sh`, stubs for zenity/sudo/ssh/logger), `make test-stubs`, CI step; covers local+remote auth UX, audit `reason=present`, exit codes. Repo: `$HOME/Work/sh/sui/`. |
-| 2026-04-15 | [CODEX] | v2.74.98 — `sui` v3.1.14 in `$HOME/Work/sh/sui/sui.sh`: added `--version`/`-v` fast path (no `--reason` needed) and strengthened shell visibility marker to `**OPERATOR-COMMENT**` for operator guidance lines. |
-| 2026-04-15 | [CODEX] | v2.74.97 — `sui` v3.1.11 adjustment in `$HOME/Work/sh/sui/sui.sh`: removed final TTY comment prompt; comment output is now GUI-field only and printed as footer iff provided, with best-effort parse on non-OK Zenity exits. |
-| 2026-04-15 | [CODEX] | v2.74.96 — `sui` v3.1.10 simplification in `$HOME/Work/sh/sui/sui.sh`: removed second Zenity cancel-note dialog and added final TTY comment fallback prompt (`finally`) so operator note can still be captured on success/cancel when no GUI comment is available. |
-| 2026-04-15 | [CODEX] | v2.74.95 — Follow-up fix: `k-ticktick` project-map naming synced to live labels (`🎓 X`, `🛠️ Tech & Science`, etc.) and Linguaskill main task enriched with print-ready synthesis + final at-time reminder (`PT0S`) in addition to 07:30. |
-| [SUMMARY] | — | v2.74.94 Linguaskill pass; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
+| [SUMMARY] | — | v2.75.3 `sui` policy+ops; v2.75.1 `sui` tag CI; v2.75.0 `sui` live-smoke; v2.74.94 Linguaskill; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
 
 ## References
 
@@ -132,6 +135,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-17 | [CURSOR] | v2.75.4 — Session log: `sui` `-r` flag, AGENTS compact, `sh` README + submodule bump, k-workspace v2.16.8. |
-| 2026-04-16 | [CURSOR] | v2.75.3 — Session log: AGENTS + k-workspace `sui` gate expansion; session log trimmed to audit cap; overflow → `references/log.md`. |
-| [SUMMARY] | — | v2.75.2 `sh` sui bump; v2.75.1 `sui` tag CI; v2.75.0 live-smoke; v2.74.99 stubs; v2.74.98–v2.74.90; older → `references/log.md` |
+| 2026-04-18 | [CODEX] | v2.79.0 — Logged the archival gap pass for `kpihx`, normalized `k-context/references` path drift, and prepared `.agents` for final git closure. |
+| 2026-04-18 | [CODEX] | v2.78.0 — Logged the deep `kpihx` reconstruction, refreshed the active-project state, and synchronized the kernel with AGENTS/k-drive/skill-lock after the Drive + public-web evidence pass. |
+| [SUMMARY] | — | v2.77.0 meticulous `kpihx` restoration; v2.76.0 AGENTS+kpihx sync; v2.75.9 k_env extraction; v2.75.8 flow audit; v2.75.4-v2.75.0; older → `references/log.md` |

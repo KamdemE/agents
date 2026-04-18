@@ -25,7 +25,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-context/SKILL.md",
       "installedAt": "2026-03-28T20:00:00.000Z",
-      "updatedAt": "2026-04-07T22:30:00.000Z"
+      "updatedAt": "2026-04-18T19:44:14.000Z"
     },
     "k-workspace": {
       "source": "local",
@@ -151,7 +151,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-drive/SKILL.md",
       "installedAt": "2026-04-09T02:55:00.000Z",
-      "updatedAt": "2026-04-09T02:55:00.000Z"
+      "updatedAt": "2026-04-18T19:44:14.000Z"
     },
     "k-napkin": {
       "source": "local",
@@ -205,9 +205,16 @@
     "k-claude": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-claude/SKILL.md",
+      "skillPath": "skills/deactive/k-claude/SKILL.md",
       "installedAt": "2026-03-25T02:00:00.000Z",
       "updatedAt": "2026-03-28T18:50:00.000Z"
+    },
+    "kpihx": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/kpihx/SKILL.md",
+      "installedAt": "2026-04-18T16:47:00.000Z",
+      "updatedAt": "2026-04-18T19:44:14.000Z"
     }
   }
 }
