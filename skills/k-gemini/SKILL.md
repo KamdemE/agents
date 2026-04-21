@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.6"
+  version: "2.11.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -84,6 +84,7 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 
 ## Key Rules
 
+- **AUTH BLOCKS (mandatory):** If an MCP (WhatsApp, Mail, etc.) reports a connection or authentication failure (e.g., "WhatsApp is not connected", "Token expired"), you MUST **STOP immediately**. Do not attempt browser-based workarounds or complex hacks to bypass the auth block. Report the failure, advise the user on the reconnection steps (e.g., "scan QR code"), and wait for an explicit "continue" or "proceed" signal.
 - **MCP reload:** Ask KπX to run `/mcp refresh` after any install. Full restart if still fails.
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
@@ -122,6 +123,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-20 | [ANTIGRAVITY] | v2.11.0 — Added mandatory **AUTH BLOCKS** stop rule: agents must cease work and wait for user intervention on any MCP connection/auth failure. |
 | 2026-04-18 | [CODEX] | v2.10.6 — Replaced the stale raw-`sudo` runtime note with the kernel-wide `sui -r` privilege rule. |
-| 2026-04-18 | [CODEX] | v2.10.5 — Generalized the VS Code watcher-settings reference to `$HOME` to keep runtime docs compliant with kernel path policy. |
-| [SUMMARY] | — | v2.10.4 insights discipline; v2.10.3 changelog compaction; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v2.10.5 watchers fix; v2.10.4 insights; v2.10.3 compaction; +2 older changelog entries kept in file history |

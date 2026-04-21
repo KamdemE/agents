@@ -32,6 +32,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - Certification assignment pattern: once WEFIT confirms an exact slot (example UID `10071`, Thu 2026-04-30 09:00), immediately set that message to both `Important` and `\Flagged`, then update `k-mail/SKILL.md` open-thread row with the confirmed datetime and both Message-IDs.
 - Large mailbox cleanup pattern: fetch full INBOX snapshot, compute exclusion list for protected sender(s), archive in deterministic UID batches, then verify with `list_messages` to ensure only protected messages remain.
 - For custom label hygiene (`AI`, `Important`, etc.), use `search_messages(keyword=...)` across `INBOX` + `Archive`, apply `set_labels(add=false)`, then re-run the same keyword search to prove zero residue.
+- **Certification Credential Extraction:** Confirmation emails for exams (Linguaskill, IT certifications) often contain three separate credential types: personal username, temporary password, and Institution/Center ID. Extract all three and store in a dedicated Gdrive folder + TickTick task content to ensure they are available even without mail access during the test.
 
 ## Open Behavior Rules
 

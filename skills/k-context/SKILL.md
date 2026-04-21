@@ -4,7 +4,7 @@ description: "KπX HOT context — load at EVERY session start. Active TODOs, cu
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.81.0"
+  version: "2.85.0"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -37,17 +37,14 @@ allowed-tools: "Bash(*), *"
 > Limit: max 20 active rows.
 > Only when full, condense stale/completed items into one short bounded `[ARCHIVE]` row.
 
-| Project | Status | Next · Folder |
-|---------|--------|---------------|
-| **kpihx** | ✅ STABLE — v2.4.0 Sovereign Hub with explicit source index and clarified KπX/KGB record boundaries | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
+| **Phoenix V4.0 Vision** | 🔴 **ABSOLUTE PRIORITY #1** — Technical Foundation: K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
+| **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
+| **MCP Visual Validation** | 🚧 PLANNING — Transform `send`/`create` across MCPs (TickTick, WhatsApp, LinkedIn, Mail) to launch a visual editor for review before execution | Propose architecture · `$HOME/.agents/skills/k-context/references/mcp-visual-validation-vision.md` |
+| **kpihx** | ✅ STABLE — v2.6.0 Sovereign Hub with father split, manuscript archive layer, and explicit development/provenance anchoring | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
-| **Phoenix V4.0 Vision** | 🚧 PLANNING — K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
-| **AppArmor Mitigation** | ✅ DONE (Option A) — unprivileged_userns → complain mode | Option B: custom profile ready · `$HOME/.agents/skills/k-context/references/apparmor-custom-profile.md` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **Centralized Hooks** | ✅ Copilot VS Code runtime wrappers added + audit passing · k-codex/gemini/vibe changelogs fixed | all hooks tested · `$HOME/.agents/hooks/` |
-| **Optimization map** | ✅ QMD lean-index cleanup applied; home media dirs policy added; Downloads/Documents/Pictures emptied | maintain hot-only indexing discipline · `$HOME/.config/qmd/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
@@ -58,8 +55,12 @@ allowed-tools: "Bash(*), *"
 | **k_env** | 🟢 ACTIVE — autonomous framework repo scaffolded under `Work/Frameworks/`; migrated package + tests now live in their own git root and pass locally | refine autonomous docs/API after extraction and continue the post-SecretStrategy cleanup from the Gemini intent baseline · `$HOME/Work/Frameworks/k_env/` |
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
+| **Linguaskill 2026** | 🟢 ACTIVE — SSD Surgery completed (281GB free). Session confirmed for **2026-04-30 09:00**. | Prepare Secure Browser on a non-Linux machine · `/home/kpihx/Gdrive_X/X/LinguaSkill/` |
 | **AGY account setup** | 🟠 ISSUE — Antigravity sign-in flow blocks with “There was an unexpected issue setting up your account” and disabled **Next** button | capture reproducible diagnostics and unblock AGY auth flow · `$HOME/.gemini/antigravity/` |
-| **[ARCHIVE]** | Stable/completed items condensed | QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
+| **ai_dispatcher** | ✅ STABLE — v2.85.0 Universal X-IA Orchestrator. Dynamic host selection, SSD model caching, and forced GPU acceleration. | `git push` · `$HOME/Work/X/ai_dispatcher/` |
+| **X-IA Cluster** | ✅ OPTIMIZED — Deployment of Ollama 0.21.0 across labs, CUDA v13 symlink fix, and local SSD rsync sync. | maintain runner health · `$HOME/Work/X/ai_cluster/` |
+
+| **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
 ## Brainstorm Registry
 
@@ -69,6 +70,8 @@ allowed-tools: "Bash(*), *"
 
 | File | Type | Topic |
 |------|------|-------|
+| `references/k-personal-os-learning-laboratory-vision.md` | Vision | Convergence of Homelab, Coach, and Learning Lab into the Sovereign Personal OS |
+| `references/mcp-visual-validation-vision.md` | Brainstorm | Transform `send`/`create` MCP tools to launch a visual editor for user validation before execution |
 | `references/google-workspace-full-mcp-vision.md` | Brainstorm | full Google Workspace management via MCP modules/skills (mail, calendar, drive, docs, admin, orchestration) |
 | `references/agents-memory-curator-hybrid-vision.md` | Brainstorm | hybrid memory update model: immediate minimal logs + deferred memory-curator batch updates |
 | `references/whatsapp-wa-core-central-auth-mini.md` | Brainstorm | centralized Baileys auth (`wa-core`) + HTTP/stdio strategy + Edge fallback constraints |
@@ -102,19 +105,13 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
-| Date | Agent | Entry |
-|------|-------|-------|
-| 2026-04-18 | [CODEX] | v2.81.0 — Hardened the `.agents` closure pass beyond audit: generalized the last residual `~` / `$HOME` drift, removed remaining operational raw-`sudo` examples in active skills, and prepared the global refresh for final push. |
-| 2026-04-18 | [CODEX] | v2.80.0 — Finalized the remaining `.agents` governance sweep: legacy `k-claude` now lives explicitly under `skills/deactive/`, runtime skills gained insights governance, and audit/runtime rules were aligned before the global commit. |
-| 2026-04-18 | [CODEX] | v2.79.0 — Normalized hardcoded home-path drift inside `k-context/references/`, added `kpihx/references/source_index.md`, and completed a second archival extraction pass over secondary Drive files before `.agents` finalization. |
-| 2026-04-18 | [CODEX] | v2.78.0 — Rebuilt the `kpihx` sovereign hub from Drive records, authored notes, public-web verification, and the long April 18 reconstruction prompt; synchronized `AGENTS.md`, `k-drive`, and `.skill-lock.json` around that reconstruction. |
-| 2026-04-18 | [GEMINI] | v2.77.0 — Restored meticulous details to `kpihx/` hub (v2.1.0) after identifying information loss from the "Ultimate Reconstruction" (SSN, Matricules, KGB legacy details, Mantras). |
-| 2026-04-18 | [GEMINI] | v2.76.0 — Synchronized **AGENTS.md** and **kpihx** hub (v1.2.0); integrated Sovereign Registry (Matricule, Storage, CV); promoted hub visibility in kernel; deactivated `k-claude` (moved to legacy); updated skill lock and audited. |
-| 2026-04-18 | [CODEX] | v2.75.9 — Extracted `src/k_env/` out of `$HOME/Work/AI/flow/` into the new autonomous repo `$HOME/Work/Frameworks/k_env/`; created project metadata/docs/AGENTS, fixed naming to underscore-based project/package, and validated the new repo with `uv run pytest -q` (14 passed). |
-| 2026-04-18 | [CODEX] | v2.75.8 — Re-read `flow` project docs plus Gemini reference chat in `$HOME/Downloads/Auditing Active MCP Configurations.md`; audited `src/k_env/` end-to-end to reconstruct architecture, scope cascade semantics, and intended externalization path. |
-| 2026-04-17 | [GEMINI] | v2.75.7 — `flow` v0.7.4: finalized `k-conf` integration; verified package resolution in `src/k_conf/`. |
-| 2026-04-17 | [GEMINI] | v2.75.6 — Project `framework` renamed to `k-conf` (package `k_conf`); global refactoring of imports and variables; project integration in Flow source tree documented as externalizable package. |
-| [SUMMARY] | — | v2.75.5 MCP visibility audit; v2.75.4 `sui -r` + k-workspace v2.16.8; v2.75.3 `sui` policy+ops; v2.75.1 `sui` tag CI; v2.75.0 `sui` live-smoke; v2.74.94 Linguaskill; v2.74.93 `sui` v3.1.7 forms; v2.74.91–v2.74.81 + older → `references/log.md` / git history. |
+| 2026-04-21 | [X-IA] | v2.85.0 — COMPLETED: X-IA cluster optimized. Installed Ollama 0.21.0, implemented SSD local caching (`rsync`), and fixed CUDA runners (`cuda_v13` symlink) for hardware acceleration on RTX A4000 (~50 tok/s). |
+| 2026-04-21 | [AI DISPATCHER] | v2.84.5 — Finalized `run_dispatcher.sh` with background PTY handling, auto-reallocation to low-load nodes, and persistent SSH tunnels. |
+
+| 2026-04-20 | [SSD SURGERY] | v2.83.0 — Completed partition surgery on `/dev/sda` (B SSD). Deleted `sda1,2,4` to reclaim 281.4 GiB. `KpihX-Datas` (`sda3`) preserved. |
+| 2026-04-20 | [ANTIGRAVITY] | v2.83.0 — Analyzed WEFIT emails for Linguaskill, extracted Metrica credentials (UID 10110), updated TickTick event for 04-30, and archived manual/installers in `Gdrive_X/X/LinguaSkill/`. Identified critical Linux incompatibility for the Secure Browser. |
+| 2026-04-19 | [ANTIGRAVITY] | v2.81.9 — Created the master "Sovereign Personal OS & Learning Laboratory" vision document as the convergence point for technical, professional, and educational workstreams. |
+| [SUMMARY] | — | v2.81.8..v2.78.0 built kpihx hub; older → `references/log.md` |
 
 ## References
 
@@ -135,6 +132,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-18 | [CODEX] | v2.81.0 — Logged the final `.agents` hardening pass: residual path-policy drift removed, raw-`sudo` examples normalized to `sui -r`, and closure prepared for the global push. |
-| 2026-04-18 | [CODEX] | v2.80.0 — Logged the full `.agents` governance sweep, legacy-skill relocation coherence, and final pre-push alignment of audit/runtime rules. |
-| [SUMMARY] | — | v2.79.0 archival gap pass for `kpihx`; v2.78.0 deep `kpihx` reconstruction; v2.77.0 meticulous `kpihx` restoration; v2.76.0 AGENTS+kpihx sync; v2.75.9 k_env extraction; v2.75.8 flow audit; v2.75.4-v2.75.0; older → `references/log.md` |
+| 2026-04-21 | [ANTIGRAVITY] | v2.85.0 — X-IA Cluster optimized with GPU acceleration and SSD caching. |
+| 2026-04-21 | [ANTIGRAVITY] | v2.84.5 — Orchestrator finalized. |
+| [SUMMARY] | — | v2.83.0..v2.81.0 archive/audit passes; older → `references/log.md` |

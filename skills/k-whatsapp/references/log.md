@@ -18,3 +18,6 @@ Purpose: detailed runtime execution log for WhatsApp operations (different from 
 
 - `2026-04-09` `[GEMINI]` run `whatsup` WhatsApp daily overview for today. Only 1 active group (X24-X25 Cameroun) returned with 2 messages.
 - `2026-04-09` `[GEMINI]` run `whatsup` WhatsApp Monday to Wednesday overview. Heavy traffic in Badminton (Biprom event), Hackathon team (prize payout), PSC, and Offres de missions (BNP).
+- `2026-04-20` `[ANTIGRAVITY]` whats-mcp stdio | `list_contacts`, `get_messages` | Nelson Mbeunang / 23797950433@s.whatsapp.net | Failed: "WhatsApp is not connected. Run the server and scan the QR code to connect." | n/a | AUTH BLOCK enforcement
+- `2026-04-20` `[ANTIGRAVITY]` whats-mcp stdio | `get_messages` | Nelson Mbeunang / 23797950433@s.whatsapp.net | Failed: EOF | n/a | User successfully re-authenticated, but stdio pipe died (EOF) after clearing stuck background processes. Requires window/agent reload.
+- `2026-04-21` `[ANTIGRAVITY]` whats-mcp stdio | `list_contacts`, `send_document` | Allan X-Cam / 33759026570@s.whatsapp.net | Failed: "WhatsApp is not connected. Run the server and scan the QR code to connect." | n/a | AUTH BLOCK enforcement

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.4"
+  version: "2.11.5"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -60,6 +60,13 @@ cwd = "$HOME"
 [mcp_servers.<name>]
 command = "zsh"
 args = ["-l", "-c", "/path/to/binary serve"]
+```
+
+**Remote HTTP MCP with bearer token from env:**
+```toml
+[mcp_servers.<name>]
+url = "https://example.com/mcp"
+bearer_token_env_var = "EXAMPLE_API_KEY"
 ```
 
 **GUI-dependent MCPs (bw-mcp with zenity):** Inject display vars:
@@ -130,6 +137,6 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-21 | [CODEX] | v2.11.5 — Documented verified remote HTTP MCP auth with `bearer_token_env_var` for Codex. |
 | 2026-04-18 | [CODEX] | v2.11.4 — Generalized Codex deep-clean commands from `~` to `$HOME` so runtime docs obey shared kernel path policy. |
-| 2026-04-17 | [CURSOR] | v2.11.3 — Documented: `make audit` no longer validates Codex `hooks.json` / `codex_hooks` (runtime flag still required for hooks to execute). |
-| [SUMMARY] | — | v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; +1 older changelog entries kept in file history |

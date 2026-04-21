@@ -2,7 +2,7 @@
 
 ## The Father — Bruno KAMDEM GUELA (`KGB`)
 
-Bruno KAMDEM GUELA is the deepest personal anchor of the hub. He is not just a family fact; he is the main explanatory axis behind KπX's taste for versatility, technical autonomy, and project-driven living.
+Bruno KAMDEM GUELA is the deepest personal anchor of the hub. For the expanded father-specific layer — bond, trust, transmission, workshop life, and legacy — see [kgb.md](kgb.md).
 
 ### Profile
 
@@ -15,22 +15,14 @@ Bruno KAMDEM GUELA is the deepest personal anchor of the hub. He is not just a f
 | Death date | `2023-03-18` | `[OFFICIAL]` death certificate |
 | Death place | `Bafoussam (Centre Hospitalier Régional)` | `[OFFICIAL]` death certificate |
 | Official status at death | `Married (polygamous)`, retired, resident at `Baham` | `[OFFICIAL]` death certificate |
-| Core training | Electronics engineer, later computer engineer | `[SELF-REPORT 2026-04-18]` |
-| Major career markers | Scholarship to Polytechnique Montréal; IBM France; IBM Cameroon | `[SELF-REPORT 2026-04-18]` |
-| Lifestyle | Already retired before Ivann's birth; village-based, but permanently active on projects | `[SELF-REPORT 2026-04-18]` |
+| Identity in the hub | Father, main legacy line, builder-model | `[OFFICIAL]` + `[SELF-REPORT 2026-04-18]` |
 
-### Structural Influence
+### Condensed Legacy
 
-- He turned weekends and holidays into workshops: IT, mechanics, electricity, masonry, plumbing, and practical problem solving.
-- He built a discipline of effort followed by sincere reward: early breakfast, full workday, shared meals, evening celebration.
-- He modelled a life of independent technical agency rather than salaried routine, which still feeds KπX's consulting/entrepreneurial aspiration.
-- He remained smiling, physically strong, mentally resilient, and difficult to read from the outside even when life was hard.
-
-### Key Anecdotes
-
-- In primary school, Ivann once described his father as a **"computer mechanic"** because no simpler label felt large enough.
-- Every major academic success was first announced to him; the impossibility of announcing the `2024` X admission remains one of the strongest emotional absences in the hub.
-- He fascinated Ivann by being comfortable across domains and by embodying practical intelligence without theatricality.
+- He turned weekends and holidays into lived workshops.
+- He fused discipline, reward, practical intelligence, and smiling presence.
+- He still explains a large part of KπX's versatility, autonomy, and independent-builder instinct.
+- The expanded record now lives in [kgb.md](kgb.md).
 
 ## The Mother — Rita Levie MADEYO
 
@@ -66,6 +58,7 @@ She provided the continuity, educational frame, and stable school base of the Ba
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/ACTE_DECES_PERE_KAMDEM_GUELA.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Acte_Naissance_KAMDEM_POUOKAM_Ivann_Harold.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/A maman Hortense - Temoignage - KAMDEM Ivann.docx`
+- `See also: [kgb.md](kgb.md)`
 
 ## Scope Boundary
 

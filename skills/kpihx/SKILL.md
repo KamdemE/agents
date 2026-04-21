@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.6.0"
   scope: personal-os
 ---
 
@@ -63,13 +63,15 @@ metadata:
 | --- | --- | --- |
 | Identity & registry | [identity.md](references/identity.md) | Legal name, identifiers, contacts, addresses, banking, housing. |
 | Health | [health.md](references/health.md) | CPAM, CSS, Vitale, sport clearance, medical events, dental references. |
-| Ancestry & legacy | [ancestry.md](references/ancestry.md) | Bruno KGB, Rita, roots, inherited discipline, key anecdotes. |
+| Ancestry & legacy | [ancestry.md](references/ancestry.md) | Rita, roots, extended memory, condensed KGB legacy line. |
+| Father-specific legacy | [kgb.md](references/kgb.md) | Bruno KGB in depth: bond, trust, work ethic, transmission, rupture, continuing mission. |
 | Academic path | [academic.md](references/academic.md) | Baham/Bafoussam, ENSPY, X, transcripts, grades, tests, EuroTeQ. |
 | Distinctions | [achievements.md](references/achievements.md) | AIMS, OFM, regional major, ZTF, DAAD AI, Hi!ckathon, certificates. |
 | Life evolution | [evolution.md](references/evolution.md) | Places, turning points, grief, Marcoussis, Palaiseau, adaptation arc. |
 | Philosophy | [philosophy.md](references/philosophy.md) | Mantras, anti-Bourbakism, Sciencurious, values, core quotes. |
 | Spirituality | [spirituality.md](references/spirituality.md) | Superposition, creator/creation, religion, Christ, Spinoza, conscience. |
 | Relationships | [relationships.md](references/relationships.md) | Friendship topology, reciprocity, mirrors, debate ethic, love geometry. |
+| Manuscript corpus | [manuscripts.md](references/manuscripts.md) | Childhood-to-2024 handwritten archive, developmental evidence, raw continuity of style. |
 | Creative flow | [creative_flow.md](references/creative_flow.md) | Piano, music, sports, cycling, badminton, flow states. |
 | Projects & long vision | [projects_vision.md](references/projects_vision.md) | Sciencurious, sovereignty, AI mission, consulting/entrepreneurship. |
 | Public footprint | [digital_footprint.md](references/digital_footprint.md) | Handles, profiles, package registries, sites, public mentions, repo themes. |
@@ -105,6 +107,6 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-18 | [CODEX] | v2.4.0 — Added the explicit `source_index` runtime layer, enriched rare archival details from secondary Drive records, and tightened traceability from sensitive blocks to exact files and URLs. |
-| 2026-04-18 | [CODEX] | v2.3.0 — Rebuilt the sovereign runtime map, added health and projects/vision references, restored provenance discipline, and re-expanded the hub from official docs, authored notes, public web, and the April 18 user reconstruction prompt. |
-| [SUMMARY] | — | v2.1.0 meticulous restoration; v2.0.0 ultimate reconstruction; v1.2.0 initial kernel sync; older entries condensed. |
+| 2026-04-18 | [CODEX] | v2.6.0 — Added `references/manuscripts.md` as the developmental archive layer and extended `philosophy.md` with an explicit `[INFERENCE]` synthesis on `seconde`, anti-Bourbakism, and the science/art duality. |
+| 2026-04-18 | [CODEX] | v2.5.0 — Split Bruno KGB into a dedicated `references/kgb.md` layer, lightened `ancestry.md`, and made the father-specific transmission model explicit in the runtime map. |
+| [SUMMARY] | — | v2.4.0 source-index traceability; v2.3.0 rebuilt runtime map + provenance discipline; v2.1.0 meticulous restoration; v2.0.0 ultimate reconstruction; v1.2.0 initial kernel sync; older entries condensed. |

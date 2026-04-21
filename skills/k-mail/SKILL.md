@@ -4,7 +4,7 @@ description: "Unified mail operational memory — KπX mail sources: Zimbra (pol
 license: private
 metadata:
   author: KpihX
-  version: "2.0.34"
+  version: "2.1.0"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -204,7 +204,7 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 
 | Thread | Contacts | Last State | Next Action |
 |--------|----------|------------|-------------|
-| English certification / Linguaskill (UID `8323`, `10071`) | `certification-anglais-dlc@polytechnique.fr`, `service@wefitgroup.com` | Slot now confirmed by WEFIT: **Thu 2026-04-30 09:00 Europe/Paris** (registration success page + confirmation message). `UID 10071` is now `Important` + `\Flagged` in `INBOX`. Primary IDs: `<1496528695.157357129.1775126042536.JavaMail.zimbra@zimbra.polytechnique.fr>`, `<1986239662.360.1776236071674@localhost>` | Keep watch for convocation / technical instructions / username-password send before exam day; archive thread after test completion and results receipt |
+| English certification / Linguaskill (UID `10110`, `10071`) | `certification-anglais-dlc@polytechnique.fr`, `service@wefitgroup.com` | Registration confirmed for **Thu 2026-04-30 09:00**. Credentials extracted from UID `10110` (Username/Password/Institution ID). Archived manual & installers in `Gdrive_X/X/LinguaSkill/`. | Watch for convocation / final technical instructions before exam day; archive thread after test completion and results receipt |
 | IME Buurtzorg / follow-up | `pauline.alessandra@polytechnique.edu`, Moodle | Part 1 feedback notified **2026-04-08** (mail archived) | Await **re-feedback** or submit next milestone per course rules; ping if stalled |
 | IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com`, `isabel.camps_tscherwitschke@ipai-foundation.ai` | Payout delayed per **2026-04-08** update (mail archived) | No reply needed unless silence; watch inbox for payout confirmation |
 
@@ -221,6 +221,6 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-20 | [ANTIGRAVITY] | v2.1.0 — Updated Linguaskill thread with confirmation UID `10110`, extracted credentials, and Gdrive archival status. |
 | 2026-04-16 | [CODEX] | v2.0.34 — Added validated Hotmail recovery runbook (user-run only): set browser/clipboard flags, force `--tenant consumers`, and use `--debug` for diagnostics; updated Outlook read command references to `outlook message list`. |
-| 2026-04-15 | [CODEX] | v2.0.32 — Updated Linguaskill open thread with confirmed slot (2026-04-30 09:00), new WEFIT message IDs, and state (`UID 10071` flagged + Important). |
-| [SUMMARY] | — | v2.0.33 unified scope + no login/logout by agents; v2.0.31 insights discipline; v2.0.30 batch depth; v2.0.29 zero-synthesis; v2.0.28 tool matrix; v2.0.27..v2.0.0 prior stack |
+| [SUMMARY] | — | v2.0.33..v2.0.0 history; older → `references/log.md` |

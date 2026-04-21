@@ -22,6 +22,7 @@ Purpose: durable behavioral memory to improve proactive planning support and red
 - When user asks for a "print-ready synthesis", enrich the main dated task `content` directly (format, CEFR alignment, pitfalls, section strategy) and combine both `-90min` and `0` reminders for the final execution window.
 - When a precise soutenance date already exists in TickTick, update that task instead of duplicating, and add a separate period-range task only if requested.
 - If a dated academic task is found in `🎓 X/✅ Todos`, move it to `🎓 X/📅 Agenda` to keep planning views clean.
+- **Exam/Certification Annotation:** For proctored exam tasks, always include the technical support number and a specific "Environment Warning" if native hardware/OS constraints exist (e.g., "No Linux support"). Add Gdrive archival links for manuals/installers directly in the task content.
 
 ## Tooling Patterns
 

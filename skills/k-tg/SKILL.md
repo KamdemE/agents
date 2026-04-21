@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.1.5"
+  version: "3.1.6"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -213,6 +213,6 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-18 | [GEMINI] | v3.1.6 — Sent the "Piano & Logic" bio snippet to `tg user me` for storage and validation. |
 | 2026-04-18 | [CODEX] | v3.1.5 — Aligned Telegram investigation guidance with the kernel `sui -r` privilege gate instead of raw `sudo`. |
-| 2026-04-13 | [CODEX] | v3.1.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v3.1.3 batch deep-investigation stop condition; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v3.1.4 insights; v3.1.3 investigation stop condition; +1 older changelog entries kept in file history |

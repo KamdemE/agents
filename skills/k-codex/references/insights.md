@@ -12,3 +12,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 ## Insights
 
 - Initial baseline created automatically from insights governance standard.
+- Codex remote HTTP MCP auth is configured with `bearer_token_env_var = "ENV_NAME"` next to `url = "https://.../mcp"`; the CLI equivalent is `codex mcp add <name> --url <url> --bearer-token-env-var <ENV_NAME>`.

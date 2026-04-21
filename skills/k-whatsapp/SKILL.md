@@ -4,7 +4,7 @@ description: whats-mcp operational memory — KπX WhatsApp identity, messaging 
 license: private
 metadata:
   author: KpihX
-  version: "2.1.14"
+  version: "2.2.0"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -45,6 +45,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 
 ## Runtime Discipline (mandatory)
 
+- **AUTH BLOCKS (mandatory):** If `whats-mcp` (stdio or HTTP) reports a connection or authentication failure (e.g., "WhatsApp is not connected", "Scan QR code"), you MUST **STOP immediately**. Do not waste tokens or time on complex browser/vision hacks to bypass the disconnect. Report the issue, wait for KπX to reconnect, and resume only after explicit confirmation.
 - **MCP transport:** **Prefer HTTP** — use the **`whats-mcp-http`** / **`user-whats-mcp-http`** MCP server (`https://whats.kpihx-labs.com/mcp`). Use **stdio** (`whats-mcp--stdio` / `user-whats-mcp--stdio`) **only as fallback** if HTTP fails; see **AGENTS.md → MCP Protocol → Transport preference**.
 - You must read `$HOME/.agents/skills/k-whatsapp/references/insights.md` before doing any WhatsApp task.
 - You must append one detailed entry to `$HOME/.agents/skills/k-whatsapp/references/log.md` after every whats-mcp tool use.
@@ -193,6 +194,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-20 | [ANTIGRAVITY] | v2.2.0 — Added mandatory **AUTH BLOCKS** stop rule: no browser/hack fallback on disconnect; report and wait for user instead. |
 | 2026-04-13 | [CURSOR] | v2.1.14 — Changelog table capped to 2 explicit rows + `[SUMMARY]` per `.agents` audit. |
-| 2026-04-13 | [CODEX] | v2.1.13 — Registered contact mapping `Ta Baby (Nathalie)` with JID `127625573986382@lid` from voice-note triage. |
-| [SUMMARY] | — | v2.1.12 Key Contacts table fix; v2.1.11 Runtime Discipline/STT/Arc; v2.1.10 `whisper-ctranslate2`; v2.1.8–v2.0.0 → prior rows |
+| [SUMMARY] | — | v2.1.13 contact mapping; v2.1.12 Key Contacts fix; v2.1.11 Runtime/STT/Arc; v2.1.10 whisper; v2.1.8–v2.0.0 → prior |

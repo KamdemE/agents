@@ -8,6 +8,11 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-04-18 | [CODEX] | v2.78.0 — Rebuilt the `kpihx` sovereign hub from Drive records, authored notes, public-web verification, and the long April 18 reconstruction prompt; synchronized `AGENTS.md`, `k-drive`, and `.skill-lock.json` around that reconstruction. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-18 | [CODEX] | v2.75.9 — Extracted `src/k_env/` out of `$HOME/Work/AI/flow/` into the new autonomous repo `$HOME/Work/Frameworks/k_env/`; created project metadata/docs/AGENTS, fixed naming to underscore-based project/package, and validated the new repo with `uv run pytest -q` (14 passed). *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-18 | [CODEX] | v2.75.8 — Re-read `flow` project docs plus Gemini reference chat in `$HOME/Downloads/Auditing Active MCP Configurations.md`; audited `src/k_env/` end-to-end to reconstruct architecture, scope cascade semantics, and intended externalization path. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-17 | [GEMINI] | v2.75.7 — `flow` v0.7.4: finalized `k-conf` integration; verified package resolution in `src/k_conf/`. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-17 | [GEMINI] | v2.75.6 — Project `framework` renamed to `k-conf` (package `k_conf`); global refactoring of imports and variables; project integration in Flow source tree documented as externalizable package. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-17 | [GEMINI] | v2.75.5 — MCP Visibility Audit: confirmed `mail`, `tick`, and `whats` stdio servers injected in Antigravity runtime; discussion on missing `linkedin` in current context. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-17 | [CURSOR] | v2.75.4 — **`sui` v3.1.23:** **`-r`** alias for **`--reason`**; stub tests; **`sh` v2.1.4** README submodule note; **AGENTS** privilege bullet compacted; **`k-workspace`** v2.16.8. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-16 | [CURSOR] | v2.75.2 — **`sh` orchestrator** v2.1.3: submodule `sui` → `275c6a0` (v3.1.22), root README/CHANGELOG/Makefile; commit `e3aa2e2` pushed github+gitlab. Folder: `$HOME/Work/sh/`. *(Rotated from k-context Session Log — audit cap.)* |
