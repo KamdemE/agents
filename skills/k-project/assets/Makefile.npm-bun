@@ -8,8 +8,11 @@ help:  ## Show available targets
 
 # ── Dev ──────────────────────────────────────────────────────────────────────
 
-install:  ## Install dependencies
-	@bun install
+link:  ## Install dependencies and link (user)
+	@bun install && bun link
+
+unlink:  ## Unlink package
+	@bun unlink
 
 test:  ## Run tests (bun test or jest)
 	@bun test

@@ -1,0 +1,58 @@
+# ── Prod (Sovereign Root - Bun) ──────────────────────────────────────────────
+# Generic template for critical Bun apps requiring root-owned immutability.
+
+PKG_NAME         ?= $(shell basename $$(pwd))
+
+# 🛠️ Robust path discovery (detecting real user even under sudo/sui)
+REAL_USER := $(shell logname 2>/dev/null || echo $$USER)
+REAL_HOME := $(shell getent passwd $(REAL_USER) | cut -d: -f6)
+BUN       := $(shell command -v bun 2>/dev/null || ls $(REAL_HOME)/.bun/bin/bun 2>/dev/null || echo bun)
+ZSH_LOGIN := zsh -l -c
+
+APPARMOR_TARGET := /etc/apparmor.d/opt.$(PKG_NAME).bin.$(PKG_NAME)
+
+install: ## Immutable system install (Root-owned code in /opt/$(PKG_NAME), User binary in ~/.local/bin)
+	@mkdir -p $(REAL_HOME)/.$(PKG_NAME)
+	@chmod 700 $(REAL_HOME)/.$(PKG_NAME)
+	@echo "🛡️ Installing $(PKG_NAME) to /opt/$(PKG_NAME)..."
+	@rm -rf /opt/$(PKG_NAME)
+	@mkdir -p /opt/$(PKG_NAME)
+	@cp -r . /opt/$(PKG_NAME)/
+	@bash -c "cd /opt/$(PKG_NAME) && $(BUN) install --production"
+	@ln -sf /opt/$(PKG_NAME)/bin/$(PKG_NAME) $(REAL_HOME)/.local/bin/$(PKG_NAME)
+	@chown -R root:root /opt/$(PKG_NAME)
+	@echo "✅ Code installed in /opt/$(PKG_NAME)"
+	@$(MAKE) apparmor-apply
+	@echo "✅ Binary linked in $(REAL_HOME)/.local/bin/$(PKG_NAME)"
+	@# Fix ownership for user-specific resources created by root
+	@chown -R $(REAL_USER):$(REAL_USER) $(REAL_HOME)/.$(PKG_NAME)
+	@chown -h $(REAL_USER):$(REAL_USER) $(REAL_HOME)/.local/bin/$(PKG_NAME) || true
+	@echo "🛡️ AppArmor profile active and enforced."
+
+uninstall: ## Remove system install
+	@echo "🗑️ Removing $(PKG_NAME) system install..."
+	@rm -f $(REAL_HOME)/.local/bin/$(PKG_NAME)
+	@rm -rf /opt/$(PKG_NAME)
+	@if [ -f $(APPARMOR_TARGET) ]; then \
+		apparmor_parser -R $(APPARMOR_TARGET) && rm -f $(APPARMOR_TARGET); \
+	fi
+	@rm -rf $(REAL_HOME)/.$(PKG_NAME)
+	@echo "✅ System install and data removed."
+
+audit: ## Verify sovereign installation integrity
+	@echo "🕵️  Auditing $(PKG_NAME) installation..."
+	@test "$$(stat -c '%U:%G' /opt/$(PKG_NAME))" = "root:root" && echo "✅ Ownership: root:root"
+	@test "$$(stat -c '%a' $(REAL_HOME)/.$(PKG_NAME))" = "700" && echo "✅ Data dir: 700"
+	@aa-status | grep -q "$(PKG_NAME)" && echo "✅ AppArmor: Enforced"
+	@echo "🛡️ Audit Passed."
+
+apparmor-apply: ## Internal: Generate and load AppArmor profile
+	@echo "🛡️ Applying AppArmor profile..."
+	@printf "abi <abi/3.0>,\n\
+include <tunables/global>\n\n\
+profile $(PKG_NAME) /opt/$(PKG_NAME)/bin/$(PKG_NAME) {\n\
+  include <abstractions/base>\n\n\
+  /opt/$(PKG_NAME)/** mr,\n\
+  $(REAL_HOME)/.$(PKG_NAME)/** rw,\n\
+}\n" | tee $(APPARMOR_TARGET) > /dev/null
+	@apparmor_parser -r $(APPARMOR_TARGET)

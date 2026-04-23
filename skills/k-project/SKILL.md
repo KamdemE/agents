@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.2"
+  version: "2.7.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -167,17 +167,13 @@ See also **Project Init — Bash/Shell** below.
 
 ## Local Install
 
-```bash
-# Python — editable install (picks up live source changes)
-uv tool install . --editable
+Always prefer development linking to ensure the CLI uses the current codebase:
 
-# JS/TS — bun link (preferred) or npm link
-bun link / npm link <project-name>
-# then in consumer: bun link <project-name>
+- **Python (uv)**: `make link` (user-level editable install)
+- **JS/TS (bun)**: `make link` (runs `bun link`)
+- Use `make unlink` to revert.
 
-For owned JS/TS MCP servers, keep the package manager and the runtime owner aligned: Bun first, npm only when a third-party package or tool explicitly requires it. Document the install command in `references/mcp.md` and keep VS Code configs pointed at the login-shell-resolved binary name.
-For owned JS/TS MCP servers, choose Bun only after runtime verification; if the package breaks under Bun, keep the stable owner documented in `references/mcp.md` and point VS Code at the login-shell-resolved binary name.
-```
+> **🛡️ Security Note**: For critical or sensitive projects (e.g. secret management, system tools), the development `link` is insufficient for production. In those cases, you MUST load **`k-final`** and follow the **Sovereign Security** workflow to perform a root-owned immutable install (`make install`) with AppArmor jailing.
 
 ## Versioning & Release
 
@@ -287,8 +283,6 @@ This creates/updates `.gitmodules`:
 
 ## Changelog
 
-| Date | Agent | Action |
-|------|-------|--------|
+| 2026-04-23 | [ANTIGRAVITY] | v2.7.0 — Harmonized dev install with link/unlink convention; added explicit security-hardened installation path reference pointing to k-final for critical projects. |
 | 2026-04-18 | [CODEX] | v2.6.2 — Replaced raw-`sudo` project-init examples with `sui -r` guidance and clarified that privilege must stay scoped inside install logic. |
-| 2026-04-13 | [CODEX] | v2.6.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v2.6.0 made `CONTRACT.md` mandatory and clarified metadata-vs-runtime split enforcement; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v2.6.0 made `CONTRACT.md` mandatory and clarified metadata-vs-runtime split enforcement; +2 older changelog entries kept in file history |

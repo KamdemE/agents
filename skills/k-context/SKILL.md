@@ -1,10 +1,10 @@
 ---
 name: "k-context"
-description: "KπX HOT context — load at EVERY session start. Active TODOs, current projects, and session log."
+description: "KpihX HOT context - load at EVERY session start. Active TODOs, current projects, and session log."
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.0"
+  version: "2.85.13"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -40,17 +40,18 @@ allowed-tools: "Bash(*), *"
 | **Phoenix V4.0 Vision** | 🔴 **ABSOLUTE PRIORITY #1** — Technical Foundation: K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
 | **MCP Visual Validation** | 🚧 PLANNING — Transform `send`/`create` across MCPs (TickTick, WhatsApp, LinkedIn, Mail) to launch a visual editor for review before execution | Propose architecture · `$HOME/.agents/skills/k-context/references/mcp-visual-validation-vision.md` |
-| **kpihx** | ✅ STABLE — v2.6.0 Sovereign Hub with father split, manuscript archive layer, and explicit development/provenance anchoring | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/skills/kpihx/` |
+| **kpihx** | ✅ STABLE — v2.6.0 Sovereign Hub with father split, manuscript archive layer, and explicit development/provenance anchoring | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/kpihx/` |
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
+| **bw-mcp** | ✅ STABLE — v1.9.2 Bitwarden Proxy. Sovereign Hardened: Root-owned immutability, restrictive AppArmor, and automated audit validation. | Finalized · `$HOME/Work/AI/MCPs/bw-mcp/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
 | **sciencurious** | 🟢 ACTIVE — Docsify + KaTeX visual articles (math, physics, CS) | add Manim visuals to integration article · `$HOME/Work/sciencurious/` |
-| **envision (PSC)** | 🟢 ACTIVE — agentic pipeline stabilized and `env_graph` is now re-aligned with the repo: root config integration, `python -m env_graph.network` CLI usage, and `data/network/` rebuild validated end-to-end | continue final report + soutenance prep from the stabilized dense-RAG baseline; later clean placeholder-resolution path noise and decide whether to expand graph usage in the planner beyond the current fusion attempt · `$HOME/Work/X/envision/envision/` |
+| **envision (PSC)** | ✅ STABLE — final report layout with dual logos aligned, branding complete, and project links pushed to main and presentation repo (`ee3398d`). Ready for soutenance prep from the stabilized dense-RAG baseline. | `push audit` · `$HOME/Work/X/envision/envision/` |
 | **flow** | 🟢 ACTIVE — `k_env` extracted out of tree into its own framework repo; `flow` packaging no longer claims `k_env` CLI/tests | continue voice-kernel work as `flow`-only and add a local dependency on `$HOME/Work/Frameworks/k_env/` only if/when runtime imports are introduced · `$HOME/Work/AI/flow/` |
 | **k_env** | 🟢 ACTIVE — autonomous framework repo scaffolded under `Work/Frameworks/`; migrated package + tests now live in their own git root and pass locally | refine autonomous docs/API after extraction and continue the post-SecretStrategy cleanup from the Gemini intent baseline · `$HOME/Work/Frameworks/k_env/` |
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
@@ -105,13 +106,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
-| 2026-04-21 | [X-IA] | v2.85.0 — COMPLETED: X-IA cluster optimized. Installed Ollama 0.21.0, implemented SSD local caching (`rsync`), and fixed CUDA runners (`cuda_v13` symlink) for hardware acceleration on RTX A4000 (~50 tok/s). |
-| 2026-04-21 | [AI DISPATCHER] | v2.84.5 — Finalized `run_dispatcher.sh` with background PTY handling, auto-reallocation to low-load nodes, and persistent SSH tunnels. |
-
-| 2026-04-20 | [SSD SURGERY] | v2.83.0 — Completed partition surgery on `/dev/sda` (B SSD). Deleted `sda1,2,4` to reclaim 281.4 GiB. `KpihX-Datas` (`sda3`) preserved. |
-| 2026-04-20 | [ANTIGRAVITY] | v2.83.0 — Analyzed WEFIT emails for Linguaskill, extracted Metrica credentials (UID 10110), updated TickTick event for 04-30, and archived manual/installers in `Gdrive_X/X/LinguaSkill/`. Identified critical Linux incompatibility for the Secure Browser. |
-| 2026-04-19 | [ANTIGRAVITY] | v2.81.9 — Created the master "Sovereign Personal OS & Learning Laboratory" vision document as the convergence point for technical, professional, and educational workstreams. |
-| [SUMMARY] | — | v2.81.8..v2.78.0 built kpihx hub; older → `references/log.md` |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.13 — `bw-mcp` v1.9.2: Finalized Sovereign Stack synchronization. Synchronized `README.md`, `AUDIT.md`, `MEMORY.md`, and all simulation guides. Verified v1.9.2 binaries (`bw-mcp`, `bw-admin`) and pushed to all remotes. · `$HOME/Work/AI/MCPs/bw-mcp/` |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.12 — `k-final` v1.3.1: Synchronized Sovereign security templates across `assets/Makefile.security.*`. Enforced `audit` and `ZSH_LOGIN` shell protocols. · `$HOME/.agents/skills/k-final/` |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.11 — `bw-mcp` v1.9.1: Sovereign Hardening — Root-owned `/opt/` install, AppArmor profile enforcement, and unified `make audit`. · `$HOME/Work/AI/MCPs/bw-mcp/` |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.10 — `bw-mcp` v1.9.0: Blind Audit 2.0 (find_all_vault_duplicates) and Password-First unification. · `$HOME/Work/AI/MCPs/bw-mcp/` |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.8 — `bw-mcp` maintenance: verified engine health (81/81 tests) and initialized docs pass. |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.7 — `3D Exploration`: Analyzed 'Maison du Village' project files (.sh3d, .glb, .obj, .3mf). |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.6 — `envision`: Refined flyer diagram (TikZ) - rewired Answer Grader. |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.5 — `envision`: Fixed broken GitHub links and path for `architecture.svg`. |
+| 2026-04-22 | [GEMINI] | v2.85.4 — `sui`: released v3.2.0. Modernized argument parser with POSIX support. |
+| 2026-04-22 | [GEMINI] | v2.85.3 — `envision`: finalized branding and pushed all clones (`ee3398d`). |
+| [SUMMARY] | — | v2.85.2 Envision rebase/push; v2.85.1 Envision docs refresh; v2.85.0 X-IA optimized; older → `references/log.md` |
 
 ## References
 
@@ -132,6 +137,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-21 | [ANTIGRAVITY] | v2.85.0 — X-IA Cluster optimized with GPU acceleration and SSD caching. |
-| 2026-04-21 | [ANTIGRAVITY] | v2.84.5 — Orchestrator finalized. |
-| [SUMMARY] | — | v2.83.0..v2.81.0 archive/audit passes; older → `references/log.md` |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.13 — `bw-mcp` v1.9.2: Documentation and binary sync complete. |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.12 — `k-final` v1.3.1: Sovereign security templates synchronized. |
+| [SUMMARY] | — | v2.85.11..v2.85.10 bw-mcp release stack; v2.85.0 X-IA cluster optimized; v2.84.5 Orchestrator finalized; v2.83.0..v2.81.0 archive/audit passes; older → `references/log.md` |

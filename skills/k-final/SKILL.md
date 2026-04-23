@@ -4,17 +4,17 @@ description: >
   Post-work project closure workflow: tests, hygiene, config-as-docs, markdown
   sync, versioning, git (submodules order), CI/CD watch, deploy log check,
   local install, build/publish, then `.agents/` kernel sync (k-context, audit,
-  push). Every phase is obligatory when it applies — no silent skips. Load when
-  finishing a feature or release pass on any KπX project.
+  push). Every phase is obligatory when it applies - no silent skips. Load when
+  finishing a feature or release pass on any KpihX project.
 license: private
 metadata:
   author: KpihX
-  version: "1.1.1"
+  version: "1.3.1"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Project Finalization (`k-final`)
+# KpihX — Project Finalization (`k-final`)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
@@ -32,6 +32,11 @@ Mandatory **closing pass** after substantive work on a repo: you **must** execut
 3. If you discover a missed gate after the fact, **go back**, run the missing steps, fix what they reveal, then update **`k-context`** (and project docs) in the same closure pass.
 
 **Kernel contract:** `AGENTS.md`, `k-context`, `k-workspace`, `k-project`, and `k-git` all instruct agents to **load this file** when finalizing or "cleaning" a project — treat that as a hard gate, not a suggestion.
+
+## Assets
+
+- `assets/Makefile.security.uv`
+- `assets/Makefile.security.bun`
 
 ## Phase A — Tests
 
@@ -109,20 +114,42 @@ Keep a single coherent version across monorepo packages if the repo defines that
 2. **HTTP health:** if the service exposes a public or internal health URL, **`curl -fsS`** it (e.g. `https://<public-host>/health`) and record failure modes.
 3. Fix forward (image tag, compose, env) until the container is **healthy** and logs show no recurring errors.
 
-## Phase I — Local install (after H when deploy applies)
+## Phase I — Local install
 
 **Order:** deploy healthy first when the project is deployed; otherwise run after Phase F.
 
-Prefer, in order:
+### 🏠 Standard Projects (Developer Link)
+Always prefer local linking for development to ensure the CLI uses the current codebase:
+- **Python (uv)**: `make link` (runs `uv tool install --editable .`)
+- **JS/TS (bun)**: `make link` (runs `bun link`)
+- **Other**: Use the project's standard link/dev-install command.
+- Use `make unlink` to clean up.
 
-- Python: `uv tool install . --editable --force` or `make` target wrapping the same
-- JS/TS: `bun link` / `npm link` per `k-project`
-- Shell/systemd: `make install` → `scripts/install.sh` (propose `install.sh` + `purge.sh` from `k-project` templates if missing and no package manager)
+### 🛡️ Sovereign Security Projects (Critical/System)
+For tools managing secrets (like `bw-mcp`), system-level tools (`sui`), or core homelab automation, enforce **Root-Protection** and **Confinement**:
+
+1. **Root-Immutable Install**:
+   - Use `make install` to deploy in `/opt/$(PKG_NAME)` with `root:root` ownership.
+   - **Infrastructure Hardening**: Use `REAL_USER` and `REAL_HOME` detection in the `Makefile` to ensure user-space paths are resolved correctly even when running via `sui/sudo`.
+   - **Internal Hygiene**: Remove redundant `sudo` calls from inside targets; the user should run `sui make install`.
+   - Use the template from **`k-final/assets/Makefile.security.[uv|bun]`**.
+   - **Requirement**: The agent MUST merge the security targets from `k-final` into the project's standard `Makefile` (from `k-project`).
+2. **AppArmor Jailing**:
+   - Critical apps MUST have an AppArmor profile.
+   - `make install` should automatically generate and load the profile from the `apparmor-apply` target.
+3. **Data & Binary Ownership**:
+   - Persistent data/logs MUST live in `$(REAL_HOME)/.$(PKG_NAME)` with **700** permissions.
+   - Root-created symlinks in `$(REAL_HOME)/.local/bin` MUST be fixed with `chown -h $(REAL_USER):$(REAL_USER)`.
+   - The `install` target MUST recursively `chown` the data directory to `REAL_USER`.
+4. **Audit & Verification**:
+   - The `Makefile` MUST include an `audit` target (see templates) verifying root ownership, directory permissions (700 for data), and AppArmor enforcement.
+   - Run `make audit` after every install; success is mandatory.
 
 ## Phase J — Build & publish
 
 1. **Remove old build output** before build: e.g. `rm -rf dist/` build dirs (or `make clean` if defined).
 2. `make build` then publish via Makefile (`make publish` / `make release` — see project Makefile).
+   - **Requirement**: `make publish` MUST use `$(ZSH_LOGIN)` (e.g. `$(ZSH_LOGIN) "bw-env -- uv publish"`) to load the login environment.
    - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
 3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via **bw-env** (`k-project`). If missing or invalid → **stop**; tell KπX to unlock **Vaultwarden / bw-env** and export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
@@ -165,6 +192,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v1.1.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-09 | [CURSOR] | v1.1.0 — Phase F now requires automatic remote bootstrap (`github`/`gitlab`) when missing; Phase J now enforces k-project naming fallback on registry collisions; added explicit contract coherence gate before closure |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| 2026-04-23 | [ANTIGRAVITY] | v1.3.1 — Integrated 'audit' and 'ZSH_LOGIN' requirements into Phase I and J protocols, aligning templates with the bw-mcp gold standard. |
+| 2026-04-23 | [ANTIGRAVITY] | v1.3.0 — Hardened Sovereign workflow: mandated REAL_HOME/REAL_USER resolution, stripped redundant internal sudo, and enforced explicit link/data ownership fixes in templates. |
+| [SUMMARY] | — | +3 older changelog entries kept in file history; condensed for table limits |

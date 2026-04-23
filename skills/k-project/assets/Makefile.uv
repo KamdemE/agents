@@ -8,11 +8,11 @@ help:  ## Show available targets
 
 # ── Dev ──────────────────────────────────────────────────────────────────────
 
-install:  ## Run scripts/install.sh
-	@./scripts/install.sh
+link:  ## Install package in editable mode (user)
+	@uv tool install --editable .
 
-purge:  ## Run scripts/purge.sh
-	@./scripts/purge.sh
+unlink:  ## Uninstall tool
+	@uv tool uninstall $$(basename $$(pwd))
 
 test:  ## Run pytest
 	@uv run pytest -q

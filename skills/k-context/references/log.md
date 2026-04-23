@@ -7,7 +7,12 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-04-21 | [X-IA] | v2.85.0 — COMPLETED: X-IA cluster optimized. Installed Ollama 0.21.0, implemented SSD local caching (`rsync`), and fixed CUDA runners (`cuda_v13` symlink) for hardware acceleration on RTX A4000 (~50 tok/s). |
+| 2026-04-21 | [ANTIGRAVITY] | v2.84.5 — Finalized `run_dispatcher.sh` with background PTY handling, auto-reallocation to low-load nodes, and persistent SSH tunnels. |
 |------|-------|-------|
+| 2026-04-20 | [ANTIGRAVITY] | v2.83.0 — Completed partition surgery on `/dev/sda` (B SSD). Deleted `sda1,2,4` to reclaim 281.4 GiB. `KpihX-Datas` (`sda3`) preserved. |
+| 2026-04-20 | [ANTIGRAVITY] | v2.83.0 — Analyzed WEFIT emails for Linguaskill, extracted Metrica credentials (UID 10110), updated TickTick event for 04-30, and archived manual/installers in `Gdrive_X/X/LinguaSkill/`. Identified critical Linux incompatibility for the Secure Browser. |
+| 2026-04-19 | [ANTIGRAVITY] | v2.81.9 — Created the master "Sovereign Personal OS & Learning Laboratory" vision document as the convergence point for technical, professional, and educational workstreams. |
 | 2026-04-18 | [CODEX] | v2.78.0 — Rebuilt the `kpihx` sovereign hub from Drive records, authored notes, public-web verification, and the long April 18 reconstruction prompt; synchronized `AGENTS.md`, `k-drive`, and `.skill-lock.json` around that reconstruction. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-18 | [CODEX] | v2.75.9 — Extracted `src/k_env/` out of `$HOME/Work/AI/flow/` into the new autonomous repo `$HOME/Work/Frameworks/k_env/`; created project metadata/docs/AGENTS, fixed naming to underscore-based project/package, and validated the new repo with `uv run pytest -q` (14 passed). *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-18 | [CODEX] | v2.75.8 — Re-read `flow` project docs plus Gemini reference chat in `$HOME/Downloads/Auditing Active MCP Configurations.md`; audited `src/k_env/` end-to-end to reconstruct architecture, scope cascade semantics, and intended externalization path. *(Rotated from k-context Session Log — audit cap.)* |

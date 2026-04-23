@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.11.2"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -123,6 +123,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-20 | [ANTIGRAVITY] | v2.11.0 — Added mandatory **AUTH BLOCKS** stop rule: agents must cease work and wait for user intervention on any MCP connection/auth failure. |
-| 2026-04-18 | [CODEX] | v2.10.6 — Replaced the stale raw-`sudo` runtime note with the kernel-wide `sui -r` privilege rule. |
-| [SUMMARY] | — | v2.10.5 watchers fix; v2.10.4 insights; v2.10.3 compaction; +2 older changelog entries kept in file history |
+| 2026-04-23 | [ANTIGRAVITY] | v2.11.2 - Audited and cleaned changelog; verified date compliance. |
+| 2026-04-22 | [ANTIGRAVITY] | v2.11.1 - Added insight on `run_command` path validation. |
+| [SUMMARY] | — | v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |
