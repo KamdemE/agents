@@ -6,6 +6,10 @@
 
 | ISO date (UTC) | Agent | Action | Outcome |
 |----------------|-------|--------|---------|
+| 2026-04-25 | [ANTIGRAVITY] | BotFather `/setname` | Renamed Sentinel back to **Homelab**. |
+| 2026-04-25 | [ANTIGRAVITY] | BotFather `/setname` + broadcast | Renamed Whats→Whatsapp, Tick→Ticktick; broadcasted "Hi! [timestamp]" to all 11 infra bots. |
+| 2026-04-25 | [ANTIGRAVITY] | BotFather `/deletebot` + `/setname` | Deleted `@kflow_ubuntu_bot` and renamed `@kflow_homelab_bot` to **Flow**. |
+| 2026-04-25 | [ANTIGRAVITY] | BotFather `/newbot` | Created **Docker-Host** bot (`@docker_host_kpihx_bot`) id **8036146758**; token stored in `/tmp/a.txt`. |
 | 2026-04-18 | [GEMINI] | `tg user send me` | Sent the "Piano & Logic" bio snippet to Saved Messages (msg_id 7025). |
 | 2026-04-09 | [CURSOR] | `.agents` session finalization | **`k-context` v2.74.55** + **`k-tg` v3.1.0** bundle committed; `k-tg/references/` triage log rows normalized; **`k-ticktick/references/log.md`** LEN_43314_EP row fixed; Session Log overflow → **`k-context/references/log.md`**; `make audit` + `make push`. |
 | 2026-04-09 | [CURSOR] | BotFather `/token` batch + skill sync | Wrote **six** `TELEGRAM_*.env` files under `/tmp/tokens` (General, Issues, Tick/Whats/LinkedIn/Mail homelab); **`k-tg` v3.0.3** BotFather compact map + bridge @handles; Openclaw Ubuntu absent from `/mybots` (treated as removed). |

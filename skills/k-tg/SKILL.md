@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.1.6"
+  version: "3.2.4"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -122,14 +122,16 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 
 | Group | Bot name | ID | @username | Status |
 |-------|----------|----|-----------|--------|
-| **Capture** | General | `8089748360` | `@kpihx_general_capture_bot` | **New — add token to Vault** |
-| **Capture** | Issues | `8656241501` | `@kpihx_issues_capture_bot` | **New — add token to Vault** |
+| **Capture** | General | `8089748360` | `@kpihx_general_capture_bot` | Active |
+| **Capture** | Issues | `8656241501` | `@kpihx_issues_capture_bot` | Active |
 | **Homelab** | Homelab | `8589111784` | `@sentinel_homelab_bot` | Active |
-| **Homelab** | Mail Homelab | `8385666882` | `@mail_homelab_bot` | Active |
-| **Homelab** | LinkedIn Homelab | `8662033588` | `@linkedin_homelab_bot` | Active |
-| **Homelab** | Whats Homelab | `8449692658` | `@whats_homelab_bot` | Active |
-| **Homelab** | Tick Homelab | `8357989597` | `@tick_homelab_bot` | Active |
-| **Homelab** | N8N Homelab | `8724946664` | `@k_n8n_x_bot` | Active |
+| **Homelab** | Mail | `8385666882` | `@mail_homelab_bot` | Active |
+| **Homelab** | LinkedIn | `8662033588` | `@linkedin_homelab_bot` | Active |
+| **Homelab** | Whatsapp | `8449692658` | `@whats_homelab_bot` | Active |
+| **Homelab** | Ticktick | `8357989597` | `@tick_homelab_bot` | Active |
+| **Homelab** | N8N | `8724946664` | `@k_n8n_x_bot` | Active |
+| **Homelab** | Flow | `(managed)` | `@kflow_homelab_bot` | Active |
+| **Homelab** | Docker-Host | `8036146758` | `@docker_host_kpihx_bot` | Active |
 | **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active |
 | **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive (legacy) |
 
@@ -213,6 +215,6 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-18 | [GEMINI] | v3.1.6 — Sent the "Piano & Logic" bio snippet to `tg user me` for storage and validation. |
-| 2026-04-18 | [CODEX] | v3.1.5 — Aligned Telegram investigation guidance with the kernel `sui -r` privilege gate instead of raw `sudo`. |
-| [SUMMARY] | — | v3.1.4 insights; v3.1.3 investigation stop condition; +1 older changelog entries kept in file history |
+| 2026-04-25 | [ANTIGRAVITY] | v3.2.4 — Renamed Sentinel back to **Homelab**. |
+| 2026-04-25 | [ANTIGRAVITY] | v3.2.3 — Renamed Whats to **Whatsapp** and Tick to **Ticktick**; broadcasted "Hi!" with timestamp to 11 bots. |
+| [SUMMARY] | — | v3.2.1 bot cleanup; v3.2.0 Docker-Host; v3.1.x bio/sui/insights/processed-state; older → `references/log.md` |

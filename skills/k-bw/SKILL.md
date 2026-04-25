@@ -1,14 +1,14 @@
 ---
 name: k-bw
-description: "BW-MCP & BW-ENV operational memory - KpihX Bitwarden Sovereign Management: Self-hosted Vaultwarden (@docker-host) and Dual-Utility Secret Distribution (RAM-only). Load before any bw-mcp or bw-env work."
+description: "BW-Proxy & BW-ENV operational memory - KpihX Bitwarden Sovereign Management: self-hosted Vaultwarden (@docker-host), AI-blind vault proxy, and RAM-only shell secret distribution. Load before any bw-proxy/bw-mcp or bw-env work."
 license: private
 metadata:
   author: KpihX
-  version: "2.1.1"
+  version: "2.3.0"
 allowed-tools: mcp__bw-mcp__*, sui
 ---
 
-# KπX Sovereign Management — Bitwarden (MCP & ENV)
+# KπX Sovereign Management — Bitwarden (Proxy & ENV)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
@@ -24,10 +24,9 @@ allowed-tools: mcp__bw-mcp__*, sui
 
 KπX uses two independent yet complementary utilities to manage secrets:
 
-### 1. `bw-mcp` (Tool-side / Agents)
-- **Purpose:** Provides Antigravity and other agents with secure, read-only access to vault items.
-- **Location:** `/home/kpihx/.local/bin/bw-mcp` (installed via `uv`).
-- **Nature:** High-level MCP server. Does not interact with shell variables.
+### 1. `bw-proxy` (Tool-side / Agents)
+- **Nature:** MCP/CLI proxy. Runtime authentication is RAM-only: it prompts for the Master Password per operation, creates a fresh Bitwarden session, and wipes it after use.
+- **Agnostic UI:** Uses a modern browser-based approval interface (Web HITL) on `localhost:1138` for cross-platform portability. Automatically falls back to Zenity (Linux) or TTY if needed.
 - **Reference:** `$HOME/.agents/skills/k-bw/references/mcp.md`.
 
 ### 2. `bw-env` (Shell-side / Linux Environment)
@@ -50,7 +49,7 @@ KπX uses two independent yet complementary utilities to manage secrets:
 | :--- | :--- | :--- |
 | **Manual Sync** | `bw-env` | `bw-env sync` |
 | **Full Lockdown** | `bw-env` | `bw-env lock` (triggers SIGUSR2 to all shells) |
-| **Check Secrets** | `bw-mcp` | `mcp_bw-mcp_get_item` |
+| **Proxy CLI** | `bw-proxy` | `bw-proxy admin setup` · `bw-proxy admin log view` · `bw-proxy admin wal view` |
 | **Audit Status** | `bw-env` | `bw-env status` |
 
 ## Insights Discipline (mandatory)
@@ -66,6 +65,6 @@ KπX uses two independent yet complementary utilities to manage secrets:
 
 ## Changelog
 
-| 2026-04-23 | [ANTIGRAVITY] | v2.1.1 - Fixed YAML parsing and changelog alignment. |
-| 2026-04-22 | [ANTIGRAVITY] | v2.1.0 - Unified SKILL mapping. |
-| [SUMMARY] | — | v2.0.0 refactor; older -> file history |
+| 2026-04-24 | [GEMINI] | v2.3.0 - Implemented Agnostic Web Approval UI (Browser HITL) and updated AppArmor/Docker networking. |
+| 2026-04-24 | [CODEX] | v2.1.2 - Updated Bitwarden proxy memory for BW-Proxy naming, RAM-only auth, and classic/hardened install split. |
+| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.0 unified mapping; older -> file history |

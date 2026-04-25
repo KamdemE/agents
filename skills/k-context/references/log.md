@@ -7,6 +7,23 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.22 — Created Telegram bot **Docker-Host** (`@docker_host_kpihx_bot`) and stored token in `/tmp/a.txt`. Updated **`k-tg`** v3.2.0 inventory and logs. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.20 — `bw-proxy v2.6.0`: implemented `do --output-file`, `do import-json`, SAN-aware local HTTPS cert generation, Docker concurrency soak coverage, and deeper rollback tests. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-04-24 | [CODEX] | v2.85.16 — `bw-proxy` v2.2.2: split classic vs hardened install, enforced RAM-only auth, hardened Docker supply chain/runtime. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.15 — `bw-proxy` v2.1.0: Hardened Docker infrastructure. Bypassed Zenity accessibility bus with `NO_AT_BRIDGE=1`. Implemented secure `login`/`logout` CLI primitives for containerized auth. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.14 — `bw-proxy` v2.1.0: Hardened Docker infrastructure and login primitives. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.13 — `bw-proxy` v1.9.2: Finalized Sovereign Stack synchronization. Synchronized `README.md`, `AUDIT.md`, `MEMORY.md`, and all simulation guides. Verified binaries and pushed to all remotes. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.8 — `bw-proxy` maintenance: verified engine health (81/81 tests) and initialized docs pass. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.7 — `3D Exploration`: Analyzed 'Maison du Village' project files (.sh3d, .glb, .obj, .3mf). *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.6 — `envision`: Refined flyer diagram (TikZ) - rewired Answer Grader. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.12 — `k-final` v1.3.1: Synchronized Sovereign security templates across `assets/Makefile.security.*`. Enforced `audit` and `ZSH_LOGIN` shell protocols. · `$HOME/.agents/skills/k-final/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.11 — `bw-proxy` v1.9.1: Sovereign Hardening — Root-owned `/opt/` install, AppArmor profile enforcement, and unified `make audit`. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-23 | [ANTIGRAVITY] | v2.85.10 — `bw-proxy` v1.9.0: Blind Audit 2.0 (find_all_vault_duplicates) and Password-First unification. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-22 | [ANTIGRAVITY] | v2.85.5 — `envision`: Fixed broken GitHub links and path for `architecture.svg`. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-22 | [GEMINI] | v2.85.4 — `sui`: released v3.2.0. Modernized argument parser with POSIX support. |
+| 2026-04-22 | [GEMINI] | v2.85.3 — `envision`: finalized branding and pushed all clones (`ee3398d`). |
 | 2026-04-21 | [X-IA] | v2.85.0 — COMPLETED: X-IA cluster optimized. Installed Ollama 0.21.0, implemented SSD local caching (`rsync`), and fixed CUDA runners (`cuda_v13` symlink) for hardware acceleration on RTX A4000 (~50 tok/s). |
 | 2026-04-21 | [ANTIGRAVITY] | v2.84.5 — Finalized `run_dispatcher.sh` with background PTY handling, auto-reallocation to low-load nodes, and persistent SSH tunnels. |
 |------|-------|-------|

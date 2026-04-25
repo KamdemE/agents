@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.13"
+  version: "2.85.25"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -45,7 +45,7 @@ allowed-tools: "Bash(*), *"
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **bw-mcp** | ✅ STABLE — v1.9.2 Bitwarden Proxy. Sovereign Hardened: Root-owned immutability, restrictive AppArmor, and automated audit validation. | Finalized · `$HOME/Work/AI/MCPs/bw-mcp/` |
+| **bw-proxy** | ✅ STABLE — v2.6.1 deterministic vault-map filtering, standardized `do` CLI flags, temp artifact autosave, and live Docker/HITL hardening on top of the ephemeral runtime. | rerun the full suite, then commit the `v2.6.1` worktree snapshot · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
@@ -106,17 +106,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.13 — `bw-mcp` v1.9.2: Finalized Sovereign Stack synchronization. Synchronized `README.md`, `AUDIT.md`, `MEMORY.md`, and all simulation guides. Verified v1.9.2 binaries (`bw-mcp`, `bw-admin`) and pushed to all remotes. · `$HOME/Work/AI/MCPs/bw-mcp/` |
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.12 — `k-final` v1.3.1: Synchronized Sovereign security templates across `assets/Makefile.security.*`. Enforced `audit` and `ZSH_LOGIN` shell protocols. · `$HOME/.agents/skills/k-final/` |
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.11 — `bw-mcp` v1.9.1: Sovereign Hardening — Root-owned `/opt/` install, AppArmor profile enforcement, and unified `make audit`. · `$HOME/Work/AI/MCPs/bw-mcp/` |
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.10 — `bw-mcp` v1.9.0: Blind Audit 2.0 (find_all_vault_duplicates) and Password-First unification. · `$HOME/Work/AI/MCPs/bw-mcp/` |
-| 2026-04-22 | [ANTIGRAVITY] | v2.85.8 — `bw-mcp` maintenance: verified engine health (81/81 tests) and initialized docs pass. |
-| 2026-04-22 | [ANTIGRAVITY] | v2.85.7 — `3D Exploration`: Analyzed 'Maison du Village' project files (.sh3d, .glb, .obj, .3mf). |
-| 2026-04-22 | [ANTIGRAVITY] | v2.85.6 — `envision`: Refined flyer diagram (TikZ) - rewired Answer Grader. |
-| 2026-04-22 | [ANTIGRAVITY] | v2.85.5 — `envision`: Fixed broken GitHub links and path for `architecture.svg`. |
-| 2026-04-22 | [GEMINI] | v2.85.4 — `sui`: released v3.2.0. Modernized argument parser with POSIX support. |
-| 2026-04-22 | [GEMINI] | v2.85.3 — `envision`: finalized branding and pushed all clones (`ee3398d`). |
-| [SUMMARY] | — | v2.85.2 Envision rebase/push; v2.85.1 Envision docs refresh; v2.85.0 X-IA optimized; older → `references/log.md` |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.25 — Renamed bot **Sentinel** back to **Homelab**. |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed **Whats** to **Whatsapp** and **Tick** to **Ticktick**. Broadcasted "Hi! [timestamp]" to all 11 bots in the inventory. |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.22 — Created Telegram bot **Docker-Host** (`@docker_host_kpihx_bot`) and stored token in `/tmp/a.txt`. Updated **`k-tg`** v3.2.0 inventory and logs. |
+| 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-25 | [CODEX] | v2.85.20 — `bw-proxy v2.6.0`: implemented `do --output-file`, `do import-json`, SAN-aware local HTTPS cert generation, Docker concurrency soak coverage, and deeper rollback tests. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-25 | [CODEX] | v2.85.19 — `bw-proxy v2.5.0`: refactored Docker mode to one-shot `docker run --rm` invocations with host-side dynamic HITL port allocation. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-24 | [GEMINI] | v2.85.18 — `bw-proxy v2.4.0`: Finalized Sovereign Docker Infrastructure. Implemented agnostic Python host-side shim and multi-threaded HITL UI. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-25 | [CODEX] | v2.85.18 — `bw-proxy`: committed current `v2.4.0` worktree snapshot (`117018b`). · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-24 | [GEMINI] | v2.85.17 — `bw-proxy v2.3.0`: Implemented Agnostic Web Approval UI (Browser HITL) on `localhost:1138`. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| [SUMMARY] | — | v2.85.16–v2.85.13 `bw-proxy` hardening; v2.85.12 `k-final` sync; older → `references/log.md` |
 
 ## References
 
@@ -137,6 +137,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.13 — `bw-mcp` v1.9.2: Documentation and binary sync complete. |
-| 2026-04-23 | [ANTIGRAVITY] | v2.85.12 — `k-final` v1.3.1: Sovereign security templates synchronized. |
-| [SUMMARY] | — | v2.85.11..v2.85.10 bw-mcp release stack; v2.85.0 X-IA cluster optimized; v2.84.5 Orchestrator finalized; v2.83.0..v2.81.0 archive/audit passes; older → `references/log.md` |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.25 — Renamed Sentinel back to Homelab. |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed Whats/Tick and broadcasted "Hi!" to 11 bots. |
+| [SUMMARY] | — | v2.85.23 bot cleanup; v2.85.22 Docker-Host; v2.85.21–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |

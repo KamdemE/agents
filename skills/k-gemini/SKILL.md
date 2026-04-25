@@ -123,6 +123,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-24 | [GEMINI] | v2.11.3 - Documented Docker port conflict workarounds and Agnostic Shim strategy. |
 | 2026-04-23 | [ANTIGRAVITY] | v2.11.2 - Audited and cleaned changelog; verified date compliance. |
-| 2026-04-22 | [ANTIGRAVITY] | v2.11.1 - Added insight on `run_command` path validation. |
-| [SUMMARY] | — | v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |
+| [SUMMARY] | — | v2.11.1 `run_command` path validation insight; v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |
