@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.25"
+  version: "2.85.32"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -45,7 +45,7 @@ allowed-tools: "Bash(*), *"
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **bw-proxy** | ✅ STABLE — v2.6.1 deterministic vault-map filtering, standardized `do` CLI flags, temp artifact autosave, and live Docker/HITL hardening on top of the ephemeral runtime. | rerun the full suite, then commit the `v2.6.1` worktree snapshot · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| **bw-proxy** | ✅ STABLE — v2.6.4 typed CLI bridge: Pydantic V2 parameter validation, Rich-colored `do help` schemas, dynamic signature parity, and deduplicated aliases. | `git push` worktree snapshot v2.6.4 · $HOME/Work/AI/MCPs/bw_mcp/ |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
@@ -58,8 +58,9 @@ allowed-tools: "Bash(*), *"
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **Linguaskill 2026** | 🟢 ACTIVE — SSD Surgery completed (281GB free). Session confirmed for **2026-04-30 09:00**. | Prepare Secure Browser on a non-Linux machine · `/home/kpihx/Gdrive_X/X/LinguaSkill/` |
 | **AGY account setup** | 🟠 ISSUE — Antigravity sign-in flow blocks with “There was an unexpected issue setting up your account” and disabled **Next** button | capture reproducible diagnostics and unblock AGY auth flow · `$HOME/.gemini/antigravity/` |
-| **ai_dispatcher** | ✅ STABLE — v2.85.0 Universal X-IA Orchestrator. Dynamic host selection, SSD model caching, and forced GPU acceleration. | `git push` · `$HOME/Work/X/ai_dispatcher/` |
-| **X-IA Cluster** | ✅ OPTIMIZED — Deployment of Ollama 0.21.0 across labs, CUDA v13 symlink fix, and local SSD rsync sync. | maintain runner health · `$HOME/Work/X/ai_cluster/` |
+| **ai_dispatcher** | 🟢 ACTIVE — dispatcher now binds the default local Ollama endpoint (`127.0.0.1:11434`), selects X hosts by free GPU VRAM, self-cleans stale SSH tunnels, enforces a single local instance with `flock`, and exposes `SYNCING`/`READY` health states. | validate next relaunch reaches `READY` without timeout drift and keep bootstrap aligned to native tags only · `$HOME/Work/X/ai_dispatcher/` |
+| **X-IA Cluster** | 🟢 ACTIVE — shared launcher now treats `~/.ollama/models` as canonical and syncs `/tmp/$USER/ollama_models` back to NFS periodically and on exit; the persistent store now carries native `qwen3.5:latest` + `mistral-small:latest`. | confirm NFS stays minimal after another host switch/restart · `$HOME/Work/X/ai_cluster/` |
+| **Sovereign Bookmarks** | ✅ STABLE — v1.1.0 Sovereign hierarchy: consolidated legacy bookmarks, shortened titles, categorized into labs/academic/tools/etc. | Integrated as assets in `k-browser` skill. · `$HOME/.agents/skills/k-browser/assets/` |
 
 | **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -106,16 +107,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.25 — Renamed bot **Sentinel** back to **Homelab**. |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.32 — `Sovereign Bookmarks` v1.1.0: finalized hierarchy reorganization from unorganized HTML, shortened titles, categorized into labs/academic/fr/tools, and integrated into `k-browser` skill assets. · `$HOME/.agents/skills/k-browser/` |
+| 2026-04-25 | [CODEX] | v2.85.31 — `bw-proxy` v2.6.4: resumed the interrupted CLI bridge pass, fixed the missing `TypeAdapter` exec namespace wiring, added Rich-colored `do help` schema rendering, removed duplicate `--folder-id` alias registration, and revalidated the repo at 110/110 tests. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-25 | [CODEX] | v2.85.30 — Replaced custom `qwen` / `devstral` with native `qwen3.5:latest` and `mistral-small:latest`, aligned the bootstrap script, removed the transient `qwen3.5:cloud` tag, and resynchronized the NFS store back to the native pair only. · `$HOME/Work/X/ai_dispatcher/` |
+| 2026-04-25 | [CODEX] | v2.85.29 — `ai_dispatcher`: added single-instance `flock` lock, stale tunnel self-cleanup, explicit `SYNCING`/`READY` readiness flow, cleaned persistent Ollama tags back to `devstral` + `qwen`, and revalidated the X NFS quota (`29472M / 30720M`). · `$HOME/Work/X/ai_dispatcher/` |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.27 — `bw-proxy` v2.6.3: Finalized Hyper-Robust CLI. Dynamic signatures, unified input (JSON/Flag/STDIN), and smart aliases. 107/110 tests passing. · $HOME/Work/AI/MCPs/bw_mcp/ |
+| 2026-04-25 | [CODEX] | v2.85.28 — `ai_dispatcher` now reclaims `127.0.0.1:11434`, selects hosts with GPU-aware `xssh scan --sort gpu`, adds SSH keepalives, patched shared `~/ai_cluster/start_ia.sh` to sync `/tmp/$USER/ollama_models` back into `~/.ollama/models`, and added `qwen3.5-agent.Modelfile`. · `$HOME/Work/X/ai_dispatcher/` |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.26 — Renamed bot **Sentinel** back to **Homelab**. |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed **Whats** to **Whatsapp** and **Tick** to **Ticktick**. Broadcasted "Hi! [timestamp]" to all 11 bots in the inventory. |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.22 — Created Telegram bot **Docker-Host** (`@docker_host_kpihx_bot`) and stored token in `/tmp/a.txt`. Updated **`k-tg`** v3.2.0 inventory and logs. |
 | 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-25 | [CODEX] | v2.85.20 — `bw-proxy v2.6.0`: implemented `do --output-file`, `do import-json`, SAN-aware local HTTPS cert generation, Docker concurrency soak coverage, and deeper rollback tests. · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-25 | [CODEX] | v2.85.19 — `bw-proxy v2.5.0`: refactored Docker mode to one-shot `docker run --rm` invocations with host-side dynamic HITL port allocation. · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-24 | [GEMINI] | v2.85.18 — `bw-proxy v2.4.0`: Finalized Sovereign Docker Infrastructure. Implemented agnostic Python host-side shim and multi-threaded HITL UI. · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-25 | [CODEX] | v2.85.18 — `bw-proxy`: committed current `v2.4.0` worktree snapshot (`117018b`). · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-24 | [GEMINI] | v2.85.17 — `bw-proxy v2.3.0`: Implemented Agnostic Web Approval UI (Browser HITL) on `localhost:1138`. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | [SUMMARY] | — | v2.85.16–v2.85.13 `bw-proxy` hardening; v2.85.12 `k-final` sync; older → `references/log.md` |
 
 ## References
@@ -137,6 +139,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.25 — Renamed Sentinel back to Homelab. |
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed Whats/Tick and broadcasted "Hi!" to 11 bots. |
-| [SUMMARY] | — | v2.85.23 bot cleanup; v2.85.22 Docker-Host; v2.85.21–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.32 — Logged `Sovereign Bookmarks` v1.1.0 completion: reorganization, title shortening, categorization, and `k-browser` asset integration. |
+| 2026-04-25 | [CODEX] | v2.85.31 — Logged `bw-proxy` v2.6.4 completion: typed CLI bridge validation, Rich schema help, duplicate flag fix, and 110/110 suite pass. |
+| [SUMMARY] | — | v2.85.30 model swap; v2.85.29 dispatcher lock/readiness + NFS cleanup; v2.85.28 `ai_dispatcher` / X-cluster Ollama persistence; v2.85.26 `bw-proxy` v2.6.2 recursive types + Rich escaping; v2.85.23 bot cleanup; v2.85.22 Docker-Host; v2.85.21–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |

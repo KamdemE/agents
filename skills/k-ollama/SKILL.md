@@ -4,7 +4,7 @@ description: Guide and templates for setting up Ollama with Intel (Arc) GPU acce
 license: private
 metadata:
   author: KpihX
-  version: "1.11.2"
+  version: "1.11.3"
   scope: ia-engine-setup
   target-agent: all
 ---
@@ -79,6 +79,7 @@ ollama run phi4-mini:latest
 - Keep one public endpoint only: `11434`
 - Do not reintroduce shell wrappers or proxy layers
 - Docker/container tuning lives in the project config, not in this skill
+- For the X cluster launcher in `$HOME/ai_cluster/start_ia.sh`, keep `~/.ollama/models` as the canonical persistent store and sync it into `/tmp/$USER/ollama_models` at start, then sync `/tmp` back to `~/.ollama/models` periodically and on exit. Otherwise models pulled through the dispatcher vanish on the next restart because they were only written to the ephemeral store.
 - Current recommended active local set on this Ubuntu machine: `phi4-mini:latest` (default), `llama3.1:8b`, `qwen2.5-coder:3b`
 - `gemma3:4b` was removed from the active IPEX store after benchmark because the tested agentic runtime flow rejected it
 
@@ -92,6 +93,6 @@ ollama run phi4-mini:latest
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-25 | [CODEX] | v1.11.3 — Documented the X-cluster dispatcher persistence rule: `~/.ollama/models` stays canonical, `/tmp/$USER/ollama_models` is the fast cache, and sync-back is mandatory to preserve pulls across restarts. |
 | 2026-04-18 | [CODEX] | v1.11.2 — Replaced raw `sudo` examples with the audited `sui -r` privilege pattern for local Ollama setup. |
-| 2026-04-13 | [CODEX] | v1.11.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v1.11.0 removed retired benchmark reference and kept current local model guidance; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v1.11.1 standardized insights discipline; v1.11.0 removed retired benchmark reference and kept current local model guidance; older history in git |

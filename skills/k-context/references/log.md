@@ -7,6 +7,12 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-04-25 | [CODEX] | v2.85.20 — `bw-proxy v2.6.0`: implemented `do --output-file`, `do import-json`, SAN-aware local HTTPS cert generation, Docker concurrency soak coverage, and deeper rollback tests. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-24 | [GEMINI] | v2.85.17 — `bw-proxy v2.3.0`: Implemented Agnostic Web Approval UI (Browser HITL) on `localhost:1138`. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.27 — `bw-proxy` v2.6.3: Hyper-Robust CLI refactor completed. Dynamic signatures, JSON/Flag/STDIN unified input, position-independent options, and aliases support. 107/110 tests passing. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.19 — `bw-proxy v2.5.0`: refactored Docker mode to one-shot `docker run --rm` invocations with host-side dynamic HITL port allocation. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.18 — `bw-proxy`: committed current `v2.4.0` worktree snapshot (`117018b`). · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-24 | [GEMINI] | v2.85.18 — `bw-proxy v2.4.0`: Finalized Sovereign Docker Infrastructure. Implemented agnostic Python host-side shim and multi-threaded HITL UI. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.22 — Created Telegram bot **Docker-Host** (`@docker_host_kpihx_bot`) and stored token in `/tmp/a.txt`. Updated **`k-tg`** v3.2.0 inventory and logs. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Changelog — audit cap.)* |
