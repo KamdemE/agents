@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.2"
+  version: "2.11.4"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -88,7 +88,7 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 - **MCP reload:** Ask KπX to run `/mcp refresh` after any install. Full restart if still fails.
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
-- **Privilege gate:** Use `sui -r "..."` when strictly necessary outside `$HOME`; never invoke raw `sudo`, and never elevate inside `$HOME`.
+- **Privilege gate:** Use `sui -r "..."` (same as --reason) when strictly necessary outside $HOME; never invoke raw sudo, and never elevate inside $HOME.
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 - **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
 - **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.
@@ -123,6 +123,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-24 | [GEMINI] | v2.11.3 - Documented Docker port conflict workarounds and Agnostic Shim strategy. |
-| 2026-04-23 | [ANTIGRAVITY] | v2.11.2 - Audited and cleaned changelog; verified date compliance. |
-| [SUMMARY] | — | v2.11.1 `run_command` path validation insight; v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |
+| 2026-04-26 | [ANTIGRAVITY] | v2.11.4 — `MIE Ubisoft Case`: Finalized academic study case; implemented strict markdown-to-PDF formatting rules for academic submission. |
+| 2026-04-24 | [GEMINI] | v2.11.3 — Documented Docker port conflict workarounds and Agnostic Shim strategy. |
+| [SUMMARY] | — | v2.11.2 audited and cleaned changelog; v2.11.1 path validation insight; v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |

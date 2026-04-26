@@ -7,6 +7,14 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.31–v2.85.21 — `ai_dispatcher` hardening, `bw-proxy` v2.6.1-2.6.3, bot renames, and single-instance locks. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.29 — `ai_dispatcher`: added single-instance `flock` lock, stale tunnel self-cleanup, explicit `SYNCING`/`READY` readiness flow, cleaned persistent Ollama tags back to `devstral` + `qwen`, and revalidated the X NFS quota (`29472M / 30720M`). · `$HOME/Work/X/ai_dispatcher/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.27 — `bw-proxy` v2.6.3: Finalized Hyper-Robust CLI. Dynamic signatures, unified input (JSON/Flag/STDIN), and smart aliases. 107/110 tests passing. · $HOME/Work/AI/MCPs/bw_mcp/ *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.28 — `ai_dispatcher` now reclaims `127.0.0.1:11434`, selects hosts with GPU-aware `xssh scan --sort gpu`, adds SSH keepalives, patched shared `~/ai_cluster/start_ia.sh` to sync `/tmp/$USER/ollama_models` back into `~/.ollama/models`, and added `qwen3.5-agent.Modelfile`. · `$HOME/Work/X/ai_dispatcher/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.26 — Renamed bot **Sentinel** back to **Homelab**. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed **Whats** to **Whatsapp** and **Tick** to **Ticktick**. Broadcasted "Hi! [timestamp]" to all 11 bots in the inventory. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.22 — Created Telegram bot **Docker-Host** (`@docker_host_kpihx_bot`) and stored token in `/tmp/a.txt`. Updated **`k-tg`** v3.2.0 inventory and logs. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [CODEX] | v2.85.20 — `bw-proxy v2.6.0`: implemented `do --output-file`, `do import-json`, SAN-aware local HTTPS cert generation, Docker concurrency soak coverage, and deeper rollback tests. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-24 | [GEMINI] | v2.85.17 — `bw-proxy v2.3.0`: Implemented Agnostic Web Approval UI (Browser HITL) on `localhost:1138`. · `$HOME/Work/AI/MCPs/bw_mcp/` *(Rotated from k-context Session Log — audit cap.)* |

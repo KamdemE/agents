@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.1"
+  version: "1.3.2"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -192,6 +192,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-26 | [ANTIGRAVITY] | v1.3.2 — Closed `MIE Ubisoft Case`: Finalized study case and PDF conversion. |
 | 2026-04-23 | [ANTIGRAVITY] | v1.3.1 — Integrated 'audit' and 'ZSH_LOGIN' requirements into Phase I and J protocols, aligning templates with the bw-mcp gold standard. |
-| 2026-04-23 | [ANTIGRAVITY] | v1.3.0 — Hardened Sovereign workflow: mandated REAL_HOME/REAL_USER resolution, stripped redundant internal sudo, and enforced explicit link/data ownership fixes in templates. |
-| [SUMMARY] | — | +3 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older -> file history |

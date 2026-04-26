@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.33"
+  version: "2.85.39"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -39,6 +39,7 @@ allowed-tools: "Bash(*), *"
 
 | **Phoenix V4.0 Vision** | 🔴 **ABSOLUTE PRIORITY #1** — Technical Foundation: K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/phoenix-v4-k3s-agent-sandbox-vision.md` |
 | **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
+| **MIE Ubisoft Case** | ✅ STABLE — v1.0.0 Study case completed, PDF generated and sent. | Finalized analysis and style refinement. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | **MCP Visual Validation** | 🚧 PLANNING — Transform `send`/`create` across MCPs (TickTick, WhatsApp, LinkedIn, Mail) to launch a visual editor for review before execution | Propose architecture · `$HOME/.agents/skills/k-context/references/mcp-visual-validation-vision.md` |
 | **kpihx** | ✅ STABLE — v2.6.0 Sovereign Hub with father split, manuscript archive layer, and explicit development/provenance anchoring | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/kpihx/` |
 | **sh (Phoenix)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
@@ -108,18 +109,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.39 — `MIE Ubisoft Case` v1.0.0: Project completed. Finalized theoretical depth (Milgram, Simon, Weber), reformatted to strict list style, and generated/sent the final PDF. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.38 — `MIE Ubisoft Case`: Refined style of `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md`, removed "la petite bête" mentions, and fluidified analytical transitions. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.37 — `MIE Ubisoft Case`: Finalized `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md` with all 9 questions, recommendations (including AI for coordination), and a general conclusion. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.36 — `MIE Ubisoft Case`: Added refined responses for questions 5 to 7 (Power, Violence System, Decision Models) to `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md`. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.35 — `MIE Ubisoft Case`: Created `DM/` folder, copied case PDF, and drafted refined responses for the first 4 questions in `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md`, integrating advice from `Conseils.md` and previous feedback. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.34 — `MIE Ubisoft Case`: started analysis of course materials and Ubisoft case study for academic assignment. · `$HOME/Gdrive_X/X/2A/P3-IME/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.33 — `k-classification` v1.0.0: formalized the Sovereign Classification Framework for general data organization (Semantic Identity, Structural Topology, Integrity Control). · `$HOME/.agents/skills/k-classification/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.32 — `Sovereign Bookmarks` v1.1.0: finalized hierarchy reorganization from unorganized HTML, shortened titles, categorized into labs/academic/fr/tools, and integrated into `k-browser` skill assets. · `$HOME/.agents/skills/k-browser/` |
 | 2026-04-25 | [CODEX] | v2.85.31 — `bw-proxy` v2.6.4: resumed the interrupted CLI bridge pass, fixed the missing `TypeAdapter` exec namespace wiring, added Rich-colored `do help` schema rendering, removed duplicate `--folder-id` alias registration, and revalidated the repo at 110/110 tests. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | 2026-04-25 | [CODEX] | v2.85.30 — Replaced custom `qwen` / `devstral` with native `qwen3.5:latest` and `mistral-small:latest`, aligned the bootstrap script, removed the transient `qwen3.5:cloud` tag, and resynchronized the NFS store back to the native pair only. · `$HOME/Work/X/ai_dispatcher/` |
-| 2026-04-25 | [CODEX] | v2.85.29 — `ai_dispatcher`: added single-instance `flock` lock, stale tunnel self-cleanup, explicit `SYNCING`/`READY` readiness flow, cleaned persistent Ollama tags back to `devstral` + `qwen`, and revalidated the X NFS quota (`29472M / 30720M`). · `$HOME/Work/X/ai_dispatcher/` |
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.27 — `bw-proxy` v2.6.3: Finalized Hyper-Robust CLI. Dynamic signatures, unified input (JSON/Flag/STDIN), and smart aliases. 107/110 tests passing. · $HOME/Work/AI/MCPs/bw_mcp/ |
-| 2026-04-25 | [CODEX] | v2.85.28 — `ai_dispatcher` now reclaims `127.0.0.1:11434`, selects hosts with GPU-aware `xssh scan --sort gpu`, adds SSH keepalives, patched shared `~/ai_cluster/start_ia.sh` to sync `/tmp/$USER/ollama_models` back into `~/.ollama/models`, and added `qwen3.5-agent.Modelfile`. · `$HOME/Work/X/ai_dispatcher/` |
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.26 — Renamed bot **Sentinel** back to **Homelab**. |
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed **Whats** to **Whatsapp** and **Tick** to **Ticktick**. Broadcasted "Hi! [timestamp]" to all 11 bots in the inventory. |
-| 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. |
-| 2026-04-25 | [CODEX] | v2.85.21 — `bw-proxy` v2.6.1: hardened `get_vault_map` against scope leaks and active/trash duplicates, standardized `do` CLI flags/aliases, added temp autosave artifacts under the system temp dir, and revalidated the touched surface (`50 passed`). · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| [SUMMARY] | — | v2.85.16–v2.85.13 `bw-proxy` hardening; v2.85.12 `k-final` sync; older → `references/log.md` |
+| [SUMMARY] | — | v2.85.29–v2.85.21 `ai_dispatcher` hardening + `bw-proxy` v2.6.1; v2.85.16–v2.85.13 `bw-proxy` hardening; v2.85.12 `k-final` sync; older → `references/log.md` |
 
 ## References
 
@@ -138,8 +138,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Changelog
 
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-04-26 | [ANTIGRAVITY] | v2.85.33 — Logged `k-classification` v1.0.0 completion: formalized Sovereign Framework pillars. |
-| 2026-04-26 | [ANTIGRAVITY] | v2.85.32 — Logged `Sovereign Bookmarks` v1.1.0 completion: reorganization, title shortening, categorization, and `k-browser` asset integration. |
-| [SUMMARY] | — | v2.85.31 bw-proxy v2.6.4; v2.85.30 model swap; v2.85.29 dispatcher lock/readiness + NFS cleanup; v2.85.28 `ai_dispatcher` / X-cluster Ollama persistence; v2.85.26 `bw-proxy` v2.6.2 recursive types + Rich escaping; v2.85.23 bot cleanup; v2.85.22 Docker-Host; v2.85.21–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.39 — `MIE Ubisoft Case` v1.0.0: Finalized analysis, reformatting, and PDF conversion. |
+| 2026-04-26 | [ANTIGRAVITY] | v2.85.38 — `MIE Ubisoft Case`: Refined style and fluidified analytical transitions. |
+| [SUMMARY] | — | v2.85.37 MIE all 9 Qs; v2.85.36 MIE Q5-Q7; v2.85.35 MIE Q1-Q4; v2.85.34 MIE start; v2.85.33 Sovereign Framework; v2.85.32 Sovereign Bookmarks; v2.85.31–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |
