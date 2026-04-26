@@ -77,6 +77,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-ai` | k-ai runtime memory and operating notes |
 | `k-qmd` | Before any QMD search, KB lookup, or local markdown retrieval |
 | `k-skill-creator` | Creating, standardizing, auditing, or evaluating any skill |
+| `k-classification` | Sovereign Classification Framework — Patterns and integrity models for organizing any data (Drive, files, images, bookmarks). |
 | `k-optim` | Load before any cleanup/optim work — reuse existing standards and scripts, inspect last known states, and log key results for perennial reference |
 
 ## External Template Directories

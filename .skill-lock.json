@@ -215,6 +215,48 @@
       "skillPath": "skills/kpihx/SKILL.md",
       "installedAt": "2026-04-18T16:47:00.000Z",
       "updatedAt": "2026-04-18T19:44:14.000Z"
+    },
+    "k-browser": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-browser/SKILL.md",
+      "installedAt": "2026-04-26T17:00:00.000Z",
+      "updatedAt": "2026-04-26T17:00:00.000Z"
+    },
+    "k-bw": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-bw/SKILL.md",
+      "installedAt": "2026-04-26T10:00:00.000Z",
+      "updatedAt": "2026-04-26T10:00:00.000Z"
+    },
+    "k-classification": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-classification/SKILL.md",
+      "installedAt": "2026-04-26T17:45:00.000Z",
+      "updatedAt": "2026-04-26T17:45:00.000Z"
+    },
+    "k-cloud-tools": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-cloud-tools/SKILL.md",
+      "installedAt": "2026-04-26T12:00:00.000Z",
+      "updatedAt": "2026-04-26T12:00:00.000Z"
+    },
+    "k-hook": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-hook/SKILL.md",
+      "installedAt": "2026-04-25T15:00:00.000Z",
+      "updatedAt": "2026-04-25T15:00:00.000Z"
+    },
+    "k-ollama": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-ollama/SKILL.md",
+      "installedAt": "2026-04-25T16:00:00.000Z",
+      "updatedAt": "2026-04-25T16:00:00.000Z"
     }
   }
 }

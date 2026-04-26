@@ -30,6 +30,7 @@ The browser's bookmarks are managed as sovereign assets within this skill.
 
 - **Current Baseline:** `assets/bookmark.html` (Sovereign hierarchy).
 - **Legacy Reference:** `assets/bookmark.old.html` (Original dump).
+- **Source of Truth:** `assets/bookmark.md` (Markdown hierarchy).
 - **Management:** Any major reorganization should be done via Markdown transformation scripts and audited against the baseline.
 
 ## Operational Rules
