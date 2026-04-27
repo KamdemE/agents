@@ -31,38 +31,20 @@ allowed-tools: Bash(*), Read(*), Glob(*), rg(*)
 
 Source root: `$HOME/Gdrive_X/`
 
-Known top-level structure discovered:
-- `!ToPrint!`
-- `CV_ATF`
-- `Colab Notebooks`
-- `Documents`
-- `Google AI Studio`
-- `Homelab`
-- `Images`
-- `OneDrive - Ecole Polytechnique`
-- `Persos`
-- `Work`
-- `X`
-- `agents-flat.md`
-- `tmp`
+Sovereign 01-05 Structure:
+- `01_Identity/`: Legal, Professional, Admin, Vault.
+- `02_Academic/`: X, ENSPY, Prepa, History, Subjects.
+- `03_Labs/`: Homelab, AI, Development, Knowledge.
+- `04_Library/`: Books, Spirituality, Tech, Science, Travel, Notes.
+- `05_Media/`: Photos, Videos, Recordings.
 
-High-signal academic subtree:
-- `$HOME/Gdrive_X/X/`
-  - `2A`
-  - `Autres`
-  - `Bourses`
-  - `Dossier_Integration`
-  - `FH`
-  - `Généralités`
-  - `K𝜋X`
-  - `Modèles_Dossier_Concours`
-  - `Prépas`
-  - `TC`
-  - `Templates`
+High-signal identity roots:
+- `$HOME/Gdrive_X/01_Identity/Legal/` (Passport, ID, Birth Cert)
+- `$HOME/Gdrive_X/01_Identity/Vault/` (Recovery codes, Secrets)
 
-High-signal official-doc subtree:
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/`
-  - civil status, passport, CNI, residence permit, CPAM/CSS/Vitale, banking, housing, scholarships, transcripts, certificates, authored PDFs, notes
+High-signal academic roots:
+- `$HOME/Gdrive_X/02_Academic/X/` (Current 2A studies)
+- `$HOME/Gdrive_X/02_Academic/History/Diplomas/` (Historical transcripts/certificates)
 
 ### Gdrive (TODO)
 
@@ -101,6 +83,6 @@ TODO:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-26 | [ANTIGRAVITY] | v1.2.0 — Implemented Sovereign 01-05 structure; cleaned Gdrive_X root, deduplicated media (ongoing), and consolidated Identity/Academic folders. |
 | 2026-04-18 | [CODEX] | v1.1.0 — Added mount-safe traversal rules, prioritized official-doc roots, and documented the scanned-PDF fallback workflow (`pdftotext` → `pdftoppm` + visual inspection). |
-| 2026-04-13 | [CODEX] | v1.0.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v1.0.0 initial `k-drive` structure map + matricule notes; v0.0.0 skill initialized |
+| [SUMMARY] | — | v1.0.1 insights discipline; v1.0.0 initial map; v0.0.0 skill initialized |

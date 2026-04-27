@@ -20,6 +20,20 @@ If AGY experiences visual bugs, freezing, or state errors, it shares the same El
 - The `clean_agy.sh` script located in `$HOME/Work/sh/clean/` is designed specifically for this purpose.
 - Use `$HOME/Work/sh/clean/clean_agy.sh -p` to perform a deep purge of its rendering and compiled JavaScript caches.
 
+## UI & Interaction (v1.23.2+)
+
+In recent versions, the Antigravity interface has transitioned to a unified selector for both models and interaction modes.
+
+### Toggling Planning Mode
+- **Keyboard Shortcut**: `Ctrl + .` (period) is the universal toggle between **Fast Mode** and **Planning Mode**.
+- **Unified Selector**: Click on the **Model Name** (e.g., "Gemini 3 Flash") in the lower-left corner of the chat input box. This opens a menu where you can switch both the model and the execution mode (Fast vs. Planning).
+- **Context Button (`+`)**: Used for adding specific files, folders, or symbols to the conversation context, not for switching modes.
+
+### Mode Selection Logic
+- **Fast Mode**: Default for quick edits and single-file tasks. Recommended with **Flash** models.
+- **Planning Mode**: Mandatory for complex architectural changes. Recommended with **Pro** models for better reasoning and artifact generation.
+- **Settings**: Check `Settings > Agent` if the Planning Mode toggle is missing or to configure the "Artifact Review Policy".
+
 ---
 
 ## Technical Post-Mortem — Issue: Infinite Edit Loops (ENOSPC)

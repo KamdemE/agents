@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.2.1"
+  version: "4.2.2"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -138,6 +138,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-04-26 | [ANTIGRAVITY] | v4.2.2 — Documented Antigravity v1.23.2+ UI interaction: unified selector and Planning Mode toggle. |
 | 2026-04-13 | [CODEX] | v4.2.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-06 | [CLAUDE] | v4.2.0 — added MCP setup reference (`references/mcp/vscode.md`) and profile-scoped MCP safety rule |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v4.2.0 MCP setup; +1 older changelog entries kept in file history |

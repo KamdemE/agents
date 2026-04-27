@@ -1,5 +1,5 @@
 ---
-name: k-homelab
+name: k-labs
 description: >
   KπX Homelab — server infra (Proxmox, Docker-Host LXC, Traefik, Vaultwarden, Portainer,
   Ollama), self-hosted services (polytask, wa-bot, n8n, sentinel), SSH
@@ -44,8 +44,8 @@ Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump
 
 ## Infrastructure (`$HOME/Work/Homelab/sh/`)
 
-**Phoenix v3.1 Architecture** (Source: `Homelab/sh/README.md`):
-- **Proxmox node (`kpihx-labs`)**: /root/proxmox/ (Backup hooks, network watchdog, maintenance)
+**KpihX-Labs Architecture** (Source: `Homelab/sh/README.md`):
+- **Proxmox node (`homelab`)**: /root/proxmox/ (Backup hooks, network watchdog, maintenance)
 - **Docker-host node (`docker-host`)**: /root/docker_host/ (Vaultwarden backup/restore)
 - **Local Dispatcher**: `hsh` (at root of `sh/` or via `make install`)
 
@@ -84,8 +84,8 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 ## Insights Discipline (mandatory)
 
-- Read `$HOME/.agents/skills/k-homelab/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-homelab/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Read `$HOME/.agents/skills/k-labs/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-labs/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
