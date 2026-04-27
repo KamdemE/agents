@@ -22,25 +22,24 @@ The architecture separates the physical metal, the operating systems, and the un
       ┌────────────┬────────┴────────┬────────────┐
       │            │                 │            │
   [ ubuntu ]   [ windows ]        [ mac ]    [ homelab ] ◄── Virtual / OS Layer
- (Dev Only)   (Gaming/Dev)     (Dev/Media)    (PVE OS)
+ (Dev Only)    (Dev/Art)         (Dev/AI)     (PVE OS)
       │            │                 │            │
-      ├────────────┤                 │            │
-      │            │                 │            │
-  [  dell  ]   [   hp   ]      [ mac-studio ]     │      ◄── Physical Metal
-      └────────────┴─────────────────┴────────────┘
+      └──────┬─────┘                 │            │
+             │                       │            │
+         [  dell  ]            [ mac-studio ]  [   hp   ] ◄── Physical Metal
 ```
 
 ### 1. Physical Layer (The Metal)
 The raw compute nodes providing CPU, RAM, and Storage.
-- `dell`: Mobile compute.
-- `mac-studio`: High-performance ARM workstation.
-- `hp`: Auxiliary/Legacy compute.
+- `dell`: Mobile compute (Hosts Ubuntu & Windows).
+- `hp`: Auxiliary/Legacy compute (Hosts the Homelab PVE).
+- `mac-studio`: High-performance ARM workstation (Hosts Mac).
 
 ### 2. OS Layer (The Terminals)
 The Operating Systems are treated as **dumb, stateless clients**. They host *only* IDEs (Cursor, VSCode), Web Browsers (Edge), and networking shims (Tailscale).
-- `ubuntu`: Main Linux development environment.
-- `windows`: Specialized workflows and gaming.
-- `mac`: Future/Current macOS environment on the Studio.
+- `ubuntu`: Main Linux development environment (Dev Only).
+- `windows`: Specialized workflows (Dev/Art).
+- `mac`: Future/Current macOS environment on the Studio (Dev/AI).
 - `homelab`: The hypervisor/Proxmox OS layer managing VMs.
 
 ### 3. Abstraction Layer (`docker-host`)
