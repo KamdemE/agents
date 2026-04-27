@@ -27,7 +27,7 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 
 > ⚠️🚨 **STRICT IDENTITY SEPARATION — NO EXCEPTIONS** 🚨⚠️
 
-- **Public / Dev / Coder Context**: In any public-facing repository, documentation, or code (GitHub, GitLab, PyPI, GHCR, etc.), agents MUST use ONLY the alias `KpihX` and the email `kapoivha@gmail.com`. NEVER use the real name (Ivann KAMDEM), internal project names (e.g., `k-labs`), or private contact info.
+- **Public / Dev / Coder Context**: In any public-facing repository, documentation, or code (GitHub, GitLab, PyPI, GHCR, etc.), agents MUST use ONLY the alias `KpihX` and the email `kapoivha@gmail.com`. NEVER use the real name (Ivann KAMDEM), internal project names (e.g., `kpihx-labs`), or private contact info.
 - **Pro / Academic / Administrative Context**: Real name, full identity, and institutional emails (polytechnique.edu, etc.) are reserved strictly for internal academic work, professional CVs, and administrative records.
 - **Source of Truth**: When in doubt, default to `KpihX`. Never promote internal homelab details to public-facing files.
 
@@ -38,7 +38,7 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 **Distributed KpihX-Labs:** Hardware-agnostic (Ubuntu/Mac/Homelab) over Tailscale mesh. Agents use sovereign M2M identity and operate in visual sandboxes (WebTop) via K3s high-availability.
 
 Build a sovereign **Personal OS / Homelab** — independent of any platform or AI provider. Knowledge in local Markdown, zero vendor lock-in. Agents are tools, KπX stays sovereign.
-→ Infrastructure & projects: `k-labs` (`$HOME/.agents/skills/k-labs/`)
+→ Infrastructure & projects: `kpihx-labs` (`$HOME/.agents/skills/kpihx-labs/`)
 
 ## Language Rules
 
@@ -64,7 +64,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-context` | **HOT — every session start** |
 | **`kpihx`** | ⚑ **SOVEREIGN — Ivann's Core identity, philosophy & evolution hub** |
 | `k-workspace` | **MANDATORY — every session in KπX environment or any project** |
-| `k-labs` | Homelab infra, projects, SSH, presentation KB |
+| `kpihx-labs` | Homelab infra, projects, SSH, presentation KB |
 | `k-git` | Any git / repo operation |
 | `k-project` | Creating / initializing any project |
 | `k-final` | **MANDATORY when finalizing any project repo** — read fully, then execute the full checklist (tests → hygiene → docs → version → git → CI/deploy → install → publish). Load on explicit wrap-up, implicit "done", or user asks to finalize / clean / close the project |
@@ -223,7 +223,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`k-labs`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @docker-host docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
+- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`kpihx-labs`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @docker-host docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.

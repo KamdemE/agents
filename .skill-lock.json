@@ -13,10 +13,10 @@
   },
   "dismissed": {},
   "_kpihx_skills": {
-    "k-homelab": {
+    "kpihx-labs": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-homelab/SKILL.md",
+      "skillPath": "skills/kpihx-labs/SKILL.md",
       "installedAt": "2026-03-28T20:30:00.000Z",
       "updatedAt": "2026-03-28T20:30:00.000Z"
     },
