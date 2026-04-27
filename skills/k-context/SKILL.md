@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.39"
+  version: "2.85.42"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -46,7 +46,7 @@ allowed-tools: "Bash(*), *"
 | **Homelab (Phoenix v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
-| **bw-proxy** | ✅ STABLE — v2.6.4 typed CLI bridge: Pydantic V2 parameter validation, Rich-colored `do help` schemas, dynamic signature parity, and deduplicated aliases. | `git push` worktree snapshot v2.6.4 · $HOME/Work/AI/MCPs/bw_mcp/ |
+| **bw-proxy** | ✅ STABLE — v3.6.0 Meticulous Test Suite & Schema Hardening: 100% verified Scoped Union Fetch (no orphans), fixed collection creation bug, and successfully tested blind refactoring on organization items. | `push audit` finalized v3.6.0 · $HOME/Work/AI/MCPs/bw_mcp/ |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
@@ -58,7 +58,7 @@ allowed-tools: "Bash(*), *"
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **Linguaskill 2026** | 🟢 ACTIVE — SSD Surgery completed (281GB free). Session confirmed for **2026-04-30 09:00**. | Prepare Secure Browser on a non-Linux machine · `/home/kpihx/Gdrive_X/X/LinguaSkill/` |
-| **AGY account setup** | 🟠 ISSUE — Antigravity sign-in flow blocks with “There was an unexpected issue setting up your account” and disabled **Next** button | capture reproducible diagnostics and unblock AGY auth flow · `$HOME/.gemini/antigravity/` |
+| **AGY account setup** | ✅ STABLE — v1.23.2 UI changes identified: Planning Mode activation via unified selector or `Ctrl + .` documented in `k-code`. | confirm unblocking of auth flow if still pending · `$HOME/.gemini/antigravity/` |
 | **ai_dispatcher** | 🟢 ACTIVE — dispatcher now binds the default local Ollama endpoint (`127.0.0.1:11434`), selects X hosts by free GPU VRAM, self-cleans stale SSH tunnels, enforces a single local instance with `flock`, and exposes `SYNCING`/`READY` health states. | validate next relaunch reaches `READY` without timeout drift and keep bootstrap aligned to native tags only · `$HOME/Work/X/ai_dispatcher/` |
 | **X-IA Cluster** | 🟢 ACTIVE — shared launcher now treats `~/.ollama/models` as canonical and syncs `/tmp/$USER/ollama_models` back to NFS periodically and on exit; the persistent store now carries native `qwen3.5:latest` + `mistral-small:latest`. | confirm NFS stays minimal after another host switch/restart · `$HOME/Work/X/ai_cluster/` |
 | **Sovereign Bookmarks** | ✅ STABLE — v1.1.0 Sovereign hierarchy: consolidated legacy bookmarks, shortened titles, categorized into labs/academic/tools/etc. | Integrated as assets in `k-browser` skill. · `$HOME/.agents/skills/k-browser/assets/` |
@@ -109,6 +109,9 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite completed successfully. Verified Scoped Union Fetch (no more orphaned items), fixed `collection_ids` creation bug, and confirmed blind refactoring stability. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime (Daemon Mode) implementation and verification. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.40 — `AGY UI discovery`: identified and documented Planning Mode activation in v1.23.2 (unified selector, `Ctrl + .` shortcut). Updated `k-code` skill. |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.39 — `MIE Ubisoft Case` v1.0.0: Project completed. Finalized theoretical depth (Milgram, Simon, Weber), reformatted to strict list style, and generated/sent the final PDF. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.38 — `MIE Ubisoft Case`: Refined style of `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md`, removed "la petite bête" mentions, and fluidified analytical transitions. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.37 — `MIE Ubisoft Case`: Finalized `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md` with all 9 questions, recommendations (including AI for coordination), and a general conclusion. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
@@ -116,10 +119,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.35 — `MIE Ubisoft Case`: Created `DM/` folder, copied case PDF, and drafted refined responses for the first 4 questions in `DM_7_Cas_Ubisoft_KAMDEM_Ivann.md`, integrating advice from `Conseils.md` and previous feedback. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.34 — `MIE Ubisoft Case`: started analysis of course materials and Ubisoft case study for academic assignment. · `$HOME/Gdrive_X/X/2A/P3-IME/` |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.33 — `k-classification` v1.0.0: formalized the Sovereign Classification Framework for general data organization (Semantic Identity, Structural Topology, Integrity Control). · `$HOME/.agents/skills/k-classification/` |
-| 2026-04-26 | [ANTIGRAVITY] | v2.85.32 — `Sovereign Bookmarks` v1.1.0: finalized hierarchy reorganization from unorganized HTML, shortened titles, categorized into labs/academic/fr/tools, and integrated into `k-browser` skill assets. · `$HOME/.agents/skills/k-browser/` |
-| 2026-04-25 | [CODEX] | v2.85.31 — `bw-proxy` v2.6.4: resumed the interrupted CLI bridge pass, fixed the missing `TypeAdapter` exec namespace wiring, added Rich-colored `do help` schema rendering, removed duplicate `--folder-id` alias registration, and revalidated the repo at 110/110 tests. · `$HOME/Work/AI/MCPs/bw_mcp/` |
-| 2026-04-25 | [CODEX] | v2.85.30 — Replaced custom `qwen` / `devstral` with native `qwen3.5:latest` and `mistral-small:latest`, aligned the bootstrap script, removed the transient `qwen3.5:cloud` tag, and resynchronized the NFS store back to the native pair only. · `$HOME/Work/X/ai_dispatcher/` |
-| [SUMMARY] | — | v2.85.29–v2.85.21 `ai_dispatcher` hardening + `bw-proxy` v2.6.1; v2.85.16–v2.85.13 `bw-proxy` hardening; v2.85.12 `k-final` sync; older → `references/log.md` |
+| [SUMMARY] | — | v2.85.32–v2.85.30 Sovereign Bookmarks + Dispatcher; v2.85.29–v2.85.21 `ai_dispatcher` hardening + `bw-proxy` v2.6.1; older → `references/log.md` |
 
 ## References
 
@@ -138,6 +138,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Changelog
 
-| 2026-04-26 | [ANTIGRAVITY] | v2.85.39 — `MIE Ubisoft Case` v1.0.0: Finalized analysis, reformatting, and PDF conversion. |
-| 2026-04-26 | [ANTIGRAVITY] | v2.85.38 — `MIE Ubisoft Case`: Refined style and fluidified analytical transitions. |
-| [SUMMARY] | — | v2.85.37 MIE all 9 Qs; v2.85.36 MIE Q5-Q7; v2.85.35 MIE Q1-Q4; v2.85.34 MIE start; v2.85.33 Sovereign Framework; v2.85.32 Sovereign Bookmarks; v2.85.31–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite & Schema Hardening. |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime implementation and verification. |
+| [SUMMARY] | — | v2.85.39 MIE Case v1.0.0; v2.85.37 MIE all 9 Qs; v2.85.36 MIE Q5-Q7; v2.85.35 MIE Q1-Q4; v2.85.34 MIE start; v2.85.33 Sovereign Framework; v2.85.32 Sovereign Bookmarks; v2.85.31–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |

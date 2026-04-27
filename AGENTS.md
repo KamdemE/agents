@@ -23,6 +23,14 @@ description: KpihX global cross-agent kernel. Loaded by all agents at session st
 - **Storage (personal):** `$HOME/Gdrive/` — Google Drive rclone mount (remote: `gdrive:`) · account: `kapoivha@gmail.com` · ENSPY/, X/, Travaux/, Persos/, Colab Notebooks/, hackathon files, sms/calls backups (1.2 GB) · service: `$HOME/.config/systemd/user/rclone-gdrive.service`
 - **CV:** `$HOME/Gdrive_X/CV_ATF/` — LaTeX (moderncv banking, pdflatex) · repos `KpihX/cv-atf` (github + gitlab) · CI/CD both pipelines auto-build on push · `make push-tags` → GitHub Release with PDF attached
 
+## Privacy & Identity Governance
+
+> ⚠️🚨 **STRICT IDENTITY SEPARATION — NO EXCEPTIONS** 🚨⚠️
+
+- **Public / Dev / Coder Context**: In any public-facing repository, documentation, or code (GitHub, GitLab, PyPI, GHCR, etc.), agents MUST use ONLY the alias `KpihX` and the email `kapoivha@gmail.com`. NEVER use the real name (Ivann KAMDEM), internal project names (e.g., `k-homelab`), or private contact info.
+- **Pro / Academic / Administrative Context**: Real name, full identity, and institutional emails (polytechnique.edu, etc.) are reserved strictly for internal academic work, professional CVs, and administrative records.
+- **Source of Truth**: When in doubt, default to `KpihX`. Never promote internal homelab details to public-facing files.
+
 ## Mantras & Vision
 
 **Exploration:** Problem First → Why before How → Visualization
