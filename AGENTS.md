@@ -95,7 +95,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 | Path | Scope |
 |------|-------|
 | `$HOME/Work/techskills/templates/` | Python boilerplate (pyproject.toml, config.py), Docsify (index.html, _sidebar.md), WaveTerm. pyproject/config/docsify files are symlinks → skills. |
-| `$HOME/Work/Homelab/presentation/tutos_live/templates/` | Homelab docker-compose files (polytask, wa-bot, n8n-personal-ops → symlinks to project dirs), gitlab-ci history (leave as-is). |
+| `$HOME/Work/KpihX_Labs/Homelab/presentation/tutos_live/templates/` | Homelab docker-compose files (polytask, wa-bot, n8n-personal-ops → symlinks to project dirs), gitlab-ci history (leave as-is). |
 
 > When creating a new project: check these dirs for concrete examples before writing from scratch. Use `ls` or `k-qmd` to browse.
 
@@ -114,7 +114,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 ## Working with KπX
 
-> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/techskills/` for Ubuntu/local-tooling scope, or in `$HOME/Work/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
+> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/techskills/` for Ubuntu/local-tooling scope, or in `$HOME/Work/KpihX_Labs/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
 
 ### Knowledge Base — k-qmd
 
@@ -125,7 +125,7 @@ Main collections:
 | Collection | Path | Scope |
 |------------|------|-------|
 | `techskills` | `$HOME/Work/techskills/` | Ubuntu tools, fixes, patterns documented live |
-| `presentation` | `$HOME/Work/Homelab/presentation/` | Homelab architecture, projects, research, vision |
+| `presentation` | `$HOME/Work/KpihX_Labs/Homelab/presentation/` | Homelab architecture, projects, research, vision |
 | `agents` | `$HOME/.agents/` | Agent workflows, AGENTS.md, skills, session history |
 | `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
 | `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |

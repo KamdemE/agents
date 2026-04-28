@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.85.42"
+  version: "2.85.43"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -63,6 +63,7 @@ allowed-tools: "Bash(*), *"
 | **X-IA Cluster** | 🟢 ACTIVE — shared launcher now treats `~/.ollama/models` as canonical and syncs `/tmp/$USER/ollama_models` back to NFS periodically and on exit; the persistent store now carries native `qwen3.5:latest` + `mistral-small:latest`. | confirm NFS stays minimal after another host switch/restart · `$HOME/Work/X/ai_cluster/` |
 | **Sovereign Bookmarks** | ✅ STABLE — v1.1.0 Sovereign hierarchy: consolidated legacy bookmarks, shortened titles, categorized into labs/academic/tools/etc. | Integrated as assets in `k-browser` skill. · `$HOME/.agents/skills/k-browser/assets/` |
 | **k-classification** | ✅ STABLE — v1.0.0 Sovereign Framework for general data organization (Drive, files, images, bookmarks). | Formalized Semantic/Structural/Integrity pillars. · `$HOME/.agents/skills/k-classification/` |
+| **ts-proxy** | 🟢 ACTIVE — v1.5.1 Sovereign HITL Hardening: Centralized async HITL engine (Web + TUI Fallback), @require_approval decorator integration, and automated mock testing. | `make uv-check` passed v1.5.1 · `$HOME/Work/KpihX_Labs/Docker-Host/ts_proxy/` |
 
 | **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -109,6 +110,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 > Include folder paths or commit hashes in entries so agents can navigate directly.
 > **For deeper history:** consult `references/log.md` (unlimited archive, newest-first).
 
+| 2026-04-28 | [ANTIGRAVITY] | v2.85.43 — `ts-proxy` v1.5.1: Sovereign HITL Hardening. Implemented centralized async HITL engine with Dual-Channel validation (Web + TUI Fallback) and enforced via decorators. · `$HOME/Work/KpihX_Labs/Docker-Host/ts_proxy/` |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite completed successfully. Verified Scoped Union Fetch (no more orphaned items), fixed `collection_ids` creation bug, and confirmed blind refactoring stability. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime (Daemon Mode) implementation and verification. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.40 — `AGY UI discovery`: identified and documented Planning Mode activation in v1.23.2 (unified selector, `Ctrl + .` shortcut). Updated `k-code` skill. |
@@ -138,6 +140,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Changelog
 
+| 2026-04-28 | [ANTIGRAVITY] | v2.85.43 — `ts-proxy` v1.5.1: Sovereign HITL Hardening (Web + TUI). |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite & Schema Hardening. |
-| 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime implementation and verification. |
 | [SUMMARY] | — | v2.85.39 MIE Case v1.0.0; v2.85.37 MIE all 9 Qs; v2.85.36 MIE Q5-Q7; v2.85.35 MIE Q1-Q4; v2.85.34 MIE start; v2.85.33 Sovereign Framework; v2.85.32 Sovereign Bookmarks; v2.85.31–v2.85.19 bw-proxy hardening/refactor; older → `references/log.md` |
