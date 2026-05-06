@@ -4,7 +4,7 @@ description: KπX Browser Automation — Standardized MCP interfaces (Playwright
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.1.2"
   scope: agent-tooling
   mcp-servers:
     - playwright (@playwright/mcp)
@@ -31,6 +31,7 @@ The browser's bookmarks are managed as sovereign assets within this skill.
 - **Current Baseline:** `assets/bookmark.html` (Sovereign hierarchy).
 - **Legacy Reference:** `assets/bookmark.old.html` (Original dump).
 - **Source of Truth:** `assets/bookmark.md` (Markdown hierarchy).
+- **Recent Export:** `assets/favorites_5_2_26.html` (Dump from 2026-05-02).
 - **Management:** Any major reorganization should be done via Markdown transformation scripts and audited against the baseline.
 
 ## Operational Rules
@@ -57,6 +58,6 @@ The browser's bookmarks are managed as sovereign assets within this skill.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-26 | [ANTIGRAVITY] | v1.1.0 — Added Sovereign Bookmarks management. Integrated `bookmark.html` (new) and `bookmark.old.html` (old) in assets. Linked `references/insights.md`. |
-| 2026-04-20 | [ANTIGRAVITY] | v1.0.0 — Created k-browser skill. Purged ad-hoc scripts. Standardized on Playwright/Browser MCP servers. |
-| [SUMMARY] | — | Initial version |
+| 2026-05-02 | [CODEX] | v1.1.2 — Compacted the changelog to satisfy audit row limits. |
+| 2026-05-02 | [ANTIGRAVITY] | v1.1.1 — Mentioned `favorites_5_2_26.html` in SKILL.md to satisfy audit. |
+| [SUMMARY] | — | v1.1.0 Sovereign Bookmarks management + linked insights; v1.0.0 skill creation, ad-hoc script purge, and Playwright/Browser MCP standardization |

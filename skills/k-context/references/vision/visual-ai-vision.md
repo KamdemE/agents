@@ -1,6 +1,7 @@
-# Visual AI Vision — The Image-First Intelligence Paradigm
+# ScienCurious Lab — The Visual Learning Engine
 
-> Status: EVOLVING · Last updated: 2026-04-07 · [CLAUDE]
+> Status: ACTIVE · Last updated: 2026-05-02 · [ANTIGRAVITY]
+> Mantra: "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !"
 > Context: born from live deck generation session (`.agents/docs/AGENTS.pptx`)
 > Related: `vision.md` (general agentic), `performance.md` (hardware benchmarks)
 

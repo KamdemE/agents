@@ -4,7 +4,7 @@ description: "Unified mail operational memory — KπX mail sources: Zimbra (pol
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.1.7"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -204,9 +204,11 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 
 | Thread | Contacts | Last State | Next Action |
 |--------|----------|------------|-------------|
-| English certification / Linguaskill (UID `10110`, `10071`) | `certification-anglais-dlc@polytechnique.fr`, `service@wefitgroup.com` | Registration confirmed for **Thu 2026-04-30 09:00**. Credentials extracted from UID `10110` (Username/Password/Institution ID). Archived manual & installers in `Gdrive_X/X/LinguaSkill/`. | Watch for convocation / final technical instructions before exam day; archive thread after test completion and results receipt |
+| English certification / Linguaskill (UID `10110`, `10071`, `10415`) | `certification-anglais-dlc@polytechnique.fr`, `service@wefitgroup.com` | ✅ COMPLETED — Results (187, C1) sent to DLC on 2026-05-04. Certificate archived in `Gdrive_X`. | Thread closed. |
 | IME Buurtzorg / follow-up | `pauline.alessandra@polytechnique.edu`, Moodle | Part 1 feedback notified **2026-04-08** (mail archived) | Await **re-feedback** or submit next milestone per course rules; ping if stalled |
 | IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com`, `isabel.camps_tscherwitschke@ipai-foundation.ai` | Payout delayed per **2026-04-08** update (mail archived) | No reply needed unless silence; watch inbox for payout confirmation |
+| Prix Jean-Louis Gerondeau - Safran 2026 (UID `10119`) | `charlotte.milone@polytechnique.edu` | Marked as Important. | Candidature avec **Demartino KUETE** avant le **2026-05-10**. Tâche TickTick `69f629138f085570b2766a1f`. |
+| Campagne de choix de PA X24 (UID `10264`, `10261`) | `scolarite.3a-m1@polytechnique.fr` | Ouverte du 04/05 (12h30) au 11/05 (12h00). | Effectuer les choix de cours selon les règles (3 cours + 1 EA/projet par période). Tâches TickTick `69f628fa8f08a688d2d0ba59` / `69f628fe8f08a37c89b5b846`. **Note:** Le formulaire actuel ne concerne que le choix du PA et de la thématique (pas encore les cours). |
 
 ## Runtime Memory Files
 
@@ -221,6 +223,6 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-20 | [ANTIGRAVITY] | v2.1.0 — Updated Linguaskill thread with confirmation UID `10110`, extracted credentials, and Gdrive archival status. |
-| 2026-04-16 | [CODEX] | v2.0.34 — Added validated Hotmail recovery runbook (user-run only): set browser/clipboard flags, force `--tenant consumers`, and use `--debug` for diagnostics; updated Outlook read command references to `outlook message list`. |
-| [SUMMARY] | — | v2.0.33..v2.0.0 history; older → `references/log.md` |
+| 2026-05-04 | [ANTIGRAVITY] | v2.1.7 — Updated optimization logistics and verified PA form scope (PA/theme choice only). |
+| 2026-05-04 | [ANTIGRAVITY] | v2.1.6 — Clarified that PA form currently only covers PA/theme choice, not courses. |
+| [SUMMARY] | — | v2.1.5..v2.1.3 Linguaskill, PA tracking, audit compact; v2.1.2 PA X24 thread; v2.1.1 Gerondeau prize thread; v2.1.0 Linguaskill confirmation + Gdrive archival; v2.0.34 Hotmail recovery runbook; v2.0.33..v2.0.0 history; older → `references/log.md` |

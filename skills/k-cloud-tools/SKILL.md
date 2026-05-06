@@ -4,7 +4,7 @@ description: Management of Cloud, Infrastructure, and Social Media CLIs/APIs (Cl
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.0.1"
   scope: operations
 ---
 
@@ -75,9 +75,16 @@ To maintain a fluid architecture, API keys must be managed in Bitwarden and inje
 - Check login: `m365 status`
 - Manage users/apps: Use `m365` commands (see `k-mail` for mail-specifics).
 
+## Tailscale Notes
+
+- Read `references/insights.md` before non-trivial Tailscale policy or connectivity work.
+- Prefer API-side verification with `ts-proxy` when host symptoms are asymmetric.
+- Check device tags before assuming a user/group ACL should match a source node.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-02 | [CODEX] | v1.0.1 — Added Tailscale policy troubleshooting notes and created `references/insights.md` with the tagged-device ACL asymmetry pattern validated through `ts-proxy`. |
 | 2026-04-20 | [ANTIGRAVITY] | v1.0.0 — Initial creation; added tool registry for Cloudflare, Tailscale, GCP, Azure, and Social Media. |
 | [SUMMARY] | — | Initial version |

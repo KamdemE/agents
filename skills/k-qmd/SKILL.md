@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.1"
+  version: "2.14.3"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -41,7 +41,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | Collection | Root path | Use for |
 |-----------|-----------|---------|
 | `techskills` | `$HOME/Work/techskills/` | Ubuntu fixes, tools, shell patterns |
-| `presentation` | `$HOME/Work/Homelab/presentation/` | homelab architecture and project knowledge |
+| `presentation` | `$HOME/Work/KpihX-Labs/Homelab/presentation/` | homelab architecture and project knowledge |
 | `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
 | `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
 | `codex` | `$HOME/.codex/` | Codex config/rules/docs only |
@@ -115,6 +115,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.14.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-04 | [CODEX] | v2.14.0 — removed one retired runtime collection from the active KπX QMD map |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| 2026-05-02 | [ANTIGRAVITY] | v2.14.3 — Compacted changelog to satisfy audit. |
+| 2026-04-29 | [GEMINI] | v2.14.2 — Corrected presentation collection path to $HOME/Work/KpihX-Labs/Homelab/presentation/ |
+| [SUMMARY] | — | v2.14.1 insights; v2.14.0 retired collection; older -> file history |

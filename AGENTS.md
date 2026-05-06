@@ -95,7 +95,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 | Path | Scope |
 |------|-------|
 | `$HOME/Work/techskills/templates/` | Python boilerplate (pyproject.toml, config.py), Docsify (index.html, _sidebar.md), WaveTerm. pyproject/config/docsify files are symlinks → skills. |
-| `$HOME/Work/KpihX_Labs/Homelab/presentation/tutos_live/templates/` | Homelab docker-compose files (polytask, wa-bot, n8n-personal-ops → symlinks to project dirs), gitlab-ci history (leave as-is). |
+| `$HOME/Work/KpihX-Labs/Homelab/presentation/tutos_live/templates/` | Homelab docker-compose files (polytask, wa-bot, n8n-personal-ops → symlinks to project dirs), gitlab-ci history (leave as-is). |
 
 > When creating a new project: check these dirs for concrete examples before writing from scratch. Use `ls` or `k-qmd` to browse.
 
@@ -114,7 +114,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 ## Working with KπX
 
-> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/techskills/` for Ubuntu/local-tooling scope, or in `$HOME/Work/KpihX_Labs/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
+> **📝 Documentation reflex:** Any new tool installed, non-trivial fix, or learned pattern → proactively propose a `.md` entry in `$HOME/Work/techskills/` for Ubuntu/local-tooling scope, or in `$HOME/Work/KpihX-Labs/Homelab/presentation/` for homelab/project/architecture scope. Document as it happens.
 
 ### Knowledge Base — k-qmd
 
@@ -125,7 +125,7 @@ Main collections:
 | Collection | Path | Scope |
 |------------|------|-------|
 | `techskills` | `$HOME/Work/techskills/` | Ubuntu tools, fixes, patterns documented live |
-| `presentation` | `$HOME/Work/KpihX_Labs/Homelab/presentation/` | Homelab architecture, projects, research, vision |
+| `presentation` | `$HOME/Work/KpihX-Labs/Homelab/presentation/` | Homelab architecture, projects, research, vision |
 | `agents` | `$HOME/.agents/` | Agent workflows, AGENTS.md, skills, session history |
 | `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
 | `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
@@ -223,7 +223,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`kpihx-labs`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @docker-host docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
+- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`kpihx-labs`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @homelab docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.

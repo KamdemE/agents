@@ -19,8 +19,8 @@ It transitions from a purely technical infrastructure (Homelab/K3s) to a profess
 
 ### 3. The Learning Laboratory (Instant Content Engine) — "The Laboratory"
 *   **Live Generation:** Eliminating the high cost of educational content (manual YouTube editing, site building) by generating visuals (Manim, Napkin AI, Mermaid) in real-time during explanation.
-*   **Adaptive Intelligence:** An assistant that knows KpihX's style, history, and academic path (sciencurious), adapting the difficulty and visual complexity in live.
-*   **Convergence with Education:** Transforming `sciencurious` from a static Docsify site into a dynamic, interactive environment where "everything is live".
+*   **Adaptive Intelligence:** An assistant that knows KpihX's style, history, and academic path (ScienCurious Lab), adapting the difficulty and visual complexity in live.
+*   **Convergence with Education:** Transforming ScienCurious Lab from a static Docsify site into a dynamic, interactive environment where "everything is live".
 
 ## Evolutionary Path: From Homelab to Sovereign Intelligence
 

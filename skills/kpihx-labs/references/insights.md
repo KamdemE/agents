@@ -12,3 +12,5 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 ## Insights
 
 - Initial baseline created automatically from insights governance standard.
+- `homelab` denies direct access to `/var/run/docker.sock` for user `kpihx`; operational container inventory must use `sudo docker ...` or an equivalent privileged path.
+- Live stack discovery on `homelab` is more reliable through Docker labels (`com.docker.compose.project` / `service`) than through compose-file search alone, because several active stacks no longer have an obvious compose file under `/root`.

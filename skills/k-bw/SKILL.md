@@ -4,7 +4,7 @@ description: "BW-Proxy & BW-ENV operational memory - KpihX Bitwarden Sovereign M
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.5.0"
 allowed-tools: mcp__bw-mcp__*, sui
 ---
 
@@ -26,8 +26,16 @@ KπX uses two independent yet complementary utilities to manage secrets:
 
 ### 1. `bw-proxy` (Tool-side / Agents)
 - **Nature:** MCP/CLI proxy. Runtime authentication is RAM-only: it prompts for the Master Password per operation, creates a fresh Bitwarden session, and wipes it after use.
-- **Agnostic UI:** Uses a modern browser-based approval interface (Web HITL) on `localhost:1138` for cross-platform portability. Automatically falls back to Zenity (Linux) or TTY if needed.
-- **Reference:** `$HOME/.agents/skills/k-bw/references/mcp.md`.
+- **Agnostic UI:** Uses a modern browser-based approval interface (Web HITL) on `localhost:1138` for cross-platform portability.
+- **RPC 2.0 Principle (Mandatory):** All `bw-proxy do` operations follow the RPC 2.0 protocol.
+    - **Core Parameters:** Must be passed inside the **JSON payload** (as a string or file).
+    - **CLI Flags:** Are reserved strictly for **meta-parameters** (e.g., `-o/--output-file` for redirection, `-f/--format` for display). Never use CLI flags for tool-specific logic.
+- **Fast Interface:**
+    - `bw-proxy admin status`: Check proxy health and connection.
+    - `bw-proxy admin config view`: See current configuration.
+    - `bw-proxy do get-vault-map [-o PATH]`: Retrieve the entire redacted vault structure.
+    - `bw-proxy do propose-vault-transaction`: Batch ACID operations (Atomic).
+- **Output Redirection:** Use `-o` or `--output-file` to save large JSON results (like vault maps) to a file.
 
 ### 2. `bw-env` (Shell-side / Linux Environment)
 - **Purpose:** Universal high-security secretion injection into Linux shell and background services. 
@@ -49,8 +57,10 @@ KπX uses two independent yet complementary utilities to manage secrets:
 | :--- | :--- | :--- |
 | **Manual Sync** | `bw-env` | `bw-env sync` |
 | **Full Lockdown** | `bw-env` | `bw-env lock` (triggers SIGUSR2 to all shells) |
-| **Proxy CLI** | `bw-proxy` | `bw-proxy admin setup` · `bw-proxy admin log view` · `bw-proxy admin wal view` |
-| **Audit Status** | `bw-env` | `bw-env status` |
+| **Proxy Status** | `bw-proxy` | `bw-proxy admin status` |
+| **Get Vault Map** | `bw-proxy` | `bw-proxy do get-vault-map -o /tmp/map.json` |
+| **Lease Unlock** | `bw-proxy` | `bw-proxy admin unlock` (creates a Docker-only temporary lease) |
+| **Audit Log** | `bw-proxy` | `bw-proxy admin log view` |
 
 ## Insights Discipline (mandatory)
 
@@ -65,6 +75,6 @@ KπX uses two independent yet complementary utilities to manage secrets:
 
 ## Changelog
 
+| 2026-04-28 | [ANTIGRAVITY] | v2.4.0 - Added Fast Interface documentation (`admin status`, `do` with `-o`) and detailed Operational Map. |
 | 2026-04-24 | [GEMINI] | v2.3.0 - Implemented Agnostic Web Approval UI (Browser HITL) and updated AppArmor/Docker networking. |
-| 2026-04-24 | [CODEX] | v2.1.2 - Updated Bitwarden proxy memory for BW-Proxy naming, RAM-only auth, and classic/hardened install split. |
-| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.0 unified mapping; older -> file history |
+| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.2 naming; older -> file history |

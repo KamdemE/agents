@@ -39,3 +39,5 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - Always read this file before composing any significant email reply.
 - After each mail task, append any new reusable pattern (tone, correction, workflow preference, recurring contacts, recurring topics).
 
+- **Campaign Triage Insight:** Academic or professional campaigns (e.g., PA Choice, Prize registration) often involve an "Erratum" follow-up email that corrects a specific field (e.g., contact address, URL) while keeping other deadlines intact. Always check for the latest UID in the subject thread before creating tasks.
+- **Deadline Accuracy:** For choice campaigns, always extract precise opening and closing times (down to the minute) and record them in TickTick `start_date` and `due_date` with the correct `timeZone` (Europe/Paris) to avoid late submissions.

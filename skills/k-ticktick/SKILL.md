@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.18"
+  version: "2.0.19"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -105,6 +105,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 ## Changelog
 
+| 2026-05-04 | [ANTIGRAVITY] | v2.0.19 — Updated optimization course logistics and soutenance time (15:15) in task and note. |
 | 2026-04-20 | [ANTIGRAVITY] | v2.0.18 — Updated Linguaskill task with credentials, Linux warning, and Gdrive archival context. |
 | 2026-04-15 | [CODEX] | v2.0.17 — Synced Project Map and What's up folder names with live TickTick workspace labels/emojis. |
 | 2026-04-15 | [CODEX] | v2.0.16 — Updated Linguaskill open-thread state after slot confirmation (2026-04-30 09:00), reminder scheme, and prep loop extension. |

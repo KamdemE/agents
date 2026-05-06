@@ -12,11 +12,12 @@ KπX wants to build systems that increase autonomy rather than dependence.
 
 ## Flagship Visions
 
-### Sciencurious
+### ScienCurious Lab
 
 - Re-humanise science.
 - Replace dead formalism with intuitive, visual, problem-first explanation.
-- Use computing, visuals, and narrative portals to bring concepts alive.
+- "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !"
+- A platform that rejects text passivity for visual dynamics, transforming concepts into live visual explanations.
 
 ### Sovereign Personal OS / Homelab
 

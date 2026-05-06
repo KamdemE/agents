@@ -5,11 +5,11 @@ description: >
   Ollama), self-hosted services (polytask, wa-bot, n8n, sentinel), SSH
   (ssh homelab / docker-host), GitLab CI/CD, presentation/ knowledge base.
   Load for any task involving the homelab server, Docker containers, Traefik reverse proxy,
-  CI/CD pipelines, or $HOME/Work/KpihX_Labs/Homelab/ projects. NOT for generic project init (→ k-project).
+  CI/CD pipelines, or $HOME/Work/KpihX-Labs/Homelab/ projects. NOT for generic project init (→ k-project).
 license: private
 metadata:
   author: KpihX
-  version: "1.7.6"
+  version: "1.9.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -27,31 +27,33 @@ Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump
 
 | Alias | Target | Route | Use when |
 |-------|--------|-------|----------|
-| `ssh homelab` | `homelab.local` port 2222 | mDNS (LAN) | On local network |
-| `ssh kpihx-labs` | `kpihx-labs` port 2222 | Tailscale Magic DNS | From anywhere via Tailscale |
-| `ssh docker-host` | `10.10.10.10` | ProxyJump `kpihx-labs` (Tailscale) | Docker host — Tailscale route |
-| `ssh docker-host-x` | `10.10.10.10` | ProxyJump `homelab` (mDNS) | Docker host — eduroam/LAN fallback |
+| `pve` | `pve.local` port 2222 | mDNS (LAN) | Proxmox Node (Hypervisor) |
+| `kpihx-pve` | `kpihx-pve` port 2222 | Tailscale | Remote Hypervisor access |
+| `pve-ui` | `pve.local` | LAN | Tunnels for Proxmox/Portainer |
+| `kpihx-pve-ui`| `kpihx-labs...ts.net`| Tailscale | Remote Tunnels |
+| `homelab` | `10.10.10.10` via `pve` | LAN Jump | Docker Host (Local) |
+| `kpihx-labs` | `10.10.10.10` via `kpihx-pve` | Tailscale Jump| Docker Host (Remote) |
+| `kpihx-s25` | `kpihx-s25` port 8022 | Tailscale | Android Termux access |
 
-**Tailscale devices:**
+**Tailscale devices (Verified via Dashboard):**
 
-| Device | IP | OS | Status |
-|--------|----|----|--------|
-| `kpihx-ubuntu` | `100.82.95.70` | Linux | this machine |
-| `kpihx-labs` | `100.123.81.21` | Linux | active (direct) |
-| `kpihx-phone` | `100.125.54.1` | Android | active (relay) |
-| `kpihx-tablet` | `100.89.79.87` | Android | offline |
-| `kpihx-windows` | `100.108.7.86` | Windows | offline |
+| Device | ID | Hostname (OS) | Role |
+|--------|----|---------------|------|
+| `kpihx-pve` | `7501459151201643` | `pve` | Hypervisor (tag:server) |
+| `kpihx-ubuntu`| `2232751499623207` | `KpihX-Ubuntu` | Docker Host (Fluid Cloud) |
+| `kpihx-s25` | `833031442555825` | `KπX's Phone` | Mobile Phone |
+| `kpihx-tablet` | `7804464580897034` | `KπX's Tablet` | Tablet |
 
-## Infrastructure (`$HOME/Work/KpihX_Labs/Homelab/sh/`)
+## Infrastructure (`$HOME/Work/KpihX-Labs/`)
 
-**KpihX-Labs Architecture** (Source: `KpihX_Labs/Homelab/sh/README.md`):
-- **Proxmox node (`homelab`)**: /root/proxmox/ (Backup hooks, network watchdog, maintenance)
-- **Docker-host node (`docker-host`)**: /root/docker_host/ (Vaultwarden backup/restore)
+**KpihX-Labs Architecture**:
+- **Proxmox Node (`kpihx-pve`)**: Physical Node (Hypervisor). Alias `pve` (local) or `kpihx-pve` (remote).
+- **Docker Node (`kpihx-ubuntu`)**: Virtual Node (Sovereign Cloud). Alias `homelab` (local) or `kpihx-labs` (remote).
 - **Local Dispatcher**: `hsh` (at root of `sh/` or via `make install`)
 
 Vaultwarden: `vault.kpihx-labs.com` (Tailscale-only).
 
-## Projects (`$HOME/Work/KpihX_Labs/Homelab/`)
+## Projects (`$HOME/Work/KpihX-Labs/Homelab/`)
 
 Source code for all kpihx-labs projects lives here. When a KπX project is mentioned, check this directory first.
 
@@ -65,7 +67,7 @@ Source code for all kpihx-labs projects lives here. When a KπX project is menti
 | `sh/` | Homelab shell scripts (backup, boot notify, etc.) |
 | `presentation/` | Knowledge / docs project (see below) |
 
-## Knowledge Base — `$HOME/Work/KpihX_Labs/Homelab/presentation/`
+## Knowledge Base — `$HOME/Work/KpihX-Labs/Homelab/presentation/`
 
 Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS`, `STATE_OF_THE_ART`, `EVOLUTION`, `PORTABILITY`. Docsify site published at `kpihx-labs.github.io/presentation/` (`_sidebar.md`, `index.html`). Sub-structure:
 
@@ -92,6 +94,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-27 | [GEMINI] | v1.7.6 — Updated path structures to mirror Work/KpihX_Labs/Homelab refactoring. |
-| 2026-04-13 | [CODEX] | v1.7.5 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
+| 2026-04-29 | [ANTIGRAVITY] | v1.9.0 — Standardized prefix-based nomenclature (kpihx-) across Tailscale and SSH. |
+| 2026-04-28 | [ANTIGRAVITY] | v1.8.0 — Implemented initial nomenclature: docker-host -> homelab, homelab -> pve. |
 | [SUMMARY] | — | +2 older changelog entries kept in file history; condensed for table limits |

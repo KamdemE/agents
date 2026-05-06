@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.0"
+  version: "2.6.3"
   scope: personal-os
 ---
 
@@ -37,6 +37,8 @@ metadata:
   - `x_personal_hub`: `$HOME/Gdrive_X/X/K𝜋X/`
   - `cv_hub`: `$HOME/Gdrive_X/CV_ATF/`
   - `personal_drive`: `$HOME/Gdrive/`
+- **Digital Assets**:
+  - `signature`: `$HOME/Gdrive_X/Media/Photos/Persos/Importants/Signature_KAMDEM_Ivann/KpihX-Digital_Signature.jpg`
 - **Public Roots**:
   - `github`: `https://github.com/KpihX`
   - `labs`: `https://kpihx-labs.com`
@@ -68,12 +70,12 @@ metadata:
 | Academic path | [academic.md](references/academic.md) | Baham/Bafoussam, ENSPY, X, transcripts, grades, tests, EuroTeQ. |
 | Distinctions | [achievements.md](references/achievements.md) | AIMS, OFM, regional major, ZTF, DAAD AI, Hi!ckathon, certificates. |
 | Life evolution | [evolution.md](references/evolution.md) | Places, turning points, grief, Marcoussis, Palaiseau, adaptation arc. |
-| Philosophy | [philosophy.md](references/philosophy.md) | Mantras, anti-Bourbakism, Sciencurious, values, core quotes. |
+| Philosophy | [philosophy.md](references/philosophy.md) | Mantras, anti-Bourbakism, ScienCurious Lab, values, core quotes. |
 | Spirituality | [spirituality.md](references/spirituality.md) | Superposition, creator/creation, religion, Christ, Spinoza, conscience. |
 | Relationships | [relationships.md](references/relationships.md) | Friendship topology, reciprocity, mirrors, debate ethic, love geometry. |
 | Manuscript corpus | [manuscripts.md](references/manuscripts.md) | Childhood-to-2024 handwritten archive, developmental evidence, raw continuity of style. |
 | Creative flow | [creative_flow.md](references/creative_flow.md) | Piano, music, sports, cycling, badminton, flow states. |
-| Projects & long vision | [projects_vision.md](references/projects_vision.md) | Sciencurious, sovereignty, AI mission, consulting/entrepreneurship. |
+| Projects & long vision | [projects_vision.md](references/projects_vision.md) | ScienCurious Lab, sovereignty, AI mission, consulting/entrepreneurship. |
 | Public footprint | [digital_footprint.md](references/digital_footprint.md) | Handles, profiles, package registries, sites, public mentions, repo themes. |
 | Official document index | [legal.md](references/legal.md) | Secure path map to the complete local records. |
 | Source cross-index | [source_index.md](references/source_index.md) | Exact PDF, DOCX, and URL anchors for sensitive blocks and public claims. |
@@ -107,6 +109,9 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-02 | [ANTIGRAVITY] | v2.6.3 — `Identity Registry Update`: Registered digital signature path in `identity.md` and `SKILL.md`. |
+| 2026-05-02 | [ANTIGRAVITY] | v2.6.2 — `Administrative Registry Update`: Injected CAF allocataire number `8006862 C` into `identity.md` registry. |
+| 2026-05-02 | [ANTIGRAVITY] | v2.6.1 — `ScienCurious Lab Branding`: Standardized project identity naming and updated project map links. |
 | 2026-04-18 | [CODEX] | v2.6.0 — Added `references/manuscripts.md` as the developmental archive layer and extended `philosophy.md` with an explicit `[INFERENCE]` synthesis on `seconde`, anti-Bourbakism, and the science/art duality. |
 | 2026-04-18 | [CODEX] | v2.5.0 — Split Bruno KGB into a dedicated `references/kgb.md` layer, lightened `ancestry.md`, and made the father-specific transmission model explicit in the runtime map. |
 | [SUMMARY] | — | v2.4.0 source-index traceability; v2.3.0 rebuilt runtime map + provenance discipline; v2.1.0 meticulous restoration; v2.0.0 ultimate reconstruction; v1.2.0 initial kernel sync; older entries condensed. |

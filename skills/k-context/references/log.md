@@ -7,10 +7,27 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.71 — `ScienCurious`: Formalized collaboration with **Demartino KUETE** and updated Gerondeau prize thread in k-mail. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.70 — `Mail Triage`: Marked Gerondeau-Safran prize email (UID 10119) as Important. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.67 — `Assets Hub Finalized`: Achieved 100% routing stability (v1.1.5). Fixed Nginx `alias` logic for extensionless assets and verified all endpoints. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.66 — `Assets Hub Finalized`: Integrated Figma-style visual, refined Nginx regex for direct logo/visual access, and stabilized k-context symlinks. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.65 — `Assets Hub Content`: Finalized Docsify landing page, 3D visual engine integration, and infrastructure/brand documentation. Pushed changes to GitLab. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-03 | [CODEX] | v2.85.79 — Logged the target-tree flattening pass driven by the no-single-file and no-single-child-folder rule. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.64 — `Assets Alignment`: Standardized Assets Hub `docker-compose.yml` and `.gitlab-ci.yml` with the `sentinel` project philosophy. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [CODEX] | v2.85.59 — `Fluid Access Apply + PVE Purge`: made Tailscale policy synchronization a native `Fluid` command. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [CODEX] | v2.85.57 — `Fluid Runner + PVE VM`: added a canonical GitLab deploy-runner template. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [CODEX] | v2.85.56 — `Fluid Live Cleanup`: simplified `hosts.json` and purged legacy Nomad artifacts. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-01 | [CODEX] | v2.85.55 — `Fluid Swarm Pivot`: replaced half-Nomad lifecycle with a Swarm-first runtime. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.64 — `Assets Alignment`: Standardized Assets Hub infra and CI/CD with `sentinel` model. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.63 — `Sovereign Assets Hub`: Finalized presentation visuals and Cloudflare Zero Trust exposition plan. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.62 — `Sovereign Assets Hub`: Deployed Nginx-based assets hub, configured GitLab-CI mirroring. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-01 | [CODEX] | v2.85.54 — `Fluid Linux Prereqs`: auto-installed missing baseline packages. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-01 | [GEMINI] | v2.85.51 — `Fluid Fabric Deep Dive`: Mapping the "real problem" and the 4-layer architecture. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-01 | [CODEX] | v2.85.50 — `Fluid Fabric Refactor`: moved editable truth into `config/`, mutable truth into `state/`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-26 | [ANTIGRAVITY] | v2.85.31–v2.85.21 — `ai_dispatcher` hardening, `bw-proxy` v2.6.1-2.6.3, bot renames, and single-instance locks. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [CODEX] | v2.85.29 — `ai_dispatcher`: added single-instance `flock` lock, stale tunnel self-cleanup, explicit `SYNCING`/`READY` readiness flow, cleaned persistent Ollama tags back to `devstral` + `qwen`, and revalidated the X NFS quota (`29472M / 30720M`). · `$HOME/Work/X/ai_dispatcher/` *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.27 — `bw-proxy` v2.6.3: Finalized Hyper-Robust CLI. Dynamic signatures, unified input (JSON/Flag/STDIN), and smart aliases. 107/110 tests passing. · $HOME/Work/AI/MCPs/bw_mcp/ *(Rotated from k-context Session Log — audit cap.)* |
-| 2026-04-25 | [CODEX] | v2.85.28 — `ai_dispatcher` now reclaims `127.0.0.1:11434`, selects hosts with GPU-aware `xssh scan --sort gpu`, adds SSH keepalives, patched shared `~/ai_cluster/start_ia.sh` to sync `/tmp/$USER/ollama_models` back into `~/.ollama/models`, and added `qwen3.5-agent.Modelfile`. · `$HOME/Work/X/ai_dispatcher/` *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-04-25 | [CODEX] | v2.85.28 — `ai_dispatcher` now reclaims `127.0.0.1:11434`, selects hosts with GPU-aware `xssh scan --sort gpu`, adds SSH keepalives, patched shared `$HOME/ai_cluster/start_ia.sh` to sync `/tmp/$USER/ollama_models` back into `$HOME/.ollama/models`, and added `qwen3.5-agent.Modelfile`. · `$HOME/Work/X/ai_dispatcher/` *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.26 — Renamed bot **Sentinel** back to **Homelab**. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.24 — Renamed **Whats** to **Whatsapp** and **Tick** to **Ticktick**. Broadcasted "Hi! [timestamp]" to all 11 bots in the inventory. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-04-25 | [ANTIGRAVITY] | v2.85.23 — Deleted Telegram bot **flow ubuntu** and renamed **Flow Homelab** to **Flow**. *(Rotated from k-context Session Log — audit cap.)* |
@@ -129,13 +146,13 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-07 | [CLAUDE] | v2.74.15 — session finalization: validated AGENTS/k-context/log consistency, ran `make audit`, committed and pushed kernel updates. · `$HOME/.agents/` |
 | 2026-04-07 | [GEMINI] | v2.74.14 — restored 10 most recent session logs and graved the Zero-Deletion Policy into AGENTS and k-context rules. |
 | 2026-04-07 | [GEMINI] | v2.74.12 — Implemented KpihX-Backup structural auto-mount via `fstab` + `x-systemd.automount`; Created "Universal Auto-Mount" tutorial in `techskills` and updated `k-optim` (v2.9.0). |
-| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced `~` with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
+| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced a tilde home shortcut with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
 | 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive SUMMARY. |
 | 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); added diagnostic commands (`systemctl list-timers`, `log-scan`, `tg read`) to `k-optim` and `k-tg` (v1.5.0) for easier auditing. |
 | 2026-04-07 | [GEMINI] | v2.74.6 — **Ubuntu frequency map (REFINED)**: Clarified that clean/backup run on ODD month-days (1, 3, 5...) in `k-optim` (v2.7.0) and `k-workspace` (v2.15.0); reverted accidental systemd timer modifications. |
 | 2026-04-07 | [GEMINI] | v2.74.13 — Audit pass: verified `k-optim` v2.9.0, `k-context` v2.74.13, and session log rotation. |
 | 2026-04-07 | [GEMINI] | v2.74.12 — Implemented KpihX-Backup structural auto-mount via `fstab` + `x-systemd.automount`; Created "Universal Auto-Mount" tutorial in `techskills` and updated `k-optim` (v2.9.0). |
-| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced `~` with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
+| 2026-04-07 | [CLAUDE] | k-optim v2.8.2 — replaced a tilde home shortcut with `$HOME` in the `Pictures/` cleanup command snippet to comply with `.agents/` no-hardcoded-path rule. · `$HOME/.agents/skills/k-optim/SKILL.md` |
 | 2026-04-07 | [CLAUDE] | k-optim v2.8.1 — clarified `Pictures/` policy: screenshots are transit and must be reviewed, moved, and `Pictures/` emptied during every optim cycle. · `$HOME/.agents/skills/k-optim/SKILL.md` |
 | 2026-04-07 | [GEMINI] | v2.74.9 — session log rotation: moved older entries to `references/log.md` and condensed log with descriptive SUMMARY. |
 | 2026-04-07 | [GEMINI] | v2.74.7 — **Ubuntu frequency & audit (FINAL)**: Corrected frequency (every 2 days starting Sun with persistent resume) in `k-optim` (v2.8.0) and `k-workspace` (v2.16.0); added diagnostic commands (`systemctl list-timers`, `log-scan`, `tg read`) to `k-optim` and `k-tg` (v1.5.0) for easier auditing. |
@@ -174,6 +191,19 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map · `$HOME/.agents/skills/` |
 | 2026-04-04 | [COPILOT] | v2.34.1 — bw_env robustness; committed+pushed · `$HOME/Work/sh/bw_env/` |
 | 2026-04-04 | [COPILOT] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
+| 2026-05-04 | [ANTIGRAVITY] | v2.85.86 — Optimisation et Contrôle project added and tasks updated. |
+| 2026-05-04 | [ANTIGRAVITY] | v2.85.84 — Linguaskill folder moved to Academic centralized root. |
+| 2026-05-04 | [ANTIGRAVITY] | v2.85.83 — Linguaskill validation and submission. |
+| 2026-05-03 | [CODEX] | v2.85.82 — Logged the `Gdrive_X` residual duplicate/name cleanup and updated the final stable status. |
+| 2026-05-03 | [CODEX] | v2.85.81 — Rotated Session Log overflow, restored changelog newest-first order, and replaced hardcoded home path violations with `$HOME`. |
+| 2026-05-03 | [CODEX] | v2.85.78 — `Gdrive_X`: rewrote the target-tree note into an exhaustive English-only full tree, kept `Google AI Studio/` and `.Trash-1000/` at the root, dissolved the ambiguous standalone `RIB/` idea, and made unresolved 2A period assignments explicit under `Period_To_Confirm/`. |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.77 — `Thermal Stabilization`: Fixed `tg-homelab` paths, optimized Rclone cache, excluded Gdrive from indexing, and bumped inotify limits; Antigravity CPU usage dropped from 109% to 27%. |
+| 2026-05-02 | [CODEX] | v2.85.76 — `Gdrive_X`: added a dedicated rendered Markdown tree-view document for the target architecture. |
+| 2026-05-02 | [CODEX] | v2.85.75 — `Gdrive_X`: completed exhaustive read-only inventory and wrote full state/proposal documents for the academic-professional reorganization. |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.73 — `TickTick Tasks`: Created tracking tasks and reminders for PA X24 (deadline/opening) and Prix Gerondeau. |
+| 2026-05-02 | [ANTIGRAVITY] | v2.85.72 — `PA X24`: Created initial tracking project and updated k-mail/SKILL.md. |
 | *(entries will accumulate here as k-context Session Log is compacted)* | | |
 
 | 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite completed successfully. Verified Scoped Union Fetch (no more orphaned items), fixed `collection_ids` creation bug, and confirmed blind refactoring stability. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime (Daemon Mode) implementation and verification. · `$HOME/Work/AI/MCPs/bw_mcp/` |

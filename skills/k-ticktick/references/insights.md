@@ -23,6 +23,8 @@ Purpose: durable behavioral memory to improve proactive planning support and red
 - When a precise soutenance date already exists in TickTick, update that task instead of duplicating, and add a separate period-range task only if requested.
 - If a dated academic task is found in `🎓 X/✅ Todos`, move it to `🎓 X/📅 Agenda` to keep planning views clean.
 - **Exam/Certification Annotation:** For proctored exam tasks, always include the technical support number and a specific "Environment Warning" if native hardware/OS constraints exist (e.g., "No Linux support"). Add Gdrive archival links for manuals/installers directly in the task content.
+- **Course Duo-Task Pattern:** For academic projects with both a submission (Rendu) and an oral (Soutenance), create two separate tasks in `📅 Agenda`. The Rendu task should target the submission deadline (e.g., 23:59), while the Soutenance task tracks the precise oral slot. Cross-link both to a master course note in `📒 Notes` for centralized official instructions.
+- **Checklist Allocation:** Distribute "Action Checklist" items logically: Rendu focuses on mechanics (verify Moodle, binôme confirmation), while Soutenance focuses on performance (pitch prep, anticipating questions).
 
 ## Tooling Patterns
 

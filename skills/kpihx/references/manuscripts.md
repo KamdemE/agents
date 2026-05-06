@@ -26,7 +26,7 @@ This file is the sovereign note for the handwritten archive that documents KπX'
 - Early attraction to foundational anomalies: division by zero, `0!`, paradoxes, limiting processes, area/volume constants.
 - Breadth across mathematics, computing, physics, ethics, and management.
 - Strong continuity between scientific curiosity and explanatory/narrative instinct.
-- Evidence that the later `Sciencurious` posture was prefigured years earlier in raw handwritten form.
+- Evidence that the later `ScienCurious Lab` posture was prefigured years earlier in raw handwritten form.
 
 ## Method Note
 

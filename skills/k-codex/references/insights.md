@@ -13,3 +13,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 - Initial baseline created automatically from insights governance standard.
 - Codex remote HTTP MCP auth is configured with `bearer_token_env_var = "ENV_NAME"` next to `url = "https://.../mcp"`; the CLI equivalent is `codex mcp add <name> --url <url> --bearer-token-env-var <ENV_NAME>`.
+- When KπX explicitly requests a shared interactive tmux workflow, a password prompt is not a stopping point. Keep polling the pane and resume automatically after KπX authenticates instead of ending the turn on the prompt.

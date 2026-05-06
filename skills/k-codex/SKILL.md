@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.5"
+  version: "2.11.6"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -84,7 +84,8 @@ Do not enumerate MCPs here; read `$HOME/.codex/config.toml` directly.
 
 ## Permissions & Escalation
 
-- **Sudo required** → STOP before retry loop; ask KπX to run the command manually; then resume.
+- **Sudo required in a normal local shell** → STOP before retry loop; ask KπX to run the command manually; then resume.
+- **Shared tmux / fully interactive shell workflow** → do not end the turn just because a password prompt appears. Keep the command running, poll the pane, wait for KπX to enter the password, then continue automatically.
 - if sandbox restrictions block a legitimate Codex maintenance action (for example `.agents` commit/push or a repo push), rerun the exact command with scoped escalation instead of inventing shell workarounds
 - for Git/network maintenance, prefer a narrow `prefix_rule` tied to the real command family (`git ... push`, `git ... commit`, `make -C $HOME/.agents push`) so the approval stays reusable but bounded
 - when an escalated command fails because it still needs user authentication or a manual step, stop there; tell KπX exactly what to run/fix, then continue once KπX says it is done
@@ -137,6 +138,6 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-01 | [CODEX] | v2.11.6 — Added the shared-tmux rule: when KπX explicitly asks for a fully interactive shell workflow, Codex must keep polling password prompts instead of ending the turn on `sudo`/auth waits. |
 | 2026-04-21 | [CODEX] | v2.11.5 — Documented verified remote HTTP MCP auth with `bearer_token_env_var` for Codex. |
-| 2026-04-18 | [CODEX] | v2.11.4 — Generalized Codex deep-clean commands from `~` to `$HOME` so runtime docs obey shared kernel path policy. |
-| [SUMMARY] | — | v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |

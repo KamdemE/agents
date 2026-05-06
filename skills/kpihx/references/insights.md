@@ -19,7 +19,7 @@
 
 ## Common Pitfalls
 
-- **Bourbakism**: Avoid presenting KπX's work in a cold, purely formal way. Always strive for the "Sciencurious" aesthetic—intuitive, narrative, and magical.
+- **Bourbakism**: Avoid presenting KπX's work in a cold, purely formal way. Always strive for the "ScienCurious Lab" aesthetic—intuitive, narrative, and magical.
 - **Friendship Logic**: Do not assume high social frequency. Respect the "selective" and "durable" nature of his real friendships.
 - **Public Handle Verification**: Candidate handles from chat (`kpihx_7`, `kpihx-7`, etc.) must stay labelled as unverified until a direct public URL is confirmed.
 - **Scanned Docs**: If `pdftotext` fails on critical identity documents, use `pdftoppm` + visual inspection before declaring the field unknown.

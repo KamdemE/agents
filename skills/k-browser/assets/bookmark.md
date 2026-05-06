@@ -318,7 +318,7 @@
 - [Z-Library Articles](https://zlib-articles.se/)
 - [Wikimedia Downloads](https://dumps.wikimedia.org/)
 - [Index of /other/kiwix/zim/](https://dumps.wikimedia.org/other/kiwix/zim/)
-- [ScienCurious Visual Science](https://kpihx.github.io/sciencurious/#/)
+- [ScienCurious Lab](https://kpihx.github.io/sciencurious/#/)
 - [KpihX Ubuntu Techskills](https://kpihx.github.io/techskills/#/)
 - [3.10 Documentation](file:///usr/share/doc/python3.10/html/index.html)
 - [GNU MP Documentation](file:///usr/share/doc/gmp-doc/html/index.html)

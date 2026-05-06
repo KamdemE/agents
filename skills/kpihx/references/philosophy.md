@@ -1,4 +1,4 @@
-# Philosophy, Method & Sciencurious
+# Philosophy, Method & ScienCurious Lab
 
 ## Core Mantras
 
@@ -25,11 +25,11 @@ KπX's anti-Bourbakism is not a refusal of rigor but a refusal of lifeless entry
 
 The year `seconde` appears as a revelation because several latent lines suddenly converged: higher-access self-learning through the phone and the web, a physics teacher who reopened research appetite, the limit concept as a key to long-carried questions around `pi`, and the first serious contact with programming. The exceptional grades were therefore a visible symptom, not the primary event.
 
-This same pattern explains why KπX sees art and science inside every discipline. The scientific side stabilizes and secures; the artistic side invents, senses, reframes, and gives breath. When a curriculum suppresses the artistic side of science in the name of formal efficiency, it may still produce strong technicians while quietly extinguishing inventor-energy. `Sciencurious` exists as a direct answer to that perceived extinction.
+This same pattern explains why KπX sees art and science inside every discipline. The scientific side stabilizes and secures; the artistic side invents, senses, reframes, and gives breath. When a curriculum suppresses the artistic side of science in the name of formal efficiency, it may still produce strong technicians while quietly extinguishing inventor-energy. ScienCurious Lab exists as a direct answer to that perceived extinction.
 
-## Sciencurious
+## ScienCurious Lab
 
-`Sciencurious` is the educational expression of this philosophy.
+`ScienCurious Lab` is the educational expression of this philosophy.
 
 ### Mission
 

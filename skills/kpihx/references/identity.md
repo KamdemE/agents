@@ -28,6 +28,7 @@
 | CNI issue / expiry | `2020-11-20` → `2030-11-20` | `[OFFICIAL]` CNI back side |
 | Tax NIU | `P100318167846P` | `[OFFICIAL]` Tax registration attestation |
 | Social-security provisional number | `1 03 10 99 322 116 27` | `[OFFICIAL]` CPAM attestation |
+| CAF allocataire number | `8006862 C` | `[OFFICIAL]` CAF attestation |
 | Residence permit personal number | `9927030985` | `[OFFICIAL]` residence permit |
 | Residence permit card number | `EW34YSD50` | `[OFFICIAL]` residence permit |
 | Residence permit type | `Carte de séjour pluriannuelle` | `[OFFICIAL]` residence permit |
@@ -35,6 +36,7 @@
 | Residence remark | `Student — authorised to work as a secondary activity` | `[OFFICIAL]` residence permit |
 | Carte Vitale issue date | `2024-11-16` | `[OFFICIAL]` Vitale card |
 | Carte Vitale card serial | `T000009708` | `[OFFICIAL]` Vitale card |
+| Digital signature | `$HOME/Gdrive_X/Media/Photos/Persos/Importants/Signature_KAMDEM_Ivann/KpihX-Digital_Signature.jpg` | `[SELF-REPORT 2026-05-02]` |
 
 ## Contact Channels
 

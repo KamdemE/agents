@@ -4,7 +4,7 @@ description: KπX rclone — Google Drive remote setup (OAuth flow), systemd use
 license: private
 metadata:
   author: KpihX
-  version: "1.0.4"
+  version: "1.2.1"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -79,7 +79,25 @@ rclone mount <remote>: <mountpoint> \
 |------|-----|
 | `--vfs-cache-mode full` | Full local cache — reads/writes go through cache; needed for most apps |
 | `--allow-other` | Other users (root) can access the mountpoint |
-| `--dir-cache-time 1m` | Refresh directory listing every 1 min — balance freshness vs API quota |
+| `--dir-cache-time 1000h` | **Sovereign Profile**: Keeps directory structure in RAM for 1000 hours. Prevents costly API re-scans on every `ls`/`find`. |
+| `--poll-interval 10s` | **Sovereign Profile**: Listens for Google Drive "Notify" signals. If a file changes on another device, rclone updates the cache within 10s. |
+| `--vfs-read-ahead 128M` | **Sovereign Profile**: Prefetches 128MB of data. Makes opening large PDFs or documents feel local. |
+
+### The "Sovereign Mount" Strategy (2026-05-02)
+
+For a high-performance, CLI-friendly Google Drive mount on Linux, standard defaults (`1m` cache) are insufficient. The "Sovereign Mount" configuration optimizes for **CLI search speed** and **document access latency**:
+
+1. **Persistent Metadata Cache (`--dir-cache-time 1000h`)**:
+   - **Why**: Standard mounts treat the cloud as a volatile disk. By setting a very long cache time, `rclone` builds a full local index of the Drive in memory.
+   - **Benefit**: `find`, `rg`, and recursive `ls` operations run at near-SSD speeds because they never hit the network.
+
+2. **Reactive Synchronization (`--poll-interval 10s`)**:
+   - **Why**: Long cache times normally mean you won't see new files added via the web/phone. Polling solves this by asking Google for "changes since last sync" every 10 seconds.
+   - **Benefit**: Real-time feel without the performance penalty of frequent full re-scans.
+
+3. **Intelligent Prefetching (`--vfs-read-ahead 128M`)**:
+   - **Why**: Sequential reads are the main bottleneck. Prefetching data into the VFS cache before the application asks for it hides the network latency.
+   - **Benefit**: Documents open instantly as if they were stored locally.
 
 Optional additional flags:
 
@@ -124,6 +142,7 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 | Token expired / 401 | Run `rclone config reconnect <remote>:` to re-auth |
 | `--allow-other` denied | Ensure `user_allow_other` in `/etc/fuse.conf` (or use without `--allow-other`) |
 | High API quota usage | Increase `--dir-cache-time` (e.g. `10m`) |
+| Large Google Drive metadata moves stall | Use Drive API moves by file ID for the bulk operation; keep `rclone` for root checks, size checks, and small independent verification counts |
 
 ## Insights Discipline (mandatory)
 
@@ -135,6 +154,6 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v1.0.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-03 | [CODEX] | v1.0.3 — normalized the bundled systemd service template away from hardcoded home paths by using user-home-safe path specifiers |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| 2026-05-03 | [CODEX] | v1.2.1 — Recorded that large or repeated Google Drive metadata moves should switch from `rclone moveto`/FUSE to Drive API file-ID moves when stalls appear. |
+| 2026-05-02 | [ANTIGRAVITY] | v1.2.0 — Introduced the "Sovereign Mount" profile: optimized for high-speed CLI navigation with long directory cache, reactive polling, and read-ahead buffers. |
+| [SUMMARY] | — | v1.0.4 insights discipline; v1.0.3 path normalization; +1 older changelog entries kept in file history; condensed for table limits |
