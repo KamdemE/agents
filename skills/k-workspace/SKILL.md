@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.8"
+  version: "2.16.9"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -49,6 +49,16 @@ Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding d
 | $HOME/Gdrive/ | Personal Google Drive via rclone (account: kapoivha@gmail.com) |
 | $HOME/Gdrive_X/ | Pro/Academic Google Drive via rclone (account: ivann.kamdem-pouokam.2024@polytechnique.org) |
 | $HOME/go/ | Go workspace (GOPATH) |
+
+### Agent kernel (`$HOME/.agents/`)
+
+| Path | Role |
+|------|------|
+| `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
+| `$HOME/.agents/AGENTS.md` | Canonical **AGENTS** kernel — always edit this file |
+| `$HOME/KpihX-Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` (workspace-root convenience when the editor opens `KpihX-Labs/`) |
+
+**Do not** hard-link or maintain a second copy of `AGENTS.md` at the `KpihX-Labs/` root. Full routing table: `$HOME/.agents/AGENTS.md` → **File Routing**.
 
 ## Package Management (strict)
 
@@ -210,6 +220,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-15 | [CURSOR] | v2.16.9 — Documented agent kernel layout: `$HOME/.agents/` → `KpihX-Labs/.agents/`, canonical `AGENTS.md`, root `KpihX-Labs/AGENTS.md` as symlink only (no hard link). |
 | 2026-04-17 | [CURSOR] | v2.16.8 — `sui` **`-r`** shorthand documented; examples + chown recovery use `-r`; AGENTS privilege block compacted (pointer). |
-| 2026-04-16 | [CURSOR] | v2.16.7 — Sui Gate expanded: what/why, paths under `$HOME/Work/sh/sui/`, three canonical examples (local, `@docker-host`, `@kpihx-labs`), rationale vs audit, submodule `.git` chown recovery; Phoenix row v2.1.3. |
 | [SUMMARY] | — | v2.16.6 `sui --reason` fail-fast; v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |

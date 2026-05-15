@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.2.2"
+  version: "4.2.3"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -25,6 +25,7 @@ allowed-tools: "Bash(*), *"
 | Per-workspace storage (folder name = hash of workspace URI) | `$HOME/.config/Code/User/workspaceStorage/<hash>/` |
 | GitHub Copilot Chat sessions (one JSONL file per chat) | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/*.jsonl` |
 | Copilot Chat tool/attachment artifacts | `$HOME/.config/Code/User/workspaceStorage/<hash>/GitHub.copilot-chat/chat-session-resources/<session-id>/` |
+| Cursor agent transcripts (one JSONL per thread) | `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/<session-id>/<session-id>.jsonl` |
 | Profile hash directories | `$HOME/.config/Code/User/profiles/<hash>/` |
 | Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
@@ -63,6 +64,7 @@ allowed-tools: "Bash(*), *"
 | Full installed extension metadata | `$HOME/.vscode/extensions/extensions.json` |
 | Human-readable exported profile snapshot | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Recover or search a GitHub Copilot Chat transcript | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/` — each `*.jsonl` is one session (often very long lines); locate `<hash>` via `globalStorage/storage.json` (`backupWorkspaces`, `profileAssociations.workspaces`) or by searching JSONL with `rg`/a small script |
+| Recover or search a Cursor agent conversation | `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/` — each `<session-id>.jsonl` is one Cursor thread; tool fetch artifacts typically sit in sibling `agent-tools/` files under the same workspace slug |
 | Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` |
 | Ready-made local references | `$HOME/.agents/skills/k-code/references/` |
 
@@ -88,7 +90,7 @@ Located in `scripts/profiles/`:
 
 #### Forks Synchronization
 Located in `scripts/cursor/` and `scripts/agy/`:
-- `cursor/install_cursor.sh`: Advanced installer downloading Cursor AppImage with system integrations.
+- **Cursor install:** official `.deb` on Ubuntu (`/usr/bin/cursor`); see `references/cursor.md`. No AppImage wrapper.
 - `cursor/sync_cursor.sh`: Hard-links `cursor`'s internal storage parameters directly back to `k-code`.
 - `agy/sync_agy.sh`: Hard-links `antigravity`'s internal storage parameters directly back to `k-code`.
 
@@ -138,6 +140,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-26 | [ANTIGRAVITY] | v4.2.2 — Documented Antigravity v1.23.2+ UI interaction: unified selector and Planning Mode toggle. |
-| 2026-04-13 | [CODEX] | v4.2.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v4.2.0 MCP setup; +1 older changelog entries kept in file history |
+| 2026-05-15 | [CURSOR] | v4.2.4 — Dropped AppImage `install_cursor.sh`; Ubuntu install is `.deb`-only (`references/cursor.md`). |
+| 2026-05-14 | [CODEX] | v4.2.3 — Documented Cursor conversation recovery path under `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/` plus sibling `agent-tools/` artifacts. |
+| [SUMMARY] | — | v4.2.2 Antigravity Planning Mode UI; v4.2.1 insights discipline; v4.2.0 MCP setup; older entries in file history |

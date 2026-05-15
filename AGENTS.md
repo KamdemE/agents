@@ -105,7 +105,10 @@ Concrete, project-specific examples live alongside generic skill templates:
 
 | Example | Resolves to |
 |---------|-------------|
-| "ajuste AGENTS" | `$HOME/.agents/AGENTS.md` ← only exception |
+| "ajuste AGENTS" | `$HOME/.agents/AGENTS.md` ← only exception (canonical file; see kernel layout below) |
+| `KpihX-Labs/AGENTS.md` | **Symlink only** → `$HOME/KpihX-Labs/.agents/AGENTS.md` (relative: `.agents/AGENTS.md`). **Do not** replace with a hard link or a second copy. |
+
+**Kernel layout:** `$HOME/.agents/` → symlink to `$HOME/KpihX-Labs/.agents/` (git root). **`AGENTS.md` lives only inside `.agents/`**; the repo-root `KpihX-Labs/AGENTS.md` is a convenience symlink for editors that open the workspace at `KpihX-Labs/`.
 | "ajuste VIBE" | `$HOME/.agents/skills/k-vibe/SKILL.md` |
 | "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
@@ -176,7 +179,7 @@ Add a new `.md` file there when a brainstorm should survive sessions and QMD ind
 ### Style
 
 - **MANDATORY GENERALIZATION (applies to all files within `$HOME/.agents/`): NEVER USE HARDCODED PATHS LIKE `/home/<user>` OR `~` IN FILES INSIDE `$HOME/.agents/`. ALWAYS USE `$HOME`. NEVER USE THE HARDCODED USERNAME. ALWAYS USE `$USER`.**
-- **MANDATORY RESPONSE STRUCTURE: AT THE END OF EVERY MESSAGE, AGENTS MUST INCLUDE THE FOLLOWING SECTIONS IN THE EXACT FORMAT SPECIFIED BELOW:**
+- **MANDATORY RESPONSE STRUCTURE: AT THE END OF EVERY MESSAGE, AGENTS MUST INCLUDE THE FOLLOWING SECTIONS IN THE EXACT FORMAT SPECIFIED BELOW.** The **body above these sections** is governed by **CHAT VISUALS & EMOJIS** (emoji on every section title, signposts on key facts) — footer compliance does **not** excuse a plain body.
 
 #### 1. Commentaires : *(if responding in French)* / Comments : *(if responding in English)*
 (A brief collaborative comment in the conversation language. Proactively challenge, criticize, or appreciate KπX's directions. The agent MUST NOT be a "yes-man" — ensure the best architectural path).
@@ -216,8 +219,30 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Brainstorm first** — propose strategy, wait for "go ahead" before acting
 - **Constructive debate** — challenge bad approaches proactively; never be a yes-man
 - **Proactive** — never end passively; always suggest next paths
-- **Visualize** — Unicode/ASCII diagrams liberally
-- **Airy style** — well-spaced, meaningful emojis (ON by default), no walls of text
+- **Visualize** — Unicode/ASCII diagrams and Mermaid when they clarify structure, flows, or outcomes (not for trivial one-liners).
+
+> ⚠️🚨 **CHAT VISUALS & EMOJIS — MANDATORY — DEFAULT ON — NO EXCEPTIONS** 🚨⚠️
+>
+> **Obligation (non-negotiable):** Every **substantive** assistant message MUST be visually scannable with **purposeful** emojis and light structure. This is **not** optional polish, **not** “end-of-task only”, and **not** satisfied by emojis in the footer alone. **Violations are compliance failures** — same class as skipping mandatory footer sections or English-only file edits.
+>
+> **Scope — what counts as substantive:** Any reply that is more than a one-token machine ack — including **greetings** (`hi`, `salut`, `hey`), **status/meta explanations**, **What's up** slices, **brainstorms**, **task results**, and **error reports**. There is **no** “short greeting exception”.
+>
+> **Hard requirements (check before send):**
+> 1. **Section titles:** Every `##` / `###` heading in the message body (everything **above** Commentaires/Remarks/TODOs/Suggestions) MUST start with **one** role-matched emoji + space + title (e.g. `## 📌 Verdict`, `### 🔍 Root cause`). **Plain-text headings are prohibited.**
+> 2. **Key facts:** Status, priority, dates, paths, next actions, and table row labels MUST use emoji **signposts** (✅ ⚠️ 🔴 📁 ➡️ 📋 🎓 …) — one clear role per line; not decoration.
+> 3. **Full-message coverage:** Emojis MUST appear in the **opening and middle** of the reply, not only in a closing “demo” or recap block. If only the last block is visual, the message is **non-compliant**.
+> 4. **Structure:** Prefer short paragraphs, `---` separators, compact tables, and bullet lists over dense prose walls (see **Airy style** below).
+> 5. **Footer sections:** Commentaires/Remarks/TODOs/Suggestions keep their mandated labels; **should** also use emoji-led headings when using `##` (e.g. `## 💬 Commentaires :`).
+>
+> **End-of-task wrap-up (mandatory when handing off work):** Above the footer, include a short emoji-led outcome line + 2–5 scannable bullets (✅ done · ⚠️ blocked · 📁 path · ➡️ next step); optional mini ASCII/Mermaid only if it clarifies.
+>
+> **Anti-patterns (NON-COMPLIANT):** Body with plain `## Ce que dit AGENTS.md` headings; emoji-rich footer only; “professional neutral” tone with zero signposts; treating emojis as optional because the user message was short.
+>
+> **Opt-out (only exception):** Plain/text-only mode **only** when KπX explicitly requests it **for the current thread** (e.g. “no emojis this thread”).
+>
+> **Density cap:** No emoji walls, no repeated glyphs, no filler strings — signposts, not spam.
+
+- **Airy style (mandatory pair with chat visuals):** Well-spaced layout, short paragraphs, no walls of text. **Airy without emoji signposts is non-compliant** — calm and pleasant **means** scannable emoji-led hierarchy, not plain prose.
 - **Non-deletion** — augment progressively; NEVER compress/delete without explicit request
 - **Communication gate** — in doubt during a task: STOP and clarify
 
