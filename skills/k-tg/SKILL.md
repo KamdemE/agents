@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.2.9"
+  version: "3.2.10"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -33,6 +33,7 @@ allowed-tools: "Bash(*), Read(*), Glob(*), *"
 - **BotFather only** for bot create/delete/token/privacy/commands — entity id **`93372553`**.
 - **Run-speed policy (immediate minimal):** during active runs, log only **critical** facts (bot id, action, error). Put narratives into deferred curation or `references/log.md` once per slice.
 - **No secret exfiltration:** never print full **`TELEGRAM_*_TOKEN`** values in chat; use Vaultwarden names (`TELEGRAM_GENERAL_TOKEN`, `TELEGRAM_ISSUES_TOKEN`, …).
+- **`tg send` from non-interactive / agent shells:** use `zsh -l -c '…'` so **`TELEGRAM_*_TOKEN`** values load from `$HOME/.kshrc` / `bw-env` hooks. If `tg send` fails with **No chat ID**, **`CHAT_ID` is often not exported globally** — prefix the command with `set -a; source "$HOME/Work/sh/backup_restore/.env"; set +a` (Phoenix backup module defines the personal notify target alongside the Ubuntu token). Never print `.env` contents.
 - **What’s up / Telegram — implementation gate (mandatory):** You must **autonomously perform ALL read-only investigations** (reading screenshots/media, server exploration via SSH, parsing logs and diagnostic files). **Do not require a "go" for inspection**. You are obliged to investigate as deeply as possible yourself before making proposals. If privileged access is required, use `sui -r "..."` and wait for KπX to approve the audited elevation/password gate. The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations (e.g., no TickTick API writes, no mail sends, no service/config mutative changes) **until** KπX gives explicit go-ahead. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** is bookkeeping, not remediation.
 
 ## What's up — Telegram slice (single assistant turn, **k-tg only**)
@@ -215,6 +216,6 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-16 | [CURSOR] | v3.2.10 — Agent-shell `tg send`: mandate `zsh -l -c` and document **`CHAT_ID` via `source $HOME/Work/sh/backup_restore/.env`** when the notifier target is missing. |
 | 2026-05-02 | [CODEX] | v3.2.9 — Compacted the changelog to satisfy audit row limits without changing Telegram operational rules. |
-| 2026-04-29 | [ANTIGRAVITY] | v3.2.8 — Updated **Ubuntu** bot icon to match the **Core** theme (Blue X). |
-| [SUMMARY] | — | v3.2.7 deleted Issues bot/channel Me and renamed General to KpihX; v3.2.6 finalized Homelab rebranding; v3.2.5 created Homelab and KpihX-Labs bots; v3.2.4 Sentinel rename rollback; v3.2.3 Whats/Tick naming pass; v3.2.1 bot cleanup; v3.2.0 Docker-Host; v3.1.x bio/sui/insights/processed-state; older → `references/log.md` |
+| [SUMMARY] | — | v3.2.8 Ubuntu bot icon (Core/blue); v3.2.7 deleted Issues bot/channel Me and renamed General to KpihX; v3.2.6 finalized Homelab rebranding; v3.2.5 Homelab and KpihX-Labs bots; v3.2.4 Sentinel rename rollback; v3.2.3 Whats/Tick naming; older → `references/log.md` |

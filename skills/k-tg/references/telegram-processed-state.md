@@ -37,3 +37,4 @@ Order for **section 3** of *What's up* (after capture bots). Triaged = alert rea
 | Chat | Telegram user ID | Purpose |
 |------|------------------|---------|
 | Saved Messages / `@KpihX` | `1397540599` | Optional “note to self”; treat like low-priority capture unless tagged |
+| general | 7533 | 2026-05-06 | Processed Julius Caesar PDFs |

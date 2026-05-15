@@ -19,3 +19,4 @@
 | 2026-04-09 | [CURSOR] | *What's up* Telegram triage (read-only) | Issues: 5 photos; General: 4 photos; Homelab: PVE backup error; Ubuntu: backup PC OK — cursors updated in `telegram-processed-state.md` |
 | 2026-04-09 | [CURSOR] | *What's up* Telegram triage (deep) | Issues: UCSI laptop boot hypothesis; General: Shakespeare/Brutus notes; Homelab: PVE backup error (GDrive quota hypothesis) — pistes only per implementation gate |
 | 2026-04-11 | What's up triage | Parsed general screenshots and homelab errors. Found GDrive full for proxmox backups, network issues, and IME poll photo. |
+| 2026-05-06 | Processed Julius Caesar PDFs from @kpihx_general_capture_bot (msg 7532, 7533). Extracted via OCR and updated revision_anglais.md. |

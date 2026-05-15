@@ -11,6 +11,7 @@
 
 ## Infra bots
 
+- **`tg send` (SENSY / bot→user pushes) in Agent shells:** run `zsh -l -c 'set -a; source "$HOME/Work/sh/backup_restore/.env"; set +a; tg send --bot ubuntu --plain "…"'` so **tokens** come from the login shell and **`CHAT_ID`** comes from the Phoenix backup notifier config (global login shell often has tokens but **not** `CHAT_ID`).
 - **`tg bots`** only lists bots with **`TELEGRAM_*_TOKEN`** present in the **current** environment; load `bw-env` (or `set -a; source /tmp/tokens/*.env; set +a` **temporarily**) so all aliases appear.
 - Homelab MCP bridges use **`@tick_homelab_bot`**, **`@whats_homelab_bot`**, **`@linkedin_homelab_bot`**, **`@mail_homelab_bot`** (see **`## Bot inventory`** in `SKILL.md`).
 - **Openclaw Ubuntu** was retired — remove **`TELEGRAM_OPENCLAW_UBUNTU_TOKEN`** from any secret shell if it is still exported.

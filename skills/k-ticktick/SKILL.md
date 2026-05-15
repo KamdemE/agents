@@ -4,7 +4,7 @@ description: tick-mcp operational memory — KπX TickTick project/folder map an
 license: private
 metadata:
   author: KpihX
-  version: "2.0.19"
+  version: "2.0.21"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -94,7 +94,7 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Thread | Scope | Last State | Next Action |
 |--------|-------|------------|-------------|
-| Linguaskill certification confirmed slot | `🎓 X/📅 Agenda` | Task updated with confirmation details (2026-04-30 09:00), Metrica credentials, and Gdrive archival location (`Gdrive_X/X/LinguaSkill/`). Explicit warning about Linux incompatibility added to task content. Reminders set: `-7d/-2d/-1d/-1.5h/0h`. | Keep watch for final technical notice; check Linux workaround or backup machine availability |
+| Linguaskill certification validated | `🎓 X/📅 Agenda` | Results received (Score 187, C1). Certificate archived in `Gdrive_X/KpihX/Academic/LinguaSkill/`. Task `69d7131c8f08660f9f047377` marked completed. | Thread closed (2026-05-06) |
 
 ## Runtime Memory Files
 
@@ -105,8 +105,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 ## Changelog
 
-| 2026-05-04 | [ANTIGRAVITY] | v2.0.19 — Updated optimization course logistics and soutenance time (15:15) in task and note. |
-| 2026-04-20 | [ANTIGRAVITY] | v2.0.18 — Updated Linguaskill task with credentials, Linux warning, and Gdrive archival context. |
-| 2026-04-15 | [CODEX] | v2.0.17 — Synced Project Map and What's up folder names with live TickTick workspace labels/emojis. |
-| 2026-04-15 | [CODEX] | v2.0.16 — Updated Linguaskill open-thread state after slot confirmation (2026-04-30 09:00), reminder scheme, and prep loop extension. |
-| [SUMMARY] | — | v2.0.14 batch deep-exploration for What's up; v2.0.13 zero-synthesis rule; v2.0.12 tool-keep matrix source-of-truth; v2.0.11 missing-tool MCP add; v2.0.10 immediate-minimal policy; v2.0.9 open-thread tracking; v2.0.8 closure hygiene; v2.0.7–v2.0.0 prior memory/migration |
+| 2026-05-06 | [CODEX] | v2.0.21 — Compacted explicit changelog rows to satisfy the audit cap (2 rows + `[SUMMARY]`). |
+| 2026-05-06 | [ANTIGRAVITY] | v2.0.20 — Marked Linguaskill, PSC Report, and 4A International tasks as completed; closed Linguaskill open thread. |
+| [SUMMARY] | — | v2.0.20 runtime closures; v2.0.19 optimization logistics; v2.0.18 Linguaskill task context; v2.0.17 workspace labels sync; v2.0.16 open-thread update; v2.0.14 batch deep-exploration for What's up; v2.0.13 zero-synthesis rule; v2.0.12 tool-keep matrix source-of-truth; v2.0.11 missing-tool MCP add; v2.0.10 immediate-minimal policy; v2.0.9 open-thread tracking; v2.0.8 closure hygiene; v2.0.7–v2.0.0 prior memory/migration |

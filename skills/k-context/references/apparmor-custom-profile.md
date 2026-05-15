@@ -29,9 +29,10 @@ profile kpihx-electron-apps {
   /opt/Bitwarden/bitwarden-app mr,
   /opt/Bitwarden/** mr,
   
-  # Cursor (if extracted) — replace $HOME with the real home path when materializing the profile
-  $HOME/Applications/cursor-app/** mr,
-  $HOME/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
+  # Cursor (.deb)
+  /usr/share/cursor/** mr,
+  /usr/share/cursor/cursor px -> kpihx-electron-apps,
+  /usr/bin/cursor rm,
   
   # Antigravity (native install)
   /usr/share/antigravity/** mr,
@@ -94,7 +95,7 @@ profile unprivileged_userns {
     # Transition Electron apps to custom profile
     /opt/Bitwarden/bitwarden-app px -> kpihx-electron-apps,
     /usr/share/antigravity/antigravity px -> kpihx-electron-apps,
-    $HOME/Applications/cursor-app/AppRun px -> kpihx-electron-apps,
+    /usr/share/cursor/cursor px -> kpihx-electron-apps,
 }
 ```
 

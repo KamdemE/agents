@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.6.3"
+  version: "2.7.0"
   scope: personal-os
 ---
 
@@ -79,6 +79,7 @@ metadata:
 | Public footprint | [digital_footprint.md](references/digital_footprint.md) | Handles, profiles, package registries, sites, public mentions, repo themes. |
 | Official document index | [legal.md](references/legal.md) | Secure path map to the complete local records. |
 | Source cross-index | [source_index.md](references/source_index.md) | Exact PDF, DOCX, and URL anchors for sensitive blocks and public claims. |
+| École Polytechnique | [x.md](references/x.md) | SMED, academic path, rankings, institutional procedures, matricule. |
 
 ## Operating Rules
 
@@ -89,6 +90,7 @@ metadata:
 - **Narrative Precision**: preserve the emotional and philosophical texture of KπX without turning the hub into vague poetry.
 - **Scanned Document Rule**: if `pdftotext` is empty, fall back to visual inspection before claiming uncertainty.
 - **Traceability Rule**: every sensitive or challengeable claim should be recoverable through `references/source_index.md`.
+- **X-Reflex (Mandatory)**: Autonomously maintain `references/x.md` with every new institutional fact, academic decision, or medical procedure learned. Do not wait for explicit requests to consolidate X-specific knowledge.
 
 ## Irreducible Axes
 
@@ -109,6 +111,7 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-06 | [ANTIGRAVITY] | v2.7.0 — `X Knowledge Base`: Created `references/x.md` and established the mandatory "X-Reflex" for autonomous maintenance of institutional data. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.6.3 — `Identity Registry Update`: Registered digital signature path in `identity.md` and `SKILL.md`. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.6.2 — `Administrative Registry Update`: Injected CAF allocataire number `8006862 C` into `identity.md` registry. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.6.1 — `ScienCurious Lab Branding`: Standardized project identity naming and updated project map links. |

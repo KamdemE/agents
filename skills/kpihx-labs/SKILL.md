@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "1.10.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -50,6 +50,11 @@ Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump
 - **Proxmox Node (`kpihx-pve`)**: Physical Node (Hypervisor). Alias `pve` (local) or `kpihx-pve` (remote).
 - **Docker Node (`kpihx-ubuntu`)**: Virtual Node (Sovereign Cloud). Alias `homelab` (local) or `kpihx-labs` (remote).
 - **Local Dispatcher**: `hsh` (at root of `sh/` or via `make install`)
+
+**PVE Network Topology (`kpihx-pve`)**:
+- `vmbr0`: Public WAN interface (DHCP). External gateway to the campus network.
+- `vmbr1`: Private LAN bridge (`10.10.10.1/24`). PVE acts as a NAT router (masquerade) for all isolated VMs/Containers.
+- **Port Forwards**: TCP 80, 443, 9443 from `vmbr0` are DNAT-redirected to `10.10.10.10` (the Traefik/Portainer ingress node, usually CT 100).
 
 Vaultwarden: `vault.kpihx-labs.com` (Tailscale-only).
 
@@ -94,6 +99,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-08 | [CODEX] | v1.10.1 — Added the CT-vs-VM DNS lesson: CT `100` works with Proxmox-managed static resolvers, while Debian cloud VMs can lose DNS if `systemd-resolved` is masked before `/etc/resolv.conf` is replaced. |
+| 2026-05-08 | [ANTIGRAVITY] | v1.10.0 — Documented exact PVE network topology (vmbr0/vmbr1 NAT rules). |
 | 2026-04-29 | [ANTIGRAVITY] | v1.9.0 — Standardized prefix-based nomenclature (kpihx-) across Tailscale and SSH. |
-| 2026-04-28 | [ANTIGRAVITY] | v1.8.0 — Implemented initial nomenclature: docker-host -> homelab, homelab -> pve. |
-| [SUMMARY] | — | +2 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | +3 older changelog entries kept in file history; condensed for table limits |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
    author: KpihX
-   version: "2.9.2"
+   version: "2.9.5"
    scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -19,10 +19,12 @@ allowed-tools: Bash, Read, Write, Edit
 
 > **Last Known State limit:** each `### Last Known State` section holds **at most 7 items**.
 > When the limit is reached, condense the oldest into a single `[SUMMARY]` item.
+> **Issues ledger sync (mandatory):** every optimization-related diagnostic/fix attempt must be appended to `$HOME/.agents/skills/k-context/references/issues.md` with full commands and outputs (no compaction, no deletion), and k-context Session Log should only keep the concise cross-referenced summary.
 
 ## Role
 
 > **AFTER PERFORMING AN OPTIMIZATION, THIS FILE (k-optim) MUST BE UPDATED WITH EVENTUAL FIXES OF COMMANDS AND THE LAST KNOWN STATE.**
+> **AUTO-UPDATE MANDATE:** do not wait for KπX confirmation to write the operational trace; update `k-optim` and `k-context/references/issues.md` automatically at the end of each relevant optimization/incident action.
 
 `k-optim` is the compact operational map for KπX optimization work, organized in four scopes (executed in order):
 
@@ -46,7 +48,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | Workstation Orchestrator (ksh) | `$HOME/Work/sh/` |
 | Homelab Orchestrator (hsh) | `$HOME/Work/Homelab/sh/` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
-| Homelab maintenance scripts | `$HOME/Work/Homelab/sh/` |
+| Homelab maintenance scripts | `$HOME/Work/KpihX-Labs/Homelab/sh/` |
 
 ## Ubuntu
 
@@ -54,12 +56,11 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ### Last Known State
 
-- the active cleanup suite lives in `$HOME/Work/sh/clean/`
-- `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`; `auto_clean.sh` is the weekly automation wrapper
-- the cleanup model distinguishes analysis, safe cleanup, deeper purge, and privileged/system cleanup — respect that progression
+- cleanup stack: `$HOME/Work/sh/clean/` — `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`, with `auto_clean.sh` as the automated wrapper; respect analysis → safe → purge → privileged progression
 - **[SUMMARY]** Spring 2026 context: 1.3GB debris and redundant media emptied; legacy `.agent/` & `backup/` pending review; `_dg` safe-rm hook active
 - **phoenix optim 2026-04-06**: Executed full automated loop (`ksh clean run` → `ksh backup run`). 27GiB compressed to 15GiB (zstd). Safe-cleanup rotated workspace caches and AI models automatically.
 - **Auto-mount active**: KpihX-Backup is structurally guaranteed via `fstab` and `x-systemd.automount` on a permanent mount point. No manual click required. [GEMINI] 2026-04-07.
+- **2026-05-15 backup-regression**: `backup-restore.service` failed — `mkdir` `Already exists` then `Cannot create /media/$USER/KpihX-Backup/Backups_Ubuntu_Workstation` (`backup_workstation.sh`); likely destination path not a directory when HDD is reachable — see `ISS-20260516-001`
 
 ### Actions
 
@@ -124,15 +125,16 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
-- the operational homelab scripts live in `$HOME/Work/Homelab/sh/` (Phoenix v3.1 modular architecture)
+- the operational homelab scripts live in `$HOME/Work/KpihX-Labs/Homelab/sh/` (Phoenix v3.1 modular architecture) — `hsh` is **not** guaranteed on non-login PATH; prefer `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh"`
 - `hsh` is the local dispatcher: `hsh status` (audit), `hsh backup host` (PVE), `hsh backup vault` (DKD), `hsh maintenance` (Server)
+- **2026-05-16 workstation audit**: `hsh status` from Ubuntu reported PVE (`kpihx-labs`) and Docker-host LXC **offline** (expected when mesh/VPN/server unreachable)
 - `maintenance.sh` is the weekly server routine: apt update/upgrade/autoremove, Docker prune, Telegram notify, and REBOOT
 - backups follow the **3-2-1 rule**: 3 copies (SSD, HDD, Cloud), 2 supports, 1 off-site; Vault uses Deterministic Key Derivation (DKD)
 
 ### Actions
 
 1. Start with local audit:
-   - run `hsh status` to check node connectivity and latest log entries
+   - run `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh" status` (or ensure `hsh` is on PATH) to check node connectivity and latest log entries
 2. Prefer local-first orchestration:
    - use `hsh backup host` for hypervisor snapshot pull to local HDD mirror
    - use `hsh backup vault` for encrypted Vaultwarden backup (Master Password required)
@@ -187,6 +189,10 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 6. **Mistral Vibe**:
    - Inspect `$HOME/.vibe/logs/` and `$HOME/.vibe/vibehistory`.
    - Clear log debris only when confirmed stale.
+7. **Issue trace synchronization (required):**
+   - append every diagnosis/remediation attempt to `$HOME/.agents/skills/k-context/references/issues.md`
+   - keep exact commands and outputs in that issue entry (append-only)
+   - add only a short, issue-ID-linked summary in `k-context` Session Log
 
 ## Meta
 
@@ -194,14 +200,13 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
-- `.agents/` governance is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills aligned and validated with `make -C $HOME/.agents audit`
+- **2026-05-16**: `make -C $HOME/.agents audit` => `ALL_OK` after k-optim read cycle [CURSOR]
+- governance stack is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills stay aligned with `make -C $HOME/.agents audit` / `make -C $HOME/.agents help` as the operational entrypoints
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
 - operational Markdown must stay low-token and source-of-truth first; compact and point back when a skill starts duplicating detail owned elsewhere
-- `make -C $HOME/.agents help` and `make -C $HOME/.agents audit` are the compact operational entrypoints
 - QMD is now hot-only: raw `codex`, `gemini`, and `k-ai` histories were removed from the active index; use the dedicated optimization guide for checks and cleanup
 - static reusable templates should live in `.agents`; external consumers should point back via symlink instead of drifting copies whenever the file is meant to be used as-is
-- agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete
-- `AGENTS.md` cleaned 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
+- agents should proactively suggest reviewing stale AI session-history stores when noisy/costly, but wait for KπX approval before any prune/delete; **[SUMMARY]** `AGENTS.md` hygiene pass 2026-04-03 [CLAUDE]: skills table paths removed, duplicate rules removed; k-optim updated to load-before-optim standard
 
 ### Actions
 
@@ -223,12 +228,12 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
    - run `qmd cleanup` after structural changes
    - run `qmd embed <collection>` only when content changed materially and embeddings are actually needed
    - if embed performance regresses, verify the local Vulkan toolchain first (`which glslc`) before assuming index/config drift
-5. **Telegram Reporting Mandatory**:
+4. **Telegram Reporting Mandatory**:
     - At the very end of any k-optim cycle (after Meta scope), a concise synthesis MUST be sent via Telegram.
     - **Homelab Bot (@sentinel_homelab_bot)**: Send the synthesis of Homelab status and backups.
     - **Ubuntu Bot (@k_ubuntu_bot)**: Send the synthesis of Ubuntu workstation cleanup and Meta/Governance state.
-    - Usage: `tg user send <bot_id> "SENSY: (content)"`
-4. Suggest AI history cleanup when relevant:
+    - Preferred CLI (when `TELEGRAM_*_TOKEN` vars are loaded): `tg send --bot homelab "SENSY: (content)"` and `tg send --bot ubuntu "SENSY: (content)"` (`tg bots` must list aliases — if missing, load shell secrets / see `k-tg`).
+5. Suggest AI history cleanup when relevant:
    - point to the runtime history roots exposed by `k-claude`, `k-gemini`, `k-codex`, `k-copilot`, `k-vibe`, or `k-ai`
    - propose the cleanup proactively when history size or noise is part of the optimization problem
    - wait for KπX approval before any prune, delete, archive, or reset action
@@ -240,6 +245,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-16 | Meta/Ubuntu/Homelab | k-optim audit (read-only) | `make -C $HOME/.agents audit` ALL_OK; `ksh status` shows clean OK / backup FAILED (`ISS-20260516-001`); `hsh` path corrected in skill SOT; PVE+LXC offline from workstation; home transit dirs still over policy on Downloads/Documents/Pictures |
 | 2026-04-06 | Agents | AI History Purge | Pruned ~412MB of Codex and Vibe history |
 | 2026-04-06 | Homelab | Phoenix v3.1 | Modular architecture stabilized; `hsh` dispatcher introduced; server log map finalized |
 | 2026-04-06 | Homelab | Maintenance | Executed `hsh maintenance` on kpihx-labs (PVE upgrade, docker prune, reboot) |
@@ -261,6 +267,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-18 | [CODEX] | v2.9.2 — Replaced the raw remote-`sudo` maintenance fallback with the audited `sui -r` pattern and cleaned the duplicated changelog block. |
-| 2026-04-13 | [CODEX] | v2.9.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v2.9.0 KpihX-Backup automount guarantee; v2.8.2 `$HOME` cleanup generalization; v2.8.1 screenshot policy; v2.8.0 Ubuntu frequency; older in git history |
+| 2026-05-16 | [CURSOR] | v2.9.5 — k-optim pass outputs: Homelab script root fixed to `$HOME/Work/KpihX-Labs/Homelab/sh/`, `hsh` PATH note + sample full path, Ubuntu LKS documents `backup-restore.service` mkdir failure (`ISS-20260516-001`), Telegram block prefers `tg send --bot`. |
+| 2026-05-07 | [CODEX] | v2.9.3 — Added mandatory automatic sync to `k-context/references/issues.md` with full command/output transparency, plus Session Log cross-link discipline via issue IDs. |
+| [SUMMARY] | — | v2.9.2 `sui -r` homelab maintenance fallback; v2.9.4 header/changelog structure refresh; v2.9.1 insights discipline; v2.9.0 KpihX-Backup automount guarantee; v2.8.x cleanup generalization / screenshot / Ubuntu frequency; older in git history |

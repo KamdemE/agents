@@ -23,6 +23,7 @@ allowed-tools: Bash(*), Read(*), Glob(*), rg(*)
 - On large mounted trees, start with iterative `ls` and then descend subtree by subtree; avoid root-level `rg --files` / deep glob sweeps unless the branch is already narrowed.
 - For sensitive identity retrieval (matricule/certificates), prioritize known high-signal paths in `Gdrive_X`.
 - For PDFs, try text extraction first; when the document is scanned, switch to page rendering plus visual inspection instead of assuming the field is unavailable.
+- Always use `tree -d -L 4` before creating any new directory to identify the most appropriate existing location; never create a root-level or redundant directory if a suitable parent exists.
 - After each non-trivial drive investigation, update this file if the structure map or retrieval workflow changed.
 
 ## Drives
