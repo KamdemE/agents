@@ -4,7 +4,7 @@ description: Management of Cloud, Infrastructure, and Social Media CLIs/APIs (Cl
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.0.2"
   scope: operations
 ---
 
@@ -70,6 +70,7 @@ To maintain a fluid architecture, API keys must be managed in Bitwarden and inje
 ### Cloudflare Management
 - List tunnels: `cloudflared tunnel list`
 - Deploy Worker: `wrangler deploy`
+- **Cursor Cloudflare MCP:** covers Workers-centric resources and observability only; it does **not** enumerate DNS zones, Tunnel routes, or Zero Trust Access apps. See `references/insights.md` → **Cloudflare — Cursor plugin MCP**.
 
 ### Microsoft 365 Management
 - Check login: `m365 status`
@@ -85,6 +86,6 @@ To maintain a fluid architecture, API keys must be managed in Bitwarden and inje
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-16 | [CLAUDE] | v1.0.2 — Documented Cursor Cloudflare MCP coverage limits (no Tunnel/DNS/Zero Trust inventory tools); `references/insights.md` expanded. |
 | 2026-05-02 | [CODEX] | v1.0.1 — Added Tailscale policy troubleshooting notes and created `references/insights.md` with the tagged-device ACL asymmetry pattern validated through `ts-proxy`. |
-| 2026-04-20 | [ANTIGRAVITY] | v1.0.0 — Initial creation; added tool registry for Cloudflare, Tailscale, GCP, Azure, and Social Media. |
-| [SUMMARY] | — | Initial version |
+| [SUMMARY] | — | v1.0.0 — Initial tool registry (Cloudflare, Tailscale, GCP, Azure, Social Media). |
