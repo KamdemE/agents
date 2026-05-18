@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.87.6"
+  version: "2.87.7"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -120,6 +120,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.7 — Hardware F1-F12 key behavior: identified Dell-specific Fn Lock toggling mechanism (Fn + Esc) to restore media control actions as default, and logged as ISS-20260518-002. |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — GNOME 50 compatibility: patched KeepAwake@jepfa.de metadata to support shell version "50", disabled global GNOME extension version validation via GSettings, and logged as ISS-20260518-001. |
 | 2026-05-16 | [CURSOR] | v2.87.5 — Antigravity “Open Cloud”: `k-code` bootstrap for Continue (`~/.continue/config.yaml` Mistral + `${{ secrets.MISTRAL_API_KEY }}`), global rules symlink `00-kpihx-AGENTS.md`, skills stub, `~/.continue/.env` template, optional desktop `kpihx-antigravity-open-cloud.desktop`. |
 | 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing: `Attestation_Honneur_Non_Revenu_KAMDEM.pdf` → `Gdrive_X/KpihX/Scholarships/Bourse_Eiffel/`; Data Analysis Python TD8 handin bundle → `Gdrive_X/X/2A/P3/Data_Analysis_Python/PC1_CSC43042EP_td8_1_handin/` (DM7 PDFs, semaine 07, zip); removed `cursor_3.4.20_amd64.deb`; moved `m365_inbox.json` → `Gdrive_X/KpihX/Others/m365_cli_exports/`; emptied `Documents/`, `Downloads/`, `Pictures/Screenshots`, `Videos/Screencasts`. External HDD: `Backups_Ubuntu_Workstation` confirmed directory when disk online. |
