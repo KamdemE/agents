@@ -13,6 +13,16 @@ sui -r "Install the Antigravity package" apt install antigravity
 
 The AGY-specific scripts are located at `$HOME/.agents/skills/k-code/scripts/agy/`:
 - `sync_agy.sh`: Modifies the `.config/Antigravity` and `.antigravity` directories to use relative symlinks pointing back to `$HOME/.config/Code` and `$HOME/.vscode/extensions`. This encapsulates the symlink generation procedure cleanly.
+- `bootstrap_open_cloud.sh`: One-shot **Antigravity + Continue** bootstrap for the “Open Cloud” workflow:
+  - Runs `sync_agy.sh` (shared VS Code settings/keybindings/profile/extensions).
+  - Ensures `$HOME/.continue/rules/00-kpihx-AGENTS.md` symlink → `$HOME/.agents/AGENTS.md`.
+  - Creates `$HOME/.continue/.env` **once** (template) so Continue can resolve `${{ secrets.MISTRAL_API_KEY }}` per [Continue secrets](https://docs.continue.dev/guides/configuring-models-rules-tools) (global `~/.continue/.env`).
+  - Optional: `--install-desktop` writes `~/.local/share/applications/kpihx-antigravity-open-cloud.desktop` (`Exec=…/bootstrap_open_cloud.sh --launch %F`) so the IDE starts after loading `~/.continue/.env` then `$HOME/.kshrc` (Bitwarden / `bw-env` injection when configured there).
+  - `--launch`: run setup then `exec /usr/bin/antigravity` with forwarded args (use after secrets are available).
+
+**Model source of truth (Continue):** `$HOME/.continue/config.yaml` — default row uses `provider: mistral` and `model: mistral-large-latest` with `apiKey: ${{ secrets.MISTRAL_API_KEY }}`. Swap `model:` to `codestral-latest` or another Mistral id if you prefer a code-first default.
+
+**Skills in Continue:** global rule stub `$HOME/.continue/rules/01-kpihx-skills-lookup.md` + symlinked kernel `00-kpihx-AGENTS.md` (skills table lives in `AGENTS.md`).
 
 ## Purging Caches
 

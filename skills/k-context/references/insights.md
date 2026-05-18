@@ -13,6 +13,7 @@ Purpose: autonomous cross-domain runtime memory to reduce repeated mistakes, rep
 
 ## Current Seed Insights
 
+- **Continue + Antigravity:** Global model config is `$HOME/.continue/config.yaml`; `${{ secrets.MISTRAL_API_KEY }}` resolves from `$HOME/.continue/.env` (and workspace `.env`). Prefer the `kpihx-antigravity-open-cloud.desktop` / `bootstrap_open_cloud.sh --launch` path so `$HOME/.kshrc` runs before the IDE when Bitwarden injects keys at shell login.
 - What’s up slices must run as batch deep-dives and stop only after materially complete information coverage.
 - For mail-mcp stdio, accented query strings can fail with ASCII codec errors; use ASCII-safe fallback queries and resolve target UIDs with `get_message`.
 - For TickTick destination resolution, trust live `workspace_map` names (for example `🎓 X`) over stale naming assumptions.

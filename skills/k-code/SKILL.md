@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.2.3"
+  version: "4.2.5"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -26,6 +26,10 @@ allowed-tools: "Bash(*), *"
 | GitHub Copilot Chat sessions (one JSONL file per chat) | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/*.jsonl` |
 | Copilot Chat tool/attachment artifacts | `$HOME/.config/Code/User/workspaceStorage/<hash>/GitHub.copilot-chat/chat-session-resources/<session-id>/` |
 | Cursor agent transcripts (one JSONL per thread) | `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/<session-id>/<session-id>.jsonl` |
+| Continue.dev global config (models/rules/MCP YAML) | `$HOME/.continue/config.yaml` |
+| Continue global rules (IDE-wide) | `$HOME/.continue/rules/` |
+| Continue local secrets for `${{ secrets.* }}` | `$HOME/.continue/.env` |
+| Antigravity “Open Cloud” launcher (optional) | `$HOME/.local/share/applications/kpihx-antigravity-open-cloud.desktop` |
 | Profile hash directories | `$HOME/.config/Code/User/profiles/<hash>/` |
 | Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
@@ -93,6 +97,7 @@ Located in `scripts/cursor/` and `scripts/agy/`:
 - **Cursor install:** official `.deb` on Ubuntu (`/usr/bin/cursor`); see `references/cursor.md`. No AppImage wrapper.
 - `cursor/sync_cursor.sh`: Hard-links `cursor`'s internal storage parameters directly back to `k-code`.
 - `agy/sync_agy.sh`: Hard-links `antigravity`'s internal storage parameters directly back to `k-code`.
+- `agy/bootstrap_open_cloud.sh`: Antigravity + Continue bootstrap (AGENTS rules symlink, `~/.continue/.env` template, optional desktop entry). See `references/agy.md`.
 
 ## References
 
@@ -140,6 +145,5 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-15 | [CURSOR] | v4.2.4 — Dropped AppImage `install_cursor.sh`; Ubuntu install is `.deb`-only (`references/cursor.md`). |
-| 2026-05-14 | [CODEX] | v4.2.3 — Documented Cursor conversation recovery path under `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/` plus sibling `agent-tools/` artifacts. |
-| [SUMMARY] | — | v4.2.2 Antigravity Planning Mode UI; v4.2.1 insights discipline; v4.2.0 MCP setup; older entries in file history |
+| 2026-05-16 | [CURSOR] | v4.2.5 — `agy/bootstrap_open_cloud.sh`: Continue Mistral via `~/.continue/.env` + `${{ secrets.MISTRAL_API_KEY }}`, global rules symlink to `AGENTS.md`, optional `kpihx-antigravity-open-cloud.desktop`; documented in `references/agy.md`. |
+| [SUMMARY] | — | v4.2.4 Cursor `.deb`-only; v4.2.3 Cursor transcript recovery; v4.2.2 Antigravity Planning UI; v4.2.1 insights; v4.2.0 MCP; older → file history |

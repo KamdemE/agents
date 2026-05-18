@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.87.4"
+  version: "2.87.6"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -120,6 +120,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — GNOME 50 compatibility: patched KeepAwake@jepfa.de metadata to support shell version "50", disabled global GNOME extension version validation via GSettings, and logged as ISS-20260518-001. |
+| 2026-05-16 | [CURSOR] | v2.87.5 — Antigravity “Open Cloud”: `k-code` bootstrap for Continue (`~/.continue/config.yaml` Mistral + `${{ secrets.MISTRAL_API_KEY }}`), global rules symlink `00-kpihx-AGENTS.md`, skills stub, `~/.continue/.env` template, optional desktop `kpihx-antigravity-open-cloud.desktop`. |
 | 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing: `Attestation_Honneur_Non_Revenu_KAMDEM.pdf` → `Gdrive_X/KpihX/Scholarships/Bourse_Eiffel/`; Data Analysis Python TD8 handin bundle → `Gdrive_X/X/2A/P3/Data_Analysis_Python/PC1_CSC43042EP_td8_1_handin/` (DM7 PDFs, semaine 07, zip); removed `cursor_3.4.20_amd64.deb`; moved `m365_inbox.json` → `Gdrive_X/KpihX/Others/m365_cli_exports/`; emptied `Documents/`, `Downloads/`, `Pictures/Screenshots`, `Videos/Screencasts`. External HDD: `Backups_Ubuntu_Workstation` confirmed directory when disk online. |
 | 2026-05-16 | [CURSOR] | v2.87.3 — k-optim applied: `ksh status` shows `clean-system` OK (2026-05-15) but `backup-restore.service` FAILED on `Backups_Ubuntu_Workstation` mkdir path; logged as `ISS-20260516-001`. Meta: `make -C $HOME/.agents audit` ALL_OK. Homelab: `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh" status` => PVE+LXC offline. |
 | 2026-05-15 | [CURSOR] | v2.87.2 — `AGENTS.md` chat-visuals NO EXCEPTIONS block + mandatory-structure cross-link; `KpihX-Labs/AGENTS.md` hard link → symlink `.agents/AGENTS.md` + File Routing kernel layout. |
@@ -127,11 +129,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-05-12 | [ANTIGRAVITY] | v2.87.0 — `Sinner Tactical Visualizer`: Finalized project with High-Res (1080p60) multi-language support (EN/FR). Updated web visualizer with language toggle and high-fidelity narration (v0.3.0). |
 | 2026-05-12 | [ANTIGRAVITY] | v2.86.9 — `Sinner Tactical Visualizer`: Finalized high-fidelity video `sinner_final_analysis.mp4`. Integrated Manim animations with `edge-tts` narration. Updated web visualizer with narration sync (v0.2.0). |
 | 2026-05-12 | [ANTIGRAVITY] | v2.86.8 — `Sinner Tactical Visualizer`: Developed a high-end interactive visualizer for Rome Masters 2026 tactical analysis. Implemented GSAP-driven web dashboard, SVG court geometry, and Manim mathematical animation. Finalized with `k-final` pass (v0.1.0). |
-| 2026-05-12 | [ANTIGRAVITY] | v2.86.7 — `Rome Masters 2026`: Created a premium web dashboard for ATP Rome 1000 status, featuring live results (Sinner/Darderi wins), upcoming QF matchups (Jodar/Darderi, Ruud/Khachanov), and AI-driven prognostications. |
-| 2026-05-08 | [CODEX] | v2.86.6 — `PVE/vm_debian`: compared the working `homelab` CT 100 DNS path against VM 101 live on `kpihx-pve`, confirmed the CT uses Proxmox-managed static resolvers while VM 101 lands on `systemd-resolved` with `No DNS servers known`, and logged the delta as `ISS-20260508-001`. |
-| 2026-05-08 | [CODEX] | v2.86.5 — `PVE/`: reread the whole repo, removed the unsolicited `vm_debian sync` path and remote debris, then refactored the module into a cleaner root-dispatch + documented VM workflow with robust DNS handling, coherent snippet cleanup, and comment-heavy install/purge scripts. |
-| 2026-05-08 | [CODEX] | v2.86.4 — `PVE/vm_debian`: iterated live through `tmux fluid` on `kpihx-pve`, fixed Debian VM 101 Cloud-Init DNS injection (`qm --nameserver` single-IP + host-resolver autodetect), removed recursive `cloud-init status --wait`, and validated `cloud-final=OK`, SSH login, and `deb.debian.org` resolution on `10.10.10.11`. |
-| [SUMMARY] | — | v2.86.3..v2.86.0 Fluid AA.md, hypridle/greeter fixes (`ISS-20260507-003`), issue ledger bootstrap; v2.85.93..v2.85.83 Julius Caesar, Optimisation, Linguaskill, PA X24, whats_proxy; v2.85.80 Gdrive_X migration; older -> `references/log.md` |
+| [SUMMARY] | — | v2.86.7..v2.86.4 Rome Masters web, PVE/vm_debian cloud-init/resolved DNS fixes (ISS-20260508-001); v2.86.3..v2.86.0 Fluid AA.md, hypridle/greeter fixes (ISS-20260507-003); older -> references/log.md |
 
 ## References
 
@@ -152,8 +150,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Changelog
 
-| 2026-05-16 | [CURSOR] | v2.87.4 — Session Log: Gdrive_X filing + home transit purge (`Documents/Downloads/Pictures/Videos`) after external disk online verification. |
-| 2026-05-16 | [CURSOR] | v2.87.3 — k-optim pass + `ISS-20260516-001` (backup-restore failure) cross-link in Session Log. |
-| 2026-05-15 | [CURSOR] | v2.87.2 — AGENTS.md chat-visuals obligation; `KpihX-Labs/AGENTS.md` symlink (`.agents/AGENTS.md`). |
-| 2026-05-14 | [CODEX] | v2.87.1 — added the new `linux-file-masterclass` active project and logged the code-first Remotion/TTS render pipeline now running from `$HOME/KpihX-Labs/linux-file-masterclass/`. |
-| [SUMMARY] | — | v2.86.8 Sinner release; v2.86.7..v2.85.92 Rome Masters, PVE, Fluid; v2.85.90..v2.85.80 TickTick, Linguaskill, Gdrive_X; older -> `references/log.md` |
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — Session Log & Changelog: GNOME 50 compatibility fixes for KeepAwake (ISS-20260518-001). |
+| 2026-05-16 | [CURSOR] | v2.87.5 — Session Log: Antigravity + Continue Open Cloud bootstrap (`bootstrap_open_cloud.sh`, Mistral secrets via `~/.continue/.env`). |
+| [SUMMARY] | — | v2.87.4 Gdrive_X filing + home purge; v2.87.3 k-optim + ISS-20260516-001; v2.87.2 AGENTS symlink; v2.87.1 linux-file-masterclass; v2.86.8.. → `references/log.md` |

@@ -7,6 +7,10 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-05-12 | [ANTIGRAVITY] | v2.86.7 — `Rome Masters 2026`: Created a premium web dashboard for ATP Rome 1000 status, featuring live results (Sinner/Darderi wins), upcoming QF matchups (Jodar/Darderi, Ruud/Khachanov), and AI-driven prognostications. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-08 | [CODEX] | v2.86.6 — `PVE/vm_debian`: compared the working `homelab` CT 100 DNS path against VM 101 live on `kpihx-pve`, confirmed the CT uses Proxmox-managed static resolvers while VM 101 lands on `systemd-resolved` with `No DNS servers known`, and logged the delta as `ISS-20260508-001`. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-08 | [CODEX] | v2.86.5 — `PVE/`: reread the whole repo, removed the unsolicited `vm_debian sync` path and remote debris, then refactored the module into a cleaner root-dispatch + documented VM workflow with robust DNS handling, coherent snippet cleanup, and comment-heavy install/purge scripts. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-08 | [CODEX] | v2.86.4 — `PVE/vm_debian`: iterated live through `tmux fluid` on `kpihx-pve`, fixed Debian VM 101 Cloud-Init DNS injection (`qm --nameserver` single-IP + host-resolver autodetect), removed recursive `cloud-init status --wait`, and validated `cloud-final=OK`, SSH login, and `deb.debian.org` resolution on `10.10.10.11`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-05-06 | [ANTIGRAVITY] | v2.85.89 — PA X24 Final ranking screenshots saved. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-05-04 | [ANTIGRAVITY] | v2.85.87 — whats_proxy infrastructure contract hardened. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-05-03 | [CODEX] | v2.85.79 — `Gdrive_X`: flattened the target tree further to enforce the no-single-file and no-single-child-folder rule (`Bike_E4600`, `Phone_Lebara`, `ToPrint/`, `P1_English`, flattened admission branches). *(Rotated from k-context Session Log — audit cap.)* |
