@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.2.5"
+  version: "4.3.6"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -96,8 +96,12 @@ Located in `scripts/profiles/`:
 Located in `scripts/cursor/` and `scripts/agy/`:
 - **Cursor install:** official `.deb` on Ubuntu (`/usr/bin/cursor`); see `references/cursor.md`. No AppImage wrapper.
 - `cursor/sync_cursor.sh`: Hard-links `cursor`'s internal storage parameters directly back to `k-code`.
-- `agy/sync_agy.sh`: Hard-links `antigravity`'s internal storage parameters directly back to `k-code`.
-- `agy/bootstrap_open_cloud.sh`: Antigravity + Continue bootstrap (AGENTS rules symlink, `~/.continue/.env` template, optional desktop entry). See `references/agy.md`.
+- **Antigravity ecosystem (2026):** Hub + IDE + CLI + SDK — `agy` / `agy-ide` / `agy-hub`; see `references/agy.md`.
+- `agy/install_agy_components.sh`: Extract Hub/IDE from `$HOME/Downloads/`, curl CLI, pip SDK, icons, desktops, sync, optional `apt remove antigravity`.
+- `agy/install_agy_icons.sh`: Menu icons from Hub asar + IDE `astro.png` → `$HOME/.local/share/icons/kpihx/`.
+- `agy/wire_short_launchers.sh`: **`agy-ide`**, **`agy-hub`** short commands (pattern A, like `code`/`cursor`); `antigravity-*` compat aliases.
+- `agy/sync_agy.sh`: Symlinks `Antigravity` + `Antigravity IDE` user dirs and extensions to VS Code hub.
+- `agy/bootstrap_open_cloud.sh`: **`agy-ide`** + Continue bootstrap (AGENTS rules, `~/.continue/.env`, optional desktop). See `references/agy.md`.
 
 ## References
 
@@ -108,7 +112,7 @@ The `references/` directory is the source of truth for snapshots and forks confi
 - `references/profiles/latex.code-profile`
 
 For specific forks implementation and maintenance details, refer to:
-- `$HOME/.agents/skills/k-code/references/agy.md`
+- `$HOME/.agents/skills/k-code/references/agy.md` (ecosystem, install, launchers, Gemini vs agy, ENOSPC)
 - `$HOME/.agents/skills/k-code/references/cursor.md`
 - `$HOME/.agents/skills/k-code/references/mcp/vscode.md`
 
@@ -145,5 +149,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-16 | [CURSOR] | v4.2.5 — `agy/bootstrap_open_cloud.sh`: Continue Mistral via `~/.continue/.env` + `${{ secrets.MISTRAL_API_KEY }}`, global rules symlink to `AGENTS.md`, optional `kpihx-antigravity-open-cloud.desktop`; documented in `references/agy.md`. |
-| [SUMMARY] | — | v4.2.4 Cursor `.deb`-only; v4.2.3 Cursor transcript recovery; v4.2.2 Antigravity Planning UI; v4.2.1 insights; v4.2.0 MCP; older → file history |
+| 2026-05-22 | [CURSOR] | v4.3.6 — `launch_agy_*.sh` + `refresh_agy_menu.sh`; fix IDE menu launch (bootstrap/kshrc trap); drop legacy Open Cloud desktop. |
+| 2026-05-16 | [CURSOR] | v4.2.5 — `agy/bootstrap_open_cloud.sh`: Continue Mistral via `~/.continue/.env` + `${{ secrets.MISTRAL_API_KEY }}`, global rules symlink to `AGENTS.md`, optional `kpihx-antigravity-open-cloud.desktop`. |
+| [SUMMARY] | — | v4.3.0–v4.3.1 Hub/IDE tar, CLI, SDK, dual sync; v4.2.4 Cursor `.deb`-only; v4.2.3 transcripts; v4.2.2 Planning UI; older → file history |

@@ -140,7 +140,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
    - use `hsh backup vault` for encrypted Vaultwarden backup (Master Password required)
 3. Server-Side Maintenance:
    - run `hsh maintenance` to trigger the weekly loop on `kpihx-labs`
-   - manual fallback: `sui -r "Run the Proxmox maintenance routine on kpihx-labs" @kpihx-labs /root/proxmox/maintenance.sh`
+   - manual fallback: shared tmux on homelab — `tmux new -As pve-maint` then `ssh kpihx-labs` and run `/root/proxmox/maintenance.sh` with KπX `sudo` approval in pane (`k-tmux`; **`sui` deprecated**)
 4. Manual Fallback (Backups):
    - if `hsh` fails, run `backup_docker_host_server.sh` directly on `kpihx-labs` for cloud exfiltration
 

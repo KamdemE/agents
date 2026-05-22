@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.6"
+  version: "2.11.7"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -84,8 +84,8 @@ Do not enumerate MCPs here; read `$HOME/.codex/config.toml` directly.
 
 ## Permissions & Escalation
 
-- **Sudo required in a normal local shell** → STOP before retry loop; ask KπX to run the command manually; then resume.
-- **Shared tmux / fully interactive shell workflow** → do not end the turn just because a password prompt appears. Keep the command running, poll the pane, wait for KπX to enter the password, then continue automatically.
+- **Critical shell (`sudo`, SSH passphrase, interactive auth)** → load **`k-tmux`**; use **shared tmux gate** (reuse/create short-named session → `send-keys` → poll pane **≥30s** before chat handoff). **`sui` is deprecated** — never invoke it.
+- **Shared tmux gate** → do not end the turn because a password prompt appears before **30s** of polling; only after **≥30s** without validation, give full attach instructions + exact command + what KπX must do.
 - if sandbox restrictions block a legitimate Codex maintenance action (for example `.agents` commit/push or a repo push), rerun the exact command with scoped escalation instead of inventing shell workarounds
 - for Git/network maintenance, prefer a narrow `prefix_rule` tied to the real command family (`git ... push`, `git ... commit`, `make -C $HOME/.agents push`) so the approval stays reusable but bounded
 - when an escalated command fails because it still needs user authentication or a manual step, stop there; tell KπX exactly what to run/fix, then continue once KπX says it is done
@@ -138,6 +138,6 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-01 | [CODEX] | v2.11.6 — Added the shared-tmux rule: when KπX explicitly asks for a fully interactive shell workflow, Codex must keep polling password prompts instead of ending the turn on `sudo`/auth waits. |
-| 2026-04-21 | [CODEX] | v2.11.5 — Documented verified remote HTTP MCP auth with `bearer_token_env_var` for Codex. |
-| [SUMMARY] | — | v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |
+| 2026-05-18 | [AUTO] | v2.11.7 — Mandatory shared tmux gate (≥30s poll); `sui` deprecated — aligns with AGENTS + `k-tmux`. |
+| 2026-05-01 | [CODEX] | v2.11.6 — Shared-tmux polling for password prompts (precursor to kernel gate). |
+| [SUMMARY] | — | v2.11.5 HTTP MCP bearer_token_env_var; v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |

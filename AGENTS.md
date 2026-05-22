@@ -75,9 +75,12 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-linkedin` | Before any linkedin-mcp call |
 | `k-ticktick` | Before any tick-mcp call |
 | `k-tg` | Before any `tg` Telegram CLI work (bots, Telethon user, webhooks) |
+| `k-tmux` | tmux sessions, panes, scroll/copy-mode, shared interactive shell, or `~/.tmux.conf` edits |
 | `k-pptx` | Before any PowerPoint deck generation/edit flow using `powerpoint` CLI/MCP |
 | `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
 | `k-codex` | MCPs for Codex |
+| `k-zed` | Zed editor hub — settings.json, profiles, MCP, ACP bridges, AGENTS.md/rules paths |
+| `k-code` | VS Code-family hub — Code/Cursor/**Antigravity** (`agy`, `agy-ide`, `agy-hub`), profiles, sync scripts; AGY detail → `k-code/references/agy.md` |
 | `k-copilot` | MCPs for Copilot |
 | `k-vibe` | MCPs for VIBE |
 | `k-rclone` | Adding cloud remotes, rclone mount setup, systemd service |
@@ -113,6 +116,7 @@ Concrete, project-specific examples live alongside generic skill templates:
 | "ajuste WORKSPACE" | `$HOME/.agents/skills/k-workspace/SKILL.md` |
 | "ajuste GIT" | `$HOME/.agents/skills/k-git/SKILL.md` |
 | "ajuste FINAL" | `$HOME/.agents/skills/k-final/SKILL.md` |
+| "ajuste CODE" / "AGY" / "Antigravity" | `$HOME/.agents/skills/k-code/SKILL.md` · AGY ops → `k-code/references/agy.md` |
 | "suis SKILL-CREATOR" | `$HOME/.agents/skills/k-skill-creator/SKILL.md` |
 
 ## Working with KπX
@@ -248,12 +252,13 @@ Optional Markdown heading markers such as `## ` are allowed.
 
 ### Tool Discipline
 
-- **Privilege (`sui`, not `sudo`):** Agents never run raw **`sudo`** — use **`sui -r "…" <cmd>`** (same as **`--reason`**) for every privileged local or remote action; rewrite user **`sudo …`** as **`sui`**. **`sui`** is the audited gateway (Zenity **`--forms`**, argv-safe SSH+sudo); rationale appears only in the GUI; syslog / `SUI_LOG` use **`reason=present`** / **`<none>`** (see **`$HOME/Work/sh/sui/`** README + CHANGELOG, **`make test`**). SSH hosts must exist in **`$HOME/.ssh/config`** — see **`k-workspace`** / **`kpihx-labs`**. Examples: **`sui -r "…" apt update`** · **`sui -r "…" @homelab docker ps`** · **`sui -r "…" @kpihx-labs apt update`**.
+- **Shared tmux collaboration (mandatory):** For **`sudo`**, **SSH passphrase**, or any **interactive prompt** — **`sui` is deprecated**. Load **`k-tmux`**: `tmux ls` → reuse or create a **short-named** session/window → `send-keys` in pane → poll **`capture-pane` ≥30s** before any chat handoff; then give full `tmux attach`, command, and what KπX must do. Never raw **`sudo`** in agent tool shells. **Full protocol:** `$HOME/.agents/skills/k-tmux/SKILL.md` → **Shared interactive gate**.
+- **Frozen log append-only (mandatory):** **`references/log.md`**, **`references/issues.md`**, and every **archived / rotated** log under **`k-context/references/`** are **immutable** once written — **no edits**, **no rewrites**, **no deletions** of existing lines. To correct or extend history: **append** a new line to the live section (`## Session Log`, issue row, etc.); when a section hits its cap, **rotate** older rows into the archive with **new** lines only, then compact the live section with a bounded **`[SUMMARY]`** row. See **`k-context`** header rules.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.
 - **No sensitive data** — no real IPs, tokens, full legal names. Use placeholders.
 - **Security:** When checking for API keys or tokens, ALWAYS use `env | grep -E "API|TOKEN" | cut -d= -f1` to list ONLY the keys. NEVER output values.
-- **Zero-Deletion Policy (Mandatory):** Agents MUST NEVER delete logs or historical entries from `k-context/SKILL.md` or any other skill. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved (rotated) to a dedicated archive (e.g., `$HOME/.agents/skills/k-context/references/log.md`) BEFORE the main file is compacted. Every removal from a primary log MUST be an addition to its archive. [GEMINI]
+- **Zero-Deletion Policy (Mandatory):** Agents MUST NEVER delete logs or historical entries from `k-context/SKILL.md` or any other skill. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved (rotated) to a dedicated archive (e.g., `$HOME/.agents/skills/k-context/references/log.md`) BEFORE the main file is compacted. Every removal from a primary log MUST be an addition to its archive. [GEMINI] **Archive rows are append-only forever** — never modify lines already written in `references/log.md` or `references/issues.md`; only append new archive lines or new live rows.
 - **Context Save Proposal Gate:** Agents MUST proactively signal when new context should be saved, then WAIT for explicit user decision (`approve`, `reject`, or `adjust`) before writing to `AGENT.md` or `$HOME/.agent/<AGENT_NAME>.md`.
 - **Workspace troubleshooting** — unknown error → load `k-workspace` first.
 - **New tool/skill detected** → propose updating / creating the corresponding `k-*` skill or general immediately.

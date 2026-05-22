@@ -227,8 +227,8 @@ For simple projects (no `systemd/`), scripts can live at project root instead of
 **Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
 
 **`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
-**`make run`** → `sui -r "Run the main service script for manual verification" bash <main-script>.sh` — run the service immediately for manual verification.
-**`make install`** → call via `make install` (not `sui make install`) — the Makefile/install layer should own any targeted privilege escalation. Running the whole Makefile as root pollutes `.git/` via `git rev-parse` in Makefile variables.
+**`make run`** → run `<main-script>.sh` via **shared tmux** if it needs elevation; otherwise normal shell.
+**`make install`** → `make install` only — privilege stays in install targets; KπX approves `sudo` in tmux when needed (`k-tmux`). Never `sui` (deprecated). Running the whole Makefile as root pollutes `.git/` via `git rev-parse` in Makefile variables.
 
 **Machine-specific config** (excludes, paths) that varies per deployment must go in a gitignored conf file (e.g. `excludes.conf`) rather than being hardcoded in scripts. Ship an `.example` variant tracking the expected keys.
 

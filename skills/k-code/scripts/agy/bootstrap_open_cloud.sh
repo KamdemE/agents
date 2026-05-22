@@ -9,13 +9,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_SYNC_AGY="${SCRIPT_DIR}/sync_agy.sh"
+WIRE_LAUNCHERS="${SCRIPT_DIR}/wire_short_launchers.sh"
 
 usage() {
   cat <<'EOF'
 Usage: bootstrap_open_cloud.sh [--launch [args...]] [--install-desktop] [--help]
 
   (default)        Run sync + continue rule symlinks only.
-  --launch         After setup, exec /usr/bin/antigravity (passes remaining args).
+  --launch         After setup, exec agy-ide (passes remaining args).
   --install-desktop  Write ~/.local/share/applications/kpihx-antigravity-open-cloud.desktop
   --help           Show this text.
 
@@ -25,24 +26,12 @@ EOF
 }
 
 install_desktop() {
-  local desk dir ag
-  dir="${HOME}/.local/share/applications"
-  desk="${dir}/kpihx-antigravity-open-cloud.desktop"
-  ag="$(command -v antigravity)"
-  mkdir -p "${dir}"
-  cat >"${desk}" <<EOF
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Antigravity (KpihX Open Cloud)
-Comment=Antigravity + Continue Mistral; loads shell env then starts IDE
-Exec=${SCRIPT_DIR}/bootstrap_open_cloud.sh --launch %F
-Terminal=false
-Categories=Development;IDE;
-StartupWMClass=antigravity
-EOF
-  chmod 0644 "${desk}"
-  echo "Installed desktop entry: ${desk} (antigravity binary: ${ag})"
+  echo "Desktop: use agy-ide.desktop (bootstrap is wired in install_agy_components.sh)."
+  echo "Legacy kpihx-antigravity-open-cloud.desktop is kept hidden (NoDisplay=true) if present."
+  bash "${SCRIPT_DIR}/install_agy_icons.sh" 2>/dev/null || true
+  if [[ -f "${SCRIPT_DIR}/install_agy_components.sh" ]]; then
+    bash "${SCRIPT_DIR}/install_agy_components.sh" --skip-cli --skip-sdk --skip-apt-remove 2>/dev/null || true
+  fi
 }
 
 setup_continue_rules() {
@@ -112,6 +101,9 @@ main() {
     exit 1
   fi
   bash "${REPO_SYNC_AGY}"
+  if [[ -x "${WIRE_LAUNCHERS}" ]]; then
+    bash "${WIRE_LAUNCHERS}" 2>/dev/null || true
+  fi
   setup_continue_rules
   ensure_env_template
 
@@ -120,17 +112,24 @@ main() {
   fi
 
   if [[ "${do_launch}" -eq 1 ]]; then
+    # Desktop/menu launch uses launch_agy_ide.sh (avoids set -u + bw_env traps from .kshrc).
+    # Terminal bootstrap may still load full shell when KπX runs this script interactively.
+    if [[ -t 0 ]] && [[ -f "${HOME}/.kshrc" ]]; then
+      set +u
+      set +e
+      # shellcheck disable=SC1090
+      source "${HOME}/.kshrc"
+      set -e
+      set -u
+    fi
     if [[ -f "${HOME}/.continue/.env" ]]; then
       set -a
+      set +u
       # shellcheck disable=SC1090
       source "${HOME}/.continue/.env"
       set +a
     fi
-    if [[ -f "${HOME}/.kshrc" ]]; then
-      # shellcheck disable=SC1090
-      source "${HOME}/.kshrc"
-    fi
-    exec /usr/bin/antigravity "${ag_args[@]}"
+    exec "$(command -v agy-ide || command -v antigravity-ide)" --no-sandbox "${ag_args[@]}"
   fi
 
   echo "Open Cloud bootstrap done. Tip: run with --launch from desktop or terminal after secrets load."

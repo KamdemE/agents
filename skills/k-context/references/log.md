@@ -7,6 +7,12 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-05-19 | [CODEX] | v2.88.1 — Logged read-only `/tmp`-based TD9 MNIST hyperparameter tuning session for `Python_2A_P3`. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-18 | [AUTO] | v2.88.0 — Header: short shared tmux rule; gate lives only in `k-tmux/SKILL.md`. *(Rotated from k-context Changelog — audit cap.)* |
+| 2026-05-14 | [CODEX] | v2.87.1 — `linux-file-masterclass`: scaffolded code-first Linux visual masterclass under `KpihX-Labs` (Remotion/React/D3, edge-tts, render pipeline). *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-12 | [ANTIGRAVITY] | v2.87.0 — `Sinner Tactical Visualizer`: High-Res 1080p60 multi-language (EN/FR), web v0.3.0. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-12 | [ANTIGRAVITY] | v2.86.9 — `Sinner Tactical Visualizer`: `sinner_final_analysis.mp4`, Manim + edge-tts, web v0.2.0. *(Rotated from k-context Session Log — audit cap.)* |
+| 2026-05-12 | [ANTIGRAVITY] | v2.86.8 — `Sinner Tactical Visualizer`: Rome Masters 2026 tactical visualizer, GSAP dashboard, k-final v0.1.0. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-05-12 | [ANTIGRAVITY] | v2.86.7 — `Rome Masters 2026`: Created a premium web dashboard for ATP Rome 1000 status, featuring live results (Sinner/Darderi wins), upcoming QF matchups (Jodar/Darderi, Ruud/Khachanov), and AI-driven prognostications. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-05-08 | [CODEX] | v2.86.6 — `PVE/vm_debian`: compared the working `homelab` CT 100 DNS path against VM 101 live on `kpihx-pve`, confirmed the CT uses Proxmox-managed static resolvers while VM 101 lands on `systemd-resolved` with `No DNS servers known`, and logged the delta as `ISS-20260508-001`. *(Rotated from k-context Session Log — audit cap.)* |
 | 2026-05-08 | [CODEX] | v2.86.5 — `PVE/`: reread the whole repo, removed the unsolicited `vm_debian sync` path and remote debris, then refactored the module into a cleaner root-dispatch + documented VM workflow with robust DNS handling, coherent snippet cleanup, and comment-heavy install/purge scripts. *(Rotated from k-context Session Log — audit cap.)* |

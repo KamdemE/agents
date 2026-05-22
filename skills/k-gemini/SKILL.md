@@ -88,7 +88,7 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 - **MCP reload:** Ask KπX to run `/mcp refresh` after any install. Full restart if still fails.
 - **Secrets failures:** "Token not available" → restart Gemini from a fresh hot terminal where secrets are confirmed present.
 - **Token finesse:** Avoid `full_sync` on TickTick. Prefer scoped tools. Avoid massive directory tree dumps.
-- **Privilege gate:** Use `sui -r "..."` (same as --reason) when strictly necessary outside $HOME; never invoke raw sudo, and never elevate inside $HOME.
+- **Privilege gate:** **`sui` is deprecated.** For `sudo`/SSH outside $HOME, use **shared tmux** (`k-tmux` gate); never raw `sudo` in non-interactive tool shells; never elevate inside $HOME.
 - **HTTP resilience:** If HTTP MCP fails → ask KπX to reactivate the `-fallback` extension.
 - **File display:** When asked to show file content, use `read_file` then explicitly print the content in the chat.
 - **No echo:** Do not use `run_shell_command` just to `echo` messages; communicate directly in the chat.

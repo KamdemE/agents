@@ -257,6 +257,20 @@
       "skillPath": "skills/k-ollama/SKILL.md",
       "installedAt": "2026-04-25T16:00:00.000Z",
       "updatedAt": "2026-04-25T16:00:00.000Z"
+    },
+    "k-tmux": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-tmux/SKILL.md",
+      "installedAt": "2026-05-18T10:00:00.000Z",
+      "updatedAt": "2026-05-18T10:00:00.000Z"
+    },
+    "k-zed": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-zed/SKILL.md",
+      "installedAt": "2026-05-20T00:00:00.000Z",
+      "updatedAt": "2026-05-20T00:00:00.000Z"
     }
   }
 }

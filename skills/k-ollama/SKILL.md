@@ -71,8 +71,8 @@ ollama run phi4-mini:latest
 | `mem_limit` | `24g` | Leaves real headroom for desktop + editors on a 30 GiB machine |
 
 ### Prerequisites
-- Stop local service: `sui -r "Stop and disable the local Ollama service before switching backend" systemctl stop ollama && sui -r "Disable the local Ollama service before switching backend" systemctl disable ollama`
-- User must be in `video` + `render` groups: `sui -r "Add the current user to the video and render groups for Ollama GPU access" usermod -aG video,render $USER`
+- Stop local service: run in **shared tmux** — `sudo systemctl stop ollama && sudo systemctl disable ollama` (KπX approves in pane; **`sui` deprecated**).
+- User must be in `video` + `render` groups: `sudo usermod -aG video,render $USER` via shared tmux when needed.
 
 ### Notes
 

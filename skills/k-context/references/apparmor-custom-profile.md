@@ -1,5 +1,7 @@
 # AppArmor Custom Profile for Electron Apps (Option B)
 
+> **Agent note (2026-05-18):** **`sui` is deprecated.** Run privileged commands in a **shared tmux** session (`k-tmux`); KπX approves **`sudo`** in the pane. Historical snippets below used `sui -r "…" <cmd>` — execute **`<cmd>`** with **`sudo`** in tmux instead.
+
 Once the system crashes from `unprivileged_userns` confinement have been stabilized via Option A (`aa-complain`), implement a permanent, granular solution using a custom AppArmor profile.
 
 ## Overview
@@ -17,7 +19,7 @@ Instead of running the entire `unprivileged_userns` profile in complain mode, cr
 Create `/etc/apparmor.d/custom-kpihx-electron-apps`:
 
 ```bash
-sui -r "Write the custom AppArmor profile for Electron apps" tee /etc/apparmor.d/custom-kpihx-electron-apps > /dev/null <<'PROFILE'
+sudo tee /etc/apparmor.d/custom-kpihx-electron-apps > /dev/null <<'PROFILE'
 #include <tunables/global>
 
 profile kpihx-electron-apps {
@@ -75,10 +77,10 @@ PROFILE
 
 ```bash
 # Validate syntax
-sui -r "Validate the custom AppArmor profile syntax" apparmor_parser -d /etc/apparmor.d/custom-kpihx-electron-apps
+sudo apparmor_parser -d /etc/apparmor.d/custom-kpihx-electron-apps
 
 # Load in enforce mode
-sui -r "Load the custom AppArmor profile" apparmor_parser -r /etc/apparmor.d/custom-kpihx-electron-apps
+sudo apparmor_parser -r /etc/apparmor.d/custom-kpihx-electron-apps
 
 # Monitor logs (should see no denials for these apps)
 journalctl -f | grep "apparmor.*DENIED"
@@ -102,7 +104,7 @@ profile unprivileged_userns {
 ### 4. Reload and Verify
 
 ```bash
-sui -r "Reload AppArmor after custom profile update" systemctl reload apparmor
+sudo systemctl reload apparmor
 aa-status 2>/dev/null | grep kpihx-electron-apps
 ```
 

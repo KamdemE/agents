@@ -66,7 +66,7 @@ QMD policy: do not configure QMD as a Claude MCP. Use local CLI directly:
 
 ## Privilege Gate
 
-When a task requires elevation: use `sui -r "..."` and wait for KπX to approve the audited privilege/password gate before continuing.
+When a task requires elevation: use **shared tmux** (`k-tmux` gate); **`sui` is deprecated** — poll pane ≥30s for KπX `sudo`/SSH approval.
 Never attempt raw `sudo` autonomously — Claude runs as the user and legacy `sudo` prompts fail silently in the agent flow.
 
 ## bw-mcp Auth

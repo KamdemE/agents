@@ -126,12 +126,12 @@ Always prefer local linking for development to ensure the CLI uses the current c
 - Use `make unlink` to clean up.
 
 ### 🛡️ Sovereign Security Projects (Critical/System)
-For tools managing secrets (like `bw-mcp`), system-level tools (`sui`), or core homelab automation, enforce **Root-Protection** and **Confinement**:
+For tools managing secrets (like `bw-mcp`), system-level installs, or core homelab automation, enforce **Root-Protection** and **Confinement**:
 
 1. **Root-Immutable Install**:
    - Use `make install` to deploy in `/opt/$(PKG_NAME)` with `root:root` ownership.
-   - **Infrastructure Hardening**: Use `REAL_USER` and `REAL_HOME` detection in the `Makefile` to ensure user-space paths are resolved correctly even when running via `sui/sudo`.
-   - **Internal Hygiene**: Remove redundant `sudo` calls from inside targets; the user should run `sui make install`.
+   - **Infrastructure Hardening**: Use `REAL_USER` and `REAL_HOME` detection in the `Makefile` so paths resolve correctly under elevation.
+   - **Internal Hygiene**: Remove redundant `sudo` from Makefile targets; KπX runs privileged install steps via **shared tmux** (`k-tmux`) — **`sui` is deprecated** for agents.
    - Use the template from **`k-final/assets/Makefile.security.[uv|bun]`**.
    - **Requirement**: The agent MUST merge the security targets from `k-final` into the project's standard `Makefile` (from `k-project`).
 2. **AppArmor Jailing**:

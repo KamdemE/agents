@@ -5,7 +5,7 @@ license: private
 metadata:
   author: KpihX
   version: "2.5.0"
-allowed-tools: mcp__bw-mcp__*, sui
+allowed-tools: mcp__bw-mcp__*, Bash(tmux:*)
 ---
 
 # KπX Sovereign Management — Bitwarden (Proxy & ENV)

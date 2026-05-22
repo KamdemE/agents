@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.9"
+  version: "2.17.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -82,41 +82,27 @@ $HOME/.zshenv    deliberately DOES NOT source .kshrc (security: fires for untrus
 
 bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes always reload secrets).
 
-## Privilege Elevation — `sui` only (Sudo Gate)
+## Critical shell — shared tmux (replaces `sui`)
 
-> **Hard rule:** agents **never** invoke raw `sudo`. Use **`sui`** for all privileged local or remote commands. Full policy and examples live in **`$HOME/.agents/AGENTS.md` → Tool Discipline**; this section is the workspace map.
+> **`sui` is deprecated** — agents must **not** invoke it. For **`sudo`**, SSH passphrase, or any interactive approval, use the **shared tmux gate**. Short: **`AGENTS.md` → Tool Discipline** · full: **`k-tmux/SKILL.md` → Shared interactive gate**.
 
-### What `sui` is
+### Agent workflow (summary)
 
-- **Sudo User Interface** — wrapper around **local** `sudo` / `pkexec` and **remote** `ssh` + `sudo -S`, with a **single Zenity `--forms`** step (RUN/ABORT, optional operator comment, password), **full argv** visible in the dialog, and **syslog** + optional **`SUI_LOG`** audit (`reason=present` / `<none>` — not the literal `--reason` string).
+1. **`tmux ls`** — reuse a short-named session/window for the topic, or `tmux new -ds <name>` if none fits.
+2. **`tmux send-keys -t SESSION:WIN.PANE '<cmd>' Enter`** — run the real command (including `sudo …` or `ssh …`) in the pane.
+3. **Poll** `tmux capture-pane` in a loop for **at least 30 seconds** while KπX may approve.
+4. **Only after ≥30s without validation** — stop and tell KπX in chat: `tmux attach -t …`, window/tab, exact command, what to type.
+5. **Kill** idle panes/sessions when the task is fully done (prudent cleanup).
 
-### Why `sui` instead of `sudo`
+Agents **never** run raw **`sudo`** in non-interactive agent tool shells; elevation happens in the shared pane.
 
-- Forces a **human-readable rationale** (`--reason` or **`-r`**) before elevation.
-- Keeps **one** auditable path and consistent UX; raw `sudo` fragments accountability and skips the rationale gate.
+### Submodule `.git` ownership
 
-### Paths (source of truth)
+If **`git push`** hits **Permission denied** on `.git/refs/remotes/*.lock`, suspect **root-owned** submodule metadata — fix via shared tmux: `chown -R $USER:$USER` on affected `$HOME/Work/sh/<module>/.git` trees (see **`k-workspace/references/insights.md`**).
 
-| Role | Path |
-|------|------|
-| Source repo | `$HOME/Work/sh/sui/` |
-| Script | `$HOME/Work/sh/sui/sui.sh` |
-| Docs | `$HOME/Work/sh/sui/README.md`, `$HOME/Work/sh/sui/CHANGELOG.md` |
-| Tests (no real GUI) | `cd $HOME/Work/sh/sui && make test` |
-| Installed CLI | `/usr/local/bin/sui` |
+### Legacy `sui` (archival only)
 
-### Three canonical invocation shapes
-
-1. **Local:** `sui -r "Refresh package metadata before maintenance" apt update`
-2. **Remote (Docker host):** `sui -r "Inspect container state" @docker-host docker ps`
-3. **Remote (homelab):** `sui -r "Apply security updates on lab host" @kpihx-labs apt update`
-
-Use **real SSH host aliases** from `$HOME/.ssh/config` (see **Homelab & Tailscale** below). `@docker-host` and `@kpihx-labs` are examples, not placeholders for invented names.
-
-### Agent discipline
-
-- Every **`sui`** from an agent must include **`-r "..."`** or **`--reason "..."`** with a concrete justification.
-- If **`git push`** / submodule updates hit **Permission denied** on `.git/refs/remotes/*.lock`, suspect **root-owned** files under a submodule’s `.git` — fix once with `sui -r "Restore user ownership on submodule .git metadata"` **`chown -R $USER:$USER`** on the affected `$HOME/Work/sh/<module>/.git` trees (see **`k-workspace/references/insights.md`**).
+Repo `$HOME/Work/sh/sui/` remains on disk for history; **not** part of the agent privilege path as of 2026-05-18.
 
 ### .kshrc Discipline — No Bloat Rule
 
@@ -220,6 +206,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-18 | [AUTO] | v2.17.0 — Replaced `sui` Sudo Gate with shared tmux interactive gate (`k-tmux`); `sui` marked deprecated for agents. |
 | 2026-05-15 | [CURSOR] | v2.16.9 — Documented agent kernel layout: `$HOME/.agents/` → `KpihX-Labs/.agents/`, canonical `AGENTS.md`, root `KpihX-Labs/AGENTS.md` as symlink only (no hard link). |
-| 2026-04-17 | [CURSOR] | v2.16.8 — `sui` **`-r`** shorthand documented; examples + chown recovery use `-r`; AGENTS privilege block compacted (pointer). |
-| [SUMMARY] | — | v2.16.6 `sui --reason` fail-fast; v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |
+| [SUMMARY] | — | v2.16.8 `sui -r` shorthand; v2.16.6 `sui --reason` fail-fast; v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |

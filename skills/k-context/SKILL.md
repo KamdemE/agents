@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.87.7"
+  version: "2.88.4"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -16,6 +16,8 @@ allowed-tools: "Bash(*), *"
 > HOT — load at every session start.
 > - **Agent-memory update mandate:** update k-<agent> skill immediately after any agent-specific learning.
 > - **Zero-Deletion Policy (Mandatory):** NEVER delete logs or historical entries. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved to `references/log.md` BEFORE the main file is compacted. Every removal MUST be an addition to the archive. [GEMINI]
+> - **Frozen log append-only (Mandatory):** Once written, lines in **`references/log.md`**, **`references/issues.md`**, and any rotated archive are **immutable** — no in-place edits or deletions. Corrections = **new append-only lines** in live sections; rotation = **new** archive lines only, then bounded **`[SUMMARY]`** on the live section. Same rule for skill **`references/log.md`** files elsewhere.
+> - **Shared tmux collaboration (Mandatory):** Privileged/interactive shell (`sudo`, SSH passphrase, prompts) → **`k-tmux`**: reuse or create a short tmux session, `send-keys`, poll pane **≥30s** (no chat handoff before); never **`sui`**. Full: **`k-tmux/SKILL.md` → Shared interactive gate** · short: **AGENTS.md → Tool Discipline**.
 > - **Issues Transparency Rule (Mandatory):** every attempt to understand/fix any issue (system, filesystem, crashes, thermal, noisy processes, services, etc.) MUST be appended to `references/issues.md` with full command history and outputs. No deletion, no compaction.
 > - **Auto-Update Rule (Mandatory):** agents must update `references/issues.md` and relevant context sections automatically without asking KπX.
 > - **Session Log Linking Rule:** `## Session Log` keeps short summaries only and each issue-related entry must include exact issue IDs (e.g., `ISS-YYYYMMDD-XXX`) that point to `references/issues.md`.
@@ -66,7 +68,7 @@ allowed-tools: "Bash(*), *"
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **linux-file-masterclass** | 🟢 ACTIVE — code-first visual Linux masterclass scaffolded in `KpihX-Labs`: Remotion + React + D3 scenes, French narration generation, synchronized subtitles, and master render pipeline now exist under one repo-local workflow. | finish the first full master render, inspect the visual storytelling scene by scene, then push the grammar from “good animated explainer” toward “self-explanatory visual cinema” · `$HOME/KpihX-Labs/linux-file-masterclass/` |
 | **Linguaskill 2026** | ✅ STABLE — Results received (Score 187, C1). Certificate renamed and archived in Gdrive_X. Official submission sent to DLC. | Validation successful. · `$HOME/Gdrive_X/KpihX/Academic/LinguaSkill/` |
-| **AGY account setup** | ✅ STABLE — v1.23.2 UI changes identified: Planning Mode activation via unified selector or `Ctrl + .` documented in `k-code`. | confirm unblocking of auth flow if still pending · `$HOME/.gemini/antigravity/` |
+| **AGY ecosystem** | 🟢 ACTIVE — Launchers **agy / agy-ide / agy-hub**; `k-code` v4.3.2 (`references/agy.md` merged). Pending: sudo sandbox + `apt remove antigravity`. | `$HOME/.agents/skills/k-code/references/agy.md` |
 | **ai_dispatcher** | 🟢 ACTIVE — dispatcher now binds the default local Ollama endpoint (`127.0.0.1:11434`), selects X hosts by free GPU VRAM, self-cleans stale SSH tunnels, enforces a single local instance with `flock`, and exposes `SYNCING`/`READY` health states. | validate next relaunch reaches `READY` without timeout drift and keep bootstrap aligned to native tags only · `$HOME/Work/X/ai_dispatcher/` |
 | **X-IA Cluster** | 🟢 ACTIVE — shared launcher now treats `$HOME/.ollama/models` as canonical and syncs `/tmp/$USER/ollama_models` back to NFS periodically and on exit; the persistent store now carries native `qwen3.5:latest` + `mistral-small:latest`. | confirm NFS stays minimal after another host switch/restart · `$HOME/Work/X/ai_cluster/` |
 | **Sovereign Bookmarks** | ✅ STABLE — v1.1.0 Sovereign hierarchy: consolidated legacy bookmarks, shortened titles, categorized into labs/academic/tools/etc.
@@ -120,17 +122,19 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-22 | [CURSOR] | v2.88.4 — AGY merged doc `k-code/references/agy.md`; `k-code` v4.3.2; AGENTS gains `k-code` skill row + routing. Sudo sandbox/apt remove pending. |
+| 2026-05-20 | [GPT-5.4] | v2.88.2 — Live noisy-PC triage on `KpihX-Ubuntu`: Edge renderer/GPU + Zed identified as the hottest active processes; package temperature reached `+93.0°C`; logged as `ISS-20260520-001`. |
+| 2026-05-19 | [CODEX] | v2.88.1 — `Python_2A_P3/td9`: read-only MNIST hyperparameter tuning executed from `/tmp` (coarse-to-fine grid + local refinement + seed-sensitivity check), no project files modified. |
+| 2026-05-18 | [AUTO] | v2.88.0 — Short shared tmux collaboration rule in header; full gate inlined in `k-tmux/SKILL.md` (removed `shared-interactive-gate.md`). |
+| 2026-05-18 | [AUTO] | v2.87.9 — Kernel: frozen append-only logs; `sui` deprecated → shared tmux gate. `make audit` ALL_OK. |
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.8 — Envision slides: created Introduction, Envision, Grep tool, and Graph tool slide decks in presentation/ (.tex split), integrated them in main.tex/Outils.tex, and verified a 100% clean LaTeX/Biber compilation. |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.7 — Hardware F1-F12 key behavior: identified Dell-specific Fn Lock toggling mechanism (Fn + Esc) to restore media control actions as default, and logged as ISS-20260518-002. |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — GNOME 50 compatibility: patched KeepAwake@jepfa.de metadata to support shell version "50", disabled global GNOME extension version validation via GSettings, and logged as ISS-20260518-001. |
 | 2026-05-16 | [CURSOR] | v2.87.5 — Antigravity “Open Cloud”: `k-code` bootstrap for Continue (`~/.continue/config.yaml` Mistral + `${{ secrets.MISTRAL_API_KEY }}`), global rules symlink `00-kpihx-AGENTS.md`, skills stub, `~/.continue/.env` template, optional desktop `kpihx-antigravity-open-cloud.desktop`. |
 | 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing: `Attestation_Honneur_Non_Revenu_KAMDEM.pdf` → `Gdrive_X/KpihX/Scholarships/Bourse_Eiffel/`; Data Analysis Python TD8 handin bundle → `Gdrive_X/X/2A/P3/Data_Analysis_Python/PC1_CSC43042EP_td8_1_handin/` (DM7 PDFs, semaine 07, zip); removed `cursor_3.4.20_amd64.deb`; moved `m365_inbox.json` → `Gdrive_X/KpihX/Others/m365_cli_exports/`; emptied `Documents/`, `Downloads/`, `Pictures/Screenshots`, `Videos/Screencasts`. External HDD: `Backups_Ubuntu_Workstation` confirmed directory when disk online. |
 | 2026-05-16 | [CURSOR] | v2.87.3 — k-optim applied: `ksh status` shows `clean-system` OK (2026-05-15) but `backup-restore.service` FAILED on `Backups_Ubuntu_Workstation` mkdir path; logged as `ISS-20260516-001`. Meta: `make -C $HOME/.agents audit` ALL_OK. Homelab: `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh" status` => PVE+LXC offline. |
 | 2026-05-15 | [CURSOR] | v2.87.2 — `AGENTS.md` chat-visuals NO EXCEPTIONS block + mandatory-structure cross-link; `KpihX-Labs/AGENTS.md` hard link → symlink `.agents/AGENTS.md` + File Routing kernel layout. |
-| 2026-05-14 | [CODEX] | v2.87.1 — `linux-file-masterclass`: scaffolded a new code-first Linux visual masterclass under `KpihX-Labs` with Remotion/React/D3 scenes, French `edge-tts` narration, synchronized SRT generation, still rendering, and a full `render:master` pipeline; hardened TTS resolution against pyenv drift and pinned Remotion-compatible versions. |
-| 2026-05-12 | [ANTIGRAVITY] | v2.87.0 — `Sinner Tactical Visualizer`: Finalized project with High-Res (1080p60) multi-language support (EN/FR). Updated web visualizer with language toggle and high-fidelity narration (v0.3.0). |
-| 2026-05-12 | [ANTIGRAVITY] | v2.86.9 — `Sinner Tactical Visualizer`: Finalized high-fidelity video `sinner_final_analysis.mp4`. Integrated Manim animations with `edge-tts` narration. Updated web visualizer with narration sync (v0.2.0). |
-| 2026-05-12 | [ANTIGRAVITY] | v2.86.8 — `Sinner Tactical Visualizer`: Developed a high-end interactive visualizer for Rome Masters 2026 tactical analysis. Implemented GSAP-driven web dashboard, SVG court geometry, and Manim mathematical animation. Finalized with `k-final` pass (v0.1.0). |
-| [SUMMARY] | — | v2.86.7..v2.86.4 Rome Masters web, PVE/vm_debian cloud-init/resolved DNS fixes (ISS-20260508-001); v2.86.3..v2.86.0 Fluid AA.md, hypridle/greeter fixes (ISS-20260507-003); older -> references/log.md |
+| [SUMMARY] | — | v2.87.1 linux-file-masterclass; v2.87.0..v2.86.8 Sinner visualizer; v2.86.7 Rome Masters web; PVE/vm_debian DNS (ISS-20260508-001); older → `references/log.md` |
 
 ## References
 
@@ -153,6 +157,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — Session Log & Changelog: GNOME 50 compatibility fixes for KeepAwake (ISS-20260518-001). |
-| 2026-05-16 | [CURSOR] | v2.87.5 — Session Log: Antigravity + Continue Open Cloud bootstrap (`bootstrap_open_cloud.sh`, Mistral secrets via `~/.continue/.env`). |
-| [SUMMARY] | — | v2.87.4 Gdrive_X filing + home purge; v2.87.3 k-optim + ISS-20260516-001; v2.87.2 AGENTS symlink; v2.87.1 linux-file-masterclass; v2.86.8.. → `references/log.md` |
+| 2026-05-22 | [CURSOR] | v2.88.4 — AGY doc merge + AGENTS `k-code` row; `k-code` v4.3.2. |
+| 2026-05-20 | [GPT_5_4] | v2.88.2 — Logged live thermal/noise diagnosis (`ISS-20260520-001`) and added noisy-PC triage insight. |
+| [SUMMARY] | — | v2.88.1 MNIST TD9 MNIST hyperparameter tuning; v2.88.0 shared tmux rule header; v2.87.9.. → `references/log.md` |

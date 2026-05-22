@@ -50,7 +50,7 @@
 - `linkedin-mcp`
 - `whats-mcp`
 - `tg`
-- `sui`
+- `tmux` (shared interactive gate; `sui` deprecated for agents)
 - `techskills`
 
 ### Research / ML / experimentation

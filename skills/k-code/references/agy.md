@@ -1,80 +1,128 @@
-# Google Antigravity (AGY) Configuration
+# Google Antigravity (AGY)
 
-Antigravity (AGY) relies on the same architecture as VSCode. To maintain absolute parity and avoid duplicate environments, follow this guide for synchronization with the `k-code` ecosystem.
+> **Source of truth** for the four-product Antigravity stack on KπX workstations (2026 I/O split). Install: `scripts/agy/install_agy_components.sh`.
 
-## Installation
+## Ecosystem — four pillars
+
+| Pillar | Role | Install path | **KπX command** | Google binary / compat |
+|--------|------|--------------|-----------------|-------------------------|
+| **Hub 2.0** | Agent-first desktop orchestrator | `$HOME/.local/share/antigravity-hub/` | **`agy-hub`** · `agy-hub.desktop` | `antigravity` · `antigravity-hub` |
+| **IDE** | VS Code-fork pair programmer | `$HOME/.local/share/antigravity-ide/` | **`agy-ide`** · `agy-ide.desktop` · Open Cloud | `antigravity-ide` |
+| **CLI** | Terminal agent | `$HOME/.local/bin/agy` | **`agy`** | curl installer |
+| **SDK** | Python library | `pip3 install --user google-antigravity` | `import google.antigravity` | PyPI `google-antigravity` |
+
+**Pattern A (like `code` / `cursor`):** one short command per surface — `agy`, `agy-ide`, `agy-hub`. Repair: `wire_short_launchers.sh`.
+
+**Four distinct builds** — do not assume one launcher covers Hub, IDE, CLI, or legacy apt `/usr/bin/antigravity`.
+
+## Config & agent state
+
+| Component | User config | Extensions | Agent / MCP |
+|-----------|-------------|------------|-------------|
+| Hub | May overlap `~/.config/Antigravity` if deb was installed | `$HOME/.antigravity/` → VS Code | `$HOME/.gemini/antigravity/` |
+| IDE | `$HOME/.config/Antigravity IDE/` | `$HOME/.antigravity-ide/` → VS Code | `$HOME/.gemini/antigravity-ide/` |
+| CLI | CLI session store | — | export to GUI possible |
+| SDK | — | — | in-process only |
+
+`sync_agy.sh` symlinks both `Antigravity` and `Antigravity IDE` user dirs to `$HOME/.config/Code/User/*`.
+
+## Install
+
+Archives: `$HOME/Downloads/Antigravity.tar.gz`, `$HOME/Downloads/Antigravity IDE.tar.gz`.
 
 ```bash
-sui -r "Refresh package metadata before installing Antigravity" apt update
-sui -r "Install the Antigravity package" apt install antigravity
+$HOME/.agents/skills/k-code/scripts/agy/install_agy_components.sh
+$HOME/.agents/skills/k-code/scripts/agy/wire_short_launchers.sh   # repair symlinks only
+$HOME/.agents/skills/k-code/scripts/agy/sync_agy.sh
+$HOME/.agents/skills/k-code/scripts/agy/bootstrap_open_cloud.sh --install-desktop
+$HOME/Work/sh/clean/clean_agy.sh -i
 ```
 
-## Scripts & Operation
+**Legacy apt:** installer removes `apt install antigravity` by default (`--skip-apt-remove` to keep deb).
 
-The AGY-specific scripts are located at `$HOME/.agents/skills/k-code/scripts/agy/`:
-- `sync_agy.sh`: Modifies the `.config/Antigravity` and `.antigravity` directories to use relative symlinks pointing back to `$HOME/.config/Code` and `$HOME/.vscode/extensions`. This encapsulates the symlink generation procedure cleanly.
-- `bootstrap_open_cloud.sh`: One-shot **Antigravity + Continue** bootstrap for the “Open Cloud” workflow:
-  - Runs `sync_agy.sh` (shared VS Code settings/keybindings/profile/extensions).
-  - Ensures `$HOME/.continue/rules/00-kpihx-AGENTS.md` symlink → `$HOME/.agents/AGENTS.md`.
-  - Creates `$HOME/.continue/.env` **once** (template) so Continue can resolve `${{ secrets.MISTRAL_API_KEY }}` per [Continue secrets](https://docs.continue.dev/guides/configuring-models-rules-tools) (global `~/.continue/.env`).
-  - Optional: `--install-desktop` writes `~/.local/share/applications/kpihx-antigravity-open-cloud.desktop` (`Exec=…/bootstrap_open_cloud.sh --launch %F`) so the IDE starts after loading `~/.continue/.env` then `$HOME/.kshrc` (Bitwarden / `bw-env` injection when configured there).
-  - `--launch`: run setup then `exec /usr/bin/antigravity` with forwarded args (use after secrets are available).
+**Linux sandbox (once per extract):**
 
-**Model source of truth (Continue):** `$HOME/.continue/config.yaml` — default row uses `provider: mistral` and `model: mistral-large-latest` with `apiKey: ${{ secrets.MISTRAL_API_KEY }}`. Swap `model:` to `codestral-latest` or another Mistral id if you prefer a code-first default.
+```bash
+sudo chown root:root "$HOME/.local/share/antigravity-ide/chrome-sandbox" \
+  "$HOME/.local/share/antigravity-hub/chrome-sandbox"
+sudo chmod 4755 "$HOME/.local/share/antigravity-ide/chrome-sandbox" \
+  "$HOME/.local/share/antigravity-hub/chrome-sandbox"
+```
 
-**Skills in Continue:** global rule stub `$HOME/.continue/rules/01-kpihx-skills-lookup.md` + symlinked kernel `00-kpihx-AGENTS.md` (skills table lives in `AGENTS.md`).
+## Scripts (`scripts/agy/`)
 
-## Purging Caches
+| Script | Purpose |
+|--------|---------|
+| `install_agy_components.sh` | Hub + IDE tar, curl CLI, pip SDK, icons, desktops, sync, optional apt remove |
+| `install_agy_icons.sh` | Light Hub + dark IDE menu icons |
+| `fix_agy_sandbox.sh` | `chmod 4755` chrome-sandbox (sudo once) if GUI exits silently |
+| `launch_agy_hub.sh` / `launch_agy_ide.sh` | App-menu wrappers (`--no-sandbox`; IDE skips `.kshrc` trap) |
+| `refresh_agy_menu.sh` | Regenerate desktops + icon cache; removes legacy Open Cloud `.desktop` |
+| `wire_short_launchers.sh` | `agy-ide` / `agy-hub` → binaries; `antigravity-*` compat |
+| `sync_agy.sh` | VS Code settings, profiles, extensions parity |
+| `bootstrap_open_cloud.sh` | `agy-ide` + Continue Mistral + `AGENTS.md` rules + optional desktop |
 
-If AGY experiences visual bugs, freezing, or state errors, it shares the same Electron caching structure as VSCode.
-- The `clean_agy.sh` script located in `$HOME/Work/sh/clean/` is designed specifically for this purpose.
-- Use `$HOME/Work/sh/clean/clean_agy.sh -p` to perform a deep purge of its rendering and compiled JavaScript caches.
+## Desktop entries & icons
 
-## UI & Interaction (v1.23.2+)
+**App menu:** two launchers — **Antigravity Hub** (light icon) + **Antigravity IDE** (dark icon).
 
-In recent versions, the Antigravity interface has transitioned to a unified selector for both models and interaction modes.
+| Launcher | Icon source |
+|----------|-------------|
+| Hub | Light full-color — Hub `app.asar` `/icon.png` ([press](https://antigravity.google/press)) |
+| IDE | Dark — `jetski-logo-white.svg` on `#202124` background |
 
-### Toggling Planning Mode
-- **Keyboard Shortcut**: `Ctrl + .` (period) is the universal toggle between **Fast Mode** and **Planning Mode**.
-- **Unified Selector**: Click on the **Model Name** (e.g., "Gemini 3 Flash") in the lower-left corner of the chat input box. This opens a menu where you can switch both the model and the execution mode (Fast vs. Planning).
-- **Context Button (`+`)**: Used for adding specific files, folders, or symbols to the conversation context, not for switching modes.
+Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher). **GUI:** menu uses `launch_agy_*.sh` — do **not** use `bootstrap --launch` from `.desktop` (`.kshrc` + `set -u` broke IDE). Terminal bootstrap still OK interactively.
 
-### Mode Selection Logic
-- **Fast Mode**: Default for quick edits and single-file tasks. Recommended with **Flash** models.
-- **Planning Mode**: Mandatory for complex architectural changes. Recommended with **Pro** models for better reasoning and artifact generation.
-- **Settings**: Check `Settings > Agent` if the Planning Mode toggle is missing or to configure the "Artifact Review Policy".
+| File | Visible in menu | Starts |
+|------|-----------------|--------|
+| `agy-hub.desktop` | yes | Hub 2.0 (`agy-hub`) |
+| `agy-ide.desktop` | yes | IDE via `bootstrap_open_cloud.sh --launch` (Continue + shell env) |
+| `kpihx-antigravity-open-cloud.desktop` | **no** (`NoDisplay=true`) | legacy duplicate — use `agy-ide.desktop` |
 
----
+## When to use which
 
-## Technical Post-Mortem — Issue: Infinite Edit Loops (ENOSPC)
+- **Daily coding + Continue Mistral** → **`agy-ide`** or Open Cloud desktop
+- **Multi-agent orchestration** → **`agy-hub`**
+- **SSH / terminal agent** → **`agy`**
+- **Custom Python automation** → SDK
+- **Legacy Gemini extensions** → `gemini` until ported (`k-gemini`)
 
-**Observed:** On Linux (Ubuntu), high-level edit tools (`replace_file_content`, `write_to_file`) would hang or loop indefinitely with `+0 -0` changes in the UI. 
-**Cause:** `fs.inotify.max_user_watches` system limit reached due to large workspace surveillance. VS Code/AGY fails to monitor changes properly, breaking the synchronization between the agent's filesystem write and the IDE's internal state.
+## vs Gemini CLI
 
-### Diagnosis
-1.  **System Check**: `cat /proc/sys/fs/inotify/max_user_watches` (Often defaults to 8192 on older setups or restricted environments).
-2.  **IDE Symptom**: Red notification: "Unable to watch for file changes. Please follow the instructions...".
-3.  **Agent Symptom**: `replace_file_content` repeats the same operation without error but without success.
+| | **Gemini CLI** (`gemini`) | **Antigravity CLI** (`agy`) |
+|--|---------------------------|------------------------------|
+| Status | Sunset ~June 2026 (many tiers) | Successor terminal surface |
+| Config | `$HOME/.gemini/settings.json`, `$HOME/Work/AI/gemini_mcps/` | Official install; shared AGY settings |
+| MCP | `gemini mcp add` + `gemini-extension.json` | GUI: `$HOME/.gemini/antigravity/mcp_config.json` — see `references/mcp/agy.md` |
 
-### Definitive Fix (Phoenix v3.1 Standard)
+**KπX:** keep `gemini` for existing MCP flows; prefer **`agy`** for new terminal work. Do not mix MCP install procedures.
 
-Instead of pushing kernel limits (which might not persist or be restricted), **reduce consumption** by excluding heavy/irrelevant directories from the watcher and explicitly defining hook locations for Copilot Chat.
+## Cache cleanup
 
-**Update `$HOME/.config/Code/User/settings.json`**:
+`$HOME/Work/sh/clean/clean_agy.sh` → `$HOME/.config/Antigravity/` — `-i` infos · `-s` safe · `-p` purge · `-l` live
+
+## IDE UI (Planning / Fast)
+
+- **`Ctrl + .`** — toggle Fast ↔ Planning
+- **Model selector** (chat input) — model + mode
+- **`+`** — context files/folders only
+- **Fast** — quick edits, Flash · **Planning** — architecture, Pro, artifacts
+- **Settings > Agent** — artifact review policy
+
+## MCP (GUI)
+
+`$HOME/.gemini/antigravity/mcp_config.json` (+ IDE tree under `antigravity-ide/`). Full procedure: **`references/mcp/agy.md`**.
+
+## ENOSPC — infinite edit loops
+
+**Symptom:** `replace_file_content` / `write_to_file` hang, `+0 -0`; red banner “Unable to watch for file changes”.
+
+**Cause:** `fs.inotify.max_user_watches` exhausted.
+
+**Fix:** extend `$HOME/.config/Code/User/settings.json` (synced into AGY):
+
 ```json
 {
-    "workbench.colorTheme": "Dark Modern",
-    "chat.hookFilesLocations": {
-        ".github/hooks": true,
-        "$HOME/.agents/hooks/copilot/hooks.json": true,
-        ".claude/settings.json": false,
-        ".claude/settings.local.json": false,
-        "$HOME/.claude/settings.json": false
-    },
-    "chat.useCustomAgentHooks": true,
-    "chat.useAgentsMdFile": true,
-    "chat.useCustomizationsInParentRepositories": true,
-    "github.copilot.chat.agentDebugLog.enabled": true,
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,
@@ -94,9 +142,14 @@ Instead of pushing kernel limits (which might not persist or be restricted), **r
         "**/.tox/**": true,
         "**/.cache/**": true,
         "**/Work/Homelab/data/**": true
-    }
+    },
+    "chat.hookFilesLocations": {
+        ".github/hooks": true,
+        "$HOME/.agents/hooks/copilot/hooks.json": true
+    },
+    "chat.useCustomAgentHooks": true,
+    "chat.useAgentsMdFile": true
 }
 ```
 
-### Result
-This configuration restores immediate responsiveness to all agentic editing tools and ensures that Copilot Chat correctly loads the specialized KπX agent hooks while ignoring legacy Claude settings. Load this reference whenever an agent experiences "edit hanging", "sync loops", or hook failures.
+Use `$HOME` literally in the live file per KπX path rules in synced settings.
