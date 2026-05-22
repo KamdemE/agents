@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.3.6"
+  version: "4.3.8"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -149,6 +149,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-22 | [CURSOR] | v4.3.6 — `launch_agy_*.sh` + `refresh_agy_menu.sh`; fix IDE menu launch (bootstrap/kshrc trap); drop legacy Open Cloud desktop. |
-| 2026-05-16 | [CURSOR] | v4.2.5 — `agy/bootstrap_open_cloud.sh`: Continue Mistral via `~/.continue/.env` + `${{ secrets.MISTRAL_API_KEY }}`, global rules symlink to `AGENTS.md`, optional `kpihx-antigravity-open-cloud.desktop`. |
-| [SUMMARY] | — | v4.3.0–v4.3.1 Hub/IDE tar, CLI, SDK, dual sync; v4.2.4 Cursor `.deb`-only; v4.2.3 transcripts; v4.2.2 Planning UI; older → file history |
+| 2026-05-22 | [CURSOR] | v4.3.8 — `references/insights.md`: archived Cursor purge map (`isArchived` index + `cursorDiskKV` blobs, backup + `VACUUM` outside txn). |
+| 2026-05-22 | [CURSOR] | v4.3.7 — `agy-hub.sh` wrapper (`--no-sandbox`, X11 on Wayland); `wire_short_launchers` no longer symlinks Hub to raw ELF. |
+| [SUMMARY] | — | v4.3.6 launch/refresh AGY scripts; v4.2.5 Continue bootstrap; v4.3.0–v4.3.1 Hub/IDE; v4.2.x Cursor transcripts; older → file history |

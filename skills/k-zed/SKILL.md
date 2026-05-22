@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.1.1"
   scope: agent-runtime
   target-agent: zed
 allowed-tools: Bash, Read, Write, Edit
@@ -54,7 +54,8 @@ Do not enumerate installed MCPs or registry agents here; read `$HOME/.config/zed
 |------|------|
 | `$HOME/.config/zed/settings.json` | Models, `agent`, `context_servers`, `agent_servers`, `language_models` |
 | `$HOME/.local/share/zed/prompts/prompts-library-db.0.mdb/` | Rules Library (LMDB; UI-managed on older builds) |
-| `$HOME/.local/share/zed/threads/` | Agent thread storage |
+| `$HOME/.local/share/zed/threads/threads.db` | Agent thread bodies (zstd JSON blobs) |
+| `$HOME/.local/share/zed/db/0-stable/db.sqlite` | Sidebar index: `sidebar_threads.archived` (0=active, 1=archived) |
 | `$HOME/.local/share/zed/external_agents/` | ACP-related state |
 | `$HOME/.local/share/zed/extensions/` | Zed extensions (incl. legacy agent-server extensions) |
 
@@ -112,6 +113,6 @@ When the workspace root contains `.agents/AGENTS.md`, treat it as **project rule
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-22 | [CURSOR] | v1.1.1 — `references/insights.md`: archived-thread purge map (`sidebar_threads` + `threads.db`, backups under `backups/`). |
 | 2026-05-22 | [CURSOR] | v1.1.0 — Venice model roster + `favorite_models`; `references/settings.md` + `assets/settings.json` symlink via `scripts/sync_zed_settings.sh`. |
-| 2026-05-20 | [AUTO] | v1.0.3 — insights: custom MCP must use `command`/`args` top-level, not extension-only `settings` nesting. |
-| [SUMMARY] | — | v1.0.2 settings.json JSONC reality; v1.0.1 references/setup.md + host symlinks; v1.0.0 initial skill structure. |
+| [SUMMARY] | — | v1.0.3 custom MCP `command`/`args` shape; v1.0.2 JSONC; v1.0.1 setup symlinks; v1.0.0 initial structure. |

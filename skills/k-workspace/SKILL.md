@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.17.0"
+  version: "2.17.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -206,6 +206,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-22 | [CURSOR] | v2.17.1 — Insight: Nautilus default file manager; Nemo purge runbook → `techskills/nautilus_default_file_manager.md`. |
 | 2026-05-18 | [AUTO] | v2.17.0 — Replaced `sui` Sudo Gate with shared tmux interactive gate (`k-tmux`); `sui` marked deprecated for agents. |
-| 2026-05-15 | [CURSOR] | v2.16.9 — Documented agent kernel layout: `$HOME/.agents/` → `KpihX-Labs/.agents/`, canonical `AGENTS.md`, root `KpihX-Labs/AGENTS.md` as symlink only (no hard link). |
-| [SUMMARY] | — | v2.16.8 `sui -r` shorthand; v2.16.6 `sui --reason` fail-fast; v2.16.5 Sudo Gate intro; v2.16.4 STT/OpenVINO; v2.16.3 STT baseline; v2.16.2 insights; v2.16.1 `k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |
+| [SUMMARY] | — | v2.16.9 kernel layout symlink; v2.16.8–v2.16.1 `sui`/STT/`k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |

@@ -18,3 +18,5 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 - **`sui` deprecated (2026-05-18):** critical shell = shared tmux only; full gate in `k-tmux/SKILL.md` → Shared interactive gate.
 - Poll **≥30s** after `send-keys` before chat handoff; give full attach + command + what KπX must type only after that.
 - Reuse short-named sessions/windows; create/kill only when necessary for clarity.
+- `tmux-resurrect` owns save/restore contents; `tmux-continuum` only schedules auto-save/auto-restore. Keep `@continuum-boot off` unless KπX explicitly wants a systemd tmux server at login.
+- Resurrect shell-history restoration is removed upstream; arrow-key history remains a zsh concern, not a tmux persistence feature.

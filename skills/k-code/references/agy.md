@@ -56,9 +56,9 @@ sudo chmod 4755 "$HOME/.local/share/antigravity-ide/chrome-sandbox" \
 | `install_agy_components.sh` | Hub + IDE tar, curl CLI, pip SDK, icons, desktops, sync, optional apt remove |
 | `install_agy_icons.sh` | Light Hub + dark IDE menu icons |
 | `fix_agy_sandbox.sh` | `chmod 4755` chrome-sandbox (sudo once) if GUI exits silently |
-| `launch_agy_hub.sh` / `launch_agy_ide.sh` | App-menu wrappers (`--no-sandbox`; IDE skips `.kshrc` trap) |
+| `agy-hub.sh` / `launch_agy_hub.sh` / `launch_agy_ide.sh` | Hub shell launcher + menu wrappers (`--no-sandbox`, `--ozone-platform=x11` on Wayland; IDE skips `.kshrc` trap) |
 | `refresh_agy_menu.sh` | Regenerate desktops + icon cache; removes legacy Open Cloud `.desktop` |
-| `wire_short_launchers.sh` | `agy-ide` / `agy-hub` → binaries; `antigravity-*` compat |
+| `wire_short_launchers.sh` | `agy-hub` → `agy-hub.sh`; `agy-ide` → binary; `antigravity-*` compat |
 | `sync_agy.sh` | VS Code settings, profiles, extensions parity |
 | `bootstrap_open_cloud.sh` | `agy-ide` + Continue Mistral + `AGENTS.md` rules + optional desktop |
 

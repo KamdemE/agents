@@ -7,9 +7,9 @@ description: >
   Ubuntu local cleanup, home media dirs, and Homelab maintenance.
 license: private
 metadata:
-   author: KpihX
-   version: "2.9.5"
-   scope: optimization
+  author: KpihX
+  version: "2.9.7"
+  scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
 
@@ -56,11 +56,9 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ### Last Known State
 
-- cleanup stack: `$HOME/Work/sh/clean/` — `clean_all.sh` orchestrates `clean_snap.sh`, `clean_cache.sh`, `clean_vscode.sh`, `clean_work.sh`, `clean_docker.sh`, `clean_ai.sh`, with `auto_clean.sh` as the automated wrapper; respect analysis → safe → purge → privileged progression
-- **[SUMMARY]** Spring 2026 context: 1.3GB debris and redundant media emptied; legacy `.agent/` & `backup/` pending review; `_dg` safe-rm hook active
-- **phoenix optim 2026-04-06**: Executed full automated loop (`ksh clean run` → `ksh backup run`). 27GiB compressed to 15GiB (zstd). Safe-cleanup rotated workspace caches and AI models automatically.
-- **Auto-mount active**: KpihX-Backup is structurally guaranteed via `fstab` and `x-systemd.automount` on a permanent mount point. No manual click required. [GEMINI] 2026-04-07.
-- **2026-05-15 backup-regression**: `backup-restore.service` failed — `mkdir` `Already exists` then `Cannot create /media/$USER/KpihX-Backup/Backups_Ubuntu_Workstation` (`backup_workstation.sh`); likely destination path not a directory when HDD is reachable — see `ISS-20260516-001`
+- **2026-05-22 full pass (`ISS-20260522-001`)**: `$HOME` ~165G→~147G; `/` **72%** (**74G** free). Transit dirs emptied (Downloads/Documents/Pictures/Desktop). Debris removed: bad dir `` `${XDG_STATE_HOME:-$HOME` ``, 44 screenshots, Cursor/Zed chat backups (~1.7G), `Work/X/ai_dispatcher/tmp` (~2.4G). `printf y… | clean_all.sh -s -p -y` + `uv cache clean` (~15G UV). Work `.venv` purged (1.15G — **run `uv sync`** in `Python_2A_P3` + `Optim_2A_P3`). Agents: Antigravity brain UUIDs pruned, Codex `sessions/2026/04` removed, `qmd cleanup` (index ~130MB). Docker **sudo** steps skipped (no TTY). `backup-restore` still FAILED — `ISS-20260516-001`.
+- cleanup stack: `$HOME/Work/sh/clean/` — `clean_editors.sh` wraps Code/Cursor/AGY; non-interactive: pipe `y` + `-y` on `clean_all.sh`
+- **[SUMMARY]** Spring 2026: phoenix loop, automount KpihX-Backup, `_dg` safe-rm; older debris cycles in Script Log
 
 ### Actions
 
@@ -161,9 +159,9 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
+- **2026-05-22**: Cursor archived purge (119) + Zed archived purge (20) earlier same session; then Antigravity `brain/*` mass prune (kept 0 sessions — user asked full fresh), Codex Apr 2026 sessions deleted, `.gemini/tmp` cleared, HF cache cleared via `clean_ai -p`.
 - Agents store chat history in transparent local files (JSONL, SQLite, UUID folders).
-- **Phoenix v3.1 finalization (2026-04-06)**: Purged ~412MB of Codex history; Antigravity history preserved for current context.
-- Claude Code leverages a `projects/` structure reflecting absolute paths with `-home-kpihx-...` identifiers.
+- **[SUMMARY]** Phoenix 2026-04-06 Codex ~412MB purge; Claude `projects/` path-keyed memory — do not delete blindly
 
 ### Actions
 
@@ -200,6 +198,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
+- **2026-05-22**: `make -C $HOME/.agents audit` => **ALL_OK** after changelog/session-log cap fixes (`k-code`, `k-context`, `k-workspace`, `k-zed`). QMD index vacuumed; presentation collection shows 0 files (re-index if needed).
 - **2026-05-16**: `make -C $HOME/.agents audit` => `ALL_OK` after k-optim read cycle [CURSOR]
 - governance stack is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills stay aligned with `make -C $HOME/.agents audit` / `make -C $HOME/.agents help` as the operational entrypoints
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
@@ -245,6 +244,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-22 | Ubuntu/Agents/Meta | Full k-optim (`ISS-20260522-001`) | ~18G `$HOME` reclaim; transit empty; `clean_all -s -p -y`; venvs purged; governance ALL_OK; homelab offline |
 | 2026-05-16 | Meta/Ubuntu/Homelab | k-optim audit (read-only) | `make -C $HOME/.agents audit` ALL_OK; `ksh status` shows clean OK / backup FAILED (`ISS-20260516-001`); `hsh` path corrected in skill SOT; PVE+LXC offline from workstation; home transit dirs still over policy on Downloads/Documents/Pictures |
 | 2026-04-06 | Agents | AI History Purge | Pruned ~412MB of Codex and Vibe history |
 | 2026-04-06 | Homelab | Phoenix v3.1 | Modular architecture stabilized; `hsh` dispatcher introduced; server log map finalized |
@@ -267,6 +267,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-16 | [CURSOR] | v2.9.5 — k-optim pass outputs: Homelab script root fixed to `$HOME/Work/KpihX-Labs/Homelab/sh/`, `hsh` PATH note + sample full path, Ubuntu LKS documents `backup-restore.service` mkdir failure (`ISS-20260516-001`), Telegram block prefers `tg send --bot`. |
-| 2026-05-07 | [CODEX] | v2.9.3 — Added mandatory automatic sync to `k-context/references/issues.md` with full command/output transparency, plus Session Log cross-link discipline via issue IDs. |
-| [SUMMARY] | — | v2.9.2 `sui -r` homelab maintenance fallback; v2.9.4 header/changelog structure refresh; v2.9.1 insights discipline; v2.9.0 KpihX-Backup automount guarantee; v2.8.x cleanup generalization / screenshot / Ubuntu frequency; older in git history |
+| 2026-05-22 | [CODEX] | v2.9.7 — Audit-only changelog cap fix after `.agents` validation blocked on excess explicit rows. |
+| 2026-05-22 | [CURSOR] | v2.9.6 — Full workstation k-optim (`ISS-20260522-001`): transit purge, `clean_all -s -p -y`, UV/agent/QMD cleanup, audit cap fixes; non-interactive `y` pipe documented in Ubuntu LKS. |
+| [SUMMARY] | — | v2.9.5 homelab `hsh` path/backup doc/Telegram preference; v2.9.3 issues ledger sync; v2.9.2 `sui -r` fallback; v2.9.4 structure refresh; v2.9.1 insights; v2.9.0 backup automount; older in git history |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.1"
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
@@ -106,6 +106,9 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | Asset | Role |
 |-------|------|
 | `assets/tmux.conf` | Symlink → `$HOME/.tmux.conf` |
+| `assets/tmux-resurrect-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh` |
+| `assets/tmux-resurrect-restore.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh` |
+| `assets/tmux-continuum-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh` |
 
 Current KπX settings:
 
@@ -113,11 +116,50 @@ Current KπX settings:
 - wheel up → copy-mode scroll (not shell history)
 - wheel down → scroll down; `-e` exits copy-mode at bottom
 - `history-limit 50000` — large scrollback buffer
+- `tmux-resurrect` — saves/restores sessions, windows, panes, layouts, cwd, and pane text
+- `tmux-continuum` — auto-saves every 5 minutes and auto-restores when tmux starts
+- `@continuum-boot off` — no automatic tmux server boot service; start tmux manually after reboot
 
 Apply after edits:
 
 ```bash
-tmux source-file ~/.tmux.conf
+tmux source-file $HOME/.tmux.conf
+```
+
+## Persistence — resurrect + continuum
+
+Installed plugin paths:
+
+| Plugin | Path |
+|--------|------|
+| TPM | `$HOME/.tmux/plugins/tpm/` |
+| tmux-resurrect | `$HOME/.tmux/plugins/tmux-resurrect/` |
+| tmux-continuum | `$HOME/.tmux/plugins/tmux-continuum/` |
+
+Behavior:
+
+| Need | Mechanism |
+|------|-----------|
+| Manual save | `Ctrl-a Ctrl-s` (`tmux-resurrect`) |
+| Manual restore | `Ctrl-a Ctrl-r` (`tmux-resurrect`) |
+| Automatic save | every 5 minutes (`tmux-continuum`) |
+| Automatic restore | first tmux start after reboot (`@continuum-restore on`) |
+| Automatic tmux server boot | disabled (`@continuum-boot off`) |
+| Last pane display | captured via `@resurrect-capture-pane-contents on` |
+
+Scope:
+
+- Restores tmux sessions, windows/tabs, panes, layouts, current directories, and captured pane text.
+- Does **not** restore terminal emulator tabs outside tmux.
+- Does **not** restore shell command history for arrow-key navigation; shell history remains owned by zsh (`$HOME/.zsh_history` or any future zsh history split).
+- Captured pane text can include sensitive terminal output; avoid displaying secrets before a save.
+
+First restore after reboot:
+
+```bash
+tmux
+# Continuum auto-restore should run at startup if a previous save exists.
+# If needed: Ctrl-a Ctrl-r
 ```
 
 ## Sessions — Create, Enter, Switch, Delete
@@ -364,6 +406,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-22 | [ANTIGRAVITY] | v1.2.0 — Configured Ctrl-a prefix globally and updated documentation. |
-| 2026-05-18 | [AUTO] | v1.1.1 — Inlined full shared interactive gate in SKILL.md; removed `references/shared-interactive-gate.md`. |
-| [SUMMARY] | — | v1.1.0: Shared interactive gate (replaces `sui`); v1.0.0: baseline tmux skill, config symlink, cheatsheet. |
+| 2026-05-22 | [CODEX] | v1.3.1 — Changed tmux-continuum auto-save interval from 15 minutes to 5 minutes. |
+| 2026-05-22 | [CODEX] | v1.3.0 — Installed tmux-resurrect + tmux-continuum persistence; documented auto-save/restore and script symlinks. |
+| [SUMMARY] | — | v1.2.0: Ctrl-a prefix globally documented; v1.1.1: full shared interactive gate inlined; v1.1.0: shared interactive gate replaces `sui`; v1.0.0: baseline tmux skill, config symlink, cheatsheet. |

@@ -12,3 +12,9 @@ lancedb/
 # Python cache artifacts
 __pycache__/
 *.pyc
+
+# Vendor plugin trees (local install only; not kernel source)
+plugins/
+
+# Ephemeral Data Cloud skill manifest
+skills/.datacloud_skills_manifest

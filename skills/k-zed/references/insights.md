@@ -2,6 +2,14 @@
 
 Durable lessons for Zed agent hub work. Newest entries at the top.
 
+## 2026-05-22 — Archived agent threads: where they live + permanent purge
+
+- **Archive is a flag, not a move:** `sidebar_threads.archived = 1` in `$HOME/.local/share/zed/db/0-stable/db.sqlite`. Active sidebar rows use `archived = 0`.
+- **Message bodies:** `$HOME/.local/share/zed/threads/threads.db` (`threads` table, `data_type = zstd`, JSON inside). Session id = `threads.id` = `sidebar_threads.session_id`.
+- **Permanent purge:** `DELETE FROM sidebar_threads WHERE archived = 1` + `DELETE FROM threads WHERE id IN (...)` for those session ids, then `VACUUM` each DB (outside a transaction). Backup first to `$HOME/.local/share/zed/backups/`.
+- **External/ACP threads:** May exist only in `sidebar_threads` (no `threads.db` row) — still delete the sidebar row.
+- **Reload Zed** after manual purge so the Thread History / sidebar UI refreshes.
+
 ## 2026-05-22 — Venice model caps from live `/v1/models`
 
 - Source of truth for `max_tokens` / `max_completion_tokens` / tool+reasoning flags: `GET https://api.venice.ai/api/v1/models` with `VENICE_API_KEY`.

@@ -7,6 +7,12 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.8 — Envision slides split decks + clean LaTeX/Biber. *(Rotated from k-context Session Log — audit cap 2026-05-22.)* |
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.7 — Dell Fn Lock (Fn+Esc) media keys — `ISS-20260518-002`. *(Rotated 2026-05-22.)* |
+| 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — GNOME 50 KeepAwake patch — `ISS-20260518-001`. *(Rotated 2026-05-22.)* |
+| 2026-05-16 | [CURSOR] | v2.87.5 — Antigravity Open Cloud Continue bootstrap. *(Rotated 2026-05-22.)* |
+| 2026-05-16 | [CURSOR] | v2.87.3 — k-optim audit; backup-restore FAILED `ISS-20260516-001`. *(Rotated 2026-05-22.)* |
+| 2026-05-15 | [CURSOR] | v2.87.2 — AGENTS chat-visuals + kernel symlink layout. *(Rotated 2026-05-22.)* |
 | 2026-05-19 | [CODEX] | v2.88.1 — Logged read-only `/tmp`-based TD9 MNIST hyperparameter tuning session for `Python_2A_P3`. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-05-18 | [AUTO] | v2.88.0 — Header: short shared tmux rule; gate lives only in `k-tmux/SKILL.md`. *(Rotated from k-context Changelog — audit cap.)* |
 | 2026-05-14 | [CODEX] | v2.87.1 — `linux-file-masterclass`: scaffolded code-first Linux visual masterclass under `KpihX-Labs` (Remotion/React/D3, edge-tts, render pipeline). *(Rotated from k-context Session Log — audit cap.)* |
@@ -221,3 +227,5 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.42 — `bw-proxy` v3.6.0: Meticulous Test Suite completed successfully. Verified Scoped Union Fetch (no more orphaned items), fixed `collection_ids` creation bug, and confirmed blind refactoring stability. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime (Daemon Mode) implementation and verification. · `$HOME/Work/AI/MCPs/bw_mcp/` |
+| 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing; emptied media dirs. |
+| 2026-05-18 | [AUTO] | v2.87.9 — Frozen append-only logs; `sui` deprecated. |
