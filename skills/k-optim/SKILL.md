@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.7"
+  version: "2.9.8"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -56,9 +56,10 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ### Last Known State
 
-- **2026-05-22 full pass (`ISS-20260522-001`)**: `$HOME` ~165G→~147G; `/` **72%** (**74G** free). Transit dirs emptied (Downloads/Documents/Pictures/Desktop). Debris removed: bad dir `` `${XDG_STATE_HOME:-$HOME` ``, 44 screenshots, Cursor/Zed chat backups (~1.7G), `Work/X/ai_dispatcher/tmp` (~2.4G). `printf y… | clean_all.sh -s -p -y` + `uv cache clean` (~15G UV). Work `.venv` purged (1.15G — **run `uv sync`** in `Python_2A_P3` + `Optim_2A_P3`). Agents: Antigravity brain UUIDs pruned, Codex `sessions/2026/04` removed, `qmd cleanup` (index ~130MB). Docker **sudo** steps skipped (no TTY). `backup-restore` still FAILED — `ISS-20260516-001`.
-- cleanup stack: `$HOME/Work/sh/clean/` — `clean_editors.sh` wraps Code/Cursor/AGY; non-interactive: pipe `y` + `-y` on `clean_all.sh`
+- **2026-05-22 (post-kernel)**: `timeshift` **purged** (no snapshots on `nvme0n1p4` nor `sda1`; package removed; `/etc/timeshift` cleaned). `ISS-20260516-001` **RESOLVED** (16G backup SUCCESS). `Optim_2A_P3` `uv sync` **OK** after `libpangocairo` + `libpango1.0-dev` + `libcairo2-dev`. Homelab `sh/` pushed `189d3e2` → `gitlab:kpihx-labs/scripts`.
+- **2026-05-22 full pass (`ISS-20260522-001`)**: `$HOME` ~165G→~147G; `/` **72%** (**74G** free). Transit emptied; debris/Cursor/Zed/ai_dispatcher tmp; `clean_all.sh -s -p -y` + UV cache (~15G). Work `.venv` purged then re-synced.
 - **[SUMMARY]** Spring 2026: phoenix loop, automount KpihX-Backup, `_dg` safe-rm; older debris cycles in Script Log
+- cleanup stack: `$HOME/Work/sh/clean/` — `clean_editors.sh` wraps Code/Cursor/AGY; non-interactive: pipe `y` + `-y` on `clean_all.sh`
 
 ### Actions
 
@@ -267,6 +268,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-22 | [CURSOR] | v2.9.8 — Timeshift purged (no snapshots); Optim `uv sync` OK; Homelab `sh` push; backup ISS resolved noted in LKS. |
 | 2026-05-22 | [CODEX] | v2.9.7 — Audit-only changelog cap fix after `.agents` validation blocked on excess explicit rows. |
-| 2026-05-22 | [CURSOR] | v2.9.6 — Full workstation k-optim (`ISS-20260522-001`): transit purge, `clean_all -s -p -y`, UV/agent/QMD cleanup, audit cap fixes; non-interactive `y` pipe documented in Ubuntu LKS. |
-| [SUMMARY] | — | v2.9.5 homelab `hsh` path/backup doc/Telegram preference; v2.9.3 issues ledger sync; v2.9.2 `sui -r` fallback; v2.9.4 structure refresh; v2.9.1 insights; v2.9.0 backup automount; older in git history |
+| [SUMMARY] | — | v2.9.6 full k-optim (`ISS-20260522-001`); v2.9.5 homelab `hsh`/Telegram; v2.9.3 issues ledger; v2.9.2 `sui -r`; v2.9.1 insights; v2.9.0 automount; older in git history |
