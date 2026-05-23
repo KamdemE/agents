@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-23 | [GEMINI] | v2.89.4 — Display dimming and flickering mitigation (`ISS-20260515-001`): disabled auto-brightness under GNOME and prepared GRUB parameter addition in shared tmux session `display`. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
+| 2026-05-22 | [CURSOR] | v2.88.6 — Nautilus default file manager; Nemo purge pending sudo. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
+| 2026-05-22 | [CURSOR] | v2.88.5 — agy-hub.sh wrapper; Wayland X11; k-code v4.3.7. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CODEX] | v2.89.3 — Enabled tmux Linux login-start via `continuum-boot`; verified generated `tmux.service` and restored `default` session presence. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CODEX] | v2.89.0 — tmux-continuum auto-save interval changed to 5 minutes and verified live. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CURSOR] | v2.88.4 — AGY doc merge + AGENTS k-code row. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.5"
+  version: "2.89.6"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -67,7 +67,7 @@ allowed-tools: "Bash(*), *"
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **linux-file-masterclass** | 🟢 ACTIVE — code-first visual Linux masterclass scaffolded in `KpihX-Labs`: Remotion + React + D3 scenes, French narration generation, synchronized subtitles, and master render pipeline now exist under one repo-local workflow. | finish the first full master render, inspect the visual storytelling scene by scene, then push the grammar from “good animated explainer” toward “self-explanatory visual cinema” · `$HOME/KpihX-Labs/linux-file-masterclass/` |
-| **Project 𝛱** | 🟢 ACTIVE — Launched on 2026-05-23. Manifest established to accelerate toward $1B via AI-driven trial-and-error loop. | Iterate on first trial loops and leverage AI agents as catalysts. · `$HOME/KpihX-Labs/𝛱/` |
+| **Project 𝛱** | 🟢 ACTIVE — Launched on 2026-05-23. Manifest and CAPITAL.md established to accelerate toward $1B via AI-driven trial-and-error loop. | Iterate on first trial loops and leverage AI agents as catalysts. · `$HOME/KpihX-Labs/𝛱/` |
 | **Linguaskill 2026** | ✅ STABLE — Results received (Score 187, C1). Certificate renamed and archived in Gdrive_X. Official submission sent to DLC. | Validation successful. · `$HOME/Gdrive_X/KpihX/Academic/LinguaSkill/` |
 | **AGY ecosystem** | 🟢 ACTIVE — Hub launch fix: `agy-hub.sh` (`--no-sandbox` + X11 on Wayland); `k-code` v4.3.7. Sandbox 4755 OK. Optional: `apt remove antigravity`, refresh GNOME dash tiles. | `$HOME/.agents/skills/k-code/references/agy.md` |
 | **ai_dispatcher** | 🟢 ACTIVE — dispatcher now binds the default local Ollama endpoint (`127.0.0.1:11434`), selects X hosts by free GPU VRAM, self-cleans stale SSH tunnels, enforces a single local instance with `flock`, and exposes `SYNCING`/`READY` health states. | validate next relaunch reaches `READY` without timeout drift and keep bootstrap aligned to native tags only · `$HOME/Work/X/ai_dispatcher/` |
@@ -123,6 +123,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in KpihX-Labs/𝛱, aggregating financial, academic, hardware, digital, relational, and metaphysical capital. |
 | 2026-05-23 | [GEMINI] | v2.89.5 — Started Project 𝛱 in KpihX-Labs, established MANIFEST.md in English detailing the vision, philosophy, and execution strategies. |
 | 2026-05-23 | [GEMINI] | v2.89.4 — eDP display/backlight fix (`ISS-20260515-001`): disabled `ambient-enabled` and `idle-dim` via `gsettings`; prepared surgical GRUB configuration change (`i915.enable_psr=0`) and daemon restart in tmux session `display` awaiting password. |
 | 2026-05-22 | [CODEX] | v2.89.3 — `tmux-continuum` Linux boot/start fixed for real usage: `@continuum-boot on`, generated `$HOME/.config/systemd/user/tmux.service`, and verified `tmux ls` returns `default` after login-session startup. |
@@ -132,9 +133,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-05-22 | [CODEX] | v2.88.9 — `k-tmux` persistence enabled: TPM + tmux-resurrect + tmux-continuum installed, 15-minute auto-save, startup auto-restore, pane-content capture, and script symlinks documented; `.agents` audit ALL_OK after k-optim cap fix. |
 | 2026-05-22 | [CURSOR] | v2.88.8 — Full `k-optim` pass (`ISS-20260522-001`): home transit emptied, Cursor/Zed archive purges + backup dirs removed, `clean_all.sh -s -p -y`, Work `.venv` purge (1.1G), ai_dispatcher tmp (~2.4G), Antigravity brain + Codex Apr sessions pruned, `qmd cleanup`; homelab offline; audit drift fixed. |
 | 2026-05-22 | [CURSOR] | v2.88.7 — Cursor archived chat purge (119 threads) + Zed archived purge (20 sidebar / 11 threads.db); see `k-code`/`k-zed` insights. |
-| 2026-05-22 | [CURSOR] | v2.88.6 — Nautilus default file manager; Nemo purge pending sudo. |
-| 2026-05-22 | [CURSOR] | v2.88.5 — `agy-hub.sh` wrapper; Wayland X11; `k-code` v4.3.7. |
-| [SUMMARY] | — | v2.88.4, v2.88.2, v2.88.1 rotated to `references/log.md` 2026-05-23; v2.88.0 archived 2026-05-22; v2.87.9 archived 2026-05-22; older → `references/log.md` |
+| [SUMMARY] | — | v2.88.6, v2.88.5, v2.88.4, v2.88.2, v2.88.1 rotated to `references/log.md` 2026-05-23; v2.88.0 archived 2026-05-22; v2.87.9 archived 2026-05-22; older → `references/log.md` |
 
 ## References
 
@@ -157,6 +156,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in Project 𝛱 folder. |
 | 2026-05-23 | [GEMINI] | v2.89.5 — Launched Project 𝛱 and created manifest. |
-| 2026-05-23 | [GEMINI] | v2.89.4 — Display dimming and flickering mitigation (`ISS-20260515-001`): disabled auto-brightness under GNOME and prepared GRUB parameter addition in shared tmux session `display`. |
-| [SUMMARY] | — | v2.89.3 rotated to `references/log.md` 2026-05-23; v2.89.0 rotated 2026-05-23; v2.88.9 tmux persistence documented and audit ALL_OK; v2.88.8 Full k-optim workstation pass (`ISS-20260522-001`); v2.88.7 Cursor/Zed archived purge; older → `references/log.md` |
+| [SUMMARY] | — | v2.89.4 rotated to `references/log.md` 2026-05-23; v2.89.3 rotated to `references/log.md` 2026-05-23; v2.89.0 rotated 2026-05-23; v2.88.9 tmux persistence documented and audit ALL_OK; v2.88.8 Full k-optim workstation pass (`ISS-20260522-001`); v2.88.7 Cursor/Zed archived purge; older → `references/log.md` |
