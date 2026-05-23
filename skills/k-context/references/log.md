@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-22 | [CODEX] | v2.89.3 — Enabled tmux Linux login-start via `continuum-boot`; verified generated `tmux.service` and restored `default` session presence. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CODEX] | v2.89.0 — tmux-continuum auto-save interval changed to 5 minutes and verified live. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CURSOR] | v2.88.4 — AGY doc merge + AGENTS k-code row. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
 | 2026-05-20 | [CURSOR] | v2.88.2 — Noisy-PC triage (`ISS-20260520-001`). *(Rotated 2026-05-23.)* |
