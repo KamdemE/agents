@@ -7,6 +7,11 @@ New entries are added here when the main k-context `## Session Log` section reac
 ---
 
 | Date | Agent | Entry |
+|---|---|---|
+| 2026-05-22 | [CODEX] | v2.89.0 — tmux-continuum auto-save interval changed to 5 minutes and verified live. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
+| 2026-05-22 | [CURSOR] | v2.88.4 — AGY doc merge + AGENTS k-code row. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
+| 2026-05-20 | [CURSOR] | v2.88.2 — Noisy-PC triage (`ISS-20260520-001`). *(Rotated 2026-05-23.)* |
+| 2026-05-19 | [CODEX] | v2.88.1 — MNIST TD9 tuning read-only from `/tmp`. *(Rotated 2026-05-23.)* |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.8 — Envision slides split decks + clean LaTeX/Biber. *(Rotated from k-context Session Log — audit cap 2026-05-22.)* |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.7 — Dell Fn Lock (Fn+Esc) media keys — `ISS-20260518-002`. *(Rotated 2026-05-22.)* |
 | 2026-05-18 | [ANTIGRAVITY] | v2.87.6 — GNOME 50 KeepAwake patch — `ISS-20260518-001`. *(Rotated 2026-05-22.)* |
