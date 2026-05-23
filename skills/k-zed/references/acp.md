@@ -39,8 +39,8 @@ Registry build wins over legacy agent-server extensions when both exist.
     },
     "agy": {
       "type": "custom",
-      "command": "$HOME/.local/share/antigravity-hub/resources/bin/language_server",
-      "args": ["-enable_lsp"]
+      "command": "sh",
+      "args": ["-c", "exec $HOME/.local/share/antigravity-hub/resources/bin/language_server -enable_lsp"]
     }
   }
 }
