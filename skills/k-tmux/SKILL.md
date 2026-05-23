@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.1"
+  version: "1.4.0"
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
@@ -118,7 +118,7 @@ Current KπX settings:
 - `history-limit 50000` — large scrollback buffer
 - `tmux-resurrect` — saves/restores sessions, windows, panes, layouts, cwd, and pane text
 - `tmux-continuum` — auto-saves every 5 minutes and auto-restores when tmux starts
-- `@continuum-boot off` — no automatic tmux server boot service; start tmux manually after reboot
+- `@continuum-boot on` — tmux-continuum generates `$HOME/.config/systemd/user/tmux.service` for user-session startup on Linux
 
 Apply after edits:
 
@@ -144,7 +144,7 @@ Behavior:
 | Manual restore | `Ctrl-a Ctrl-r` (`tmux-resurrect`) |
 | Automatic save | every 5 minutes (`tmux-continuum`) |
 | Automatic restore | first tmux start after reboot (`@continuum-restore on`) |
-| Automatic tmux server boot | disabled (`@continuum-boot off`) |
+| Automatic tmux server boot | enabled at user login via `systemd --user` (`@continuum-boot on`) |
 | Last pane display | captured via `@resurrect-capture-pane-contents on` |
 
 Scope:
@@ -153,6 +153,7 @@ Scope:
 - Does **not** restore terminal emulator tabs outside tmux.
 - Does **not** restore shell command history for arrow-key navigation; shell history remains owned by zsh (`$HOME/.zsh_history` or any future zsh history split).
 - Captured pane text can include sensitive terminal output; avoid displaying secrets before a save.
+- On Linux, `@continuum-boot on` creates `$HOME/.config/systemd/user/tmux.service` and starts the tmux server when the user session starts. This is user-login startup, not pre-login system boot.
 
 First restore after reboot:
 
@@ -406,6 +407,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-22 | [CODEX] | v1.4.0 — Enabled `@continuum-boot on`; verified generated `systemd --user` tmux service and Linux login-start behavior. |
 | 2026-05-22 | [CODEX] | v1.3.1 — Changed tmux-continuum auto-save interval from 15 minutes to 5 minutes. |
-| 2026-05-22 | [CODEX] | v1.3.0 — Installed tmux-resurrect + tmux-continuum persistence; documented auto-save/restore and script symlinks. |
-| [SUMMARY] | — | v1.2.0: Ctrl-a prefix globally documented; v1.1.1: full shared interactive gate inlined; v1.1.0: shared interactive gate replaces `sui`; v1.0.0: baseline tmux skill, config symlink, cheatsheet. |
+| [SUMMARY] | — | v1.3.0 installed resurrect+continuum and script symlinks; v1.2.0 Ctrl-a prefix documented; v1.1.1 full shared interactive gate inlined; v1.1.0 shared interactive gate replaces `sui`; v1.0.0 baseline tmux skill. |

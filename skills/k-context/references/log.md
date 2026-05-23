@@ -229,3 +229,4 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-27 | [ANTIGRAVITY] | v2.85.41 — `bw-proxy` v3.5.0: Persistent Runtime (Daemon Mode) implementation and verification. · `$HOME/Work/AI/MCPs/bw_mcp/` |
 | 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing; emptied media dirs. |
 | 2026-05-18 | [AUTO] | v2.87.9 — Frozen append-only logs; `sui` deprecated. |
+| 2026-05-18 | [AUTO] | v2.88.0 — Shared tmux gate in `k-tmux`. |

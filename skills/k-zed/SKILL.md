@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.1"
+  version: "1.1.2"
   scope: agent-runtime
   target-agent: zed
 allowed-tools: Bash, Read, Write, Edit
@@ -113,6 +113,6 @@ When the workspace root contains `.agents/AGENTS.md`, treat it as **project rule
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-23 | [GEMINI] | v1.1.2 — Custom ACP agent `agy` (Antigravity language server) added in settings and documented in references. |
 | 2026-05-22 | [CURSOR] | v1.1.1 — `references/insights.md`: archived-thread purge map (`sidebar_threads` + `threads.db`, backups under `backups/`). |
-| 2026-05-22 | [CURSOR] | v1.1.0 — Venice model roster + `favorite_models`; `references/settings.md` + `assets/settings.json` symlink via `scripts/sync_zed_settings.sh`. |
-| [SUMMARY] | — | v1.0.3 custom MCP `command`/`args` shape; v1.0.2 JSONC; v1.0.1 setup symlinks; v1.0.0 initial structure. |
+| [SUMMARY] | — | v1.1.0 Venice model roster + `favorite_models` (settings.json symlink); v1.0.3 custom MCP; v1.0.2 JSONC; v1.0.1 setup symlinks; v1.0.0 initial structure. |

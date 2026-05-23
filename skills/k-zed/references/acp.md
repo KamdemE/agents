@@ -36,6 +36,11 @@ Registry build wins over legacy agent-server extensions when both exist.
       "command": "node",
       "args": ["$HOME/projects/agent/index.js", "--acp"],
       "env": {}
+    },
+    "agy": {
+      "type": "custom",
+      "command": "$HOME/.local/share/antigravity-hub/resources/bin/language_server",
+      "args": ["-enable_lsp"]
     }
   }
 }
@@ -85,6 +90,7 @@ Registry build wins over legacy agent-server extensions when both exist.
 | **gemini** | `$HOME/.gemini/` | `GEMINI.md` |
 | **cursor** | `$HOME/.cursor/` | rules, `cli-config.json` |
 | **github-copilot-cli** | `$HOME/.copilot/` | `copilot-instructions.md` |
+| **agy** | `$HOME/.gemini/antigravity/` | `AGENTS.md` |
 
 Authentication in Zed is **separate** from Zed hosted models:
 

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.2"
+  version: "2.89.3"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -122,6 +122,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-22 | [CODEX] | v2.89.3 — `tmux-continuum` Linux boot/start fixed for real usage: `@continuum-boot on`, generated `$HOME/.config/systemd/user/tmux.service`, and verified `tmux ls` returns `default` after login-session startup. |
 | 2026-05-22 | [CURSOR] | v2.89.2 — Kernel finalize: `ISS-20260516-001` RESOLVED (backup 16G SUCCESS); k-optim/k-tmux/k-code/k-zed session; `.agents` audit ALL_OK → push. |
 | 2026-05-22 | [CURSOR] | v2.89.1 — HDD backup path verified (sda1 mounted); `hsh install` + `hsh`→`kpihx-pve`/`homelab`; `~/.ssh/config` `homelab` ProxyJump→`kpihx-pve`; backup started via tmux sudo. |
 | 2026-05-22 | [CODEX] | v2.89.0 — `tmux-continuum` auto-save interval changed from 15 minutes to 5 minutes; active tmux config reloaded and verified (`@continuum-save-interval=5`). |
@@ -133,8 +134,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-05-22 | [CURSOR] | v2.88.4 — AGY doc merge + AGENTS `k-code` row. |
 | 2026-05-20 | [CURSOR] | v2.88.2 — Noisy-PC triage (`ISS-20260520-001`). |
 | 2026-05-19 | [CODEX] | v2.88.1 — MNIST TD9 tuning read-only from `/tmp`. |
-| 2026-05-18 | [AUTO] | v2.88.0 — Shared tmux gate in `k-tmux`. |
-| [SUMMARY] | — | v2.87.9 archived 2026-05-22; v2.87.8–v2.87.3 Envision/AGY/k-optim/AGENTS rows rotated to `references/log.md` 2026-05-22; v2.87.4 archived 2026-05-22; v2.87.1 linux-file-masterclass; older → `references/log.md` |
+| [SUMMARY] | — | v2.88.0 archived 2026-05-22; v2.87.9 archived 2026-05-22; v2.87.8–v2.87.3 Envision/AGY/k-optim/AGENTS rows rotated to `references/log.md` 2026-05-22; v2.87.4 archived 2026-05-22; v2.87.1 linux-file-masterclass; older → `references/log.md` |
 
 ## References
 
@@ -157,6 +157,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-22 | [CODEX] | v2.89.3 — Enabled tmux Linux login-start via `continuum-boot`; verified generated `tmux.service` and restored `default` session presence. |
 | 2026-05-22 | [CODEX] | v2.89.0 — tmux-continuum auto-save interval changed to 5 minutes and verified live. |
-| 2026-05-22 | [CODEX] | v2.88.9 — tmux persistence enabled and documented in `k-tmux`; `.agents` audit ALL_OK. |
-| [SUMMARY] | — | v2.88.8 Full k-optim workstation pass (`ISS-20260522-001`); v2.88.7 Cursor/Zed archived purge; v2.88.6 Nautilus; v2.88.5 agy-hub; v2.88.4 AGY doc; v2.88.2 thermal; v2.88.1 MNIST; v2.88.0 tmux; older → `references/log.md` |
+| [SUMMARY] | — | v2.88.9 tmux persistence documented and audit ALL_OK; v2.88.8 Full k-optim workstation pass (`ISS-20260522-001`); v2.88.7 Cursor/Zed archived purge; v2.88.6 Nautilus; v2.88.5 agy-hub; v2.88.4 AGY doc; v2.88.2 thermal; v2.88.1 MNIST; v2.88.0 tmux; older → `references/log.md` |
