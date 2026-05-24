@@ -1,16 +1,22 @@
 ---
 name: k-drive
-description: Google Drive operational memory — `Gdrive_X` mapped structure and `Gdrive` TODO baseline for discovery and retrieval workflows.
+description: >
+  Google Drive tree memory — Gdrive_X/Gdrive paths and retrieval rules on rclone mounts.
+  Part of k-google file layer (k-rclone → k-drive). Load for folder semantics and discovery.
 license: private
 metadata:
   author: KpihX
-  version: "1.2.6"
+  version: "1.2.8"
 allowed-tools: Bash(*), Read(*), Glob(*), rg(*)
 ---
 
-# Tool Memory — Drive (k-drive)
+# KπX — Drive (local tree memory)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Google **file layer** on FUSE mounts: **`k-google`** → **`k-rclone`** → **this skill** · Workspace API → **`gws`** · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
 
 ## Identity Snapshot
 
@@ -114,6 +120,5 @@ TODO:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-04 | [ANTIGRAVITY] | v1.2.6 — Recorded the move of `LinguaSkill/` from `X/2A/` to `KpihX/Academic/` for personal record centralization. |
-| 2026-05-03 | [CODEX] | v1.2.5 — Updated the `Gdrive_X` physical map after the completed migration and residual duplicate cleanup. |
-| [SUMMARY] | — | v1.2.4 symlink preflight failure; v1.2.3 target tree-view document registration; v1.2.2 high-signal root correction; v1.2.1 physical map correction + linked state/proposal docs; v1.2.0 Sovereign 01-05 target model; v1.1.0 scanned-PDF fallback + mount-safe traversal; v1.0.1 insights discipline; v1.0.0 initial map; v0.0.0 skill initialized |
+| 2026-05-25 | [CURSOR] | v1.2.8 — Cloud-hub routing; title aligned with k-google/k-rclone stack. |
+| [SUMMARY] | — | v1.2.7 Health folder topology; v1.2.6 LinguaSkill path; v1.2.5 Gdrive_X migration map; older → `references/log.md` |

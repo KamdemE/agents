@@ -83,6 +83,9 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-code` | VS Code-family hub — Code/Cursor/**Antigravity** (`agy`, `agy-ide`, `agy-hub`), profiles, sync scripts; AGY detail → `k-code/references/agy.md` |
 | `k-copilot` | MCPs for Copilot |
 | `k-vibe` | MCPs for VIBE |
+| `k-cloud-tools` | Cloud/productivity **routing hub** — map: `k-cloud-tools/references/cloud-hub.md`; edge: Cloudflare, Tailscale |
+| `k-google` | Google Cloud container (`gcloud`) + Workspace content (`gws`); see also `k-rclone`, `k-drive` |
+| `k-microsoft` | Azure container (`az`) + Microsoft 365 content (`m365` CLI only); mail briefings → `k-mail` |
 | `k-rclone` | Adding cloud remotes, rclone mount setup, systemd service |
 | `k-drive` | Google Drive structure discovery (`Gdrive_X`, `Gdrive`) and document retrieval workflows |
 | `k-ai` | k-ai runtime memory and operating notes |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.8"
+  version: "2.9.9"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -64,7 +64,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 ### Actions
 
 1. Start with analysis:
-   - run `ksh status` for a global health audit (Clean/Backup/Vault)
+   - run `ksh status` for a global health audit (Clean/Backup/Vault/**QMD**)
    - run `systemctl list-timers` to see next/last runs and their concrete frequency
    - run `make -C $HOME/Work/sh/clean log-scan` for the last workspace scan report
    - run `ksh backup status` to check the current safety window
@@ -199,7 +199,8 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
-- **2026-05-22**: `make -C $HOME/.agents audit` => **ALL_OK** after changelog/session-log cap fixes (`k-code`, `k-context`, `k-workspace`, `k-zed`). QMD index vacuumed; presentation collection shows 0 files (re-index if needed).
+- **2026-05-24**: QMD drift gate live — `check_collections.sh` in `k-qmd/scripts/`; wired to `auto_clean.sh` (Telegram block) + `ksh status`. Catches `MISSING_PATH` and `EMPTY_INDEX` (e.g. presentation `KpihX_Labs` typo → 0 files).
+- **2026-05-22**: `make -C $HOME/.agents audit` => **ALL_OK** after changelog/session-log cap fixes. QMD presentation re-indexed after path fix.
 - **2026-05-16**: `make -C $HOME/.agents audit` => `ALL_OK` after k-optim read cycle [CURSOR]
 - governance stack is stable: hooks, shared guards, `AGENTS.md`, and key `k-*` skills stay aligned with `make -C $HOME/.agents audit` / `make -C $HOME/.agents help` as the operational entrypoints
 - `AGENTS.md` must stay synchronized with the actual hook contract under `$HOME/.agents/hooks/`; wording/behavior divergence = governance drift
@@ -222,6 +223,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
    - commit and `make -C $HOME/.agents push`
 3. Recheck QMD cleanliness:
    - start with `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md`
+   - run `$HOME/.agents/skills/k-qmd/scripts/check_collections.sh` (also runs in `auto_clean.sh` + `ksh status`)
    - inspect `qmd collection list`
    - inspect `qmd ls <collection>` for suspected noisy collections
    - if patterns drift, edit `$HOME/.config/qmd/index.yml`, then run `qmd update <collection>`
@@ -245,6 +247,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-24 | Meta/QMD | `check_collections.sh` + auto_clean/ksh wiring | Path-drift gate: MISSING_PATH + EMPTY_INDEX; Telegram alert on weekly cleanup |
 | 2026-05-22 | Ubuntu/Agents/Meta | Full k-optim (`ISS-20260522-001`) | ~18G `$HOME` reclaim; transit empty; `clean_all -s -p -y`; venvs purged; governance ALL_OK; homelab offline |
 | 2026-05-16 | Meta/Ubuntu/Homelab | k-optim audit (read-only) | `make -C $HOME/.agents audit` ALL_OK; `ksh status` shows clean OK / backup FAILED (`ISS-20260516-001`); `hsh` path corrected in skill SOT; PVE+LXC offline from workstation; home transit dirs still over policy on Downloads/Documents/Pictures |
 | 2026-04-06 | Agents | AI History Purge | Pruned ~412MB of Codex and Vibe history |
@@ -268,6 +271,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-24 | [CURSOR] | v2.9.9 — QMD `check_collections.sh` health gate; wired into `auto_clean.sh` + `ksh status`; presentation path fix noted in Meta LKS. |
 | 2026-05-22 | [CURSOR] | v2.9.8 — Timeshift purged (no snapshots); Optim `uv sync` OK; Homelab `sh` push; backup ISS resolved noted in LKS. |
-| 2026-05-22 | [CODEX] | v2.9.7 — Audit-only changelog cap fix after `.agents` validation blocked on excess explicit rows. |
-| [SUMMARY] | — | v2.9.6 full k-optim (`ISS-20260522-001`); v2.9.5 homelab `hsh`/Telegram; v2.9.3 issues ledger; v2.9.2 `sui -r`; v2.9.1 insights; v2.9.0 automount; older in git history |
+| [SUMMARY] | — | v2.9.7 audit changelog cap fix; v2.9.6 full k-optim (`ISS-20260522-001`); v2.9.5 homelab `hsh`/Telegram; v2.9.3 issues ledger; v2.9.2 `sui -r`; v2.9.1 insights; v2.9.0 automount; older in git history |

@@ -25,6 +25,7 @@ Purpose: durable behavioral memory to improve proactive planning support and red
 - **Exam/Certification Annotation:** For proctored exam tasks, always include the technical support number and a specific "Environment Warning" if native hardware/OS constraints exist (e.g., "No Linux support"). Add Gdrive archival links for manuals/installers directly in the task content.
 - **Course Duo-Task Pattern:** For academic projects with both a submission (Rendu) and an oral (Soutenance), create two separate tasks in `📅 Agenda`. The Rendu task should target the submission deadline (e.g., 23:59), while the Soutenance task tracks the precise oral slot. Cross-link both to a master course note in `📒 Notes` for centralized official instructions.
 - **Checklist Allocation:** Distribute "Action Checklist" items logically: Rendu focuses on mechanics (verify Moodle, binôme confirmation), while Soutenance focuses on performance (pitch prep, anticipating questions).
+- **KπX Fit routines (2026-05-24):** Live in TickTick — habits `6a1348188f08f2bcaa062803` (corde SU–FR @20:00), `6a13481a8f08ad5614a0fd1e` (pompes SU/TU/TH), `6a13481b8f08462348acb467` (gainage MO/WE/FR); task `6a13481c8f08c8446a993bf1` Sat **05:30 + 05:45** `🏥 Santé`. Stack habits @20:00; bike task morning only.
 
 ## Tooling Patterns
 

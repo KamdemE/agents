@@ -6,6 +6,8 @@ Purpose: detailed runtime execution log for TickTick operations (different from 
 
 | Timestamp (UTC) | Agent | Channel | Action | Inputs | Outcome | IDs / Links | Notes |
 |-----------------|-------|---------|--------|--------|---------|-------------|-------|
+| 2026-05-25T12:00:00Z | [CURSOR] | tick-mcp stdio | `delete_task` | Arpajon / épargne solidaire SG | success; query `Arpajon` → 0 | deleted `688732ff5250a58891d35736`; project `69ab43b38f088245a47b5f75` | KπX requested removal |
+| 2026-05-24T18:49:00Z | [CURSOR] | tick-mcp stdio | `create_habit`×3, `create_task`, `update_task`, `habit_checkin`×2 | KπX Fit; Sat 05:30/05:45 | verified `list_habits` + `get_task_detail` | habits `6a134818…803/…fd1e/…b467`; task `6a13481c8f08c8446a993bf1`; project `🏥 Santé` | Sun 20260524 corde+pompes check-in |
 | 2026-04-08T11:20:00Z | [CODEX] | tick-mcp http | `week_overview` | days=7 | overview returned | n/a | planning snapshot |
 | 2026-04-08T11:20:10Z | [CODEX] | tick-mcp http | `tasks_of_today` | local_date=today | tasks returned | task ids | daily execution view |
 | 2026-04-08T11:20:15Z | [CODEX] | tick-mcp http | `events_of_today` | local_date=today | events returned | event ids | daily calendar view |
@@ -48,5 +50,5 @@ Purpose: detailed runtime execution log for TickTick operations (different from 
 | 2026-05-23T16:35:18Z | [ANTIGRAVITY] | tick-mcp stdio | `update_task` | task_id=`6a11d4a88f08ad561483eb9b` (Anglais) | success | id=`6a11d4a88f08ad561483eb9b` | Updated English exam room assignment to T6 and set custom reminders. |
 | 2026-05-23T16:37:15Z | [ANTIGRAVITY] | tick-mcp stdio | `delete_task` | task_id=`69bd06d88f087c9e10117c54` | success | id=`69bd06d88f087c9e10117c54` | Deleted generic duplicate English exam task to clean up TickTick. |
 | 2026-05-23T16:37:21Z | [ANTIGRAVITY] | tick-mcp stdio | `delete_task` | task_id=`69fb54268f08eac4ea3ed588` | success | id=`69fb54268f08eac4ea3ed588` | Deleted duplicate English Final Exam task to clean up TickTick. |
-
+| 2026-05-24T05:39:35Z | [CURSOR] | tick-mcp stdio | `create_task` | project=`🏠 Persos/📋 Administratif`; due=2027-05-01; reminders=[7d,1d,1h] | success | id=`6a128f178f08ad5614908a2c` | CSS renewal reminder 1 month before 2027-05-31 expiry; read-back verified via `get_task_detail`. |
 

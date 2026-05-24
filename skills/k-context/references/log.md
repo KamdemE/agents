@@ -8,6 +8,13 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-24 | [CODEX] | v2.89.18 — `𝛱/live` V1 proof skeleton: math/info/AI capability registry, pedagogy path, conductor schedule, concept canvas, `POSITIONING.md`, and VNext archive. · `$HOME/KpihX-Labs/𝛱/live/` *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.17 — `health.md`: paracetamol provenance fixed (PDF-only); parasitaemia dates sourced to `Resultat_Medical`; audit caps restored across kernel skills. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.16 — GHNE images visually inspected and renamed; `health.md` paths updated. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.15 — `KpihX/Fr/Health/` reorg: removed `Health_FR_` prefix (24 files), 4 subfolders + `_Review/`. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.14 — CSS attestation archived; TickTick renewal reminder; VS Code `.deb` pending sudo in tmux `apt`. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.13 — QMD `check_collections.sh` health gate wired into `auto_clean.sh` + `ksh status`. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-24 | [CURSOR] | v2.89.12 — QMD `presentation` collection repaired (`KpihX_Labs` → `KpihX-Labs`); 43 files reindexed. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-23 | [GEMINI] | v2.89.4 — Display dimming and flickering mitigation (`ISS-20260515-001`): disabled auto-brightness under GNOME and prepared GRUB parameter addition in shared tmux session `display`. *(Rotated from k-context Changelog — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CURSOR] | v2.88.6 — Nautilus default file manager; Nemo purge pending sudo. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
 | 2026-05-22 | [CURSOR] | v2.88.5 — agy-hub.sh wrapper; Wayland X11; k-code v4.3.7. *(Rotated from k-context Session Log — audit cap 2026-05-23.)* |
@@ -231,6 +238,16 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-02 | [CODEX] | v2.85.75 — `Gdrive_X`: completed exhaustive read-only inventory and wrote full state/proposal documents for the academic-professional reorganization. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.85.73 — `TickTick Tasks`: Created tracking tasks and reminders for PA X24 (deadline/opening) and Prix Gerondeau. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.85.72 — `PA X24`: Created initial tracking project and updated k-mail/SKILL.md. |
+| 2026-05-23 | [GEMINI] | v2.89.5 — Started Project 𝛱 in KpihX-Labs, established MANIFEST.md in English detailing the vision, philosophy, and execution strategies. |
+| 2026-05-24 | [CURSOR] | v2.89.7 — 𝛱 `live/` scaffold: `VISION.md`, `ARCHITECTURE.md`, moved `SCENE_IR.md`. |
+| 2026-05-23 | [GEMINI] | v2.89.4 — eDP display/backlight fix (`ISS-20260515-001`): disabled `ambient-enabled` and `idle-dim` via `gsettings`; prepared surgical GRUB configuration change (`i915.enable_psr=0`) and daemon restart in tmux session `display` awaiting password. |
+| 2026-05-22 | [CODEX] | v2.89.3 — `tmux-continuum` Linux boot/start fixed for real usage: `@continuum-boot on`, generated `$HOME/.config/systemd/user/tmux.service`, and verified `tmux ls` returns `default` after login-session startup. |
+| 2026-05-22 | [CURSOR] | v2.89.2 — Kernel finalize: `ISS-20260516-001` RESOLVED (backup 16G SUCCESS); k-optim/k-tmux/k-code/k-zed session; `.agents` audit ALL_OK → push. |
+| 2026-05-22 | [CURSOR] | v2.89.1 — HDD backup path verified (sda1 mounted); `hsh install` + `hsh`→`kpihx-pve`/`homelab`; `~/.ssh/config` `homelab` ProxyJump→`kpihx-pve`; backup started via tmux sudo. |
+| 2026-05-22 | [CODEX] | v2.89.0 — `tmux-continuum` auto-save interval changed from 15 minutes to 5 minutes; active tmux config reloaded and verified (`@continuum-save-interval=5`). |
+| 2026-05-22 | [CODEX] | v2.88.9 — `k-tmux` persistence enabled: TPM + tmux-resurrect + tmux-continuum installed, 15-minute auto-save, startup auto-restore, pane-content capture, and script symlinks documented; `.agents` audit ALL_OK after k-optim cap fix. |
+| 2026-05-22 | [CURSOR] | v2.88.8 — Full `k-optim` pass (`ISS-20260522-001`): home transit emptied, Cursor/Zed archive purges + backup dirs removed, `clean_all.sh -s -p -y`, Work `.venv` purge (1.1G), ai_dispatcher tmp (~2.4G), Antigravity brain + Codex Apr sessions pruned, `qmd cleanup`; homelab offline; audit drift fixed. |
+| 2026-05-22 | [CURSOR] | v2.88.7 — Cursor archived chat purge (119 threads) + Zed archived purge (20 sidebar / 11 threads.db); see `k-code`/`k-zed` insights. |
 | *(entries will accumulate here as k-context Session Log is compacted)* | | |
 
 | 2026-04-09 | [CURSOR] | v2.74.47 — Outlook cleanup pass finalized in `.agents` flow: m365 Graph bulk archive (`Inbox` → `Archive`) with `$batch` (2126 moved, Inbox=0), plus `k-mail/references` runtime updates (log + insights), and session finalization prep (`make audit`, commit, push). · `$HOME/.agents/skills/k-mail/` |
@@ -239,3 +256,5 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-16 | [CURSOR] | v2.87.4 — Transit purge + Gdrive_X filing; emptied media dirs. |
 | 2026-05-18 | [AUTO] | v2.87.9 — Frozen append-only logs; `sui` deprecated. |
 | 2026-05-18 | [AUTO] | v2.88.0 — Shared tmux gate in `k-tmux`. |
+| 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in KpihX-Labs/𝛱. |
+| 2026-05-24 | [CURSOR] | v2.89.9 — **live** v0.1.0 init: Homelab repo, CI, dual push `kpihx-labs/live`. |

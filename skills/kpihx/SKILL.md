@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.7.3"
   scope: personal-os
 ---
 
@@ -75,6 +75,7 @@ metadata:
 | Relationships | [relationships.md](references/relationships.md) | Friendship topology, reciprocity, mirrors, debate ethic, love geometry. |
 | Manuscript corpus | [manuscripts.md](references/manuscripts.md) | Childhood-to-2024 handwritten archive, developmental evidence, raw continuity of style. |
 | Creative flow | [creative_flow.md](references/creative_flow.md) | Piano, music, sports, cycling, badminton, flow states. |
+| Fitness rhythm | [fit.md](references/fit.md) | Fun cycling comeback (Cyclers), Saturday Leclerc ritual, rope + core plan, belly-care habits. |
 | Projects & long vision | [projects_vision.md](references/projects_vision.md) | ScienCurious Lab, sovereignty, AI mission, consulting/entrepreneurship. |
 | Public footprint | [digital_footprint.md](references/digital_footprint.md) | Handles, profiles, package registries, sites, public mentions, repo themes. |
 | Official document index | [legal.md](references/legal.md) | Secure path map to the complete local records. |
@@ -111,6 +112,9 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-24 | [CURSOR] | v2.7.3 — `fit.md` v3: day-0 Sun, pair/impair push vs 1 min gainage, CROUS commute baseline, TickTick habit map. |
+| 2026-05-24 | [CURSOR] | v2.7.2 — `fit.md` daily stack: rope–bridge (push from 1 rep / gainage rotation)–rope–butterfly abs ×20. |
+| 2026-05-24 | [CURSOR] | v2.7.1 — Added `references/fit.md` (fun fitness comeback: Cyclers baseline, 20 km/week, rope 2×100 + core companions) and Cyclers stat assets under `assets/fitness/`. |
 | 2026-05-06 | [ANTIGRAVITY] | v2.7.0 — `X Knowledge Base`: Created `references/x.md` and established the mandatory "X-Reflex" for autonomous maintenance of institutional data. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.6.3 — `Identity Registry Update`: Registered digital signature path in `identity.md` and `SKILL.md`. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.6.2 — `Administrative Registry Update`: Injected CAF allocataire number `8006862 C` into `identity.md` registry. |

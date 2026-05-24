@@ -6,6 +6,7 @@
 
 | ISO date (UTC) | Agent | Action | Outcome |
 |----------------|-------|--------|---------|
+| 2026-05-25 | [CURSOR] | Ingest Lebara eSIM PDF | `tg user download @kpihx_general_capture_bot 7991` → `$HOME/Gdrive_X/KpihX/Phone_Lebara/eSIM_Lebara_ML045066180_KAMDEM_Ivann_20260525.pdf`; `k-tg` default-bot rule v3.2.11. |
 | 2026-04-25 | [ANTIGRAVITY] | BotFather `/setname` | Renamed Sentinel back to **Homelab**. |
 | 2026-04-25 | [ANTIGRAVITY] | BotFather `/setname` + broadcast | Renamed Whats→Whatsapp, Tick→Ticktick; broadcasted "Hi! [timestamp]" to all 11 infra bots. |
 | 2026-04-25 | [ANTIGRAVITY] | BotFather `/deletebot` + `/setname` | Deleted `@kflow_ubuntu_bot` and renamed `@kflow_homelab_bot` to **Flow**. |

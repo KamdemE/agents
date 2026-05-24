@@ -4,6 +4,7 @@
 
 ## Capture bots
 
+- **Default bot (unspecified send):** when KπX says *send/envoi/forward to the bot* without naming one → **`@kpihx_general_capture_bot`** (display **KpihX**, alias `general`). **Issues** only when explicitly named.
 - **Display names (Telegram):** **General** and **Issues** — `@kpihx_general_capture_bot` / `@kpihx_issues_capture_bot` are unchanged unless Bot Support renames handles.
 - **Vault / bw-env:** store API tokens as **`TELEGRAM_GENERAL_TOKEN`** and **`TELEGRAM_ISSUES_TOKEN`** → `tg` aliases **`general`** and **`issues`** (auto-discovered).
 - **First DM:** use `@username` with `tg user send` (numeric bot id may not resolve until entity cache warms).
@@ -18,7 +19,7 @@
 
 ## Media
 
-- **`tg user read`** surfaces media as `[Type]` placeholders — for PDF/photo **ingestion**, combine **`tg updates --bot <alias>`** (Bot API) with a small **getFile** download into `$TMPDIR/k-tg/<run-id>/`, or extend the `tg` tool when a subcommand exists.
+- **`tg user read`** surfaces media as `[Type]` placeholders — for PDF/photo **ingestion**, use **`tg user download @kpihx_general_capture_bot <msg_id> -o /tmp/k-tg/<run-id>/`** (works without bot token in env). Bot API path: **`tg updates --download-media`** when `TELEGRAM_GENERAL_TOKEN` is loaded.
 
 ## What’s up — implementation gate
 

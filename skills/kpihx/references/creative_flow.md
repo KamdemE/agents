@@ -45,6 +45,8 @@ Music is treated here as an existential regulator: a medium for introspection, e
 
 ### Cycling
 
+> **Active comeback plan:** see [fit.md](fit.md) for 2026 rhythm (≥20 km/week, Saturday Leclerc ritual, Cyclers targets).
+
 | Item | Value | Provenance |
 | --- | --- | --- |
 | Practice age | About `1 year + 3 months` at prompt time | `[SELF-REPORT 2026-04-18]` |

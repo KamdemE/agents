@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.4.1"
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
@@ -407,6 +407,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-24 | [CURSOR] | v1.4.1 — Documented `𝛱/live` tmux session layout (`ops` / `brain` / `web`) in `references/insights.md`. |
 | 2026-05-22 | [CODEX] | v1.4.0 — Enabled `@continuum-boot on`; verified generated `systemd --user` tmux service and Linux login-start behavior. |
-| 2026-05-22 | [CODEX] | v1.3.1 — Changed tmux-continuum auto-save interval from 15 minutes to 5 minutes. |
-| [SUMMARY] | — | v1.3.0 installed resurrect+continuum and script symlinks; v1.2.0 Ctrl-a prefix documented; v1.1.1 full shared interactive gate inlined; v1.1.0 shared interactive gate replaces `sui`; v1.0.0 baseline tmux skill. |
+| [SUMMARY] | — | v1.3.1 continuum 5m interval; v1.3.0 resurrect+continuum; v1.2.0–v1.0.0 prefix and shared interactive gate. |

@@ -6,18 +6,21 @@
 | --- | --- | --- |
 | Health organism | `CPAM de l'Essonne` | `[OFFICIAL]` CPAM and CSS attestations |
 | Provisional social-security number | `1 03 10 99 322 116 27` | `[OFFICIAL]` CPAM attestation |
-| Rights attestation window | `2024-09-09` → `2025-09-09` | `[OFFICIAL]` CPAM attestation |
+| Rights attestation window | `2026-05-23` → `2027-05-22` | `[OFFICIAL]` AM attestation (2026-05-23) |
 | CSS coverage | `without financial contribution` | `[OFFICIAL]` CSS attestation |
-| CSS window | `2025-04-01` → `2026-03-31` | `[OFFICIAL]` CSS attestation |
+| CSS window | `2026-06-01` → `2027-05-31` | `[OFFICIAL]` CSS attestation (2026-05-23) |
 | Carte Vitale issue | `2024-11-16` | `[OFFICIAL]` Vitale card |
 
 ## Recorded Medical Events
 
 | Date | Event | Provenance |
 | --- | --- | --- |
-| `2024-09-06` | Emergency visit at GHNE / Orsay / Saclay site | `[OFFICIAL]` GHNE result PDF + GHNE image records |
-| `2024-09-06` | Medication prescribed: `Eurartesim`, plus paracetamol | `[OFFICIAL]` GHNE image records |
-| `2024-09-09` / `2024-09-13` / `2024-09-27` | Follow-up parasitaemia checks requested | `[OFFICIAL]` GHNE image records |
+| `2024-09-06` | Emergency visit at GHNE / Orsay Saclay site | `[OFFICIAL]` `Resultat_Medical_2024-09-06` + GHNE folder scans |
+| `2024-09-06` | Medication administered: `Eurartesim` 320 mg/40 mg (antimalarial) | `[OFFICIAL]` `Medicament_Eurartesim_320mg-40mg_2024-09-08` + `Resultat_Medical_2024-09-06` |
+| `2024-09-06` | Medication dispensed: `Paracétamol` 1 g, 1 cp | `[OFFICIAL]` `Resultat_Medical_2024-09-06` (section *Médicaments remis au patient* — no separate photo on file) |
+| `2024-09-06` | GHNE billing slip — send mutuelle + attestation Vitale to `contentieuxghne@ghne.fr` | `[OFFICIAL]` `Demande_Documents_Facturation_Soins_Externes_2024-09-06` |
+| `2024-09-06` | Social worker contact — Mme OXYBEL Andie Séphora (PASS / Urgences UHCD) | `[OFFICIAL]` `Contact_Assistante_Sociale_OXYBEL_2024-09-06` |
+| `2024-09-09` / `2024-09-13` / `2024-09-27` | Follow-up parasitaemia checks requested (J3 / J7 / J21) | `[OFFICIAL]` `Resultat_Medical_2024-09-06` |
 | `2024` | Confidential medical certificate on file | `[OFFICIAL]` medical folder |
 | `2024` | No-contraindication-to-sport certificate on file | `[OFFICIAL]` medical folder |
 | `2024` | Vaccination certificate on file | `[OFFICIAL]` medical folder |
@@ -26,6 +29,8 @@
 | `2025` | Dental/wisdom-teeth follow-up, radiography, recommendation, extraction references | `[OFFICIAL]` dental subfolder |
 
 ## Sport & Physical Fitness
+
+> **Current movement plan (fun rhythm, cycling + home core):** [fit.md](fit.md).
 
 | Item | Value | Provenance |
 | --- | --- | --- |
@@ -41,18 +46,18 @@
 
 ## Source Paths
 
-- `CPAM / CSS`: `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/Assurance_Maladie/`
-- `Medical general`: `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/`
-- `GHNE`: `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/GHNE/`
-- `Dental`: `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/Dentition/`
+- `CPAM / CSS`: `$HOME/Gdrive_X/KpihX/Fr/Health/Assurance_Maladie/`
+- `Medical general`: `$HOME/Gdrive_X/KpihX/Fr/Health/Certificates/`
+- `GHNE`: `$HOME/Gdrive_X/KpihX/Fr/Health/GHNE/`
+- `Dental`: `$HOME/Gdrive_X/KpihX/Fr/Health/Dental/`
 
 ## Key Documents
 
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/Assurance_Maladie/Attestation_Droits_Assurance_Maladie_KAMDEM_Ivann.pdf`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/Assurance_Maladie/Attestation_CSS.pdf`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Cartes/Carte Vitale KAMDEM Ivann.pdf`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/GHNE/Résultat_Medical_KAMDEM_Ivann_06-09-2024.pdf`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/GHNE/IMG-20240906-WA0007.jpeg`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/GHNE/IMG-20240906-WA0009.jpeg`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/GHNE/IMG-20240908-WA0009.jpeg`
-- `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Medical/Certificat_Non_Contre_Indication_Sport_KAMDEM_Ivann.pdf`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/Assurance_Maladie/Attestation_Droits_AM_2026-05-23_KAMDEM_Ivann.pdf`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/Assurance_Maladie/Attestation_CSS_2026-05-23_KAMDEM_Ivann.pdf`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/Assurance_Maladie/Carte_Vitale_2024-11-16_KAMDEM_Ivann.pdf`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/GHNE/Resultat_Medical_2024-09-06_KAMDEM_Ivann.pdf`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/GHNE/Demande_Documents_Facturation_Soins_Externes_2024-09-06_KAMDEM_Ivann.jpeg`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/GHNE/Contact_Assistante_Sociale_OXYBEL_2024-09-06_KAMDEM_Ivann.jpeg`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/GHNE/Medicament_Eurartesim_320mg-40mg_2024-09-08_KAMDEM_Ivann.jpeg`
+- `$HOME/Gdrive_X/KpihX/Fr/Health/Certificates/Certificat_Non_Contre_Indication_Sport_KAMDEM_Ivann.pdf`

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.6"
+  version: "2.89.26"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -42,6 +42,7 @@ allowed-tools: "Bash(*), *"
 
 ## Active Projects
 
+| **KπX Fit (fun rhythm)** | 🟢 ACTIVE — **Mois 1** depuis 2026-05-24: SU–FR `2×100` corde + **pair=20 pompes / impair=gainage 1 min** + `2×100`; **sam vélo seul**; semaine CROUS midi/soir; TickTick = 3 habits + sam task (see `fit.md`). | Créer habits TickTick ou `go` tick-mcp · `$HOME/.agents/skills/kpihx/references/fit.md` |
 | **Optimisation** | 🟢 ACTIVE — `Projection_Simplex_Goldmann.ipynb` complété et exécuté à partir des PDFs du cours. Rendu TP (Notebook) fixé au 18/05 (23h59). Soutenance confirmée le 04/06 à 15h15 (PC 3). Tâches TickTick `69f8a9288f086d028b4d7b74` et `69f8a9298f0885d1c6763497` à jour. | Relecture finale du notebook + rendu. · `🎓 X/📅 Agenda` |
 | **Sinner Visualizer** | ✅ STABLE — `sinner_analysis_1080p_fr.mp4` delivered. Full tactical video (1080p60) and multi-lang dashboard (v0.3.0). | Final high-res walkthrough delivered. · `$HOME/Work/X/Python_2A_P3/sinner-tactical-visualizer/` |
 | **ScienCurious Lab** | 🟢 ACTIVE — Collaboration avec **Demartino KUETE** formalisée. Candidature au **Prix Gerondeau** en cours (échéance 10 mai). Tâche TickTick `69f629138f085570b2766a1f` créée. Assets Hub opérationnel (v1.1.5). | "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !" · `$HOME/Work/KpihX-Labs/Homelab/assets/` |
@@ -51,7 +52,7 @@ allowed-tools: "Bash(*), *"
 | **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
 | **MIE Ubisoft Case** | ✅ STABLE — v1.0.0 Study case completed, PDF generated and sent. | Finalized analysis and style refinement. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | **MCP Visual Validation** | 🚧 PLANNING — Transform `send`/`create` across MCPs (TickTick, WhatsApp, LinkedIn, Mail) to launch a visual editor for review before execution | Propose architecture · `$HOME/.agents/skills/k-context/references/mcp-visual-validation-vision.md` |
-| **kpihx** | ✅ STABLE — v2.6.2 Sovereign Hub with father split, manuscript archive layer, and CAF identifier `8006862 C`. | Maintain sovereign freshness and provenance discipline · `$HOME/.agents/kpihx/` |
+| **kpihx** | 🟢 ACTIVE — v2.7.1 Sovereign Hub + **`references/fit.md`** (fun fitness comeback plan, Cyclers assets). | Saturday ride ritual; maintain provenance · `$HOME/.agents/skills/kpihx/` |
 | **sh (KpihX-Labs)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Homelab (KpihX-Labs v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
@@ -67,7 +68,7 @@ allowed-tools: "Bash(*), *"
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
 | **Visual Content Engine** | 🧠 BRAINSTORM — LLM + Manim + FLUX.2 pipeline for educational video production | vision docs written · `$HOME/.agents/skills/k-context/references/vision/` |
 | **linux-file-masterclass** | 🟢 ACTIVE — code-first visual Linux masterclass scaffolded in `KpihX-Labs`: Remotion + React + D3 scenes, French narration generation, synchronized subtitles, and master render pipeline now exist under one repo-local workflow. | finish the first full master render, inspect the visual storytelling scene by scene, then push the grammar from “good animated explainer” toward “self-explanatory visual cinema” · `$HOME/KpihX-Labs/linux-file-masterclass/` |
-| **Project 𝛱** | 🟢 ACTIVE — Launched on 2026-05-23. Manifest and CAPITAL.md established to accelerate toward $1B via AI-driven trial-and-error loop. | Iterate on first trial loops and leverage AI agents as catalysts. · `$HOME/KpihX-Labs/𝛱/` |
+| **Project 𝛱** | 🟢 ACTIVE — Strategy (`IDEAS`, `STATE_OF_THE_ART`, `MANIFEST`). **Product → `𝛱/live/`** v0.2.1: light agentic chain (one LLM call hot path), `VisualPlan` → Scene IR → Canvas2D motion loop; real-time/latency rules in `TODO.md` + `docs/AGENTIC_ARCHITECTURE.md`. | Sprint 3: first proof concept (gradient descent live path) · `$HOME/KpihX-Labs/𝛱/live/` |
 | **Linguaskill 2026** | ✅ STABLE — Results received (Score 187, C1). Certificate renamed and archived in Gdrive_X. Official submission sent to DLC. | Validation successful. · `$HOME/Gdrive_X/KpihX/Academic/LinguaSkill/` |
 | **AGY ecosystem** | 🟢 ACTIVE — Hub launch fix: `agy-hub.sh` (`--no-sandbox` + X11 on Wayland); `k-code` v4.3.7. Sandbox 4755 OK. Optional: `apt remove antigravity`, refresh GNOME dash tiles. | `$HOME/.agents/skills/k-code/references/agy.md` |
 | **ai_dispatcher** | 🟢 ACTIVE — dispatcher now binds the default local Ollama endpoint (`127.0.0.1:11434`), selects X hosts by free GPU VRAM, self-cleans stale SSH tunnels, enforces a single local instance with `flock`, and exposes `SYNCING`/`READY` health states. | validate next relaunch reaches `READY` without timeout drift and keep bootstrap aligned to native tags only · `$HOME/Work/X/ai_dispatcher/` |
@@ -123,17 +124,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
-| 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in KpihX-Labs/𝛱, aggregating financial, academic, hardware, digital, relational, and metaphysical capital. |
-| 2026-05-23 | [GEMINI] | v2.89.5 — Started Project 𝛱 in KpihX-Labs, established MANIFEST.md in English detailing the vision, philosophy, and execution strategies. |
-| 2026-05-23 | [GEMINI] | v2.89.4 — eDP display/backlight fix (`ISS-20260515-001`): disabled `ambient-enabled` and `idle-dim` via `gsettings`; prepared surgical GRUB configuration change (`i915.enable_psr=0`) and daemon restart in tmux session `display` awaiting password. |
-| 2026-05-22 | [CODEX] | v2.89.3 — `tmux-continuum` Linux boot/start fixed for real usage: `@continuum-boot on`, generated `$HOME/.config/systemd/user/tmux.service`, and verified `tmux ls` returns `default` after login-session startup. |
-| 2026-05-22 | [CURSOR] | v2.89.2 — Kernel finalize: `ISS-20260516-001` RESOLVED (backup 16G SUCCESS); k-optim/k-tmux/k-code/k-zed session; `.agents` audit ALL_OK → push. |
-| 2026-05-22 | [CURSOR] | v2.89.1 — HDD backup path verified (sda1 mounted); `hsh install` + `hsh`→`kpihx-pve`/`homelab`; `~/.ssh/config` `homelab` ProxyJump→`kpihx-pve`; backup started via tmux sudo. |
-| 2026-05-22 | [CODEX] | v2.89.0 — `tmux-continuum` auto-save interval changed from 15 minutes to 5 minutes; active tmux config reloaded and verified (`@continuum-save-interval=5`). |
-| 2026-05-22 | [CODEX] | v2.88.9 — `k-tmux` persistence enabled: TPM + tmux-resurrect + tmux-continuum installed, 15-minute auto-save, startup auto-restore, pane-content capture, and script symlinks documented; `.agents` audit ALL_OK after k-optim cap fix. |
-| 2026-05-22 | [CURSOR] | v2.88.8 — Full `k-optim` pass (`ISS-20260522-001`): home transit emptied, Cursor/Zed archive purges + backup dirs removed, `clean_all.sh -s -p -y`, Work `.venv` purge (1.1G), ai_dispatcher tmp (~2.4G), Antigravity brain + Codex Apr sessions pruned, `qmd cleanup`; homelab offline; audit drift fixed. |
-| 2026-05-22 | [CURSOR] | v2.88.7 — Cursor archived chat purge (119 threads) + Zed archived purge (20 sidebar / 11 threads.db); see `k-code`/`k-zed` insights. |
-| [SUMMARY] | — | v2.88.6, v2.88.5, v2.88.4, v2.88.2, v2.88.1 rotated to `references/log.md` 2026-05-23; v2.88.0 archived 2026-05-22; v2.87.9 archived 2026-05-22; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | **Cloud hub finalized:** `k-tg` in hub; AGENTS `k-cloud-tools`; techskills `cloud-hub.md`; kernel commit+push; k-mail P2 table cleanup. |
+| 2026-05-25 | [CURSOR] | **Cloud skills uniformized:** `cloud-hub.md` SOT; k-cloud-tools hub; k-google/k-microsoft + productivity skills aligned; k-mail/k-ticktick markup fixes. |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM PDF:** Telegram `@kpihx_general_capture_bot` msg 7991 → `$HOME/Gdrive_X/KpihX/Phone_Lebara/eSIM_Lebara_ML045066180_KAMDEM_Ivann_20260525.pdf`; `k-tg` v3.2.11 default-bot rule (unspecified send = KpihX). |
+| 2026-05-24 | [CURSOR] | **KπX Fit TickTick:** 3 habits (corde/pompes/gainage @20:00) + Sat task 05:30+05:45 `🏥 Santé`; Sun check-in corde+pompes. · tick-mcp |
+| 2026-05-24 | [CURSOR] | **KπX Fit:** `kpihx/references/fit.md` + Cyclers assets; TG screenshots 7988–7990 analyzed; k-context Active Projects row. · `$HOME/.agents/skills/kpihx/` |
+| 2026-05-24 | [CURSOR] | `𝛱/live` tmux `live` trace stack: `make live-up` (`scripts/live-tmux.sh`), windows `ops`/`brain`/`web`/`trace`, `client-trace.jsonl` + `/trace/tail`; browser `liveTrace.*` for KπX-local tests. · `$HOME/KpihX-Labs/𝛱/live/` |
+| 2026-05-24 | [CURSOR] | `𝛱/live` v0.3.1 — `two_party_channel` no longer falls back to generic dots on socket/Linux intents: `ensure_two_party_entities`, `plan_and_compile_scene`, web `resolveTwoPartyParams`; `make check` green. · `$HOME/KpihX-Labs/𝛱/live/` |
+| 2026-05-24 | [CURSOR] | v2.89.21 — `𝛱/live` commit `c67a9e0` v0.2.1; tmux `live` windows `ops`/`brain`/`web`; `docs/DEV_WORKFLOW.md`; all `make` in session `live`. · `$HOME/KpihX-Labs/𝛱/live/` |
+| 2026-05-24 | [CODEX] | v2.89.20 — `𝛱/live` V1 implementation pass: `LearningPlanner` abstraction, generic chat-completions adapter, env-over-YAML config fix, configurable narration pacing, 9-test backend suite, local WebSocket simulation, and contract v1.3.0. · `$HOME/KpihX-Labs/𝛱/live/` |
+| 2026-05-24 | [CODEX] | v2.89.19 — `𝛱/live` LLM-native agentic skeleton: Mistral-first provider boundary, local fallback, compact `LivePlan`, generic Scene IR compiler, conductor messages, web canvas, and docs aligned to "un systeme agentique qui transforme une intention d'apprentissage en experience visuelle vivante". · `$HOME/KpihX-Labs/𝛱/live/` |
+| [SUMMARY] | — | v2.89.18–v2.89.12 + Fit/live rows rotated 2026-05-25 → `references/log.md`; v2.89.5–v2.88.7 rotated 2026-05-24; older → `references/log.md` |
 
 ## References
 
@@ -156,6 +157,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in Project 𝛱 folder. |
-| 2026-05-23 | [GEMINI] | v2.89.5 — Launched Project 𝛱 and created manifest. |
-| [SUMMARY] | — | v2.89.4 rotated to `references/log.md` 2026-05-23; v2.89.3 rotated to `references/log.md` 2026-05-23; v2.89.0 rotated 2026-05-23; v2.88.9 tmux persistence documented and audit ALL_OK; v2.88.8 Full k-optim workstation pass (`ISS-20260522-001`); v2.88.7 Cursor/Zed archived purge; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.89.26 — `k-tg` hub + AGENTS `k-cloud-tools` + techskills `cloud-hub.md`; v2.89.25 cloud uniformization + k-google/k-microsoft. |
+| 2026-05-25 | [CURSOR] | v2.89.23 — Lebara eSIM PDF from Telegram KpihX bot archived under `Gdrive_X/KpihX/Phone_Lebara/`. |
+| [SUMMARY] | — | v2.89.22–v2.89.18 Fit/live/health/QMD; v2.89.17–v2.89.12 session log rotated 2026-05-25; older → `references/log.md` |

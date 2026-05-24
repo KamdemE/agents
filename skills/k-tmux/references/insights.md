@@ -20,3 +20,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 - Reuse short-named sessions/windows; create/kill only when necessary for clarity.
 - `tmux-resurrect` owns save/restore contents; `tmux-continuum` schedules auto-save/auto-restore and can also provision a user-login `systemd` tmux service via `@continuum-boot on`.
 - Resurrect shell-history restoration is removed upstream; arrow-key history remains a zsh concern, not a tmux persistence feature.
+- **`𝛱/live` dev session (2026-05-24):** use tmux session `live` — window `ops` for `make check`/git; `brain` for `make dev-brain` (:8000); `web` for `make dev-web` (:5173). Map: `$HOME/KpihX-Labs/𝛱/live/docs/DEV_WORKFLOW.md`.

@@ -1,16 +1,22 @@
 ---
 name: k-whatsapp
-description: whats-mcp operational memory — KπX WhatsApp identity, messaging style, key contacts with JIDs, group index (HIGH→VERY LOW), community map, and contact search pitfalls. Load before any whats-mcp tool call.
+description: >
+  WhatsApp via whats-mcp — groups, JIDs, What's up whats slice. Cloud hub productivity
+  channel. Load before any whats-mcp call.
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.2.1"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
-# Tool Memory — WhatsApp (whats-mcp)
+# KπX — WhatsApp (whats-mcp)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · HTTP transport preferred — `references/mcp.md`.
 
 ## What's up — core policy and procedure
 
@@ -194,6 +200,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-20 | [ANTIGRAVITY] | v2.2.0 — Added mandatory **AUTH BLOCKS** stop rule: no browser/hack fallback on disconnect; report and wait for user instead. |
-| 2026-04-13 | [CURSOR] | v2.1.14 — Changelog table capped to 2 explicit rows + `[SUMMARY]` per `.agents` audit. |
-| [SUMMARY] | — | v2.1.13 contact mapping; v2.1.12 Key Contacts fix; v2.1.11 Runtime/STT/Arc; v2.1.10 whisper; v2.1.8–v2.0.0 → prior |
+| 2026-05-25 | [CURSOR] | v2.2.1 — Cloud-hub routing block; title aligned with hub skills. |
+| 2026-04-20 | [ANTIGRAVITY] | v2.2.0 — AUTH BLOCKS: stop on disconnect; no browser bypass. |
+| [SUMMARY] | — | v2.1.14 audit cap; What's up slices; group index; HTTP transport; older → `references/log.md` |

@@ -1,16 +1,22 @@
 ---
 name: k-rclone
-description: KπX rclone — Google Drive remote setup (OAuth flow), systemd user service template for FUSE mounts, mount flags, and post-setup agent checklist. Load when adding a new cloud remote, setting up a mount, or troubleshooting rclone.
+description: >
+  KπX rclone — Google Drive remotes, FUSE mounts, systemd templates. Part of Google file layer
+  (k-google → k-rclone → k-drive). Load for new remotes, mounts, or rclone troubleshooting.
 license: private
 metadata:
   author: KpihX
-  version: "1.2.1"
+  version: "1.2.2"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
 # KπX — rclone
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`k-drive`** · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
 
 > **Config file:** `$HOME/.config/rclone/rclone.conf` — source of truth for all remotes.
 > **Templates:** `assets/rclone-gdrive.service` — systemd user service for FUSE mounts.
@@ -154,6 +160,5 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-03 | [CODEX] | v1.2.1 — Recorded that large or repeated Google Drive metadata moves should switch from `rclone moveto`/FUSE to Drive API file-ID moves when stalls appear. |
-| 2026-05-02 | [ANTIGRAVITY] | v1.2.0 — Introduced the "Sovereign Mount" profile: optimized for high-speed CLI navigation with long directory cache, reactive polling, and read-ahead buffers. |
-| [SUMMARY] | — | v1.0.4 insights discipline; v1.0.3 path normalization; +1 older changelog entries kept in file history; condensed for table limits |
+| 2026-05-25 | [CURSOR] | v1.2.2 — Cloud-hub routing block; YAML description aligned with k-google stack. |
+| [SUMMARY] | — | v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API when FUSE stalls; insights discipline. |

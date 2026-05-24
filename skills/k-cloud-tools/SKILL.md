@@ -1,91 +1,96 @@
 ---
 name: k-cloud-tools
-description: Management of Cloud, Infrastructure, and Social Media CLIs/APIs (Cloudflare, Tailscale, GCP, Azure, M365, Meta, X).
+description: >
+  Cloud tool registry — Cloudflare, Tailscale, social dev APIs. Routes Google/Microsoft
+  workspace to k-google and k-microsoft. Load for edge/network registry or full-stack routing.
 license: private
 metadata:
   author: KpihX
-  version: "1.0.2"
+  version: "1.1.1"
   scope: operations
 ---
 
-# Operational Skill — Cloud & Social Tools
+# KπX — Cloud Tools (registry hub)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-## Overview
+## Role
 
-This skill centralizes the management, configuration, and audit of command-line interfaces and APIs used to control KπX's sovereign grid and digital footprint.
+Central **routing hub** for KπX cloud CLIs and dev APIs. Operational detail lives in domain skills — not here.
 
-## Tool Registry
+**Full map (mandatory read for routing):** `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
 
-### 1. Networking & Infrastructure
-| Tool | Namespace | Status | Purpose |
-|------|-----------|--------|---------|
-| `cloudflared` | Cloudflare | **INSTALLED** | Tunneling, Zero Trust access |
-| `wrangler` | Cloudflare | **INSTALLED** | Workers, Pages, R2 deployment |
-| `tailscale` | Tailscale | **INSTALLED** | Mesh network management |
+## Quick routing
 
-### 2. Cloud Providers
-| Tool | Provider | Status | Purpose |
-|------|----------|--------|---------|
-| `gcloud` | Google Cloud | **INSTALLED** | GCP Resources, AI Studio |
-| `az` | Azure | **MISSING** | Azure Resources, OpenAI |
-| `m365` | Microsoft 365 | **INSTALLED** | Microsoft Account, Outlook, Graph |
+| Need | Skill |
+|------|-------|
+| Google GCP or Workspace | **`k-google`** (+ `k-rclone`, `k-drive` for files) |
+| Microsoft Azure or M365 | **`k-microsoft`** (+ **`k-mail`** for briefings) |
+| Mail / tasks / WhatsApp / LinkedIn / Telegram | **`k-mail`**, **`k-ticktick`**, **`k-whatsapp`**, **`k-linkedin`**, **`k-tg`** |
+| Secrets / OAuth app ids | **`k-bw`** |
+| Homelab deploy | **`kpihx-labs`**, **`k-docker`** |
 
-### 3. Social Media & Communication (API/Developer Access)
-| Platform | Tool / CLI | API Status | Management Type |
-|----------|------------|------------|-----------------|
-| **YouTube** | `yt-dlp` / Google API | **TBD** | Data extraction & Channel Mgmt |
-| **WhatsApp** | Cloud API / `whats-mcp` | **ACTIVE (Bot)** | Official API integration planned |
-| **LinkedIn** | LinkedIn API | **ACTIVE** | Dev portal access verified |
-| **X (Twitter)** | `twarc2` / API v2 | **TBD** | Developer portal request needed |
-| **Facebook** | Graph API | **TBD** | Meta for Developers account |
-| **Instagram** | Graph API | **TBD** | Meta for Developers account |
+## Installed CLIs (verify live — `!<cmd>`)
 
-## API Credentials & Developer Portals
+### Networking & edge
 
-To maintain a fluid architecture, API keys must be managed in Bitwarden and injected via `bw-env` or stored in the `homelab` Secrets Manager.
+| Tool | Status | Purpose |
+|------|--------|---------|
+| `cloudflared` | INSTALLED | Tunnels, Zero Trust |
+| `wrangler` | INSTALLED | Workers, Pages, R2 |
+| `tailscale` | INSTALLED | Mesh VPN |
 
-- **Meta (FB/Insta/WA):** [developers.facebook.com](https://developers.facebook.com/)
-- **Google (YouTube/GCP):** [console.cloud.google.com](https://console.cloud.google.com/)
-- **X (Twitter):** [developer.twitter.com](https://developer.twitter.com/)
-- **LinkedIn:** [developer.linkedin.com](https://developer.linkedin.com/)
+### Cloud providers (detail → domain skills)
 
-## Pending API Access Requests
+| Tool | Plane | Skill |
+|------|-------|-------|
+| `gcloud` | Google container | **`k-google`** |
+| `gws` | Google content | **`k-google`** |
+| `az` | Azure container | **`k-microsoft`** |
+| `m365` | M365 content | **`k-microsoft`** |
 
-| Platform | Step | Status | Notes |
-|----------|------|--------|-------|
-| **YouTube** | Enable Data API v3 in GCP | **TODO** | Linked to `kpihx.labs@gmail.com` project |
-| **Meta** | Create App in Dev Portal | **TODO** | Need validation for Instagram Graph |
-| **X** | Apply for Free/Basic tier | **TODO** | Essential for automated tweeting |
-| **WhatsApp** | Business API setup | **IN PROGRESS** | Transitioning from unofficial bot to Cloud API |
+## Procedures (this skill only)
 
-- **Cloudflare:** `~/.cloudflared/`, `wrangler.toml` (project-specific)
-- **Tailscale:** `/etc/tailscale/`, native systemd service
-- **M365:** Managed via `m365 login`
-- **GCP:** `~/.config/gcloud/`
+**Cloudflare**
 
-## Operating Procedures
+```bash
+cloudflared tunnel list
+wrangler deploy
+```
 
-### Cloudflare Management
-- List tunnels: `cloudflared tunnel list`
-- Deploy Worker: `wrangler deploy`
-- **Cursor Cloudflare MCP:** covers Workers-centric resources and observability only; it does **not** enumerate DNS zones, Tunnel routes, or Zero Trust Access apps. See `references/insights.md` → **Cloudflare — Cursor plugin MCP**.
+Cursor Cloudflare MCP: Workers/KV/D1/R2/observability — **not** full DNS/Tunnel/Zero Trust inventory → `references/insights.md`.
 
-### Microsoft 365 Management
-- Check login: `m365 status`
-- Manage users/apps: Use `m365` commands (see `k-mail` for mail-specifics).
+**Tailscale**
 
-## Tailscale Notes
+- Non-trivial policy: read `references/insights.md` first.
+- API verification: **`ts-proxy`** (`$HOME/Work/KpihX-Labs/Fluid/ts_proxy/`).
+- Check device **tags** vs ACL `src` before blaming host firewall.
 
-- Read `references/insights.md` before non-trivial Tailscale policy or connectivity work.
-- Prefer API-side verification with `ts-proxy` when host symptoms are asymmetric.
-- Check device tags before assuming a user/group ACL should match a source node.
+## Credentials
+
+- OAuth/API keys: **Vaultwarden** + **`bw-env`** (never commit secrets).
+- Config paths: `~/.cloudflared/`, `~/.config/gcloud/`, `/etc/tailscale/`, `$HOME/.local/share/m365/` (tokens).
+
+## Social dev APIs (portal links only)
+
+| Platform | Dev portal | Operational skill |
+|----------|------------|-------------------|
+| Meta | developers.facebook.com | `k-whatsapp` (bot); Cloud API TBD |
+| Google | console.cloud.google.com | `k-google` |
+| LinkedIn | developer.linkedin.com | **`k-linkedin`** |
+| X | developer.twitter.com | TBD |
+
+Pending: YouTube Data API, Meta app validation, X API tier — track in `references/insights.md` when status changes.
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-cloud-tools/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-cloud-tools/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-16 | [CLAUDE] | v1.0.2 — Documented Cursor Cloudflare MCP coverage limits (no Tunnel/DNS/Zero Trust inventory tools); `references/insights.md` expanded. |
-| 2026-05-02 | [CODEX] | v1.0.1 — Added Tailscale policy troubleshooting notes and created `references/insights.md` with the tagged-device ACL asymmetry pattern validated through `ts-proxy`. |
-| [SUMMARY] | — | v1.0.0 — Initial tool registry (Cloudflare, Tailscale, GCP, Azure, Social Media). |
+| 2026-05-25 | [CURSOR] | v1.1.1 — `k-tg` in hub map + quick routing; AGENTS `k-cloud-tools` row. |
+| [SUMMARY] | — | v1.1.0 hub SOT; v1.0.x registry + Tailscale/Cloudflare insights. |

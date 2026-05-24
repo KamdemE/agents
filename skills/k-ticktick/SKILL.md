@@ -1,16 +1,22 @@
 ---
 name: k-ticktick
-description: tick-mcp operational memory — KπX TickTick project/folder map and critical V1/V2 API gotchas (silent failures). Load before any tick-mcp tool call.
+description: >
+  TickTick via tick-mcp — project map, silent API gotchas, What's up tick slice.
+  Cloud hub productivity channel. Load before any tick-mcp call.
 license: private
 metadata:
   author: KpihX
-  version: "2.0.21"
+  version: "2.0.22"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
-# Tool Memory — TickTick (tick-mcp)
+# KπX — TickTick (tick-mcp)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · cross-link mail/WhatsApp findings → propose tasks here.
 
 ## Runtime Discipline (mandatory)
 
@@ -27,14 +33,8 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 - Before ending, you must run a final self-check: "Are all files in `k-ticktick/` reflecting current reality?" If not, update them immediately.
 - Before creating any task/note/event, you must first identify the correct destination (folder/project) by inspecting existing TickTick structure and examples, even if it requires multiple MCP calls.
 - **Closure hygiene — TickTick:** When a task is **done** (work finished, or KπX says they completed it), **mark it completed** via tick-mcp **in the same workstream**, then **read back** state to catch silent API failures. **Do not** continue as if closed while the task still shows open. **Persistent nudge:** on later turns, if a named done-task is still open, repeat *Still to mark done: …* until fixed (see **`k-mail` / `k-whatsapp` `## Closure hygiene`** for the same loop across channels).
-- `SKILL.md` describes stable operating rules and how to use tick-mcp transports (`stdio` and/or `http`).
-- `## Insights Discipline (mandatory)
-
-- Read `$HOME/.agents/skills/k-ticktick/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-ticktick/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
-- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
-
-## Changelog` in this file tracks only modifications to the `k-ticktick/` skill folder, not runtime TickTick actions.
+- `SKILL.md` describes stable operating rules and tick-mcp transports (`stdio` and/or `http`).
+- `## Changelog` tracks only `k-ticktick/` skill edits, not runtime TickTick actions.
 
 ## Project Map
 
@@ -53,7 +53,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Operation | Gotcha | Correct approach |
 |-----------|--------|-----------------|
-| 2026-04-13 | [CODEX] | v2.0.15 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | Create subtask | `parentId` silently ignored at creation | `create task` → `set_subtask_parent` (two-step) |
 | Create project group | `groupId` silently ignored by V1 | Follow up with V2 `batch/project` |
 | Update habit | `PATCH /habits/batch` = full replacement | Always read-modify-write before updating |
@@ -103,8 +102,15 @@ These are **silent failures** — no error thrown, data simply not saved:
 - `references/mcp.md` — transport and setup reference for tick-mcp (`http` and `stdio`)
 - `references/tool-keep-matrix.md` — permanent YES/NO tool matrix used to drive MCP disabled-tools policy
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-ticktick/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-ticktick/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
-| 2026-05-06 | [CODEX] | v2.0.21 — Compacted explicit changelog rows to satisfy the audit cap (2 rows + `[SUMMARY]`). |
-| 2026-05-06 | [ANTIGRAVITY] | v2.0.20 — Marked Linguaskill, PSC Report, and 4A International tasks as completed; closed Linguaskill open thread. |
-| [SUMMARY] | — | v2.0.20 runtime closures; v2.0.19 optimization logistics; v2.0.18 Linguaskill task context; v2.0.17 workspace labels sync; v2.0.16 open-thread update; v2.0.14 batch deep-exploration for What's up; v2.0.13 zero-synthesis rule; v2.0.12 tool-keep matrix source-of-truth; v2.0.11 missing-tool MCP add; v2.0.10 immediate-minimal policy; v2.0.9 open-thread tracking; v2.0.8 closure hygiene; v2.0.7–v2.0.0 prior memory/migration |
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.0.22 — Cloud-hub block; fixed corrupted Insights/Changelog; removed stray row in gotchas table. |
+| [SUMMARY] | — | v2.0.21 audit compact; What's up tick slice; silent V1/V2 gotchas; closure hygiene; older → `references/log.md` |

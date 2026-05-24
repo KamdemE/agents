@@ -4,18 +4,40 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.2.10"
+  version: "3.2.12"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
 
-# Tool Memory — Telegram (k-tg)
+# KπX — Telegram (`tg` CLI)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Productivity **orchestration** channel (capture bots, infra bridges, Telethon user) · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · **last** slice in the default *What's up* ladder.
+
+| Leg | Tool | Notes |
+|-----|------|--------|
+| User + DMs | `tg user` (Telethon) | Session `$HOME/.config/tg/user.session` |
+| Capture / bridges | `tg` Bot API + tokens | `bw-env` / Vaultwarden — never print tokens |
 
 ## Operating focus
 
 ~**99%** of KπX Telegram use is **loop-back orchestration**: **`tg`**, **BotFather**, **capture bots** (General / Issues), **infrastructure bridge bots** (Homelab, Ubuntu, Tick, Whats, Mail, LinkedIn, N8N), and **your own account** (`tg user`). Groups, channels, and third-party DMs exist but are **out of scope** unless explicitly requested.
+
+## Default capture bot (mandatory)
+
+When KπX refers to a **send**, **envoi**, **forward**, or **message to the bot** **without** naming which bot:
+
+| Default | Value |
+|---------|--------|
+| Telegram display name | **KpihX** |
+| @username | `@kpihx_general_capture_bot` |
+| `tg` alias | `general` |
+| Bot user ID | `8089748360` |
+
+**Exception:** use **`issues`** (`@kpihx_issues_capture_bot`) or another bot **only** when KπX explicitly names that bot or its `@username`.
 
 ## Identity (Telethon user)
 
@@ -123,7 +145,7 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 
 | Group | Bot name | ID | @username | Status |
 |-------|----------|----|-----------|--------|
-| **Capture** | KpihX | `8089748360` | `@kpihx_general_capture_bot` | Active |
+| **Capture** | KpihX (**default** when bot unspecified) | `8089748360` | `@kpihx_general_capture_bot` | Active |
 | **Homelab** | Homelab | `8036146758` | `@docker_host_kpihx_bot` | Active |
 | **Homelab** | KpihX-Labs | `7975928900` | `@kpihx_labs_bot` | Active |
 | **Homelab** | PVE | `8589111784` | `@sentinel_homelab_bot` | Active |
@@ -216,6 +238,5 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-16 | [CURSOR] | v3.2.10 — Agent-shell `tg send`: mandate `zsh -l -c` and document **`CHAT_ID` via `source $HOME/Work/sh/backup_restore/.env`** when the notifier target is missing. |
-| 2026-05-02 | [CODEX] | v3.2.9 — Compacted the changelog to satisfy audit row limits without changing Telegram operational rules. |
-| [SUMMARY] | — | v3.2.8 Ubuntu bot icon (Core/blue); v3.2.7 deleted Issues bot/channel Me and renamed General to KpihX; v3.2.6 finalized Homelab rebranding; v3.2.5 Homelab and KpihX-Labs bots; v3.2.4 Sentinel rename rollback; v3.2.3 Whats/Tick naming; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v3.2.12 — Cloud hub block + title aligned with productivity skills; routing via `cloud-hub.md`. |
+| [SUMMARY] | — | v3.2.11 default bot + Lebara PDF; v3.2.10 `tg send`/CHAT_ID; v3.2.9–v3.2.3 → `references/log.md` |

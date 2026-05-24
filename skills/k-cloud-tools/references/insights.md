@@ -1,5 +1,9 @@
 # Insights
 
+## 2026-05-25 — [CURSOR]
+
+- **Cloud hub SOT:** `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` — all cloud/productivity skills should route through it; avoid duplicating full maps in each SKILL.md.
+
 ## Cloudflare — Cursor plugin MCP
 
 - The Cursor **Cloudflare** MCP family (`cloudflare-bindings`, `cloudflare-builds`, `cloudflare-docs`, `cloudflare-observability`) exposes **account pickers**, **Workers scripts**, **Workers Builds**, **KV**, **D1**, **R2** (if enabled), **Hyperdrive**, **Workers Observability** queries, and **documentation search**. It does **not** expose tools to list or edit **DNS zones/records**, **Cloudflare Tunnel** configs, **Zero Trust / Access** applications or policies, **Gateway** rules, or **Pages** projects as live account state.

@@ -29,6 +29,7 @@ Keep QMD **hot-only**:
 ```bash
 qmd status
 qmd collection list
+$HOME/.agents/skills/k-qmd/scripts/check_collections.sh
 qmd collection show agents
 qmd ls gemini
 qmd ls codex

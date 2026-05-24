@@ -1,16 +1,27 @@
 ---
 name: k-mail
-description: "Unified mail operational memory — KπX mail sources: Zimbra (poly account via mail-mcp) and Microsoft 365 Outlook/Hotmail (m365 CLI), with contacts, priorities, and what’s-up briefing rules. Load before any mail-related workflow."
+description: >
+  Unified mail — Zimbra (mail-mcp, poly) and Hotmail (m365). Cloud hub channel; M365 in k-microsoft.
+  Load before any mail workflow or What's up mail slice.
 license: private
 metadata:
   author: KpihX
-  version: "2.1.7"
+  version: "2.1.9"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
-# Tool Memory — Mail (Zimbra + Microsoft 365)
+# KπX — Mail (Zimbra + Microsoft 365)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Cloud hub
+
+Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
+
+| Leg | Tool | Stack skill |
+|-----|------|-------------|
+| Poly (canonical) | mail-mcp stdio | this skill |
+| Hotmail | `m365 outlook` | **`k-microsoft`** · `techskills/m365-cli.md` |
 
 ## Runtime Discipline (mandatory)
 
@@ -37,14 +48,8 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 - If approval is missing or ambiguous, do not send.
 - **Absolute post-send verification (all outbound sends, no exceptions):** After every successful `send_message` (or equivalent), **do not** treat the tool JSON alone as proof of delivery. Wait **at least ~5 seconds** (use a deliberate delay so IMAP/SMTP side effects settle), then **re-read** (1) **`Sent`** — confirm the outbound copy is present (subject/recipients/`Message-ID` match when exposed by the API) — and (2) **`INBOX`** — scan for **`MAILER-DAEMON`**, DSN, or bounce content tied to that send. If the copy is missing from `Sent` or a bounce appears in `INBOX`, report it and stop treating the send as healthy. If the MCP exposes `verify_bounce_window_seconds` / `delivery_status`, treat those as **hints only**; this manual **Sent + INBOX** pass remains **mandatory**.
 - **Closure hygiene — mail (see `## Closure hygiene (mandatory)`):** After a message is **handled**, **archive** it; after a **1:1** conversation is **fully closed**, archive the thread. **Nudge** until done. Applies even when KπX says they already acted off-thread — **verify or perform archive** before moving on.
-- `SKILL.md` describes stable operating rules and how to use mail-mcp transports (**stdio preferred**, HTTP fallback).
-- `## Insights Discipline (mandatory)
-
-- Read `$HOME/.agents/skills/k-mail/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-mail/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
-- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
-
-## Changelog` in this file tracks only modifications to the `k-mail/` skill folder, not runtime mail actions.
+- `SKILL.md` describes stable operating rules and mail-mcp transports (**stdio preferred**, HTTP fallback).
+- `## Changelog` in this file tracks only `k-mail/` skill edits, not runtime mail actions.
 
 ## Account
 
@@ -57,7 +62,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
   - `mark_messages` manages IMAP system flags (`seen`, `flagged`, `answered`, `draft`) on target UIDs.
   - `set_labels` adds/removes custom keyword labels (including Zimbra tags surfaced by `list_labels`).
   - `search_messages` supports `flagged_only=true` and `keyword="<label>"` (e.g. `Important`) to audit priority mail.
-- **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; see `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook message list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
+- **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; stack hub **`k-microsoft`** · runbook `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook message list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
 - **`.agents` git (KπX 2026-04-09):** Do **not** `git commit` / `make push` this repo unless KπX explicitly requests end-of-session finalization (see `k-context` HOT block).
 
 ## Messaging Style
@@ -73,7 +78,6 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ### Academic Administration
 | Address | Role | Priority |
 |---------|------|----------|
-| 2026-04-13 | [CODEX] | v2.0.31 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
 | `scolarite.1a-2a@polytechnique.fr` | Primary admin — PSC, placements, exams, internship conventions | CRITICAL |
 | `noreply@ip-paris.fr` | Moodle: grades, QCMs, TD feedback | CRITICAL |
 | `camille.challant@polytechnique.edu` | Notes publication, academic schedule | HIGH |
@@ -112,8 +116,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 ## Active Courses (P2)
 
-| Code | Description |
-|------|-------------|
+Inspect live poly mail when course codes matter — no frozen table here (avoids stale SOT).
 
 
 ## Flagged Items (action required)
@@ -217,12 +220,17 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 - `references/mcp.md` — transport and setup reference for mail-mcp (`http` and `stdio`)
 - `references/tool-keep-matrix.md` — permanent YES/NO tool matrix used to drive MCP disabled-tools policy
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-mail/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-mail/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 **Upstream `k-mail-mcp`:** from **v0.2.4**, `/health` and `mail_guide()` report the installed **distribution** version (`k-mail-mcp`). After upgrading the MCP host, call **`mail_guide()`** once so the agent text matches tool schemas (`verify_bounce_window_seconds`, `delivery_status`, etc.).
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-04 | [ANTIGRAVITY] | v2.1.7 — Updated optimization logistics and verified PA form scope (PA/theme choice only). |
-| 2026-05-04 | [ANTIGRAVITY] | v2.1.6 — Clarified that PA form currently only covers PA/theme choice, not courses. |
-| [SUMMARY] | — | v2.1.5..v2.1.3 Linguaskill, PA tracking, audit compact; v2.1.2 PA X24 thread; v2.1.1 Gerondeau prize thread; v2.1.0 Linguaskill confirmation + Gdrive archival; v2.0.34 Hotmail recovery runbook; v2.0.33..v2.0.0 history; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.1.9 — Removed empty P2 courses table (live mail SOT); v2.1.8 cloud-hub + markup fixes. |
+| [SUMMARY] | — | v2.1.7 PA form scope; v2.1.0 Linguaskill; Hotmail runbook; What's up mail ladder; older → `references/log.md` |

@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.3"
+  version: "2.14.5"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -33,6 +33,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | Embedded-folder `.gitignore` pattern | `references/gitignore-embedded-folder.template` |
 | Auto-refresh hook example | `references/post-commit-hook.sh` |
 | Fresh-search wrapper | `scripts/qmdr` |
+| Collection health gate | `scripts/check_collections.sh` (`ksh status`, `auto_clean`, k-optim Meta) |
 | Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
 | Declarative config | `$HOME/.config/qmd/index.yml` |
 
@@ -95,6 +96,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 - native module or install issues → reinstall via `npm`, not bun
 - missing MCP results → check qmd config/runtime directly, then re-index
+- collection shows 0 files but docs exist on disk → run `scripts/check_collections.sh`; fix `$HOME/.config/qmd/index.yml` path typos, then `qmd update <collection>` + `qmd embed <collection>`
 - slow first query → expected if local models or reranking backends are cold
 
 ## References
@@ -115,6 +117,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-02 | [ANTIGRAVITY] | v2.14.3 — Compacted changelog to satisfy audit. |
-| 2026-04-29 | [GEMINI] | v2.14.2 — Corrected presentation collection path to $HOME/Work/KpihX-Labs/Homelab/presentation/ |
-| [SUMMARY] | — | v2.14.1 insights; v2.14.0 retired collection; older -> file history |
+| 2026-05-24 | [CURSOR] | v2.14.5 — Added `scripts/check_collections.sh` health gate; wired into `auto_clean.sh` and `ksh status`. |
+| 2026-05-24 | [CURSOR] | v2.14.4 — Documented presentation path typo (`KpihX_Labs` vs `KpihX-Labs`) in insights; fixed live `index.yml` + reindexed 43 files. |
+| [SUMMARY] | — | v2.14.3 audit changelog compact; v2.14.2 presentation collection path correction; v2.14.1 insights; v2.14.0 retired collection; older → file history |

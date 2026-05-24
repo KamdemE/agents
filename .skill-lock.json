@@ -271,6 +271,20 @@
       "skillPath": "skills/k-zed/SKILL.md",
       "installedAt": "2026-05-20T00:00:00.000Z",
       "updatedAt": "2026-05-20T00:00:00.000Z"
+    },
+    "k-google": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-google/SKILL.md",
+      "installedAt": "2026-05-25T00:00:00.000Z",
+      "updatedAt": "2026-05-25T00:00:00.000Z"
+    },
+    "k-microsoft": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-microsoft/SKILL.md",
+      "installedAt": "2026-05-25T00:00:00.000Z",
+      "updatedAt": "2026-05-25T00:00:00.000Z"
     }
   }
 }
