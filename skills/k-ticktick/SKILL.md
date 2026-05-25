@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.22"
+  version: "2.0.23"
 allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 ---
 
@@ -112,5 +112,6 @@ These are **silent failures** — no error thrown, data simply not saved:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.0.23 — insights: TickTick email prefs via webapp only (not tick-mcp); Gmail hygiene cross-link. |
 | 2026-05-25 | [CURSOR] | v2.0.22 — Cloud-hub block; fixed corrupted Insights/Changelog; removed stray row in gotchas table. |
 | [SUMMARY] | — | v2.0.21 audit compact; What's up tick slice; silent V1/V2 gotchas; closure hygiene; older → `references/log.md` |

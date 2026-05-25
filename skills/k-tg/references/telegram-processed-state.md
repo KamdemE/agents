@@ -10,7 +10,7 @@ These chats collect **outbound** content from `$USER` for agent ingestion (`issu
 | Bot alias | Display name | @username | Bot user ID | Chat notes | Last triaged outbound `message_id` (from you) | Last triaged inbound `message_id` (bot) | Agent run (ISO date) |
 |-----------|--------------|-----------|-------------|------------|-----------------------------------------------|----------------------------------------|----------------------|
 | `issues` | Issues | `@kpihx_issues_capture_bot` | `8656241501` | Bugs / incidents / screenshots | 6871 | — | 2026-04-09 |
-| `general` | General | `@kpihx_general_capture_bot` | `8089748360` | Facts, screenshots, forward dumps | 7991 | — | 2026-05-25 |
+| `general` | General | `@kpihx_general_capture_bot` | `8089748360` | Facts, screenshots, forward dumps | 8001 | — | 2026-05-25 |
 
 ## Infrastructure bots (bot → you)
 
@@ -37,5 +37,6 @@ Order for **section 3** of *What's up* (after capture bots). Triaged = alert rea
 | Chat | Telegram user ID | Purpose |
 |------|------------------|---------|
 | Saved Messages / `@KpihX` | `1397540599` | Optional “note to self”; treat like low-priority capture unless tagged |
+| general | 8001 | 2026-05-25 | Wireless debugging screenshot → ADB via Tailscale `100.125.54.1:<port>` (ephemeral port; pairing `kpihx@KpihX-Ubuntu` already done) |
 | general | 7991 | 2026-05-25 | Lebara eSIM PDF → `Gdrive_X/KpihX/Phone_Lebara/eSIM_Lebara_ML045066180_KAMDEM_Ivann_20260525.pdf` |
 | general | 7533 | 2026-05-06 | Processed Julius Caesar PDFs |

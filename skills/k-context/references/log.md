@@ -8,6 +8,22 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-25 | [CURSOR] | **CF outbound C′** — pivot kapoivha send-as; Outlook web dead. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **CF outbound E2E** — gws `OUT-E2E-083632`; m365 Hotmail default only. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **CF outbound COMPLETE** — 3/3 send-as + DMARC. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **E2E mail archived** 31+18+13; social registry. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-media` v1.0.0** — YouTube kpihx-labs bootstrap. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-media` v1.1.0** — YouTube LIVE `@kpihx`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-x` v1.0.0** — X `@KPIHX7` me OK; tweet 402 credits. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Social APIs finalized** — Meta/X JSON smoke; `k-meta` v1.0.1. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.0** — S25 `ssh s25`, `adb-s25`, ssh fragment + `.kshrc`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM** — chat Blue queue agent; mail refs. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM** — Mamadou connecté; attente réponse KπX. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM** — réémission ML045066180; KπX retrait puce. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM** — ML045067164 annulée; ML045066180 support 48h. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **TickTick** — Lebara relance + Edge setup tasks; `edge-agent.sh`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Edge agent setup** — `.kshrc`, Cursor MCP CDP, techskills; CDP :9222. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **CF inbound docs cleanup** — `k-cloudflare` v1.4.0: `inbound-email-e2e.md`, `verify-inbound-e2e.sh`, runbook trim; `k-mail` v2.2.2 aligned; E2E LIVE all aliases. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF E2E final batch** — Labs filters; `E2E-BILAN` validates `ivann@`; prime rules + Worker OK. · `inbound-email-e2e.md` *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **CF inbound FIXED** — `ensure-destination-prime-rules.sh`; tail `forward ok` Labs+kapoivha+Hotmail; `ivann@` rule live. *(Rotated.)* |

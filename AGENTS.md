@@ -75,6 +75,7 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-linkedin` | Before any linkedin-mcp call |
 | `k-ticktick` | Before any tick-mcp call |
 | `k-tg` | Before any `tg` Telegram CLI work (bots, Telethon user, webhooks) |
+| `k-phones` | Phone SSH (Termux) or ADB (wireless debug) — S25, tablet inventory |
 | `k-tmux` | tmux sessions, panes, scroll/copy-mode, shared interactive shell, or `~/.tmux.conf` edits |
 | `k-pptx` | Before any PowerPoint deck generation/edit flow using `powerpoint` CLI/MCP |
 | `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
@@ -260,6 +261,7 @@ Optional Markdown heading markers such as `## ` are allowed.
 ### Tool Discipline
 
 - **Shared tmux collaboration (mandatory):** For **`sudo`**, **SSH passphrase**, or any **interactive prompt** — **`sui` is deprecated**. Load **`k-tmux`**: `tmux ls` → reuse or create a **short-named** session/window → `send-keys` in pane → poll **`capture-pane` ≥30s** before any chat handoff; then give full `tmux attach`, command, and what KπX must do. Never raw **`sudo`** in agent tool shells. **Full protocol:** `$HOME/.agents/skills/k-tmux/SKILL.md` → **Shared interactive gate**.
+- **Edge agent browser (default for agents):** KπX keeps **`edge-agent`** in tmux session **`default`**, window **`browser`** (visible Edge, CDP **9222**, profile `$HOME/.config/kpihx-edge-automation`). Agents run **`edge-agent-status`** before **`browser-mcp-stdio`** / **`playwright-mcp-stdio`** (CDP attach). Prefer that stack over **`cursor-ide-browser`** for logged-in portals and extension debugging. Launcher: `$HOME/.agents/skills/k-browser/scripts/edge-agent.sh` · **`k-browser`**.
 - **Frozen log append-only (mandatory):** **`references/log.md`**, **`references/issues.md`**, and every **archived / rotated** log under **`k-context/references/`** are **immutable** once written — **no edits**, **no rewrites**, **no deletions** of existing lines. To correct or extend history: **append** a new line to the live section (`## Session Log`, issue row, etc.); when a section hits its cap, **rotate** older rows into the archive with **new** lines only, then compact the live section with a bounded **`[SUMMARY]`** row. See **`k-context`** header rules.
 - **Read before Edit.** Use proper file editing flows for existing files; never rely on shell redirection or ad hoc shell mutation.
 - **No shell file ops** — never `sed`/`printf`/`echo >` for file edits.

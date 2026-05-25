@@ -1,0 +1,94 @@
+#!/usr/bin/env zsh
+# Connect ADB to kpihx-s25 over Tailscale (wireless debugging port is ephemeral).
+# Skill: k-phones — save last port in $HOME/.config/kpihx/phones/s25-adb-port
+
+set -u
+
+readonly PORT_FILE="${HOME}/.config/kpihx/phones/s25-adb-port"
+readonly TS_IP="100.125.54.1"
+readonly TS_HOST="kpihx-s25.tail2527bd.ts.net"
+
+usage() {
+  print -u2 -- "Usage:"
+  print -u2 -- "  adb-s25 PORT          Connect using wireless-debug port from phone screen"
+  print -u2 -- "  adb-s25               Reconnect using last saved port"
+  print -u2 -- "  adb-s25 status        Show saved port + adb devices"
+  print -u2 -- "  adb-s25 save PORT     Save port without connecting"
+  print -u2 -- ""
+  print -u2 -- "Get PORT: Settings → Developer options → Wireless debugging → IP address & port"
+  print -u2 -- "         Read LIVE on the phone — TG screenshots go stale within minutes."
+}
+
+_stale_port_help() {
+  local port="$1"
+  print -u2 -- ""
+  print -u2 -- "⚠️  Port ${port} reachable (TCP) but ADB handshake failed — session expired or wrong port."
+  print -u2 -- "    On the phone (screen ON):"
+  print -u2 -- "      1. Developer options → Wireless debugging → OFF then ON"
+  print -u2 -- "      2. Read the NEW port under « IP address & port » (not an old TG screenshot)"
+  print -u2 -- "      3. adb-s25 NEW_PORT"
+  print -u2 -- "    Pairing uses a DIFFERENT port: Wireless debugging → « Pair device with pairing code »"
+  print -u2 -- "      adb-s25-pair PAIRING_PORT   # NOT the main-screen port"
+  print -u2 -- "      then: adb-s25 DEBUG_PORT     # main screen « IP address & port »"
+  print -u2 -- "    Eduroam blocks LAN ADB — use hotspot or Tailscale + correct pair port (see k-phones/references/s25-adb-wireless.md)"
+}
+
+_tcp_open() {
+  local port="$1"
+  timeout 2 bash -c "echo >/dev/tcp/${TS_IP}/${port}" 2>/dev/null
+}
+
+cmd="${1:-}"
+
+if [[ "$cmd" == "status" ]]; then
+  if [[ -f "$PORT_FILE" ]]; then
+    print "Saved port: $(<"$PORT_FILE")"
+  else
+    print "Saved port: (none)"
+  fi
+  adb devices -l
+  exit 0
+fi
+
+if [[ "$cmd" == "save" ]]; then
+  [[ -n "${2:-}" ]] || { usage; exit 1; }
+  mkdir -p "${PORT_FILE:h}"
+  print -r -- "$2" >"$PORT_FILE"
+  print "Saved port $2 → $PORT_FILE"
+  exit 0
+fi
+
+port="${cmd}"
+if [[ -z "$port" && -f "$PORT_FILE" ]]; then
+  port="$(<"$PORT_FILE")"
+  print "Using saved port: $port"
+fi
+
+if [[ -z "$port" ]]; then
+  usage
+  exit 1
+fi
+
+mkdir -p "${PORT_FILE:h}"
+print -r -- "$port" >"$PORT_FILE"
+
+adb disconnect "${TS_IP}:${port}" 2>/dev/null || true
+
+ok=0
+if adb connect "${TS_IP}:${port}" 2>/dev/null | rg -q 'connected'; then
+  ok=1
+elif adb connect "${TS_HOST}:${port}" 2>/dev/null | rg -q 'connected'; then
+  ok=1
+fi
+
+if (( ok == 0 )); then
+  if _tcp_open "$port"; then
+    _stale_port_help "$port"
+  else
+    print -u2 -- "⚠️  Port ${port} closed on ${TS_IP} — read a fresh port on the phone (Wireless debugging screen)."
+  fi
+  adb devices -l
+  exit 1
+fi
+
+adb devices -l

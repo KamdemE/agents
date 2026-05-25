@@ -1,5 +1,12 @@
 # k-google — insights
 
+## 2026-05-25 — [CURSOR] kapoivha Gmail hygiene
+
+- **Deep cleanup executed:** INBOX/UNREAD → 0 via `gws_gmail_deep_cleanup.py` + final sweeps; ~12k messages archived, ~1.2k trashed then **emptied in Gmail UI** (API `batchDelete` lacks scope on current OAuth token).
+- **Long-term:** 18+ Gmail filters (TickTick, LinkedIn, GitHub, Homelab `@kpihx-labs.com`, promos, E2E→trash). Labels under `KpihX/*`.
+- **SOT:** `references/kapoivha-gmail-hygiene.md` — re-run script is idempotent.
+- **TickTick email bomb:** disable in TickTick account settings (web requires login); filter already skips inbox for new mail.
+
 ## 2026-05-25 — [CURSOR] scripts
 
 - **Pre-Fluid scripts:** `$HOME/.agents/skills/k-google/scripts/` — run `gws_inspect_contacts.py`, `gws_inspect_recent_mail.py`, `gws_auth_status.py` instead of `/tmp` one-offs; inventory in `scripts/README.md`.

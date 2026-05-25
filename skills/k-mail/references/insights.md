@@ -16,6 +16,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 ## Tooling Patterns
 
+- **kapoivha Gmail (2026-05-25):** not mail-mcp — use `gws-kpihx` + `k-google/scripts/gws_gmail_deep_cleanup.py`. Filters skip inbox for TickTick/LinkedIn/homelab forwards; poly academic mail stays on Zimbra.
 - Use mail-mcp (`http` or `stdio`) for Zimbra account operations (`poly`).
 - Use `m365`/Graph for Hotmail mailbox verification.
 - For current Hotmail auth with app `bf3e4ec4-fd28-48aa-89f0-c6d8ae7c6906`, force `--tenant consumers` on `m365 login --authType deviceCode`; `/common` triggers `AADSTS9002346`.

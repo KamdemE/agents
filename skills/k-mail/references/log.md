@@ -6,6 +6,7 @@ Purpose: detailed runtime execution log for mail operations (different from `SKI
 
 | Timestamp (UTC) | Agent | Channel | Action | Inputs | Outcome | IDs / Links | Notes |
 |-----------------|-------|---------|--------|--------|---------|-------------|-------|
+| 2026-05-25T12:00:00Z | [CURSOR] | gws (kapoivha profile) | Gmail search `lebara` + attachments get | 2× eSIM mails `Activez votre eSIM…` (ML045066180, ML045067164 PDFs) | PDFs → `$HOME/Downloads/lebara-esim/`; newest opened xdg-open | msg ids `19e5c53ec3e510b6`, `19e5c246a4c57abe` | mail-mcp has no Gmail account; used `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=kpihx` |
 | 2026-04-08T11:09:25Z | [CODEX] | mail-mcp http | `send_message` | to=hotmail, subject=`[mail-mcp test] 2026-04-08T11:09:03Z` | sent=true, saved_to_sent=true | message_id=`<177564656546.1.16546049869132564538@f547e4f98890>` | signature default |
 | 2026-04-08T11:09:30Z | [CODEX] | mail-mcp http | `search_messages` | folder=`Sent`, subject_filter exact | 1 hit | uid=8425 | sent-copy check passed |
 | 2026-04-08T11:09:35Z | [CODEX] | m365 Graph | mailbox verification | subject exact match | received in Hotmail | internetMessageId matched | delivery check passed |

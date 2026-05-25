@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.4"
+  version: "1.3.5"
   scope: operations
 allowed-tools: Bash(gws:*), Bash(gcloud:*), Bash(rclone:*)
 ---
@@ -83,7 +83,7 @@ gws-labs drive files list --params '{"pageSize":10}'
 | Account | Tool | Skill |
 |---------|------|-------|
 | Poly Zimbra | mail-mcp | **`k-mail`** (canonical) |
-| Gmail (`kapoivha`, Labs) | `gws-kpihx` / `gws-labs` | **`k-mail`** + inbound E2E → **`k-cloudflare/references/inbound-email-e2e.md`** |
+| Gmail (`kapoivha`, Labs) | `gws-kpihx` / `gws-labs` | **`k-mail`** + inbound E2E → **`k-cloudflare/references/inbound-email-e2e.md`** · kapoivha hygiene → **`references/kapoivha-gmail-hygiene.md`** + **`scripts/gws_gmail_deep_cleanup.py`** |
 
 **GWS agent shells:** use profile wrappers or `$HOME/.npm-global/bin/gws` with `GOOGLE_WORKSPACE_*` env; strip `Using keyring…` line before `jq` (`awk '/^\{/{p=1} p'`). Send: `--params '{"userId":"me"}'` + `--json '{"raw":…}'`.
 
@@ -138,6 +138,6 @@ python3 "$HOME/.agents/skills/k-google/scripts/gws_inspect_recent_mail.py" --pro
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v1.3.5 — kapoivha Gmail deep cleanup script + `references/kapoivha-gmail-hygiene.md`. |
 | 2026-05-25 | [CURSOR] | v1.3.4 — YouTube SOT → **`k-media`** only (no duplicate publish skill). |
-| 2026-05-25 | [CURSOR] | v1.3.2 — Inbound Gmail E2E cross-ref (`gws` send/read). |
-| [SUMMARY] | — | v1.3.0–v1.3.3 scripts kit, gws profiles, wrappers; v1.0.x gcloud+gws. |
+| [SUMMARY] | — | v1.3.2 inbound Gmail E2E; v1.3.0–v1.3.3 scripts kit, gws profiles, wrappers; v1.0.x gcloud+gws. |

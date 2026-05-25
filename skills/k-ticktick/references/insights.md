@@ -31,6 +31,7 @@ Purpose: durable behavioral memory to improve proactive planning support and red
 
 - Use tick-mcp (`http` or `stdio`) for all TickTick reads/writes.
 - For writes, verify state after each change due to known V1/V2 silent failure patterns.
+- **Email notification prefs:** not exposed in tick-mcp — disable in webapp Settings → Notifications (`enable-email_remind`). Confirmed OFF 2026-05-25 (Edge CDP); pair with Gmail filter on `mail.ticktick.com` (see `k-google/references/kapoivha-gmail-hygiene.md`).
 
 ## Open Behavior Rules
 

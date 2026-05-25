@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+# Pair kpihx-s25 wireless debugging (PAIRING port only — not the main-screen debug port).
+# Skill: k-phones
+
+set -u
+
+readonly TS_IP="100.125.54.1"
+readonly TS_HOST="kpihx-s25.tail2527bd.ts.net"
+
+usage() {
+  print -u2 -- "Usage: adb-s25-pair PAIRING_PORT [CODE]"
+  print -u2 -- ""
+  print -u2 -- "On the phone: Wireless debugging → « Pair device with pairing code »"
+  print -u2 -- "  • Use the IP:port shown IN THAT DIALOG (often a different port than the main screen)."
+  print -u2 -- "  • CODE = 6 digits in the same dialog (expires in ~1 minute)."
+  print -u2 -- ""
+  print -u2 -- "After « Successfully paired »:"
+  print -u2 -- "  adb-s25 DEBUG_PORT   # port from main screen « IP address & port »"
+  print -u2 -- ""
+  print -u2 -- "Do NOT run: adb pair …:DEBUG_PORT if that port is from the main screen — protocol fault."
+}
+
+[[ -n "${1:-}" ]] || { usage; exit 1; }
+
+pair_port="$1"
+code="${2:-}"
+
+print "Pairing to ${TS_IP}:${pair_port} …"
+if [[ -n "$code" ]]; then
+  if ! print -r -- "$code" | adb pair "${TS_IP}:${pair_port}"; then
+    print -u2 -- "Pair failed on ${TS_IP}; trying ${TS_HOST} …"
+    print -r -- "$code" | adb pair "${TS_HOST}:${pair_port}" || exit 1
+  fi
+else
+  if ! adb pair "${TS_IP}:${pair_port}"; then
+    print -u2 -- "Pair failed on ${TS_IP}; trying ${TS_HOST} …"
+    adb pair "${TS_HOST}:${pair_port}" || exit 1
+  fi
+fi
+
+print ""
+print "✓ Pair step finished. Now run: adb-s25 <DEBUG_PORT>"
+print "  (DEBUG_PORT = main Wireless debugging screen, not this pairing port)"

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.39"
+  version: "2.89.47"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -84,6 +84,8 @@ allowed-tools: "Bash(*), *"
 | **ts-proxy** | 🟢 ACTIVE — v1.5.1 Sovereign HITL Hardening: Centralized async HITL engine (Web + TUI Fallback), @require_approval decorator integration, and automated mock testing. | `make uv-check` passed v1.5.1 · `$HOME/Work/KpihX-Labs/Docker-Host/ts_proxy/` |
 | **PVE / vm_debian** | 🟢 ACTIVE — live CT-vs-VM DNS audit completed on `kpihx-pve`: CT `100` (`homelab`) resolves through Proxmox-managed static resolvers, while VM `101` (`pve-debian`) still ends up with `systemd-resolved` reporting `No DNS servers known` (`ISS-20260508-001`). | Patch `install.sh` DNS/resolved handling, then redeploy VM 101 and revalidate `curl raw.githubusercontent.com`. · `$HOME/KpihX-Labs/PVE/vm_debian/` |
 | **Fluid** | 🟢 ACTIVE — Deep lifecycle transparency pass completed in `AA.md`: reconstructed the real Ubuntu → PVE → service lifecycle from scripts, exposed the current root-owned `state/fluid-state.json` permission break, the `fluid-node-pve` profile mismatch (`ubuntu` instead of `pve`), and the missing `fluid.yml` blocker for the local `ts_proxy` example. | Review `AA.md`, fix state ownership + host profile semantics, then add a first real `fluid.yml` service example (starting with `ts_proxy`). · `$HOME/KpihX-Labs/Fluid/fluid/` |
+| **Lebara eSIM (S25)** | 🟡 **WAIT SUPPORT** — Mamadou : 2e annulée+rembours. ; 1re **ML045066180** → support **48h ouvr.** TickTick `6a1491488f08dbc9d7a14fbc` (relance 28/05). | **No QR** · `$HOME/Downloads/lebara-esim/` |
+| **Edge agent (CDP)** | ✅ **STABLE** — Live test + manual cleanup done; favorites test folders removed by KπX; **`k-browser` v1.3.0** Leave no trace; runbook in techskills + insights. | `edge-agent-cdp-setup.md` · `k-browser/SKILL.md` |
 | **whats_proxy** | 🟢 ACTIVE — v1.0.0 Infrastructure Contract defined: 100% transparent API, port 1140 unified bridge, and robust discovery/filtering registry. | Hardened CONTRACT.md · `$HOME/Work/KpihX-Labs/Fluid/whats_proxy/` |
 | **Gdrive_X Reorganization** | ✅ STABLE — Full controlled migration executed on 2026-05-03. Final roots: `.Trash-1000`, `Google AI Studio`, `KpihX`, `X`, `ENSPY`, `Pro`, `KpihX-Labs`, `Photos`, `ToPrint`, plus review roots. API validation passed with zero forbidden names, zero non-ASCII paths, zero duplicate Drive paths, zero singleton dirs outside exceptions/review, zero `_DUP*` residues in main roots, and zero dirty `..`/`.pdf.pdf`/browser suffix residues. | Review `_Purge_Review_2026-05-03/` and `_Review_Duplicates_2026-05-03/` deliberately before any real deletion. · `$HOME/Gdrive_X/` |
 | **Julius Caesar Exam Prep** | ✅ STABLE — Completed the comprehensive revision guide `revision_anglais.md` and `cheat_sheet.md`, generated PDF using `k-latex`, created ultra-compact `Revision` template with automated `Makefile`. | Ready for print and review. · `$HOME/Gdrive_X/ToPrint/` |
@@ -108,6 +110,7 @@ allowed-tools: "Bash(*), *"
 | `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
 | `references/mcp-central-sync-vision.md` | Brainstorm | Vision for a centralized MCP registry and synchronization pipeline to unified all agent provider configs |
 | `references/KpihX-Labs.md` | Vision | KpihX-Labs complete distributed cloud vision: Physical, Virtual, and Supreme Abstraction Layer (`docker-host`), Serverless MCPs, and ESO |
+| `references/edge-agent-automation-vision.md` | Brainstorm | Visible Edge + CDP for HITL agent browsing; dedicated profile; MCP attach; not Default user-data |
 
 ## What's up (context-only slice)
 
@@ -125,16 +128,17 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
-| 2026-05-25 | [CURSOR] | **Social APIs finalized** — Meta JSON core smoke OK; X JSON `me` OK; tweet 402 credits; `k-meta` v1.0.1 tiered smoke. |
-| 2026-05-25 | [CURSOR] | **`k-x` v1.0.0** — X `@KPIHX7` me OK; tweet 402 credits; optional JSON doc. |
-| 2026-05-25 | [CURSOR] | **`k-media` v1.1.0** — YouTube LIVE `@kpihx`. |
-| 2026-05-25 | [CURSOR] | **`k-media` v1.0.0** — YouTube kpihx-labs bootstrap. |
-| 2026-05-25 | [CURSOR] | **E2E mail archived** 31+18+13; social registry. |
-| 2026-05-25 | [CURSOR] | **CF outbound COMPLETE** — 3/3 send-as + DMARC. |
-| 2026-05-25 | [CURSOR] | **CF outbound E2E** — gws `OUT-E2E-083632`; m365 Hotmail default only. |
-| 2026-05-25 | [CURSOR] | **CF outbound C′** — pivot kapoivha send-as; Outlook web dead. |
-| 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C (app passwords + Send-as UI). |
-| [SUMMARY] | — | 2026-05-25 CF inbound/tmux/ISS/cloud-hub/Lebara + 2026-05-24 Fit/live rows rotated → `references/log.md` |
+| 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. |
+| 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. |
+| 2026-05-25 | [CURSOR] | **Edge live automation** — Playwright CDP inventory + sandbox tabs + Copilot + favorites UI; techskills + `k-browser` insights. |
+| 2026-05-25 | [CURSOR] | **TickTick email OFF** — Edge Settings/Notifications: `enable-email_remind` disabled; tick-mcp `get_user_status` OK; `k-ticktick` insights. |
+| 2026-05-25 | [CURSOR] | **kapoivha Gmail hygiene** — INBOX/UNREAD→0; filters + `KpihX/*` labels; `gws_gmail_deep_cleanup.py`; SOT `k-google/references/kapoivha-gmail-hygiene.md`. |
+| 2026-05-25 | [CURSOR] | **Vaultwarden upgrade** — Portainer `vaultwarden` **1.36.0**; `prelogin/password` **HTTP 200** (`bw-prelogin-check.sh` OK). |
+| 2026-05-25 | [CURSOR] | **Bitwarden ext 2026.4.x** — prelogin **404** before VW 1.36.0; fixed on homelab; `bw-prelogin-check.sh`; tmux `default:browser`. |
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.9** — Termux `ubuntu` → `tmux attach -t default`; orphan PC session `ubuntu` removed. |
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. |
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). |
+| [SUMMARY] | — | 2026-05-25 Edge setup/Lebara/social/CF outbound rows rotated → `references/log.md` |
 
 ## References
 
@@ -157,6 +161,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.89.39 — Social APIs: Meta JSON core OK; X JSON `me` OK; YouTube LIVE. |
-| 2026-05-25 | [CURSOR] | v2.89.38 — Sovereign Email outbound COMPLETE (3/3 send-as). |
-| [SUMMARY] | — | v2.89.37–v2.89.23 CF inbound/tmux/ISS/cloud/Lebara → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.89.47 — Edge agent **STABLE**; session log rotation; k-optim Meta audit pass. |
+| 2026-05-25 | [CURSOR] | v2.89.46 — Edge cleanup + `k-browser` v1.3.0 Leave no trace. |
+| [SUMMARY] | — | v2.89.45–v2.89.23 Edge live, Gmail hygiene, phones, social APIs, CF mail → `references/log.md` |

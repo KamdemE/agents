@@ -6,6 +6,8 @@ Purpose: detailed runtime execution log for TickTick operations (different from 
 
 | Timestamp (UTC) | Agent | Channel | Action | Inputs | Outcome | IDs / Links | Notes |
 |-----------------|-------|---------|--------|--------|---------|-------------|-------|
+| 2026-05-25T22:30:00Z | [CURSOR] | tick-mcp stdio | `get_user_status` | — | Pro until 2026-12-04; inbox `inbox123283574` | userId `123283574` | paired with Edge: email notifications OFF in webapp |
+| 2026-05-25T18:13:00Z | [CURSOR] | tick-mcp stdio | `create_task`×2 | Lebara 48h follow-up + Edge CDP setup | verified `get_task_detail` Lebara | `6a1491488f08dbc9d7a14fbc`, `6a14914b8f08f2bcaa2a0dbf`; project `69ab43b38f088245a47b5f75` (🏠 Persos Administratif) | reminders Lebara: -1d/-1h/0 |
 | 2026-05-25T12:00:00Z | [CURSOR] | tick-mcp stdio | `delete_task` | Arpajon / épargne solidaire SG | success; query `Arpajon` → 0 | deleted `688732ff5250a58891d35736`; project `69ab43b38f088245a47b5f75` | KπX requested removal |
 | 2026-05-24T18:49:00Z | [CURSOR] | tick-mcp stdio | `create_habit`×3, `create_task`, `update_task`, `habit_checkin`×2 | KπX Fit; Sat 05:30/05:45 | verified `list_habits` + `get_task_detail` | habits `6a134818…803/…fd1e/…b467`; task `6a13481c8f08c8446a993bf1`; project `🏥 Santé` | Sun 20260524 corde+pompes check-in |
 | 2026-04-08T11:20:00Z | [CODEX] | tick-mcp http | `week_overview` | days=7 | overview returned | n/a | planning snapshot |

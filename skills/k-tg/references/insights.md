@@ -19,7 +19,13 @@
 
 ## Media
 
-- **`tg user read`** surfaces media as `[Type]` placeholders — for PDF/photo **ingestion**, use **`tg user download @kpihx_general_capture_bot <msg_id> -o /tmp/k-tg/<run-id>/`** (works without bot token in env). Bot API path: **`tg updates --download-media`** when `TELEGRAM_GENERAL_TOKEN` is loaded.
+- **`tg user read`** surfaces media as `[Type]` placeholders — for PDF/photo **ingestion**, use **`tg user download @kpihx_general_capture_bot <msg_id> -o $HOME/.cache/k-tg/<run-id>/`** (works without bot token in env; avoid bare `$TMPDIR` paths — can be empty → `PermissionError`). Bot API path: **`tg updates --download-media`** when `TELEGRAM_GENERAL_TOKEN` is loaded.
+
+## Lebara eSIM (2026-05-25)
+
+- Android generic **« Checking SIM information… » → An error occurred. Please try again. »** during QR scan is often **network/provisioning** (SM-DP+ `leb.prod.ondemandconnectivity.com`), not a bad PDF — **disable VPN** first if status bar shows VPN key.
+- Lebara PDF ships **LPA string** (`LPA:1$<SM-DP+>$<activation>`) — prefer **manual entry** (*Enter code instead*) over re-scanning QR after repeated failures (codes may be partially consumed).
+- Two orders = two distinct activation codes; do not mix profiles. Check **Settings → SIM manager** for a ghost/pending Lebara eSIM before re-adding.
 
 ## What’s up — implementation gate
 

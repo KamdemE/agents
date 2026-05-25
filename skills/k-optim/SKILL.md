@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.0"
+  version: "2.10.1"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -199,7 +199,8 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
-- **2026-05-25**: `.agents/` governance pass — social skills `k-media`/`k-meta`/`k-x` unified; `make audit` **ALL_OK**; JSON creds verified outside git (`$HOME/.config/kpihx/`); kernel commit+push.
+- **2026-05-25 (Edge finalize)**: `k-browser` v1.3.0 Leave no trace; Edge agent **STABLE** (tabs cleaned, favorites `fake`/`agent-sandbox-bookmarks` removed by KπX); `make audit` after changelog/session-log cap fixes; QMD `check_collections.sh` → 1× `MISSING_PATH` `claude-memory` (path absent — known drift).
+- **2026-05-25**: `.agents/` governance pass — social skills unified; `make audit` **ALL_OK**; JSON creds outside git (`$HOME/.config/kpihx/`).
 - **2026-05-24**: QMD drift gate live — `check_collections.sh` in `k-qmd/scripts/`; wired to `auto_clean.sh` (Telegram block) + `ksh status`. Catches `MISSING_PATH` and `EMPTY_INDEX` (e.g. presentation `KpihX_Labs` typo → 0 files).
 - **2026-05-22**: `make -C $HOME/.agents audit` => **ALL_OK** after changelog/session-log cap fixes. QMD presentation re-indexed after path fix.
 - **2026-05-16**: `make -C $HOME/.agents audit` => `ALL_OK` after k-optim read cycle [CURSOR]
@@ -273,6 +274,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.10.1 — Meta: Edge agent STABLE finalize; audit cap fixes; QMD check (claude-memory path drift). |
 | 2026-05-25 | [CURSOR] | v2.10.0 — Meta scope: social skills unified, audit ALL_OK, agents push (no secrets). |
-| 2026-05-25 | [CURSOR] | v2.9.9 — QMD `check_collections.sh` health gate; wired into `auto_clean.sh` + `ksh status`. |
-| [SUMMARY] | — | v2.9.8 Timeshift purge; v2.9.6 full k-optim (`ISS-20260522-001`); older in git history |
+| [SUMMARY] | — | v2.9.9 QMD health gate; v2.9.8 Timeshift purge; v2.9.6 full k-optim (`ISS-20260522-001`); older in git history |

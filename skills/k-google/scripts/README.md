@@ -7,6 +7,7 @@
 | `gws_auth_status.py` | OAuth file presence per profile (no secret values) |
 | `gws_inspect_contacts.py` | People `connections.list` — filters: `all`, `email`, `kamdem`, `poly` |
 | `gws_inspect_recent_mail.py` | Gmail recent messages (Subject/From/Date metadata) |
+| `gws_gmail_deep_cleanup.py` | kapoivha deep archive/trash + idempotent Gmail filters (`--dry-run`) |
 
 **Shared:** `_gws_common.py` (import only — not executed directly).
 
