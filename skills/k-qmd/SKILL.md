@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.5"
+  version: "2.14.6"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -44,7 +44,6 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | `techskills` | `$HOME/Work/techskills/` | Ubuntu fixes, tools, shell patterns |
 | `presentation` | `$HOME/Work/KpihX-Labs/Homelab/presentation/` | homelab architecture and project knowledge |
 | `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
-| `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
 | `codex` | `$HOME/.codex/` | Codex config/rules/docs only |
 | `gemini` | `$HOME/.gemini/` | Gemini config/extensions only |
 | `copilot` | `$HOME/.copilot/` | Copilot config and state checkpoints |
@@ -89,7 +88,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - Ubuntu/system fix → `techskills`
 - homelab architecture/project memory → `presentation`
 - agent workflow, hooks, AGENTS, skills → `agents`
-- agent-specific runtime config/docs → one of `claude-memory`, `codex`, `gemini`, `copilot`, `vibe`
+- agent-specific runtime config/docs → one of `codex`, `gemini`, `copilot`, `vibe` (Claude legacy → `deactive/k-claude`, not indexed)
 - raw agent histories → use the corresponding `k-*` runtime skill path, not QMD
 
 ## Troubleshooting
@@ -117,6 +116,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.14.6 — Removed `claude-memory` from `index.yml` + collection map (path missing; Claude legacy deactive). |
 | 2026-05-24 | [CURSOR] | v2.14.5 — Added `scripts/check_collections.sh` health gate; wired into `auto_clean.sh` and `ksh status`. |
-| 2026-05-24 | [CURSOR] | v2.14.4 — Documented presentation path typo (`KpihX_Labs` vs `KpihX-Labs`) in insights; fixed live `index.yml` + reindexed 43 files. |
-| [SUMMARY] | — | v2.14.3 audit changelog compact; v2.14.2 presentation collection path correction; v2.14.1 insights; v2.14.0 retired collection; older → file history |
+| [SUMMARY] | — | v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

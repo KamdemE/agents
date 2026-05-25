@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.47"
+  version: "2.89.48"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -128,6 +128,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-25 | [CURSOR] | **QMD claude-memory removed** — `index.yml` + `k-qmd` v2.14.6 + `AGENTS.md`; `qmd update`/`cleanup`; `check_collections.sh` all OK (8 collections). |
 | 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. |
 | 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. |
 | 2026-05-25 | [CURSOR] | **Edge live automation** — Playwright CDP inventory + sandbox tabs + Copilot + favorites UI; techskills + `k-browser` insights. |
@@ -137,8 +138,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-05-25 | [CURSOR] | **Bitwarden ext 2026.4.x** — prelogin **404** before VW 1.36.0; fixed on homelab; `bw-prelogin-check.sh`; tmux `default:browser`. |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.9** — Termux `ubuntu` → `tmux attach -t default`; orphan PC session `ubuntu` removed. |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). |
-| [SUMMARY] | — | 2026-05-25 Edge setup/Lebara/social/CF outbound rows rotated → `references/log.md` |
+| [SUMMARY] | — | 2026-05-25 Edge setup/Lebara/social/CF outbound + `k-phones` v1.0.7 Termux tmux rows → `references/log.md` |
 
 ## References
 
@@ -161,6 +161,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.89.47 — Edge agent **STABLE**; session log rotation; k-optim Meta audit pass. |
-| 2026-05-25 | [CURSOR] | v2.89.46 — Edge cleanup + `k-browser` v1.3.0 Leave no trace. |
-| [SUMMARY] | — | v2.89.45–v2.89.23 Edge live, Gmail hygiene, phones, social APIs, CF mail → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.89.48 — QMD `claude-memory` retired (missing path; Claude legacy deactive). |
+| 2026-05-25 | [CURSOR] | v2.89.47 — Edge agent **STABLE**; k-optim Meta audit pass. |
+| [SUMMARY] | — | v2.89.46 Edge Leave no trace; v2.89.45–v2.89.23 Gmail/phones/social → `references/log.md` |

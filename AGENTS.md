@@ -143,7 +143,6 @@ Main collections:
 | `presentation` | `$HOME/Work/KpihX-Labs/Homelab/presentation/` | Homelab architecture, projects, research, vision |
 | `agents` | `$HOME/.agents/` | Agent workflows, AGENTS.md, skills, session history |
 | `k-ai` | `$HOME/.k-ai/` | KπX AI agent project |
-| `claude-memory` | `$HOME/.claude/projects/-home-kpihx/memory/` | Claude persistent memory |
 | `codex` | `$HOME/.codex/` | Codex runtime history and config |
 | `gemini` | `$HOME/.gemini/` | Gemini runtime history and config |
 | `copilot` | `$HOME/.copilot/` | Copilot runtime history and config |
