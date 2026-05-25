@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.48"
+  version: "2.89.49"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -111,6 +111,7 @@ allowed-tools: "Bash(*), *"
 | `references/mcp-central-sync-vision.md` | Brainstorm | Vision for a centralized MCP registry and synchronization pipeline to unified all agent provider configs |
 | `references/KpihX-Labs.md` | Vision | KpihX-Labs complete distributed cloud vision: Physical, Virtual, and Supreme Abstraction Layer (`docker-host`), Serverless MCPs, and ESO |
 | `references/edge-agent-automation-vision.md` | Brainstorm | Visible Edge + CDP for HITL agent browsing; dedicated profile; MCP attach; not Default user-data |
+| `references/sovereign-tutorial-automation-vision.md` | Vision | Agent-driven tutorials (VHS terminal + Remotion + articles); phone→PC→CLI stack; no facecam |
 
 ## What's up (context-only slice)
 
@@ -128,6 +129,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.15 STABLE** — S25 SSH bidirectional (TS IPs); Termux:Boot+`~/.termux/boot/sshd`; `termux-install-boot.sh`/`deploy-sshd.sh`; post-reboot `ssh s25` test pending. |
 | 2026-05-25 | [CURSOR] | **QMD claude-memory removed** — `index.yml` + `k-qmd` v2.14.6 + `AGENTS.md`; `qmd update`/`cleanup`; `check_collections.sh` all OK (8 collections). |
 | 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. |
 | 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. |
@@ -137,8 +139,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | 2026-05-25 | [CURSOR] | **Vaultwarden upgrade** — Portainer `vaultwarden` **1.36.0**; `prelogin/password` **HTTP 200** (`bw-prelogin-check.sh` OK). |
 | 2026-05-25 | [CURSOR] | **Bitwarden ext 2026.4.x** — prelogin **404** before VW 1.36.0; fixed on homelab; `bw-prelogin-check.sh`; tmux `default:browser`. |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.9** — Termux `ubuntu` → `tmux attach -t default`; orphan PC session `ubuntu` removed. |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. |
-| [SUMMARY] | — | 2026-05-25 Edge setup/Lebara/social/CF outbound + `k-phones` v1.0.7 Termux tmux rows → `references/log.md` |
+| [SUMMARY] | — | 2026-05-25 Edge/Lebara/CF + `k-phones` v1.0.7–v1.0.8 rows → `references/log.md`; v1.0.15 S25 SSH/Boot live. |
 
 ## References
 
@@ -161,6 +162,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.89.49 — Session log: `k-phones` v1.0.15 S25 SSH/Boot stable (post-reboot test open). |
 | 2026-05-25 | [CURSOR] | v2.89.48 — QMD `claude-memory` retired (missing path; Claude legacy deactive). |
-| 2026-05-25 | [CURSOR] | v2.89.47 — Edge agent **STABLE**; k-optim Meta audit pass. |
-| [SUMMARY] | — | v2.89.46 Edge Leave no trace; v2.89.45–v2.89.23 Gmail/phones/social → `references/log.md` |
+| [SUMMARY] | — | v2.89.47 Edge STABLE + audit; v2.89.46–v2.89.23 → `references/log.md` |

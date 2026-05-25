@@ -32,8 +32,12 @@ The `ubuntu` alias does **not** nest phone tmux inside PC tmux unless you start 
 
 ```sshconfig
 Host ubuntu
-    HostName kpihx-ubuntu
+    HostName 100.82.95.70
+    # HostName kpihx-ubuntu
+    # HostName kpihx-ubuntu.tail2527bd.ts.net
     User kpihx
+    IdentityFile ~/.ssh/id_ed25519_ubuntu
+    IdentitiesOnly yes
 ```
 
 Uses `~/.ssh/id_ed25519_ubuntu` (same key as in PC `authorized_keys`).

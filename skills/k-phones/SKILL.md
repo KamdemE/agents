@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.9"
+  version: "1.0.16"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
@@ -41,6 +41,8 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 | **ADB connect** | `adb-s25 DEBUG_PORT` — port from main *IP address & port* (≠ pairing port) |
 | **ADB reconnect** | `adb-s25` — uses last saved debug port |
 | **ADB status** | `adb-s25 status` |
+| **Termux:Boot install** | `zsh $HOME/.agents/skills/k-phones/scripts/termux-install-boot.sh` (needs `adb` device) |
+| **Full phone deploy** | `termux-deploy-all.sh` (sshd + tmux) |
 
 Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard — safe to `source ~/.kshrc` repeatedly).
 
@@ -64,7 +66,8 @@ Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard 
 - **Canonical config:** `$HOME/.agents/skills/k-phones/assets/ssh-kpihx-phones.conf` — included by `$HOME/.ssh/config`.
 - **Key:** `~/.ssh/id_ed25519_s25` → Termux `~/.ssh/authorized_keys`.
 - **User:** `u0_a417` (fixed by Android — cannot become `kpihx`; use alias `s25` + optional Termux `PS1`) · **Port:** `8022`.
-- **Termux `sshd`:** must be running on the phone — see `references/s25-termux-sshd.md`.
+- **Termux `sshd`:** must be running on the phone — persistence: `references/s25-termux-sshd.md` · deploy: `scripts/termux-deploy-sshd.sh` · assets: `termux-sshd-autostart.sh`, `termux-boot-sshd`.
+- **OpenSSH on PC only reads** `$HOME/.ssh/config` (+ Include fragments). Skill `references/*.md` are runbooks, not loaded by `ssh`.
 
 ## ADB (S25)
 
@@ -87,7 +90,13 @@ Full runbook: `references/s25-adb-wireless.md`.
 | `assets/ssh-config` | Symlink → `$HOME/.ssh/config` (audit) |
 | `assets/termux-tmux.conf` | Termux `~/.tmux.conf` template (Ctrl-a, resurrect, continuum) |
 | `assets/termux-zshrc-snippet.sh` | Reference snippet for `alias ubuntu=…` |
+| `assets/termux-sshd-autostart.sh` | Start `sshd` on each Termux shell open (`pgrep`, not `ss`) |
+| `assets/termux-ssh-ubuntu.conf` | Canonical `Host ubuntu` → `100.82.95.70` on phone |
+| `assets/termux-boot-sshd` | Termux:Boot (F-Droid) script → `~/.termux/boot/sshd` |
 | `scripts/termux-deploy-tmux.sh` | Push tmux + TPM + zsh alias to S25 via `ssh s25` |
+| `scripts/termux-deploy-sshd.sh` | Push sshd autostart + ubuntu SSH + boot script |
+| `scripts/termux-deploy-all.sh` | `termux-deploy-sshd.sh` then `termux-deploy-tmux.sh` |
+| `scripts/termux-install-boot.sh` | Install Termux:Boot (ADB silent or SSH + Install tap) |
 | `references/s25-adb-wireless.md` | Two-port ADB, Tailscale, eduroam |
 | `references/phone-to-ubuntu.md` | **Phone → PC** — `ubuntu` alias, PC tmux, security |
 | `references/termux-tmux.md` | Termux local tmux, termux-api clipboard, deploy |
@@ -102,7 +111,7 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `Successfully paired` but **`adb devices` empty** | **Pair ≠ connect** — `41183` was the **pairing** port | Main screen → **IP address & port** → `adb-s25 DEBUG_PORT` (different port) |
-| `ssh s25` → **Connection refused :8022** | Termux **`sshd` not running** (normal after reboot) | On phone: open **Termux** → run `sshd` → retry `ssh s25` — full steps: `references/s25-termux-sshd.md` |
+| `ssh s25` → **Connection refused :8022** | Termux **`sshd` not running** (normal after app close/reboot) | Termux: `sshd` or deploy persistence — `references/s25-termux-sshd.md` · `scripts/termux-deploy-sshd.sh` |
 | `source ~/.kshrc` → **read-only KPHONES_ASSETS** | Old `phones.ksh` used `readonly` | Fixed v1.0.8 — idempotent `_KPHONES_PHONES_KSH_SOURCED` guard |
 | `adb connect` fails, TCP open | Stale debug port or missing pair | Fresh pair code + `adb-s25-pair` then `adb-s25` with **live** debug port |
 
@@ -118,6 +127,6 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.0.9 — `ubuntu` alias → `tmux attach -t default` (no PC session `ubuntu`); orphan session removed on PC. |
-| 2026-05-25 | [CURSOR] | v1.0.8 — `phones.ksh` idempotent; `termux-tmux.md` triad doc; deploy: termux-api, portable zshrc, no `sed -i''`. |
-| [SUMMARY] | — | v1.0.7–v1.0.6 Termux tmux deploy + phone-to-ubuntu keys; v1.0.0–v1.0.5 S25 SSH/ADB, two-port ADB. |
+| 2026-05-25 | [CURSOR] | v1.0.16 — Doc/audit pass; quick cmds; changelog compliant. |
+| 2026-05-25 | [CURSOR] | v1.0.15 — Termux:Boot ADB install; bidirectional SSH (Tailscale IPs); deploy/install scripts; insights. |
+| [SUMMARY] | — | v1.0.8–v1.0.0 sshd autostart, IP-based Host blocks, tmux/ADB runbooks, tablet TBD. |

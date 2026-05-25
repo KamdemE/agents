@@ -8,6 +8,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. *(Rotated from k-context Session Log — cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). *(Rotated from k-context Session Log — cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound C′** — pivot kapoivha send-as; Outlook web dead. *(Rotated.)* |
