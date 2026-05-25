@@ -1,0 +1,9 @@
+[project]
+name = "k-x-scripts"
+version = "0.1.0"
+description = "X API CLI for k-x skill"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31.0",
+    "requests-oauthlib>=2.0.0",
+]

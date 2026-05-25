@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.9"
+  version: "2.2.4"
 allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 ---
 
@@ -62,7 +62,9 @@ Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/ref
   - `mark_messages` manages IMAP system flags (`seen`, `flagged`, `answered`, `draft`) on target UIDs.
   - `set_labels` adds/removes custom keyword labels (including Zimbra tags surfaced by `list_labels`).
   - `search_messages` supports `flagged_only=true` and `keyword="<label>"` (e.g. `Important`) to audit priority mail.
-- **Outlook / m365:** `ivann.kamdem@hotmail.com` — use **`m365 outlook *`** CLI (Graph) for the Hotmail mailbox; stack hub **`k-microsoft`** · runbook `$HOME/Work/techskills/m365-cli.md` (`m365 status`, `m365 outlook message list`, …). **Redirection:** much **institutional X mail** is visible both in Zimbra (`poly`) and in Outlook; in *What's up*, treat **poly as canonical** and **deduplicate** Outlook (see **`## What's up (mail briefing)`**). **`postmaster@zimbra.polytechnique.fr`** notifications in Hotmail are **delivery receipts**, not conversational mail.
+- **Outlook / m365:** `ivann.kamdem@hotmail.com` — **`m365 outlook *`** + **`k-microsoft`** · `$HOME/Work/techskills/m365-cli.md`. **Session:** tokens in `$HOME/.cli-m365-*` (v11); `authType=deviceCode`, `tenantId=consumers`; **`m365 status` → `connectedAs` may be empty** — confirm with `m365 request …/v1.0/me` or Graph `$search`. **Agents:** never `m365 login` / `m365 logout`. **`postmaster@outlook.com`** / Zimbra postmaster = DSN, not conversation.
+- **Public alias `@kpihx-labs.com` (inbound):** CF Worker **`kpihx-labs-inbound-router`** — **LIVE 2026-05-25.** Ops: **`email-routing-ops.md`** · E2E + anti-spam IDs: **`inbound-email-e2e.md`** · scripts: **`apply-inbound-antispam-filters.sh`**, **`verify-inbound-e2e.sh`**, **`archive-inbound-e2e-tests.sh`** (manifest: **`k-cloudflare/references/email-e2e-test-manifest.md`**). Do not self-test Hotmail→`ivann@`; kapoivha self-send → often **SENT only**.
+- **Outbound send-as:** **`k-cloudflare/references/outbound-setup-status.md`** — COMPLETE; compose via Gmail kapoivha/Labs.
 - **`.agents` git (KπX 2026-04-09):** Do **not** `git commit` / `make push` this repo unless KπX explicitly requests end-of-session finalization (see `k-context` HOT block).
 
 ## Messaging Style
@@ -180,7 +182,7 @@ If troubleshooting is needed, use:
 m365 login --authType deviceCode --appId <your-app-id> --tenant consumers --debug
 ```
 
-Interpretation note: `m365 status` may still show `connectedAs` as empty even when Graph reads are working; validate with a real read command (`m365 outlook message list`).
+Interpretation note: `m365 status` may show `connectedAs` as empty even when Graph works — validate with `m365 request …/v1.0/me` or `m365 outlook message list` **without** `--folderName Inbox` (MSA Inbox can be empty while `/me/messages` has mail). Token cache: `$HOME/.cli-m365-*` — see **`k-microsoft`** session section; do not `rm` `~/.config/m365`.
 
 **When both pass:** continue.
 
@@ -197,6 +199,19 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 6. **Proactive close** — Drafts + TickTick **proposals** (execute TickTick in a **later** turn per AGENTS unless KπX scoped mail-only and approved writes). **Apply `## Closure hygiene (mandatory)`** for any item marked done in this pass.
 
 **Sequential ladder:** When KπX runs the **full** *what's up*, **mail is exactly one assistant response** — do not combine with `k-context`, `k-whatsapp`, or `k-ticktick` output in the same generation.
+
+## Sovereign inbound aliases (`@kpihx-labs.com`)
+
+> **Owner:** `k-cloudflare/references/email-routing-ops.md` — API steps, IDs, E2E. This table is the **mail-facing map** only.
+
+| Custom address | Intended destinations | Status / method |
+|----------------|----------------------|-----------------|
+| `kpihx@kpihx-labs.com` | `ivann.kamdem@hotmail.com` + `kapoivha@gmail.com` | **Live:** Worker `kpihx-labs-inbound-router` — E2E Hotmail + `gws-kpihx` OK (2026-05-25) |
+| `contact@kpihx-labs.com` | `kpihx.labs@gmail.com` + `kapoivha@gmail.com` | **Live** Worker + prime rules — kapoivha Inbox; Labs check **`in:spam`** (`gws-labs`) |
+| `ivann@kpihx-labs.com` | `ivann.kamdem@hotmail.com` only | **Live** Worker rule `41bb5f76…` (2026-05-25) |
+| *new* alias | 1 primary + kapoivha copy | Verify destinations → one forward **or** Worker — `email-routing-ops.md` |
+
+**Create a new alias (summary):** Cloudflare dashboard → Email → Routing → **Destination addresses** (verify each Gmail) → **Routing rules** → custom address + one forward target **or** route to Worker for multi-forward. No mailbox is hosted on CF — only forward.
 
 ## MCP Setup Reference
 
@@ -232,5 +247,6 @@ Interpretation note: `m365 status` may still show `connectedAs` as empty even wh
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.1.9 — Removed empty P2 courses table (live mail SOT); v2.1.8 cloud-hub + markup fixes. |
-| [SUMMARY] | — | v2.1.7 PA form scope; v2.1.0 Linguaskill; Hotmail runbook; What's up mail ladder; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.2.4 — E2E archive + outbound COMPLETE; inbound LIVE pointers. |
+| 2026-05-25 | [CURSOR] | v2.2.0 — M365 session + `@kpihx-labs.com` inbound map. |
+| [SUMMARY] | — | v2.2.1–v2.2.3 anti-spam/Worker; v2.1.x cloud-hub; older → `references/log.md` |

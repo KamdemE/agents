@@ -1,14 +1,20 @@
 # Insights
 
+## 2026-05-25 — [CURSOR] token gate
+
+- **`CF_API_TOKEN`** (and all Vault tokens): try CLI → tmux **`default`**/`remote`** → `bw-env unlock && bw-env get` + KπX password in chat. Never print values. See `references/token-gate.md`.
+
+## 2026-05-25 — [CURSOR]
+
+- **Cloudflare ops moved to `k-cloudflare`** — tunnel/DNS/setup/MCP limits live there; this hub keeps Tailscale + registry routing only.
+
+## 2026-05-25 — [CURSOR] ops snapshot (Tailscale)
+
+- **`ts-proxy`:** `ts-proxy admin status` → API 200, tailnet connected (5 devices). Use for ACL/device diagnostics before host firewall changes.
+
 ## 2026-05-25 — [CURSOR]
 
 - **Cloud hub SOT:** `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` — all cloud/productivity skills should route through it; avoid duplicating full maps in each SKILL.md.
-
-## Cloudflare — Cursor plugin MCP
-
-- The Cursor **Cloudflare** MCP family (`cloudflare-bindings`, `cloudflare-builds`, `cloudflare-docs`, `cloudflare-observability`) exposes **account pickers**, **Workers scripts**, **Workers Builds**, **KV**, **D1**, **R2** (if enabled), **Hyperdrive**, **Workers Observability** queries, and **documentation search**. It does **not** expose tools to list or edit **DNS zones/records**, **Cloudflare Tunnel** configs, **Zero Trust / Access** applications or policies, **Gateway** rules, or **Pages** projects as live account state.
-- **`search_cloudflare_documentation`** returns **public docs chunks**, not private account configuration. Do not treat doc search results as an inventory of the user’s Cloudflare setup.
-- For full account inventory (tunnels, Access apps, DNS, etc.), use **Cloudflare API** / **dashboard** / **`flarectl`** / **`cloudflared`** with appropriately scoped credentials — outside this MCP surface unless Cloudflare extends the plugin.
 
 ## Tailscale
 

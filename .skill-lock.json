@@ -242,7 +242,14 @@
       "sourceType": "local",
       "skillPath": "skills/k-cloud-tools/SKILL.md",
       "installedAt": "2026-04-26T12:00:00.000Z",
-      "updatedAt": "2026-04-26T12:00:00.000Z"
+      "updatedAt": "2026-05-25T12:00:00.000Z"
+    },
+    "k-cloudflare": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-cloudflare/SKILL.md",
+      "installedAt": "2026-05-25T12:00:00.000Z",
+      "updatedAt": "2026-05-25T12:00:00.000Z"
     },
     "k-hook": {
       "source": "local",
@@ -283,6 +290,27 @@
       "source": "local",
       "sourceType": "local",
       "skillPath": "skills/k-microsoft/SKILL.md",
+      "installedAt": "2026-05-25T00:00:00.000Z",
+      "updatedAt": "2026-05-25T00:00:00.000Z"
+    },
+    "k-media": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-media/SKILL.md",
+      "installedAt": "2026-05-25T00:00:00.000Z",
+      "updatedAt": "2026-05-25T00:00:00.000Z"
+    },
+    "k-x": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-x/SKILL.md",
+      "installedAt": "2026-05-25T00:00:00.000Z",
+      "updatedAt": "2026-05-25T00:00:00.000Z"
+    },
+    "k-meta": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-meta/SKILL.md",
       "installedAt": "2026-05-25T00:00:00.000Z",
       "updatedAt": "2026-05-25T00:00:00.000Z"
     }

@@ -1,17 +1,17 @@
 ---
 name: k-microsoft
 description: >
-  KπX Microsoft stack — az (Azure container) and m365 (M365/Graph content only).
-  Load before Azure or Microsoft 365 tasks. Mail briefings → k-mail.
+  KπX Microsoft stack — m365 (M365/Graph content) only. Azure CLI (az) deactivated
+  (no subscription). Load before Microsoft 365 tasks. Mail briefings → k-mail.
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.4.0"
   scope: operations
-allowed-tools: Bash(m365:*), Bash(az:*)
+allowed-tools: Bash(m365:*)
 ---
 
-# KπX — Microsoft (Azure + Microsoft 365)
+# KπX — Microsoft 365 (`m365`)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
@@ -19,31 +19,74 @@ allowed-tools: Bash(m365:*), Bash(az:*)
 
 Registry map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · load **`k-cloud-tools`** when routing across providers.
 
-## Two planes (mandatory)
+## Azure CLI (`az`) — deactivated
 
-| Plane | Tool | Scope |
-|-------|------|--------|
-| **Container** | `az` | Azure subscriptions, VMs, AKS, storage, Entra admin |
-| **Content** | `m365` | Outlook, OneDrive, Calendar, To Do, Planner, Teams, SPO |
+| Status | Reason |
+|--------|--------|
+| **OFF** | No Azure subscription on KπX workstation — container plane not used |
+| **CLI** | `azure-cli` **removed** from system; do not reinstall without a subscription + explicit KπX decision |
+| **Agents** | **Never** invoke `az`, suggest `az login`, or read `$HOME/.azure/` for Microsoft work |
 
-**Rule:** Azure infra → `az`. M365 user data → **`m365` only**. Symmetry with Google: `az`+`m365` ≈ `gcloud`+`gws`.
+**Microsoft universe on KπX = `m365` only** (Graph: Outlook, OneDrive, Calendar, To Do, Teams, Planner, raw `m365 request`).
 
-## Tools (verify with `!<cmd>`)
+For Azure Foundry / AOAI deploy **if** a subscription exists later → external skill **`microsoft-foundry`** (not this stack); re-enable `az` only then.
+
+## Tool (verify with `!<cmd>`)
 
 | Binary | Runbook |
 |--------|---------|
 | `m365` | `$HOME/Work/techskills/m365-cli.md` |
-| `az` | `az version` |
 
-**Agent auth (mandatory):** never `m365 login` / `logout` / `setup` — KπX only. Read/status + approved reads. Details: **`k-mail`**.
+**Agent auth (mandatory):** never `m365 login` / `logout` / `setup` — KπX only. Read/status + approved reads. Mail gates: **`k-mail`**.
+
+### Session persistence (v11 — mandatory)
+
+| Layer | Lifetime | KπX notes |
+|-------|----------|-----------|
+| **Access token** | ~1 h | Auto-refreshed by CLI; no re–device-code each hour |
+| **Refresh token** | **90 days** idle (Microsoft default, MSA `consumers`) | Not configurable on personal Hotmail; password change / “sign out everywhere” revokes early |
+
+**Token files (do not delete unless `m365 logout`):** `$HOME/.cli-m365-msal.json`, `$HOME/.cli-m365-connection.json`, `$HOME/.cli-m365-all-connections.json`.  
+**Obsolete paths (ignore):** `$HOME/.config/m365`, `$HOME/.local/share/m365`.
+
+**Stable config (KπX sets once):**
+
+```bash
+m365 cli config set --key authType --value deviceCode
+m365 cli config set --key tenantId --value consumers
+m365 cli config set --key autoOpenLinksInBrowser --value false
+m365 cli config set --key copyDeviceCodeToClipboard --value false
+```
+
+**Health check (prefer over `status` alone):** `m365 request --url "https://graph.microsoft.com/v1.0/me" --method get --output json` → `userPrincipalName`.  
+`m365 status` may show **`connectedAs` empty** while Graph works — see **`k-mail`** + `references/insights.md`.
+
+**Inbox reads:** avoid `--folderName Inbox` when Graph Inbox `totalItemCount` is 0 on MSA; use `m365 outlook message list` without folder or `m365 request` on `/me/messages`. Details → **`k-mail`**.
 
 Escape hatch: `m365 request --url "https://graph.microsoft.com/v1.0/..." --method get`
 
 ```bash
-m365 status
-m365 outlook message list --folderName Inbox --output json
+m365 request --url "https://graph.microsoft.com/v1.0/me" --method get --output json
+m365 outlook message list --output json --query "[0:10].{subject:subject,from:from.emailAddress.address}"
 m365 onedrive list
+m365 outlook event list --query '$top=10&$select=subject,start,end'
 ```
+
+## Explore Microsoft (m365 map)
+
+| Area | Entry commands | Skill pair |
+|------|----------------|------------|
+| **Mail** | `m365 outlook message list/get` | **`k-mail`** |
+| **Calendar** | `m365 outlook event list` | this skill |
+| **OneDrive** | `m365 onedrive list`, `m365 file get` | this skill |
+| **To Do** | `m365 todo task list` | **`k-ticktick`** (dedupe) |
+| **Planner** | `m365 planner plan list` | this skill |
+| **Teams** | `m365 teams message list` (if licensed) | this skill |
+| **Contacts** | `m365 request` → `/me/contacts` | `scripts/m365_inspect_contacts.py` |
+| **Search** | `m365 search` | this skill |
+| **Anything else Graph** | `m365 request --url …` | this skill |
+
+Poly academic mail: **mail-mcp** — not `m365`.
 
 ## Mail routing
 
@@ -58,15 +101,33 @@ What's up: Zimbra canonical; dedupe Outlook — **`k-mail`**.
 
 | Now | Optional later |
 |-----|----------------|
-| CLI `m365` + `az` | `ms-365-mcp-server` if native MCP needed |
+| CLI `m365` | `ms-365-mcp-server` if native MCP needed |
 | | `references/mcp-cli-vision.md` (ts-proxy model) |
+
+## Pre-Fluid scripts (until level-up)
+
+**Until** the Fluid **ts-proxy**-style bridge (see `references/mcp-cli-vision.md`), agents **must prefer** `$HOME/.agents/skills/k-microsoft/scripts/` over ad-hoc `/tmp` glue.
+
+| Script | When to run |
+|--------|-------------|
+| `m365_inspect_status.py` | Auth/session check — **never** `m365 login` / `logout` / `setup` |
+| `m365_inspect_inbox.py` | Recent Outlook folder messages (`--folder Inbox`) |
+| `m365_inspect_contacts.py` | Graph contacts via `m365 request` (`--top`) |
+
+**Inventory + examples:** `scripts/README.md` · shared helpers: `scripts/_m365_common.py`.
+
+**Agent ownership (mandatory):** keep `scripts/` ordered; document every script in `README.md` + this table; bump version + Changelog when behavior changes. **Forbidden** in scripts: login/logout/setup commands.
+
+```bash
+python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folder Inbox
+```
 
 ## Cross-skills
 
 | Task | Load |
 |------|------|
 | Mail briefing / send gates | `k-mail` |
-| Foundry / Azure OpenAI | `microsoft-foundry` |
+| Azure Foundry (only if subscription later) | `microsoft-foundry` — not active on this workstation |
 | Registry | `k-cloud-tools` |
 
 ## Insights Discipline (mandatory)
@@ -79,5 +140,6 @@ What's up: Zimbra canonical; dedupe Outlook — **`k-mail`**.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.1.0 — Uniform cloud-hub routing; compact layout. |
-| [SUMMARY] | — | v1.0.0 — m365 + az stack; mail cross-ref k-mail. |
+| 2026-05-25 | [CURSOR] | v1.4.0 — Session persistence: `~/.cli-m365-*`, deviceCode+consumers, `/me` check. |
+| 2026-05-25 | [CURSOR] | v1.3.0 — **`az` deactivated**; skill = **m365-only**. |
+| [SUMMARY] | — | v1.2.x `scripts/_m365_common.py` helpers; v1.1.0 cloud-hub; v1.0.0 m365+az. |

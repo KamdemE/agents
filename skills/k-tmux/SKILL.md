@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.1"
+  version: "1.4.4"
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
@@ -143,8 +143,8 @@ Behavior:
 | Manual save | `Ctrl-a Ctrl-s` (`tmux-resurrect`) |
 | Manual restore | `Ctrl-a Ctrl-r` (`tmux-resurrect`) |
 | Automatic save | every 5 minutes (`tmux-continuum`) |
-| Automatic restore | first tmux start after reboot (`@continuum-restore on`) |
-| Automatic tmux server boot | enabled at user login via `systemd --user` (`@continuum-boot on`) |
+| Automatic restore | first tmux start after reboot (`@continuum-restore on`) — run `tmux` from a terminal post-login |
+| Login systemd boot | **off** (`@continuum-boot off`; `tmux.service` disabled — avoids login server dying before restore) |
 | Last pane display | captured via `@resurrect-capture-pane-contents on` |
 
 Scope:
@@ -153,15 +153,50 @@ Scope:
 - Does **not** restore terminal emulator tabs outside tmux.
 - Does **not** restore shell command history for arrow-key navigation; shell history remains owned by zsh (`$HOME/.zsh_history` or any future zsh history split).
 - Captured pane text can include sensitive terminal output; avoid displaying secrets before a save.
-- On Linux, `@continuum-boot on` creates `$HOME/.config/systemd/user/tmux.service` and starts the tmux server when the user session starts. This is user-login startup, not pre-login system boot.
+- On Linux, `@continuum-boot on` would create `$HOME/.config/systemd/user/tmux.service`; **KπX keeps it off** (see **First tmux after reboot**).
 
-First restore after reboot:
+### First tmux after reboot (post-login) — mandatory workflow
+
+> **Do not trust an immediate `tmux ls` right after login.** `@continuum-boot` is **off** and `tmux.service` is **disabled** — there is no login-time server. **`no server running`** until you run step 2 (`tmux` from a real terminal).
+
+**After every reboot, in order:**
+
+1. **Check server (optional)** — `tmux ls`  
+   - `no server running` → normal; go to step 2.  
+   - Only `default` or wrong layout → step 4 after attach.
+
+2. **Start tmux once from a real terminal** (Cursor, GNOME Terminal, etc.) — not via the user `tmux.service` unit:
+   ```bash
+   tmux
+   ```
+   Auto-restore (`@continuum-restore on`) runs **only on this new server start** (first client loads plugins → `continuum_restore.sh` after ~1s).
+
+3. **Verify sessions** — `tmux ls` inside or outside tmux. Expect your named sessions (`live`, `pve`, …) if the last save was good.
+
+4. **If empty or only a bare `default`** — manual restore:
+   ```bash
+   # inside tmux: Ctrl-a Ctrl-r
+   ```
+   If `last` points at a tiny/empty save (reboot loop), pick an older file:
+   ```bash
+   ls -lt $HOME/.tmux/resurrect/tmux_resurrect_*.txt | head
+   wc -c $HOME/.tmux/resurrect/$(readlink -f $HOME/.tmux/resurrect/last)
+   ```
+   See tmux-resurrect docs for restoring a specific timestamped file.
+
+5. **Before the next reboot** — inside tmux: `Ctrl-a Ctrl-s`, then confirm `last` is non-trivial:
+   ```bash
+   wc -c $HOME/.tmux/resurrect/$(readlink -f $HOME/.tmux/resurrect/last)
+   ```
+   Do **not** rely on shutdown `ExecStop` save — journals show `save.sh: no server running` when the unit stops.
+
+**Diagnose boot/shutdown (optional):**
 
 ```bash
-tmux
-# Continuum auto-restore should run at startup if a previous save exists.
-# If needed: Ctrl-a Ctrl-r
+journalctl --user -u tmux.service -b 0 --no-pager | tail -30
 ```
+
+**Config (2026-05-25):** `@continuum-boot off` + `systemctl --user disable tmux.service`. Restore happens when KπX runs step 2. Forensics: `references/insights.md`.
 
 ## Sessions — Create, Enter, Switch, Delete
 
@@ -269,24 +304,33 @@ tmux display-panes                # show pane indices
 
 Enter copy-mode to scroll the tmux buffer (not the shell prompt history).
 
+> **Why Shift+drag “does nothing”:** With `mouse on`, tmux owns the mouse. **Cursor, Zed, and most integrated terminals do not pass Shift+drag to the OS** — there is no highlight, no copy. Use the workflows below (wheel or drag-in-copy-mode), not desktop-style Shift+select.
+
 | Keys | Action |
 |------|--------|
 | `[` | Enter copy-mode |
-| `q` | Exit copy-mode |
-| `PgUp` / wheel up | Scroll up (with KπX config, wheel always scrolls buffer) |
+| `q` / `Esc` | Cancel copy-mode (no copy) |
+| `PgUp` / wheel up | Scroll up (wheel enters copy-mode via KπX config) |
 | `PgDn` / wheel down | Scroll down |
-| `/` | Search forward |
-| `?` | Search backward |
-| `Enter` | Copy selection (default mode) |
-| `]` | Paste buffer |
+| `/` / `?` | Search (vi copy-mode) |
+| `v` | Begin keyboard selection (vi) |
+| `y` | Copy selection to system clipboard + exit |
+| `Enter` | Same as `y` (copy + exit) |
+| `]` | Paste tmux buffer |
 
-Vi mode (optional — add to config if preferred):
+### Mouse copy (KπX default — `mode-keys vi`)
 
-```bash
-setw -g mode-keys vi
-bind -T copy-mode-vi v send -X begin-selection
-bind -T copy-mode-vi y send -X copy-selection-and-cancel
-```
+| Action | Result |
+|--------|--------|
+| **Drag** (no Shift) on text | Enters copy-mode, highlights selection |
+| **Release** after drag | Copies to clipboard, exits copy-mode |
+| **Wheel up** | Scroll history in copy-mode (unchanged) |
+| **Right-click** | Copy-mode (scroll/select) — not the tmux popup menu |
+| **Shift+drag** | Ignored by design in integrated terminals — use drag without Shift |
+
+Clipboard pipe: `xclip` (XWayland) with `wl-copy` fallback — on pure Wayland install `wl-clipboard` (`apt install wl-clipboard`) if copy is empty.
+
+Reload after config change: `tmux source-file $HOME/.tmux.conf`
 
 ## Mouse (KπX Config)
 
@@ -297,6 +341,7 @@ With `mouse on` and wheel bindings:
 - **Click pane** → focus
 - **Click window name** → switch window
 - **Drag border** → resize pane
+- **Drag on text** → copy-mode selection + copy on release (see above)
 
 If wheel still changes shell history: confirm config is loaded (`tmux show -g mouse`), reload with `tmux source-file ~/.tmux.conf`, and check the terminal emulator forwards wheel events to tmux.
 
@@ -394,6 +439,8 @@ tmux attach -t local
 | Colors broken in neovim/htop | Set `default-terminal "tmux-256color"`, ensure `TERM` in shell |
 | `sessions should be nested` warning | Already inside tmux — use `tmux switch-client` or nested intentionally |
 | Cannot attach | `tmux ls` — session may be dead; check `tmux info` |
+| After reboot: `tmux ls` → no server / no sessions | Follow **First tmux after reboot** above; do not expect persistence from `tmux.service` at login |
+| After reboot: only empty `default` | `Ctrl-a Ctrl-r`; check `resurrect/last` size; restore older `tmux_resurrect_*.txt` if needed |
 | Config ignored | Wrong file path; use `tmux show -g` to inspect active values |
 | Broken symlink in skill assets | Recreate: `ln -sf $HOME/.tmux.conf assets/tmux.conf` |
 
@@ -407,6 +454,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-24 | [CURSOR] | v1.4.1 — Documented `𝛱/live` tmux session layout (`ops` / `brain` / `web`) in `references/insights.md`. |
-| 2026-05-22 | [CODEX] | v1.4.0 — Enabled `@continuum-boot on`; verified generated `systemd --user` tmux service and Linux login-start behavior. |
-| [SUMMARY] | — | v1.3.1 continuum 5m interval; v1.3.0 resurrect+continuum; v1.2.0–v1.0.0 prefix and shared interactive gate. |
+| 2026-05-25 | [CURSOR] | v1.4.4 — Mouse copy: vi copy-mode + drag→clipboard; Shift+drag doc. |
+| 2026-05-25 | [CURSOR] | v1.4.3 — `@continuum-boot off` + disabled `tmux.service`; post-login workflow. |
+| [SUMMARY] | — | v1.4.0–v1.4.2 continuum/reboot; v1.3.x prefix and shared interactive gate. |

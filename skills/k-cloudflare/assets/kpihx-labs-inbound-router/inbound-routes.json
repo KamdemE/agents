@@ -1,0 +1,28 @@
+{
+  "zone": "kpihx-labs.com",
+  "worker": "kpihx-labs-inbound-router",
+  "default_destinations": ["kapoivha@gmail.com"],
+  "aliases": [
+    {
+      "address": "kpihx@kpihx-labs.com",
+      "name": "kpihx public",
+      "priority": 1,
+      "rule_id": "332137f5445a4b368e0759a357cef0f9",
+      "destinations": ["ivann.kamdem@hotmail.com", "kapoivha@gmail.com"]
+    },
+    {
+      "address": "contact@kpihx-labs.com",
+      "name": "contact homelab",
+      "priority": 2,
+      "rule_id": "d510750af1ed449bbc02247c881f874a",
+      "destinations": ["kpihx.labs@gmail.com", "kapoivha@gmail.com"]
+    },
+    {
+      "address": "ivann@kpihx-labs.com",
+      "name": "ivann outlook only",
+      "priority": 3,
+      "rule_id": "41bb5f76b8c7499c8bf60273d23a9cc3",
+      "destinations": ["ivann.kamdem@hotmail.com"]
+    }
+  ]
+}

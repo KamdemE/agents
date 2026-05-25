@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.9"
+  version: "2.10.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -199,6 +199,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Last Known State
 
+- **2026-05-25**: `.agents/` governance pass — social skills `k-media`/`k-meta`/`k-x` unified; `make audit` **ALL_OK**; JSON creds verified outside git (`$HOME/.config/kpihx/`); kernel commit+push.
 - **2026-05-24**: QMD drift gate live — `check_collections.sh` in `k-qmd/scripts/`; wired to `auto_clean.sh` (Telegram block) + `ksh status`. Catches `MISSING_PATH` and `EMPTY_INDEX` (e.g. presentation `KpihX_Labs` typo → 0 files).
 - **2026-05-22**: `make -C $HOME/.agents audit` => **ALL_OK** after changelog/session-log cap fixes. QMD presentation re-indexed after path fix.
 - **2026-05-16**: `make -C $HOME/.agents audit` => `ALL_OK` after k-optim read cycle [CURSOR]
@@ -247,6 +248,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-25 | Meta | `.agents` social+email skill audit fix | ALL_OK; no secrets in commit; JSON smoke Meta core + X me |
 | 2026-05-24 | Meta/QMD | `check_collections.sh` + auto_clean/ksh wiring | Path-drift gate: MISSING_PATH + EMPTY_INDEX; Telegram alert on weekly cleanup |
 | 2026-05-22 | Ubuntu/Agents/Meta | Full k-optim (`ISS-20260522-001`) | ~18G `$HOME` reclaim; transit empty; `clean_all -s -p -y`; venvs purged; governance ALL_OK; homelab offline |
 | 2026-05-16 | Meta/Ubuntu/Homelab | k-optim audit (read-only) | `make -C $HOME/.agents audit` ALL_OK; `ksh status` shows clean OK / backup FAILED (`ISS-20260516-001`); `hsh` path corrected in skill SOT; PVE+LXC offline from workstation; home transit dirs still over policy on Downloads/Documents/Pictures |
@@ -271,6 +273,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-24 | [CURSOR] | v2.9.9 — QMD `check_collections.sh` health gate; wired into `auto_clean.sh` + `ksh status`; presentation path fix noted in Meta LKS. |
-| 2026-05-22 | [CURSOR] | v2.9.8 — Timeshift purged (no snapshots); Optim `uv sync` OK; Homelab `sh` push; backup ISS resolved noted in LKS. |
-| [SUMMARY] | — | v2.9.7 audit changelog cap fix; v2.9.6 full k-optim (`ISS-20260522-001`); v2.9.5 homelab `hsh`/Telegram; v2.9.3 issues ledger; v2.9.2 `sui -r`; v2.9.1 insights; v2.9.0 automount; older in git history |
+| 2026-05-25 | [CURSOR] | v2.10.0 — Meta scope: social skills unified, audit ALL_OK, agents push (no secrets). |
+| 2026-05-25 | [CURSOR] | v2.9.9 — QMD `check_collections.sh` health gate; wired into `auto_clean.sh` + `ksh status`. |
+| [SUMMARY] | — | v2.9.8 Timeshift purge; v2.9.6 full k-optim (`ISS-20260522-001`); older in git history |

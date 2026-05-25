@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.26"
+  version: "2.89.39"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -47,7 +47,8 @@ allowed-tools: "Bash(*), *"
 | **Sinner Visualizer** | ✅ STABLE — `sinner_analysis_1080p_fr.mp4` delivered. Full tactical video (1080p60) and multi-lang dashboard (v0.3.0). | Final high-res walkthrough delivered. · `$HOME/Work/X/Python_2A_P3/sinner-tactical-visualizer/` |
 | **ScienCurious Lab** | 🟢 ACTIVE — Collaboration avec **Demartino KUETE** formalisée. Candidature au **Prix Gerondeau** en cours (échéance 10 mai). Tâche TickTick `69f629138f085570b2766a1f` créée. Assets Hub opérationnel (v1.1.5). | "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !" · `$HOME/Work/KpihX-Labs/Homelab/assets/` |
 | **Choix de PA X24** | ✅ STABLE — Classement final des vœux P1 et P2 validé et capturé sur Gdrive_X. Attente de la validation finale sur la plateforme. | Captures dans `Gdrive_X/X/3A/Admin/Captures_Plateforme_Voeux/` · `$HOME/.agents/skills/kpihx/references/3a_course_planning.md` |
-| **Sovereign Email Hub**| 🚧 PLANNING — Establishment of `@kpihx-labs.com` email universe. Analysis completed: Cloudflare Routing vs. Full Sovereign Server. | Propose implementation plan for Path A · `$HOME/.agents/skills/k-context/references/sovereign-email-universe-vision.md` |
+| **Sovereign Email Hub**| ✅ **INBOUND + OUTBOUND + DMARC** — 3 send-as; `_dmarc` `p=none` + `rua→kapoivha`. | Aggregate reports in kapoivha inbox · `outbound-setup-status.md` |
+| **Social APIs (media)** | ✅ STABLE — hub **`k-media`**; **`k-x`** + **`k-meta`** JSON LIVE (outside git); no **`k-publish`** skill. | X credits · Meta System User · `social-dev-platforms.md` |
 | **KpihX-Labs Vision** | 🔴 **ABSOLUTE PRIORITY #1** — Technical Foundation: K3s distributed cluster, Tailscale Mesh, Kasm WebTop agent visual sandbox | Test WebTop locally · `$HOME/.agents/skills/k-context/references/KpihX-Labs.md` |
 | **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
 | **MIE Ubisoft Case** | ✅ STABLE — v1.0.0 Study case completed, PDF generated and sent. | Finalized analysis and style refinement. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
@@ -124,17 +125,16 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
-| 2026-05-25 | [CURSOR] | **Cloud hub finalized:** `k-tg` in hub; AGENTS `k-cloud-tools`; techskills `cloud-hub.md`; kernel commit+push; k-mail P2 table cleanup. |
-| 2026-05-25 | [CURSOR] | **Cloud skills uniformized:** `cloud-hub.md` SOT; k-cloud-tools hub; k-google/k-microsoft + productivity skills aligned; k-mail/k-ticktick markup fixes. |
-| 2026-05-25 | [CURSOR] | **Lebara eSIM PDF:** Telegram `@kpihx_general_capture_bot` msg 7991 → `$HOME/Gdrive_X/KpihX/Phone_Lebara/eSIM_Lebara_ML045066180_KAMDEM_Ivann_20260525.pdf`; `k-tg` v3.2.11 default-bot rule (unspecified send = KpihX). |
-| 2026-05-24 | [CURSOR] | **KπX Fit TickTick:** 3 habits (corde/pompes/gainage @20:00) + Sat task 05:30+05:45 `🏥 Santé`; Sun check-in corde+pompes. · tick-mcp |
-| 2026-05-24 | [CURSOR] | **KπX Fit:** `kpihx/references/fit.md` + Cyclers assets; TG screenshots 7988–7990 analyzed; k-context Active Projects row. · `$HOME/.agents/skills/kpihx/` |
-| 2026-05-24 | [CURSOR] | `𝛱/live` tmux `live` trace stack: `make live-up` (`scripts/live-tmux.sh`), windows `ops`/`brain`/`web`/`trace`, `client-trace.jsonl` + `/trace/tail`; browser `liveTrace.*` for KπX-local tests. · `$HOME/KpihX-Labs/𝛱/live/` |
-| 2026-05-24 | [CURSOR] | `𝛱/live` v0.3.1 — `two_party_channel` no longer falls back to generic dots on socket/Linux intents: `ensure_two_party_entities`, `plan_and_compile_scene`, web `resolveTwoPartyParams`; `make check` green. · `$HOME/KpihX-Labs/𝛱/live/` |
-| 2026-05-24 | [CURSOR] | v2.89.21 — `𝛱/live` commit `c67a9e0` v0.2.1; tmux `live` windows `ops`/`brain`/`web`; `docs/DEV_WORKFLOW.md`; all `make` in session `live`. · `$HOME/KpihX-Labs/𝛱/live/` |
-| 2026-05-24 | [CODEX] | v2.89.20 — `𝛱/live` V1 implementation pass: `LearningPlanner` abstraction, generic chat-completions adapter, env-over-YAML config fix, configurable narration pacing, 9-test backend suite, local WebSocket simulation, and contract v1.3.0. · `$HOME/KpihX-Labs/𝛱/live/` |
-| 2026-05-24 | [CODEX] | v2.89.19 — `𝛱/live` LLM-native agentic skeleton: Mistral-first provider boundary, local fallback, compact `LivePlan`, generic Scene IR compiler, conductor messages, web canvas, and docs aligned to "un systeme agentique qui transforme une intention d'apprentissage en experience visuelle vivante". · `$HOME/KpihX-Labs/𝛱/live/` |
-| [SUMMARY] | — | v2.89.18–v2.89.12 + Fit/live rows rotated 2026-05-25 → `references/log.md`; v2.89.5–v2.88.7 rotated 2026-05-24; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | **Social APIs finalized** — Meta JSON core smoke OK; X JSON `me` OK; tweet 402 credits; `k-meta` v1.0.1 tiered smoke. |
+| 2026-05-25 | [CURSOR] | **`k-x` v1.0.0** — X `@KPIHX7` me OK; tweet 402 credits; optional JSON doc. |
+| 2026-05-25 | [CURSOR] | **`k-media` v1.1.0** — YouTube LIVE `@kpihx`. |
+| 2026-05-25 | [CURSOR] | **`k-media` v1.0.0** — YouTube kpihx-labs bootstrap. |
+| 2026-05-25 | [CURSOR] | **E2E mail archived** 31+18+13; social registry. |
+| 2026-05-25 | [CURSOR] | **CF outbound COMPLETE** — 3/3 send-as + DMARC. |
+| 2026-05-25 | [CURSOR] | **CF outbound E2E** — gws `OUT-E2E-083632`; m365 Hotmail default only. |
+| 2026-05-25 | [CURSOR] | **CF outbound C′** — pivot kapoivha send-as; Outlook web dead. |
+| 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C (app passwords + Send-as UI). |
+| [SUMMARY] | — | 2026-05-25 CF inbound/tmux/ISS/cloud-hub/Lebara + 2026-05-24 Fit/live rows rotated → `references/log.md` |
 
 ## References
 
@@ -157,6 +157,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.89.26 — `k-tg` hub + AGENTS `k-cloud-tools` + techskills `cloud-hub.md`; v2.89.25 cloud uniformization + k-google/k-microsoft. |
-| 2026-05-25 | [CURSOR] | v2.89.23 — Lebara eSIM PDF from Telegram KpihX bot archived under `Gdrive_X/KpihX/Phone_Lebara/`. |
-| [SUMMARY] | — | v2.89.22–v2.89.18 Fit/live/health/QMD; v2.89.17–v2.89.12 session log rotated 2026-05-25; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.89.39 — Social APIs: Meta JSON core OK; X JSON `me` OK; YouTube LIVE. |
+| 2026-05-25 | [CURSOR] | v2.89.38 — Sovereign Email outbound COMPLETE (3/3 send-as). |
+| [SUMMARY] | — | v2.89.37–v2.89.23 CF inbound/tmux/ISS/cloud/Lebara → `references/log.md` |

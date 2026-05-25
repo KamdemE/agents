@@ -8,6 +8,29 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-25 | [CURSOR] | **CF inbound docs cleanup** — `k-cloudflare` v1.4.0: `inbound-email-e2e.md`, `verify-inbound-e2e.sh`, runbook trim; `k-mail` v2.2.2 aligned; E2E LIVE all aliases. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
+| 2026-05-25 | [CURSOR] | **CF E2E final batch** — Labs filters; `E2E-BILAN` validates `ivann@`; prime rules + Worker OK. · `inbound-email-e2e.md` *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **CF inbound FIXED** — `ensure-destination-prime-rules.sh`; tail `forward ok` Labs+kapoivha+Hotmail; `ivann@` rule live. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`ISS-20260525-002`** — tmux mouse copy fix (`k-tmux` v1.4.4). *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **CF Email Routing progressive** — destinations verified; Worker deploy blocked (Scripts Edit). *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-cloudflare` v1.2.0** — `email-routing-ops.md`; inbound `kpihx@` validated. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **tmux mouse copy** — `k-tmux` v1.4.4 vi copy-mode + drag→clipboard. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **ISS-20260515-001 fix** — k3s purged; `power-profiles-daemon` active. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-cloudflare` v1.1.0** — `cloudflared` quarantined on workstation. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **ISS-20260515-001** — k3s blocks `graphical.target`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Display fix attempt** — `ISS-20260515-001` job 18474 canceled; tmux sudo blocked. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Display/backlight** — `ISS-20260515-001` journal; `ISS-20260522-001` closed. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **tmux reboot persistence** — `ISS-20260525-001`; `@continuum-boot off`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Cloud hub finalized** — `k-tg` in hub; AGENTS `k-cloud-tools`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Cloud skills uniformized** — `cloud-hub.md` SOT. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **Lebara eSIM PDF** — TG bot → `Gdrive_X/KpihX/Phone_Lebara/`. *(Rotated.)* |
+| 2026-05-24 | [CURSOR] | **KπX Fit TickTick** — 3 habits + Sat task. *(Rotated.)* |
+| 2026-05-24 | [CURSOR] | **KπX Fit** — `kpihx/references/fit.md` + Cyclers assets. *(Rotated.)* |
+| 2026-05-24 | [CURSOR] | `𝛱/live` tmux trace stack — `make live-up`, windows ops/brain/web/trace. *(Rotated.)* |
+| 2026-05-24 | [CURSOR] | `𝛱/live` v0.3.1 — `two_party_channel` scene fixes; `make check` green. *(Rotated.)* |
+| 2026-05-24 | [CURSOR] | v2.89.21 — `𝛱/live` commit `c67a9e0` v0.2.1; tmux `live`. *(Rotated.)* |
+| 2026-05-24 | [CODEX] | v2.89.20 — `𝛱/live` V1 implementation pass. *(Rotated.)* |
+| 2026-05-24 | [CODEX] | v2.89.19 — `𝛱/live` LLM-native agentic skeleton. *(Rotated.)* |
 | 2026-05-24 | [CODEX] | v2.89.18 — `𝛱/live` V1 proof skeleton: math/info/AI capability registry, pedagogy path, conductor schedule, concept canvas, `POSITIONING.md`, and VNext archive. · `$HOME/KpihX-Labs/𝛱/live/` *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-24 | [CURSOR] | v2.89.17 — `health.md`: paracetamol provenance fixed (PDF-only); parasitaemia dates sourced to `Resultat_Medical`; audit caps restored across kernel skills. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-24 | [CURSOR] | v2.89.16 — GHNE images visually inspected and renamed; `health.md` paths updated. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |

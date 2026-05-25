@@ -1,0 +1,1 @@
+/home/kpihx/.config/gws/gws-profiles.zsh

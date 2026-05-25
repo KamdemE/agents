@@ -1,12 +1,12 @@
 ---
 name: k-cloud-tools
 description: >
-  Cloud tool registry — Cloudflare, Tailscale, social dev APIs. Routes Google/Microsoft
-  workspace to k-google and k-microsoft. Load for edge/network registry or full-stack routing.
+  Cloud tool registry — routes Cloudflare to k-cloudflare, Tailscale, social dev APIs.
+  Google/Microsoft → k-google and k-microsoft. Load for edge/network registry or full-stack routing.
 license: private
 metadata:
   author: KpihX
-  version: "1.1.1"
+  version: "1.3.5"
   scope: operations
 ---
 
@@ -24,8 +24,10 @@ Central **routing hub** for KπX cloud CLIs and dev APIs. Operational detail liv
 
 | Need | Skill |
 |------|-------|
+| **Cloudflare** (tunnel, DNS) | **`k-cloudflare`** |
 | Google GCP or Workspace | **`k-google`** (+ `k-rclone`, `k-drive` for files) |
-| Microsoft Azure or M365 | **`k-microsoft`** (+ **`k-mail`** for briefings) |
+| Microsoft M365 (Graph) | **`k-microsoft`** (+ **`k-mail`** for briefings) — `az` off |
+| YouTube / Meta / X publish | **`k-media`** |
 | Mail / tasks / WhatsApp / LinkedIn / Telegram | **`k-mail`**, **`k-ticktick`**, **`k-whatsapp`**, **`k-linkedin`**, **`k-tg`** |
 | Secrets / OAuth app ids | **`k-bw`** |
 | Homelab deploy | **`kpihx-labs`**, **`k-docker`** |
@@ -34,11 +36,12 @@ Central **routing hub** for KπX cloud CLIs and dev APIs. Operational detail liv
 
 ### Networking & edge
 
-| Tool | Status | Purpose |
-|------|--------|---------|
-| `cloudflared` | INSTALLED | Tunnels, Zero Trust |
-| `wrangler` | INSTALLED | Workers, Pages, R2 |
+| Tool | Status | Skill |
+|------|--------|-------|
+| `flarectl` | ACTIVE (workstation) | **`k-cloudflare`** |
+| `cloudflared` | **Homelab server only** — quarantined on workstation | **`k-cloudflare`** → `references/cloudflared-quarantine.md` |
 | `tailscale` | INSTALLED | Mesh VPN |
+| `ts-proxy` | INSTALLED | Tailscale API + HITL — `$HOME/Work/KpihX-Labs/Fluid/ts_proxy/` |
 
 ### Cloud providers (detail → domain skills)
 
@@ -46,19 +49,11 @@ Central **routing hub** for KπX cloud CLIs and dev APIs. Operational detail liv
 |------|-------|-------|
 | `gcloud` | Google container | **`k-google`** |
 | `gws` | Google content | **`k-google`** |
-| `az` | Azure container | **`k-microsoft`** |
-| `m365` | M365 content | **`k-microsoft`** |
+| `m365` | M365 content (sole Microsoft CLI) | **`k-microsoft`** |
+| ~~`az`~~ | **Deactivated** — no Azure subscription | — |
+| ~~`wrangler`~~ | **Off** on workstation — IDE only | **`k-cloudflare`** (mention) |
 
 ## Procedures (this skill only)
-
-**Cloudflare**
-
-```bash
-cloudflared tunnel list
-wrangler deploy
-```
-
-Cursor Cloudflare MCP: Workers/KV/D1/R2/observability — **not** full DNS/Tunnel/Zero Trust inventory → `references/insights.md`.
 
 **Tailscale**
 
@@ -66,21 +61,37 @@ Cursor Cloudflare MCP: Workers/KV/D1/R2/observability — **not** full DNS/Tunne
 - API verification: **`ts-proxy`** (`$HOME/Work/KpihX-Labs/Fluid/ts_proxy/`).
 - Check device **tags** vs ACL `src` before blaming host firewall.
 
+**Cloudflare** → load **`k-cloudflare`** (not duplicated here).
+
+## Vault token gate (mandatory)
+
+For **any** cloud CLI or API tool that needs Vault-backed tokens (`CF_API_TOKEN`, Graph, OAuth, MCP keys, etc.):
+
+1. **Never** display, log, or read secret **values** in chat or tool output. Names only: `env | grep -E 'API|TOKEN' | cut -d= -f1`.
+2. **Run the target CLI first** (e.g. `flarectl zone list`). If it works, continue — do not touch Vault.
+3. If env/auth fails → **`k-tmux`**: session **`default`** or **`remote`** → `send-keys` the same command → poll `capture-pane` **≥30s** → hand off `tmux attach` to KπX.
+4. If still failing → in that tmux pane: `bw-env unlock && bw-env get` → **stop** and ask KπX in chat to enter the **Vault password** (never in agent raw shell).
+5. After KπX confirms unlock → retry CLI in tmux.
+
+Full ladder: `references/token-gate.md` · Bitwarden detail: **`k-bw`**.
+
 ## Credentials
 
 - OAuth/API keys: **Vaultwarden** + **`bw-env`** (never commit secrets).
-- Config paths: `~/.cloudflared/`, `~/.config/gcloud/`, `/etc/tailscale/`, `$HOME/.local/share/m365/` (tokens).
+- Cloudflare: **`CF_API_TOKEN`** in Vault → **`k-cloudflare`** · Tailscale: **`ts-proxy`** · Google: `~/.config/gcloud/` · M365: `$HOME/.local/share/m365/`.
 
-## Social dev APIs (portal links only)
+## Social / video dev APIs
 
-| Platform | Dev portal | Operational skill |
-|----------|------------|-------------------|
-| Meta | developers.facebook.com | `k-whatsapp` (bot); Cloud API TBD |
-| Google | console.cloud.google.com | `k-google` |
-| LinkedIn | developer.linkedin.com | **`k-linkedin`** |
-| X | developer.twitter.com | TBD |
+**Registry (BW items, program order):** `references/social-dev-platforms.md`  
+**YouTube / video ops:** **`k-media`**  
+**Architecture vision:** `k-context/references/vision/social-media-apis.md`
 
-Pending: YouTube Data API, Meta app validation, X API tier — track in `references/insights.md` when status changes.
+| Platform | Vault item | Skill |
+|----------|------------|-------|
+| YouTube | OAuth `kpihx-labs` | **`k-media`** + **`k-google`** |
+| Meta (WA + Graph) | **Meta Dev** | **`k-meta`** · WA chat → **`k-whatsapp`** |
+| X | **X Dev** | **`k-x`** |
+| LinkedIn | — | **`k-linkedin`** |
 
 ## Insights Discipline (mandatory)
 
@@ -92,5 +103,6 @@ Pending: YouTube Data API, Meta app validation, X API tier — track in `referen
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.1.1 — `k-tg` in hub map + quick routing; AGENTS `k-cloud-tools` row. |
-| [SUMMARY] | — | v1.1.0 hub SOT; v1.0.x registry + Tailscale/Cloudflare insights. |
+| 2026-05-25 | [CURSOR] | v1.3.5 — Social hub: **`k-media`** + **`k-meta`** + **`k-x`**; JSON creds outside git; no **`k-publish`** skill. |
+| 2026-05-25 | [CURSOR] | v1.3.4 — `social-dev-platforms.md` + X/Meta/YouTube SOT pointers. |
+| [SUMMARY] | — | v1.3.0–v1.3.3 token gate, k-cloudflare hub, cloudflared quarantine; v1.1.x registry. |

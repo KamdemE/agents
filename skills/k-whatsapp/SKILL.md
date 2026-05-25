@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.1"
+  version: "2.2.2"
 allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
 ---
 
@@ -80,6 +80,10 @@ Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/ref
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 This file's `## Changelog` tracks only modifications to the `k-whatsapp/` skill folder, not runtime messaging actions.
+
+## Meta credentials (Vault)
+
+BW item **Meta Dev** — fields `META_APP_ID`, `META_APP_SECRET`, `META_BUSINESS_ID`, `META_WA_PHONE_NUMBER_ID`, `META_WA_NUMBER`. Full social registry: **`k-cloud-tools/references/social-dev-platforms.md`**.
 
 ## Identity
 
@@ -200,6 +204,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.2.1 — Cloud-hub routing block; title aligned with hub skills. |
-| 2026-04-20 | [ANTIGRAVITY] | v2.2.0 — AUTH BLOCKS: stop on disconnect; no browser bypass. |
-| [SUMMARY] | — | v2.1.14 audit cap; What's up slices; group index; HTTP transport; older → `references/log.md` |
+| 2026-05-25 | [CURSOR] | v2.2.2 — Graph creds → **`k-meta`**; WA chat stays here (whats-mcp). |
+| 2026-05-25 | [CURSOR] | v2.2.1 — Cloud-hub routing block. |
+| [SUMMARY] | — | v2.2.0 auth blocks; What's up slices; group index; HTTP transport; older → `references/log.md` |

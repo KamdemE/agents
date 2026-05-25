@@ -1,0 +1,12 @@
+[project]
+name = "k-media-scripts"
+version = "0.1.0"
+description = "YouTube CLI helpers for k-media skill"
+requires-python = ">=3.11"
+dependencies = [
+    "google-api-python-client>=2.120.0",
+    "google-auth-oauthlib>=1.2.0",
+]
+
+[project.scripts]
+youtube-cli = "youtube_cli:main"
