@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.6"
+  version: "2.14.7"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -116,6 +116,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-25 | [CURSOR] | v2.14.7 — Insights: transient `chunks failed` after parallel post-commit embed; steady-state OK when second run is clean. |
 | 2026-05-25 | [CURSOR] | v2.14.6 — Removed `claude-memory` from `index.yml` + collection map (path missing; Claude legacy deactive). |
-| 2026-05-24 | [CURSOR] | v2.14.5 — Added `scripts/check_collections.sh` health gate; wired into `auto_clean.sh` and `ksh status`. |
 | [SUMMARY] | — | v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |
