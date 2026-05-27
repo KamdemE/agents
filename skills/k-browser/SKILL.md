@@ -4,7 +4,7 @@ description: KπX Browser Automation — Standardized MCP interfaces (Playwright
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.7.1"
   scope: agent-tooling
   mcp-servers:
     - playwright (@playwright/mcp)
@@ -41,6 +41,28 @@ The browser's bookmarks are managed as sovereign assets within this skill.
 3. **NO BRICOLAGE:** Do not write custom Playwright Python/Node scripts in the workspace for general navigation. Use the MCP tools.
 4. **CONSENT BYPASS:** Use specialized patterns to handle common cookie/consent banners instead of manual clicks.
 5. **INSIGHTS:** Read `references/insights.md` before non-trivial bookmark or automation work.
+6. **ACADEMIC PORTALS:** For Moodle / SynapseS / Copilot chains, read `references/workflows-academic-portals.md` first (iCal, cookies, composer-input, vidéos sans audio).
+7. **GOOGLE AI STUDIO:** For `aistudio.google.com` Playground / History / multimodal tests, read `references/workflows-google-ai-studio.md` first (attachment token gate, code execution, no local `pip` fallback).
+8. **FORMULAIRES — GRAVÉ (mécanique navigateur uniquement):** Données identité / chemins PDF → skill **`kpihx`** (`references/identity.md`, `references/legal.md`). Ce skill = snapshots, clics, attente, nettoyage, runbooks — pas de table d'identité locale. Voir § **Form filling contract** ci-dessous.
+
+### Form filling contract (GRAVÉ)
+
+| Autorisé (préremplir) | Interdit (KπX uniquement) |
+|----------------------|---------------------------|
+| Champs non secrets lus depuis **`kpihx`** (nom, email, téléphone, adresse, n° dossier, Navigo, etc.) | Mot de passe, code d'accès, PIN |
+| Upload de fichiers dont le chemin est dans **`kpihx` / `legal.md`** | OTP, CAPTCHA, 2FA |
+| — | Tout champ masqué type « mot de passe » |
+
+**Avant remplissage :** `Read` `$HOME/.agents/skills/kpihx/references/identity.md` (+ `legal.md` si upload document).
+
+**Boucle d'attente (tout formulaire avec secret) :**
+
+1. Préremplir **uniquement** les champs non secrets (source `kpihx`).
+2. **Ne pas** soumettre tant qu'un secret manque — passer en attente.
+3. Poll `browser_snapshot` toutes **~8–12 s**, max **~3 min** :
+   - Si KπX **a commencé** à saisir (focus secret, caractères masqués, CAPTCHA rempli) → **continuer à attendre** (pas de limite fixe tant que l'activité continue).
+   - Si **rien** n'a bougé après ~3 min → **stop**, demander à KπX de remplir secrets/CAPTCHA, puis reprendre sur son signal.
+4. Après session : corrections KπX sur champs non secrets → mettre à jour **`kpihx`** (`identity.md` / `legal.md`), pas ce skill.
 
 ### Leave no trace (mandatory — production default)
 
@@ -82,6 +104,37 @@ The browser's bookmarks are managed as sovereign assets within this skill.
 
 Vision: `$HOME/.agents/skills/k-context/references/edge-agent-automation-vision.md`.
 
+## Academic portals (Moodle · SynapseS · Copilot)
+
+**Runbook:** `references/workflows-academic-portals.md` (validé IME_43031_EP, 2026-05-26).
+
+| Portail | Méthode | Script / outil |
+|---------|---------|----------------|
+| **Moodle** | Cookies Edge + `requests` | Projet cours : `download_moodle_course.py`, `organize_course_files.py` |
+| **SynapseS** | URL `#input-url-sync-agenda` → `curl` ICS ; groupes PC dans `DESCRIPTION` | `scripts/synapses-agenda.py` · groupes → `kpihx/references/x.md` |
+| **Copilot** | Playwright : `getByTestId('composer-input')` + wait 20–25 s/tour | MCP `browser_type` / `browser_wait_for` (1 msg/tour) |
+
+**Chaîne type :** télécharger supports Moodle → organiser par séance → (optionnel) visuels vidéo sans audio Ubicast → lire agenda SynapseS → sessions Copilot pour synthèses.
+
+## Google AI Studio
+
+**Runbook:** `references/workflows-google-ai-studio.md` (validé 2026-05-26).
+
+| Besoin | Règle rapide |
+|--------|----------------|
+| Upload PDF/vidéo | Attendre **N tokens** par fichier avant **Run** |
+| Code matplotlib 3D | Modèle Flash + **Code execution** ON ; télécharger l’image du chat, pas le `.txt` |
+| Nettoyage | `/library` → supprimer uniquement les chats de la session de test |
+| Python local | **Interdit** — AGENTS.md § Python GRAVÉ ; tout reste dans AI Studio |
+
+## Scripts (skill)
+
+| Script | Rôle |
+|--------|------|
+| `scripts/synapses-agenda.py` | Parse iCal SynapseS sur une plage de dates |
+| `scripts/bw-prelogin-check.sh` | Vaultwarden prelogin avant login extension |
+| `scripts/edge-agent.sh` | Lance Edge CDP (voir `assets/edge-agent.ksh`) |
+
 ## Insights
 
 - **Session Lock:** If the profile is locked, ensure no other Edge instance is using the same data directory.
@@ -91,6 +144,6 @@ Vision: `$HOME/.agents/skills/k-context/references/edge-agent-automation-vision.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.3.0 — **Leave no trace** operational rules + post-session Edge cleanup checklist; production vs authorized-test modes. |
-| 2026-05-25 | [CURSOR] | v1.2.2 — Live-test runbook: workspaces, tab-search, favorites, Copilot cookie gate; TabGroups CDP absent on Edge 148. |
-| [SUMMARY] | — | v1.2.1–v1.0.0 edge-agent CDP setup, bw-prelogin, techskills; v1.1.x bookmarks baseline; Playwright/Browser MCP standardization |
+| 2026-05-26 | [CURSOR] | v1.7.1 — SynapseS runbook: groupes PC via ICS `DESCRIPTION` → `kpihx/x.md`. |
+| 2026-05-26 | [CURSOR] | v1.7.0 — Form contract: identity/PDF paths → **`kpihx`** only; removed `kpix-form-prefill.md` (dedup). |
+| [SUMMARY] | — | v1.6.0–v1.0.0 form contract, academic/Google AI Studio runbooks, SynapseS script, Browsh purge, Leave no trace, edge-agent CDP — see git |

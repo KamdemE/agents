@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.2.12"
+  version: "3.2.13"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -155,7 +155,8 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 | **Homelab** | Ticktick | `8357989597` | `@tick_homelab_bot` | Active |
 | **Homelab** | N8N | `8724946664` | `@k_n8n_x_bot` | Active |
 | **Homelab** | Flow | `(managed)` | `@kflow_homelab_bot` | Active |
-| **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active |
+| **OpenClaw** | OpenClaw | `8948919586` | `@kpihx_openclaw_bot` | Active — **OpenClaw gateway** (`TELEGRAM_BOT_TOKEN` in `$HOME/.config/openclaw/gateway.env`; ephemeral export `/tmp/claw.env`) |
+| **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active — **infra only** (`/clean`, `/status`, `/backup` via `$HOME/Work/sh/bot.py`; **not** OpenClaw) |
 | **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive (legacy) |
 
 *Third-party bots (e.g. “Nano Banana”, “ChatGPT”) are **not** KπX infra — exclude from *What's up* unless KπX asks.*
@@ -209,7 +210,9 @@ tg user send 93372553 "@your_bot_username"
 
 **Audit DM (no bot token):** `tg user read <bot_user_id> --limit 50`
 
-**Ephemeral token files:** one-off exports may land under `$TMPDIR/tokens/` (e.g. `/tmp/tokens/*.env`) — **chmod 600**, import into Vaultwarden / `bw-env`, then **delete** local copies.
+**Ephemeral token files:** one-off exports may land under `$TMPDIR/tokens/` (e.g. `/tmp/tokens/*.env`) or **`/tmp/claw.env`** (OpenClaw bot) — **chmod 600**, import into Vaultwarden / `bw-env`, then **delete** local copies.
+
+**Full token from BotFather (CLI):** use the **`uv tool install` shim** python, not the project venv — `$(dirname $(readlink -f $(which tg)))/python3 -c "from tg import user as u; …"` with `u.get_messages(93372553)` and regex on message text (display in `tg user read` truncates).
 
 ## Command surface (essentials)
 
@@ -238,5 +241,6 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-27 | [CURSOR] | v3.2.13 — BotFather **`@kpihx_openclaw_bot`** (OpenClaw, id **8948919586**); icon `/setuserpic`; added to Telegram folder **KpihX-Labs** (filter id **11**) + pinned top; gateway off `@k_ubuntu_bot`; token **`/tmp/claw.env`**. |
 | 2026-05-25 | [CURSOR] | v3.2.12 — Cloud hub block + title aligned with productivity skills; routing via `cloud-hub.md`. |
 | [SUMMARY] | — | v3.2.11 default bot + Lebara PDF; v3.2.10 `tg send`/CHAT_ID; v3.2.9–v3.2.3 → `references/log.md` |

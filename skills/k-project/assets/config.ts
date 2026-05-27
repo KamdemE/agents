@@ -29,7 +29,6 @@ import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
 import dotenv from "dotenv";
-import { execSync } from "child_process";
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -112,30 +111,12 @@ function _deepMerge(base: ConfigData, overlay: ConfigData): ConfigData {
 }
 
 /**
- * Two-tier secret resolution:
- *   1. process.env  (already set — terminal session, explicit export, or .env loaded)
- *   2. zsh -l -c   (login shell — bw-env secrets injected via $HOME/.kshrc)
- *
- * Returns null if the secret is absent in both tiers.
+ * Secret resolution from process environment only.
+ * Keep this template side-effect free (no shell execution).
  */
 function _resolveEnv(name: string): string | null {
-  // Tier 1: current process env (covers: terminal session, .env load, explicit export)
   const fromEnv = process.env[name];
   if (fromEnv) return fromEnv;
-
-  // Tier 2: login shell — bw-env injects secrets at login time via $HOME/.kshrc
-  try {
-    const value = execSync(`zsh -l -c 'printf "%s" "\${${name}}"'`, {
-      timeout: 10_000,
-      stdio: ["pipe", "pipe", "pipe"],
-    })
-      .toString()
-      .trim();
-    if (value) return value;
-  } catch {
-    // Shell unavailable or timeout — fall through
-  }
-
   return null;
 }
 
@@ -247,8 +228,7 @@ export class ConfigManager {
   // ------------------------------------------------------------------
 
   /**
-   * Resolve a secret by name via the two-tier strategy:
-   *   process.env → zsh -l -c login shell
+   * Resolve a secret by name from process.env.
    *
    * @param name     Secret name (e.g., "SECRET_ONE").
    * @param required If true, throw SecretsUnavailableError when absent.

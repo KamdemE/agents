@@ -2,13 +2,14 @@
 name: k-optim
 description: >
   KπX optimization state and action map. Load before any cleanup/optim work
-  to reuse existing standards and scripts, inspect last known states, and log
-  key results for perennial reference. Covers .agents/ governance, QMD hygiene,
-  Ubuntu local cleanup, home media dirs, and Homelab maintenance.
+  or Ubuntu deleted-file recovery (Trash empty, ext4 carve). Reuse existing
+  standards and scripts, inspect last known states, and log key results.
+  Covers .agents/ governance, QMD hygiene, Ubuntu local cleanup/recovery,
+  home media dirs, and Homelab maintenance.
 license: private
 metadata:
   author: KpihX
-  version: "2.10.1"
+  version: "2.11.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -48,6 +49,8 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | Workstation Orchestrator (ksh) | `$HOME/Work/sh/` |
 | Homelab Orchestrator (hsh) | `$HOME/Work/Homelab/sh/` |
 | Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
+| **Deleted-file recovery (ext4, GNOME)** | `$HOME/.agents/skills/k-optim/references/ubuntu-deleted-files-recovery.md` |
+| TechSkills mirror (Docsify) | `$HOME/Work/techskills/ubuntu-deleted-files-recovery.md` |
 | Homelab maintenance scripts | `$HOME/Work/KpihX-Labs/Homelab/sh/` |
 
 ## Ubuntu
@@ -56,6 +59,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ### Last Known State
 
+- **2026-05-26 deleted-image recovery (`ISS` session)**: Tier A (no sudo) → **103** GNOME thumbnail previews from `recently-used.xbel` → `~/Recovery_candidates_2026-05-26/from_thumbnails/` (13/13 RAS `VeniceAI_*.png`, ~90 Telegram `photo_*.jpg`). Tier B PhotoRec via tmux `default:0.0` → **~1534** carved images in `~/Recovery_PhotoRec_2026-05-26/photorec.{1,2,3}`; extundelete failed (mounted `/`). Canonical runbook: `references/ubuntu-deleted-files-recovery.md`.
 - **2026-05-22 (post-kernel)**: `timeshift` **purged** (no snapshots on `nvme0n1p4` nor `sda1`; package removed; `/etc/timeshift` cleaned). `ISS-20260516-001` **RESOLVED** (16G backup SUCCESS). `Optim_2A_P3` `uv sync` **OK** after `libpangocairo` + `libpango1.0-dev` + `libcairo2-dev`. Homelab `sh/` pushed `189d3e2` → `gitlab:kpihx-labs/scripts`.
 - **2026-05-22 full pass (`ISS-20260522-001`)**: `$HOME` ~165G→~147G; `/` **72%** (**74G** free). Transit emptied; debris/Cursor/Zed/ai_dispatcher tmp; `clean_all.sh -s -p -y` + UV cache (~15G). Work `.venv` purged then re-synced.
 - **[SUMMARY]** Spring 2026: phoenix loop, automount KpihX-Backup, `_dg` safe-rm; older debris cycles in Script Log
@@ -77,6 +81,15 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 4. Finalize and Secure:
    - **run `ksh backup run`** only after cleanup is done to archive the stabilized, clean state of the workstation.
 5. Re-read the relevant script before running it if the target scope matters.
+
+### Deleted-file recovery (images, ext4)
+
+> Load **`references/ubuntu-deleted-files-recovery.md`** before any undelete work.
+
+1. **Tier A (no sudo):** `recently-used.xbel` + `~/.cache/thumbnails/` — fast previews with original names.
+2. **Tier B (sudo):** PhotoRec `freespace` — full resolution; run only in **shared tmux** (`default:0.0`), **no split panes**.
+3. **Tier C:** extundelete — only if partition unmounted (live USB); fails on mounted `/`.
+4. Stop writing to disk; cross-match carved `f*` files against xbel name list after scan.
 
 ### Script Map
 
@@ -249,6 +262,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-26 | Ubuntu | Deleted-image recovery runbook | `references/ubuntu-deleted-files-recovery.md` + techskills mirror; Tier A thumbnails + Tier B PhotoRec |
 | 2026-05-25 | Meta | `.agents` social+email skill audit fix | ALL_OK; no secrets in commit; JSON smoke Meta core + X me |
 | 2026-05-24 | Meta/QMD | `check_collections.sh` + auto_clean/ksh wiring | Path-drift gate: MISSING_PATH + EMPTY_INDEX; Telegram alert on weekly cleanup |
 | 2026-05-22 | Ubuntu/Agents/Meta | Full k-optim (`ISS-20260522-001`) | ~18G `$HOME` reclaim; transit empty; `clean_all -s -p -y`; venvs purged; governance ALL_OK; homelab offline |
@@ -274,6 +288,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-26 | [CURSOR] | v2.11.0 — Ubuntu: `ubuntu-deleted-files-recovery.md` runbook (Tier A thumbnails + Tier B PhotoRec + extundelete limits); techskills mirror; LKS recovery session. |
 | 2026-05-25 | [CURSOR] | v2.10.1 — Meta: Edge agent STABLE finalize; audit cap fixes; QMD check (claude-memory path drift). |
-| 2026-05-25 | [CURSOR] | v2.10.0 — Meta scope: social skills unified, audit ALL_OK, agents push (no secrets). |
-| [SUMMARY] | — | v2.9.9 QMD health gate; v2.9.8 Timeshift purge; v2.9.6 full k-optim (`ISS-20260522-001`); older in git history |
+| [SUMMARY] | — | v2.10.0 social skills audit; v2.9.9 QMD health gate; v2.9.8 Timeshift; v2.9.6 full k-optim (`ISS-20260522-001`); older in git |

@@ -45,6 +45,16 @@ For field-level traceability across the hub, also read:
   - `$HOME/Gdrive_X/X/K𝜋X/Dossier_Intégration/Lettre félicitations X24_FR-H.pdf`
   - `$HOME/Gdrive_X/X/K𝜋X/Dossier_Intégration/Campus_Fr_Visa/`
 
+## Transport & mobility (Gdrive_X canonical — `KpihX/Fr/`)
+
+- Navigo pass scan:
+  - `$HOME/Gdrive_X/KpihX/Fr/Transport_Navigo_Passe_Navigo_KAMDEM_Ivann.pdf`
+- Residence permit (card PDF for uploads):
+  - `$HOME/Gdrive_X/KpihX/Fr/Residence_Permit_FR_Titre_Sejour_X_KAMDEM_Ivann.pdf`
+- Favorable decision attestation (2025-07-01):
+  - `$HOME/Gdrive_X/KpihX/Fr/Residence_Permit_FR_Attestation_decision_favorable_01_07_2025_KAMDEM_Ivann.pdf`
+- Dossier identifiers (forms): see `references/identity.md` § **Transport Île-de-France**
+
 ## Housing & Banking
 
 - RIB / SG:

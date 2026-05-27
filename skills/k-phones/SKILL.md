@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.16"
+  version: "1.0.17"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
@@ -21,7 +21,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 
 | Host | MagicDNS | Tailscale IP | SSH | ADB | Notes |
 |------|----------|--------------|-----|-----|-------|
-| **kpihx-s25** | `kpihx-s25.tail2527bd.ts.net` | `100.125.54.1` | ✅ Termux `:8022` | ✅ Wireless debug on TS IP | **Default focus** |
+| **kpihx-s25** | `kpihx-s25.tail2527bd.ts.net` | `100.125.54.1` | ✅ Termux `:8022` | ✅ Wireless debug on TS IP | **Default focus** · hardware → `references/s25-hardware.md` |
 | **kpihx-tablet** | `kpihx-tablet.tail2527bd.ts.net` | `100.89.79.87` | 🚧 TBD | 🚧 TBD | Node exists; no Termux/ADB runbook yet |
 
 ## When to Load
@@ -29,6 +29,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 - SSH or ADB to **S25** (or future tablet setup)
 - Fixing phone remote access, keys, ports, Termux `sshd`
 - Agents need phone context after a capture-bot screenshot
+- **S25 specs, compute limits, inference routing** → read `references/s25-hardware.md` first
 
 ## Quick commands (workstation)
 
@@ -51,8 +52,9 @@ Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard 
 | # | File | Scope |
 |---|------|--------|
 | 1 | `SKILL.md` (this file) | Inventory, quick commands, layout |
-| 2 | `references/phone-to-ubuntu.md` | Phone → PC SSH, **where tmux runs**, security |
-| 3 | `references/termux-tmux.md` | Termux **local** tmux, clipboard, deploy |
+| 2 | `references/s25-hardware.md` | **S25 SoC, RAM, GPU, storage, Termux stack, compute / inference limits** |
+| 3 | `references/phone-to-ubuntu.md` | Phone → PC SSH, **where tmux runs**, security |
+| 4 | `references/termux-tmux.md` | Termux **local** tmux, clipboard, deploy |
 
 ## Tmux topology
 
@@ -102,6 +104,7 @@ Full runbook: `references/s25-adb-wireless.md`.
 | `references/termux-tmux.md` | Termux local tmux, termux-api clipboard, deploy |
 | `references/s25-adb-vs-ssh.md` | Termux username, ADB capabilities vs SSH |
 | `references/s25-termux-sshd.md` | Termux `sshd` persistence |
+| `references/s25-hardware.md` | S25 hardware profile + agent compute routing |
 | `references/insights.md` | Runtime lessons |
 
 State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
@@ -127,6 +130,6 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-26 | [CURSOR] | v1.0.17 — Added `references/s25-hardware.md` (S25 specs + compute/inference routing); doc triad + When to Load. |
 | 2026-05-25 | [CURSOR] | v1.0.16 — Doc/audit pass; quick cmds; changelog compliant. |
-| 2026-05-25 | [CURSOR] | v1.0.15 — Termux:Boot ADB install; bidirectional SSH (Tailscale IPs); deploy/install scripts; insights. |
-| [SUMMARY] | — | v1.0.8–v1.0.0 sshd autostart, IP-based Host blocks, tmux/ADB runbooks, tablet TBD. |
+| [SUMMARY] | — | v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |

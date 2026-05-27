@@ -59,6 +59,19 @@
 | 2024-09 to 2025-03 document baseline | `Bâtiment 17, Route de Saclay, 91128 Palaiseau Cedex` | `[OFFICIAL]` CPAM, CSS, SG RIB |
 | From 2025-04-06 housing contract | `Flat 09.30.22, Bâtiment Maunoury, 9 Boulevard des Maréchaux, 91120 Palaiseau` | `[OFFICIAL]` lease, residence permit |
 
+## Transport Île-de-France (formulaires)
+
+| Field | Value | Provenance |
+| --- | --- | --- |
+| Navigo pass number | `37096403` | `[SELF-REPORT 2026-05-26]` AST portal + KπX confirmation |
+| Solidarité Transport dossier | `5920537` | `[OFFICIAL]` M365 AST emails, portal Mon espace |
+| AST portal | https://www.solidarite-transport.iledefrance-mobilites.fr | `[OFFICIAL]` service emails |
+| Navigo pass PDF (canonical) | `$HOME/Gdrive_X/KpihX/Fr/Transport_Navigo_Passe_Navigo_KAMDEM_Ivann.pdf` | `[SELF-REPORT 2026-05-26]` |
+| Titre de séjour PDF (canonical) | `$HOME/Gdrive_X/KpihX/Fr/Residence_Permit_FR_Titre_Sejour_X_KAMDEM_Ivann.pdf` | `[SELF-REPORT 2026-05-26]` |
+| Attestation décision favorable (01/07/2025) | `$HOME/Gdrive_X/KpihX/Fr/Residence_Permit_FR_Attestation_decision_favorable_01_07_2025_KAMDEM_Ivann.pdf` | `[SELF-REPORT 2026-05-26]` |
+
+**Agent rule:** for any web form or document upload, read this block + `references/legal.md` + `references/source_index.md` before inventing values. After KπX corrects a non-secret field, update **this file** (not `k-browser`).
+
 ## Banking & Housing Snapshot
 
 | Item | Value | Provenance |

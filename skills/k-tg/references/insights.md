@@ -15,6 +15,7 @@
 - **`tg send` (SENSY / bot→user pushes) in Agent shells:** run `zsh -l -c 'set -a; source "$HOME/Work/sh/backup_restore/.env"; set +a; tg send --bot ubuntu --plain "…"'` so **tokens** come from the login shell and **`CHAT_ID`** comes from the Phoenix backup notifier config (global login shell often has tokens but **not** `CHAT_ID`).
 - **`tg bots`** only lists bots with **`TELEGRAM_*_TOKEN`** present in the **current** environment; load `bw-env` (or `set -a; source /tmp/tokens/*.env; set +a` **temporarily**) so all aliases appear.
 - Homelab MCP bridges use **`@tick_homelab_bot`**, **`@whats_homelab_bot`**, **`@linkedin_homelab_bot`**, **`@mail_homelab_bot`** (see **`## Bot inventory`** in `SKILL.md`).
+- **OpenClaw Telegram** (2026-05-27): dedicated bot **`@kpihx_openclaw_bot`** (id **8948919586**). Gateway token = **`TELEGRAM_BOT_TOKEN`** in `$HOME/.config/openclaw/gateway.env`. Use **`dmPolicy: allowlist`** + **`allowFrom: [1397540599]`** — no pairing. Place the bot in the Telegram **folder** **KpihX-Labs** (filter id **11**) and **pin** the DM (not a new Telegram group). **`@k_ubuntu_bot`** = infra-only (`bot.py`).
 - **Openclaw Ubuntu** was retired — remove **`TELEGRAM_OPENCLAW_UBUNTU_TOKEN`** from any secret shell if it is still exported.
 
 ## Media

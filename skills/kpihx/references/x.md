@@ -36,6 +36,33 @@ The SMED is the primary medical service for students and staff on campus.
   4. [Course Name 4]
 *(Note: Refer to `3a_course_planning.md` for the exhaustive ranking of all 16 options)*.
 
+## Emploi du temps & groupes PC (SynapseS)
+
+**Source de vérité agenda** : [SynapseS](https://synapses.polytechnique.fr/) (connecté CAS X) — bloc **Mon emploi du temps** en bas de l’accueil.
+
+| Besoin | Où / comment |
+|--------|----------------|
+| Semaine visible | Accueil → boutons **Semaine** / flèches · colonne du jour (ex. `mar. 26/5`) |
+| Export multi-semaines | Bas de page → **Adresse de synchronisation** → champ `#input-url-sync-agenda` (token personnel — **ne pas commiter**) → `curl` ICS ou `k-browser/scripts/synapses-agenda.py` |
+| **Numéro de groupe PC** | Dans l’ICS : champ `DESCRIPTION` de chaque créneau **Petite classe** → ligne `Groupe : …` (ex. `Groupe2`, `Groupe 11`) |
+| Salle + intervenant PC | Même `DESCRIPTION` (`Salles`, `Intervenants`) + `LOCATION` dans l’ICS |
+| Sites Moodle par UE | Accueil SynapseS → pied de page → liste **Accédez directement à vos sites pédagogiques** (codes `CSC_43042_EP`, `FMA_43052_EP`, …) |
+| Inscriptions / groupes admin | Menu **Enseignements** (peut rediriger si session instable — préférer ICS + Moodle) |
+
+**Runbook agent** : `$HOME/.agents/skills/k-browser/references/workflows-academic-portals.md` § SynapseS.
+
+**Moodle** (supports, annonces) : `https://moodle.ip-paris.fr/` — pas la liste des groupes PC ; croiser avec SynapseS pour salles et groupes.
+
+### Groupes PC — P3 actuel (SynapseS, 2026-05-26)
+
+| UE | Groupe PC | Salle type (créneau actuel) | Intervenant PC |
+|----|-----------|-----------------------------|----------------|
+| `FMA_43052_EP` — Analyse fonctionnelle | **Groupe2** | BEM-2009 | PRANGE Christophe |
+| `CSC_43042_EP` — Algorithmes Python | **Groupe 11** | Amphi Grégory | Souza Banegas Gustavo |
+| `APM_43035_EP` — Optimisation | *(contrôle classant jeudi, pas PC)* | T5–T6 (28/05) | — |
+
+Les CM affichent souvent `Groupe : Tous les étudiants` — seules les **petites classes** portent le numéro de groupe.
+
 ## Internal Logistics
 
 - **Matricule X**: `EX240207`

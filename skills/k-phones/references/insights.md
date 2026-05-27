@@ -1,5 +1,10 @@
 # k-phones — insights
 
+## 2026-05-26 — [CURSOR] S25 hardware reference
+
+- **Canonical specs:** `references/s25-hardware.md` — SoC/RAM/GPU/storage, Termux limits, compute vs PC routing. Read before proposing on-device LLM or heavy batch jobs.
+- **Termux cores:** `nproc` => **4** on S25 while `adb shell nproc` => **8** — do not assume full SoC in Termux cgroup.
+
 ## 2026-05-25 — [CURSOR] S25 ADB + SSH bootstrap
 
 - **SSH key:** `~/.ssh/config` referenced missing `id_ed25519_tel`; actual key is **`id_ed25519_s25`** — fixed in `assets/ssh-kpihx-phones.conf`.
@@ -14,6 +19,7 @@
 - **Termux on S25 (2026-05-25):** `107` pkg, zsh+oh-my-zsh, python/git/openssh, `~/homelab/homelab_finder.sh`, `~/storage/*` → `/sdcard`, outbound SSH keys to ubuntu/pve; **no** `tailscale` pkg in Termux (Tailscale = separate Android app `com.tailscale.ipn`).
 - **ADB live:** `SM-S938B` Android 16 / SDK 36 @ `100.125.54.1:46677`; `adb shell` cannot read Termux `$HOME` without `run-as` (denied on retail build).
 - **Lebara eSIM (2026-05-25):** Samsung `dumpsys econtroller` is the diagnostic source (`dumpsys euicc` → *Can't find service*). Failures show **`SVR_8.2.5/4.3`** at **ES9_AUTHENTICATE_CLIENT** to `leb.prod.ondemandconnectivity.com` — matches UI *Checking SIM information → An error occurred*. **25+** `ProfileDownloadStart` attempts in one day; **`Embedded subscriptions: []`** in `dumpsys isub`. SM-DP+ HTTPS reachable from Termux (TLS OK). Escalate to **Lebara** with order ref + EID (Settings → About → eSIM status), not more QR scans.
+- **Lebara eSIM (2026-05-26):** Support imposed **30-day wait** (prior eSIM history on device) before rescanning kept QR **`ML045066180`**. Canonical PDF paths + hash in **`$HOME/Downloads/lebara-esim/CANONICAL-PDF.md`** (Drive SOT). **`ML045067164`** cancelled/refunded — PDF in `archive-cancelled/`. TickTick `6a1491488f08dbc9d7a14fbc` due **2026-06-25**.
 - **Orphan subscriptions (subId 2/3/4):** visible in `dumpsys isub` (`simSlotIndex=-1`) but **not** in Samsung SIM manager UI (`getAvailableSubscriptionInfoList: [1]` only). ADB `cmd phone disable-physical-subscription` → **Permission denied** (shell lacks telephony privs; root not advised on retail S25). **Do not** use network reset if **eduroam** must stay — ghosts are DB-only and harmless in UI.
 - **Pairing code:** always use a **fresh** 6-digit code from the pairing dialog — old codes fail silently or with protocol errors.
 - **Phone → PC tmux (2026-05-25):** Termux `ubuntu` = `ssh ubuntu -t tmux attach -t default` — join PC session **`default`**, never spawn session `ubuntu` on PC. Termux local `tmux` stays separate. Doc triad: `SKILL.md` + `phone-to-ubuntu.md` + `termux-tmux.md`.

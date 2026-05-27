@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.17.1"
+  version: "2.17.4"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -55,8 +55,9 @@ Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding d
 | Path | Role |
 |------|------|
 | `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
-| `$HOME/.agents/AGENTS.md` | Canonical **AGENTS** kernel — always edit this file |
+| `$HOME/.agents/AGENTS.md` | Canonical **AGENTS** kernel — always edit this file; **OpenClaw workspace inject** when `agents.defaults.workspace=~/.agents` |
 | `$HOME/KpihX-Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` (workspace-root convenience when the editor opens `KpihX-Labs/`) |
+| `$HOME/.openclaw/workspace/AGENTS.md` | Symlink → `.agents/AGENTS.md` (legacy OpenClaw template dir; not the active workspace) |
 
 **Do not** hard-link or maintain a second copy of `AGENTS.md` at the `KpihX-Labs/` root. Full routing table: `$HOME/.agents/AGENTS.md` → **File Routing**.
 
@@ -140,6 +141,8 @@ Secrets wrap pattern for MCPs needing bw-env: { "command": "zsh", "args": ["-l",
 | `claude` | $HOME/.local/bin/claude | Native installer (curl) | AI Chat |
 | `gemini` | $HOME/.npm-global/bin/gemini | npm install -g | AI Chat |
 | `codex` | $HOME/.npm-global/bin/codex | npm install -g | AI Chat |
+| `cline` | $HOME/.npm-global/bin/cline | npm install -g cline | AI Chat |
+| `opencode` | $HOME/.opencode/bin/opencode | Official install script (curl \| bash) | AI Chat |
 | `vibe` | $HOME/.local/bin/vibe | uv tool install | AI Audio/Voice |
 | `whisper-ctranslate2` | $HOME/.local/bin/whisper-ctranslate2 | uv tool install whisper-ctranslate2 | Local speech-to-text (Whisper) |
 | `m365` | in PATH | npm install -g @pnp/cli-microsoft365 | CLI for M365 |
@@ -206,6 +209,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-22 | [CURSOR] | v2.17.1 — Insight: Nautilus default file manager; Nemo purge runbook → `techskills/nautilus_default_file_manager.md`. |
-| 2026-05-18 | [AUTO] | v2.17.0 — Replaced `sui` Sudo Gate with shared tmux interactive gate (`k-tmux`); `sui` marked deprecated for agents. |
-| [SUMMARY] | — | v2.16.9 kernel layout symlink; v2.16.8–v2.16.1 `sui`/STT/`k-final`; v2.16.0 GEMINI; v2.15.0 clean/backup; v2.14.0 MCP; v2.13–v2.11 Phoenix; older in git |
+| 2026-05-27 | [CURSOR] | v2.17.4 — OpenClaw workspace = `~/.agents`; AGENTS symlink map (KpihX-Labs + legacy openclaw workspace). |
+| 2026-05-26 | [AUTO] | v2.17.3 — Added Cline CLI to AI tooling registry (`$HOME/.npm-global/bin/cline`). |
+| [SUMMARY] | — | v2.17.2 OpenCode; v2.17.1 Nautilus runbook; v2.17.0 tmux gate; v2.16.9 kernel layout; prior history in git |

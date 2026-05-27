@@ -80,6 +80,9 @@ All knowledge in `$HOME/.agents/skills/`. Progressive disclosure — load on dem
 | `k-pptx` | Before any PowerPoint deck generation/edit flow using `powerpoint` CLI/MCP |
 | `k-gemini` | MCPs for Gemini; Gemini-specific tasks |
 | `k-codex` | MCPs for Codex |
+| `k-openclaw` | OpenClaw runtime: gateway, secrets hardening, tailscale serve, and health checks |
+| `k-cline` | Cline runtime hub — ~/.cline config, MCP settings, AGENTS/skills linkage |
+| `k-opencode` | OpenCode runtime hub — opencode.jsonc, MCP wiring, AGENTS/skills symlinks, auth/debug |
 | `k-zed` | Zed editor hub — settings.json, profiles, MCP, ACP bridges, AGENTS.md/rules paths |
 | `k-code` | VS Code-family hub — Code/Cursor/**Antigravity** (`agy`, `agy-ide`, `agy-hub`), profiles, sync scripts; AGY detail → `k-code/references/agy.md` |
 | `k-copilot` | MCPs for Copilot |
@@ -282,6 +285,21 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Issue surfacing mandate:** Any detected bug, risk, stale reference, duplication, desync, or outdated instruction must be surfaced in `Remarques` immediately and repeated until addressed.
 - **`k-context` edit completion:** when editing `$HOME/.agents/skills/k-context/SKILL.md`, update `## Session Log` in the same pass; review `## Active Projects` if the work changed project scope or status.
 
+### Skills & kernel homogeneity — GRAVÉ
+
+> Avant **toute** création ou modification de skill, `AGENTS.md`, `k-context`, ou fichier `references/` du hub : **inspecter d'abord**, **étendre l'existant**, **créer seulement s'il n'y a rien d'équivalent**.
+
+| Obligation | Comment |
+|------------|---------|
+| Cartographier | `tree -L 2 $HOME/.agents/skills/` · `rg -l '<mot-clé>' $HOME/.agents/skills/` · lire le `SKILL.md` du domaine |
+| Un seul propriétaire | Données identité / admin / chemins PDF → **`kpihx`**. Mécanique navigateur → **`k-browser`**. Mail → **`k-mail`**. etc. |
+| Pas de doublon | Interdit : recopier tables d'identité, listes de chemins, ou runbooks entiers dans un second skill |
+| Pas de désync | Même fait = un seul fichier source ; les autres **pointent** (lien relatif ou chemin `$HOME/.agents/skills/...`) |
+| Emplacement | Nouveau skill `k-<domaine>/` sous `$HOME/.agents/skills/` + entrée `.skill-lock.json` ; pas de MD orphelin hors structure |
+| Après edit | `metadata.version` + `## Changelog` du skill touché ; `make audit` dans `$HOME/KpihX-Labs/.agents/` avant commit hub |
+
+**Exemple (2026-05-26) :** préremplissage formulaires — valeurs dans `kpihx/references/identity.md`, pas dans `k-browser/references/`. **Groupes PC / emploi du temps X** → `kpihx/references/x.md` § SynapseS + `k-browser/references/workflows-academic-portals.md` (mécanique ICS uniquement).
+
 ### Provenance & Quality
 
 - **Single source of truth** — never duplicate content across files. Every duplication is a future desync.
@@ -307,6 +325,28 @@ Optional Markdown heading markers such as `## ` are allowed.
 - **Context save gate** — propose → WAIT for KπX approval before writing AGENTS.md.
 - **Kernel sync** — after any `$HOME/.agents/` change → **ALWAYS run `make audit` and fix errors BEFORE** proposing `git commit` + `make push`.
 
+### Python & system installs — GRAVÉ (never pollute)
+
+> **⛔ INTERDIT — installations générales Python** : ne jamais `pip install` / `pip uninstall` sur le Python système ou un interpréteur global pour contourner une tâche (viz, numpy, scripts one-shot, « vérifier localement », etc.). C’est une pollution durable du poste KπX.
+
+| Faire | Ne pas faire |
+|-------|----------------|
+| Projet : `uv init` + `uv add` + `uv run` dans le repo concerné | `pip install matplotlib numpy …` en global |
+| Outil CLI isolé : `uv tool install <pkg>` puis binaire dans `~/.local/bin` | `python3 -m pip install` hors venv |
+| Script ponctuel : `uv run --with <dep> script.py` | Générer localement ce que l’utilisateur a demandé **dans un service web** (ex. AI Studio code exec) |
+| Dépendance déjà documentée : lire `managing-python-dependencies` skill | Supposer que « pas installé » autorise un install global |
+
+**Rappel agents :** si la consigne utilisateur impose un environnement tiers (Google AI Studio, Colab, sandbox MCP), **toute** exécution et tout artefact restent **là** — pas de reproduction locale sauf demande explicite + isolation `uv`.
+
+### Browser forms — GRAVÉ (secrets vs préremplissage)
+
+> Mécanique : `k-browser` § **Form filling contract** · **données** : `kpihx` → `references/identity.md` + `references/legal.md`.
+
+- **Préremplir** : champs non secrets lus depuis **`kpihx`** (nom, emails, téléphone, adresse, n° dossier AST, Navigo, chemins PDF).
+- **Ne jamais remplir** : mot de passe, code d'accès, OTP, CAPTCHA.
+- **Attente** : boucler ~8–12 s ; si KπX saisit → continuer à attendre ; si rien après ~3 min → stop et demander à KπX de remplir les secrets avant de poursuivre.
+- **Apprentissage** : corrections KπX sur champs non secrets → mettre à jour **`kpihx`**, pas `k-browser`.
+
 ### MCP Protocol
 
 - **KπX MCPs:** source in `$HOME/Work/AI/MCPs/` · HTTP at `https://<name>.kpihx-labs.com/mcp` · stdio via `uv tool list` / `npm list -g` / `bun pm ls -g` · configs are source of truth.
@@ -327,4 +367,3 @@ Optional Markdown heading markers such as `## ` are allowed.
 ### Deactive Skills
 
 - `k-claude`: MCPs for Claude; Claude-specific tasks (Legacy).
-- `k-openclaw`: OpenClaw legacy bridge.

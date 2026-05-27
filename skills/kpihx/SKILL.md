@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.3"
+  version: "2.7.5"
   scope: personal-os
 ---
 
@@ -80,7 +80,7 @@ metadata:
 | Public footprint | [digital_footprint.md](references/digital_footprint.md) | Handles, profiles, package registries, sites, public mentions, repo themes. |
 | Official document index | [legal.md](references/legal.md) | Secure path map to the complete local records. |
 | Source cross-index | [source_index.md](references/source_index.md) | Exact PDF, DOCX, and URL anchors for sensitive blocks and public claims. |
-| École Polytechnique | [x.md](references/x.md) | SMED, academic path, rankings, institutional procedures, matricule. |
+| École Polytechnique | [x.md](references/x.md) | SMED, academic path, rankings, **SynapseS agenda & groupes PC**, matricule. |
 
 ## Operating Rules
 
@@ -92,6 +92,7 @@ metadata:
 - **Scanned Document Rule**: if `pdftotext` is empty, fall back to visual inspection before claiming uncertainty.
 - **Traceability Rule**: every sensitive or challengeable claim should be recoverable through `references/source_index.md`.
 - **X-Reflex (Mandatory)**: Autonomously maintain `references/x.md` with every new institutional fact, academic decision, or medical procedure learned. Do not wait for explicit requests to consolidate X-specific knowledge.
+- **Forms & document discovery (Mandatory)**: Before filling any admin/web form or locating an official PDF (titre de séjour, Navigo, attestations), read `references/identity.md` (contacts, identifiers, transport) and `references/legal.md` (Drive paths). Verify values against documents; complete those files if something is missing — **never** duplicate identity tables in other skills (e.g. `k-browser` stays browser-mechanics only).
 
 ## Irreducible Axes
 
@@ -112,6 +113,8 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-26 | [CURSOR] | v2.7.5 — `x.md` § SynapseS (emploi du temps, groupes PC via ICS DESCRIPTION, liens Moodle). |
+| 2026-05-26 | [CURSOR] | v2.7.4 — Transport IDF block in `identity.md` (Navigo `37096403`, AST `5920537`, canonical `Gdrive_X/KpihX/Fr/` paths); forms/doc discovery rule in Operating Rules. |
 | 2026-05-24 | [CURSOR] | v2.7.3 — `fit.md` v3: day-0 Sun, pair/impair push vs 1 min gainage, CROUS commute baseline, TickTick habit map. |
 | 2026-05-24 | [CURSOR] | v2.7.2 — `fit.md` daily stack: rope–bridge (push from 1 rep / gainage rotation)–rope–butterfly abs ×20. |
 | 2026-05-24 | [CURSOR] | v2.7.1 — Added `references/fit.md` (fun fitness comeback: Cyclers baseline, 20 km/week, rope 2×100 + core companions) and Cyclers stat assets under `assets/fitness/`. |

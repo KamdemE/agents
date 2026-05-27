@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.49"
+  version: "2.89.55"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -25,6 +25,7 @@ allowed-tools: "Bash(*), *"
 > **Kernel Sync Rule:** ALWAYS run `make audit` in `.agents/` and fix any errors BEFORE proposing session finalization (`git commit` + `make push`).
 > **KπX directive — `.agents` VCS (2026-04-10):** Autonomous `git commit`, `git push`, and `make push` on `$HOME/.agents/` are allowed by default **after** `make audit` passes, unless KπX explicitly says not to finalize in the current session.
 > **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-workspace` cross-links.
+> **Skills & kernel homogeneity (GRAVÉ):** Before creating or editing any skill, `AGENTS.md`, or hub `references/` file — inspect first (`tree $HOME/.agents/skills/`, `rg`), find the owning `k-*` skill, extend it; never duplicate identity paths or domain tables; create new files only when nothing covers the topic. Full rule: **AGENTS.md → Skills & kernel homogeneity — GRAVÉ**.
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
@@ -38,10 +39,12 @@ allowed-tools: "Bash(*), *"
 
 | Task | IMPORTANT | URGENT | CONCERNED | Description |
 |------|-----------|--------|-----------|-------------|
-| *(none)* | | | | |
+| **ISS-20260515-001** projector runbook | YES | NO | ALL | After each reboot: `powerprofilesctl get`. Before cours: `powerprofilesctl set balanced`. On episode: journal + HDMI note. Full runbook → **`references/issues.md`** row **`ISS-20260515-001`** (Next checkpoint, 2026-05-26). |
+| **ISS-20260526-001** battery wear | YES | NO | KπX | Capacity **~67%** design — monitor. Charge cap **80%** already via sysfs (`BAT0/charge_control_end_threshold=80`) — verify after next full charge; no BIOS required unless you want Dell UI mirror. |
 
 ## Active Projects
 
+| **colab** | 🟢 ACTIVE — P1 ACP core done (`AcpClient`, `AcpSession`, `colab agent prompt`); `make uv-check` green. Next: P2 tmux polish, P4 Mistral router. | Live `agent acp` smoke pending auth · `$HOME/KpihX-Labs/colab/` |
 | **KπX Fit (fun rhythm)** | 🟢 ACTIVE — **Mois 1** depuis 2026-05-24: SU–FR `2×100` corde + **pair=20 pompes / impair=gainage 1 min** + `2×100`; **sam vélo seul**; semaine CROUS midi/soir; TickTick = 3 habits + sam task (see `fit.md`). | Créer habits TickTick ou `go` tick-mcp · `$HOME/.agents/skills/kpihx/references/fit.md` |
 | **Optimisation** | 🟢 ACTIVE — `Projection_Simplex_Goldmann.ipynb` complété et exécuté à partir des PDFs du cours. Rendu TP (Notebook) fixé au 18/05 (23h59). Soutenance confirmée le 04/06 à 15h15 (PC 3). Tâches TickTick `69f8a9288f086d028b4d7b74` et `69f8a9298f0885d1c6763497` à jour. | Relecture finale du notebook + rendu. · `🎓 X/📅 Agenda` |
 | **Sinner Visualizer** | ✅ STABLE — `sinner_analysis_1080p_fr.mp4` delivered. Full tactical video (1080p60) and multi-lang dashboard (v0.3.0). | Final high-res walkthrough delivered. · `$HOME/Work/X/Python_2A_P3/sinner-tactical-visualizer/` |
@@ -53,7 +56,7 @@ allowed-tools: "Bash(*), *"
 | **Sovereign Learning Lab**| 🔴 **ABSOLUTE PRIORITY #2** — Convergent Vision: Real-time visual assistant (Manim/Napkin), Personal OS coaching | Propose first live lesson prototype · `$HOME/.agents/skills/k-context/references/k-personal-os-learning-laboratory-vision.md` |
 | **MIE Ubisoft Case** | ✅ STABLE — v1.0.0 Study case completed, PDF generated and sent. | Finalized analysis and style refinement. · `$HOME/Gdrive_X/X/2A/P3-IME/DM/` |
 | **MCP Visual Validation** | 🚧 PLANNING — Transform `send`/`create` across MCPs (TickTick, WhatsApp, LinkedIn, Mail) to launch a visual editor for review before execution | Propose architecture · `$HOME/.agents/skills/k-context/references/mcp-visual-validation-vision.md` |
-| **kpihx** | 🟢 ACTIVE — v2.7.1 Sovereign Hub + **`references/fit.md`** (fun fitness comeback plan, Cyclers assets). | Saturday ride ritual; maintain provenance · `$HOME/.agents/skills/kpihx/` |
+| **kpihx** | 🟢 ACTIVE — v2.7.4 Sovereign Hub + transport IDF (`Navigo` `37096403`, AST `5920537`, chemins `Gdrive_X/KpihX/Fr/`). | Forms/docs → `identity.md` + `legal.md` · `$HOME/.agents/skills/kpihx/` |
 | **sh (KpihX-Labs)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Homelab (KpihX-Labs v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
@@ -84,7 +87,8 @@ allowed-tools: "Bash(*), *"
 | **ts-proxy** | 🟢 ACTIVE — v1.5.1 Sovereign HITL Hardening: Centralized async HITL engine (Web + TUI Fallback), @require_approval decorator integration, and automated mock testing. | `make uv-check` passed v1.5.1 · `$HOME/Work/KpihX-Labs/Docker-Host/ts_proxy/` |
 | **PVE / vm_debian** | 🟢 ACTIVE — live CT-vs-VM DNS audit completed on `kpihx-pve`: CT `100` (`homelab`) resolves through Proxmox-managed static resolvers, while VM `101` (`pve-debian`) still ends up with `systemd-resolved` reporting `No DNS servers known` (`ISS-20260508-001`). | Patch `install.sh` DNS/resolved handling, then redeploy VM 101 and revalidate `curl raw.githubusercontent.com`. · `$HOME/KpihX-Labs/PVE/vm_debian/` |
 | **Fluid** | 🟢 ACTIVE — Deep lifecycle transparency pass completed in `AA.md`: reconstructed the real Ubuntu → PVE → service lifecycle from scripts, exposed the current root-owned `state/fluid-state.json` permission break, the `fluid-node-pve` profile mismatch (`ubuntu` instead of `pve`), and the missing `fluid.yml` blocker for the local `ts_proxy` example. | Review `AA.md`, fix state ownership + host profile semantics, then add a first real `fluid.yml` service example (starting with `ts_proxy`). · `$HOME/KpihX-Labs/Fluid/fluid/` |
-| **Lebara eSIM (S25)** | 🟡 **WAIT SUPPORT** — Mamadou : 2e annulée+rembours. ; 1re **ML045066180** → support **48h ouvr.** TickTick `6a1491488f08dbc9d7a14fbc` (relance 28/05). | **No QR** · `$HOME/Downloads/lebara-esim/` |
+| **Lebara eSIM (S25)** | 🟡 **WAIT 30j** — Support : anciennes eSIM sur l’appareil → **ne pas rescanner** le QR **ML045066180** avant **~25/06/2026**. 2e commande **ML045067164** annulée+rembours. PDF canonique (hash `b76f1627…`) : Drive + Downloads — voir **`$HOME/Downloads/lebara-esim/CANONICAL-PDF.md`**. TickTick `6a1491488f08dbc9d7a14fbc` (échéance 25/06). | **No QR scan** · `$HOME/Downloads/lebara-esim/` |
+| **KpihX-Ubuntu (Dell 7640)** | 🟡 **MONITORING** — Display/projector **`ISS-20260515-001`** (runbook in issues Next checkpoint). Battery wear **~67%** **`ISS-20260526-001`**. Charge stop **80%** sysfs OK (75% start). | `powerprofilesctl` after reboot · `references/issues.md` |
 | **Edge agent (CDP)** | ✅ **STABLE** — Live test + manual cleanup done; favorites test folders removed by KπX; **`k-browser` v1.3.0** Leave no trace; runbook in techskills + insights. | `edge-agent-cdp-setup.md` · `k-browser/SKILL.md` |
 | **whats_proxy** | 🟢 ACTIVE — v1.0.0 Infrastructure Contract defined: 100% transparent API, port 1140 unified bridge, and robust discovery/filtering registry. | Hardened CONTRACT.md · `$HOME/Work/KpihX-Labs/Fluid/whats_proxy/` |
 | **Gdrive_X Reorganization** | ✅ STABLE — Full controlled migration executed on 2026-05-03. Final roots: `.Trash-1000`, `Google AI Studio`, `KpihX`, `X`, `ENSPY`, `Pro`, `KpihX-Labs`, `Photos`, `ToPrint`, plus review roots. API validation passed with zero forbidden names, zero non-ASCII paths, zero duplicate Drive paths, zero singleton dirs outside exceptions/review, zero `_DUP*` residues in main roots, and zero dirty `..`/`.pdf.pdf`/browser suffix residues. | Review `_Purge_Review_2026-05-03/` and `_Review_Duplicates_2026-05-03/` deliberately before any real deletion. · `$HOME/Gdrive_X/` |
@@ -129,17 +133,18 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-27 | [CURSOR] | **OpenClaw workspace = `~/.agents`** — kernel inject direct; `@kpihx_openclaw_bot`; AGENTS symlinks unifiés; verified 37k inject. |
+| 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green (`make uv-check`). |
+| 2026-05-26 | [CURSOR] | **Lebara eSIM 30j** — Support : délai **30 j** avant retry QR **ML045066180** (~25/06). PDF canonique sync Drive→Downloads ; `CANONICAL-PDF.md` ; ML045067164 → `archive-cancelled/`. TickTick `6a1491488f08dbc9d7a14fbc` → 25/06. |
+| 2026-05-26 | [CURSOR] | **`k-phones` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs, Termux stack, compute vs inference routing). |
+| 2026-05-26 | [CURSOR] | **Workstation power runbooks in k-context** — **`ISS-20260515-001`**: projector/`power-profiles-daemon` runbook copied to issues Next checkpoint (reboot check, `balanced` before cours, journal on episode). **`ISS-20260526-001`**: battery **~67%** wear; charge cap **80%** already set via sysfs `BAT0/charge_control_end_threshold` (start 75%) — BIOS F2 optional only. Active TODOs + Active Projects row **KpihX-Ubuntu (Dell 7640)**. |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.15 STABLE** — S25 SSH bidirectional (TS IPs); Termux:Boot+`~/.termux/boot/sshd`; `termux-install-boot.sh`/`deploy-sshd.sh`; post-reboot `ssh s25` test pending. |
 | 2026-05-25 | [CURSOR] | **QMD claude-memory removed** — `index.yml` + `k-qmd` v2.14.6 + `AGENTS.md`; `qmd update`/`cleanup`; `check_collections.sh` all OK (8 collections). |
 | 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. |
 | 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. |
 | 2026-05-25 | [CURSOR] | **Edge live automation** — Playwright CDP inventory + sandbox tabs + Copilot + favorites UI; techskills + `k-browser` insights. |
 | 2026-05-25 | [CURSOR] | **TickTick email OFF** — Edge Settings/Notifications: `enable-email_remind` disabled; tick-mcp `get_user_status` OK; `k-ticktick` insights. |
-| 2026-05-25 | [CURSOR] | **kapoivha Gmail hygiene** — INBOX/UNREAD→0; filters + `KpihX/*` labels; `gws_gmail_deep_cleanup.py`; SOT `k-google/references/kapoivha-gmail-hygiene.md`. |
-| 2026-05-25 | [CURSOR] | **Vaultwarden upgrade** — Portainer `vaultwarden` **1.36.0**; `prelogin/password` **HTTP 200** (`bw-prelogin-check.sh` OK). |
-| 2026-05-25 | [CURSOR] | **Bitwarden ext 2026.4.x** — prelogin **404** before VW 1.36.0; fixed on homelab; `bw-prelogin-check.sh`; tmux `default:browser`. |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.9** — Termux `ubuntu` → `tmux attach -t default`; orphan PC session `ubuntu` removed. |
-| [SUMMARY] | — | 2026-05-25 Edge/Lebara/CF + `k-phones` v1.0.7–v1.0.8 rows → `references/log.md`; v1.0.15 S25 SSH/Boot live. |
+| [SUMMARY] | — | 2026-05-25 Gmail/Vaultwarden/Bitwarden/`k-phones` v1.0.9 rows → `references/log.md`; v1.0.15 S25 SSH/Boot live. |
 
 ## References
 
@@ -162,6 +167,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v2.89.49 — Session log: `k-phones` v1.0.15 S25 SSH/Boot stable (post-reboot test open). |
-| 2026-05-25 | [CURSOR] | v2.89.48 — QMD `claude-memory` retired (missing path; Claude legacy deactive). |
-| [SUMMARY] | — | v2.89.47 Edge STABLE + audit; v2.89.46–v2.89.23 → `references/log.md` |
+| 2026-05-27 | [CURSOR] | v2.89.56 — OpenClaw workspace `~/.agents`; bootstrap MD in kernel repo; k-openclaw v3.4.0. |
+| 2026-05-26 | [CURSOR] | v2.89.55 — colab P1 ACP core shipped; Active Projects row + session log. |
+| [SUMMARY] | — | v2.89.54–v2.89.48 SynapseS, Lebara, k-phones S25, ISS power/battery, QMD claude-memory → `references/log.md` |

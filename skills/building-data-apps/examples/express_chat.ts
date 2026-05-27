@@ -24,7 +24,8 @@ app.use(cors());
 app.use(express.json());
 
 const chatClient = new DataChatServiceClient();
-const PROJECT_ID = process.env.GOOGLE_CLOUD_PROJECT || '<PROJECT_ID>';
+// Keep sample credentials/project explicit to avoid reading host env in examples.
+const PROJECT_ID = '<PROJECT_ID>';
 
 app.post('/api/chat', async (req, res) => {
   const {message, history} = req.body;
@@ -159,7 +160,7 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Express chat running on port ${PORT}`);
 });
