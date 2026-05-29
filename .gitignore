@@ -14,7 +14,9 @@ __pycache__/
 *.pyc
 
 # Vendor plugin trees (local install only; not kernel source)
-plugins/
+plugins/*
+!plugins/kpihx-orchestra
+!plugins/kpihx-orchestra/*
 
 # Ephemeral Data Cloud skill manifest
 skills/.datacloud_skills_manifest

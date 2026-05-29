@@ -297,11 +297,31 @@ def _wrapper_smoke_tests() -> list[str]:
     return findings
 
 
+def _check_rules() -> list[str]:
+    findings: list[str] = []
+    agents_md = ROOT / "AGENTS.md"
+    if not agents_md.exists():
+        findings.append(f"{_display(agents_md)}: missing AGENTS.md")
+        return findings
+    text = agents_md.read_text(encoding="utf-8")
+    rule_refs = re.findall(r"`rules/([a-z0-9-]+\.md)`", text)
+    for ref in sorted(set(rule_refs)):
+        rule_path = ROOT / "rules" / ref
+        if not rule_path.exists():
+            findings.append(f"{_display(rule_path)}: referenced in AGENTS.md but missing.")
+            continue
+        content = rule_path.read_text(encoding="utf-8").strip()
+        if len(content) < 20:
+            findings.append(f"{_display(rule_path)}: rule file is empty or too short.")
+    return findings
+
+
 def run_audit() -> list[str]:
     findings: list[str] = []
     findings.extend(_collect_skill_findings())
     findings.extend(_parse_python(_collect_python_paths()))
     findings.extend(_wrapper_smoke_tests())
+    findings.extend(_check_rules())
     yaml_paths = [ROOT / "AGENTS.md"]
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
     findings.extend(_parse_yaml_frontmatters(yaml_paths))

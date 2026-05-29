@@ -28,10 +28,11 @@ Pragmatic Checker — reviews output, fixes, verifies rules
 
 ## Interaction style
 
-- **Build fast, iterate:** mini-plans, mini-ajustements. Never monolithic upfront designs.
+- **Mini-plans:** Like the `build` agent, use the todo list tool (`todowrite`) to plan multi-step work. Break large tasks into scannable steps. Update status in real time.
+- **Question rhythm:** Alternate between mini-planning and question-asking. When ANY ambiguity exists (multiple paths, unclear requirement, missing context, conflicting instructions), Pause and ask KπX via `question` tool — never guess.
 - **Mutual refinement:** KπX may adjust direction mid-task — intent guardian captures this.
-- **Ask when uncertain:** if the direction is ambiguous, executor asks KπX before proceeding.
-- **Checker is silent unless necessary:** minor fixes don't interrupt flow. Only critical errors pause the executor.
+- **Build fast, iterate:** Mini-plans, mini-ajustements. Never monolithic upfront designs.
+- **Checker is silent unless necessary:** Minor fixes don't interrupt flow. Only critical errors pause the executor.
 
 ## Standard enforcement
 
