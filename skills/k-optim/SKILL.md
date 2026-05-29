@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.12.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -262,6 +262,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-27 | Meta/Governance | `.agents` governance audit (make audit) | Missing Provenance & Quality reference: `references/sexemodel-insights.md` not in SKILL.md |
 | 2026-05-26 | Ubuntu | Deleted-image recovery runbook | `references/ubuntu-deleted-files-recovery.md` + techskills mirror; Tier A thumbnails + Tier B PhotoRec |
 | 2026-05-25 | Meta | `.agents` social+email skill audit fix | ALL_OK; no secrets in commit; JSON smoke Meta core + X me |
 | 2026-05-24 | Meta/QMD | `check_collections.sh` + auto_clean/ksh wiring | Path-drift gate: MISSING_PATH + EMPTY_INDEX; Telegram alert on weekly cleanup |
@@ -289,5 +290,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-05-26 | [CURSOR] | v2.11.0 — Ubuntu: `ubuntu-deleted-files-recovery.md` runbook (Tier A thumbnails + Tier B PhotoRec + extundelete limits); techskills mirror; LKS recovery session. |
+|| 2026-05-27 | [CURSOR] | v2.12.0 — Meta: Governance audit detects bundled `references/sexemodel-insights.md` missing from SKILL.md Provenance & Quality section.
 | 2026-05-25 | [CURSOR] | v2.10.1 — Meta: Edge agent STABLE finalize; audit cap fixes; QMD check (claude-memory path drift). |
 | [SUMMARY] | — | v2.10.0 social skills audit; v2.9.9 QMD health gate; v2.9.8 Timeshift; v2.9.6 full k-optim (`ISS-20260522-001`); older in git |

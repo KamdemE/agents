@@ -4,6 +4,9 @@ Purpose: detailed runtime execution log for mail operations (different from `SKI
 
 ## Entry Format
 
+| 2026-05-27 | [CLINE] | gws CLI | kapoivha | 16 msgs fetched (14 unread, 2 IMPORTANT: Lebara eSIM support reply + IDF Mobilites code). Formatted and sent to Telegram KpihX bot. |
+
+
 | Timestamp (UTC) | Agent | Channel | Action | Inputs | Outcome | IDs / Links | Notes |
 |-----------------|-------|---------|--------|--------|---------|-------------|-------|
 | 2026-05-25T12:00:00Z | [CURSOR] | gws (kapoivha profile) | Gmail search `lebara` + attachments get | 2× eSIM mails `Activez votre eSIM…` (ML045066180, ML045067164 PDFs) | PDFs → `$HOME/Downloads/lebara-esim/`; newest opened xdg-open | msg ids `19e5c53ec3e510b6`, `19e5c246a4c57abe` | mail-mcp has no Gmail account; used `GOOGLE_WORKSPACE_CLI_CONFIG_DIR=kpihx` |

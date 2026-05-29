@@ -14,3 +14,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 - Initial baseline created automatically from insights governance standard.
 - Cline CLI MCP settings are stored in `~/.cline/data/settings/cline_mcp_settings.json` (not in `~/.cline/mcp.json`).
 - For manual remote MCP entries, explicitly set `"type": "streamableHttp"` to avoid legacy SSE fallback ambiguity.
+- Browser automation MCPs in Cline should be stdio entries named `browser` and `playwright` using `browser-mcp-stdio` / `playwright-mcp-stdio` to stay aligned with KπX browser runtime.

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.55"
+  version: "2.89.59"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -44,7 +44,7 @@ allowed-tools: "Bash(*), *"
 
 ## Active Projects
 
-| **colab** | 🟢 ACTIVE — P1 ACP core done (`AcpClient`, `AcpSession`, `colab agent prompt`); `make uv-check` green. Next: P2 tmux polish, P4 Mistral router. | Live `agent acp` smoke pending auth · `$HOME/KpihX-Labs/colab/` |
+| **colab** | 🟢 ACTIVE — P1 ACP core + P4 Mistral router mocked tests done. 69 tests green (`make check`). `IndexError` hardened in router. Next: P2 tmux polish, P6–P8 voice E2E. | `$HOME/KpihX-Labs/colab/` |
 | **KπX Fit (fun rhythm)** | 🟢 ACTIVE — **Mois 1** depuis 2026-05-24: SU–FR `2×100` corde + **pair=20 pompes / impair=gainage 1 min** + `2×100`; **sam vélo seul**; semaine CROUS midi/soir; TickTick = 3 habits + sam task (see `fit.md`). | Créer habits TickTick ou `go` tick-mcp · `$HOME/.agents/skills/kpihx/references/fit.md` |
 | **Optimisation** | 🟢 ACTIVE — `Projection_Simplex_Goldmann.ipynb` complété et exécuté à partir des PDFs du cours. Rendu TP (Notebook) fixé au 18/05 (23h59). Soutenance confirmée le 04/06 à 15h15 (PC 3). Tâches TickTick `69f8a9288f086d028b4d7b74` et `69f8a9298f0885d1c6763497` à jour. | Relecture finale du notebook + rendu. · `🎓 X/📅 Agenda` |
 | **Sinner Visualizer** | ✅ STABLE — `sinner_analysis_1080p_fr.mp4` delivered. Full tactical video (1080p60) and multi-lang dashboard (v0.3.0). | Final high-res walkthrough delivered. · `$HOME/Work/X/Python_2A_P3/sinner-tactical-visualizer/` |
@@ -66,7 +66,10 @@ allowed-tools: "Bash(*), *"
 | **mail workspace** | 🧠 BRAINSTORM — cli/mcp/admin/skill split for mail | scaffold + contracts + generator · `$HOME/Work/AI/mail/` |
 | **sh_mcp** | 🧠 BRAINSTORM — agent sandbox MCP (homelab); future user-side **sh-exec** separate | vision · `$HOME/.agents/skills/k-context/references/sh-mcp-agent-sandbox-vision.md` · code TBD · `$HOME/Work/AI/MCPs/` |
 | **Agentic architecture** | 🧠 Brainstorm done — hot/cold framework, 3-layer model, MCP qualification test | `$HOME/.agents/references/` |
+| 2026-05-27 | [CLINE] | **Mail recap kapoivha → Telegram** — `gws` CLI fetched 16 inbox messages (14 unread, 2 IMPORTANT). MarkdownV2 formatted recap sent to KπX via bot `KpihX` (msg_id=176). Key items: Lebara eSIM support reply (IMPORTANT), IDF Mobilites code, 4 security alerts (Google×2, Microsoft×2, Venice.ai), DMARC report, 8 other notifications. |
+
 | **envision (PSC)** | ✅ STABLE — final report layout with dual logos aligned, branding complete, and project links pushed to main and presentation repo (`ee3398d`). Ready for soutenance prep from the stabilized dense-RAG baseline. | `push audit` · `$HOME/Work/X/envision/envision/` |
+| **Terminal Editing Stack** | 🟢 ACTIVE — Vim 9.1 + Neovim 0.11; 31 nvim plugins (Lazy.nvim); LSP 8 servers; opencode.nvim; tmux plugins étendus; k-vim skill. | Premier lancement nvim interactif à faire · `$HOME/.agents/skills/k-vim/` |
 | **flow** | 🟢 ACTIVE — `k_env` extracted out of tree into its own framework repo; `flow` packaging no longer claims `k_env` CLI/tests | continue voice-kernel work as `flow`-only and add a local dependency on `$HOME/Work/Frameworks/k_env/` only if/when runtime imports are introduced · `$HOME/Work/AI/flow/` |
 | **k_env** | 🟢 ACTIVE — autonomous framework repo scaffolded under `Work/Frameworks/`; migrated package + tests now live in their own git root and pass locally | refine autonomous docs/API after extraction and continue the post-SecretStrategy cleanup from the Gemini intent baseline · `$HOME/Work/Frameworks/k_env/` |
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
@@ -93,6 +96,7 @@ allowed-tools: "Bash(*), *"
 | **whats_proxy** | 🟢 ACTIVE — v1.0.0 Infrastructure Contract defined: 100% transparent API, port 1140 unified bridge, and robust discovery/filtering registry. | Hardened CONTRACT.md · `$HOME/Work/KpihX-Labs/Fluid/whats_proxy/` |
 | **Gdrive_X Reorganization** | ✅ STABLE — Full controlled migration executed on 2026-05-03. Final roots: `.Trash-1000`, `Google AI Studio`, `KpihX`, `X`, `ENSPY`, `Pro`, `KpihX-Labs`, `Photos`, `ToPrint`, plus review roots. API validation passed with zero forbidden names, zero non-ASCII paths, zero duplicate Drive paths, zero singleton dirs outside exceptions/review, zero `_DUP*` residues in main roots, and zero dirty `..`/`.pdf.pdf`/browser suffix residues. | Review `_Purge_Review_2026-05-03/` and `_Review_Duplicates_2026-05-03/` deliberately before any real deletion. · `$HOME/Gdrive_X/` |
 | **Julius Caesar Exam Prep** | ✅ STABLE — Completed the comprehensive revision guide `revision_anglais.md` and `cheat_sheet.md`, generated PDF using `k-latex`, created ultra-compact `Revision` template with automated `Makefile`. | Ready for print and review. · `$HOME/Gdrive_X/ToPrint/` |
+|| **SexeModel** | 🟢 ACTIVE — Scraper tasks 1-6 completed; background scraping for region 75 (Paris) running 45-90 min. Results to be verified on completion.
 
 | **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -133,18 +137,15 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-29 | [OPENCODE] | **Permissions OpenCode — Confiance Totale** — Analyse complète des logs sessions (~80 MB), extraction patterns bash, implémentation 3 zones allow (100+ patterns) + 35 explicit ask + 9 external_directory paths. `opencode.jsonc` restructuré, `"*": "ask"` retiré de l'agent build (global bash:ask gère). Tests passés. k-opencode v1.3.0. |
+| 2026-05-28 | [OPCODE] | **Session 2 — Audit fixes + stack finalization** — Fixed k-vim edit reminder format; added [SUMMARY] rows to k-vim, k-opencode, k-tmux, k-context; deduped frontmatter in k-opencode + k-tmux; all 4 pass `make audit` skill structure checks. Interactive nvim first-launch still pending. |
+| 2026-05-28 | [OPCODE] | **Terminal Editing Stack** — Vim 9.1 + Neovim 0.11 install + config; 31 nvim plugins (Lazy.nvim); 4 vim plugins (vim-plug); tmux étendu (yank/copycat/prefix-highlight); LSP 8 servers; k-vim skill créé EN; k-tmux v1.5.0; k-opencode v1.1.0 (section Neovim). |
+| 2026-05-28 | [OPCODE] | **colab P1 ACP + P4 Mistral** — 69 tests green. ACP: 51 tests, mock_proc/timing/notification fixes. P4: 18 tests, 4 intents, IndexError hardened. |
 | 2026-05-27 | [CURSOR] | **OpenClaw workspace = `~/.agents`** — kernel inject direct; `@kpihx_openclaw_bot`; AGENTS symlinks unifiés; verified 37k inject. |
-| 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green (`make uv-check`). |
-| 2026-05-26 | [CURSOR] | **Lebara eSIM 30j** — Support : délai **30 j** avant retry QR **ML045066180** (~25/06). PDF canonique sync Drive→Downloads ; `CANONICAL-PDF.md` ; ML045067164 → `archive-cancelled/`. TickTick `6a1491488f08dbc9d7a14fbc` → 25/06. |
-| 2026-05-26 | [CURSOR] | **`k-phones` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs, Termux stack, compute vs inference routing). |
-| 2026-05-26 | [CURSOR] | **Workstation power runbooks in k-context** — **`ISS-20260515-001`**: projector/`power-profiles-daemon` runbook copied to issues Next checkpoint (reboot check, `balanced` before cours, journal on episode). **`ISS-20260526-001`**: battery **~67%** wear; charge cap **80%** already set via sysfs `BAT0/charge_control_end_threshold` (start 75%) — BIOS F2 optional only. Active TODOs + Active Projects row **KpihX-Ubuntu (Dell 7640)**. |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.15 STABLE** — S25 SSH bidirectional (TS IPs); Termux:Boot+`~/.termux/boot/sshd`; `termux-install-boot.sh`/`deploy-sshd.sh`; post-reboot `ssh s25` test pending. |
-| 2026-05-25 | [CURSOR] | **QMD claude-memory removed** — `index.yml` + `k-qmd` v2.14.6 + `AGENTS.md`; `qmd update`/`cleanup`; `check_collections.sh` all OK (8 collections). |
-| 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. |
-| 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. |
-| 2026-05-25 | [CURSOR] | **Edge live automation** — Playwright CDP inventory + sandbox tabs + Copilot + favorites UI; techskills + `k-browser` insights. |
-| 2026-05-25 | [CURSOR] | **TickTick email OFF** — Edge Settings/Notifications: `enable-email_remind` disabled; tick-mcp `get_user_status` OK; `k-ticktick` insights. |
-| [SUMMARY] | — | 2026-05-25 Gmail/Vaultwarden/Bitwarden/`k-phones` v1.0.9 rows → `references/log.md`; v1.0.15 S25 SSH/Boot live. |
+| 2026-05-28 | [OPCODE] | **OpenClaw bugfix session** — Diagnostiqué 429 Realtime (OpenAI → Google provider). Talk: `provider=google`, `apiKey={env:GOOGLE_API_KEY}`. `wl-clipboard` installé. Fixé `codex.apiKey` false positive. |
+| 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green. |
+| 2026-05-27 | [CURSOR] | **SexeModel scraper** — tasks 1-6 completed; background scraping region 75. |
+| [SUMMARY] | — | 2026-05-26: Lebara eSIM 30j, k-phones v1.0.17, ISS runbooks, prior history → `references/log.md`. |
 
 ## References
 
@@ -167,6 +168,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-27 | [CURSOR] | v2.89.56 — OpenClaw workspace `~/.agents`; bootstrap MD in kernel repo; k-openclaw v3.4.0. |
-| 2026-05-26 | [CURSOR] | v2.89.55 — colab P1 ACP core shipped; Active Projects row + session log. |
-| [SUMMARY] | — | v2.89.54–v2.89.48 SynapseS, Lebara, k-phones S25, ISS power/battery, QMD claude-memory → `references/log.md` |
+| 2026-05-28 | [OPCODE] | v2.89.59 — Audit fixes: k-vim/k-opencode/k-tmux/k-context structure compliance; session log refresh. |
+| 2026-05-28 | [OPCODE] | v2.89.58 — colab P4 Mistral router mocked tests; IndexError hardened; session log. |
+| [SUMMARY]  | —          | v2.89.48–v2.89.57: colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |

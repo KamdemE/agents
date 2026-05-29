@@ -1,149 +1,251 @@
 ---
 name: k-browser
-description: KπX Browser Automation — Standardized MCP interfaces (Playwright & Browser MCP) for Edge/Chromium. Persistent sessions, accessibility-tree focus, and profile-aware automation.
+description: KπX Edge Automation — chrome-agent-mcp (CDP) + browser-mcp (extension) + Edge Tab Groups Explorer extension
 license: private
 metadata:
   author: KpihX
-  version: "1.7.1"
+  version: "3.2.0"
   scope: agent-tooling
   mcp-servers:
-    - playwright (@playwright/mcp)
-    - browser (@agent-infra/mcp-server-browser)
+    - chrome-agent (chrome-agent-mcp)
+    - browser (@agent360/browser-mcp)
+  edge-extension:
+    - Edge Tab Groups Explorer (gkcifcdcmloogpddjlcbbbaicnpmajao)
 ---
 
-# KπX Browser — Standardized Automation
+# KπX Browser Automation
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-**⚠️ USE STANDARDIZED MCP SERVERS INSTEAD OF AD-HOC SCRIPTS (PLAYWRIGHT/BROWSER-USE) UNLESS EXPLICITLY ASKED.**
+## Architecture — Two MCPs
 
-## Architecture
+| MCP | Transport | Scope | Use |
+|-----|-----------|-------|-----|
+| **chrome-agent-mcp** | CDP :9222 | Navigation, click, evaluate, devtools, tabs, windows | 90% of tasks |
+| **browser-mcp** (`@agent360/browser-mcp`) | WebSocket :9876 + Chrome extension | `ask_user`, `solve_captcha`, `dismiss_overlays`, `set_date`, `set_combobox`, `drop_file` | 10% (CAPTCHA/2FA/special forms) |
 
-This skill governs the interaction with web browsers via MCP servers. It prioritizes semantic understanding (Accessibility Tree) over visual guessing.
+### chrome-agent-mcp — Tools
 
-- **Playwright MCP:** Best for high-reliability, isolated, or testing tasks. Uses accessibility snapshots.
-- **Browser MCP:** Best for authenticated sessions (Google, Microsoft, LinkedIn) as it attaches to the active user profile.
+| Tool | Action |
+|------|--------|
+| `browser_tabs` | List/create/close/switch tabs |
+| `chrome_windows` | List windows and their tabs |
+| `browser_navigate` | Navigate to URL |
+| `browser_click` | Click element by ref |
+| `browser_snapshot` | Accessibility tree |
+| `browser_evaluate` | Run arbitrary JS |
+| `browser_type` / `fill_form` / `select_option` | Form interaction |
+| `browser_take_screenshot` | Screenshot |
+| `devtools_console` / `network` / `elements` / `storage` | DevTools inspection |
+| `chrome_extensions` / `chrome_focus` | Extension list / focus tab |
 
-## Sovereign Bookmarks
+### browser-mcp — Tools (extension only)
 
-The browser's bookmarks are managed as sovereign assets within this skill.
+| Tool | Use case |
+|------|----------|
+| `browser_ask_user` | Credentials/2FA overlay (user sees popup) |
+| `browser_solve_captcha` | reCAPTCHA/hCaptcha/Turnstile |
+| `browser_dismiss_overlays` | Cookie banners, modals |
+| `browser_set_date` | Native + MUI/AntD date pickers |
+| `browser_set_combobox` | Autocomplete multi-select |
+| `browser_drop_file` | Drag-drop zones without file input |
+| `browser_handle_dialog` | JS alert/confirm/prompt |
+| `browser_get_new_tab` | OAuth popup interceptor |
 
-- **Current Baseline:** `assets/bookmark.html` (Sovereign hierarchy).
-- **Legacy Reference:** `assets/bookmark.old.html` (Original dump).
-- **Source of Truth:** `assets/bookmark.md` (Markdown hierarchy).
-- **Recent Export:** `assets/favorites_5_2_26.html` (Dump from 2026-05-02).
-- **Management:** Any major reorganization should be done via Markdown transformation scripts and audited against the baseline.
+## CRITICAL RULES — Before ANY action
 
-## Operational Rules
+### 1. NEVER create a tab without checking if it already exists
+```javascript
+// ❌ WRONG: creates a blind duplicate without checking
 
-1. **SINGLE SESSION:** Never open multiple windows in bursts. Maintain a single persistent session when possible.
-2. **SEMANTIC FIRST:** Use accessibility snapshots before clicks; Playwright MCP uses **`target`** refs from `browser_snapshot`, not `ref`.
-3. **NO BRICOLAGE:** Do not write custom Playwright Python/Node scripts in the workspace for general navigation. Use the MCP tools.
-4. **CONSENT BYPASS:** Use specialized patterns to handle common cookie/consent banners instead of manual clicks.
-5. **INSIGHTS:** Read `references/insights.md` before non-trivial bookmark or automation work.
-6. **ACADEMIC PORTALS:** For Moodle / SynapseS / Copilot chains, read `references/workflows-academic-portals.md` first (iCal, cookies, composer-input, vidéos sans audio).
-7. **GOOGLE AI STUDIO:** For `aistudio.google.com` Playground / History / multimodal tests, read `references/workflows-google-ai-studio.md` first (attachment token gate, code execution, no local `pip` fallback).
-8. **FORMULAIRES — GRAVÉ (mécanique navigateur uniquement):** Données identité / chemins PDF → skill **`kpihx`** (`references/identity.md`, `references/legal.md`). Ce skill = snapshots, clics, attente, nettoyage, runbooks — pas de table d'identité locale. Voir § **Form filling contract** ci-dessous.
+// ✅ CORRECT: first check if the tab already exists in any window
 
-### Form filling contract (GRAVÉ)
+  // Determine the correct window (academic → X, personal → KpihX-Labs)
 
-| Autorisé (préremplir) | Interdit (KπX uniquement) |
-|----------------------|---------------------------|
-| Champs non secrets lus depuis **`kpihx`** (nom, email, téléphone, adresse, n° dossier, Navigo, etc.) | Mot de passe, code d'accès, PIN |
-| Upload de fichiers dont le chemin est dans **`kpihx` / `legal.md`** | OTP, CAPTCHA, 2FA |
-| — | Tout champ masqué type « mot de passe » |
+// ❌ WRONG: creates in the current window (may be the wrong one)
 
-**Avant remplissage :** `Read` `$HOME/.agents/skills/kpihx/references/identity.md` (+ `legal.md` si upload document).
+// ✅ CORRECT: explicit target window
 
-**Boucle d'attente (tout formulaire avec secret) :**
+// Before creating or moving, always identify the correct window first
+const all = await chrome.tabs.query({});
+const xWin = all.find(t => t.url.includes('moodle.ip-paris'))?.windowId || X_WIN_ID;
+const labWin = all.find(t => t.url.includes('opencode.ai'))?.windowId || LAB_WIN_ID;
+```
 
-1. Préremplir **uniquement** les champs non secrets (source `kpihx`).
-2. **Ne pas** soumettre tant qu'un secret manque — passer en attente.
-3. Poll `browser_snapshot` toutes **~8–12 s**, max **~3 min** :
-   - Si KπX **a commencé** à saisir (focus secret, caractères masqués, CAPTCHA rempli) → **continuer à attendre** (pas de limite fixe tant que l'activité continue).
-   - Si **rien** n'a bougé après ~3 min → **stop**, demander à KπX de remplir secrets/CAPTCHA, puis reprendre sur son signal.
-4. Après session : corrections KπX sur champs non secrets → mettre à jour **`kpihx`** (`identity.md` / `legal.md`), pas ce skill.
+### 3. Clean parasitic tabs immediately
+After each command, scan for and close:
+- `chrome-extension://` pages (except the extension you're using)
+- `about:blank`, `edge://newtab/` orphaned
+- Popups and redirects
 
-### Leave no trace (mandatory — production default)
+```javascript
+const tabs = await chrome.tabs.query({});
+for (const t of tabs) {
+  const u = t.url || '';
+  if ((u.startsWith('chrome-extension://') && !u.includes('gkcifcd'))
+      || u === 'about:blank' || u === 'edge://newtab/') {
+    await chrome.tabs.remove(t.id);
+  }
+}
+```
 
-**Default:** one deliberate action → verify outcome → **clean up in the same workstream** before ending the turn. Do not leave test tabs, `edge://` utility pages, stray workspaces, or bookmark folders behind.
+### 5. Verify after every action — never assume
+After any mutation (create, move, group, close):
+1. Re-read full state: `chrome.windows.getAll()` + `chrome.tabs.query()`
+2. Confirm: tabs in right window? no duplicates? no parasites?
+3. If not clean → fix immediately before continuing
 
-| Mode | When | Behavior |
-|------|------|----------|
-| **Production** | Any real KπX workflow unless KπX explicitly allows a sandbox | Reuse **one** CDP page + `goto`; close every tab you opened; remove test favorites/workspaces; end on a sensible user tab (e.g. prior Gmail). **No** bulk `context.newPage()` / tab storms. |
-| **Authorized test** | KπX explicitly allows exploration (e.g. live Edge capability pass) | Still **manual** cleanup after: close debris highest index first; verify with `browser_tabs` list + `edge://spaceworks/` counts. **No** cleanup shell scripts — step-by-step MCP only. |
+## Edge Workspace & Tab Groups
 
-**Post-session checklist (Edge agent / Playwright CDP):**
+CDP exposes tabs but NOT tab groups or collapsed tabs. The **Edge Tab Groups Explorer** extension fills the gap:
 
-1. `browser_tabs` **list** — grep mentally for: `example.com`, `httpbin`, `wikipedia`, `copilot.microsoft`, `edge://tab-search`, `edge://copilot-ntp`, `edge://favorites`, `edge://spaceworks` (close if only opened for the task).
-2. `edge://spaceworks/` — only expected workspaces (e.g. **KpihX-Labs**, **X**); no **Agent-Sandbox-*** left behind.
-3. `edge://favorites/` — delete test folders under **Favorites bar** (`fake`, `agent-sandbox-bookmarks`, etc.); if Fluent context menu is not in the a11y tree, **stop and ask KπX** for a 10s manual delete (documented limitation).
-4. Re-select the tab KπX was using before automation (often Gmail).
-5. Patch **`k-browser`** + **`references/insights.md`** + **`$HOME/Work/techskills/edge-agent-cdp-setup.md`** with anything new — never leave learnings only in chat.
+```javascript
+// From the extension page (chrome-extension://gkcifcd.../manifest.json)
+const [wins, groups, tabs] = await Promise.all([
+  chrome.windows.getAll({populate: true}),
+  chrome.tabGroups.query({}),
+  chrome.tabs.query({})
+]);
+```
 
-**Runbooks:** `$HOME/Work/techskills/edge-agent-cdp-setup.md` (live test + cleanup) · `$HOME/.agents/skills/k-browser/references/edge-cdp-setup.md`.
+### Extension ID & Path
 
-## Key Tools
+```
+ID:   gkcifcdcmloogpddjlcbbbaicnpmajao
+Path: ~/.agents/skills/k-browser/scripts/edge-tabgroups-extension/
+Load: edge://extensions/ → Developer mode → Load unpacked
+```
 
-| Server | Primary Action | Use Case |
-|--------|----------------|----------|
-| `playwright` | `navigate`, `click`, `type` | General high-level tasks. |
-| `browser` | `attach`, `list_tabs` | Interacting with user's live windows & sessions. |
+### Reading tab content
 
-## Edge agent (visible profile + CDP)
+```javascript
+// Requires scripting permission + host_permissions for all URLs
+const [result] = await chrome.scripting.executeScript({
+  target: {tabId: TAB_ID},
+  func: () => document.body?.innerText?.trim()?.slice(0, 5000) || ''
+});
+```
 
-**Runbook:** `$HOME/.agents/skills/k-browser/references/edge-cdp-setup.md` · user guide: `$HOME/Work/techskills/edge-agent-cdp-setup.md`
+### Creating tab groups — WINDOW CONTEXT MATTERS
 
-| Step | Command / config |
-|------|------------------|
-| Start Edge | `edge-agent` (from `.kshrc` → `assets/edge-agent.ksh`) |
-| Check CDP | `edge-agent-status` |
-| Vaultwarden + BW ext | `scripts/bw-prelogin-check.sh` (404 = upgrade server to 1.36.0+) |
-| Cursor MCP | `browser-mcp-stdio`, `playwright-mcp-stdio` in `$HOME/.cursor/mcp.json` (attach :9222) |
-| Profile | `$HOME/.config/kpihx-edge-automation` — sign in once; not Default |
+`chrome.tabs.group` creates the group in the CALLING extension's window. To group tabs in a different window:
 
-Vision: `$HOME/.agents/skills/k-context/references/edge-agent-automation-vision.md`.
+```javascript
+// 1. Move the extension tab to the target window FIRST
+await chrome.tabs.move(EXTENSION_TAB_ID, {windowId: TARGET_WIN, index: -1});
 
-## Academic portals (Moodle · SynapseS · Copilot)
+// 2. Group from that window (extension is now in target window)
+const g = await chrome.tabs.group({tabIds: [TAB_ID_1, TAB_ID_2]});
+await chrome.tabGroups.update(g, {title: 'Group Name', color: 'blue'});
 
-**Runbook:** `references/workflows-academic-portals.md` (validé IME_43031_EP, 2026-05-26).
+// 3. Move extension back if needed
+await chrome.tabs.move(EXTENSION_TAB_ID, {windowId: ORIGIN_WIN, index: -1});
+```
 
-| Portail | Méthode | Script / outil |
-|---------|---------|----------------|
-| **Moodle** | Cookies Edge + `requests` | Projet cours : `download_moodle_course.py`, `organize_course_files.py` |
-| **SynapseS** | URL `#input-url-sync-agenda` → `curl` ICS ; groupes PC dans `DESCRIPTION` | `scripts/synapses-agenda.py` · groupes → `kpihx/references/x.md` |
-| **Copilot** | Playwright : `getByTestId('composer-input')` + wait 20–25 s/tour | MCP `browser_type` / `browser_wait_for` (1 msg/tour) |
+**Always verify windowId before grouping tabs from different windows.**
 
-**Chaîne type :** télécharger supports Moodle → organiser par séance → (optionnel) visuels vidéo sans audio Ubicast → lire agenda SynapseS → sessions Copilot pour synthèses.
+### Moving tabs between windows
 
-## Google AI Studio
+`chrome.tabs.move` does NOT preserve groups — regroup after moving.
 
-**Runbook:** `references/workflows-google-ai-studio.md` (validé 2026-05-26).
+## CAPTCHA solving
 
-| Besoin | Règle rapide |
-|--------|----------------|
-| Upload PDF/vidéo | Attendre **N tokens** par fichier avant **Run** |
-| Code matplotlib 3D | Modèle Flash + **Code execution** ON ; télécharger l’image du chat, pas le `.txt` |
-| Nettoyage | `/library` → supprimer uniquement les chats de la session de test |
-| Python local | **Interdit** — AGENTS.md § Python GRAVÉ ; tout reste dans AI Studio |
+| Tool | reCAPTCHA checkbox | reCAPTCHA grid images | hCaptcha | Canvas CAPTCHA | React widget |
+|------|-------------------|----------------------|----------|---------------|-------------|
+| **chrome-agent-mcp** | ✅ via iframe | ❌ no image analysis | ❌ | ❌ | ❌ |
+| **browser-mcp** | ✅ `solve_captcha` | ✅ `solve_captcha` | ✅ | ❌ | ❌ |
 
-## Scripts (skill)
+**Best practice:** use browser-mcp's `browser_solve_captcha` with `action: "detect"` first, then `action: "click_checkbox"` or `action: "click_grid"` with cell indices. If browser-mcp is unavailable, chrome-agent-mcp can sometimes click the checkbox via iframe `contentDocument`.
 
-| Script | Rôle |
-|--------|------|
-| `scripts/synapses-agenda.py` | Parse iCal SynapseS sur une plage de dates |
-| `scripts/bw-prelogin-check.sh` | Vaultwarden prelogin avant login extension |
-| `scripts/edge-agent.sh` | Lance Edge CDP (voir `assets/edge-agent.ksh`) |
+**Limitations:**
+- Canvas-based CAPTCHAs (GoCaptcha, custom) cannot be solved — no tool can read canvas pixels
+- React widgets with synthetic events ignore programmatic clicks
+- Most OAuth flows (Google, Microsoft) bypass CAPTCHA entirely when session is active
 
-## Insights
+## Downloading files — bypass native Save As dialog
 
-- **Session Lock:** If the profile is locked, ensure no other Edge instance is using the same data directory.
-- **CDP Port:** Default is `9222`. Run `edge-agent.sh` (or equivalent flags) before `browser` MCP attach.
+The native OS "Save As" dialog cannot be interacted with via CDP or browser MCP. Use CDP's `Browser.setDownloadBehavior`:
+
+```python
+import json, urllib.request, asyncio, websockets
+
+async def set_download_path(path="/tmp"):
+    resp = json.loads(urllib.request.urlopen("http://127.0.0.1:9222/json/version").read())
+    async with websockets.connect(resp["webSocketDebuggerUrl"]) as ws:
+        await ws.send(json.dumps({"id": 1, "method": "Browser.setDownloadBehavior", "params": {
+            "behavior": "allow", "downloadPath": path
+        }}))
+        await asyncio.wait_for(ws.recv(), timeout=5)
+
+# Then trigger the download (click Download button / link)
+# File lands directly in path without any dialog
+```
+
+**Steps:**
+1. Connect to browser-level WebSocket via `/json/version`
+2. Send `Browser.setDownloadBehavior` with `behavior: "allow"` and desired path
+3. Trigger download via normal click — file saved directly, no popup
+
+## CDP Configuration
+
+Edge is patched to always start with `--remote-debugging-port=9222`:
+- `/opt/microsoft/msedge/microsoft-edge` wrapper script
+- System and user `.desktop` files
+
+## MCP Configuration
+
+### OpenCode (`~/.config/opencode/opencode.jsonc`)
+```jsonc
+"browser": { "command": ["zsh", "-l", "-c", "browser-mcp"], "enabled": true, "timeout": 60000 },
+"chrome-agent": { "command": ["zsh", "-l", "-c", "chrome-agent-mcp"], "enabled": true, "timeout": 60000 }
+```
+
+### Cursor (`~/.cursor/mcp.json`) & Cline (`~/.cline/data/settings/cline_mcp_settings.json`)
+```json
+"browser": { "command": "zsh", "args": ["-l", "-c", "browser-mcp"] },
+"chrome-agent": { "command": "zsh", "args": ["-l", "-c", "chrome-agent-mcp"] }
+```
+
+## Scripts
+
+| Path | Purpose |
+|------|---------|
+| `scripts/edge-tabgroups-extension/` | Edge extension for tabGroups + scripting |
+| `scripts/edge-workspace-tree.py` | Display workspace/tab tree |
+
+## References
+
+| Path | Content |
+|------|---------|
+| `references/edge-cdp-setup.md` | CDP :9222 setup details |
+| `references/insights.md` | Durable runtime lessons |
+| `references/workflows-google-ai-studio.md` | AI Studio automation |
+
+## Post-session cleanup — CRITICAL RULE (NEVER BYPASS)
+
+**Before finishing any session, ALL intermediaries MUST be closed:**
+
+1. **Test/probe tabs** → about:blank, CAPTCHA demo pages, any URL opened for testing
+2. **Extension pages** → `chrome-extension://*` (except the one you're actively using)
+3. **Temporary email tabs** → Outlook/Gmail test tabs opened to fetch codes
+4. **Extra windows** → any window that is NOT one of the user's Edge Workspaces
+
+**Allowed to remain:**
+- Only the user's workspace windows (KpihX-Labs, X)
+- Only tabs that were there before the session started (or explicitly requested by user)
+
+**Verify after cleanup:**
+```javascript
+const wins = await chrome.windows.getAll({populate: true});
+// If any win has <2 tabs or contains only extension/test pages → close it
+```
+
+**Violation:** leaving any intermediary tab = session considered incomplete.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-26 | [CURSOR] | v1.7.1 — SynapseS runbook: groupes PC via ICS `DESCRIPTION` → `kpihx/x.md`. |
-| 2026-05-26 | [CURSOR] | v1.7.0 — Form contract: identity/PDF paths → **`kpihx`** only; removed `kpix-form-prefill.md` (dedup). |
-| [SUMMARY] | — | v1.6.0–v1.0.0 form contract, academic/Google AI Studio runbooks, SynapseS script, Browsh purge, Leave no trace, edge-agent CDP — see git |
+| 2026-05-29 | [OPENCODE] | v3.2.0 — CAPTCHA limits documented. Post-session cleanup rule hardened to GRAVÉ level: ALL intermediaries (test tabs, extension pages, temp email tabs, extra windows) MUST be closed. Only workspace windows remain. insights.md updated. |
+| 2026-05-29 | [OPENCODE] | v3.1.0 — Download fix: `Browser.setDownloadBehavior` bypasses native Save As dialog. Critical grouping lessons (window context, content classification, post-verify). `chrome.tabs.group` does NOT support cross-window — move extension first. |
+| [SUMMARY] | — | v3.0.0 Stack: chrome-agent + browser-mcp + Tab Groups (Playwright removed); v2.x chrome-agent added, CDP architecture; v1.x legacy. |

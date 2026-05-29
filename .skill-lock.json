@@ -334,6 +334,13 @@
       "skillPath": "skills/k-meta/SKILL.md",
       "installedAt": "2026-05-25T00:00:00.000Z",
       "updatedAt": "2026-05-25T00:00:00.000Z"
+    },
+    "k-vim": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-vim/SKILL.md",
+      "installedAt": "2026-05-28T00:00:00.000Z",
+      "updatedAt": "2026-05-28T00:00:00.000Z"
     }
   }
 }

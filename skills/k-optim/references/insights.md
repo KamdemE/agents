@@ -1,4 +1,4 @@
-# k-optim Insights
+|# k-optim Insights
 
 Purpose: autonomous runtime memory for this skill domain to avoid repeated mistakes, repeated dead-end searches, and repeated ineffective action patterns.
 
@@ -17,3 +17,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 - **QMD collection drift (2026-05-24):** After repo moves, `index.yml` paths can silently break (`KpihX_Labs` vs `KpihX-Labs`). Run `$HOME/.agents/skills/k-qmd/scripts/check_collections.sh` — also auto-runs in weekly `auto_clean.sh` and `ksh status`.
 - **Home debris patterns (2026-05-22):** stray shell typo dir `` `${XDG_STATE_HOME:-$HOME` ``, empty `CascadeProjects`/`mkdir`/`results`, post-purge Cursor `globalStorage/backups/`, Zed `backups/`, `ai_dispatcher/tmp/ollama*.zst`.
 - **Deleted-image recovery (2026-05-26):** After Trash empty, GNOME `recently-used.xbel` + `~/.cache/thumbnails/` recover **previews with original names** without sudo. PhotoRec 7.2 `/cmd`: never use `jpeg`/`webp`/`heic`; keep `/cmd` on one line; output may land in `photorec.1` not `photorec/`. `extundelete` fails on mounted `/`. Sudo recovery: **tmux `default:0.0` only — no split-window**.
+- **2026-05-27 optimization audit:** `/var/log` shows normal syslog rotation (max 107M gzip), journald 120M, root fs 212G/276G (81%). No log consumption issues. Governance audit failed: bundled `references/sexemodel-insights.md` not mentioned in `k-browser/SKILL.md` under Provenance & Quality. ksh command unavailable (PATH issue or service not running). Cleanup stack scripts exist but require manual intervention when automated dispatchers are unreachable.

@@ -6,8 +6,8 @@ description: >
   Load when installing OpenCode, configuring MCPs, or debugging OpenCode runtime behavior.
 license: private
 metadata:
+  version: 1.3.0
   author: KpihX
-  version: "1.0.0"
   scope: agent-runtime
   target-agent: opencode
 allowed-tools: Bash, Read, Write, Edit
@@ -105,6 +105,82 @@ opencode models
 - Do not hardcode secrets in `opencode.jsonc`; use `{env:VAR_NAME}` placeholders.
 - Keep AGENTS/skills linked to `$HOME/.agents/` so OpenCode shares the same sovereign kernel as Codex, Vibe, Copilot, and Zed.
 
+## Permission System (2026-05-29 — Confiance Totale)
+
+OpenCode uses a 3-tier hierarchy: **Agent defaults → User config → Session runtime**. Rules evaluated by `findLast` — last matching pattern wins.
+
+### Architecture
+
+- **Global default** (`permission.bash`): `"ask"` — toute commande non listée demande approval
+- **Agent `build`**: ~100 `allow` patterns + 35 explicit `ask` patterns — pas de catch-all, le global gère les oublis
+- **Agent `plan`**: `edit: deny`, `bash: deny` sauf `git diff*`/`log*`/`rg *` — read-only strict
+- **No `"*": "ask"` in agent** — retiré car redondant avec le global, et les patterns `ask` sont explicites pour l'auditabilité
+
+### Organisation des patterns
+
+| Zone | Niveau | Nb patterns | Exemples |
+|------|--------|-------------|----------|
+| 🟢 **Zone 1** | Read-only purs | 65+ | `echo`, `cat`, `head`, `grep`, `jq`, `find`, `stat`, `man`, `md5sum`, `shasum`, `tac`, `users`, `who`, `lscpu` |
+| 🟡 **Zone 2** | Faible risque | 22 | `curl`, `wget`, `ping`, `dig`, `traceroute`, `ss`, `tmux`, `watch` |
+| 🟠 **Zone 3** | Confiance | 50+ | `awk`, `git`, `docker`, `python3`, `ssh`, `rsync`, `make`, `tar`, `zip`, `ip`, `npm`, `node`, `tee` |
+| 🔴 **Explicit Ask** | Dangereux | 35 | `rm`, `rmdir`, `shred`, `sed`, `pkill`, `sudo`, `chmod`, `dd`, `fdisk`, `systemctl`, `apt`, `passwd` |
+
+### `external_directory` — 9 paths allow
+
+`~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`
+
+### Utilisation
+
+- Les commandes non listées tombent sur `"bash": "ask"` global — elles popent en approval
+- Pour ajouter un pattern : l'insérer dans la bonne zone (allow avant ask) dans `opencode.jsonc`
+- `findLast` gagnant : le dernier pattern qui match l'emporte
+- Source de vérité : `$HOME/.config/opencode/opencode.jsonc`
+
+## Neovim Integration
+
+OpenCode integrates with Neovim via `nickjvandyke/opencode.nvim` (the active fork).
+
+| Item | Value |
+|------|-------|
+| Plugin | `nickjvandyke/opencode.nvim` (Lazy-loaded) |
+| Config file | `$HOME/.config/nvim/lua/kpihx/opencode.lua` |
+| Deps | `folke/snacks.nvim` (input + picker) |
+| Key | Action |
+| `<C-a>` (visual) | `opencode.ask("@this: ", { submit = true })` |
+| `<C-x>` (visual) | `opencode.select()` |
+| `<C-.>` (n/t mode) | `opencode.toggle()` |
+
+**Requires:** `opencode` binary in `$PATH` (sourced via `$HOME/.kshrc`).
+
+## OpenCode Web (Tailscale + systemd)
+
+OpenCode Web runs as a persistent systemd user service, exposed via `tailscale serve` on a dedicated HTTPS port.
+
+| Item | Value |
+|------|-------|
+| Service file | `$HOME/.config/systemd/user/opencode-web.service` |
+| Port (local) | `4097` (localhost only) |
+| Tailscale URL | `https://kpihx-ubuntu.tail2527bd.ts.net:8443/` |
+| Port 443 | Reserved by OpenClaw (`127.0.0.1:18789`) — do not conflict |
+| Password env | `$HOME/.config/opencode/web.env` (mode `600`) |
+
+**Password status:** Currently **disabled** (EnvironmentFile line commented out in service). To re-enable:
+1. Uncomment `EnvironmentFile=%h/.config/opencode/web.env` in the service file
+2. Adjust the health check ExecStartPost to accept HTTP 401 (see commented-out version in service file history)
+3. `systemctl --user daemon-reload && systemctl --user restart opencode-web`
+
+**Commands:**
+```bash
+systemctl --user status opencode-web     # status
+systemctl --user restart opencode-web    # restart
+journalctl --user -u opencode-web -f     # live logs
+tailscale serve status                   # verify tailscale proxy
+```
+
+## References
+
+- `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
+
 ## Insights Discipline (mandatory)
 
 - Read `$HOME/.agents/skills/k-opencode/references/insights.md` before non-trivial work in this skill domain.
@@ -115,5 +191,6 @@ opencode models
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-26 | [AUTO] | v1.0.0 — Initial OpenCode runtime skill for install, config, MCP wiring, and verification patterns. |
-| [SUMMARY] | — | Initial release. |
+| 2026-05-29 | [OPENCODE] | v1.3.0 — Permission System section: 3-zone allow + explicit ask (35 patterns). external_directory with 9 paths. Architecture documentation for agent build/plan. |
+| 2026-05-28 | [OPENCODE] | v1.2.1 — Removed ExecStopPost from systemd service. health check 401 gotcha in insights.md. |
+| [SUMMARY] | — | v1.2.0 OpenCode Web systemd + tailscale; v1.1.0 Neovim integration; v1.0.0 initial release. |

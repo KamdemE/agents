@@ -8,6 +8,9 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-05-26 | [CURSOR] | **Workstation power runbooks** — ISS-20260515-001 projector, ISS-20260526-001 battery ~67% wear. *(Rotated from k-context Session Log — cap 2026-05-29.)* |
+| 2026-05-26 | [CURSOR] | **`k-phones` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
+| 2026-05-26 | [CURSOR] | **Lebara eSIM 30j** — Support délai **30 j** avant retry QR ML045066180 (~25/06). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. *(Rotated from k-context Session Log — cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **`k-phones` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). *(Rotated from k-context Session Log — cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
@@ -28,6 +31,11 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-25 | [CURSOR] | **Edge agent setup** — `.kshrc`, Cursor MCP CDP, techskills; CDP :9222. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **CF inbound docs cleanup** — `k-cloudflare` v1.4.0: `inbound-email-e2e.md`, `verify-inbound-e2e.sh`, runbook trim; `k-mail` v2.2.2 aligned; E2E LIVE all aliases. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF E2E final batch** — Labs filters; `E2E-BILAN` validates `ivann@`; prime rules + Worker OK. · `inbound-email-e2e.md` *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **QMD claude-memory removed** — `index.yml` + `k-qmd` v2.14.6 + `AGENTS.md`; `qmd update`/`cleanup`; `check_collections.sh` all OK (8 collections). *(Rotated from k-context Session Log — cap 2026-05-28.)* |
+| 2026-05-25 | [CURSOR] | **Edge agent STABLE** — KπX deleted favorites `fake` + `agent-sandbox-bookmarks`; k-optim Meta (`make audit` fix + QMD check); kernel finalize pass. *(Rotated from k-context Session Log — cap 2026-05-28.)* |
+| 2026-05-25 | [CURSOR] | **Edge cleanup + k-browser v1.3.0** — Manual MCP tab cleanup; spaceworks KpihX-Labs·14 X·37; test URLs gone; **Leave no trace** in `k-browser/SKILL.md`. *(Rotated from k-context Session Log — cap 2026-05-28.)* |
+| 2026-05-25 | [CURSOR] | **Edge live automation** — Playwright CDP inventory + sandbox tabs + Copilot + favorites UI; techskills + `k-browser` insights. *(Rotated from k-context Session Log — cap 2026-05-28.)* |
+| 2026-05-25 | [CURSOR] | **TickTick email OFF** — Edge Settings/Notifications: `enable-email_remind` disabled; tick-mcp `get_user_status` OK; `k-ticktick` insights. *(Rotated from k-context Session Log — cap 2026-05-28.)* |
 | 2026-05-25 | [CURSOR] | **CF inbound FIXED** — `ensure-destination-prime-rules.sh`; tail `forward ok` Labs+kapoivha+Hotmail; `ivann@` rule live. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **`ISS-20260525-002`** — tmux mouse copy fix (`k-tmux` v1.4.4). *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **CF Email Routing progressive** — destinations verified; Worker deploy blocked (Scripts Edit). *(Rotated.)* |

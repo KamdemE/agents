@@ -4,10 +4,9 @@ description: >
   KπX tmux reference — sessions, windows, panes, copy-mode, mouse scroll, config reload,
   and practical CLI/key shortcuts. Load before any tmux workflow, shared interactive shell,
   or terminal multiplexing task on KπX workstations.
-license: private
 metadata:
+  version: 1.5.0
   author: KpihX
-  version: "1.4.4"
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
@@ -126,9 +125,25 @@ Apply after edits:
 tmux source-file $HOME/.tmux.conf
 ```
 
-## Persistence — resurrect + continuum
+## Plugins — TPM
 
-Installed plugin paths:
+| Plugin | Prefix key | Purpose |
+|--------|-----------|---------|
+| `tmux-resurrect` | `Ctrl-a Ctrl-s` save / `Ctrl-a Ctrl-r` restore | Session/window/pane/layout/cwd save & restore |
+| `tmux-continuum` | — (auto 5min) | Auto-save + auto-restore on first tmux |
+| `tmux-yank` | `Ctrl-a Ctrl-y` (vi copy-mode) | System clipboard integration (xclip/wl-copy) |
+| `tmux-copycat` | `Ctrl-a /` in copy-mode | Regex file/pattern search in scrollback |
+| `tmux-prefix-highlight` | — | Shows prefix indicator in status bar |
+
+Install commands:
+
+```bash
+# Add to ~/.tmux.conf, then:
+tmux new -s tpm-install && ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+# Or from existing tmux: prefix + I (capital I)
+```
+
+Plugin install paths:
 
 | Plugin | Path |
 |--------|------|
@@ -454,6 +469,5 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.4.4 — Mouse copy: vi copy-mode + drag→clipboard; Shift+drag doc. |
-| 2026-05-25 | [CURSOR] | v1.4.3 — `@continuum-boot off` + disabled `tmux.service`; post-login workflow. |
-| [SUMMARY] | — | v1.4.0–v1.4.2 continuum/reboot; v1.3.x prefix and shared interactive gate. |
+| 2026-05-28 | [OPENCODE] | v1.5.0 — Added tmux-yank, tmux-copycat, tmux-prefix-highlight plugins; plugin table. |
+| [SUMMARY]  | —          | v1.3.x–v1.4.4: mouse copy, continuum boot fix, prefix and shared interactive gate. |

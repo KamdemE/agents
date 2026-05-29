@@ -1,26 +1,33 @@
-# Edge CDP setup — operational reference
+# Edge CDP — Operational Reference
 
-## Launch
+## Default (current)
+
+Edge always launches with `--remote-debugging-port=9222`:
+- Wrapper script: `/opt/microsoft/msedge/microsoft-edge` (patched)
+- System .desktop: `/usr/share/applications/microsoft-edge.desktop` (patched)
+- User .desktop: `~/.local/share/applications/microsoft-edge.desktop` (patched)
+
+No separate agent profile needed. Uses default Edge profile (`~/.config/microsoft-edge/Default`).
+
+## Verification
 
 ```bash
-edge-agent
-edge-agent-status   # → OK when CDP ready
+curl -s http://127.0.0.1:9222/json/version | jq '.Browser'
+curl -s http://127.0.0.1:9222/json/list | jq '.[].title'
 ```
 
-Script: `scripts/edge-agent.sh` · env: `KPIHX_EDGE_DATA`, `KPIHX_EDGE_DEBUG_PORT` (default 9222).
+## MCP Config
 
-## MCP (Cursor)
+```json
+"chrome-agent": {
+  "command": "zsh",
+  "args": ["-l", "-c", "chrome-agent-mcp"]
+}
+```
 
-Servers in `$HOME/.cursor/mcp.json` attach to `http://127.0.0.1:9222/json/version` when Edge is already running.
+## Deprecated (removed)
 
-**Pre-flight:** `edge-agent-status` must pass before agent calls `browser-mcp-stdio` / `playwright-mcp-stdio`.
-
-**After any session:** `SKILL.md` → **Leave no trace** + techskills cleanup section.
-
-## Policy note
-
-Do not point CDP at `microsoft-edge/Default` user-data. Use `kpihx-edge-automation` only.
-
-## User doc
-
-`$HOME/Work/techskills/edge-agent-cdp-setup.md`
+- `edge-agent.ksh` — removed
+- `edge-agent.sh` — removed
+- `kpihx-edge-automation` profile — deleted (1.1G)
+- `scripts/bw-prelogin-check.sh` — removed
