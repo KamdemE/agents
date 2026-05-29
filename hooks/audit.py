@@ -302,7 +302,7 @@ def run_audit() -> list[str]:
     findings.extend(_collect_skill_findings())
     findings.extend(_parse_python(_collect_python_paths()))
     findings.extend(_wrapper_smoke_tests())
-    yaml_paths = [ROOT / "AGENTS.md", ROOT / "INIT.md"]
+    yaml_paths = [ROOT / "AGENTS.md"]
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
     findings.extend(_parse_yaml_frontmatters(yaml_paths))
     findings.extend(_check_gemini())

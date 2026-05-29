@@ -6,7 +6,7 @@ description: >
   Load when installing OpenCode, configuring MCPs, or debugging OpenCode runtime behavior.
 license: private
 metadata:
-  version: 1.3.0
+  version: 1.4.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -177,6 +177,22 @@ journalctl --user -u opencode-web -f     # live logs
 tailscale serve status                   # verify tailscale proxy
 ```
 
+## Init & Connectivity
+
+OpenCode connects to the KπX kernel via:
+
+```bash
+ln -sf $HOME/.agents/AGENTS.md $HOME/.config/opencode/AGENTS.md
+ln -sf $HOME/.agents/skills $HOME/.config/opencode/skills
+ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
+```
+
+**Agent discovery:** Agents defined in `$HOME/.agents/agents/` (`.agents` protocol) are symlinked to `$HOME/.config/opencode/agents/`. Files in `~/.config/opencode/agents/` become discoverable as subagents.
+
+**Skills discovery:** Symlink `$HOME/.config/opencode/skills` → `$HOME/.agents/skills/`. All `k-*` skills discoverable.
+
+**Config source of truth:** `$HOME/.config/opencode/opencode.jsonc` — model, MCP, permissions, defaults. See `k-opencode` for full proxy/MCP/plugin mapping.
+
 ## References
 
 - `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
@@ -191,6 +207,6 @@ tailscale serve status                   # verify tailscale proxy
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-29 | [OPENCODE] | v1.3.0 — Permission System section: 3-zone allow + explicit ask (35 patterns). external_directory with 9 paths. Architecture documentation for agent build/plan. |
-| 2026-05-28 | [OPENCODE] | v1.2.1 — Removed ExecStopPost from systemd service. health check 401 gotcha in insights.md. |
-| [SUMMARY] | — | v1.2.0 OpenCode Web systemd + tailscale; v1.1.0 Neovim integration; v1.0.0 initial release. |
+| 2026-05-29 | [OPENCODE] | v1.4.0 — Init & Connectivity section: symlinks, agent discovery, skills discovery (migrated from INIT.md). |
+| 2026-05-29 | [OPENCODE] | v1.3.0 — Permission System section: 3-zone allow + explicit ask (35 patterns). external_directory with 9 paths. |
+| [SUMMARY] | — | v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
