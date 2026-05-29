@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.17.4"
+  version: "2.18.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -16,6 +16,7 @@ allowed-tools: Bash(*), "*"
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **IT IS CRITICAL TO ENSURE THIS FILE IS ALWAYS SYNCHRONIZED WITH THE ACTUAL PHYSICAL WORKSPACE.**
+> **Static rules:** `rules/tool-discipline.md` (tmux gate, file ops) · `rules/audit-commands.md` (uv, make push) · `rules/file-governance.md` ($HOME paths, language)
 
 ## Project finalization
 
@@ -85,17 +86,7 @@ bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes alway
 
 ## Critical shell — shared tmux (replaces `sui`)
 
-> **`sui` is deprecated** — agents must **not** invoke it. For **`sudo`**, SSH passphrase, or any interactive approval, use the **shared tmux gate**. Short: **`AGENTS.md` → Tool Discipline** · full: **`k-tmux/SKILL.md` → Shared interactive gate**.
-
-### Agent workflow (summary)
-
-1. **`tmux ls`** — reuse a short-named session/window for the topic, or `tmux new -ds <name>` if none fits.
-2. **`tmux send-keys -t SESSION:WIN.PANE '<cmd>' Enter`** — run the real command (including `sudo …` or `ssh …`) in the pane.
-3. **Poll** `tmux capture-pane` in a loop for **at least 30 seconds** while KπX may approve.
-4. **Only after ≥30s without validation** — stop and tell KπX in chat: `tmux attach -t …`, window/tab, exact command, what to type.
-5. **Kill** idle panes/sessions when the task is fully done (prudent cleanup).
-
-Agents **never** run raw **`sudo`** in non-interactive agent tool shells; elevation happens in the shared pane.
+**`sui` is deprecated.** For `sudo`, SSH passphrase, or any interactive approval → `rules/tool-discipline.md` · `k-tmux/SKILL.md` → Shared interactive gate.
 
 ### Submodule `.git` ownership
 
@@ -209,6 +200,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-27 | [CURSOR] | v2.17.4 — OpenClaw workspace = `~/.agents`; AGENTS symlink map (KpihX-Labs + legacy openclaw workspace). |
-| 2026-05-26 | [AUTO] | v2.17.3 — Added Cline CLI to AI tooling registry (`$HOME/.npm-global/bin/cline`). |
+| 2026-05-29 | [OPENCODE] | v2.18.0 — Trimmed: Critical shell → rules/ pointer. Added rules/ refs at top. |
+| 2026-05-27 | [CURSOR] | v2.17.4 — OpenClaw workspace = `~/.agents`; AGENTS symlink map. |
 | [SUMMARY] | — | v2.17.2 OpenCode; v2.17.1 Nautilus runbook; v2.17.0 tmux gate; v2.16.9 kernel layout; prior history in git |

@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.12.0"
+  version: "2.13.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,8 +18,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **Static rules:** `rules/audit-commands.md` (make audit, make check) · `rules/k-context-hygiene.md` (session log, issues log) · `rules/tool-discipline.md` (shared tmux gate)
 > **Last Known State limit:** each `### Last Known State` section holds **at most 7 items**.
-> When the limit is reached, condense the oldest into a single `[SUMMARY]` item.
 > **Issues ledger sync (mandatory):** every optimization-related diagnostic/fix attempt must be appended to `$HOME/.agents/skills/k-context/references/issues.md` with full commands and outputs (no compaction, no deletion), and k-context Session Log should only keep the concise cross-referenced summary.
 
 ## Role
@@ -226,17 +226,9 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 ### Actions
 
-1. Recheck `.agents/` integrity:
-   - `make -C $HOME/.agents audit`
-   - `git -C $HOME/.agents status --short`
-   - `git -C $HOME/.agents log --oneline -5`
-   - re-read `$HOME/.agents/AGENTS.md` against the active hook behavior whenever response rules, path rules, or session-finalization behavior changed
-2. If hooks or skills changed:
-   - update the touched `SKILL.md`
-   - check that `$HOME/.agents/AGENTS.md` still matches the real reminder text and enforced hook behavior
-   - propagate any rename/add/remove to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and `$HOME/.agents/skills/k-context/SKILL.md`
-   - commit and `make -C $HOME/.agents push`
-3. Recheck QMD cleanliness:
+1. Recheck `.agents/` integrity: `make -C $HOME/.agents audit` (see `rules/audit-commands.md`).
+2. If hooks or skills changed: update touched `SKILL.md`, propagate to `.skill-lock.json`. See `rules/skill-governance.md`.
+3. Update `k-context` session log + issues log per `rules/k-context-hygiene.md`.
    - start with `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md`
    - run `$HOME/.agents/skills/k-qmd/scripts/check_collections.sh` (also runs in `auto_clean.sh` + `ksh status`)
    - inspect `qmd collection list`
@@ -289,7 +281,6 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-26 | [CURSOR] | v2.11.0 — Ubuntu: `ubuntu-deleted-files-recovery.md` runbook (Tier A thumbnails + Tier B PhotoRec + extundelete limits); techskills mirror; LKS recovery session. |
-|| 2026-05-27 | [CURSOR] | v2.12.0 — Meta: Governance audit detects bundled `references/sexemodel-insights.md` missing from SKILL.md Provenance & Quality section.
-| 2026-05-25 | [CURSOR] | v2.10.1 — Meta: Edge agent STABLE finalize; audit cap fixes; QMD check (claude-memory path drift). |
+| 2026-05-29 | [OPENCODE] | v2.13.0 — Trimmed: Meta actions simplified (→ rules/ pointers). Added rules/ refs at top. |
+| 2026-05-27 | [CURSOR] | v2.12.0 — Meta: governance audit detects bundled references/sexemodel-insights.md missing. |
 | [SUMMARY] | — | v2.10.0 social skills audit; v2.9.9 QMD health gate; v2.9.8 Timeshift; v2.9.6 full k-optim (`ISS-20260522-001`); older in git |

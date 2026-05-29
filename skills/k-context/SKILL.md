@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.89.59"
+  version: "2.90.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -137,7 +137,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
-| 2026-05-29 | [OPENCODE] | **Permissions OpenCode — Confiance Totale** — Analyse complète des logs sessions (~80 MB), extraction patterns bash, implémentation 3 zones allow (100+ patterns) + 35 explicit ask + 9 external_directory paths. `opencode.jsonc` restructuré, `"*": "ask"` retiré de l'agent build (global bash:ask gère). Tests passés. k-opencode v1.3.0. |
+| 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0 — profiles, rules, agents refactor** — AGENTS.md 369→58 lines. Created: rules/ (8 files), profiles/colab + profiles/explore, agents/ (6 definitions .agents protocol), memories/current-intent.md. Removed INIT.md (→ rules/agent-registry.md + k-opencode). Trimmed: k-final, k-optim, k-workspace (→ rules/ pointers). k-opencode v1.4.0. |
+| 2026-05-29 | [OPENCODE] | **Permissions OpenCode — Confiance Totale** — Analyse complète des logs sessions (~80 MB), extraction patterns bash, implémentation 3 zones allow (100+ patterns) + 35 explicit ask + 9 external_directory paths. `opencode.jsonc` restructuré. k-opencode v1.3.0. |
 | 2026-05-28 | [OPCODE] | **Session 2 — Audit fixes + stack finalization** — Fixed k-vim edit reminder format; added [SUMMARY] rows to k-vim, k-opencode, k-tmux, k-context; deduped frontmatter in k-opencode + k-tmux; all 4 pass `make audit` skill structure checks. Interactive nvim first-launch still pending. |
 | 2026-05-28 | [OPCODE] | **Terminal Editing Stack** — Vim 9.1 + Neovim 0.11 install + config; 31 nvim plugins (Lazy.nvim); 4 vim plugins (vim-plug); tmux étendu (yank/copycat/prefix-highlight); LSP 8 servers; k-vim skill créé EN; k-tmux v1.5.0; k-opencode v1.1.0 (section Neovim). |
 | 2026-05-28 | [OPCODE] | **colab P1 ACP + P4 Mistral** — 69 tests green. ACP: 51 tests, mock_proc/timing/notification fixes. P4: 18 tests, 4 intents, IndexError hardened. |
@@ -168,6 +169,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-29 | [OPENCODE] | v2.90.0 — Sovereign kernel v3.0: profiles/rules/agents architecture; AGENTS.md 369→58; INIT.md removed; skills trimmed. |
 | 2026-05-28 | [OPCODE] | v2.89.59 — Audit fixes: k-vim/k-opencode/k-tmux/k-context structure compliance; session log refresh. |
-| 2026-05-28 | [OPCODE] | v2.89.58 — colab P4 Mistral router mocked tests; IndexError hardened; session log. |
-| [SUMMARY]  | —          | v2.89.48–v2.89.57: colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |
+| [SUMMARY] | — | v2.89.58 colab P4 Mistral; v2.89.48–v2.89.57 colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |

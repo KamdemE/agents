@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.2"
+  version: "1.4.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,8 +18,9 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `k-homelab` (deployed services, `docker logs`, docker-host SSH) · `k-git-pages` (Docsify `docs/` sub-repos) · `k-context` + `k-workspace` (kernel updates in Phase K) · `k-optim` (optional deep cleanup overlap — load if scope is large)
-> **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase; do not skip earlier satisfied gates without re-verifying if context changed.
+> **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` + `k-workspace` (kernel updates in Phase K)
+> **Static rules:** `rules/audit-commands.md` (make audit, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
+> **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase.
 
 ## Role
 
@@ -165,33 +166,28 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 ## Phase K — `$HOME/.agents/` kernel (always)
 
-**Obligatory** after the project closure pass touched anything under `$HOME/Work/` or agent behavior. Run after the project repo steps (typically after **F** or **J**, depending on publish). This is **not** optional cleanup.
+**Obligatory** after any project closure pass. See `rules/k-context-hygiene.md` and `rules/audit-commands.md` for the full contracts; this is the project-specific enforcement:
 
-1. **`k-context` (`$HOME/.agents/skills/k-context/SKILL.md`) — always touch when the project pass mattered:**
-   - Update **`## Active Projects`** if status, next step, or scope changed for any row.
-   - Append **`## Session Log`** (newest-first): one line with agent tag, version bump, folder path, and what shipped. Obey **limits** (max 10 dated rows; **rotate** overflow to `references/log.md` first — zero-deletion), then **`metadata.version` patch bump** + **`## Insights Discipline (mandatory)
-
-- Read `$HOME/.agents/skills/k-final/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-final/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
-- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
-
-## Changelog`** (max 2 explicit rows + `[SUMMARY]` — merge older into summary per `AGENTS.md`).
-2. **`k-workspace` — only if** the session revealed new durable workspace facts (paths, tooling versions, policies). Same header/changelog discipline if edited.
-3. Other `$HOME/.agents/` edits only if this pass **required** them (e.g. new skill cross-links already done elsewhere — do not churn).
-4. **`make audit`** from `$HOME/.agents/` — **repeat edit/fix until `ALL_OK`** (no waiving audit errors).
-5. **Commit** the `.agents` repo (conventional message), then **`make push`** on **all** remotes. Same **SSH / Bitwarden** stop rule as Phase F.
-
-> **Note:** `k-context` also expects live updates *during* work for significant advances; Phase K is the **final consistency pass** so the kernel does not drift after project closure.
+1. **k-context** (`skills/k-context/SKILL.md`): update `## Active Projects` (status, next step) and `## Session Log` (agent tag, version, folder path). Obey limits: max 10 rows → rotate overflow to `references/log.md`.
+2. **k-workspace** only if new durable workspace facts were revealed.
+3. **`make audit`** from `$HOME/.agents/` → repeat until `ALL_OK`.
+4. **Commit + `make push`** on all `.agents/` remotes.
 
 ## Blocker protocol
 
 - **Any** hard stop (tests flaky, permission denied, unclear product choice): present **issues + propositions**; wait for KπX validation.
 - After resolution, KπX replies **`continue`** → agent **re-opens `k-final`** and resumes from the blocked phase.
 
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-final/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-final/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-26 | [ANTIGRAVITY] | v1.3.2 — Closed `MIE Ubisoft Case`: Finalized study case and PDF conversion. |
-| 2026-04-23 | [ANTIGRAVITY] | v1.3.1 — Integrated 'audit' and 'ZSH_LOGIN' requirements into Phase I and J protocols, aligning templates with the bw-mcp gold standard. |
+| 2026-05-29 | [OPENCODE] | v1.4.0 — Trimmed: Phase K simplified (→ rules/ pointers). Added rules/ references at top. |
+| 2026-04-26 | [ANTIGRAVITY] | v1.3.2 — Closed `MIE Ubisoft Case`. |
 | [SUMMARY] | — | v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older -> file history |
