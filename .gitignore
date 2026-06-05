@@ -20,3 +20,4 @@ plugins/*
 
 # Ephemeral Data Cloud skill manifest
 skills/.datacloud_skills_manifest
+hermes/
