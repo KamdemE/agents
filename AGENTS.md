@@ -47,8 +47,8 @@ metadata:
 
 → `skills/` — domain-specific procedural knowledge. Load on need.
 → `rules/skill-governance.md` — how to create/edit skills.
-HOT every session: `skills/k-context/SKILL.md`
-MANDATORY: `skills/k-workspace/SKILL.md`
+HOT every session: `skills/k-context/SKILL.md` · `skills/k-agents/SKILL.md`
+MANDATORY: `skills/k-workspace/SKILL.md` · `SOUL.md` · `USER.md`
 
 ## Language
 

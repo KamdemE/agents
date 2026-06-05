@@ -2,20 +2,45 @@
 import datetime
 import os
 
-from core.settings import get_startup_skill_paths, is_hook_feature_enabled
+from core.settings import (
+    AGENTS_MD,
+    SOUL_MD,
+    USER_MD,
+    get_startup_skill_paths,
+    is_hook_feature_enabled,
+    display_path,
+)
+
+
+def _read_file(path: str) -> str:
+    """Read one file, return empty string on failure."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.read()
+    except OSError:
+        return ""
 
 
 def get_context_content() -> str:
-    """Read and concatenate the configured startup skills."""
+    """Read and concatenate: SOUL.md → USER.md → startup skills."""
     content = ""
+
+    # 1. SOUL.md — personality/identity (if exists)
+    soul = _read_file(SOUL_MD)
+    if soul:
+        content += f"\n--- SOUL.md ---\n{soul}\n"
+
+    # 2. USER.md — operator profile (if exists)
+    user = _read_file(USER_MD)
+    if user:
+        content += f"\n--- USER.md ---\n{user}\n"
+
+    # 3. Startup skills (k-context, k-workspace, k-agents...)
     for path in get_startup_skill_paths():
-        if os.path.exists(path):
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    content += f"\n--- {os.path.basename(path)} ---\n"
-                    content += f.read()
-            except OSError:
-                continue
+        skill = _read_file(path)
+        if skill:
+            content += f"\n--- {os.path.basename(path)} ---\n{skill}\n"
+
     return content
 
 

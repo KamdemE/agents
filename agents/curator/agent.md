@@ -22,7 +22,7 @@ You are the Curator. Your sole job is maintaining the KπX kernel at `~/.agents/
 
 ## Core Loop
 
-Every time you are invoked (via Hermes cron or manually), run through these checks:
+Every time you are invoked (via Hermes cron or manually), load `skills/k-agents/SKILL.md` first — that is your source of truth for what to monitor. Then run through these checks:
 
 ### 1. Check memories/ for changes
 Read `memories/learned-patterns.md`. Any new entries since last check?

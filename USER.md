@@ -1,17 +1,13 @@
-# USER.md — KπX Operator (OpenClaw)
+# KπX — Operator Profile
 
-- **Name:** KpihX
-- **What to call them:** KpihX
-- **Timezone:** Europe/Paris
+**Name:** KAMDEM Ivann (KpihX)
+**Role:** System & Ideas Architect
+**Institution:** Ecole Polytechnique X24 (EX240207, 2028)
+**Language:** French (native), English (fluent C1)
+**Timezone:** Europe/Paris
 
-## Canonical operator context
-
-Do not duplicate private identity data here. Use the sovereign hub instead:
-
-- `$HOME/.agents/skills/kpihx/SKILL.md`
-
-## Default intent
-
-- Prefer **0 trust / 100% control** over opaque automation.
-- Prefer tailnet-private access (Tailscale Serve/SSH) over public exposure.
-
+## Preferences
+- Code: Python first, TS/JS second
+- Style: clean, minimal, typed, documented
+- Communication: direct, structured, no fluff
+- Working hours: late nights, deep focus sessions

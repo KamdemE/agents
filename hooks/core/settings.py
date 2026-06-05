@@ -13,7 +13,9 @@ AGENTS_DIR = os.path.join(HOME, ".agents")
 SKILLS_DIR = os.path.join(AGENTS_DIR, "skills")
 HOOKS_DIR = os.path.join(AGENTS_DIR, "hooks")
 AGENTS_MD = "$HOME/.agents/AGENTS.md"
-STARTUP_SKILLS = ("k-context", "k-workspace")
+SOUL_MD = "$HOME/.agents/SOUL.md"
+USER_MD = "$HOME/.agents/USER.md"
+STARTUP_SKILLS = ("k-context", "k-workspace", "k-agents")
 
 # ==============================================================================
 # TIME WINDOWS
