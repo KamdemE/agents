@@ -5,7 +5,7 @@
       "source": "microsoft/azure-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/azure-skills.git",
-      "skillPath": ".github/plugins/azure-skills/skills/microsoft-foundry/SKILL.md",
+      "skillPath": "skills/microsoft-foundry/SKILL.md",
       "skillFolderHash": "5e0c2d401c82021e1d180c89cf3233ddfbb5fbc9",
       "installedAt": "2026-03-18T13:21:03.937Z",
       "updatedAt": "2026-03-20T16:33:41.662Z"
@@ -335,12 +335,40 @@
       "installedAt": "2026-05-25T00:00:00.000Z",
       "updatedAt": "2026-05-25T00:00:00.000Z"
     },
-    "k-vim": {
+    "k-nvim": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-vim/SKILL.md",
+      "skillPath": "skills/k-nvim/SKILL.md",
       "installedAt": "2026-05-28T00:00:00.000Z",
       "updatedAt": "2026-05-28T00:00:00.000Z"
+    },
+    "k-agents": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-agents/SKILL.md",
+      "installedAt": "2026-06-05T00:00:00.000Z",
+      "updatedAt": "2026-06-05T00:00:00.000Z"
+    },
+    "k-clis": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-clis/SKILL.md",
+      "installedAt": "2026-06-05T00:00:00.000Z",
+      "updatedAt": "2026-06-05T00:00:00.000Z"
+    },
+    "k-hermes": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-hermes/SKILL.md",
+      "installedAt": "2026-06-05T00:00:00.000Z",
+      "updatedAt": "2026-06-05T00:00:00.000Z"
+    },
+    "k-latex": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-latex/SKILL.md",
+      "installedAt": "2026-06-05T00:00:00.000Z",
+      "updatedAt": "2026-06-05T00:00:00.000Z"
     }
   }
 }

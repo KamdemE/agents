@@ -160,7 +160,7 @@ The Curator daemon reads this to know which agents to monitor.
 | **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **k-context** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
 | **k-workspace** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
-| **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **k-agents** | via hooks | ❌ | ❌ | ❌ | via hooks | ❌ | ❌ | ❌ | via hooks | via hooks | ❌ | ❌ |
 | **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink | ✅ config |
 
 ## Cross-References

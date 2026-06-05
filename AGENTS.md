@@ -40,7 +40,7 @@ metadata:
 | `rules/audit-commands.md` | make audit, make check, uv, make push, post-work checklist |
 | `rules/agent-registry.md` | Symlink map: how each agent runtime connects to `.agents/` |
 | `rules/whats-up.md` | Status digest workflow: context, mail, whatsapp, tick, tg |
-| `rules/k-hook.md` | Lifecycle hooks architecture — core policy + per-agent wrappers |
+| `skills/k-hook/SKILL.md` + `hooks/README.md` | Lifecycle hooks architecture — core policy + per-agent wrappers |
 | `rules/hermes-governance.md` | Hermes Agent daemon constraints, external memory isolation |
 
 ## Skills

@@ -18,7 +18,6 @@ audit: ## Run .agents structural audit
 
 link: ## Symlink .agents/ into all agent runtimes
 	ln -sfn $(HOME)/.agents/AGENTS.md $(HOME)/.config/opencode/AGENTS.md
-	ln -sfn $(HOME)/.agents/opencode.jsonc $(HOME)/.config/opencode/opencode.jsonc
 	ln -sfn $(HOME)/.agents/skills $(HOME)/.config/opencode/skills
 	ln -sfn $(HOME)/.agents/agents $(HOME)/.config/opencode/agents
 	ln -sfn $(HOME)/.agents/profiles $(HOME)/.config/opencode/profiles
