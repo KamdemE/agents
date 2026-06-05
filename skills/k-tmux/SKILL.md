@@ -390,6 +390,29 @@ tmux capture-pane -t SESSION:WIN.PANE -p -S - > /tmp/pane.log
 
 Agent rule: follow **Shared interactive gate** — poll ≥30s before any chat handoff on auth prompts.
 
+### ⚠️ CRITICAL — Always identify pane before send-keys
+
+**NEVER** use `tmux send-keys` without first confirming the exact target session, window, and pane index via `tmux list-panes`. Blindly sending keys to the wrong pane can:
+
+- Send commands into an opencode agent session (breaking it)
+- Type into a running editor (nvim, micro) — injecting garbage
+- Send keystrokes to a sudo prompt or SSH session unintentionally
+
+**Mandatory checklist before every `send-keys`:**
+
+1. `tmux list-sessions` — identify the right session
+2. `tmux list-windows -t <SESSION>` — identify the right window name and index
+3. `tmux list-panes -t <SESSION:WIN>` — identify the right pane index (0, 1, 2...)
+   - Also check `pane_current_command` to confirm what's running in that pane
+4. Only then target with `-t SESSION:WIN.PANE`
+
+```bash
+# Full identification query:
+tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_current_command}'
+```
+
+This shows every pane across all sessions with the running command — no guessing.
+
 ## Config Essentials
 
 Edit `$HOME/.tmux.conf` (or follow symlink from `assets/tmux.conf`).
@@ -470,6 +493,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-06-05 | [OPCODE] | v1.7.0 — Added critical rule: always identify pane via `list-panes` before `send-keys` (was sending to wrong pane). |
 | 2026-05-30 | [OPCODE] | v1.6.0 — Added `focus-events on` to bundled config (Neovim `autoread` support), k-vim healthcheck cross-reference. |
-| 2026-05-28 | [OPENCODE] | v1.5.0 — Added tmux-yank, tmux-copycat, tmux-prefix-highlight plugins; plugin table. |
-| [SUMMARY]  | —          | v1.3.x–v1.4.4: mouse copy, continuum boot fix, prefix and shared interactive gate. |
+| [SUMMARY] | — | v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |
