@@ -1,1 +1,0 @@
-{"ts": "2026-06-04T05:32:20.181836+00:00", "tag": "gateway.start", "pid": 326678, "python": "3.12.12", "platform": "linux", "replace": true, "argv": ["/home/kpihx/.local/share/uv/tools/hermes-agent/lib/python3.12/site-packages/hermes_cli/main.py", "gateway", "run", "--replace"], "stdin_is_tty": false, "absorb_windows_console_controls": false}
