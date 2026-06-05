@@ -56,7 +56,7 @@ Run `make audit` in `~/.agents/`:
 
 ### 4. Sync insights across skills
 Scan `skills/` for cross-cutting patterns:
-- If `k-ai` has a pattern that `k-hermes` should know about, add a cross-reference
+- If `k-opencode` has a pattern that `k-hermes` should know about, add a cross-reference
 - If a reference file in one skill is broadly useful, flag it for promotion to the kernel
 - Never move files between skills — add references only
 

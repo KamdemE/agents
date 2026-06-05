@@ -62,6 +62,6 @@ When creating a new project: check these dirs for concrete examples before writi
 
 Always load `k-qmd` skill before querying.
 
-Main collections: `techskills`, `presentation`, `agents`, `k-ai`, `codex`, `gemini`, `copilot`, `vibe`.
+Main collections: `techskills`, `presentation`, `agents`, `codex`, `gemini`, `copilot`, `vibe`.
 
 When to query: before inventing an approach, when unsure where something lives, or to inspect another agent's config/history. Match scope to collection. Always check `$HOME/Work/techskills/templates/` before creating new files from scratch.
