@@ -15,7 +15,7 @@ allowed-tools: "Bash(*), Read(*), Glob(*), *"
 
 ## Cloud hub
 
-Productivity **orchestration** channel (capture bots, infra bridges, Telethon user) · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · **last** slice in the default *What's up* ladder.
+Productivity **orchestration** channel (capture bots, infra bridges, Telethon user) · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · **last** slice in the default *What's up* ladder.
 
 | Leg | Tool | Notes |
 |-----|------|--------|

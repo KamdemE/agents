@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.7.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -29,11 +29,16 @@ allowed-tools: Bash(*), "*"
 | Module / folder / Python package | `snake_case` | `my_tool`, `k_ai` |
 | PyPI / npm package name | `kebab-case` (same as repo) | `kpihx-ai` |
 
-**Name conflict resolution** (PyPI / npm name taken):
+**Name conflict resolution** (PyPI / npm name taken — applies ONLY to KπX-owned projects):
 
 1. `k-<name>` — first attempt
 2. `k-<name>-x` — second attempt
-3. `kpihx-<name>` — fallback
+3. `<name>-kpihx` — fallback
+
+**Scope:** This naming convention applies **exclusively** to KπX's own publishable projects (skills published on registries, CLI tools, libraries on PyPI/npm). It does NOT apply to:
+- Third-party tool wrappers (keep their native name, e.g. `hermes`, `gcloud`, `ollama`)
+- Symlinks or aliases in `~/.local/bin/` (use the tool's original binary name)
+- Configuration proxies or profile scripts for existing tools (e.g., `gws` profile aliases are internal to `k-google`, not published)
 
 `pyproject.toml` decouples PyPI name from import name:
 ```toml
@@ -283,6 +288,7 @@ This creates/updates `.gitmodules`:
 
 ## Changelog
 
+| 2026-06-03 | [OPENCODE] | v2.7.1 — Clarified naming convention scope: applies ONLY to KπX-owned publishable projects, never to third-party wrappers. Added explicit exclusions list. |
 | 2026-04-23 | [ANTIGRAVITY] | v2.7.0 — Harmonized dev install with link/unlink convention; added explicit security-hardened installation path reference pointing to k-final for critical projects. |
 | 2026-04-18 | [CODEX] | v2.6.2 — Replaced raw-`sudo` project-init examples with `sui -r` guidance and clarified that privilege must stay scoped inside install logic. |
 | [SUMMARY] | — | v2.6.0 made `CONTRACT.md` mandatory and clarified metadata-vs-runtime split enforcement; +2 older changelog entries kept in file history |

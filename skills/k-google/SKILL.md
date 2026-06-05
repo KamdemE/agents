@@ -17,7 +17,7 @@ allowed-tools: Bash(gws:*), Bash(gcloud:*), Bash(rclone:*)
 
 ## Cloud hub
 
-Registry map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · load **`k-cloud-tools`** when routing across providers.
+Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k-clis`** when routing across providers.
 
 ## Two planes (mandatory)
 
@@ -125,7 +125,7 @@ python3 "$HOME/.agents/skills/k-google/scripts/gws_inspect_recent_mail.py" --pro
 | `Gdrive_X` paths | `k-drive` |
 | Poly mail | `k-mail` |
 | Cloudflare | `k-cloudflare` |
-| Tailscale | `k-cloud-tools` |
+| Tailscale | `k-clis` |
 | GCP data pipelines | GCP skills + `gcloud` |
 
 ## Insights Discipline (mandatory)

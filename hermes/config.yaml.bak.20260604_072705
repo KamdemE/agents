@@ -1,0 +1,32 @@
+model:
+  provider: openai
+  name: gpt-4o-mini
+skills:
+  external_dirs:
+  - /home/kpihx/.agents/skills
+approvals:
+  mode: smart
+  timeout: 60
+  cron_mode: approve
+mcp_servers:
+  mail_fallback:
+    command: zsh
+    args:
+    - -l
+    - -c
+    - /home/kpihx/.local/bin/mail-mcp serve
+  tick_fallback:
+    command: zsh
+    args:
+    - -l
+    - -c
+    - /home/kpihx/.local/bin/tick-mcp serve
+  chrome-agent:
+    command: zsh
+    args:
+    - -l
+    - -c
+    - chrome-agent-mcp
+onboarding:
+  seen:
+    openclaw_residue_cleanup: true

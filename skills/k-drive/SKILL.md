@@ -16,7 +16,7 @@ allowed-tools: Bash(*), Read(*), Glob(*), rg(*)
 
 ## Cloud hub
 
-Google **file layer** on FUSE mounts: **`k-google`** → **`k-rclone`** → **this skill** · Workspace API → **`gws`** · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
+Google **file layer** on FUSE mounts: **`k-google`** → **`k-rclone`** → **this skill** · Workspace API → **`gws`** · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`
 
 ## Identity Snapshot
 

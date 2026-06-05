@@ -153,6 +153,7 @@ Also distinguish two phases:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-31 | [OPENCODE] | QMD rebuilt after better-sqlite3 Node mismatch (NODE_MODULE_VERSION 137 vs 127). `npm install -g @tobilu/qmd@2.0.1 --force` fixed it. `qmd cleanup` purged 31 cached API responses + 474 orphaned embedding chunks, DB vacuumed. Index: 581 files, 3320 vectors, 135.7MB. GPU: Vulkan Intel Arc OK. |
 | 2026-04-04 | [CODEX] | Documented the temporary false-negative GPU warning during the first `qmd embed` Vulkan rebuild; steady-state device truth should be checked with `qmd status` |
 | 2026-04-04 | [CODEX] | Confirmed `glslc` availability (`/usr/bin/glslc`) and re-ran `qmd embed agents`; Vulkan toolchain blocker is cleared and the embed path no longer fails on missing shader compiler |
 | 2026-04-04 | [CODEX] | Reworked the shared `post-commit` hook for repo-name-derived collections and pointed `$HOME/Work/techskills/.git/hooks/post-commit` plus `$HOME/Work/Homelab/presentation/.git/hooks/post-commit` back to the shared template via symlink |

@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.90.0"
+  version: "2.92.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -60,6 +60,7 @@ allowed-tools: "Bash(*), *"
 | **sh (KpihX-Labs)** | ✅ STABLE — v2.1.2 Universal Orchestrator — root Makefile, `ksh` dispatcher, multi-remote sync | `ksh status` · `$HOME/Work/sh/` |
 | **Homelab (KpihX-Labs v3.1)** | ✅ STABLE — Modular Node Architecture — `hsh` dispatcher, dual-link docs, DKD Vault | `hsh status` · `$HOME/Work/Homelab/sh/` |
 | **ai_voice** | 📑 UNDERSTANDING — whisper-overlay fork | research state, propose AGENTS.md · `$HOME/Work/AI/ai_voice/` |
+| **Voice Kernel (Ollama)** | 🧠 BRAINSTORM — Centralize STT/TTS as a sovereign cross-agent module using Ollama as the LLM backbone. Distributable to any agent runtime (OpenCode, Codex, Cline, Copilot, Gemini, Vibe) without vendor lock. Models local (whisper.cpp GPU + Piper ONNX + Ollama). | Design module interface · `$HOME/.agents/skills/k-context/references/voice-kernel-ollama-vision.md` |
 | **Project Sovereignty** | 🚧 PROPOSED — 128GB Mac Studio | Draft reference docs · `$HOME/.agents/assets/` |
 | **bw-proxy** | ✅ STABLE — v3.6.0 Meticulous Test Suite & Schema Hardening: 100% verified Scoped Union Fetch (no orphans), fixed collection creation bug, and successfully tested blind refactoring on organization items. | `push audit` finalized v3.6.0 · $HOME/Work/AI/MCPs/bw_mcp/ |
 | **mem_mcp** | 🚧 scaffold only — uv init, config.py, standard files, first push done | implement server.py + MCP tools · `$HOME/Work/AI/MCPs/mem_mcp/` |
@@ -119,6 +120,7 @@ allowed-tools: "Bash(*), *"
 | `references/mcp-central-sync-vision.md` | Brainstorm | Vision for a centralized MCP registry and synchronization pipeline to unified all agent provider configs |
 | `references/KpihX-Labs.md` | Vision | KpihX-Labs complete distributed cloud vision: Physical, Virtual, and Supreme Abstraction Layer (`docker-host`), Serverless MCPs, and ESO |
 | `references/edge-agent-automation-vision.md` | Brainstorm | Visible Edge + CDP for HITL agent browsing; dedicated profile; MCP attach; not Default user-data |
+| `references/voice-kernel-ollama-vision.md` | Vision | Centralize STT/TTS as a sovereign cross-agent module using Ollama as LLM backbone — distributable to any agent runtime without vendor lock |
 | `references/sovereign-tutorial-automation-vision.md` | Vision | Agent-driven tutorials (VHS terminal + Remotion + articles); phone→PC→CLI stack; no facecam |
 
 ## What's up (context-only slice)
@@ -137,6 +139,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## Session Log
 
+| 2026-05-31 | [OPENCODE] | **Full app purge + k-optim pass** — Purged: Windsurf (966MB), Rhythmbox, Meld, Wine snap, Yarn (npm), 7 uv tools (grip, huggingface-hub, ipynb-pdf, kpihx-ai, kpihx-todo, viperx, wayland-mcp), brew/linuxbrew (5.9G), waydroid. Disabled: ydotool, gvfs-afc. Cleaned: old Gemini sessions, Codex logs (47MB). `clean_all.sh --purge --system` executed. Disk: 204G→182G (81G free, 70%). Transit dirs clean. Governance audit: 14 warnings (changelog format). |
+| 2026-05-31 | [OPENCODE] | **Ubuntu boot cleanup — 35 unit files removed, 6 snaps purged** — Disabled: cloud-init (5), CUPS (6), apport+whoopsie (4), ModemManager, ubuntu-advantage+motd-news (4), SSSD (7), fwupd (2). Purged: open-webui (service + Docker + /opt/open-webui). Snaps removed: discord, thunderbird, gnome-chess, onenote-desktop, onlyoffice-desktopeditors, jupyterlab-desktop. Tor kept + documented in k-workspace. NetworkManager-wait-online kept (user request). k-workspace SKILL.md updated with System Services section. Estimated gain: ~4-5s boot + ~1 GB RAM. |
 | 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0 — profiles, rules, agents refactor** — AGENTS.md 369→58 lines. Created: rules/ (8 files), profiles/colab + profiles/explore, agents/ (6 definitions .agents protocol), memories/current-intent.md. Removed INIT.md (→ rules/agent-registry.md + k-opencode). Trimmed: k-final, k-optim, k-workspace (→ rules/ pointers). k-opencode v1.4.0. |
 | 2026-05-29 | [OPENCODE] | **Phase 4-5 complete** — Plugin kpihx-orchestra.js (3 hooks: messages.transform, tool.execute.after, session.compacting). audit.py: _check_rules() for rules/ validation. Makefile: make link target for all agent runtimes. .gitignore: un-ignore plugins/kpihx-orchestra. |
 | 2026-05-29 | [OPENCODE] | **opencode.jsonc + symlinks** — colab/explore added as primary agents with task delegation. default_agent=colab. Symlinks: agents/ profiles/ skills/ AGENTS.md → ~/.config/opencode/. Config validated via opencode debug config. |
@@ -170,6 +174,9 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-31 | [OPENCODE] | v2.93.0 — Voice Kernel brainstorm: Oriyama cross-agent STT/TTS module vision registered. whisper.cpp Vulkan GPU + Piper ONNX + Ollama architecture documented. |
+| 2026-05-31 | [OPENCODE] | v2.92.0 — Full app purge + k-optim: Windsurf, Rhythmbox, Meld, Wine, Yarn, brew, waydroid, 7 uv tools removed; Gemini/Codex cleaned; disk 204G→182G. |
+| 2026-05-31 | [OPENCODE] | v2.91.0 — Ubuntu boot cleanup: 35 unit files disabled, 6 snaps removed, open-webui purged, k-workspace System Services section added. |
 | 2026-05-29 | [OPENCODE] | v2.90.0 — Sovereign kernel v3.0: profiles/rules/agents architecture; AGENTS.md 369→58; INIT.md removed; skills trimmed. |
 | 2026-05-28 | [OPCODE] | v2.89.59 — Audit fixes: k-vim/k-opencode/k-tmux/k-context structure compliance; session log refresh. |
 | [SUMMARY] | — | v2.89.58 colab P4 Mistral; v2.89.48–v2.89.57 colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |

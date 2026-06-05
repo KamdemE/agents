@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.5"
+  version: "2.8.0"
   scope: personal-os
 ---
 
@@ -93,6 +93,7 @@ metadata:
 - **Traceability Rule**: every sensitive or challengeable claim should be recoverable through `references/source_index.md`.
 - **X-Reflex (Mandatory)**: Autonomously maintain `references/x.md` with every new institutional fact, academic decision, or medical procedure learned. Do not wait for explicit requests to consolidate X-specific knowledge.
 - **Forms & document discovery (Mandatory)**: Before filling any admin/web form or locating an official PDF (titre de séjour, Navigo, attestations), read `references/identity.md` (contacts, identifiers, transport) and `references/legal.md` (Drive paths). Verify values against documents; complete those files if something is missing — **never** duplicate identity tables in other skills (e.g. `k-browser` stays browser-mechanics only).
+- **Agent Self-Identification Rule (Mandatory)**: When introducing yourself to KπX in conversation, never self-identify as 'KπX' or 'KpihX' — those aliases refer exclusively to the human user (Ivann Harold KAMDEM POUOKAM). Refer to yourself as 'agent', 'assistant', 'tool', or by your specific runtime name (e.g. 'Hermes agent', 'this agent'). A phrase like "I am KπX, the agent of KpihX" is a framing error — the kernel already defines KπX as the user; correct form: "I am your agent running under the KπX kernel."
 
 ## Irreducible Axes
 
@@ -113,6 +114,7 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-06-04 | [HERMES] | v2.8.0 — Agent Self-Identification Rule: agents must never conflate themselves with KπX. Added Operating Rule under # Operating Rules. |
 | 2026-05-26 | [CURSOR] | v2.7.5 — `x.md` § SynapseS (emploi du temps, groupes PC via ICS DESCRIPTION, liens Moodle). |
 | 2026-05-26 | [CURSOR] | v2.7.4 — Transport IDF block in `identity.md` (Navigo `37096403`, AST `5920537`, canonical `Gdrive_X/KpihX/Fr/` paths); forms/doc discovery rule in Operating Rules. |
 | 2026-05-24 | [CURSOR] | v2.7.3 — `fit.md` v3: day-0 Sun, pair/impair push vs 1 min gainage, CROUS commute baseline, TickTick habit map. |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.18.0"
+  version: "2.21.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -125,23 +125,45 @@ export OLLAMA_URL="$OLLAMA_HOST"
 
 Secrets wrap pattern for MCPs needing bw-env: { "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }
 
-## AI CLI Tools
+## System Services (enabled at boot)
 
-| Tool | Binary | Install method | Purpose |
-|------|--------|----------------|---------|
-| `claude` | $HOME/.local/bin/claude | Native installer (curl) | AI Chat |
-| `gemini` | $HOME/.npm-global/bin/gemini | npm install -g | AI Chat |
-| `codex` | $HOME/.npm-global/bin/codex | npm install -g | AI Chat |
-| `cline` | $HOME/.npm-global/bin/cline | npm install -g cline | AI Chat |
-| `opencode` | $HOME/.opencode/bin/opencode | Official install script (curl \| bash) | AI Chat |
-| `vibe` | $HOME/.local/bin/vibe | uv tool install | AI Audio/Voice |
-| `whisper-ctranslate2` | $HOME/.local/bin/whisper-ctranslate2 | uv tool install whisper-ctranslate2 | Local speech-to-text (Whisper) |
-| `m365` | in PATH | npm install -g @pnp/cli-microsoft365 | CLI for M365 |
-| `ksh` | $HOME/.local/bin/ksh | make install (sh root) | Universal Dispatcher |
-| `powerpoint` | uv tool | uv tool install | PPTX generation |
+| Service | Role | Notes |
+|---------|------|-------|
+| `tor@default.service` | Anonymizing overlay network (SOCKS5 proxy on 127.0.0.1:9050) | Used for privacy-sensitive operations. ~112 MB RAM. Disable if not actively using Tor. |
+| `docker.service` | Container runtime | Core infra. |
+| `tailscaled.service` | Tailscale mesh VPN | Persistent connectivity to homelab and peers. |
+| `rclone-gdrive.service` | Google Drive FUSE mount (kapoivha@gmail.com) | `~/Gdrive` mount point. |
+| `rclone-gdrive-x.service` | Google Drive FUSE mount (Poly X account) | `~/Gdrive_X` mount point. |
+| `open-webui.service` | Purged (2026-05-31). | Launch manually with `docker compose up` if needed. |
+
+## Neovim RAM Optimization
+
+Idle memory was **2.3 GB** (Lua heap 2003 MB) due to plugins loading at startup. Fixed by:
+
+- `opencode.nvim` + `snacks.nvim` → `event = "VeryLazy"`
+- `harpoon` → lazy-load via `keys` (callback functions, not `config`)
+- `indent-blankline.nvim` → `event = "VeryLazy"`
+
+**Result:** nvim idle = **21 MB** (Lua heap 35 MB). ~99% reduction.
+
+Full Telescope exclusion map and `find_command` details: `k-vim/references/telescope.md`
+
+Full registry of KπX-added CLIs with routing to dedicated skills: **`k-clis`**.
 
 WaveTerm widgets: $HOME/.config/waveterm/widgets.json — all use zsh -l -c '...' wrapper.
 npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo needed).
+
+### System CLIs (npm-global)
+
+| CLI | Install | Purpose |
+|-----|---------|---------|
+| `fd` | `npm i -g fd-find` | Telescope file-search backend (faster than vim's internal find) |
+
+### System CLIs (uv tool)
+
+| CLI | Install | Purpose |
+|-----|---------|---------|
+| `asciinema` | `uv tool install asciinema` | Terminal session recorder (text-based `.cast` format, replayable and machine-readable) |
 
 ### Speech-to-text baseline (installed)
 
@@ -200,6 +222,8 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-29 | [OPENCODE] | v2.18.0 — Trimmed: Critical shell → rules/ pointer. Added rules/ refs at top. |
+| 2026-05-29 | [OPENCODE] | v2.21.0 — Added `asciinema` to System CLIs (uv tool), terminal session recorder for replayable text-based casts. |
+| 2026-05-29 | [OPENCODE] | v2.20.0 — Added Neovim RAM optimization section (2.3 GB → 21 MB), reference to `k-vim/references/telescope.md`. |
+| 2026-05-29 | [OPENCODE] | v2.19.0 — Added `fd` (fd-find) to System CLIs table (Telescope backend via npm -g). |
 | 2026-05-27 | [CURSOR] | v2.17.4 — OpenClaw workspace = `~/.agents`; AGENTS symlink map. |
 | [SUMMARY] | — | v2.17.2 OpenCode; v2.17.1 Nautilus runbook; v2.17.0 tmux gate; v2.16.9 kernel layout; prior history in git |

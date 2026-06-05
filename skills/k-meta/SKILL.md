@@ -21,7 +21,7 @@ allowed-tools: Bash(*)
 |------|--------|
 | JSON creds + Graph smoke | `references/meta-dev-setup.md` · `scripts/meta_cli.py` |
 | WhatsApp send/receive | **`k-whatsapp`** (whats-mcp) |
-| Registry | **`k-cloud-tools`** · **`k-media`** hub |
+| Registry | **`k-clis`** · **`k-media`** hub |
 
 **Creds file:** `$HOME/.config/kpihx/meta/credentials.json`
 

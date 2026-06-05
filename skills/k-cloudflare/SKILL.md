@@ -17,7 +17,7 @@ allowed-tools: Bash(flarectl:*), Bash(curl:*)
 
 ## Cloud hub
 
-Registry map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · load **`k-cloud-tools`** first for cross-provider routing.
+Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k-clis`** first for cross-provider routing.
 
 ## Philosophy
 
@@ -52,7 +52,7 @@ Registry map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · lo
 
 | Tool | Role | Verify |
 |------|------|--------|
-| **`flarectl`** | DNS + zones (`kpihx-labs.com`, ACME TXT, CNAME → tunnel ID) | `flarectl zone list` (`CF_API_TOKEN` via **`k-bw`** / **`k-cloud-tools`** token gate) |
+| **`flarectl`** | DNS + zones (`kpihx-labs.com`, ACME TXT, CNAME → tunnel ID) | `flarectl zone list` (`CF_API_TOKEN` via **`k-bw`** / **`k-clis`** token gate) |
 | **`wrangler`** | **Inbound Email Worker only** (`deploy-inbound-email-worker.sh`) — not general Workers dev | `npx wrangler@3 --version` at deploy time |
 
 **Setup:** `references/setup.md` · examples: `$HOME/Work/techskills/cloudflare.md`.
@@ -75,7 +75,7 @@ Full future-use map: **`references/cloudflared-quarantine.md`**.
 | Ingress | Dashboard **or** API → `references/tunnel-routes-api.md` |
 | DNS from laptop | **`flarectl`** (CNAME → `<tunnel-uuid>.cfargotunnel.com`) |
 
-Do **not** use **Add connector** on the dev laptop for prod. Internal admin → **Tailscale** + **`k-cloud-tools`** / **`ts-proxy`**.
+Do **not** use **Add connector** on the dev laptop for prod. Internal admin → **Tailscale** + **`k-clis`** / **`ts-proxy`**.
 
 ## Two planes
 
@@ -88,7 +88,7 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 
 ## Credentials
 
-- **`CF_API_TOKEN`** — Vault `GLOBAL_ENV_VARS` → **`bw-env`** · gate: **`k-cloud-tools`** → `references/token-gate.md`.
+- **`CF_API_TOKEN`** — Vault `GLOBAL_ENV_VARS` → **`bw-env`** · gate: **`k-clis`** → `references/token-gate.md`.
 - **Tunnel run token** — homelab server / Vault only — never on workstation git repos.
 
 ## Cross-skills
@@ -96,7 +96,7 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 | Task | Skill |
 |------|-------|
 | Traefik, Docker, tunnel on server | **`kpihx-labs`**, **`k-docker`** |
-| Internal mesh, ACL | **Tailscale**, **`ts-proxy`**, **`k-cloud-tools`** |
+| Internal mesh, ACL | **Tailscale**, **`ts-proxy`**, **`k-clis`** |
 | Inbox verification, What's up mail | **`k-mail`**, **`k-microsoft`**, **`k-google`** (gws) |
 | Secrets | **`k-bw`** |
 

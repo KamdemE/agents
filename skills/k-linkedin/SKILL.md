@@ -16,7 +16,7 @@ allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
 
 ## Cloud hub
 
-Social **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · registry: **`k-cloud-tools`**.
+Social **content** channel · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · registry: **`k-clis`**.
 
 ## Identity & Auth
 
@@ -53,7 +53,7 @@ Inspect live token state before posting — do not rely on stale expiry dates in
 
 | Task | Load |
 |------|------|
-| Cloud registry | `k-cloud-tools` |
+| Cloud registry | `k-clis` |
 | Mail-derived professional follow-up | `k-mail` |
 
 ## Insights Discipline (mandatory)

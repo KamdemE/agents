@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.17"
+  version: "1.0.18"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
@@ -15,7 +15,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related:** `k-cloud-tools` (Tailscale) · `k-tg` (wireless-debug screenshot to `@kpihx_general_capture_bot`)
+> **Related:** `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot to `@kpihx_general_capture_bot`)
 
 ## Inventory (Tailscale)
 
@@ -30,6 +30,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 - Fixing phone remote access, keys, ports, Termux `sshd`
 - Agents need phone context after a capture-bot screenshot
 - **S25 specs, compute limits, inference routing** → read `references/s25-hardware.md` first
+- **Screen mirroring/control** → `scrcpy` (snap, v3.3.4) via ADB
 
 ## Quick commands (workstation)
 
@@ -42,6 +43,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 | **ADB connect** | `adb-s25 DEBUG_PORT` — port from main *IP address & port* (≠ pairing port) |
 | **ADB reconnect** | `adb-s25` — uses last saved debug port |
 | **ADB status** | `adb-s25 status` |
+| **Screen mirror** | `scrcpy -s 100.125.54.1:<DEBUG_PORT>` (or just `scrcpy` if one ADB device) |
 | **Termux:Boot install** | `zsh $HOME/.agents/skills/k-phones/scripts/termux-install-boot.sh` (needs `adb` device) |
 | **Full phone deploy** | `termux-deploy-all.sh` (sshd + tmux) |
 
@@ -130,6 +132,7 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-30 | [OPENCODE] | v1.0.18 — Added `scrcpy` (snap v3.3.4) to quick commands + When to Load. |
 | 2026-05-26 | [CURSOR] | v1.0.17 — Added `references/s25-hardware.md` (S25 specs + compute/inference routing); doc triad + When to Load. |
 | 2026-05-25 | [CURSOR] | v1.0.16 — Doc/audit pass; quick cmds; changelog compliant. |
 | [SUMMARY] | — | v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |

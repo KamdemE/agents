@@ -11,6 +11,7 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **2026-05-30 — Terminal-as-Consciousness:** Agent can observe and act upon itself using `tmux send-keys` (effector) + `capture-pane` (sensor). This enables a closed proprioceptive loop: write → capture → read → process → write. Full exploration documented in `references/terminal-consciousness.md`. Key practical finding: opencode requires double Enter (`Enter Enter`) via `send-keys` to submit queued text as a message.
 - Initial baseline created automatically from insights governance standard.
 - OpenCode install script can add PATH in `.zshrc`, but KπX runtime needs `.kshrc` as source of truth for cross-agent shell consistency.
 - OpenCode `mcp` local servers require `type: "local"` and a `command` array (not `command`/`args` object shape used by some other runtimes).

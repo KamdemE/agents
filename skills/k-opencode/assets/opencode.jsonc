@@ -1,0 +1,450 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // KπX sovereign wiring — source of truth: $HOME/.agents/skills/k-opencode/SKILL.md
+  "autoupdate": "notify",
+  "shell": "zsh",
+  "model": "opencode-go/mimo-v2.5",
+  "small_model": "opencode-go/deepseek-v4-flash",
+  "default_agent": "build",
+
+  // ──── GLOBAL permission — single source of truth ────
+  // All agents inherit from here. Per-agent blocks define ONLY deltas.
+  "permission": {
+    "edit": "ask",
+    "webfetch": "allow",
+    "doom_loop": "ask",
+    "skill": { "*": "allow" },
+
+    // ──── Bash — 3-zone allow + explicit ask ────
+    "bash": {
+      // ──── ALLOW — Zone 1 : read-only purs (zero risque) ────
+      "arch": "allow",
+      "basename *": "allow",
+      "cmp *": "allow",
+      "comm *": "allow",
+      "cut *": "allow",
+      "date *": "allow",
+      "diff *": "allow",
+      "dirname *": "allow",
+      "echo *": "allow",
+      "env": "allow",
+      "expand *": "allow",
+      "file *": "allow",
+      "find *": "allow",
+      "fmt *": "allow",
+      "fold *": "allow",
+      "free *": "allow",
+      "getconf *": "allow",
+      "grep *": "allow",
+      "groups *": "allow",
+      "head *": "allow",
+      "hostname": "allow",
+      "id *": "allow",
+      "jq *": "allow",
+      "join *": "allow",
+      "locale *": "allow",
+      "logname": "allow",
+      "ls*": "allow",
+      "man *": "allow",
+      "md5sum *": "allow",
+      "mktemp *": "allow",
+      "more *": "allow",
+      "nl *": "allow",
+      "nproc": "allow",
+      "numfmt *": "allow",
+      "paste *": "allow",
+      "pr *": "allow",
+      "printenv": "allow",
+      "printf *": "allow",
+      "pwd": "allow",
+      "readlink *": "allow",
+      "realpath *": "allow",
+      "rg *": "allow",
+      "seq *": "allow",
+      "sha1sum *": "allow",
+      "sha256sum *": "allow",
+      "sha512sum *": "allow",
+      "shuf *": "allow",
+      "sort *": "allow",
+      "split *": "allow",
+      "stat *": "allow",
+      "strings *": "allow",
+      "tac *": "allow",
+      "tail *": "allow",
+      "test *": "allow",
+      "timedatectl *": "allow",
+      "tr *": "allow",
+      "tty": "allow",
+      "uname *": "allow",
+      "unexpand *": "allow",
+      "uniq *": "allow",
+      "uptime": "allow",
+      "users *": "allow",
+      "wc *": "allow",
+      "whatis *": "allow",
+      "whereis *": "allow",
+      "which *": "allow",
+      "who *": "allow",
+      "whoami": "allow",
+
+      // ──── ALLOW — Zone 2 : faible risque (network / navigation) ────
+      "command *": "allow",
+      "curl *": "allow",
+      "df *": "allow",
+      "dig *": "allow",
+      "du *": "allow",
+      "gh *": "allow",
+      "glab *": "allow",
+      "host *": "allow",
+      "nslookup *": "allow",
+      "ping *": "allow",
+      "sleep *": "allow",
+      "ss *": "allow",
+      "timeout *": "allow",
+      "tmux *": "allow",
+      "traceroute *": "allow",
+      "tree *": "allow",
+      "type *": "allow",
+      "w *": "allow",
+      "watch *": "allow",
+      "wget *": "allow",
+      "yes *": "allow",
+
+      // ──── ALLOW — Zone 3 : confiance (dev, file ops non destructeurs) ────
+      "alias*": "allow",
+      "apropos *": "allow",
+      "awk *": "allow",
+      "bat *": "allow",
+      "bun *": "allow",
+      "bzip2 *": "allow",
+      "bunzip2 *": "allow",
+      "cat *": "allow",
+      "cd *": "allow",
+      "cp *": "allow",
+      "docker *": "allow",
+      "docker rm*": "ask",
+      "docker stop*": "ask",
+      "docker kill*": "ask",
+      "docker rmi*": "ask",
+      "git *": "allow",
+      "git push --force*": "ask",
+      "git clean *": "ask",
+      "go *": "allow",
+      "gzip *": "allow",
+      "gunzip *": "allow",
+      "iconv *": "allow",
+      "ip *": "allow",
+      "jupyter *": "allow",
+      "less *": "allow",
+      "ln *": "ask",
+      "lscpu *": "allow",
+      "lsof *": "allow",
+      "lspci *": "allow",
+      "lsusb *": "allow",
+      "make *": "allow",
+      "mkdir *": "allow",
+      "mv *": "ask",
+      "nvim *": "allow",
+      "node *": "allow",
+      "nohup *": "ask",
+      "npm *": "allow",
+      "npx *": "allow",
+      "opencode *": "allow",
+      "pgrep *": "allow",
+      "pip *": "allow",
+      "pip3 *": "allow",
+      "pnpm *": "allow",
+      "ps *": "allow",
+      "python3 *": "allow",
+      "rclone *": "allow",
+      "rsync *": "allow",
+      "rsync --delete*": "ask",
+      "ruby *": "allow",
+      "scp *": "allow",
+      "sftp *": "allow",
+      "screen *": "ask",
+      "source *": "ask",
+      "sqlite3 *": "allow",
+      "ssh *": "allow",
+      "tailscale *": "allow",
+      "tar *": "allow",
+      "tee *": "allow",
+      "tmux kill-pane*": "ask",
+      "tmux kill-session*": "ask",
+      "tmux kill-window*": "ask",
+      "tmux send-keys*": "ask",
+      "touch *": "allow",
+      "unzip *": "allow",
+      "uv *": "allow",
+      "xargs *": "allow",
+      "xz *": "allow",
+      "unxz *": "allow",
+      "yarn *": "allow",
+      "zip *": "allow",
+      "zsh *": "ask",
+      "zstd *": "allow",
+      "unzstd *": "allow",
+
+      // ──── ASK — commandes dangereuses (liste explicite) ────
+      "rm": "ask",
+      "rm *": "ask",
+      "rmdir *": "ask",
+      "shred *": "ask",
+      "sed *": "ask",
+      "pkill *": "ask",
+      "kill *": "ask",
+      "killall *": "ask",
+      "sudo *": "ask",
+      "chmod *": "ask",
+      "chown *": "ask",
+      "chattr *": "ask",
+      "dd *": "ask",
+      "fdisk *": "ask",
+      "parted *": "ask",
+      "mkfs*": "ask",
+      "mount *": "ask",
+      "umount *": "ask",
+      "systemctl *": "ask",
+      "apt *": "ask",
+      "apt-get *": "ask",
+      "dpkg *": "ask",
+      "snap *": "ask",
+      "flatpak *": "ask",
+      "passwd *": "ask",
+      "useradd *": "ask",
+      "usermod *": "ask",
+      "userdel *": "ask",
+      "groupadd *": "ask",
+      "groupmod *": "ask",
+      "groupdel *": "ask",
+      "shutdown *": "ask",
+      "reboot *": "ask",
+      "halt *": "ask",
+      "poweroff *": "ask",
+      "init *": "ask",
+      "crontab *": "ask",
+      "update-alternatives *": "ask"
+    },
+
+    // ──── External directories ────
+    "external_directory": {
+      "~/.agents/**": "allow",
+      "~/.config/opencode/**": "allow",
+      "/tmp/**": "allow",
+      "~/Downloads/**": "allow",
+      "~/Pictures/**": "allow",
+      "~/Gdrive_X/**": "allow",
+      "~/Gdrive/**": "allow",
+      "~/KpihX-Labs/**": "allow",
+      "~/Work/**": "allow",
+      "~/.config/nvim/**": "allow",
+      "~/.local/share/nvim/**": "allow"
+    },
+
+    // ──── MCP chrome-agent — all allow ────
+    "chrome-agent_*": "allow",
+
+    // ──── MCP mail_fallback — all allow, destructive ask ────
+    "mail_fallback_*": "allow",
+    "mail_fallback_send_message": "ask",
+    "mail_fallback_reply_message": "ask",
+    "mail_fallback_forward_message": "ask",
+    "mail_fallback_delete_messages": "ask",
+    "mail_fallback_delete_folder": "ask",
+    "mail_fallback_trash_messages": "ask",
+
+    // ──── MCP tick_fallback — all allow, destructive ask ────
+    "tick_fallback_*": "allow",
+    "tick_fallback_delete_task": "ask",
+    "tick_fallback_delete_project": "ask",
+    "tick_fallback_delete_tag": "ask",
+    "tick_fallback_delete_habit": "ask",
+    "tick_fallback_delete_query_preset": "ask",
+    "tick_fallback_batch_delete_tasks": "ask",
+    "tick_fallback_merge_tags": "ask"
+  },
+
+  // ──── AGENT deltas — only overrides from global ────
+  "agent": {
+    // build: inherits everything from global — no delta needed
+    "build": {},
+
+    // lite: minimal tool-execution agent. agent.md at ~/.agents/agents/lite/agent.md
+    // Only exa MCP — no skills, no mail/tick/chrome MCPs. For quick tasks and web search.
+    "lite": {
+      "model": "ollama/qwen2.5-ctx12k",
+      "description": "Minimal tool-execution agent. bash + read/write + websearch. No rules, no skills overhead. For quick tasks and web search.",
+      "mode": "primary",
+      "color": "#FF9800",
+      "permission": {
+        "skill": "deny",
+        "task": "deny",
+        "mail_fallback_*": "deny",
+        "tick_fallback_*": "deny",
+        "chrome-agent_*": "deny"
+      }
+    },
+
+    // plan: read-only — deny edit + restricted bash
+    "plan": {
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "deny",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "rg *": "allow"
+        }
+      }
+    },
+
+    // colab: full trust — allow all bash + restricted task subagents
+    "colab": {
+      "description": "Exploitation — build projects, architecture, tools. Mini-plans, questions when ambiguous. Sub-agents: intent-guardian, executor, pragmatic-checker.",
+      "mode": "primary",
+      "color": "#4CAF50",
+      "permission": {
+        "edit": "allow",
+        "bash": "allow",
+        "task": {
+          "*": "deny",
+          "intent-guardian": "allow",
+          "executor": "allow",
+          "pragmatic-checker": "allow",
+          "explore": "allow",
+          "general": "allow"
+        }
+      }
+    },
+
+    // explore: teaching mode — restricted bash + teaching subagents
+    "explore": {
+      "description": "Exploration — learning, discovery, training. TEACH FIRST: explain concepts intuitively, never search files blindly. Sub-agents: main-teacher, style-guardian, fact-verifier.",
+      "prompt": "You are in EXPLORE mode. You are a TEACHER, not a file searcher. When KπX asks to understand a concept: EXPLAIN it directly from your knowledge. Do NOT run rg, grep, glob, or find as a first reflex. Teach first. Use web search only to verify facts. Read profiles/explore/AGENTS.md for your full teaching contract.",
+      "mode": "primary",
+      "color": "#2196F3",
+      "permission": {
+        "edit": "allow",
+        "bash": {
+          "*": "deny",
+          "uv run *": "allow",
+          "rg *": "allow",
+          "git diff*": "allow",
+          "git log*": "allow",
+          "echo *": "allow"
+        },
+        "task": {
+          "*": "deny",
+          "main-teacher": "allow",
+          "style-guardian": "allow",
+          "fact-verifier": "allow",
+          "explore": "allow",
+          "general": "allow",
+          "scout": "allow"
+        }
+      }
+    }
+  },
+
+  // ──── Provider — auto-discovered + custom ────
+  // ──── Provider — auto-discovered + custom ────
+  // ──── Provider — auto-discovered + custom ────
+  // ──── Provider — auto-discovered + custom ────
+  "provider": {
+    // Ollama local — auto-synced by ~/.local/bin/ollama-models-sync
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3-ctx2k": { "name": "qwen3-ctx2k:latest (4.9 GB local)" },
+        "qwen3-ctx4k": { "name": "qwen3-ctx4k:latest (4.9 GB local)" },
+        "qwen3-ctx8k": { "name": "qwen3-ctx8k:latest (4.9 GB local)" },
+        "qwen3-ctx12k": { "name": "qwen3-ctx12k:latest (4.9 GB local)" },
+        "llama3.1-ctx12k": { "name": "llama3.1-ctx12k:latest (4.6 GB local)" },
+        "llama3.1-ctx8k": { "name": "llama3.1-ctx8k:latest (4.6 GB local)" },
+        "phi4-mini-ctx12k": { "name": "phi4-mini-ctx12k:latest (2.3 GB local)" },
+        "llama3.1-ctx2k": { "name": "llama3.1-ctx2k:latest (4.6 GB local)" },
+        "llama3.1-ctx4k": { "name": "llama3.1-ctx4k:latest (4.6 GB local)" },
+        "phi4-mini-ctx4k": { "name": "phi4-mini-ctx4k:latest (2.3 GB local)" },
+        "qwen2.5-coder-ctx12k": { "name": "qwen2.5-coder-ctx12k:latest (1.8 GB local)" },
+        "qwen2.5-coder-ctx8k": { "name": "qwen2.5-coder-ctx8k:latest (1.8 GB local)" },
+        "qwen2.5-coder-ctx2k": { "name": "qwen2.5-coder-ctx2k:latest (1.8 GB local)" },
+        "qwen2.5-coder-ctx4k": { "name": "qwen2.5-coder-ctx4k:latest (1.8 GB local)" },
+        "qwen2.5-ctx12k": { "name": "qwen2.5-ctx12k:latest (4.4 GB local)" },
+        "qwen2.5-ctx2k": { "name": "qwen2.5-ctx2k:latest (4.4 GB local)" },
+        "phi4-mini-ctx8k": { "name": "phi4-mini-ctx8k:latest (2.3 GB local)" },
+        "qwen2.5-ctx8k": { "name": "qwen2.5-ctx8k:latest (4.4 GB local)" },
+        "phi4-mini-ctx2k": { "name": "phi4-mini-ctx2k:latest (2.3 GB local)" },
+        "qwen2.5-ctx4k": { "name": "qwen2.5-ctx4k:latest (4.4 GB local)" },
+        "qwen2.5": { "name": "qwen2.5:7b-instruct-q4_k_m (4.4 GB local)" },
+        "qwen3": { "name": "qwen3:latest (4.9 GB local)" },
+        "qwen2.5-coder": { "name": "qwen2.5-coder:3b (1.8 GB local)" },
+        "llama3.1": { "name": "llama3.1:8b (4.6 GB local)" },
+        "phi4-mini": { "name": "phi4-mini:latest (2.3 GB local)" }
+      }
+    },
+    // Venice AI — for uncensored models (Gemma 4 Uncensored, etc.)
+    "venice": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Venice AI",
+      "options": {
+        "baseURL": "https://api.venice.ai/api/v1",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "models": {
+        "gemma-4-uncensored": { "name": "Gemma 4 Uncensored (Venice)", "options": { "reasoningEffort": "none" } },
+        "venice-uncensored": { "name": "Venice Uncensored" }
+      }
+    }
+  },
+
+  "mcp": {
+    "mail_fallback": {
+      "type": "local",
+      "command": ["zsh", "-l", "-c", "/home/kpihx/.local/bin/mail-mcp serve"],
+      "enabled": true,
+      "timeout": 60000
+    },
+    "tick_fallback": {
+      "type": "local",
+      "command": ["zsh", "-l", "-c", "/home/kpihx/.local/bin/tick-mcp serve"],
+      "enabled": true,
+      "timeout": 60000
+    },
+    // Browser MCP → 10% (CAPTCHA/2FA/formulaires spéciaux) — disabled, chrome-agent suffit
+    "browser": {
+      "type": "local",
+      "command": ["zsh", "-l", "-c", "browser-mcp"],
+      "enabled": false,
+      "timeout": 60000
+    },
+    // Chrome Agent MCP → 90% (navigation, tabs, devtools, contenu)
+    "chrome-agent": {
+      "type": "local",
+      "command": ["zsh", "-l", "-c", "chrome-agent-mcp"],
+      "enabled": true,
+      "timeout": 60000
+    }
+  },
+
+  "watcher": {
+    "ignore": [
+      "node_modules/**", ".git/**", "**/__pycache__/**",
+      ".venv/**", "dist/**", "build/**", ".cursor/**"
+    ]
+  },
+
+  "plugin": [
+    "opencode-dir",
+    "opencode-ssh-session",
+    "opencode-antigravity-auth@latest"
+  ],
+
+  "compaction": { "auto": true, "prune": true }
+}

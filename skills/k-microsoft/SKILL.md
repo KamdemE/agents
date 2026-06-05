@@ -17,7 +17,7 @@ allowed-tools: Bash(m365:*)
 
 ## Cloud hub
 
-Registry map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · load **`k-cloud-tools`** when routing across providers.
+Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k-clis`** when routing across providers.
 
 ## Azure CLI (`az`) — deactivated
 
@@ -128,7 +128,7 @@ python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folde
 |------|------|
 | Mail briefing / send gates | `k-mail` |
 | Azure Foundry (only if subscription later) | `microsoft-foundry` — not active on this workstation |
-| Registry | `k-cloud-tools` |
+| Registry | `k-clis` |
 
 ## Insights Discipline (mandatory)
 

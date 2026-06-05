@@ -16,7 +16,7 @@ allowed-tools: mcp__tick-mcp__*, mcp__tick-mcp--stdio__*
 
 ## Cloud hub
 
-Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · cross-link mail/WhatsApp findings → propose tasks here.
+Productivity **content** channel · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · cross-link mail/WhatsApp findings → propose tasks here.
 
 ## Runtime Discipline (mandatory)
 

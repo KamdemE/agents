@@ -2,15 +2,48 @@
 
 > Cross-cutting rules for ALL tool usage. Loaded from `AGENTS.md` kernel.
 
-## Shared tmux Collaboration (MANDATORY)
+## tmux sudo Gate (MANDATORY — exact protocol)
 
-For `sudo`, SSH passphrase, or any interactive prompt — `sui` is **deprecated**. Use shared tmux gate:
-1. Load `k-tmux` skill
-2. `tmux ls` → reuse or create a short-named session/window
-3. `tmux send-keys -t SESSION:WIN.PANE '<cmd>' Enter`
-4. Poll `tmux capture-pane` ≥30s before any chat handoff
-5. After ≥30s without validation: give full `tmux attach`, command, and what KπX must do
-Never run raw `sudo` in agent tool shells.
+### Core rule
+
+Never run raw `sudo` in agent tool shells. Always use the user's current tmux session, window 0 ("default").
+
+### Execution cycle (exact, in order)
+
+1. **Identify current session**
+   - `tmux ls` → find the session marked `(attached)`
+   - That is KπX's active session. Use it.
+
+2. **Locate window 0** (the "default" window)
+   - `tmux list-windows -t <SESSION>` → confirm window 0 exists
+   - If missing: `tmux new-window -t <SESSION>:0 -n default` (rare)
+
+3. **Send command**
+   - `tmux send-keys -t <SESSION>:0 '<sudo cmd>' Enter`
+
+4. **Poll loop** (repeat every 3-5s):
+   - `tmux capture-pane -t <SESSION>:0 -p | tail -10`
+   - **Shell prompt** (`$` or `#`) → command finished → done
+   - **Password prompt** → keep polling, do not stop
+
+5. **Password timeout**:
+   - Poll for **≥15s** before any chat handoff about the password
+   - If after ≥15s KπX has NOT entered the password → one chat message asking
+   - If KπX enters the password within 15s → keep polling until command finishes
+
+6. **Wait for completion**:
+   - Even if the sudo command takes >15s, keep polling until shell prompt returns
+   - Do not ask for handoff while the command is still running
+
+7. **Cleanup**:
+   - Window 0 is permanent — **do not kill it**
+   - No temp cleanup needed
+
+### Hard rules
+- **Never** create temp windows/panes for sudo — use window 0
+- **Never** run `sudo` in agent tool shells
+- **Never** stop polling before 15s for password
+- **Never** kill window 0 (it's permanent)
 
 ## Browser (Edge Agent)
 

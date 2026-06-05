@@ -16,7 +16,7 @@ allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio_
 
 ## Cloud hub
 
-Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md` · HTTP transport preferred — `references/mcp.md`.
+Productivity **content** channel · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · HTTP transport preferred — `references/mcp.md`.
 
 ## What's up — core policy and procedure
 
@@ -83,7 +83,7 @@ This file's `## Changelog` tracks only modifications to the `k-whatsapp/` skill 
 
 ## Meta credentials (Vault)
 
-BW item **Meta Dev** — fields `META_APP_ID`, `META_APP_SECRET`, `META_BUSINESS_ID`, `META_WA_PHONE_NUMBER_ID`, `META_WA_NUMBER`. Full social registry: **`k-cloud-tools/references/social-dev-platforms.md`**.
+BW item **Meta Dev** — fields `META_APP_ID`, `META_APP_SECRET`, `META_BUSINESS_ID`, `META_WA_PHONE_NUMBER_ID`, `META_WA_NUMBER`. Full social registry: **`k-clis/references/social-dev-platforms.md`**.
 
 ## Identity
 

@@ -16,7 +16,7 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 
 ## Cloud hub
 
-Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`k-drive`** · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
+Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`k-drive`** · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`
 
 > **Config file:** `$HOME/.config/rclone/rclone.conf` — source of truth for all remotes.
 > **Templates:** `assets/rclone-gdrive.service` — systemd user service for FUSE mounts.

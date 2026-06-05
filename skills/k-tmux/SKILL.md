@@ -5,7 +5,7 @@ description: >
   and practical CLI/key shortcuts. Load before any tmux workflow, shared interactive shell,
   or terminal multiplexing task on KπX workstations.
 metadata:
-  version: 1.5.0
+  version: 1.6.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -112,6 +112,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 Current KπX settings:
 
 - `mouse on` — click to focus panes, resize splits, select windows
+- `focus-events on` — sends focus gained/lost to Neovim for `autoread` (reload files when switching back to tmux window)
 - wheel up → copy-mode scroll (not shell history)
 - wheel down → scroll down; `-e` exits copy-mode at bottom
 - `history-limit 50000` — large scrollback buffer
@@ -469,5 +470,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-30 | [OPCODE] | v1.6.0 — Added `focus-events on` to bundled config (Neovim `autoread` support), k-vim healthcheck cross-reference. |
 | 2026-05-28 | [OPENCODE] | v1.5.0 — Added tmux-yank, tmux-copycat, tmux-prefix-highlight plugins; plugin table. |
 | [SUMMARY]  | —          | v1.3.x–v1.4.4: mouse copy, continuum boot fix, prefix and shared interactive gate. |

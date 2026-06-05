@@ -1,0 +1,725 @@
+2026-06-03 23:37:49,862 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-03 23:37:49,865 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-03 23:37:49,867 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-03 23:37:49,880 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-03 23:37:49,884 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-03 23:37:49,888 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-03 23:37:49,890 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-03 23:37:49,892 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-03 23:37:49,895 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-03 23:37:49,912 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-03 23:37:49,915 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-03 23:37:49,919 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-03 23:37:49,920 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-03 23:37:49,922 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-03 23:37:49,928 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-03 23:37:49,930 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-03 23:37:49,932 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-03 23:37:49,934 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-03 23:37:49,937 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-03 23:37:50,090 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-03 23:37:50,975 WARNING tools.registry: Could not import tool module tools.browser_dialog_tool: No module named 'websockets'
+2026-06-03 23:37:51,413 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:52,317 INFO tools.lazy_deps: Lazy-installing edge-tts==7.2.7 for feature 'tts.edge'
+2026-06-03 23:37:53,205 INFO tools.lazy_deps: Lazy install complete for feature 'tts.edge'
+2026-06-03 23:37:53,429 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:53,462 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:53,475 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:53,623 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:53,637 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-03 23:37:53,739 INFO tools.tirith_security: tirith not found — downloading latest release for x86_64-unknown-linux-gnu...
+2026-06-03 23:37:59,129 INFO tools.tirith_security: cosign not on PATH — installing tirith with SHA-256 verification only (install cosign for full supply chain verification)
+2026-06-03 23:37:59,308 INFO tools.tirith_security: tirith installed to /home/kpihx/.agents/hermes/bin/tirith (SHA-256 only)
+2026-06-04 07:23:30,853 INFO run_agent: No .env file found. Using system environment variables.
+2026-06-04 07:23:31,064 INFO run_agent: Gemini native client created (agent_init, shared=True) thread=Thread-4 (process_loop):136462394713792 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:31,082 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-04 07:23:31,104 WARNING agent.auxiliary_client: resolve_provider_client: unknown provider 'openai'
+2026-06-04 07:23:31,283 INFO [20260603_233750_9a083e] agent.conversation_loop: conversation turn: session=20260603_233750_9a083e model=gemini-3-flash-preview provider=gemini platform=cli history=0 msg='[Note: model was just switched from gemini-3.1-flash-lite to gemini-3-flash-prev...'
+2026-06-04 07:23:31,440 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-11 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:31,862 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:31,862 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-11 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:31,864 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 1/3) error_type=GeminiAPIError thread=Thread-10 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:31,865 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 2.944119129960717s (attempt 1/3) thread=Thread-10 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:34,882 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-12 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:35,369 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:35,369 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-12 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:35,370 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 2/3) error_type=GeminiAPIError thread=Thread-10 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:35,371 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 4.261721505627486s (attempt 2/3) thread=Thread-10 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:39,790 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-13 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:40,539 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:40,540 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-13 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:23:40,541 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 3/3) error_type=GeminiAPIError thread=Thread-10 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:23:40,545 ERROR [20260603_233750_9a083e] agent.conversation_loop: API call failed after 3 retries. HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. | provider=gemini model=gemini-3-flash-preview msgs=2 tokens=~6,449
+2026-06-04 07:24:32,007 INFO [20260603_233750_9a083e] agent.conversation_loop: conversation turn: session=20260603_233750_9a083e model=gemini-3-flash-preview provider=gemini platform=cli history=1 msg='hi'
+2026-06-04 07:24:32,008 INFO [20260603_233750_9a083e] agent.conversation_loop: Repaired 1 message-alternation violations before request (session=20260603_233750_9a083e)
+2026-06-04 07:24:32,046 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-15 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:32,283 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:32,283 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-15 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:32,285 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 1/3) error_type=GeminiAPIError thread=Thread-14 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:32,285 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 2.0743580965818538s (attempt 1/3) thread=Thread-14 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:34,500 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-16 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:34,939 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:34,940 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-16 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:34,941 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 2/3) error_type=GeminiAPIError thread=Thread-14 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:34,942 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 4.298707019554397s (attempt 2/3) thread=Thread-14 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:39,362 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-17 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:40,783 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:40,784 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-17 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:24:40,785 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 3/3) error_type=GeminiAPIError thread=Thread-14 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:24:40,789 ERROR [20260603_233750_9a083e] agent.conversation_loop: API call failed after 3 retries. HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. | provider=gemini model=gemini-3-flash-preview msgs=2 tokens=~6,450
+2026-06-04 07:25:15,623 INFO [20260603_233750_9a083e] agent.conversation_loop: conversation turn: session=20260603_233750_9a083e model=gemini-3-flash-preview provider=gemini platform=cli history=1 msg='hi'
+2026-06-04 07:25:15,623 INFO [20260603_233750_9a083e] agent.conversation_loop: Repaired 1 message-alternation violations before request (session=20260603_233750_9a083e)
+2026-06-04 07:25:15,662 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-19 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:16,166 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:16,167 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-19 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:16,168 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 1/3) error_type=GeminiAPIError thread=Thread-18 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:16,170 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 2.2391963817541574s (attempt 1/3) thread=Thread-18 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:18,585 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-20 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:19,072 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:19,072 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-20 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:19,073 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 2/3) error_type=GeminiAPIError thread=Thread-18 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:19,074 WARNING [20260603_233750_9a083e] agent.conversation_loop: Retrying API call in 5.396393576569343s (attempt 2/3) thread=Thread-18 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview error=Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:24,491 INFO run_agent: Gemini native client created (chat_completion_stream_request, shared=False) thread=Thread-21 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:25,858 INFO agent.chat_completion_helpers: Streaming failed before delivery: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:25,859 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-21 (_call):136462450280128 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview
+2026-06-04 07:25:25,860 WARNING [20260603_233750_9a083e] agent.conversation_loop: API call failed (attempt 3/3) error_type=GeminiAPIError thread=Thread-18 (run_agent):136462158362304 provider=gemini base_url=https://generativelanguage.googleapis.com/v1beta model=gemini-3-flash-preview summary=HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay.
+2026-06-04 07:25:25,862 ERROR [20260603_233750_9a083e] agent.conversation_loop: API call failed after 3 retries. HTTP 429: Gemini HTTP 429 (RESOURCE_EXHAUSTED): Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. | provider=gemini model=gemini-3-flash-preview msgs=2 tokens=~6,452
+2026-06-04 07:28:54,343 WARNING agent.auxiliary_client: Auxiliary Nous client unavailable: no Nous authentication found (run: hermes auth).
+2026-06-04 07:28:54,344 WARNING agent.auxiliary_client: Auxiliary: marking nous unhealthy for 60s (payment / credit error). Subsequent auxiliary calls will skip it until 07:29:54.
+2026-06-04 07:30:16,393 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-04 07:30:16,395 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-04 07:30:16,395 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-04 07:30:16,396 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-04 07:30:16,397 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-04 07:30:16,398 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-04 07:30:16,398 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-04 07:30:16,399 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-04 07:30:16,400 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-04 07:30:16,403 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-04 07:30:16,403 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-04 07:30:16,405 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-04 07:30:16,405 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-04 07:30:16,406 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-04 07:30:16,408 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-04 07:30:16,408 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-04 07:30:16,409 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-04 07:30:16,410 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-04 07:30:16,411 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-04 07:30:16,547 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-04 07:32:19,804 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-04 07:32:19,804 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-04 07:32:19,805 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-04 07:32:19,815 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-04 07:32:19,816 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-04 07:32:19,816 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-04 07:32:19,817 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-04 07:32:19,817 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-04 07:32:19,818 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-04 07:32:19,839 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-04 07:32:19,840 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-04 07:32:19,841 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-04 07:32:19,841 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-04 07:32:19,842 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-04 07:32:19,843 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-04 07:32:19,843 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-04 07:32:19,844 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-04 07:32:19,844 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-04 07:32:19,845 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-04 07:32:19,939 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-04 07:32:20,343 INFO gateway.memory_monitor: [MEMORY] baseline rss=95MB gc=(99, 11, 4) threads=1 uptime=0s
+2026-06-04 07:32:20,344 INFO gateway.memory_monitor: [MEMORY] Periodic memory monitoring started (interval: 300s)
+2026-06-04 07:32:20,370 INFO tools.lazy_deps: Lazy-installing discord.py[voice]==2.7.1 brotlicffi==1.2.0.1 for feature 'platform.discord'
+2026-06-04 07:32:21,137 INFO tools.lazy_deps: Lazy install complete for feature 'platform.discord'
+2026-06-04 07:32:21,793 INFO gateway.run: Starting Hermes Gateway...
+2026-06-04 07:32:21,793 INFO gateway.run: Session storage: /home/kpihx/KpihX-Labs/.agents/hermes/sessions
+2026-06-04 07:32:21,811 INFO gateway.run: Agent budget: max_iterations=90 (agent.max_turns from config.yaml, or HERMES_MAX_ITERATIONS from .env, or default 90)
+2026-06-04 07:32:21,811 INFO gateway.run: Secret redaction: ENABLED (tool output, logs, and chat responses are scrubbed before delivery)
+2026-06-04 07:32:21,819 WARNING gateway.run: No messaging platforms enabled.
+2026-06-04 07:32:21,819 INFO gateway.run: Gateway will continue running for cron job execution.
+2026-06-04 07:32:21,827 INFO gateway.run: Channel directory built: 0 target(s)
+2026-06-04 07:32:21,828 INFO gateway.run: Press Ctrl+C to stop
+2026-06-04 07:32:21,867 INFO gateway.run: Cron ticker started (interval=60s)
+2026-06-04 07:32:26,830 INFO gateway.run: kanban dispatcher: embedded in gateway (interval=60.0s)
+2026-06-04 07:32:35,270 WARNING agent.auxiliary_client: Auxiliary Nous client unavailable: no Nous authentication found (run: hermes auth).
+2026-06-04 07:32:35,270 WARNING agent.auxiliary_client: Auxiliary: marking nous unhealthy for 60s (payment / credit error). Subsequent auxiliary calls will skip it until 07:33:35.
+2026-06-04 07:32:43,345 INFO tools.lazy_deps: Lazy-installing boto3==1.42.89 for feature 'provider.bedrock'
+2026-06-04 07:32:46,211 INFO tools.lazy_deps: Lazy install complete for feature 'provider.bedrock'
+2026-06-04 07:32:46,772 WARNING tools.registry: Could not import tool module tools.browser_dialog_tool: No module named 'websockets'
+2026-06-04 07:32:46,955 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-04 07:32:46,955 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-04 07:32:46,955 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-04 07:32:46,956 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-04 07:32:46,957 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-04 07:32:46,957 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-04 07:32:46,957 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-04 07:32:46,958 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-04 07:32:46,959 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-04 07:32:46,961 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-04 07:32:46,961 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-04 07:32:46,962 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-04 07:32:46,963 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-04 07:32:46,963 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-04 07:32:46,963 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-04 07:32:46,963 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-04 07:32:46,964 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-04 07:32:46,964 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-04 07:32:46,965 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-04 07:32:47,008 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-04 07:33:17,551 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-04 07:33:17,552 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-04 07:33:17,553 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-04 07:33:17,563 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-04 07:33:17,564 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-04 07:33:17,564 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-04 07:33:17,565 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-04 07:33:17,565 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-04 07:33:17,565 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-04 07:33:17,587 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-04 07:33:17,587 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-04 07:33:17,588 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-04 07:33:17,589 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-04 07:33:17,589 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-04 07:33:17,590 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-04 07:33:17,591 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-04 07:33:17,591 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-04 07:33:17,592 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-04 07:33:17,593 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-04 07:33:17,753 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-04 07:33:18,353 WARNING tools.registry: Could not import tool module tools.browser_dialog_tool: No module named 'websockets'
+2026-06-04 07:33:23,954 INFO run_agent: Loaded environment variables from /home/kpihx/.agents/hermes/.env
+2026-06-04 07:33:24,043 INFO run_agent: OpenAI client created (agent_init, shared=True) thread=Thread-3 (process_loop):127169007187648 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:24,588 INFO [20260604_073318_c9bdf7] agent.conversation_loop: conversation turn: session=20260604_073318_c9bdf7 model=deepseek-v4-flash provider=opencode-go platform=cli history=0 msg='hi'
+2026-06-04 07:33:24,706 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-5 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:28,425 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-5 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:28,426 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=19653 out=246 total=19899 latency=3.7s
+2026-06-04 07:33:29,321 INFO agent.tool_executor: tool skill_view completed (0.10s, 13697 chars)
+2026-06-04 07:33:29,323 INFO agent.tool_executor: tool skill_view completed (0.10s, 30787 chars)
+2026-06-04 07:33:29,352 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-6 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:34,406 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-6 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:34,407 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=33411 out=361 total=33772 latency=5.1s cache=19840/33411 (59%)
+2026-06-04 07:33:34,434 INFO [20260604_073318_c9bdf7] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=1 last_msg_role=assistant response_len=256 session=20260604_073318_c9bdf7
+2026-06-04 07:33:34,673 INFO agent.auxiliary_client: Auxiliary auto-detect: using main provider opencode-go (deepseek-v4-flash)
+2026-06-04 07:33:34,674 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:33:48,623 INFO [20260604_073318_c9bdf7] agent.conversation_loop: conversation turn: session=20260604_073318_c9bdf7 model=deepseek-v4-flash provider=opencode-go platform=cli history=5 msg='presente toi'
+2026-06-04 07:33:48,661 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-8 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:56,446 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-8 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:33:56,447 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=33780 out=449 total=34229 latency=7.8s cache=33664/33780 (100%)
+2026-06-04 07:33:56,460 INFO [20260604_073318_c9bdf7] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=1 last_msg_role=assistant response_len=1374 session=20260604_073318_c9bdf7
+2026-06-04 07:33:56,725 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:34:19,941 INFO [20260604_073318_c9bdf7] agent.conversation_loop: conversation turn: session=20260604_073318_c9bdf7 model=deepseek-v4-flash provider=opencode-go platform=cli history=7 msg='que sais tu de moi'
+2026-06-04 07:34:19,977 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-10 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:34:24,790 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-10 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:34:24,791 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=34210 out=213 total=34423 latency=4.8s cache=33664/34210 (98%)
+2026-06-04 07:34:24,814 WARNING [20260604_073318_c9bdf7] agent.tool_executor: Tool memory returned error (0.00s): {"error": "Unknown action 'list'. Use: add, replace, remove", "success": false}
+2026-06-04 07:34:25,857 INFO [20260604_073318_c9bdf7] agent.tool_executor: tool skill_view completed (0.04s, 11544 chars)
+2026-06-04 07:34:25,885 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-11 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:34:34,333 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-11 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:34:34,334 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=37794 out=659 total=38453 latency=8.5s cache=34304/37794 (91%)
+2026-06-04 07:34:34,355 INFO [20260604_073318_c9bdf7] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=2 last_msg_role=assistant response_len=1855 session=20260604_073318_c9bdf7
+2026-06-04 07:35:00,775 INFO [20260604_073318_c9bdf7] agent.conversation_loop: conversation turn: session=20260604_073318_c9bdf7 model=deepseek-v4-flash provider=opencode-go platform=cli history=12 msg='demontre que e est irrationnel'
+2026-06-04 07:35:00,803 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-13 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:11,637 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-13 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:11,638 INFO [20260604_073318_c9bdf7] agent.conversation_loop: API call #6: model=deepseek-v4-flash provider=opencode-go in=38466 out=1038 total=39504 latency=10.9s cache=38400/38466 (100%)
+2026-06-04 07:35:11,670 INFO [20260604_073318_c9bdf7] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=2 last_msg_role=assistant response_len=2271 session=20260604_073318_c9bdf7
+2026-06-04 07:35:31,748 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=0 msg='hi'
+2026-06-04 07:35:31,837 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-15 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:35,204 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-15 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:35,205 INFO [20260604_073527_751249] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=19653 out=32 total=19685 latency=3.4s cache=19584/19653 (100%)
+2026-06-04 07:35:35,240 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=71 session=20260604_073527_751249
+2026-06-04 07:35:35,443 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:35:50,255 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=2 msg='que sais tu faire'
+2026-06-04 07:35:50,290 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-17 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:55,824 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-17 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:35:55,825 INFO [20260604_073527_751249] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=19681 out=403 total=20084 latency=5.6s cache=19584/19681 (100%)
+2026-06-04 07:35:55,836 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=1247 session=20260604_073527_751249
+2026-06-04 07:35:56,014 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:36:20,153 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=4 msg="non KπX, c'est moi et pas toi"
+2026-06-04 07:36:20,180 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-19 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:24,410 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-19 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:24,411 INFO [20260604_073527_751249] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=20068 out=239 total=20307 latency=4.3s cache=19584/20068 (98%)
+2026-06-04 07:36:24,422 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=374 session=20260604_073527_751249
+2026-06-04 07:36:45,049 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=6 msg='que contient ~/KpihX-Labs/'
+2026-06-04 07:36:45,069 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-21 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:47,413 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-21 (_call):127168970475200 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:47,414 INFO [20260604_073527_751249] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=20203 out=77 total=20280 latency=2.4s cache=19968/20203 (99%)
+2026-06-04 07:36:47,421 INFO [20260604_073527_751249] tools.terminal_tool: Creating new local environment for task default...
+2026-06-04 07:36:48,414 INFO [20260604_073527_751249] tools.environments.base: Session snapshot created (session=3f855cf68941, cwd=/home/kpihx)
+2026-06-04 07:36:48,415 INFO [20260604_073527_751249] tools.terminal_tool: local environment ready for task default
+2026-06-04 07:36:48,522 INFO [20260604_073527_751249] agent.tool_executor: tool terminal completed (1.10s, 1692 chars)
+2026-06-04 07:36:48,555 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-25 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:52,779 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-25 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:52,780 INFO [20260604_073527_751249] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=21202 out=405 total=21607 latency=4.3s cache=20224/21202 (95%)
+2026-06-04 07:36:52,803 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=1 last_msg_role=assistant response_len=1090 session=20260604_073527_751249
+2026-06-04 07:36:52,844 INFO run_agent: OpenAI client created (agent_init, shared=True) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:36:53,687 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=10 msg='Review the conversation above and update the skill library. Be ACTIVE — most ses...'
+2026-06-04 07:36:53,702 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-26 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:01,004 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-26 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:01,005 INFO [20260604_073527_751249] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=22934 out=698 total=23632 latency=7.3s cache=21504/22934 (94%)
+2026-06-04 07:37:01,183 INFO agent.tool_executor: tool skill_view completed (0.16s, 30787 chars)
+2026-06-04 07:37:01,188 INFO agent.tool_executor: tool skill_view completed (0.16s, 4240 chars)
+2026-06-04 07:37:01,191 INFO agent.tool_executor: tool skill_view completed (0.16s, 11544 chars)
+2026-06-04 07:37:01,208 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-27 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:12,900 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-27 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:12,901 INFO [20260604_073527_751249] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=37502 out=1067 total=38569 latency=11.7s cache=23552/37502 (63%)
+2026-06-04 07:37:12,962 INFO [20260604_073527_751249] agent.tool_executor: tool skill_view completed (0.04s, 3393 chars)
+2026-06-04 07:37:12,980 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-28 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:13,178 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=10 msg='que contient DRAW.md'
+2026-06-04 07:37:13,226 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-30 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:15,360 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-30 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:15,361 INFO [20260604_073527_751249] agent.conversation_loop: API call #6: model=deepseek-v4-flash provider=opencode-go in=21616 out=73 total=21689 latency=2.2s cache=21504/21616 (99%)
+2026-06-04 07:37:15,515 INFO [20260604_073527_751249] agent.tool_executor: tool read_file completed (0.15s, 346 chars)
+2026-06-04 07:37:15,539 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-36 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:19,112 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-36 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:19,113 INFO [20260604_073527_751249] agent.conversation_loop: API call #7: model=deepseek-v4-flash provider=opencode-go in=21812 out=244 total=22056 latency=3.6s cache=21632/21812 (99%)
+2026-06-04 07:37:19,129 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=2 last_msg_role=assistant response_len=751 session=20260604_073527_751249
+2026-06-04 07:37:20,344 INFO gateway.memory_monitor: [MEMORY] rss=99MB gc=(158, 5, 0) threads=6 uptime=300s
+2026-06-04 07:37:22,990 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-28 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:22,991 INFO [20260604_073527_751249] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=39408 out=1132 total=40540 latency=10.0s cache=37376/39408 (95%)
+2026-06-04 07:37:22,992 WARNING [20260604_073527_751249] agent.tool_executor: Tool patch returned error (0.00s): {"error": "Background review denied non-whitelisted tool: patch. Only memory/skill tools are allowed."}
+2026-06-04 07:37:23,011 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-37 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:27,653 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-37 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:27,654 INFO [20260604_073527_751249] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=41299 out=513 total=41812 latency=4.7s cache=39296/41299 (95%)
+2026-06-04 07:37:27,697 INFO [20260604_073527_751249] agent.tool_executor: tool skill_manage completed (0.04s, 82 chars)
+2026-06-04 07:37:27,715 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-38 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:32,119 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-38 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:32,120 INFO [20260604_073527_751249] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=41850 out=159 total=42009 latency=4.4s cache=41216/41850 (98%)
+2026-06-04 07:37:32,136 INFO [20260604_073527_751249] agent.tool_executor: tool skill_manage completed (0.01s, 82 chars)
+2026-06-04 07:37:32,154 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-39 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:35,576 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-39 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:35,577 INFO [20260604_073527_751249] agent.conversation_loop: API call #6: model=deepseek-v4-flash provider=opencode-go in=42047 out=264 total=42311 latency=3.4s cache=41728/42047 (99%)
+2026-06-04 07:37:35,591 INFO [20260604_073527_751249] agent.tool_executor: tool skill_manage completed (0.01s, 82 chars)
+2026-06-04 07:37:35,607 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-40 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:38,254 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-40 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:38,255 INFO [20260604_073527_751249] agent.conversation_loop: API call #7: model=deepseek-v4-flash provider=opencode-go in=42349 out=69 total=42418 latency=2.7s cache=41984/42349 (99%)
+2026-06-04 07:37:38,318 INFO [20260604_073527_751249] agent.tool_executor: tool skill_view completed (0.06s, 12230 chars)
+2026-06-04 07:37:38,343 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-41 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:42,391 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-41 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:42,392 INFO [20260604_073527_751249] agent.conversation_loop: API call #8: model=deepseek-v4-flash provider=opencode-go in=45957 out=418 total=46375 latency=4.1s cache=42368/45957 (92%)
+2026-06-04 07:37:42,424 INFO [20260604_073527_751249] agent.tool_executor: tool skill_manage completed (0.03s, 82 chars)
+2026-06-04 07:37:42,445 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-42 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:45,391 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-42 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:45,392 INFO [20260604_073527_751249] agent.conversation_loop: API call #9: model=deepseek-v4-flash provider=opencode-go in=46413 out=61 total=46474 latency=3.0s cache=46336/46413 (100%)
+2026-06-04 07:37:45,452 INFO [20260604_073527_751249] agent.tool_executor: tool skill_view completed (0.06s, 12229 chars)
+2026-06-04 07:37:45,470 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-43 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:50,033 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=14 msg="ajoute un titre Sticky Notesà l'entete de ce fichier"
+2026-06-04 07:37:50,058 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-45 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:51,135 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-43 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:51,136 INFO [20260604_073527_751249] agent.conversation_loop: API call #10: model=deepseek-v4-flash provider=opencode-go in=50013 out=452 total=50465 latency=5.7s cache=46464/50013 (93%)
+2026-06-04 07:37:51,139 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=10/16 budget=10/16 tool_turns=10 last_msg_role=assistant response_len=923 session=20260604_073527_751249
+2026-06-04 07:37:51,140 INFO [20260604_073527_751249] run_agent: OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:52,155 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-45 (_call):127168604530368 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:52,156 INFO [20260604_073527_751249] agent.conversation_loop: API call #8: model=deepseek-v4-flash provider=opencode-go in=22075 out=119 total=22194 latency=2.1s cache=22016/22075 (100%)
+2026-06-04 07:37:52,343 INFO [20260604_073527_751249] agent.tool_executor: tool patch completed (0.18s, 319 chars)
+2026-06-04 07:37:52,368 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-53 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:56,960 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-53 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:37:56,961 INFO [20260604_073527_751249] agent.conversation_loop: API call #9: model=deepseek-v4-flash provider=opencode-go in=22329 out=67 total=22396 latency=4.6s cache=22016/22329 (99%)
+2026-06-04 07:37:56,978 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=3 last_msg_role=assistant response_len=215 session=20260604_073527_751249
+2026-06-04 07:38:35,104 INFO [20260604_073527_751249] agent.conversation_loop: conversation turn: session=20260604_073527_751249 model=deepseek-v4-flash provider=opencode-go platform=cli history=18 msg='fait une recherche web sur les agents autonoms comm hermes, openclaw ..'
+2026-06-04 07:38:35,141 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-55 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:38:37,832 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-55 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:38:37,833 INFO [20260604_073527_751249] agent.conversation_loop: API call #10: model=deepseek-v4-flash provider=opencode-go in=22417 out=106 total=22523 latency=2.7s cache=22272/22417 (99%)
+2026-06-04 07:38:38,195 INFO [20260604_073527_751249] tools.web_tools: Web search via exa: 'autonomous AI coding agents Hermes Agent OpenClaw comparison 2025 2026' (limit: 10)
+2026-06-04 07:38:38,195 INFO [20260604_073527_751249] plugins.web.exa.provider: Exa search: 'autonomous AI coding agents Hermes Agent OpenClaw comparison 2025 2026' (limit=10)
+2026-06-04 07:38:38,196 INFO [20260604_073527_751249] tools.lazy_deps: Lazy-installing exa-py==2.10.2 for feature 'search.exa'
+2026-06-04 07:38:38,593 INFO [20260604_073527_751249] tools.lazy_deps: Lazy install complete for feature 'search.exa'
+2026-06-04 07:38:40,727 INFO [20260604_073527_751249] agent.tool_executor: tool web_search completed (2.54s, 80352 chars)
+2026-06-04 07:38:40,787 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-56 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:38:50,298 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-56 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:38:50,299 INFO [20260604_073527_751249] agent.conversation_loop: API call #11: model=deepseek-v4-flash provider=opencode-go in=40518 out=896 total=41414 latency=9.6s cache=22400/40518 (55%)
+2026-06-04 07:38:50,354 INFO [20260604_073527_751249] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=2/90 budget=2/90 tool_turns=4 last_msg_role=assistant response_len=2899 session=20260604_073527_751249
+2026-06-04 07:42:20,345 INFO gateway.memory_monitor: [MEMORY] rss=100MB gc=(140, 5, 0) threads=7 uptime=600s
+2026-06-04 07:43:47,520 INFO tools.terminal_tool: Cleaned up inactive environment for task: default
+2026-06-04 07:47:20,347 INFO gateway.memory_monitor: [MEMORY] rss=100MB gc=(143, 5, 0) threads=9 uptime=900s
+2026-06-04 07:51:42,313 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=0 msg="what's the past simple of hide"
+2026-06-04 07:51:42,473 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-58 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:51:51,851 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-58 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:51:51,852 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=19659 out=84 total=19743 latency=9.4s cache=19584/19659 (100%)
+2026-06-04 07:51:52,310 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=129 session=20260604_075135_9a8248
+2026-06-04 07:51:52,554 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:52:20,347 INFO gateway.memory_monitor: [MEMORY] rss=100MB gc=(322, 5, 0) threads=10 uptime=1200s
+2026-06-04 07:52:34,367 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=2 msg='attic prose what is that'
+2026-06-04 07:52:34,394 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-60 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:52:41,485 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-60 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:52:41,486 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=19706 out=308 total=20014 latency=7.1s cache=19584/19706 (99%)
+2026-06-04 07:52:41,498 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=1007 session=20260604_075135_9a8248
+2026-06-04 07:52:41,539 INFO run_agent: OpenAI client created (agent_init, shared=True) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:52:41,766 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 07:52:41,916 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=4 msg='Review the conversation above and consider saving to memory if appropriate.  Foc...'
+2026-06-04 07:52:41,942 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-61 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:52:44,187 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-61 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:52:44,188 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=20095 out=91 total=20186 latency=2.3s cache=19584/20095 (97%)
+2026-06-04 07:52:44,190 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/16 budget=1/16 tool_turns=0 last_msg_role=assistant response_len=16 session=20260604_075135_9a8248
+2026-06-04 07:52:44,191 INFO [20260604_075135_9a8248] run_agent: OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:54:04,563 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=4 msg='and asiatic verse ?'
+2026-06-04 07:54:04,597 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-63 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:54:18,737 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-63 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 07:54:18,738 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=19986 out=987 total=20973 latency=14.2s cache=19968/19986 (100%)
+2026-06-04 07:54:18,750 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=1845 session=20260604_075135_9a8248
+2026-06-04 07:57:20,348 INFO gateway.memory_monitor: [MEMORY] rss=101MB gc=(299, 5, 0) threads=11 uptime=1500s
+2026-06-04 08:02:20,350 INFO gateway.memory_monitor: [MEMORY] rss=101MB gc=(275, 5, 0) threads=12 uptime=1800s
+2026-06-04 08:07:20,351 INFO gateway.memory_monitor: [MEMORY] rss=101MB gc=(252, 5, 0) threads=13 uptime=2100s
+2026-06-04 08:08:56,109 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=6 msg='to be or not to be that is the question (hamlet) in which context is this used i...'
+2026-06-04 08:08:56,128 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-65 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:09:10,098 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-65 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:09:10,099 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=20510 out=696 total=21206 latency=14.0s cache=19968/20510 (97%)
+2026-06-04 08:09:11,467 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=1046 session=20260604_075135_9a8248
+2026-06-04 08:09:11,508 INFO run_agent: OpenAI client created (agent_init, shared=True) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:09:12,130 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=8 msg='Review the conversation above and update the skill library. Be ACTIVE — most ses...'
+2026-06-04 08:09:12,146 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-66 (_call):127168612923072 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:09:17,238 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-66 (_call):127168612923072 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:09:17,239 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=22118 out=322 total=22440 latency=5.1s cache=20480/22118 (93%)
+2026-06-04 08:09:17,241 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/16 budget=1/16 tool_turns=0 last_msg_role=assistant response_len=332 session=20260604_075135_9a8248
+2026-06-04 08:09:17,242 INFO [20260604_075135_9a8248] run_agent: OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=bg-review:127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:12:20,352 INFO gateway.memory_monitor: [MEMORY] rss=102MB gc=(454, 5, 0) threads=15 uptime=2400s
+2026-06-04 08:12:34,637 INFO [20260604_075135_9a8248] agent.conversation_loop: conversation turn: session=20260604_075135_9a8248 model=deepseek-v4-flash provider=opencode-go platform=cli history=8 msg='explain me the metaphore brutus serpent eggs in that play'
+2026-06-04 08:12:34,665 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-68 (_call):127168612923072 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:12:47,998 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-68 (_call):127168612923072 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 08:12:47,999 INFO [20260604_075135_9a8248] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=20808 out=834 total=21642 latency=13.4s cache=20480/20808 (98%)
+2026-06-04 08:12:48,011 INFO [20260604_075135_9a8248] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=2893 session=20260604_075135_9a8248
+2026-06-04 08:17:20,352 INFO gateway.memory_monitor: [MEMORY] rss=102MB gc=(407, 5, 0) threads=15 uptime=2700s
+2026-06-04 08:22:20,354 INFO gateway.memory_monitor: [MEMORY] rss=103MB gc=(437, 5, 0) threads=18 uptime=3000s
+2026-06-04 08:27:20,354 INFO gateway.memory_monitor: [MEMORY] rss=103MB gc=(389, 5, 0) threads=18 uptime=3300s
+2026-06-04 08:32:20,355 INFO gateway.memory_monitor: [MEMORY] rss=104MB gc=(268, 6, 0) threads=20 uptime=3600s
+2026-06-04 08:37:20,356 INFO gateway.memory_monitor: [MEMORY] rss=104MB gc=(220, 6, 0) threads=20 uptime=3900s
+2026-06-04 08:42:20,357 INFO gateway.memory_monitor: [MEMORY] rss=104MB gc=(193, 6, 0) threads=21 uptime=4200s
+2026-06-04 08:47:20,358 INFO gateway.memory_monitor: [MEMORY] rss=104MB gc=(167, 6, 0) threads=22 uptime=4500s
+2026-06-04 08:52:20,359 INFO gateway.memory_monitor: [MEMORY] rss=105MB gc=(320, 6, 0) threads=22 uptime=4800s
+2026-06-04 08:57:20,359 INFO gateway.memory_monitor: [MEMORY] rss=105MB gc=(322, 6, 0) threads=24 uptime=5100s
+2026-06-04 09:02:20,360 INFO gateway.memory_monitor: [MEMORY] rss=105MB gc=(273, 6, 0) threads=24 uptime=5400s
+2026-06-04 09:07:20,361 INFO gateway.memory_monitor: [MEMORY] rss=105MB gc=(222, 6, 0) threads=24 uptime=5700s
+2026-06-04 09:12:20,361 INFO gateway.memory_monitor: [MEMORY] rss=106MB gc=(400, 6, 0) threads=25 uptime=6000s
+2026-06-04 09:17:20,362 INFO gateway.memory_monitor: [MEMORY] rss=106MB gc=(378, 6, 0) threads=26 uptime=6300s
+2026-06-04 09:22:20,363 INFO gateway.memory_monitor: [MEMORY] rss=106MB gc=(354, 6, 0) threads=27 uptime=6600s
+2026-06-04 09:27:20,364 INFO gateway.memory_monitor: [MEMORY] rss=106MB gc=(355, 6, 0) threads=29 uptime=6900s
+2026-06-04 09:32:20,364 INFO gateway.memory_monitor: [MEMORY] rss=107MB gc=(508, 6, 0) threads=29 uptime=7200s
+2026-06-04 09:37:20,365 INFO gateway.memory_monitor: [MEMORY] rss=107MB gc=(457, 6, 0) threads=29 uptime=7500s
+2026-06-04 09:42:20,366 INFO gateway.memory_monitor: [MEMORY] rss=107MB gc=(432, 6, 0) threads=30 uptime=7800s
+2026-06-04 09:47:20,367 INFO gateway.memory_monitor: [MEMORY] rss=107MB gc=(383, 6, 0) threads=30 uptime=8100s
+2026-06-04 09:52:20,368 INFO gateway.memory_monitor: [MEMORY] rss=107MB gc=(533, 6, 0) threads=30 uptime=8400s
+2026-06-04 09:57:20,369 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(482, 6, 0) threads=30 uptime=8700s
+2026-06-04 10:02:20,370 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(431, 6, 0) threads=30 uptime=9000s
+2026-06-04 10:07:20,371 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(379, 6, 0) threads=30 uptime=9300s
+2026-06-04 10:12:20,371 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(529, 6, 0) threads=30 uptime=9600s
+2026-06-04 10:17:20,372 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(478, 6, 0) threads=30 uptime=9900s
+2026-06-04 10:22:20,373 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(427, 6, 0) threads=30 uptime=10200s
+2026-06-04 10:27:20,374 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(376, 6, 0) threads=30 uptime=10500s
+2026-06-04 10:32:20,375 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(526, 6, 0) threads=30 uptime=10800s
+2026-06-04 10:37:20,376 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(474, 6, 0) threads=30 uptime=11100s
+2026-06-04 10:42:20,376 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(423, 6, 0) threads=30 uptime=11400s
+2026-06-04 10:47:20,377 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(372, 6, 0) threads=30 uptime=11700s
+2026-06-04 10:52:20,378 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(522, 6, 0) threads=30 uptime=12000s
+2026-06-04 10:57:20,379 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(471, 6, 0) threads=30 uptime=12300s
+2026-06-04 11:02:20,380 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(420, 6, 0) threads=30 uptime=12600s
+2026-06-04 11:07:20,380 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(368, 6, 0) threads=30 uptime=12900s
+2026-06-04 11:12:20,381 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(518, 6, 0) threads=30 uptime=13200s
+2026-06-04 11:17:20,382 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(467, 6, 0) threads=30 uptime=13500s
+2026-06-04 11:22:20,383 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(416, 6, 0) threads=30 uptime=13800s
+2026-06-04 11:27:20,384 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(368, 6, 0) threads=30 uptime=14100s
+2026-06-04 11:32:20,385 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(518, 6, 0) threads=30 uptime=14400s
+2026-06-04 11:37:20,386 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(466, 6, 0) threads=30 uptime=14700s
+2026-06-04 11:42:20,387 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(415, 6, 0) threads=30 uptime=15000s
+2026-06-04 11:47:20,388 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(364, 6, 0) threads=30 uptime=15300s
+2026-06-04 11:52:20,389 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(514, 6, 0) threads=30 uptime=15600s
+2026-06-04 11:57:20,389 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(463, 6, 0) threads=30 uptime=15900s
+2026-06-04 11:59:18,240 INFO [20260604_115140_c5f8f4] agent.conversation_loop: conversation turn: session=20260604_115140_c5f8f4 model=deepseek-v4-flash provider=opencode-go platform=cli history=0 msg='zz'
+2026-06-04 11:59:18,306 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-96 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 11:59:21,675 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-96 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 11:59:21,676 INFO [20260604_115140_c5f8f4] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=19653 out=129 total=19782 latency=3.4s cache=19584/19653 (100%)
+2026-06-04 11:59:22,071 INFO [20260604_115140_c5f8f4] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=1/90 budget=1/90 tool_turns=0 last_msg_role=assistant response_len=57 session=20260604_115140_c5f8f4
+2026-06-04 11:59:22,340 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 12:02:20,390 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(412, 6, 0) threads=30 uptime=16200s
+2026-06-04 12:07:20,391 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(361, 6, 0) threads=30 uptime=16500s
+2026-06-04 12:12:20,392 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(510, 6, 0) threads=30 uptime=16800s
+2026-06-04 12:17:20,393 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(459, 6, 0) threads=30 uptime=17100s
+2026-06-04 12:22:20,393 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(408, 6, 0) threads=30 uptime=17400s
+2026-06-04 12:27:20,394 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(558, 6, 0) threads=30 uptime=17700s
+2026-06-04 12:32:20,395 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(507, 6, 0) threads=30 uptime=18000s
+2026-06-04 12:37:20,396 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(455, 6, 0) threads=30 uptime=18300s
+2026-06-04 12:42:20,396 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(404, 6, 0) threads=30 uptime=18600s
+2026-06-04 12:47:20,399 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(554, 6, 0) threads=30 uptime=18900s
+2026-06-04 12:52:20,401 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(503, 6, 0) threads=30 uptime=19200s
+2026-06-04 12:57:20,401 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(452, 6, 0) threads=30 uptime=19500s
+2026-06-04 13:02:20,402 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(401, 6, 0) threads=30 uptime=19800s
+2026-06-04 13:07:20,403 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(551, 6, 0) threads=30 uptime=20100s
+2026-06-04 13:12:20,403 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(500, 6, 0) threads=30 uptime=20400s
+2026-06-04 13:17:20,404 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(448, 6, 0) threads=30 uptime=20700s
+2026-06-04 13:22:20,405 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(397, 6, 0) threads=30 uptime=21000s
+2026-06-04 13:27:20,406 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(547, 6, 0) threads=30 uptime=21300s
+2026-06-04 13:32:20,407 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(496, 6, 0) threads=30 uptime=21600s
+2026-06-04 13:37:20,408 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(445, 6, 0) threads=30 uptime=21900s
+2026-06-04 13:42:20,409 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(394, 6, 0) threads=30 uptime=22200s
+2026-06-04 13:47:20,409 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(544, 6, 0) threads=30 uptime=22500s
+2026-06-04 13:52:20,410 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(493, 6, 0) threads=30 uptime=22800s
+2026-06-04 13:57:20,411 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(441, 6, 0) threads=30 uptime=23100s
+2026-06-04 14:02:20,411 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(390, 6, 0) threads=30 uptime=23400s
+2026-06-04 14:07:20,412 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(540, 6, 0) threads=30 uptime=23700s
+2026-06-04 14:12:20,413 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(489, 6, 0) threads=30 uptime=24000s
+2026-06-04 14:17:20,413 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(438, 6, 0) threads=30 uptime=24300s
+2026-06-04 14:42:39,879 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(445, 6, 0) threads=30 uptime=24307s
+2026-06-04 14:47:39,882 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(391, 6, 0) threads=30 uptime=24607s
+2026-06-04 14:52:39,884 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(541, 6, 0) threads=30 uptime=24907s
+2026-06-04 14:57:39,884 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(490, 6, 0) threads=30 uptime=25207s
+2026-06-04 15:02:39,885 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(439, 6, 0) threads=30 uptime=25507s
+2026-06-04 15:09:18,873 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(546, 6, 0) threads=30 uptime=25701s
+2026-06-04 16:15:09,158 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(559, 6, 0) threads=30 uptime=25752s
+2026-06-04 16:20:09,160 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(509, 6, 0) threads=30 uptime=26052s
+2026-06-04 16:25:09,163 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(458, 6, 0) threads=30 uptime=26352s
+2026-06-04 16:30:09,164 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(407, 6, 0) threads=30 uptime=26652s
+2026-06-04 16:34:26,898 INFO [20260604_162420_d36531] agent.conversation_loop: conversation turn: session=20260604_162420_d36531 model=deepseek-v4-flash provider=opencode-go platform=cli history=0 msg='analyse openclaw et opencode et copilot et agy fait aussi des recherches web si ...'
+2026-06-04 16:34:26,995 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-108 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:30,633 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-108 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:30,634 INFO [20260604_162420_d36531] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=19740 out=268 total=20008 latency=3.7s cache=19584/19740 (99%)
+2026-06-04 16:34:31,339 INFO agent.tool_executor: tool skill_view completed (0.27s, 5526 chars)
+2026-06-04 16:34:31,343 INFO agent.tool_executor: tool skill_view completed (0.27s, 13831 chars)
+2026-06-04 16:34:31,349 INFO agent.tool_executor: tool skill_view completed (0.28s, 6989 chars)
+2026-06-04 16:34:31,350 INFO agent.tool_executor: tool skill_view completed (0.28s, 5603 chars)
+2026-06-04 16:34:31,380 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-109 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:36,295 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-109 (_call):127168962082496 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:36,296 INFO [20260604_162420_d36531] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=30234 out=258 total=30492 latency=4.9s cache=19968/30234 (66%)
+2026-06-04 16:34:36,611 INFO agent.tool_executor: tool skill_view completed (0.27s, 4240 chars)
+2026-06-04 16:34:36,618 INFO agent.tool_executor: tool skill_view completed (0.27s, 4347 chars)
+2026-06-04 16:34:36,619 INFO agent.tool_executor: tool skill_view completed (0.27s, 8021 chars)
+2026-06-04 16:34:36,622 INFO agent.tool_executor: tool skill_view completed (0.28s, 8117 chars)
+2026-06-04 16:34:36,659 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-110 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:40,781 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-110 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:34:40,782 INFO [20260604_162420_d36531] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=37863 out=351 total=38214 latency=4.2s cache=30464/37863 (80%)
+2026-06-04 16:34:40,808 INFO tools.file_tools: Creating new local environment for task default...
+2026-06-04 16:34:41,809 INFO tools.environments.base: Session snapshot created (session=0a4db1df7242, cwd=/home/kpihx)
+2026-06-04 16:34:41,809 INFO tools.file_tools: local environment ready for task default
+2026-06-04 16:34:41,953 INFO agent.tool_executor: tool search_files completed (1.14s, 5833 chars)
+2026-06-04 16:34:41,979 INFO agent.tool_executor: tool read_file completed (1.17s, 20306 chars)
+2026-06-04 16:34:41,982 INFO agent.tool_executor: tool read_file completed (1.17s, 1572 chars)
+2026-06-04 16:35:09,164 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(557, 6, 0) threads=30 uptime=26952s
+2026-06-04 16:35:42,039 INFO agent.tool_executor: tool search_files completed (61.23s, 18 chars)
+2026-06-04 16:35:42,170 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-126 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:35:47,954 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-126 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:35:47,955 INFO [20260604_162420_d36531] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=49819 out=426 total=50245 latency=5.8s cache=37760/49819 (76%)
+2026-06-04 16:36:48,127 INFO [20260604_162420_d36531] agent.tool_executor: tool search_files completed (60.15s, 18 chars)
+2026-06-04 16:37:49,267 INFO [20260604_162420_d36531] agent.tool_executor: tool search_files completed (60.14s, 18 chars)
+2026-06-04 16:37:51,368 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (1.10s, 222 chars)
+2026-06-04 16:37:51,410 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-133 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:37:56,263 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-133 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:37:56,264 INFO [20260604_162420_d36531] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=50373 out=426 total=50799 latency=4.9s cache=49792/50373 (99%)
+2026-06-04 16:37:56,617 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.33s, 268 chars)
+2026-06-04 16:37:59,250 INFO [20260604_162420_d36531] agent.tool_executor: tool search_files completed (1.62s, 18 chars)
+2026-06-04 16:38:01,875 INFO [20260604_162420_d36531] agent.tool_executor: tool search_files completed (1.62s, 18 chars)
+2026-06-04 16:38:03,094 INFO [20260604_162420_d36531] agent.tool_executor: tool search_files completed (0.22s, 18 chars)
+2026-06-04 16:38:03,134 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-141 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:07,982 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-141 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:07,983 INFO [20260604_162420_d36531] agent.conversation_loop: API call #6: model=deepseek-v4-flash provider=opencode-go in=50962 out=312 total=51274 latency=4.9s cache=50304/50962 (99%)
+2026-06-04 16:38:08,131 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.14s, 1377 chars)
+2026-06-04 16:38:09,287 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.15s, 3447 chars)
+2026-06-04 16:38:09,343 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-147 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:13,087 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-147 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:13,088 INFO [20260604_162420_d36531] agent.conversation_loop: API call #7: model=deepseek-v4-flash provider=opencode-go in=53433 out=196 total=53629 latency=3.8s cache=51200/53433 (96%)
+2026-06-04 16:38:13,100 INFO agent.tool_executor: tool read_file failed (0.01s): {"error": "Access denied: /home/kpihx/.openclaw/.env is a secret-bearing environment file and cannot be read to prevent credential leakage. If you need to check the file structure, read .env.example i
+2026-06-04 16:38:13,195 INFO agent.tool_executor: tool read_file failed (0.10s): {"content": "", "total_lines": 0, "file_size": 0, "truncated": false, "is_binary": false, "is_image": false, "error": "File not found: /home/kpihx/.openclaw/gateway.env", "similar_files": ["/home/kpih
+2026-06-04 16:38:13,245 INFO agent.tool_executor: tool read_file completed (0.15s, 7771 chars)
+2026-06-04 16:38:13,248 WARNING [20260604_162420_d36531] agent.tool_executor: Tool read_file returned error (0.01s): {"error": "Access denied: /home/kpihx/.openclaw/.env is a secret-bearing environment file and cannot be read to prevent credential leakage. If you need to check the file structure, read .env.example i
+2026-06-04 16:38:13,252 WARNING [20260604_162420_d36531] agent.tool_executor: Tool read_file returned error (0.10s): {"content": "", "total_lines": 0, "file_size": 0, "truncated": false, "is_binary": false, "is_image": false, "error": "File not found: /home/kpihx/.openclaw/gateway.env", "similar_files": ["/home/kpih
+2026-06-04 16:38:13,283 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-154 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:17,167 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-154 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:17,168 INFO [20260604_162420_d36531] agent.conversation_loop: API call #8: model=deepseek-v4-flash provider=opencode-go in=56451 out=262 total=56713 latency=3.9s cache=53376/56451 (95%)
+2026-06-04 16:38:17,310 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.13s, 11164 chars)
+2026-06-04 16:38:18,424 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.11s, 142 chars)
+2026-06-04 16:38:19,564 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.14s, 17843 chars)
+2026-06-04 16:38:19,604 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-164 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:23,819 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-164 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:23,820 INFO [20260604_162420_d36531] agent.conversation_loop: API call #9: model=deepseek-v4-flash provider=opencode-go in=65552 out=253 total=65805 latency=4.2s cache=56448/65552 (86%)
+2026-06-04 16:38:23,969 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.14s, 6651 chars)
+2026-06-04 16:38:25,046 WARNING [20260604_162420_d36531] agent.tool_executor: Tool read_file returned error (0.08s): {"content": "", "total_lines": 0, "file_size": 0, "truncated": false, "is_binary": false, "is_image": false, "error": "File not found: /home/kpihx/.openclaw/credentials", "similar_files": ["/home/kpih
+2026-06-04 16:38:26,177 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.13s, 1268 chars)
+2026-06-04 16:38:26,212 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-172 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:32,915 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-172 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:32,916 INFO [20260604_162420_d36531] agent.conversation_loop: API call #10: model=deepseek-v4-flash provider=opencode-go in=68992 out=555 total=69547 latency=6.7s cache=65792/68992 (95%)
+2026-06-04 16:38:33,085 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.16s, 259 chars)
+2026-06-04 16:38:34,464 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.38s, 1273 chars)
+2026-06-04 16:38:35,629 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.16s, 5009 chars)
+2026-06-04 16:38:36,792 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.16s, 477 chars)
+2026-06-04 16:38:36,830 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-183 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:40,565 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-183 (_call):127168594040512 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:40,567 INFO [20260604_162420_d36531] agent.conversation_loop: API call #11: model=deepseek-v4-flash provider=opencode-go in=72278 out=192 total=72470 latency=3.8s cache=69504/72278 (96%)
+2026-06-04 16:38:40,719 INFO agent.tool_executor: tool read_file completed (0.15s, 7925 chars)
+2026-06-04 16:38:40,730 INFO agent.tool_executor: tool read_file completed (0.16s, 8256 chars)
+2026-06-04 16:38:40,734 INFO agent.tool_executor: tool read_file completed (0.16s, 5179 chars)
+2026-06-04 16:38:40,773 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-196 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:44,056 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-196 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:44,057 INFO [20260604_162420_d36531] agent.conversation_loop: API call #12: model=deepseek-v4-flash provider=opencode-go in=80108 out=143 total=80251 latency=3.3s cache=72448/80108 (90%)
+2026-06-04 16:38:44,217 INFO agent.tool_executor: tool read_file completed (0.14s, 13960 chars)
+2026-06-04 16:38:44,221 INFO agent.tool_executor: tool read_file completed (0.14s, 4840 chars)
+2026-06-04 16:38:44,259 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-205 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:52,245 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-205 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:52,246 INFO [20260604_162420_d36531] agent.conversation_loop: API call #13: model=deepseek-v4-flash provider=opencode-go in=88120 out=586 total=88706 latency=8.0s cache=80128/88120 (91%)
+2026-06-04 16:38:52,459 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.19s, 344 chars)
+2026-06-04 16:38:53,614 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.15s, 361 chars)
+2026-06-04 16:38:53,659 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-208 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:58,208 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-208 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:38:58,209 INFO [20260604_162420_d36531] agent.conversation_loop: API call #14: model=deepseek-v4-flash provider=opencode-go in=89720 out=345 total=90065 latency=4.6s cache=88704/89720 (99%)
+2026-06-04 16:38:58,346 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.11s, 589 chars)
+2026-06-04 16:39:30,854 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (31.49s, 1581 chars)
+2026-06-04 16:39:30,903 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-211 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:34,094 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-211 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:34,096 INFO [20260604_162420_d36531] agent.conversation_loop: API call #15: model=deepseek-v4-flash provider=opencode-go in=90849 out=177 total=91026 latency=3.2s cache=89984/90849 (99%)
+2026-06-04 16:39:34,954 INFO agent.tool_executor: tool read_file failed (0.09s): {"content": "", "total_lines": 0, "file_size": 0, "truncated": false, "is_binary": false, "is_image": false, "error": "File not found: /home/kpihx/.continue/config.json", "similar_files": ["/home/kpih
+2026-06-04 16:39:35,014 INFO agent.tool_executor: tool read_file completed (0.15s, 156 chars)
+2026-06-04 16:39:35,027 INFO agent.tool_executor: tool read_file completed (0.17s, 350 chars)
+2026-06-04 16:39:35,031 WARNING [20260604_162420_d36531] agent.tool_executor: Tool read_file returned error (0.09s): {"content": "", "total_lines": 0, "file_size": 0, "truncated": false, "is_binary": false, "is_image": false, "error": "File not found: /home/kpihx/.continue/config.json", "similar_files": ["/home/kpih
+2026-06-04 16:39:35,078 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-222 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:39,477 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-222 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:39,478 INFO [20260604_162420_d36531] agent.conversation_loop: API call #16: model=deepseek-v4-flash provider=opencode-go in=91356 out=260 total=91616 latency=4.4s cache=91008/91356 (100%)
+2026-06-04 16:39:39,658 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.16s, 819 chars)
+2026-06-04 16:39:41,133 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.47s, 849 chars)
+2026-06-04 16:39:41,182 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-228 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:44,306 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-228 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:44,307 INFO [20260604_162420_d36531] agent.conversation_loop: API call #17: model=deepseek-v4-flash provider=opencode-go in=92211 out=64 total=92275 latency=3.2s cache=91520/92211 (99%)
+2026-06-04 16:39:44,345 WARNING [20260604_162420_d36531] tools.skills_tool: Skill name collision for 'k-openclaw': 2 candidates — /home/kpihx/KpihX-Labs/.agents/skills/k-openclaw/SKILL.md; /home/kpihx/KpihX-Labs/.agents/skills/deactive/k-openclaw/SKILL.md
+2026-06-04 16:39:44,346 WARNING [20260604_162420_d36531] agent.tool_executor: Tool skill_view returned error (0.03s): {"success": false, "error": "Ambiguous skill name 'k-openclaw': 2 skills match across your local skills dir and external_dirs. Refusing to guess — load one explicitly by its categorized path.", "match
+2026-06-04 16:39:44,382 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-229 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:47,218 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-229 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:47,219 INFO [20260604_162420_d36531] agent.conversation_loop: API call #18: model=deepseek-v4-flash provider=opencode-go in=92430 out=68 total=92498 latency=2.9s cache=92160/92430 (100%)
+2026-06-04 16:39:47,374 INFO [20260604_162420_d36531] agent.tool_executor: tool read_file completed (0.15s, 9363 chars)
+2026-06-04 16:39:47,414 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-234 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:52,109 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-234 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:39:52,110 INFO [20260604_162420_d36531] agent.conversation_loop: API call #19: model=deepseek-v4-flash provider=opencode-go in=95611 out=226 total=95837 latency=4.7s cache=92416/95611 (97%)
+2026-06-04 16:39:52,275 INFO [20260604_162420_d36531] agent.tool_executor: tool terminal completed (0.14s, 1617 chars)
+2026-06-04 16:39:52,313 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-236 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:09,165 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(120, 11, 0) threads=30 uptime=27252s
+2026-06-04 16:40:25,787 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-236 (_call):127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:25,788 INFO [20260604_162420_d36531] agent.conversation_loop: API call #20: model=deepseek-v4-flash provider=opencode-go in=96586 out=3462 total=100048 latency=33.5s cache=95744/96586 (99%)
+2026-06-04 16:40:26,040 INFO [20260604_162420_d36531] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=20/90 budget=20/90 tool_turns=19 last_msg_role=assistant response_len=6379 session=20260604_162420_d36531
+2026-06-04 16:40:26,081 INFO run_agent: OpenAI client created (agent_init, shared=True) thread=bg-review:127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:26,305 INFO agent.auxiliary_client: Auxiliary title_generation: using auto (deepseek-v4-flash) at https://opencode.ai/zen/go/v1/
+2026-06-04 16:40:27,088 INFO [20260604_162420_d36531] agent.conversation_loop: conversation turn: session=20260604_162420_d36531 model=deepseek-v4-flash provider=opencode-go platform=cli history=72 msg='Review the conversation above and update the skill library. Be ACTIVE — most ses...'
+2026-06-04 16:40:27,134 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-237 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:38,577 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-237 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:38,577 INFO [20260604_162420_d36531] agent.conversation_loop: API call #1: model=deepseek-v4-flash provider=opencode-go in=101361 out=734 total=102095 latency=11.5s cache=96512/101361 (95%)
+2026-06-04 16:40:38,640 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_view completed (0.04s, 4240 chars)
+2026-06-04 16:40:38,665 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-238 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:42,036 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-238 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:40:42,037 INFO [20260604_162420_d36531] agent.conversation_loop: API call #2: model=deepseek-v4-flash provider=opencode-go in=103299 out=93 total=103392 latency=3.4s cache=102016/103299 (99%)
+2026-06-04 16:40:42,089 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_view completed (0.05s, 375 chars)
+2026-06-04 16:40:42,115 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-239 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:01,197 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-239 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:01,198 INFO [20260604_162420_d36531] agent.conversation_loop: API call #3: model=deepseek-v4-flash provider=opencode-go in=103514 out=1759 total=105273 latency=19.1s cache=103296/103514 (100%)
+2026-06-04 16:41:01,200 WARNING [20260604_162420_d36531] agent.tool_executor: Tool patch returned error (0.00s): {"error": "Background review denied non-whitelisted tool: patch. Only memory/skill tools are allowed."}
+2026-06-04 16:41:01,227 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-240 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:12,787 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-240 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:12,788 INFO [20260604_162420_d36531] agent.conversation_loop: API call #4: model=deepseek-v4-flash provider=opencode-go in=106032 out=1421 total=107453 latency=11.6s cache=103424/106032 (98%)
+2026-06-04 16:41:12,807 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_manage completed (0.02s, 85 chars)
+2026-06-04 16:41:12,832 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-241 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:16,956 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-241 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:16,957 INFO [20260604_162420_d36531] agent.conversation_loop: API call #5: model=deepseek-v4-flash provider=opencode-go in=107492 out=154 total=107646 latency=4.1s cache=105984/107492 (99%)
+2026-06-04 16:41:16,971 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_manage completed (0.01s, 85 chars)
+2026-06-04 16:41:16,997 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-242 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:20,796 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-242 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:20,797 INFO [20260604_162420_d36531] agent.conversation_loop: API call #6: model=deepseek-v4-flash provider=opencode-go in=107685 out=216 total=107901 latency=3.8s cache=107520/107685 (100%)
+2026-06-04 16:41:20,824 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-243 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:25,086 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-243 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:25,087 INFO [20260604_162420_d36531] agent.conversation_loop: API call #7: model=deepseek-v4-flash provider=opencode-go in=108031 out=298 total=108329 latency=4.3s cache=107776/108031 (100%)
+2026-06-04 16:41:25,101 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_manage completed (0.01s, 85 chars)
+2026-06-04 16:41:25,127 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-244 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:31,843 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-244 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:31,844 INFO [20260604_162420_d36531] agent.conversation_loop: API call #8: model=deepseek-v4-flash provider=opencode-go in=108368 out=481 total=108849 latency=6.7s cache=108288/108368 (100%)
+2026-06-04 16:41:31,860 INFO [20260604_162420_d36531] agent.tool_executor: tool skill_manage completed (0.01s, 171 chars)
+2026-06-04 16:41:31,886 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-245 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:37,333 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-245 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:37,334 INFO [20260604_162420_d36531] agent.conversation_loop: API call #9: model=deepseek-v4-flash provider=opencode-go in=108919 out=272 total=109191 latency=5.5s cache=108288/108919 (99%)
+2026-06-04 16:41:37,340 INFO [20260604_162420_d36531] agent.tool_executor: tool memory completed (0.00s, 681 chars)
+2026-06-04 16:41:37,368 INFO run_agent: OpenAI client created (chat_completion_stream_request, shared=False) thread=Thread-246 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:46,719 INFO run_agent: OpenAI client closed (stream_request_complete, shared=False, tcp_force_closed=0) thread=Thread-246 (_call):127168978867904 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:41:46,720 INFO [20260604_162420_d36531] agent.conversation_loop: API call #10: model=deepseek-v4-flash provider=opencode-go in=109423 out=563 total=109986 latency=9.4s cache=109184/109423 (100%)
+2026-06-04 16:41:46,722 INFO [20260604_162420_d36531] agent.conversation_loop: Turn ended: reason=text_response(finish_reason=stop) model=deepseek-v4-flash api_calls=10/16 budget=10/16 tool_turns=28 last_msg_role=assistant response_len=851 session=20260604_162420_d36531
+2026-06-04 16:41:46,724 INFO [20260604_162420_d36531] run_agent: OpenAI client closed (agent_close, shared=True, tcp_force_closed=0) thread=bg-review:127168585647808 provider=opencode-go base_url=https://opencode.ai/zen/go/v1 model=deepseek-v4-flash
+2026-06-04 16:45:09,166 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(94, 11, 0) threads=30 uptime=27552s
+2026-06-04 16:45:32,445 INFO tools.terminal_tool: Cleaned up inactive environment for task: default
+2026-06-04 16:50:09,166 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(43, 11, 0) threads=30 uptime=27852s
+2026-06-04 16:55:09,167 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(192, 11, 0) threads=30 uptime=28152s
+2026-06-04 17:00:09,168 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(141, 11, 0) threads=30 uptime=28452s
+2026-06-04 17:05:09,169 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(90, 11, 0) threads=30 uptime=28752s
+2026-06-04 17:10:09,169 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(39, 11, 0) threads=30 uptime=29052s
+2026-06-04 17:25:06,486 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(107, 11, 0) threads=30 uptime=29181s
+2026-06-04 17:30:06,488 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(52, 11, 0) threads=30 uptime=29481s
+2026-06-04 17:35:06,491 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(1, 11, 0) threads=30 uptime=29781s
+2026-06-04 17:40:06,492 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(151, 11, 0) threads=30 uptime=30081s
+2026-06-04 17:45:06,493 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(100, 11, 0) threads=30 uptime=30381s
+2026-06-04 17:50:06,494 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(48, 11, 0) threads=30 uptime=30681s
+2026-06-04 17:55:06,495 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(198, 11, 0) threads=30 uptime=30981s
+2026-06-04 18:00:06,496 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(147, 11, 0) threads=30 uptime=31281s
+2026-06-04 18:05:06,497 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(96, 11, 0) threads=30 uptime=31581s
+2026-06-04 18:10:06,498 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(45, 11, 0) threads=30 uptime=31881s
+2026-06-04 21:53:00,510 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(137, 11, 0) threads=30 uptime=32058s
+2026-06-04 21:58:00,530 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(81, 11, 0) threads=30 uptime=32358s
+2026-06-04 22:03:00,551 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(30, 11, 0) threads=30 uptime=32658s
+2026-06-04 22:08:00,552 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(180, 11, 0) threads=30 uptime=32958s
+2026-06-04 22:13:00,553 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(129, 11, 0) threads=30 uptime=33258s
+2026-06-04 22:18:00,554 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(78, 11, 0) threads=30 uptime=33558s
+2026-06-04 22:23:00,554 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(27, 11, 0) threads=30 uptime=33858s
+2026-06-04 22:28:00,555 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(176, 11, 0) threads=30 uptime=34157s
+2026-06-04 22:33:00,556 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(125, 11, 0) threads=30 uptime=34457s
+2026-06-04 22:38:00,557 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(74, 11, 0) threads=30 uptime=34757s
+2026-06-04 22:43:00,558 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(23, 11, 0) threads=30 uptime=35057s
+2026-06-04 22:48:00,559 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(173, 11, 0) threads=30 uptime=35357s
+2026-06-04 22:53:00,560 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(121, 11, 0) threads=30 uptime=35657s
+2026-06-04 22:58:00,560 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(70, 11, 0) threads=30 uptime=35957s
+2026-06-04 23:03:00,561 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(19, 11, 0) threads=30 uptime=36257s
+2026-06-04 23:08:00,562 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(169, 11, 0) threads=30 uptime=36557s
+2026-06-04 23:13:00,562 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(118, 11, 0) threads=30 uptime=36857s
+2026-06-04 23:18:00,563 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(67, 11, 0) threads=30 uptime=37157s
+2026-06-04 23:23:00,564 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(16, 11, 0) threads=30 uptime=37457s
+2026-06-04 23:23:38,338 INFO hermes_cli.plugins: Plugin 'browser-browser-use' registered browser provider: browser-use
+2026-06-04 23:23:38,340 INFO hermes_cli.plugins: Plugin 'browser-browserbase' registered browser provider: browserbase
+2026-06-04 23:23:38,341 INFO hermes_cli.plugins: Plugin 'browser-firecrawl' registered browser provider: firecrawl
+2026-06-04 23:23:38,390 WARNING hermes_cli.plugins: Failed to load plugin 'nous': No module named 'hermes_cli.dashboard_auth'
+2026-06-04 23:23:38,392 INFO hermes_cli.plugins: Plugin 'fal' registered image_gen provider: fal
+2026-06-04 23:23:38,392 INFO hermes_cli.plugins: Plugin 'krea' registered image_gen provider: krea
+2026-06-04 23:23:38,393 INFO hermes_cli.plugins: Plugin 'openai' registered image_gen provider: openai
+2026-06-04 23:23:38,393 INFO hermes_cli.plugins: Plugin 'openai-codex' registered image_gen provider: openai-codex
+2026-06-04 23:23:38,394 INFO hermes_cli.plugins: Plugin 'xai' registered image_gen provider: xai
+2026-06-04 23:23:38,403 INFO hermes_cli.plugins: Plugin 'fal' registered video_gen provider: fal
+2026-06-04 23:23:38,404 INFO hermes_cli.plugins: Plugin 'xai' registered video_gen provider: xai
+2026-06-04 23:23:38,406 INFO hermes_cli.plugins: Plugin 'web-brave-free' registered web provider: brave-free
+2026-06-04 23:23:38,407 INFO hermes_cli.plugins: Plugin 'web-ddgs' registered web provider: ddgs
+2026-06-04 23:23:38,408 INFO hermes_cli.plugins: Plugin 'web-exa' registered web provider: exa
+2026-06-04 23:23:38,410 INFO hermes_cli.plugins: Plugin 'web-firecrawl' registered web provider: firecrawl
+2026-06-04 23:23:38,411 INFO hermes_cli.plugins: Plugin 'web-parallel' registered web provider: parallel
+2026-06-04 23:23:38,412 INFO hermes_cli.plugins: Plugin 'web-searxng' registered web provider: searxng
+2026-06-04 23:23:38,414 INFO hermes_cli.plugins: Plugin 'web-tavily' registered web provider: tavily
+2026-06-04 23:23:38,415 INFO hermes_cli.plugins: Plugin 'web-xai' registered web provider: xai
+2026-06-04 23:23:38,749 INFO hermes_cli.plugins: Plugin discovery complete: 33 found, 27 enabled
+2026-06-04 23:23:38,941 INFO hermes_cli.web_server: Mounted plugin API routes: /api/plugins/example/
+2026-06-04 23:23:38,958 INFO hermes_cli.web_server: Mounted plugin API routes: /api/plugins/hermes-achievements/
+2026-06-04 23:23:39,061 INFO hermes_cli.web_server: Mounted plugin API routes: /api/plugins/kanban/
+2026-06-04 23:28:00,565 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(165, 11, 0) threads=30 uptime=37757s
+2026-06-04 23:33:00,566 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(114, 11, 0) threads=30 uptime=38057s
+2026-06-04 23:38:00,566 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(63, 11, 0) threads=30 uptime=38357s
+2026-06-04 23:43:00,567 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(12, 11, 0) threads=30 uptime=38657s
+2026-06-04 23:48:00,567 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(162, 11, 0) threads=30 uptime=38957s
+2026-06-04 23:53:00,568 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(111, 11, 0) threads=30 uptime=39257s
+2026-06-04 23:58:00,569 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(60, 11, 0) threads=30 uptime=39557s
+2026-06-05 00:03:00,569 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(8, 11, 0) threads=30 uptime=39857s
+2026-06-05 00:08:00,570 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(158, 11, 0) threads=30 uptime=40157s
+2026-06-05 00:13:00,571 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(107, 11, 0) threads=30 uptime=40457s
+2026-06-05 00:18:00,572 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(56, 11, 0) threads=30 uptime=40757s
+2026-06-05 00:23:00,572 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(5, 11, 0) threads=30 uptime=41057s
+2026-06-05 00:28:00,573 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(155, 11, 0) threads=30 uptime=41357s
+2026-06-05 00:33:00,574 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(104, 11, 0) threads=30 uptime=41657s
+2026-06-05 00:38:00,575 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(53, 11, 0) threads=30 uptime=41957s
+2026-06-05 00:43:00,576 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(1, 11, 0) threads=30 uptime=42257s
+2026-06-05 00:48:00,577 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(151, 11, 0) threads=30 uptime=42557s
+2026-06-05 00:53:00,578 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(100, 11, 0) threads=30 uptime=42857s
+2026-06-05 00:58:00,578 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(49, 11, 0) threads=30 uptime=43157s
+2026-06-05 01:03:00,579 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(199, 11, 0) threads=30 uptime=43457s
+2026-06-05 01:08:00,580 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(148, 11, 0) threads=30 uptime=43757s
+2026-06-05 01:13:00,581 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(97, 11, 0) threads=30 uptime=44057s
+2026-06-05 01:18:00,581 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(46, 11, 0) threads=30 uptime=44357s
+2026-06-05 01:23:00,582 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(195, 11, 0) threads=30 uptime=44657s
+2026-06-05 01:28:00,583 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(144, 11, 0) threads=30 uptime=44957s
+2026-06-05 01:33:00,583 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(93, 11, 0) threads=30 uptime=45257s
+2026-06-05 01:38:00,584 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(42, 11, 0) threads=30 uptime=45557s
+2026-06-05 01:43:00,585 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(192, 11, 0) threads=30 uptime=45857s
+2026-06-05 01:48:00,585 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(141, 11, 0) threads=30 uptime=46157s
+2026-06-05 01:53:00,586 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(90, 11, 0) threads=30 uptime=46457s
+2026-06-05 01:58:00,587 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(39, 11, 0) threads=30 uptime=46757s
+2026-06-05 02:03:00,587 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(188, 11, 0) threads=30 uptime=47057s
+2026-06-05 02:08:00,588 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(137, 11, 0) threads=30 uptime=47357s
+2026-06-05 02:13:00,589 INFO gateway.memory_monitor: [MEMORY] rss=108MB gc=(86, 11, 0) threads=30 uptime=47657s

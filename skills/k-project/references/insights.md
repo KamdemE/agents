@@ -11,4 +11,5 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **Naming convention scope (2026-06-03):** The `k-` prefix and `-kpihx` suffix naming rules apply ONLY to KπX's own publishable projects (PyPI, npm, skills registry). Third-party tool wrappers, CLI symlinks, and config proxies must keep the tool's native name. Previous ambiguity led to incorrectly naming a Hermes Agent wrapper `hermes-kpihx` instead of `hermes`.
 - Initial baseline created automatically from insights governance standard.

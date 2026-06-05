@@ -11,7 +11,7 @@ metadata:
 
 ## Identity
 
-**KAMDEM Ivann** · alias `KpihX` / `KπX` · System Architect · École Polytechnique X24 (EX240207, 2028)
+**KAMDEM Ivann** · alias `KpihX` / `KπX` · System & Ideas Architect · École Polytechnique X24 (EX240207, 2028)
 → Full identity, ancestry, academic path: `skills/kpihx/SKILL.md`
 
 ## Mantras
@@ -40,6 +40,8 @@ metadata:
 | `rules/audit-commands.md` | make audit, make check, uv, make push, post-work checklist |
 | `rules/agent-registry.md` | Symlink map: how each agent runtime connects to `.agents/` |
 | `rules/whats-up.md` | Status digest workflow: context, mail, whatsapp, tick, tg |
+| `rules/k-hook.md` | Lifecycle hooks architecture — core policy + per-agent wrappers |
+| `rules/hermes-governance.md` | Hermes Agent daemon constraints, external memory isolation |
 
 ## Skills
 
@@ -56,5 +58,3 @@ Response language: match KπX's current conversation language (never bleeds into
 ## Security
 
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
-- Secrets: **Vaultwarden** + `bw-env` (RAM injection). Never hardcode or commit.
-- MCP wrap: `{"command": "zsh", "args": ["-l", "-c", "<binary> serve"]}`.

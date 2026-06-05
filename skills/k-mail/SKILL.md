@@ -16,7 +16,7 @@ allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
 
 ## Cloud hub
 
-Productivity **content** channel · map: `$HOME/.agents/skills/k-cloud-tools/references/cloud-hub.md`
+Productivity **content** channel · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`
 
 | Leg | Tool | Stack skill |
 |-----|------|-------------|

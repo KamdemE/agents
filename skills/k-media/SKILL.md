@@ -2,7 +2,7 @@
 name: k-media
 description: >
   KπX media publish ops — YouTube, Meta (non-WA), X. Routes GCP/YouTube to k-google (kpihx-labs);
-  social registry to k-cloud-tools. Load for video/social API setup, upload, or cross-post prep.
+  social registry to k-clis. Load for video/social API setup, upload, or cross-post prep.
 license: private
 metadata:
   author: KpihX
@@ -23,7 +23,7 @@ Operational hub for **video + social API setup** — routes to domain skills; **
 |------|------|
 | **YouTube** (GCP `kpihx-labs`, OAuth, upload) | This skill → `references/youtube-kpihx-labs.md` |
 | `gcloud`, `gws-labs`, GCP auth | **`k-google`** |
-| Vault items Meta Dev / X Dev, program order | **`k-cloud-tools`** → `references/social-dev-platforms.md` |
+| Vault items Meta Dev / X Dev, program order | **`k-clis`** → `references/social-dev-platforms.md` |
 | WhatsApp Cloud API | **`k-whatsapp`** |
 | Long-term multi-platform architecture | **`k-context/references/vision/social-media-apis.md`** |
 

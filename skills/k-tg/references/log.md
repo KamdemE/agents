@@ -24,3 +24,5 @@
 | 2026-04-09 | [CURSOR] | *What's up* Telegram triage (deep) | Issues: UCSI laptop boot hypothesis; General: Shakespeare/Brutus notes; Homelab: PVE backup error (GDrive quota hypothesis) — pistes only per implementation gate |
 | 2026-04-11 | What's up triage | Parsed general screenshots and homelab errors. Found GDrive full for proxmox backups, network issues, and IME poll photo. |
 | 2026-05-06 | Processed Julius Caesar PDFs from @kpihx_general_capture_bot (msg 7532, 7533). Extracted via OCR and updated revision_anglais.md. |
+2026-05-31 00:22 UTC | Mail Recap | Sent 3 MarkdownV2 messages (497,498,499) to Telegram (1397540599) | 30 messages, 22 unread, 0 important, 5 security alerts
+[2026-05-31T02:50:54+02:00] 📬 Mail Recap → Telegram | 30 messages fetched from kapoivha@gmail.com | 26 unread | 0 Important | 5 security alerts (Google×2, Link, Venice.ai, SG) | Sent to chat 1397540599 (msg ID 505) | MarkdownV2

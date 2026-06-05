@@ -1,0 +1,21 @@
+# Profile: Daemon / Cron
+# Highly restricted headless profile
+
+approvals:
+  mode: manual
+  cron_mode: approve
+
+# Disable dangerous tools for headless mode
+tools:
+  bash:
+    enabled: false
+  write:
+    enabled: true
+
+mcp_servers:
+  mail_fallback:
+    command: zsh
+    args: ["-l", "-c", "/home/kpihx/.local/bin/mail-mcp serve"]
+  tick_fallback:
+    command: zsh
+    args: ["-l", "-c", "/home/kpihx/.local/bin/tick-mcp serve"]

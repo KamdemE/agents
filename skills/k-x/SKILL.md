@@ -2,7 +2,7 @@
 name: k-x
 description: >
   X (Twitter) API v2 — OAuth 1.0a user context, Vault X Dev, x_cli smoke/post.
-  Load before any X API or @KPIHX7 automation. Registry in k-cloud-tools.
+  Load before any X API or @KPIHX7 automation. Registry in k-clis.
 license: private
 metadata:
   author: KpihX
@@ -17,7 +17,7 @@ allowed-tools: Bash(*)
 
 ## Role
 
-X API operational memory — **not** duplicated in `k-cloud-tools` (registry only) or `k-media` (routes here).
+X API operational memory — **not** duplicated in `k-clis` (registry only) or `k-media` (routes here).
 
 | Need | Location |
 |------|----------|
@@ -26,7 +26,7 @@ X API operational memory — **not** duplicated in `k-cloud-tools` (registry onl
 | Deps | `scripts/pyproject.toml` · `scripts/uv.lock` |
 | JSON template | `assets/credentials.json.example` |
 | Multi-platform vision | `k-context/references/vision/social-media-apis.md` |
-| Hub registry | `k-cloud-tools/references/social-dev-platforms.md` |
+| Hub registry | `k-clis/references/social-dev-platforms.md` |
 
 ## Live status (2026-05-25)
 

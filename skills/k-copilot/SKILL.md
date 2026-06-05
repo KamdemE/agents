@@ -1,9 +1,11 @@
 ---
 name: k-copilot
 description: >
-  GitHub Copilot CLI runtime — copilot-instructions.md kernel link, mcp-config.json format
-  (JSON mcpServers), config.json settings (account KpihX, trusted_folders), skills integration.
+  GitHub Copilot CLI (`copilot`) runtime — copilot-instructions.md kernel link,
+  mcp-config.json format (JSON mcpServers), config.json settings (account KpihX,
+  trusted_folders), skills integration.
   Load when configuring Copilot, managing MCPs, or understanding its runtime behavior.
+  Registry in k-clis.
 license: private
 metadata:
   author: KpihX

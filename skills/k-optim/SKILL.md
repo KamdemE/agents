@@ -62,6 +62,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 - **2026-05-26 deleted-image recovery (`ISS` session)**: Tier A (no sudo) → **103** GNOME thumbnail previews from `recently-used.xbel` → `~/Recovery_candidates_2026-05-26/from_thumbnails/` (13/13 RAS `VeniceAI_*.png`, ~90 Telegram `photo_*.jpg`). Tier B PhotoRec via tmux `default:0.0` → **~1534** carved images in `~/Recovery_PhotoRec_2026-05-26/photorec.{1,2,3}`; extundelete failed (mounted `/`). Canonical runbook: `references/ubuntu-deleted-files-recovery.md`.
 - **2026-05-22 (post-kernel)**: `timeshift` **purged** (no snapshots on `nvme0n1p4` nor `sda1`; package removed; `/etc/timeshift` cleaned). `ISS-20260516-001` **RESOLVED** (16G backup SUCCESS). `Optim_2A_P3` `uv sync` **OK** after `libpangocairo` + `libpango1.0-dev` + `libcairo2-dev`. Homelab `sh/` pushed `189d3e2` → `gitlab:kpihx-labs/scripts`.
 - **2026-05-22 full pass (`ISS-20260522-001`)**: `$HOME` ~165G→~147G; `/` **72%** (**74G** free). Transit emptied; debris/Cursor/Zed/ai_dispatcher tmp; `clean_all.sh -s -p -y` + UV cache (~15G). Work `.venv` purged then re-synced.
+- **2026-05-31 full session**: disk 204G→182G (81G free, 70%). Purged: brew 5.9G, waydroid, Windsurf 966MB, Rhythmbox, Meld, Wine snap, open-webui 811MB Docker, 6 snaps (discord/thunderbird/gnome-chess/onenote/onlyoffice/jupyterlab). Disabled: cloud-init(5), CUPS(6), apport(4), ModemManager, ua-advantage(4), SSSD(7), fwupd(2), ydotool, gvfs-afc. 35 unit files removed, -11 snaps. Transit cleaned (Screenshots→Gdrive). Agents: Copilot 28 logs, Vibe logs, Codex log (47MB) purged. QMD rebuilt (better-sqlite3 Node mismatch fixed), cleanup 31 cache + 474 orphans. `clean_all.sh --purge --system` done. ksh backup timer tonight 22:03.
 - **[SUMMARY]** Spring 2026: phoenix loop, automount KpihX-Backup, `_dg` safe-rm; older debris cycles in Script Log
 - cleanup stack: `$HOME/Work/sh/clean/` — `clean_editors.sh` wraps Code/Cursor/AGY; non-interactive: pipe `y` + `-y` on `clean_all.sh`
 
@@ -254,6 +255,7 @@ ls "$HOME/Downloads" "$HOME/Documents" "$HOME/Pictures" "$HOME/Videos" "$HOME/Mu
 
 | Date | Scope | Script / Action | Notes |
 |------|-------|-----------------|-------|
+| 2026-05-31 | Ubuntu/Agents/Meta | Full k-optim + app purge session | Purged: Windsurf (966MB), Rhythmbox, Meld, Wine snap, Yarn, 7 uv tools, brew (5.9G), waydroid. Disabled: ydotool, gvfs-afc. Cleaned: Gemini old sessions, Codex logs. `clean_all.sh --purge --system` done. Disk: 204G→182G (81G free). Governance audit: 14 warnings (changelog format). Transit dirs clean. |
 | 2026-05-27 | Meta/Governance | `.agents` governance audit (make audit) | Missing Provenance & Quality reference: `references/sexemodel-insights.md` not in SKILL.md |
 | 2026-05-26 | Ubuntu | Deleted-image recovery runbook | `references/ubuntu-deleted-files-recovery.md` + techskills mirror; Tier A thumbnails + Tier B PhotoRec |
 | 2026-05-25 | Meta | `.agents` social+email skill audit fix | ALL_OK; no secrets in commit; JSON smoke Meta core + X me |

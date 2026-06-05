@@ -4,9 +4,10 @@ description: >
   OpenCode CLI runtime — global config (opencode.jsonc), AGENTS/skills symlink wiring,
   MCP local/remote config, provider auth flow, and operational verification commands.
   Load when installing OpenCode, configuring MCPs, or debugging OpenCode runtime behavior.
+  Registry in k-clis.
 license: private
 metadata:
-  version: 1.4.0
+  version: 1.8.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -27,6 +28,7 @@ allowed-tools: Bash, Read, Write, Edit
   - `$HOME/.config/opencode/AGENTS.md` → `$HOME/.agents/AGENTS.md`
   - `$HOME/.config/opencode/skills` → `$HOME/.agents/skills`
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
+- **Registry:** **`k-clis`**
 
 ## Source Of Truth
 
@@ -105,18 +107,20 @@ opencode models
 - Do not hardcode secrets in `opencode.jsonc`; use `{env:VAR_NAME}` placeholders.
 - Keep AGENTS/skills linked to `$HOME/.agents/` so OpenCode shares the same sovereign kernel as Codex, Vibe, Copilot, and Zed.
 
-## Permission System (2026-05-29 — Confiance Totale)
+## Permission System (2026-05-30 — Confiance Totale)
 
-OpenCode uses a 3-tier hierarchy: **Agent defaults → User config → Session runtime**. Rules evaluated by `findLast` — last matching pattern wins.
+OpenCode uses a 3-tier hierarchy: **Global config → Agent deltas → Session runtime**. Rules evaluated by `findLast` — last matching pattern wins.
 
 ### Architecture
 
-- **Global default** (`permission.bash`): `"ask"` — toute commande non listée demande approval
-- **Agent `build`**: ~100 `allow` patterns + 35 explicit `ask` patterns — pas de catch-all, le global gère les oublis
-- **Agent `plan`**: `edit: deny`, `bash: deny` sauf `git diff*`/`log*`/`rg *` — read-only strict
-- **No `"*": "ask"` in agent** — retiré car redondant avec le global, et les patterns `ask` sont explicites pour l'auditabilité
+- **Global default** (`permission`): Single source of truth — ALL bash patterns, MCP rules, external_directory
+- **Agent blocks**: Define ONLY deltas from global (minimal, no duplication)
+  - `build`: `{}` — inherits everything from global
+  - `plan`: `edit: deny`, restricted bash (read-only)
+  - `colab`: `edit: allow`, `bash: allow`, restricted task subagents
+  - `explore`: `edit: allow`, limited bash, teaching task subagents
 
-### Organisation des patterns
+### Global permission zones (bash)
 
 | Zone | Niveau | Nb patterns | Exemples |
 |------|--------|-------------|----------|
@@ -125,9 +129,82 @@ OpenCode uses a 3-tier hierarchy: **Agent defaults → User config → Session r
 | 🟠 **Zone 3** | Confiance | 50+ | `awk`, `git`, `docker`, `python3`, `ssh`, `rsync`, `make`, `tar`, `zip`, `ip`, `npm`, `node`, `tee` |
 | 🔴 **Explicit Ask** | Dangereux | 35 | `rm`, `rmdir`, `shred`, `sed`, `pkill`, `sudo`, `chmod`, `dd`, `fdisk`, `systemctl`, `apt`, `passwd` |
 
-### `external_directory` — 9 paths allow
+### MCP permissions
 
-`~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`
+Wildcard allows all, specific destructive tools override to `ask` (last match wins):
+
+- `chrome-agent_*`: `allow`
+- `mail_fallback_*`: `allow` + `send_message`, `reply_message`, `forward_message`, `delete_messages`, `delete_folder`, `trash_messages`: `ask`
+- `tick_fallback_*`: `allow` + `delete_task`, `delete_project`, `delete_tag`, `delete_habit`, `delete_query_preset`, `batch_delete_tasks`, `merge_tags`: `ask`
+
+### `external_directory` — 11 paths allow
+
+`~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`, `~/.config/nvim/**`, `~/.local/share/nvim/**`
+
+### Plugins
+
+```jsonc
+"plugin": [
+  "opencode-dir",
+  "opencode-ssh-session",
+  "opencode-antigravity-auth@latest" // Claude + Gemini via Google OAuth (free)
+]
+```
+
+### Voice (TUI — @renjfk/opencode-voice)
+
+STT + TTS 100% local. Config dans `tui.json` (pas `opencode.jsonc`).
+
+```jsonc
+// ~/.config/opencode/tui.json
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "plugin": [["@renjfk/opencode-voice", {}]]
+}
+```
+
+**Dependencies:** sox, whisper-cli (Vulkan GPU build), piper-tts, ffplay/mpv
+**Models:**
+- Whisper: `~/.local/share/whisper-cpp/ggml-large-v3-turbo-q5_0.bin` (548MB, multilingual FR/EN, GPU Vulkan)
+- Piper EN: `~/.local/share/piper-voices/en_US-ryan-high.onnx`
+- Piper FR: `~/.local/share/piper-voices/fr_FR-siwis-medium.onnx`
+
+**Keybinds (patched — see Insights):**
+| Action | Keybind |
+|--------|---------|
+| STT record | `<leader>r` (Ctrl+X R) |
+| TTS speak | `<leader>s` (Ctrl+X S) |
+| Auto TTS | `<leader>v` (Ctrl+X V) |
+| Stop audio | `Escape` |
+| Switch STT model | `/stt-model` → `large-v3-turbo-q5_0` |
+| Switch TTS voice | `/tts-voice` → `ryan` (EN) or `siwis` (FR) |
+
+**Patches in cache (re-apply after plugin update):**
+- `stt.js` L385: `ctrl+r` → `<leader>r` (avoid rename conflict)
+- `stt.js` L339: remove `toast("Normalizing...")` notification
+- `tts.js` L266: `llmResult.text || result.text` fallback (no LLM = use raw text)
+- `tts.js` L298: same fallback for manual speak
+- `tts.js` L312: `<leader>s` keybind
+- `tts.js` TTS_VOICES: added `siwis` (FR)
+
+**No LLM endpoint** — without `endpoint` in plugin options, normalization is skipped and raw whisper text is used directly.
+
+### Provider: Ollama (local)
+
+```jsonc
+"provider": {
+  "ollama": {
+    "npm": "@ai-sdk/openai-compatible",
+    "name": "Ollama (local)",
+    "options": { "baseURL": "http://localhost:11434/v1" },
+    "models": {
+      "qwen3", "qwen2.5", "qwen2.5-coder", "llama3.1", "phi4-mini"
+    }
+  }
+}
+```
+
+Auto-synced by `~/.local/bin/ollama-models-sync` after `ollama pull`/`rm` (zsh hook in `.kshrc`).
 
 ### Utilisation
 
@@ -135,6 +212,13 @@ OpenCode uses a 3-tier hierarchy: **Agent defaults → User config → Session r
 - Pour ajouter un pattern : l'insérer dans la bonne zone (allow avant ask) dans `opencode.jsonc`
 - `findLast` gagnant : le dernier pattern qui match l'emporte
 - Source de vérité : `$HOME/.config/opencode/opencode.jsonc`
+
+### tmux reload pattern
+
+`Ctrl+A r` — kills current process in pane, relaunches with last shell command from history. Configured in `~/.tmux.conf`:
+```bash
+bind r send-keys C-c \; run-shell "sleep 0.5" \; send-keys Up Enter
+```
 
 ## Neovim Integration
 
@@ -159,6 +243,7 @@ OpenCode Web runs as a persistent systemd user service, exposed via `tailscale s
 | Item | Value |
 |------|-------|
 | Service file | `$HOME/.config/systemd/user/opencode-web.service` |
+| WorkingDirectory | `%h` (systemd specifier → `$HOME`). **Ne pas changer** — `opencode` détecte le worktree automatiquement, forcer un sous-dossier ne unifie pas les historiques et peut casser les chemins relatifs des MCPs enfants. |
 | Port (local) | `4097` (localhost only) |
 | Tailscale URL | `https://kpihx-ubuntu.tail2527bd.ts.net:8443/` |
 | Port 443 | Reserved by OpenClaw (`127.0.0.1:18789`) — do not conflict |
@@ -196,6 +281,7 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 ## References
 
 - `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
+- `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
 
 ## Insights Discipline (mandatory)
 
@@ -207,6 +293,10 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-05-31 | [OPENCODE] | v1.8.0 — Voice setup: @renjfk/opencode-voice (STT+TTS) with patched keybinds, Vulkan GPU whisper-cli, bilingual FR/EN (large-v3-turbo + siwis/ryan Piper), no-LLM fallback. Removed opencode-notificator (broken 404). |
+| 2026-05-30 | [OPENCODE] | v1.7.0 — Permission architecture rewrite: global single source of truth, agent deltas only. Added Ollama provider, plugins (notificator, antigravity-auth), MCP destructive ask overrides, external_directory 11 paths, tmux reload pattern `Ctrl+A r`. |
+| 2026-05-30 | [OPENCODE] | v1.6.0 — Terminal-as-Consciousness: self-observation ref (`references/terminal-consciousness.md`), full opencode UI keymap/command discovery via tmux capture-pane + send-keys. |
+| 2026-05-29 | [OPENCODE] | v1.5.0 — OpenCode Web: WorkingDirectory=%h doc + avertissement de ne pas le changer. |
 | 2026-05-29 | [OPENCODE] | v1.4.0 — Init & Connectivity section: symlinks, agent discovery, skills discovery (migrated from INIT.md). |
 | 2026-05-29 | [OPENCODE] | v1.3.0 — Permission System section: 3-zone allow + explicit ask (35 patterns). external_directory with 9 paths. |
 | [SUMMARY] | — | v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
