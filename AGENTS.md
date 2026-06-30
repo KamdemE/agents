@@ -8,7 +8,7 @@ metadata:
 ---
 
 # KπX — Sovereign Agent Kernel
-
+---
 ## Identity
 
 **KAMDEM Ivann** · alias `KpihX` / `KπX` · System & Ideas Architect · École Polytechnique X24 (EX240207, 2028)

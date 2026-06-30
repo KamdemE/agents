@@ -4,7 +4,7 @@
   // KπX sovereign wiring — source of truth: $HOME/.agents/skills/k-opencode/SKILL.md
   "autoupdate": "notify",
   "shell": "zsh",
-  "model": "opencode-go/mimo-v2.5",
+  "model": "opencode/big-pickle",
   "small_model": "opencode-go/deepseek-v4-flash",
   "default_agent": "build",
 
@@ -130,6 +130,8 @@
       "git *": "allow",
       "git push --force*": "ask",
       "git clean *": "ask",
+      "git restore *": "ask",
+      "git reset *": "ask",
       "go *": "allow",
       "gzip *": "allow",
       "gunzip *": "allow",

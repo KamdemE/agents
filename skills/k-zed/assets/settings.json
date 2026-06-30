@@ -1,1 +1,225 @@
-/home/kpihx/.config/zed/settings.json
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "proxy": "",
+  "redact_private_values": true,
+  "agent": {
+    "tool_permissions": {
+      "tools": {
+        "fetch": {
+          "default": "allow"
+        },
+        "mcp:mcp-server-exa-search:web_fetch_exa": {
+          "default": "allow"
+        },
+        "mcp:mcp-server-exa-search:web_search_exa": {
+          "default": "allow",
+        },
+      },
+    },
+    "default_profile": "write",
+    "profiles": {},
+    "default_model": {
+      "provider": "Venice",
+      "model": "venice-uncensored-1-2",
+      "enable_thinking": false,
+    },
+    "favorite_models": [
+      { "provider": "Venice", "model": "z-ai-glm-5-turbo" },
+      { "provider": "Venice", "model": "qwen-3-6-plus" },
+      { "provider": "Venice", "model": "olafangensan-glm-4.7-flash-heretic" },
+      { "provider": "Venice", "model": "venice-uncensored-1-2" },
+      { "provider": "Venice", "model": "aion-labs-aion-2-0" },
+      { "provider": "Venice", "model": "gemma-4-uncensored" },
+    ],
+    "model_parameters": [],
+  },
+  "language_models": {
+    "openai_compatible": {
+      "Venice": {
+        "api_url": "https://api.venice.ai/api/v1",
+        "available_models": [
+          {
+            "name": "z-ai-glm-5-turbo",
+            "display_name": "GLM 5 Turbo",
+            "max_tokens": 200000,
+            "max_output_tokens": 32768,
+            "max_completion_tokens": 32768,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": true,
+            },
+          },
+          {
+            "name": "qwen-3-6-plus",
+            "display_name": "Qwen 3.6 Plus Uncensored",
+            "max_tokens": 1000000,
+            "max_output_tokens": 65536,
+            "max_completion_tokens": 65536,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": true,
+            },
+          },
+          {
+            "name": "olafangensan-glm-4.7-flash-heretic",
+            "display_name": "GLM 4.7 Flash Heretic",
+            "max_tokens": 200000,
+            "max_output_tokens": 24000,
+            "max_completion_tokens": 24000,
+            "capabilities": {
+              "tools": true,
+              "images": false,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": true,
+            },
+          },
+          {
+            "name": "venice-uncensored-1-2",
+            "display_name": "Venice Uncensored 1.2",
+            "max_tokens": 128000,
+            "max_output_tokens": 8192,
+            "max_completion_tokens": 8192,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": false,
+            },
+          },
+          {
+            "name": "aion-labs-aion-2-0",
+            "display_name": "Aion 2.0",
+            "max_tokens": 128000,
+            "max_output_tokens": 32768,
+            "max_completion_tokens": 32768,
+            "capabilities": {
+              "tools": false,
+              "images": false,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": true,
+            },
+          },
+          {
+            "name": "gemma-4-uncensored",
+            "display_name": "Gemma 4 Uncensored",
+            "max_tokens": 256000,
+            "max_output_tokens": 8192,
+            "max_completion_tokens": 8192,
+            "capabilities": {
+              "tools": true,
+              "images": true,
+              "parallel_tool_calls": false,
+              "prompt_cache_key": false,
+              "chat_completions": true,
+              "interleaved_reasoning": false,
+            },
+          },
+        ],
+      },
+    },
+  },
+  "edit_predictions": {
+    "open_ai_compatible_api": {
+      "api_url": "",
+    },
+    "codestral": {
+      "model": "codestral-latest",
+    },
+    "provider": "zed",
+  },
+  "context_servers": {
+    "mcp-server-slack": {
+      "enabled": false,
+      "remote": false,
+      "settings": {},
+    },
+    "mcp-server-exa-search": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "exa_api_key": "85c641eb-2a94-4d19-bb8c-2440b304f530",
+      },
+    },
+    "mail-mcp-stdio": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "command": "zsh",
+        "args": ["-l", "-c", "$HOME/.local/bin/mail-mcp serve"],
+      },
+    },
+    "tick-mcp-stdio": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "command": "zsh",
+        "args": ["-l", "-c", "$HOME/.local/bin/tick-mcp serve"],
+      },
+    },
+  },
+  "agent_servers": {
+    "cline": {
+      "type": "registry"
+    },
+    "qwen-code": {
+      "type": "registry",
+    },
+    "opencode": {
+      "type": "registry",
+    },
+    "mistral-vibe": {
+      "type": "registry",
+    },
+    "kimi": {
+      "type": "registry",
+    },
+    "deepagents": {
+      "type": "registry",
+    },
+    "gemini": {
+      "type": "registry",
+    },
+    "github-copilot-cli": {
+      "type": "registry",
+    },
+    "codex-acp": {
+      "type": "registry",
+    },
+    "cursor": {
+      "type": "registry",
+    },
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "macOS Classic Light",
+    "dark": "macOS Classic Dark",
+  },
+}

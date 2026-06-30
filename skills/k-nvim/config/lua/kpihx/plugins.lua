@@ -627,6 +627,33 @@ return {
     cmd = "DiffviewOpen",
     config = function()
       require("diffview").setup({})
+
+      local View = require("diffview.scene.view")
+
+      function View.View:open()
+        self.tabpage = vim.api.nvim_get_current_tabpage()
+        vim.cmd("tabedit")
+        self.tabpage = vim.api.nvim_get_current_tabpage()
+        self:init_layout()
+        self:post_open()
+        DiffviewGlobal.emitter:emit("view_opened", self)
+        DiffviewGlobal.emitter:emit("view_enter", self)
+      end
+
+      function View.View:close()
+        self.closing:send()
+        if self.tabpage and vim.api.nvim_tabpage_is_valid(self.tabpage) then
+          DiffviewGlobal.emitter:emit("view_leave", self)
+        end
+        if vim.fn.tabpagenr("$") > 1 then
+          vim.cmd("tabclose")
+        end
+        DiffviewGlobal.emitter:emit("view_closed", self)
+      end
+
+      vim.keymap.set("n", "<leader>do", "<CMD>DiffviewOpen<CR>", { desc = "Diffview open" })
+      vim.keymap.set("n", "<leader>dh", "<CMD>DiffviewFileHistory<CR>", { desc = "Diffview file history" })
+      vim.keymap.set("n", "<leader>dc", "<CMD>DiffviewClose<CR>", { desc = "Diffview close" })
     end,
   },
 

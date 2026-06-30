@@ -176,7 +176,4 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 |------|-------|--------|
 | 2026-05-31 | [OPENCODE] | v2.93.0 — Voice Kernel brainstorm: Oriyama cross-agent STT/TTS module vision registered. whisper.cpp Vulkan GPU + Piper ONNX + Ollama architecture documented. |
 | 2026-05-31 | [OPENCODE] | v2.92.0 — Full app purge + k-optim: Windsurf, Rhythmbox, Meld, Wine, Yarn, brew, waydroid, 7 uv tools removed; Gemini/Codex cleaned; disk 204G→182G. |
-| 2026-05-31 | [OPENCODE] | v2.91.0 — Ubuntu boot cleanup: 35 unit files disabled, 6 snaps removed, open-webui purged, k-workspace System Services section added. |
-| 2026-05-29 | [OPENCODE] | v2.90.0 — Sovereign kernel v3.0: profiles/rules/agents architecture; AGENTS.md 369→58; INIT.md removed; skills trimmed. |
-| 2026-05-28 | [OPCODE] | v2.89.59 — Audit fixes: k-vim/k-opencode/k-tmux/k-context structure compliance; session log refresh. |
 | [SUMMARY] | — | v2.89.58 colab P4 Mistral; v2.89.48–v2.89.57 colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |

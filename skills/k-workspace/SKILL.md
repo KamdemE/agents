@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.21.0"
+  version: "2.22.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -212,6 +212,38 @@ whisper-ctranslate2 "audio.m4a" \
   - $HOME/.ssh/config for active host aliases and routing names
   - k-homelab for stable homelab topology and operational access patterns
 
+## Remote Work — DxO VPN + RDP
+
+> **Asset:** `assets/vpn-dxo` → symlinked to `$HOME/Work/sh/vpn-dxo` (in PATH)
+
+### VPN (GlobalProtect via OpenConnect)
+
+| Commande | Effet |
+|----------|-------|
+| `vpn-dxo` | Lance le VPN dans tmux session `vpn-dxo` + attach (entre pass sudo) |
+| `vpn-dxo` (si déjà lancé) | Ré-attach à la session |
+| `vpn-dxo status` | Vérifie si le VPN tourne |
+| `vpn-dxo stop` | Tue la session tmux |
+
+**Connexion :** une fenêtre WebKit popup s'ouvre → auth Microsoft (email + MFA). Le tunnel reste actif en arrière-plan.
+
+**Params :** `--ignore-tls-errors --fix-openssl` (certificat auto-signé DxO + OpenSSL 3+ legacy renegotiation)
+
+### RDP (Remmina → BLGLAPTOP139)
+
+| Champ | Valeur |
+|-------|--------|
+| Server | `BLGLAPTOP139.corp.dxo.com` |
+| Username | `ikamdem` (sans domaine) |
+| Password | mot de passe DxO |
+| Domain | `corp.dxo.com` |
+
+**Profile file :** `~/.local/share/remmina/group_rdp_dxo_blglaptop139-corp-dxo-com.remmina`
+
+**Audio :** `sound=local` + `microphone=local` (son/mic sortent sur l'Ubuntu client)
+
+**Multi-écran :** Edit → Advanced → "Span screen over multiple monitors" + Resolution "Use client resolution"
+
 ## Insights Discipline (mandatory)
 
 - Read `$HOME/.agents/skills/k-workspace/references/insights.md` before non-trivial work in this skill domain.
@@ -222,8 +254,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-06-21 | [OPENCODE] | v2.22.0 — Added Remote Work section (DxO VPN GlobalProtect + RDP Remmina), asset `vpn-dxo` symlinked to `~/Work/sh/`. |
 | 2026-05-29 | [OPENCODE] | v2.21.0 — Added `asciinema` to System CLIs (uv tool), terminal session recorder for replayable text-based casts. |
-| 2026-05-29 | [OPENCODE] | v2.20.0 — Added Neovim RAM optimization section (2.3 GB → 21 MB), reference to `k-vim/references/telescope.md`. |
-| 2026-05-29 | [OPENCODE] | v2.19.0 — Added `fd` (fd-find) to System CLIs table (Telescope backend via npm -g). |
-| 2026-05-27 | [CURSOR] | v2.17.4 — OpenClaw workspace = `~/.agents`; AGENTS symlink map. |
 | [SUMMARY] | — | v2.17.2 OpenCode; v2.17.1 Nautilus runbook; v2.17.0 tmux gate; v2.16.9 kernel layout; prior history in git |

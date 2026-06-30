@@ -123,5 +123,4 @@ After a session that partially broke the gateway, the config was restored to a c
 |------|-------|--------|
 | 2026-05-31 | [OPENCODE] | v3.0.0 — Reactivated runtime: fixed broken gateway (custom providers overriding built-in), restored API keys to gateway.env, configured OpenCode Go providers as default, removed non-working Zen/Free models, documented working config |
 | 2026-04-04 | [CLAUDE] | v2.1.0 — completed full purge: clawhub/clawdhub + mcporter (pnpm) + nanoclaw config dirs; documented pnpm interdependency trap and full ecosystem map |
-| 2026-04-04 | [CODEX] | v2.0.0 — archived runtime after full local purge; distilled failure modes and retirement rationale |
 | [SUMMARY] | — | v1.12.2–v1.0.0: active-runtime era (external-secret loading, exa-only MCP posture, lean local defaults, CLI-only QMD, compact hook guidance, history pointers, hook discovery, workspace-root, provider, approvals) |

@@ -11,6 +11,8 @@ metadata:
 
 # KπX — Cloud Tools (redirect only)
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 **⚠️ DEPRECATED — This skill is merged into `k-clis`. Load `k-clis` instead.**
 
 > Contents merged into `$HOME/.agents/skills/k-clis/SKILL.md`
@@ -22,3 +24,11 @@ metadata:
 | 2026-05-29 | [OPENCODE] | v1.4.0 — Merged into **`k-clis`**. This skill kept as redirect reference only. |
 | 2026-05-25 | [CURSOR] | v1.3.5 — Social hub: **`k-media`** + **`k-meta`** + **`k-x`**; JSON creds outside git; no **`k-publish`** skill. |
 | [SUMMARY] | — | v1.3.0–v1.3.4 token gate, k-cloudflare hub, cloudflared quarantine; v1.1.x registry. |
+
+Bundled: `references/cloud-hub.md`
+
+Bundled: `references/insights.md`
+
+Bundled: `references/social-dev-platforms.md`
+
+Bundled: `references/token-gate.md`

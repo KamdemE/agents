@@ -118,5 +118,4 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 |------|-------|--------|
 | 2026-05-31 | [OPENCODE] | v2.14.8 — QMD rebuilt (better-sqlite3 Node mismatch fixed via `npm install -g --force`); cleanup 31 cache + 474 orphans; insights updated with Node mismatch fix pattern. |
 | 2026-05-25 | [CURSOR] | v2.14.7 — Insights: transient `chunks failed` after parallel post-commit embed; steady-state OK when second run is clean. |
-| 2026-05-25 | [CURSOR] | v2.14.6 — Removed `claude-memory` from `index.yml` + collection map (path missing; Claude legacy deactive). |
 | [SUMMARY] | — | v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

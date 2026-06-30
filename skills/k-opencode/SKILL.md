@@ -295,8 +295,6 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 |------|-------|--------|
 | 2026-05-31 | [OPENCODE] | v1.8.0 — Voice setup: @renjfk/opencode-voice (STT+TTS) with patched keybinds, Vulkan GPU whisper-cli, bilingual FR/EN (large-v3-turbo + siwis/ryan Piper), no-LLM fallback. Removed opencode-notificator (broken 404). |
 | 2026-05-30 | [OPENCODE] | v1.7.0 — Permission architecture rewrite: global single source of truth, agent deltas only. Added Ollama provider, plugins (notificator, antigravity-auth), MCP destructive ask overrides, external_directory 11 paths, tmux reload pattern `Ctrl+A r`. |
-| 2026-05-30 | [OPENCODE] | v1.6.0 — Terminal-as-Consciousness: self-observation ref (`references/terminal-consciousness.md`), full opencode UI keymap/command discovery via tmux capture-pane + send-keys. |
-| 2026-05-29 | [OPENCODE] | v1.5.0 — OpenCode Web: WorkingDirectory=%h doc + avertissement de ne pas le changer. |
-| 2026-05-29 | [OPENCODE] | v1.4.0 — Init & Connectivity section: symlinks, agent discovery, skills discovery (migrated from INIT.md). |
-| 2026-05-29 | [OPENCODE] | v1.3.0 — Permission System section: 3-zone allow + explicit ask (35 patterns). external_directory with 9 paths. |
 | [SUMMARY] | — | v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
+
+Bundled: `assets/opencode.jsonc~`

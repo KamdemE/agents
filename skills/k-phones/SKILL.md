@@ -134,5 +134,4 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 |------|-------|--------|
 | 2026-05-30 | [OPENCODE] | v1.0.18 — Added `scrcpy` (snap v3.3.4) to quick commands + When to Load. |
 | 2026-05-26 | [CURSOR] | v1.0.17 — Added `references/s25-hardware.md` (S25 specs + compute/inference routing); doc triad + When to Load. |
-| 2026-05-25 | [CURSOR] | v1.0.16 — Doc/audit pass; quick cmds; changelog compliant. |
 | [SUMMARY] | — | v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |

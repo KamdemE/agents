@@ -236,5 +236,4 @@ uv tool install --reinstall hermes-agent
 |------|-------|--------|
 | 2026-06-05 | [OPENCODE] | v1.3.0 — Migrated HERMES_HOME from ~/.agents/hermes to ~/.hermes. Updated wrapper, all path references, and architecture map. |
 | 2026-06-04 | [OPENCODE] | v1.2.0 — Added Web Dashboard (pip gap) section: dashboard_auth manquant dans le wheel PyPI, workaround copie depuis le repo, dépendances web, erreur de downgrade. |
-| 2026-06-04 | [AGENT] | v1.1.0 — Added Multi-Provider Configuration section: cross-agent provider reconnaissance (OpenCode/OpenClaw/VIBE/Codex/Continue), full provider inventory table, registration in config.yaml, profile-per-provider pattern, credential injection strategy. |
-| 2026-06-03 | [OPENCODE] | v1.0.0 — Created k-hermes integration governed by k-skill-creator standards. Initialized daemon wrapper and separated untrusted skills sandbox. |
+| [SUMMARY] | | |

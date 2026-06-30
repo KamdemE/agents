@@ -12,6 +12,8 @@ metadata:
 
 # KπX — Key CLI Registry
 
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
 **⚠️ This skill lists only CLIs that KπX added manually (non-native to linux/ubuntu).**
 **When creating a new CLI skill, you MUST add an entry here.**
 
@@ -106,3 +108,4 @@ For any CLI that needs Vault-backed tokens:
 |------|-------|--------|
 | 2026-05-30 | [OPENCODE] | v1.0.1 — Added `scrcpy` (screen mirroring) → k-phones. |
 | 2026-05-29 | [OPENCODE] | v1.0.0 — Initial creation. Merged k-cloud-tools routing hub. Key CLIs only (non-native). |
+| [SUMMARY] | | |
