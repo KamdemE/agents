@@ -5,7 +5,7 @@ const { execSync } = require("child_process");
 /**
  * KπX Startup Context — OpenCode plugin.
  * Injects raw k-context + current device infra context on first
- * messages.transform, but ONLY for agents Colab and Build.
+ * messages.transform, but ONLY for agents Colab, Build, and Auto.
  *
  * Agent detection: captures session.created event → info.agent.
  * Device detection: tailscale status → infras.json lookup → infra skill.
@@ -131,7 +131,7 @@ module.exports = async function startupContextPlugin() {
 
     // Inject full context on first turn (for Colab/Build only)
     "experimental.chat.messages.transform": async (input, output) => {
-      if (currentAgent !== "Colab" && currentAgent !== "Build") return;
+      if (currentAgent !== "Colab" && currentAgent !== "Build" && currentAgent !== "Auto") return;
       if (injected) return;
       injected = true;
 
