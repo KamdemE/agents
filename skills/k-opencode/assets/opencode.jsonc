@@ -486,5 +486,11 @@
     "opencode-antigravity-auth@latest"
   ],
 
-  "compaction": { "auto": true, "prune": true }
+  "compaction": {
+    "auto": true,
+    "prune": true
+  },
+  "disabled_providers": [
+    "k-ai"
+  ]
 }

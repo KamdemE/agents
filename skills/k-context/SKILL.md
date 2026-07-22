@@ -36,6 +36,7 @@ allowed-tools: "Bash(*), *"
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
 > **Insights governance (k-context specific):** maintain `references/insights.md` as the general cross-domain operational memory for recurring mistakes, repeated dead-end actions, and validated workarounds. Update it autonomously whenever a durable pattern is learned.
 > **Brainstorm Registry Rule (MANDATORY):** every new idea file added under `references/` (including nested subfolders such as `references/mac-studio/`) MUST be explicitly registered in `## Brainstorm Registry` below, with one entry per file.
+> - **Archive standard:** superseded references and merged-away originals move to `archived/references/` (GRAVÉ-preserved). Archived skills → `archived/<skill>/`. Update `## Brainstorm Registry` entries to `[ARCHIVED]` when originals are archived. See `AGENTS.md` → `archived/`.
 > - **Visual reference assets:**
 >   - `assets/mac-studio-m4-max-config.png` — current Project Sovereignty hardware target snapshot.
 >   - `assets/sciencurious_lab.png` — branding reference for ScienCurious Lab (ln → Assets Hub).
@@ -111,24 +112,31 @@ allowed-tools: "Bash(*), *"
 
 | File | Type | Topic |
 |------|------|-------|
-| `references/k-personal-os-learning-laboratory-vision.md` | Vision | Convergence of Homelab, Coach, and Learning Lab into the Sovereign Personal OS |
-| `references/mcp-visual-validation-vision.md` | Brainstorm | Transform `send`/`create` MCP tools to launch a visual editor for user validation before execution |
-| `references/sovereign-email-universe-vision.md` | Vision | Establishment of `@kpihx-labs.com` email universe for KpihX-Labs (Routing vs. Hosting) |
-| `references/google-workspace-full-mcp-vision.md` | Brainstorm | full Google Workspace management via MCP modules/skills (mail, calendar, drive, docs, admin, orchestration) |
-| `references/agents-memory-curator-hybrid-vision.md` | Brainstorm | hybrid memory update model: immediate minimal logs + deferred memory-curator batch updates |
-| `references/whatsapp-wa-core-central-auth-mini.md` | Brainstorm | centralized Baileys auth (`wa-core`) + HTTP/stdio strategy + Edge fallback constraints |
-| `references/agentic-architecture-brainstorm.md` | Brainstorm | hot/cold context, 3-layer architecture, MCP qualification logic |
-| `references/mail-tooling-rewrite-brainstorm.md` | Brainstorm | mail refactor vision: cli + mcp + admin + skill split, secret-safe design |
-| `references/sh-mcp-agent-sandbox-vision.md` | Brainstorm | sh_mcp sandbox and future user-side sh-exec separation |
-| `references/mac-studio/` | Brainstorm folder | grouped Mac Studio sovereignty ideas (business, hardware, models, performance, stack, vision) |
-| `references/vision/` | Brainstorm folder | visual-first AI content creation: visual-ai-vision, k-visual architecture, code-as-visual paradigm, social media APIs, content engine pipeline, blender MCP/API/scripting |
+| **LIVE** | | |
+| `references/architecture-vision.md` | Vision | KpihX-Labs cloud + Personal OS + Agentic Architecture + Sovereign Email — merged unified view |
+| `references/agent-mcp-architecture.md` | Vision | Memory-curator + MCP sync + visual validation + sh-mcp + voice kernel + Google Workspace — merged unified view |
+| `references/communication-automation.md` | Vision | Mail rewrite + WA core + Edge agent + Tutorial automation — merged unified view |
+| `references/visual-content-pipeline.md` | Vision | Visual-first AI content: code-as-visual, k-visual orchestrator, Manim/Blender/FLUX.2, content engine, social APIs |
+| `references/sciencurious_lab.md` | Vision | ScienCurious Lab — Visual Learning Engine (Manim + FLUX.2 + Wan 2.6 + TTS) |
 | `references/apparmor-custom-profile.md` | Reference | AppArmor option-B mitigation profile notes |
-| `references/mcp-central-sync-vision.md` | Brainstorm | Vision for a centralized MCP registry and synchronization pipeline to unified all agent provider configs |
-| `references/KpihX-Labs.md` | Vision | KpihX-Labs complete distributed cloud vision: Physical, Virtual, and Supreme Abstraction Layer (`docker-host`), Serverless MCPs, and ESO |
-| `references/edge-agent-automation-vision.md` | Brainstorm | Visible Edge + CDP for HITL agent browsing; dedicated profile; MCP attach; not Default user-data |
-| `references/voice-kernel-ollama-vision.md` | Vision | Centralize STT/TTS as a sovereign cross-agent module using Ollama as LLM backbone — distributable to any agent runtime without vendor lock |
-| `references/sovereign-tutorial-automation-vision.md` | Vision | Agent-driven tutorials (VHS terminal + Remotion + articles); phone→PC→CLI stack; no facecam |
 | `$HOME/Work/AI/livemem/BRAINSTORMING.2.md` | Brainstorm | Brain-inspired living field: Hebbian learning, multi-modal cortices, continuous flux, internal thought loop, paradigm shift from models to stable kernels |
+| **ARCHIVED** (in `archived/references/` — GRAVÉ-preserved) | | |
+| `archived/references/KpihX-Labs.md` | Vision | KpihX-Labs complete distributed cloud vision — merged into `architecture-vision.md` |
+| `archived/references/k-personal-os-learning-laboratory-vision.md` | Vision | Personal OS convergence — merged into `architecture-vision.md` |
+| `archived/references/agentic-architecture-brainstorm.md` | Brainstorm | hot/cold context, 3-layer architecture — merged into `architecture-vision.md` |
+| `archived/references/sovereign-email-universe-vision.md` | Vision | @kpihx-labs.com email universe — merged into `architecture-vision.md` |
+| `archived/references/agents-memory-curator-hybrid-vision.md` | Brainstorm | hybrid memory update model — merged into `agent-mcp-architecture.md` |
+| `archived/references/mcp-central-sync-vision.md` | Brainstorm | centralized MCP registry vision — merged into `agent-mcp-architecture.md` |
+| `archived/references/mcp-visual-validation-vision.md` | Brainstorm | visual MCP editor — merged into `agent-mcp-architecture.md` |
+| `archived/references/sh-mcp-agent-sandbox-vision.md` | Brainstorm | sh_mcp sandbox — merged into `agent-mcp-architecture.md` |
+| `archived/references/voice-kernel-ollama-vision.md` | Vision | STT/TTS cross-agent module — merged into `agent-mcp-architecture.md` |
+| `archived/references/google-workspace-full-mcp-vision.md` | Brainstorm | Google Workspace MCP vision — merged into `agent-mcp-architecture.md` |
+| `archived/references/mail-tooling-rewrite-brainstorm.md` | Brainstorm | mail refactor vision — merged into `communication-automation.md` |
+| `archived/references/whatsapp-wa-core-central-auth-mini.md` | Brainstorm | WA Baileys auth strategy — merged into `communication-automation.md` |
+| `archived/references/edge-agent-automation-vision.md` | Brainstorm | Edge CDP agent — merged into `communication-automation.md` |
+| `archived/references/sovereign-tutorial-automation-vision.md` | Vision | Agent-driven tutorials — merged into `communication-automation.md` |
+| `archived/references/vision/` | Brainstorm folder | Visual-first AI content creation — merged into `visual-content-pipeline.md` |
+| `archived/references/refactor.md` | Brainstorm | Skills refactoring architecture vision — superseded by done work |
 
 ## What's up (context-only slice)
 
@@ -150,6 +158,8 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | 2026-07-22 | [OPENCODE] | **Skills refactoring — zombie purge + Phases 1-2** — Analysed 55 skills (top vs infra). Deleted 16 zombie marketplace skills. Created k-infras (master infrastructure map) and k-ubuntu (workstation: shell, services, DxO VPN, nftables ref). k-workspace still active at this point. |
 
+| 2026-07-22 | [OPENCODE] | **Post-commit hook + MaxListeners fix + Web Research First rule** — `opencode-web.service`: auto `daemon-reload`/`try-restart` on config/service changes; `NODE_NO_WARNINGS=1` suppresses MaxListenersWarning. Both in hooks/ post-commit. k-opencode v1.15.0. New `rules/web-research-first.md` + Colab vs Explore behavior split in both AGENTS.md files. `kpihx` removed from colab startup skills in KpihX-Labs/AGENTS.md. |
+| 2026-07-22 | [OPENCODE] | **k-context references archive + merge** — 15 stale reference files + `vision/` dir archived to `archived/references/`. 4 merged docs created: `architecture-vision.md`, `agent-mcp-architecture.md`, `communication-automation.md`, `visual-content-pipeline.md`. Brainstorm Registry split into LIVE + ARCHIVED sections. `mac-studio/` archived to `archived/mac-studio/`. |
 | 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. Shell architecture, system services, directory layout, MCP ecosystem, DxO VPN/RDP, nftables as sub-skill reference. |
 | 2026-07-22 | [OPENCODE] | **Phase 3 — kpihx-labs rewritten as kernel top reference** — v2.0.0. Now the kernel entry point with full structure tree, project registry, knowledge base. PVE/Docker infra content redirected to k-infras → k-pve/k-pve-debian (Phase 4). |
 | 2026-07-22 | [OPENCODE] | **Phase 4 — k-pve + k-pve-debian created** — k-pve: PVE hypervisor (network topology vmbr0/vmbr1, SSH, VM/CT inventory, DNS lessons). k-pve-debian: Debian VM (Docker deployment, Traefik, Portainer, Vaultwarden, GitLab CI). PVE insights migrated from kpihx-labs. |
@@ -165,15 +175,16 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 ## References
 
-- `references/agentic-architecture-brainstorm.md` — hot/cold context and architecture notes
-- `references/mail-tooling-rewrite-brainstorm.md` — mail cli/mcp/admin/skill split vision and secret handling
-- `references/sh-mcp-agent-sandbox-vision.md` — sh-mcp agent sandbox MCP + future sh-exec (brainstorm)
+- `references/architecture-vision.md` — KpihX-Labs cloud + Personal OS + Agentic Architecture + Sovereign Email (merged)
+- `references/agent-mcp-architecture.md` — Memory-curator + MCP sync + validation + sh-mcp + voice + GWS (merged)
+- `references/communication-automation.md` — Mail + WA + Edge + Tutorial automation (merged)
+- `references/visual-content-pipeline.md` — Visual-first AI content: code-as-visual, Manim, FLUX.2, Blender, social APIs
+- `references/sciencurious_lab.md` — ScienCurious Lab vision (Visual Learning Engine — Education/AI)
 - `references/log.md` — unlimited session log archive (transfer overflow here before [SUMMARY])
-- `references/sciencurious_lab.md` — ScienCurious Lab vision and collaborative structure (Education/AI)
 - `references/insights.md` — autonomous general runtime insights (cross-domain mistakes, fixes, and anti-repeat guidance)
 - `references/issues.md` — append-only full issue ledger (diagnosis/fix attempts with full commands and outputs; newest-first)
-- `references/refactor.md` — skills refactoring architecture vision (top vs infra, equipment master map, phased execution plan)
-- **Other `references/*.md`** — durable brainstorms and WIP project visions until promoted to a skill or `$HOME/Work/`
+- `references/apparmor-custom-profile.md` — AppArmor option-B mitigation profile notes
+- Superseded originals → `archived/references/` (GRAVÉ-preserved, listed in Brainstorm Registry)
 
 ## Insights Discipline (mandatory)
 
@@ -185,6 +196,5 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v3.1.0 — k-workspace deactivated, k-agents removed from STARTUP_SKILLS. AGENTS.md simplified. Curator GRAVÉ rule added. |
-| 2026-07-22 | [OPENCODE] | **Full kernel refactor: infra skills + OS refs + heavy skills** — Created: k-infras, k-ubuntu, k-pve, k-pve-debian, k-pve-dockerhost, k-alienware, k-deep-pc6. Rewritten: kpihx-labs v2.1 (refs governance), k-tailscale v2.0, k-ollama v2.0, k-optim v3.0. Added OS refs to 10 skills. 16 zombie skills deleted. k-workspace deactivated. |
-| [SUMMARY] | — | v3.0.0 memories/ deletion + zero-deletion reinforced; v2.97.0 Agent refonte; earlier → references/log.md |
+| 2026-07-22 | [OPENCODE] | v3.2.0 — Post-commit hook extended (auto restart opencode-web), MaxListeners fix, Web Research First rule. k-context references archive: 15→4 merged docs, `archived/references/` + `archived/mac-studio/` created. |
+| [SUMMARY] | — | v3.1.0 — k-workspace deactivated + k-agents from STARTUP_SKILLS + Curator GRAVÉ. Full kernel refactor: k-infras, k-ubuntu, k-pve, k-pve-debian, k-pve-dockerhost, k-alienware, k-deep-pc6, kpihx-labs v2.1, k-tailscale v2.0, k-ollama v2.0, k-optim v3.0, OS refs ×10, 16 zombie skills deleted. v3.0.0 memories/ deletion + zero-deletion reinforced; v2.97.0 Agent refonte; earlier → references/log.md |
