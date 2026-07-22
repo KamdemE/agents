@@ -4,9 +4,9 @@
   // KπX sovereign wiring — source of truth: $HOME/.agents/skills/k-opencode/SKILL.md
   "autoupdate": "notify",
   "shell": "zsh",
-  "model": "opencode/big-pickle",
-  "small_model": "opencode-go/deepseek-v4-flash",
-  "default_agent": "build",
+  "model": "opencode/deepseek-v4-flash-free",
+  "small_model": "opencode/deepseek-v4-flash-free",
+  "default_agent": "Colab",
 
   // ──── GLOBAL permission — single source of truth ────
   // All agents inherit from here. Per-agent blocks define ONLY deltas.
@@ -264,19 +264,25 @@
     "tick_fallback_delete_habit": "ask",
     "tick_fallback_delete_query_preset": "ask",
     "tick_fallback_batch_delete_tasks": "ask",
-    "tick_fallback_merge_tags": "ask"
+    "tick_fallback_merge_tags": "ask",
+
+    // ──── MCP linkedin — all allow, destructive ask ────
+    "linkedin_*": "allow",
+    "linkedin_delete_post": "ask"
   },
 
   // ──── AGENT deltas — only overrides from global ────
+  // Source of truth for agent prompts/descriptions: ~/.agents/agents/*/agent.txt
+  // This section defines ONLY provider-specific overrides (model, permissions, colors).
   "agent": {
-    // build: inherits everything from global — no delta needed
-    "build": {},
+    // Build: inherits everything from global — no delta needed
+    "Build": {},
 
-    // lite: minimal tool-execution agent. agent.md at ~/.agents/agents/lite/agent.md
-    // Only exa MCP — no skills, no mail/tick/chrome MCPs. For quick tasks and web search.
-    "lite": {
+    // Lite: minimal agent with Ollama — inherits global, denies skills + MCPs
+    "Lite": {
       "model": "ollama/qwen2.5-ctx12k",
-      "description": "Minimal tool-execution agent. bash + read/write + websearch. No rules, no skills overhead. For quick tasks and web search.",
+      "description": "Minimal tool-execution agent. bash + read/write + websearch. No rules, no skills overhead.",
+      "prompt": "You are in LITE mode. Strict rules: 1) Use `bash ls` to list directory contents (never use `read` on directories). 2) English only.",
       "mode": "primary",
       "color": "#FF9800",
       "permission": {
@@ -284,12 +290,24 @@
         "task": "deny",
         "mail_fallback_*": "deny",
         "tick_fallback_*": "deny",
-        "chrome-agent_*": "deny"
+        "chrome-agent_*": "deny",
+        "linkedin_*": "deny"
       }
     },
 
-    // plan: read-only — deny edit + restricted bash
-    "plan": {
+    // Auto: catch-all *: allow — NO tool blocked, can launch ALL sub-agents
+    "Auto": {
+      "model": "opencode/deepseek-v4-flash-free",
+      "description": "Auto agent — full permissions, all tools allowed, all sub-agents callable, future-proof",
+      "mode": "primary",
+      "color": "#F44336",
+      "permission": {
+        "*": "allow"
+      }
+    },
+
+    // Plan: built-in read-only agent
+    "Plan": {
       "permission": {
         "edit": "deny",
         "bash": {
@@ -301,49 +319,41 @@
       }
     },
 
-    // colab: full trust — allow all bash + restricted task subagents
-    "colab": {
-      "description": "Exploitation — build projects, architecture, tools. Mini-plans, questions when ambiguous. Sub-agents: intent-guardian, executor, pragmatic-checker.",
+    // Colab 🟢 — exploitation mode. Inherits global (bash 3-zone, edit ask).
+    // Delta: task — which sub-agents Colab can launch.
+    "Colab": {
+      "description": "Exploitation agent — coordinates execution, delegates to sub-agents, verifies quality. My main work mode for building.",
       "mode": "primary",
       "color": "#4CAF50",
+      "prompt": "{file:~/.agents/agents/Colab/prompt.txt}",
       "permission": {
-        "edit": "allow",
-        "bash": "allow",
         "task": {
           "*": "deny",
-          "intent-guardian": "allow",
           "executor": "allow",
+          "intent-guardian": "allow",
           "pragmatic-checker": "allow",
+          "curator": "allow",
           "explore": "allow",
-          "general": "allow"
+          "general": "allow",
+          "scout": "allow"
         }
       }
     },
 
-    // explore: teaching mode — restricted bash + teaching subagents
-    "explore": {
-      "description": "Exploration — learning, discovery, training. TEACH FIRST: explain concepts intuitively, never search files blindly. Sub-agents: main-teacher, style-guardian, fact-verifier.",
-      "prompt": "You are in EXPLORE mode. You are a TEACHER, not a file searcher. When KπX asks to understand a concept: EXPLAIN it directly from your knowledge. Do NOT run rg, grep, glob, or find as a first reflex. Teach first. Use web search only to verify facts. Read profiles/explore/AGENTS.md for your full teaching contract.",
+    // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
+    // Delta: task — which sub-agents Explore can launch.
+    "Explore": {
+      "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",
+      "prompt": "{file:~/.agents/agents/Explore/prompt.txt}",
       "permission": {
-        "edit": "allow",
-        "bash": {
-          "*": "deny",
-          "uv run *": "allow",
-          "rg *": "allow",
-          "git diff*": "allow",
-          "git log*": "allow",
-          "echo *": "allow"
-        },
         "task": {
           "*": "deny",
-          "main-teacher": "allow",
-          "style-guardian": "allow",
           "fact-verifier": "allow",
+          "scout": "allow",
           "explore": "allow",
-          "general": "allow",
-          "scout": "allow"
+          "general": "allow"
         }
       }
     }
@@ -354,6 +364,29 @@
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
   "provider": {
+    // k-ai Sovereign LLM Gateway — routes to all providers (ollama, mistral, venice, openrouter, opencode, etc.)
+    "k-ai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "k-ai Gateway",
+      "options": {
+        "baseURL": "http://localhost:8080/v1"
+      },
+      "models": {
+        "qwen3-ctx2k:latest": { "name": "Qwen3 2K (Ollama via k-ai)" },
+        "qwen3-ctx4k:latest": { "name": "Qwen3 4K (Ollama via k-ai)" },
+        "qwen3-ctx8k:latest": { "name": "Qwen3 8K (Ollama via k-ai)" },
+        "llama3.1:8b": { "name": "Llama 3.1 8B (Ollama via k-ai)" },
+        "phi4-mini:latest": { "name": "Phi4 Mini (Ollama via k-ai)" },
+        "mock-model": { "name": "Mock Model (k-ai test)" },
+        "m-mistral-small-latest": { "name": "Mistral Small (via k-ai)" },
+        "m-mistral-large-latest": { "name": "Mistral Large (via k-ai)" },
+        "v-llama-3.3-70b": { "name": "Llama 3.3 70B (Venice via k-ai)" },
+        "v-deepseek-v3.2": { "name": "DeepSeek V3.2 (Venice via k-ai)" },
+        "v-gemma-4-uncensored": { "name": "Gemma 4 Uncensored (Venice via k-ai)" },
+        "or-anthropic/claude-sonnet-4": { "name": "Claude Sonnet 4 (OpenRouter via k-ai)" },
+        "or-google/gemini-2.5-flash": { "name": "Gemini 2.5 Flash (OpenRouter via k-ai)" }
+      }
+    },
     // Ollama local — auto-synced by ~/.local/bin/ollama-models-sync
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -394,13 +427,11 @@
       "npm": "@ai-sdk/openai-compatible",
       "name": "Venice AI",
       "options": {
-        "baseURL": "https://api.venice.ai/api/v1",
-        "headers": {
-          "Content-Type": "application/json"
-        }
+        "baseURL": "https://api.venice.ai/api/v1"
       },
       "models": {
         "gemma-4-uncensored": { "name": "Gemma 4 Uncensored (Venice)", "options": { "reasoningEffort": "none" } },
+        "google-gemma-4-31b-it": { "name": "Google Gemma 4 31B Instruct (Venice)", "options": { "reasoningEffort": "none" } },
         "venice-uncensored": { "name": "Venice Uncensored" }
       }
     }
@@ -430,6 +461,13 @@
     "chrome-agent": {
       "type": "local",
       "command": ["zsh", "-l", "-c", "chrome-agent-mcp"],
+      "enabled": true,
+      "timeout": 60000
+    },
+    // LinkedIn MCP → social publishing, profile
+    "linkedin": {
+      "type": "local",
+      "command": ["zsh", "-l", "-c", "linkedin-mcp serve"],
       "enabled": true,
       "timeout": 60000
     }

@@ -81,7 +81,7 @@ sqlite3 ~/.local/share/opencode/opencode.db "
 
 | File | Role |
 |------|------|
-| `$HOME/.config/opencode/opencode.jsonc` | OpenCode runtime config — model, permissions, MCPs |
+| `$HOME/.config/opencode/opencode.jsonc` | OpenCode runtime config (symlink → `assets/opencode.jsonc`) — model, permissions, MCPs |
 | `$HOME/.config/opencode/AGENTS.md` | Global instruction kernel (symlink target: `$HOME/.agents/AGENTS.md`) |
 | `$HOME/.config/opencode/skills/` | Skill discovery path (symlink target: `$HOME/.agents/skills/`) |
 | `$HOME/.local/share/opencode/auth.json` | Provider login credentials |
@@ -426,13 +426,14 @@ OpenCode connects to the KπX kernel via:
 ln -sf $HOME/.agents/AGENTS.md $HOME/.config/opencode/AGENTS.md
 ln -sf $HOME/.agents/skills $HOME/.config/opencode/skills
 ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
+ln -sf $HOME/.agents/skills/k-opencode/assets/opencode.jsonc $HOME/.config/opencode/opencode.jsonc
 ```
 
 **Agent discovery:** Agents defined in `$HOME/.agents/agents/` (`.agents` protocol) are symlinked to `$HOME/.config/opencode/agents/`. Files in `~/.config/opencode/agents/` become discoverable as subagents.
 
 **Skills discovery:** Symlink `$HOME/.config/opencode/skills` → `$HOME/.agents/skills/`. All `k-*` skills discoverable.
 
-**Config source of truth:** `$HOME/.config/opencode/opencode.jsonc` — model, MCP, permissions, defaults. See `k-opencode` for full proxy/MCP/plugin mapping.
+**Config source of truth:** `assets/opencode.jsonc` — symlinké vers `~/.config/opencode/opencode.jsonc`. Éditer l'asset, jamais le runtime directement. Model, MCP, permissions, defaults. **Tous les changements sont tracés dans git via le repo `.agents`.**
 
 ## References
 
@@ -454,4 +455,4 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 | 2026-07-22 | [OPENCODE] | v1.13.0 — **Agent & Subagent System** section. |
 | [SUMMARY] | — | v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite Session; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 
-Bundled: `assets/opencode.jsonc~`
+Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`)
