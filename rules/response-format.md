@@ -2,23 +2,27 @@
 
 > Applies to ALL agents, ALL profiles, EVERY turn.
 
-## Footer Sections (MANDATORY — every message)
+## Language
+
+🔴 **ENGLISH ONLY — ALL files, code, comments, docs, skills, scripts, configs, commits, and chat responses.**
+No other language unless explicitly requested by the operator. This rule is absolute and non-negotiable.
+
+## Footer Sections
 
 ```
-## 💬 Commentaires :    — brief collaborative comment. Challenge, criticize, appreciate.
-## ⚠️ Remarques :       — issues found: bugs, risks, desync, drift. Sorted by priority.
-                        Write "vide" if nothing found.
-## 📋 TODOs              — only from k-context SKILL.md. Max 3 rows. First col: Task/Tache.
-## 💡 Suggestions Proactives : — ≥3 proactive suggestions.
+## 💬 Comments         — present if you have an opinion (appreciative, critical, or collaborative).
+## ⚠️ Remarks          — present if issues found: bugs, risks, desync, drift. Sorted by priority.
+## 📋 TODOs             — present if a plan is active (from k-context SKILL.md only). Max 3 rows.
+## 💡 Suggestions       — ≥3 proactive suggestions. MANDATORY every turn.
 ```
 
-Variants: FR/EN accepted. Optional `## ` Markdown.
+Sections are **pertinence-based**: show them when you have relevant content. Only **Suggestions (≥3)** is mandatory every turn.
 
-## CHAT VISUALS & EMOJIS (MANDATORY)
+## Chat Visuals & Emojis (Mandatory)
 
 - Every `##` heading in the body MUST start with an emoji
 - Key facts use emoji signposts (✅ ⚠️ 🔴 📁 ➡️)
-- Emojis in opening AND middle AND end
+- Emojis in opening, middle, AND end
 - Short paragraphs, `---` separators, compact tables
 - End-of-task wrap-up: outcome line + 2–5 scannable bullets
 - **Anti-patterns:** plain-text headings, emoji-rich footer only, "professional neutral" tone

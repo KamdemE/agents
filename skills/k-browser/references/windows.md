@@ -1,7 +1,7 @@
 # k-browser — Windows
 
 > **OS reference:** Microsoft Windows
-> **Applies to:** `k-alienware` (blglaptop139) and any Windows machine
+> **Applies to:** `k-blglaptop139` (blglaptop139) and any Windows machine
 
 ---
 

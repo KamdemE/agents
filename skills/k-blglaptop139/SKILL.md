@@ -1,7 +1,7 @@
 ---
-name: k-alienware
+name: k-blglaptop139
 description: >
-  BLGLAPTOP139 — Alienware Windows + WSL laptop at DxO internship (Grenoble).
+  BLGLAPTOP139 — Windows + WSL laptop at DxO internship (Grenoble).
   Primary development workstation on Windows with WSL for Linux tooling.
   Known Tailscale identity and RDP access from Ubuntu workstation.
   This skill documents the Windows-specific environment, WSL setup,
@@ -9,12 +9,12 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# BLGLAPTOP139 — Alienware (Windows + WSL)
+# BLGLAPTOP139 — Windows + WSL
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
@@ -70,5 +70,6 @@ ssh kapoivha@blglaptop139
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-alienware. Windows+WSL internship PC. Tailscale identity, RDP access, cross-reference to OS-specific refs. |
+| 2026-07-22 | [OPENCODE] | v1.1.0 — Renamed from k-alienware to k-blglaptop139. Updated metadata to match hostname-based naming. |
+| 2026-07-22 | [OPENCODE] | v1.0.0 — Created as k-alienware. Windows+WSL internship PC. Tailscale identity, RDP access. |
 | [SUMMARY] | — | — |

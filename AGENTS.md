@@ -32,8 +32,8 @@ metadata:
 | Rule | What it says |
 |------|-------------|
 | `rules/file-governance.md` | **English ONLY** in files, code, comments. `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). |
-| `rules/response-format.md` | Every message: footer with Commentaires, Remarques (sorted), TODOs (max 3 from k-context), Suggestions (≥3). Emoji signposts mandatory. |
-| `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops (cat/echo/awk/sed for file writes). |
+| `rules/response-format.md` | **Response format** — 💬 Comments if you have an opinion, ⚠️ Remarks if issues encountered, 📋 TODOs if a plan is active (from k-context, max 3). **💡 Suggestions (≥3) = MANDATORY.** Emojis mandatory everywhere. **ENGLISH ONLY — no other language in files or chat unless explicitly requested.** |
+| `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
 | `rules/audit-commands.md` | `uv` not `pip`. `make audit` after any `.agents/` change. `make push` not raw git push. `make check` for Python tests. Post-work checklist: audit, docs, version, sync, finalize. |
 | `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. |
 | `rules/k-context-hygiene.md` | Session log + active projects updated proactively. Zero-deletion (append-only). Overflow → `references/log.md`. Issues → `references/issues.md`. |
@@ -65,7 +65,7 @@ metadata:
 
 ### Infrastructure (per-machine)
 
-Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pve` (Proxmox) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker CT) · `k-alienware` (Windows/WSL) · `k-deep-pc6` (DxO server). Top infra components: `k-tailscale` · `k-ollama` · `k-nftables` · `k-openclaw`.
+Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pve` (Proxmox) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker CT) · `k-blglaptop139` (Windows/WSL) · `k-deep-pc6` (DxO server). Top infra components: `k-tailscale` · `k-ollama` · `k-nftables` · `k-openclaw`.
 
 ### Runtimes, services, tools
 
@@ -85,8 +85,8 @@ Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe`
 
 ## Language
 
-🔴 **ALL FILES, CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS: ENGLISH ONLY.** Non-negotiable.
-Response language: match KπX's current conversation language (never bleeds into files).
+🔴 **ALL FILES, CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS, CHAT RESPONSES: ENGLISH ONLY.** Non-negotiable.
+Only switch language if KπX explicitly asks. Never assume from context.
 
 ## Security
 

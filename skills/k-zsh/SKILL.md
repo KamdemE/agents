@@ -17,7 +17,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation shell) · `k-pve` (PVE shell) · `k-pve-debian` (Debian VM shell) · `k-alienware` (WSL shell) · `k-tmux` (shared interactive gate) · `k-clis` (CLI registry)
+> **Related skills:** `k-ubuntu` (workstation shell) · `k-pve` (PVE shell) · `k-pve-debian` (Debian VM shell) · `k-blglaptop139` (WSL shell) · `k-tmux` (shared interactive gate) · `k-clis` (CLI registry)
 >
 > **Asset files:**
 > - `assets/kshrc.base` → **template** — copy to `$HOME/.kshrc` on new machines, then customize
@@ -177,7 +177,7 @@ case $- in *i*) ;; *) return ;; esac
 PVE uses its own minimal shell. Install zsh + copy `.kshrc.base` → `~/.kshrc`, then add PVE-specific paths. See `k-pve` → Shell.
 
 ### WSL (blglaptop139)
-WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal can be configured to launch zsh by default. See `k-alienware` → WSL Shell.
+WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal can be configured to launch zsh by default. See `k-blglaptop139` → WSL Shell.
 
 ### Debian VM (kpihx-pve-debian)
 Standard apt install + `.kshrc.base` → `~/.kshrc`. See `k-pve-debian` → Shell.

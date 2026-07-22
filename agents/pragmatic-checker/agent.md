@@ -2,6 +2,7 @@
 id: pragmatic-checker
 name: pragmatic-checker
 description: Post-execution quality gate. Reads ALL rules, verifies compliance. Fixes minor, stops critical.
+mode: subagent
 scope: colab
 role: sub-agent
 permission:
@@ -9,6 +10,11 @@ permission:
   bash: allow
   task: allow
   read: allow
+  glob: allow
+  grep: allow
+  webfetch: allow
+  skill: allow
+  todowrite: allow
   lsp: allow
 ---
 

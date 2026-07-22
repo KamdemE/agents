@@ -1,8 +1,9 @@
 ---
 id: curator
 name: curator
-  version: "2.0.0"
+version: "2.0.0"
 description: Kernel maintainer — monitors agents/, rules/, hooks/, skills/ for drift. Promotes patterns to skills. Runs make audit.
+mode: subagent
 scope: colab
 role: sub-agent
 permission:

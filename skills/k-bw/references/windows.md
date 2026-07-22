@@ -1,7 +1,7 @@
 # k-bw — Windows / WSL
 
 > **OS reference:** Microsoft Windows (with WSL subsystem)
-> **Applies to:** `k-alienware` (blglaptop139)
+> **Applies to:** `k-blglaptop139` (blglaptop139)
 
 ---
 

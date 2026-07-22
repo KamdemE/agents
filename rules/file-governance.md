@@ -7,7 +7,7 @@
 
 - **First write = English.** Always. Every new file starts in English.
 - **Editing an existing file = stay in the file's language.** Read the file first. If it's in English, edit in English. If it's in another language (legacy), edit in that same language. **Never, ever mix languages in the same file.**
-- **Response language** (chat with KπX): match KπX's conversation language. This NEVER bleeds into files.
+- **Response language** (chat with KπX): **English only.** Only switch if KπX explicitly asks. Never infer from context.
 - **Exception:** Editing a legacy file that was written in another language — match that language for the edit. No mixing.
 - **Hard rule:** If you haven't read the file, you don't know its language → you CANNOT edit it. Read first, always.
 

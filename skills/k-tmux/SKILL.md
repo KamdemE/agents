@@ -5,9 +5,9 @@ description: >
   and practical CLI/key shortcuts. Load before any tmux workflow, shared interactive shell,
   or terminal multiplexing task on KπX workstations.
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
-  Never raw sudo in agent shells. Use tmux pane ubuntu:0.2 (ops).
+  Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.9.0
+  version: 1.10.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -47,19 +47,65 @@ Use this gate when a command may require **KπX** interaction:
 
 **`sui` is deprecated** — do not invoke it. Agents **never** run raw `sudo` in non-interactive tool shells; elevation happens in the shared pane.
 
-### Fixed session: `ubuntu`
+### Standard session per equipment
 
-**KπX workstation always has a running `ubuntu` tmux session** (attached, 3 windows minimum).
+**Every KπX equipment gets a tmux session named after itself** with this standard layout.
+The agent auto-detects the equipment via Tailscale and creates the session on request.
 
-Window 0 ("agents") has 3 panes:
+| Equipment | Session name | k-<infra> skill |
+|-----------|-------------|-----------------|
+| Workstation (Ubuntu) | `ubuntu` | `k-ubuntu` |
+| Proxmox hypervisor | `pve` | `k-pve` |
+| Debian VM (Docker) | `pve-debian` | `k-pve-debian` |
+| Docker CT | `dockerhost` | `k-pve-dockerhost` |
+| Internship laptop | `blglaptop139` | `k-blglaptop139` |
+| S25 phone | `s25` | `k-phones` |
+| DxO server | `deep-pc6` | `k-deep-pc6` |
 
-| Pane | App | Rules |
-|------|-----|-------|
-| `ubuntu:0.0` | opencode | Never send keys here |
-| `ubuntu:0.1` | nvim | Never send keys here |
-| `ubuntu:0.2` | **zsh** | **Designated sudo/ops pane** — all elevation here |
+(No `kpihx-` prefix — short equipment names only.)
 
-**Always prefer `ubuntu` for sudo/ops.** Do not create separate sessions for workstation tasks unless the scope is clearly different (e.g. SSH to homelab → new session).
+**Each session has exactly 3 windows:**
+
+| Window | Role |
+|--------|------|
+| `agents` | Agent workspace — opencode/nvim + ops |
+| `default` | General shell, ad-hoc commands |
+| `tmp` | Scratch / temporary work |
+
+#### `agents` window layout (3 panes, nothing pre-opened)
+
+```
+┌────────────────────┬────────────────────┐
+│                    │                    │
+│  Pane 0 (left)     │  Pane 1 (right-top)│
+│  Agents pane       │  Editors pane      │
+│  (opencode)        │  (nvim, etc.)      │
+│  ~/KpihX-Labs      │  ~/KpihX-Labs      │
+│                    │                    │
+│                    ├────────────────────┤
+│                    │                    │
+│                    │  Pane 2 (right-btm)│
+│                    │  Ops pane          │
+│                    │  (shell)           │
+│                    │  ~/KpihX-Labs      │
+└────────────────────┴────────────────────┘
+```
+
+| Pane | Role | Path | Usage |
+|------|------|------|-------|
+| `SESSION:agents.0` (left) | **Agents pane** | `~/KpihX-Labs` | opencode / AI CLI runtimes |
+| `SESSION:agents.1` (right-top) | **Editors pane** | `~/KpihX-Labs` | nvim / editors |
+| `SESSION:agents.2` (right-bottom) | **Ops pane** | `~/KpihX-Labs` | **Designated sudo/ops shell** |
+
+**Setup command (manual):**
+```bash
+tmux new-session -d -s <equip> -c ~/KpihX-Labs
+tmux rename-window -t <equip>:0 agents
+tmux split-window -h -t <equip>:agents.0 -c ~/KpihX-Labs
+tmux split-window -v -t <equip>:agents.1 -c ~/KpihX-Labs
+tmux new-window -t <equip> -n default -c ~/
+tmux new-window -t <equip> -n tmp -c /tmp
+```
 
 ### Session hygiene (non-`ubuntu` sessions)
 
@@ -510,5 +556,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-22 | [OPENCODE] | v1.10.0 — Added **Standard session per equipment** section: auto-detect via Tailscale, 3 windows (agents/default/tmp), agents window layout (left=opencode, right-top=nvim, right-bottom=ops). New `assets/setup-session.sh`. |
 | 2026-07-22 | [OPENCODE] | v1.9.0 — Added **SUDO GATE** warning to description: tmux is the ONLY channel for sudo/SSH elevation. Never raw sudo in agent shells. |
 | [SUMMARY] | — | v1.8.0 fixed ubuntu session + sudo pane; v1.6.0 focus-events on, Neovim autoread; v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |

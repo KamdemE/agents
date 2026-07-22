@@ -8,7 +8,7 @@ description: >
   Load before any tailscale serve, funnel, accept-routes, peer, or port
   management task.
 metadata:
-  version: 2.0.0
+  version: 2.1.0
   author: KpihX
   scope: network
 ---
@@ -76,6 +76,7 @@ tailscale whois <IP>
 tailscale bugreport
 
 # Configuration up
+# ⚠️ Launch via tmux ops pane (k-tmux SUDO GATE) — never raw sudo in agent shell
 sudo tailscale up --accept-routes=true --accept-dns=true --operator=<user>
 ```
 
@@ -201,6 +202,6 @@ journalctl -u tailscaled -f  # Linux (systemd)
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-22 | [OPENCODE] | v2.1.0 — Added SUDO GATE warning to `tailscale up`: must be launched via tmux ops pane. |
 | 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as generic core. Machine-specific identity (hostname, IPs, DNS, serve config, peers) extracted to k-ubuntu. Added OS references for Ubuntu and Windows. |
-| 2026-07-21 | [OPENCODE] | v1.2.0 — Added Single Source of Truth: tailscaled.service + tailscaled-config in assets, system symlinks. |
-| [SUMMARY] | — | v1.1.0 full rewrite; v1.0.0 creation with serve architecture, commands, state. |
+| [SUMMARY] | — | v1.2.0 assets symlinks; v1.1.0 full rewrite; v1.0.0 creation. |

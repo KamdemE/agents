@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.12.0
+  version: 1.14.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -85,6 +85,91 @@ sqlite3 ~/.local/share/opencode/opencode.db "
 | `$HOME/.config/opencode/AGENTS.md` | Global instruction kernel (symlink target: `$HOME/.agents/AGENTS.md`) |
 | `$HOME/.config/opencode/skills/` | Skill discovery path (symlink target: `$HOME/.agents/skills/`) |
 | `$HOME/.local/share/opencode/auth.json` | Provider login credentials |
+| `$HOME/.config/opencode/agents/` | Agent discovery path (symlink target: `$HOME/.agents/agents/`) |
+
+## Agent & Subagent System
+
+OpenCode discovers agents from two sources that merge:
+
+### 1. Config file (`opencode.jsonc` → `agent.*` or `agents.*`)
+
+Primary agents are defined under the `agent` key:
+```jsonc
+"Colab": {
+  "mode": "primary",                      // Tab-visible primary agent
+  "prompt": "{file:~/.agents/agents/Colab/prompt.txt}"  // Prompt from raw text file
+}
+```
+- `{file:path}` loads ANY text file (`.md`, `.txt`, etc.) — extension does not matter for prompt injection.
+- Agents defined ONLY in config (no `.md` file) must have `mode: "primary"`.
+
+### 2. Markdown files (`~/.config/opencode/agents/<path>/<name>.md`)
+
+All `.md` files under the agents directory are auto-discovered. The file path becomes the agent ID:
+```
+agents/executor/agent.md   →   agent "executor/agent"
+agents/Colab/prompt.md     →   agent "Colab/Prompt"
+```
+
+### Agent Modes
+
+| Mode | Tab-visible? | Invocable via `task`? | Invocable via `@`? |
+|------|-------------|----------------------|-------------------|
+| `primary` | ✅ Yes | ❌ No | ❌ No |
+| `subagent` | ❌ No | ✅ Yes | ✅ Yes (unless `hidden`) |
+| `all` | ✅ Yes | ✅ Yes | ✅ Yes |
+
+### Hide from UI
+
+`hidden: true` hides a `mode: subagent` from the `@` autocomplete menu and Tab selector. The agent remains invocable via the `task` tool by parent agents.
+
+### Permission format (V1 — still accepted in v1.18.x)
+
+```yaml
+permission:
+  edit: allow           # "allow" | "ask" | "deny"
+  bash: deny
+  task: allow
+  read: allow
+  skill: allow
+```
+
+Extra fields (`id`, `scope`, `role`) are passed through as metadata — harmless.
+
+### ⚠️ Critical: YAML frontmatter pitfalls (learned 2026-07-22)
+
+gray-matter silently drops the **entire frontmatter** if YAML is malformed. No error, no warning — OpenCode loads the agent with `mode: all` default, making it Tab-visible.
+
+**Known failures:**
+
+| Error | Broken YAML | Effect |
+|-------|------------|--------|
+| Wrong indentation | `name: curator\n  version: "2.0.0"` | `version` becomes child of `name` → frontmatter silently dropped → `mode: subagent` lost → agent appears in Tab |
+| Unquoted colon in value | `description: Reviews: returns verdict.` | YAML interprets `:` as mapping separator → frontmatter truncated |
+
+**Rules:**
+- All fields must be at the **same indentation level** (0 spaces for root keys)
+- If a description contains `:`, quote it: `description: "Reviews code: quality check"`
+- After editing frontmatter, **restart OpenCode** — old parse is cached per session
+- Verify YAML with `python3 -c "import yaml; yaml.safe_load(open('file.md').read().split('---')[1])"`
+
+### KπX Setup
+
+| Agent | Definition | Mode | File |
+|-------|-----------|------|------|
+| `Colab` 🟢 | `opencode.jsonc` + `{file:.../Colab/prompt.txt}` | primary | `agents/Colab/prompt.txt` |
+| `Explore` 🔵 | `opencode.jsonc` + `{file:.../Explore/prompt.txt}` | primary | `agents/Explore/prompt.txt` |
+| `Build` | `opencode.jsonc` (`{}` — inherits global) | primary | `opencode.jsonc` only |
+| `Lite` 🟠 | `opencode.jsonc` — Ollama local, no skills/MCPs | primary | `opencode.jsonc` only |
+| `Auto` 🔴 | `opencode.jsonc` — `*: allow`, future-proof | primary | `opencode.jsonc` only |
+| `Plan` | `opencode.jsonc` — read-only | primary | `opencode.jsonc` only |
+| `executor/agent` 🛠️ | `agents/executor/agent.md` | subagent | `agents/executor/agent.md` |
+| `curator/agent` 🧹 | `agents/curator/agent.md` | subagent | `agents/curator/agent.md` |
+| `intent-guardian/agent` 👁️ | `agents/intent-guardian/agent.md` | subagent | `agents/intent-guardian/agent.md` |
+| `pragmatic-checker/agent` ✅ | `agents/pragmatic-checker/agent.md` | subagent | `agents/pragmatic-checker/agent.md` |
+| `fact-verifier/agent` 🔍 | `agents/fact-verifier/agent.md` | subagent | `agents/fact-verifier/agent.md` |
+
+**Key rule:** Only agents with `mode: primary` or `mode: all` appear in Tab. Subagents with `mode: subagent` + `hidden: true` are invisible but usable via `task` tool delegation.
 
 ## MCP Config Format (OpenCode — JSONC)
 
@@ -162,10 +247,12 @@ OpenCode uses a 3-tier hierarchy: **Global config → Agent deltas → Session r
 
 - **Global default** (`permission`): Single source of truth — ALL bash patterns, MCP rules, external_directory
 - **Agent blocks**: Define ONLY deltas from global (minimal, no duplication)
-  - `build`: `{}` — inherits everything from global
-  - `plan`: `edit: deny`, restricted bash (read-only)
-  - `colab`: `edit: allow`, `bash: allow`, restricted task subagents
-  - `explore`: `edit: allow`, limited bash, teaching task subagents
+  - `Build`: `{}` — inherits everything from global
+  - `Plan`: `edit: deny`, restricted bash (read-only)
+  - `Colab`: only `task` delta — which sub-agents it can launch. edit/bash inherit from global (3-zone)
+  - `Explore`: only `task` delta — which sub-agents it can launch. edit/bash inherit from global (3-zone)
+  - `Lite`: `skill: deny`, all MCPs `deny`, `task: deny`. Bash/edit inherit from global.
+  - `Auto`: `*: allow` — catches ALL tools, ALL sub-agents, ALL skills. Unrestricted.
 
 ### Global permission zones (bash)
 
@@ -363,8 +450,8 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-21 | [OPENCODE] | v1.12.0 — Single Source of Truth : service file déplacé dans `assets/opencode-web.service`, symlinké depuis `~/.config/systemd/user/`. |
-| 2026-07-21 | [OPENCODE] | v1.11.0 — OpenCode Web: màj port 443 (tailscale serve), service découplé d'openclaw-gateway, ajout du service file complet dans la doc. |
-| [SUMMARY] | — | v1.10.0 Session Storage SQLite section; v1.9.0 Whisper models + voice reference doc; v1.8.0 Voice setup @renjfk/opencode-voice; v1.7.0 Permission architecture rewrite; v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
+| 2026-07-22 | [OPENCODE] | v1.14.0 — **Permission architecture redesign**: global source of truth → agent deltas only. Renamed `lite`→`Lite`, `auto`→`Auto`. Colab/Explore/Build inherit global bash 3-zone. Lite denies skills/all MCPs. Auto `*: allow`. Sub-agent perms unified. YAML frontmatter pitfalls section. |
+| 2026-07-22 | [OPENCODE] | v1.13.0 — **Agent & Subagent System** section. |
+| [SUMMARY] | — | v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite Session; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 
 Bundled: `assets/opencode.jsonc~`

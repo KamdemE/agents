@@ -17,7 +17,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker host) · `k-alienware` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-phones` (Android phones)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-phones` (Android phones)
 > **Source skills:** `k-infra` (low-level hardware: disk, BIOS, filesystem) · `k-nftables` (firewall) · `k-tailscale` (mesh VPN config)
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
 
@@ -30,7 +30,7 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 | Tailscale name | Tailscale IP | OS | Status | Skill | Notes |
 |---------------|-------------|----|--------|-------|-------|
 | `kpihx-ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. Ubuntu-specific skill. |
-| `blglaptop139` | `100.99.196.32` | Windows | online | **`k-alienware`** | Internship PC (Grenoble). Windows + WSL. |
+| `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble). Windows + WSL. |
 | `kpihx-pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. Tagged device. |
 | `kpihx-pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. Sub-infra of k-pve. |
 | `kpihx-pve-dockerhost` | — | Linux | — | **`k-pve-dockerhost`** | Docker host VM on PVE. Sub-infra of k-pve. |
@@ -49,7 +49,7 @@ kpihx-labs (kernel top reference)
 ├── k-context    (HOT context — session log, active projects)
 ├── k-infras     (this skill — master map)
 │   ├── k-ubuntu          (Ubuntu workstation)
-│   ├── k-alienware       (Windows + WSL — internship)
+│   ├── k-blglaptop139       (Windows + WSL — internship)
 │   ├── k-deep-pc6        (Linux server — internship)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)

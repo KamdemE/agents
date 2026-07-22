@@ -1,7 +1,7 @@
 # k-code — Windows / WSL
 
 > **OS reference:** Microsoft Windows (native + WSL subsystem)  
-> **Applies to:** `k-alienware` (blglaptop139) and any Windows machine
+> **Applies to:** `k-blglaptop139` (blglaptop139) and any Windows machine
 
 ---
 
@@ -132,7 +132,7 @@ The cleanup scripts (`clean_vscode.sh`, `clean_cursor.sh`, `clean_agy.sh`) are L
 
 ## General WSL Workflow Pattern
 
-For agent/kernel operations on Windows (`k-alienware`):
+For agent/kernel operations on Windows (`k-blglaptop139`):
 
 1. **Editors run on Windows** (native UI, better performance, GPU acceleration)
 2. **Development tools run in WSL** (git, python, node, docker, tmux)

@@ -34,7 +34,7 @@ kpihx-labs (this skill — kernel top reference)
 ├── k-context    (HOT context — session log, active projects, current intent)
 ├── k-infras     (master infrastructure map)
 │   ├── k-ubuntu          (Ubuntu workstation — this machine)
-│   ├── k-alienware       (Windows + WSL — internship)
+│   ├── k-blglaptop139       (Windows + WSL — internship)
 │   ├── k-deep-pc6        (Linux server — internship)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
@@ -85,7 +85,7 @@ Skills that have platform-specific behaviors use `refs/<os>.md` files to documen
 
 1. **`refs/` files are always OS/Platform-oriented.** Never machine-oriented (use infra skills for that). A `refs/windows.md` documents Windows-specific editor paths or WSL tmux aliases — not that `blglaptop139` has a specific Chrome profile.
 2. **The main `SKILL.md` stays generic.** It should work on any supported OS without modification. OS-specific details live exclusively in `refs/`.
-3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** (`k-alienware`), not in `refs/windows.md`.
+3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** (`k-blglaptop139`), not in `refs/windows.md`.
 4. **Each `refs/` file is self-contained** — readable on its own without cross-referencing the main skill.
 5. **WSL is documented under `refs/windows.md`** with a clear `### WSL` subsection, not in a separate file. WSL is Windows subsystem — one file per OS.
 

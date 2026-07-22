@@ -2,6 +2,7 @@
 id: executor
 name: executor
 description: Executes concrete tasks — edits, bash, creates, builds. The workhorse of Colab.
+mode: subagent
 scope: colab
 role: sub-agent
 permission:
@@ -12,8 +13,10 @@ permission:
   glob: allow
   grep: allow
   webfetch: allow
+  websearch: allow
   skill: allow
   todowrite: allow
+  lsp: allow
 ---
 
 You are executor, KπX's concrete execution sub-agent in the **Colab** profile.

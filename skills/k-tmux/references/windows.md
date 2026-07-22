@@ -1,7 +1,7 @@
 # k-tmux — Windows / WSL
 
 > **OS reference:** Windows (with WSL subsystem)  
-> **Applies to:** `k-alienware` (blglaptop139) and any Windows machine running WSL
+> **Applies to:** `k-blglaptop139` (blglaptop139) and any Windows machine running WSL
 
 ---
 

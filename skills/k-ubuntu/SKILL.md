@@ -258,7 +258,7 @@ Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l"
 
 | Field | Value |
 |-------|-------|
-| Server (Alienware) | `BLGLAPTOP139.corp.dxo.com` |
+| Server (BLGLAPTOP139) | `BLGLAPTOP139.corp.dxo.com` |
 | Server (Deep PC6) | `deep-pc6.corp.dxo.com` |
 | Username | `ikamdem` (no domain) |
 | Domain | `corp.dxo.com` |

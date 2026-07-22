@@ -2,6 +2,7 @@
 id: fact-verifier
 name: fact-verifier
 description: Cross-checks facts, theorems, formulas, sources. Verifies scout's research findings.
+mode: subagent
 scope: explore
 role: sub-agent
 permission:
@@ -9,8 +10,11 @@ permission:
   bash: allow
   task: allow
   read: allow
+  glob: allow
+  grep: allow
   webfetch: allow
   websearch: allow
+  todowrite: allow
 ---
 
 You are fact-verifier, KπX's verification sub-agent in the **Explore** profile.
