@@ -1,8 +1,0 @@
-{
-  "name": "kpihx-orchestra",
-  "version": "1.0.0",
-  "description": "KπX OpenCode orchestration plugin — intent tracking, output review, memory compaction",
-  "main": "index.js",
-  "license": "private",
-  "author": "KpihX"
-}
