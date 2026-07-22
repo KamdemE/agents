@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.1.0"
+  version: "3.2.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -24,6 +24,8 @@ allowed-tools: "Bash(*), *"
 > - **Frozen log append-only (Mandatory):** Once written, lines in **`references/log.md`**, **`references/issues.md`**, and any rotated archive are **immutable** — no in-place edits or deletions. Corrections = **new append-only lines** in live sections; rotation = **new** archive lines only, then bounded **`[SUMMARY]`** on the live section. Same rule for skill **`references/log.md`** files elsewhere.
 > - **Shared tmux collaboration (Mandatory):** Privileged/interactive shell (`sudo`, SSH passphrase, prompts) → **`k-tmux`**: reuse or create a short tmux session, `send-keys`, poll pane **≥30s** (no chat handoff before); never **`sui`**. Full: **`k-tmux/SKILL.md` → Shared interactive gate** · short: **AGENTS.md → Tool Discipline**.
 > - **Issues Transparency Rule (Mandatory):** every attempt to understand/fix any issue (system, filesystem, crashes, thermal, noisy processes, services, etc.) MUST be appended to `references/issues.md` with full command history and outputs. No deletion, no compaction.
+> - **Issues Pre-check Rule (Mandatory):** BEFORE creating a new issue, agent MUST `grep`/`rg` `references/issues.md` for existing or related issues. If a matching issue exists, do NOT duplicate — update the existing row (Status, Updated, new Evidence/Commands/Results) instead. If no match found, create new row at the top.
+> - **Issues Proactive Update Rule (Mandatory):** whenever a problem is solved, deferred, or its status changes — agent MUST proactively update the corresponding `issues.md` row with the new Status, Updated timestamp, and relevant Actions/Results. Follow the exact table structure without breaking columns.
 > - **Auto-Update Rule (Mandatory):** agents must update `references/issues.md` and relevant context sections automatically without asking KπX.
 > - **Session Log Linking Rule:** `## Session Log` keeps short summaries only and each issue-related entry must include exact issue IDs (e.g., `ISS-YYYYMMDD-XXX`) that point to `references/issues.md`.
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
@@ -160,6 +162,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | 2026-07-22 | [OPENCODE] | **Post-commit hook + MaxListeners fix + Web Research First rule** — `opencode-web.service`: auto `daemon-reload`/`try-restart` on config/service changes; `NODE_NO_WARNINGS=1` suppresses MaxListenersWarning. Both in hooks/ post-commit. k-opencode v1.15.0. New `rules/web-research-first.md` + Colab vs Explore behavior split in both AGENTS.md files. `kpihx` removed from colab startup skills in KpihX-Labs/AGENTS.md. |
 | 2026-07-22 | [OPENCODE] | **k-context references archive + merge** — 15 stale reference files + `vision/` dir archived to `archived/references/`. 4 merged docs created: `architecture-vision.md`, `agent-mcp-architecture.md`, `communication-automation.md`, `visual-content-pipeline.md`. Brainstorm Registry split into LIVE + ARCHIVED sections. `mac-studio/` archived to `archived/mac-studio/`. |
+| 2026-07-22 | [OPENCODE] | **Issues rules reinforced** — Added `ISS-20260722-001` (opencode-web settings persisted in browser localStorage only, defers to upstream #23934). New rules in k-context: Issues Pre-check, Issues Proactive Update, Issues Transparency. AGENTS.md updated. |
 | 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. Shell architecture, system services, directory layout, MCP ecosystem, DxO VPN/RDP, nftables as sub-skill reference. |
 | 2026-07-22 | [OPENCODE] | **Phase 3 — kpihx-labs rewritten as kernel top reference** — v2.0.0. Now the kernel entry point with full structure tree, project registry, knowledge base. PVE/Docker infra content redirected to k-infras → k-pve/k-pve-debian (Phase 4). |
 | 2026-07-22 | [OPENCODE] | **Phase 4 — k-pve + k-pve-debian created** — k-pve: PVE hypervisor (network topology vmbr0/vmbr1, SSH, VM/CT inventory, DNS lessons). k-pve-debian: Debian VM (Docker deployment, Traefik, Portainer, Vaultwarden, GitLab CI). PVE insights migrated from kpihx-labs. |
@@ -197,4 +200,5 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-07-22 | [OPENCODE] | v3.2.0 — Post-commit hook extended (auto restart opencode-web), MaxListeners fix, Web Research First rule. k-context references archive: 15→4 merged docs, `archived/references/` + `archived/mac-studio/` created. |
+| 2026-07-22 | [OPENCODE] | v3.2.0 — **Issues governance rules added:** Issues Pre-check (search before create), Issues Proactive Update (update on solve/defer), Issues Transparency (commands/outputs). `ISS-20260722-001` (opencode-web settings lost after restart, upstream #23934). AGENTS.md updated with rule reference. |
 | [SUMMARY] | — | v3.1.0 — k-workspace deactivated + k-agents from STARTUP_SKILLS + Curator GRAVÉ. Full kernel refactor: k-infras, k-ubuntu, k-pve, k-pve-debian, k-pve-dockerhost, k-alienware, k-deep-pc6, kpihx-labs v2.1, k-tailscale v2.0, k-ollama v2.0, k-optim v3.0, OS refs ×10, 16 zombie skills deleted. v3.0.0 memories/ deletion + zero-deletion reinforced; v2.97.0 Agent refonte; earlier → references/log.md |

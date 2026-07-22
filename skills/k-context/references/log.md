@@ -319,3 +319,6 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-18 | [AUTO] | v2.88.0 — Shared tmux gate in `k-tmux`. |
 | 2026-05-23 | [GEMINI] | v2.89.6 — Created CAPITAL.md in KpihX-Labs/𝛱. |
 | 2026-05-24 | [CURSOR] | v2.89.9 — **live** v0.1.0 init: Homelab repo, CI, dual push `kpihx-labs/live`. |
+| 2026-05-31 | [HERMES] | Mail Recap: Sent 3 MarkdownV2 messages (497,498,499) to Telegram (1397540599). 30 messages processed, 22 unread, 0 important, 5 security alerts. |
+| 2026-05-31 | [HERMES] | Mail Recap → Telegram: 30 inbox messages, 5 security alerts, 25 others. Sent successfully. |
+| 2026-07-21 | [HERMES] | OSC leak fix (Windows Terminal → tmux): Caused by Win32-OpenSSH fragmenting OSC responses across TCP packets. Fix: update Win32-OpenSSH to v10.0p2+ (bundles PR#806 fix). Variable `SSH_TERM_CONHOST_PARSER=0` works but causes visual glitches — not needed with v10.0p2. |
