@@ -79,13 +79,14 @@ sqlite3 ~/.local/share/opencode/opencode.db "
 
 ## Source Of Truth
 
-| File | Role |
-|------|------|
-| `$HOME/.config/opencode/opencode.jsonc` | OpenCode runtime config (symlink → `assets/opencode.jsonc`) — model, permissions, MCPs |
-| `$HOME/.config/opencode/AGENTS.md` | Global instruction kernel (symlink target: `$HOME/.agents/AGENTS.md`) |
-| `$HOME/.config/opencode/skills/` | Skill discovery path (symlink target: `$HOME/.agents/skills/`) |
-| `$HOME/.local/share/opencode/auth.json` | Provider login credentials |
-| `$HOME/.config/opencode/agents/` | Agent discovery path (symlink target: `$HOME/.agents/agents/`) |
+| File | Role | Tracked in `.agents` |
+|------|------|---------------------|
+| `$HOME/.config/opencode/opencode.jsonc` | OpenCode runtime config (symlink → `assets/opencode.jsonc`) — model, permissions, MCPs, lifecycle plugins | ✅ `skills/k-opencode/assets/opencode.jsonc` |
+| `$HOME/.config/opencode/tui.json` | TUI config (symlink → `assets/tui.json`) — voice plugin, UI extensions | ✅ `skills/k-opencode/assets/tui.json` |
+| `$HOME/.config/opencode/AGENTS.md` | Global instruction kernel (symlink target: `$HOME/.agents/AGENTS.md`) | ✅ in repo root |
+| `$HOME/.config/opencode/skills/` | Skill discovery path (symlink target: `$HOME/.agents/skills/`) | ✅ skills/ directory |
+| `$HOME/.local/share/opencode/auth.json` | Provider login credentials | ❌ credentials (never track) |
+| `$HOME/.config/opencode/agents/` | Agent discovery path (symlink target: `$HOME/.agents/agents/`) | ✅ agents/ directory |
 
 ## Agent & Subagent System
 
@@ -275,19 +276,38 @@ Wildcard allows all, specific destructive tools override to `ask` (last match wi
 
 `~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`, `~/.config/nvim/**`, `~/.local/share/nvim/**`
 
-### Plugins
+### Plugins — Two Plugin Systems
 
-OpenCode supports a `plugin` array in `opencode.jsonc` for lifecycle hooks. Standard plugins + KπX-managed hooks:
+OpenCode has **two separate plugin systems**, configured in different files:
+
+| System | Config file | Purpose | KπX plugins |
+|--------|------------|---------|-------------|
+| **Lifecycle** | `opencode.jsonc` → `"plugin"` array | `event`, `messages.transform`, etc. | 2 (suggestions-check, startup-context) |
+| **TUI** | `tui.json` → `"plugin"` array | Voice STT/TTS, UI extensions | 1 (@renjfk/opencode-voice) |
+
+#### Lifecycle plugins (`opencode.jsonc`)
 
 ```jsonc
 "plugin": [
-  "opencode-dir",
-  "opencode-ssh-session",
-  "opencode-antigravity-auth@latest",   // Claude + Gemini via Google OAuth (free)
-  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",
-  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"
+  "opencode-dir",                           // standard — directory navigation
+  "opencode-ssh-session",                   // standard — persistent SSH sessions
+  "opencode-antigravity-auth@latest",        // standard — Claude + Gemini via Google OAuth (free)
+  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",   // KπX
+  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"       // KπX
 ]
 ```
+
+#### TUI plugin (`tui.json`)
+
+```jsonc
+// ~/.config/opencode/tui.json (symlink → assets/tui.json)
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "plugin": [["@renjfk/opencode-voice", {}]]
+}
+```
+
+Config source: `assets/tui.json` — symlinké vers `~/.config/opencode/tui.json`.
 
 #### KπX Managed — `hooks/opencode/`
 
@@ -316,10 +336,10 @@ Fallback: os.hostname() if tailscale unavailable
 
 ### Voice (TUI — @renjfk/opencode-voice)
 
-STT + TTS 100% local. Config dans `tui.json` (pas `opencode.jsonc`).
+STT + TTS 100% local. Config dans `tui.json` (pas `opencode.jsonc`). **Tracké dans** `assets/tui.json`, symlinké vers `~/.config/opencode/tui.json`.
 
 ```jsonc
-// ~/.config/opencode/tui.json
+// ~/.config/opencode/tui.json (symlink → assets/tui.json)
 {
   "$schema": "https://opencode.ai/tui.json",
   "plugin": [["@renjfk/opencode-voice", {}]]
@@ -466,6 +486,7 @@ ln -sf $HOME/.agents/AGENTS.md $HOME/.config/opencode/AGENTS.md
 ln -sf $HOME/.agents/skills $HOME/.config/opencode/skills
 ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 ln -sf $HOME/.agents/skills/k-opencode/assets/opencode.jsonc $HOME/.config/opencode/opencode.jsonc
+ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tui.json
 ```
 
 **Agent discovery:** Agents defined in `$HOME/.agents/agents/` (`.agents` protocol) are symlinked to `$HOME/.config/opencode/agents/`. Files in `~/.config/opencode/agents/` become discoverable as subagents.

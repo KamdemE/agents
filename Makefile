@@ -24,6 +24,8 @@ link: ## Symlink .agents/ into all agent runtimes
 	ln -sfn $(HOME)/.agents/skills $(HOME)/.config/opencode/skills
 	ln -sfn $(HOME)/.agents/agents $(HOME)/.config/opencode/agents
 	ln -sfn $(HOME)/.agents/profiles $(HOME)/.config/opencode/profiles
+	ln -sfn $(HOME)/.agents/skills/k-opencode/assets/opencode.jsonc $(HOME)/.config/opencode/opencode.jsonc
+	ln -sfn $(HOME)/.agents/skills/k-opencode/assets/tui.json $(HOME)/.config/opencode/tui.json
 	ln -sfn $(HOME)/.agents/AGENTS.md $(HOME)/.codex/AGENTS.md
 	ln -sfn $(HOME)/.agents/AGENTS.md $(HOME)/.copilot/copilot-instructions.md
 	ln -sfn $(HOME)/.agents/AGENTS.md $(HOME)/.gemini/GEMINI.md
