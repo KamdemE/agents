@@ -1,17 +1,26 @@
 /**
  * KπX Suggestions Guard — OpenCode plugin.
- * Injects a format-reminder system message on EVERY messages.transform
- * to ensure the assistant always includes 💡 Suggestions (≥3).
+ * Injects format reminder system message on EVERY messages.transform,
+ * but ONLY for agents Colab and Build.
  *
- * This is unconditional — fires every turn, not conditional on
- * the previous response. The reminder is lightweight (single sentence)
- * and keeps the LLM primed for the format requirement.
+ * Agent detection: captures session.created event → info.agent.
  */
+let currentAgent = null;
+
 module.exports = async function suggestionsGuardPlugin() {
   return {
-    "experimental.chat.messages.transform": async (_input, output) => {
-      output.messages = output.messages || [];
+    // Capture agent name at session start
+    event: async ({ event }) => {
+      if (event.type === "session.created") {
+        currentAgent = event.properties.info?.agent ?? null;
+      }
+    },
 
+    // Inject format reminder every turn (for Colab/Build only)
+    "experimental.chat.messages.transform": async (_input, output) => {
+      if (currentAgent !== "Colab" && currentAgent !== "Build") return;
+
+      output.messages = output.messages || [];
       output.messages.push({
         role: "system",
         content:
