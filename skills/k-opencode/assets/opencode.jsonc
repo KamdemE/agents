@@ -483,7 +483,9 @@
   "plugin": [
     "opencode-dir",
     "opencode-ssh-session",
-    "opencode-antigravity-auth@latest"
+    "opencode-antigravity-auth@latest",
+    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",
+    "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js"
   ],
 
   "compaction": {
