@@ -41,6 +41,29 @@
 | `$HOME/Downloads/` | Temporary downloads |
 | `$HOME/Videos/` | Recordings, screencasts |
 
+## Pre-edit `.bak` Backup Rule (MANDATORY)
+
+**Before ANY file modification** (edit, rename, move, delete):
+1. Create a backup with `.bak` extension in `/tmp/` — **never** next to the original file
+2. Never delete `.bak` files from `/tmp/` — they are a permanent safety net
+3. Pattern: `cp <file> /tmp/<file>.bak` or `mv <file> /tmp/<file>.bak`
+4. Exception: if the file already has a `.bak` backup in `/tmp/`, skip
+
+### Rationale
+- Prevents littering project dirs with `.bak~`, `.bak.1`, `original.md.bak` artifacts
+- `/tmp/` is reboot-persistent for the current uptime → safety net if an edit goes wrong
+- Never deleting `.bak` files = zero information loss (GRAVÉ)
+- Exception: sensitive files (tokens, secrets) → delete `.bak` after successful edit
+
+### Examples
+```bash
+# ✅ GOOD — backup in /tmp/
+cp ~/.config/opencode/opencode.jsonc /tmp/opencode.jsonc.bak
+
+# ❌ BAD — backup next to original
+mv ~/.config/opencode/opencode.jsonc ~/.config/opencode/opencode.jsonc.bak
+```
+
 ## Temp Rule — `/tmp/` for non-project artifacts
 
 Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`, not `$HOME/Work/`, not the workspace root.
