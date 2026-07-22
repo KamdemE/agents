@@ -6,6 +6,8 @@ After=network.target
 Type=simple
 WorkingDirectory=%h
 # EnvironmentFile=%h/.config/opencode/web.env  # TODO: re-enable OPENCODE_SERVER_PASSWORD once UI auth flow is stable
+# NODE_NO_WARNINGS=1 suppresses Node.js MaxListenersExceededWarning (cosmetic, OpenCode internals)
+Environment="NODE_NO_WARNINGS=1"
 ExecStart=/home/kpihx/.opencode/bin/opencode serve --port 4097 --hostname 127.0.0.1
 ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf http://127.0.0.1:4097/ && exit 0; sleep 1; done; exit 1'
 # ExecStartPost=/bin/sh -c 'sleep 5 && /usr/bin/tailscale serve --bg --yes --https 8443 http://127.0.0.1:4097'

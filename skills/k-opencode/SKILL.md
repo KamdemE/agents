@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.14.0
+  version: 1.15.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -416,6 +416,10 @@ WantedBy=default.target
 
 **Single source of truth :** le fichier vit dans `assets/opencode-web.service`, symlinké vers `~/.config/systemd/user/`. Éditer l'asset, puis `systemctl --user daemon-reload && systemctl --user restart opencode-web`.
 
+Le post-commit hook `.git/hooks/post-commit` détecte automatiquement les changements sur `assets/opencode-web.service` (→ daemon-reload + restart) et `assets/opencode.jsonc` (→ restart). Un commit suffit, pas de step manuel.
+
+**MaxListenersExceededWarning** : `Environment="NODE_NO_WARNINGS=1"` dans le service file supprime ce warning cosmétique (interne OpenCode, >10 listeners sur un EventEmitter).
+
 Voir `k-tailscale/SKILL.md` pour la configuration tailscale serve et l'état des ports.
 
 ## Init & Connectivity
@@ -451,8 +455,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/opencode.jsonc $HOME/.config/openc
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.14.0 — **Permission architecture redesign**: global source of truth → agent deltas only. Renamed `lite`→`Lite`, `auto`→`Auto`. Colab/Explore/Build inherit global bash 3-zone. Lite denies skills/all MCPs. Auto `*: allow`. Sub-agent perms unified. YAML frontmatter pitfalls section. |
-| 2026-07-22 | [OPENCODE] | v1.13.0 — **Agent & Subagent System** section. |
-| [SUMMARY] | — | v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite Session; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
+| 2026-07-22 | [OPENCODE] | v1.15.0 — **Auto-deploy hooks**: post-commit auto-restart on config/service file change. `NODE_NO_WARNINGS=1` suppresses MaxListenersExceededWarning. |
+| 2026-07-22 | [OPENCODE] | v1.14.0 — **Permission architecture redesign**: global source of truth → agent deltas only. `lite`→`Lite`, `auto`→`Auto`. Colab/Explore/Build inherit global. Lite denies skills/MCPs. Auto `*: allow`. Sub-agent perms unified. YAML pitfalls. |
+| [SUMMARY] | — | v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`)
