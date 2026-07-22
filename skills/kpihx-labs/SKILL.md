@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -88,6 +88,52 @@ Skills that have platform-specific behaviors use `refs/<os>.md` files to documen
 3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** (`k-blglaptop139`), not in `refs/windows.md`.
 4. **Each `refs/` file is self-contained** — readable on its own without cross-referencing the main skill.
 5. **WSL is documented under `refs/windows.md`** with a clear `### WSL` subsection, not in a separate file. WSL is Windows subsystem — one file per OS.
+
+---
+
+## Infrastructure Directory Standard
+
+Every KpihX infrastructure machine MUST have the following directory layout:
+
+| Path | Purpose | Source |
+|------|---------|--------|
+| `~/.agents/` | KpihX kernel — clone of the private `git@github.com:KpihX/agents.git` repo | Git clone (private) |
+| `~/KpihX-Labs/` | Work directory — all projects, code, experiments live here | Created on each machine |
+| `~/KpihX-Labs/.agents/` | Symlink → `~/.agents/` | `ln -sf ~/.agents ~/KpihX-Labs/.agents` |
+| `~/KpihX-Labs/AGENTS.md` | Per-infra AGENTS.md — empty by default, can contain infra-specific agent instructions | Created empty if absent |
+
+### Rationale
+
+- `~/.agents/` is the **canonical kernel location** — the git repo root. Everything (skills, rules, hooks, agents, assets) lives here.
+- `~/KpihX-Labs/` is the **work directory** — not a git repo itself, but contains all projects as subdirectories or repos.
+- `~/KpihX-Labs/.agents/` is a **symlink** so that paths like `~/KpihX-Labs/.agents/skills/...` work consistently across all machines, even when code references the kernel from within the workspace.
+- `~/KpihX-Labs/AGENTS.md` exists per-infra so that machine-specific agent instructions can be added without modifying the shared kernel.
+
+### Setup on a new machine
+
+```bash
+# 1. Clone the kernel (private repo — SSH key required)
+git clone git@github.com:KpihX/agents.git ~/.agents
+
+# 2. Create the work directory
+mkdir -p ~/KpihX-Labs
+
+# 3. Symlink .agents/ into it
+ln -sf ~/.agents ~/KpihX-Labs/.agents
+
+# 4. Create an (empty) per-infra AGENTS.md if needed
+touch ~/KpihX-Labs/AGENTS.md
+```
+
+### Current machines
+
+| Machine | Has `~/.agents/`? | Has `~/KpihX-Labs/`? | Symlink? | AGENTS.md? |
+|---------|-------------------|---------------------|----------|------------|
+| **kpihx-ubuntu** | ✅ | ✅ | ✅ | ✅ (compact synthesis) |
+| **kpihx-pve** | ✅ | ✅ | ❌ | ❌ |
+| **kpihx-pve-debian** | ✅ | ✅ | ❌ | ❌ |
+| **blglaptop139** | ✅ (WSL) | ✅ | ❌ | ❌ |
+| **kpihx-s25** | ❌ (Termux) | ❌ | ❌ | ❌ |
 
 ---
 
@@ -182,6 +228,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-07-22 | [OPENCODE] | v2.2.0 — Added Workspace Conventions (XDG routing + Engineering Standards ported from k-workspace). |
+| 2026-07-22 | [OPENCODE] | v2.3.0 — Added Infrastructure Directory Standard: every machine must have ~/.agents/ (kernel clone), ~/KpihX-Labs/ (work dir), symlink, and per-infra AGENTS.md. Current machine compliance table. |
 | 2026-07-22 | [OPENCODE] | v2.1.0 — Added OS-Specific References Governance section. Rules: refs/ are always OS-oriented (ubuntu.md, windows.md, debian.md, pve.md). WSL under windows.md. Main SKILL.md stays generic. |
 | 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as kernel top reference. Full kernel structure tree, project registry, knowledge base, OS refs governance. |
 | [SUMMARY] | — | v1.x: PVE content (CT-vs-VM DNS, network topology, prefix nomenclature) migrated to k-pve. Full history in git. |

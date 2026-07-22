@@ -2,7 +2,7 @@
 
 ## Termux username (`u0_a417`)
 
-Android assigns one Unix user per app UID. **You cannot rename it to `kpihx`** — SSH must keep `User u0_a417` in `assets/ssh-kpihx-phones.conf`.
+Android assigns one Unix user per app UID. **You cannot rename it to `kpihx`** — SSH must keep `User u0_a417` in `k-ssh/assets/ssh.conf`.
 
 Cosmetic options **inside Termux** (`~/.bashrc` or `~/.zshrc`):
 

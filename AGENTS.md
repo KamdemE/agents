@@ -3,7 +3,7 @@ name: kpihx-agents
 description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink.
 metadata:
   author: KpihX
-  version: "3.3.0"
+  version: "3.4.0"
   scope: agent-kernel
 ---
 
@@ -37,6 +37,7 @@ metadata:
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
 | `rules/audit-commands.md` | `uv` not `pip`. `make audit` after any `.agents/` change. `make push` not raw git push. `make check` for Python tests. Post-work checklist: audit, docs, version, sync, finalize. |
 | `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. |
+| `rules/skill-infra-scope.md` | Cross-infrastructure skill design: general case in `SKILL.md`, OS-specific details in `references/<os>.md`. |
 | `rules/k-context-hygiene.md` | Session log + active projects updated proactively. Zero-deletion (append-only). Overflow → `references/log.md`. Issues → `references/issues.md`. |
 | `k-context/SKILL.md` → Issues rules | **Issues Pre-check:** search `issues.md` before creating new issue — no duplicates. **Issues Proactive Update:** update `issues.md` row immediately on solve/defer/status change, following exact table structure. **Issues Transparency:** append all commands/outputs to issue row. |
 | `rules/agent-registry.md` | Symlink map: how each runtime (OpenCode, Hermes, Cursor, Codex, Cline, Copilot, Gemini, Vibe, Zed, Claude) connects to `.agents/`. |
@@ -97,6 +98,16 @@ Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe`
 ## Tmp (tmp/)
 
 **`tmp/`** is temporary storage for merged-away originals and old backups. Files here may be cleaned during `.agents/` optimization (see `k-optim` Meta scope).
+
+## Infrastructure Directory Standard
+
+Every KpihX machine MUST have:
+- `~/.agents/` — clone of the private `git@github.com:KpihX/agents.git` repo (the kernel)
+- `~/KpihX-Labs/` — work directory for all projects
+- `~/KpihX-Labs/.agents/` — symlink → `~/.agents/`
+- `~/KpihX-Labs/AGENTS.md` — empty by default, per-infra overrides only
+
+See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup steps.
 
 ## Language
 

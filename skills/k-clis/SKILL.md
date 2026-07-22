@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.5.0
+  version: 1.6.0
   scope: operations
 ---
 
@@ -67,7 +67,8 @@ metadata:
 | `whisper-ctranslate2` | _(this skill)_ | Local speech-to-text — Whisper |
 | `ksh` | _(this skill)_ | Universal Dispatcher |
 | `youtube_cli.py` | **`k-media`** + **`k-google`** | YouTube upload |
-| `adb` / `ssh` | **`k-phones`** | Android phone access over Tailscale |
+| `adb` | **`k-phones`** | Android phone wireless debugging |
+| `ssh` / `ssh-keygen` | **`k-ssh`** | Centralized SSH config, key management, passphrase ops |
 | `scrcpy` | **`k-phones`** | Android screen mirroring/control via ADB |
 | `yt-dlp` | _(this skill)_ | YouTube/video downloader — CLI for youtube-dl fork |
 
@@ -136,6 +137,6 @@ For any CLI that needs Vault-backed tokens:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.5.0 — Added `bat`, `rg`, `fd`, `magick`, `asciinema` to registry. New `Media, AI & Utilities` section. Purged all `pyenv` mentions. |
+| 2026-07-22 | [OPENCODE] | v1.6.0 — Added `bat`, `rg`, `fd`, `magick`, `asciinema`, `k-ssh` (ssh/ssh-keygen) to registry. New `Media, AI & Utilities` section. Purged pyenv. Split `adb`/`ssh` into separate entries. |
 | 2026-07-22 | [OPENCODE] | v1.4.0 — Added `plocate`/`locate` entry with search-preference mandate (agents MUST prefer locate over find/grep). Created references/plocate.md + rules/search-governance.md. |
 | [SUMMARY] | — | v1.3.0 `rm` wrapper; v1.2.0+ Shell & Terminal subgroup; v1.1.0 nvim/zsh/micro; v1.0.0 merged k-cloud-tools. |

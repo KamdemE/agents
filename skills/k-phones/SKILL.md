@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.18"
+  version: "1.1.0"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
@@ -67,11 +67,11 @@ Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard 
 
 ## SSH (S25)
 
-- **Canonical config:** `$HOME/.agents/skills/k-phones/assets/ssh-kpihx-phones.conf` — included by `$HOME/.ssh/config`.
+- **Canonical config:** now centralized in `k-ssh/assets/ssh.conf` — see `k-ssh` skill.
 - **Key:** `~/.ssh/id_ed25519_s25` → Termux `~/.ssh/authorized_keys`.
 - **User:** `u0_a417` (fixed by Android — cannot become `kpihx`; use alias `s25` + optional Termux `PS1`) · **Port:** `8022`.
 - **Termux `sshd`:** must be running on the phone — persistence: `references/s25-termux-sshd.md` · deploy: `scripts/termux-deploy-sshd.sh` · assets: `termux-sshd-autostart.sh`, `termux-boot-sshd`.
-- **OpenSSH on PC only reads** `$HOME/.ssh/config` (+ Include fragments). Skill `references/*.md` are runbooks, not loaded by `ssh`.
+- **OpenSSH on PC only reads** `$HOME/.ssh/config` (+ Include fragments). Skill references are runbooks, not loaded by `ssh`.
 
 ## ADB (S25)
 
@@ -90,13 +90,11 @@ Full runbook: `references/s25-adb-wireless.md`.
 | `assets/adb-s25` | Connect to wireless-debug **debug port** |
 | `assets/adb-s25-pair` | `adb pair` on **pairing port** only |
 | `assets/phones.ksh` | `PATH` + alias `s25` — sourced from `$HOME/.kshrc` |
-| `assets/ssh-kpihx-phones.conf` | OpenSSH `Host` blocks (included by `~/.ssh/config`) |
-| `assets/ssh-config` | Symlink → `$HOME/.ssh/config` (audit) |
 | `assets/termux-tmux.conf` | Termux `~/.tmux.conf` template (Ctrl-a, resurrect, continuum) |
 | `assets/termux-zshrc-snippet.sh` | Reference snippet for `alias ubuntu=…` |
 | `assets/termux-sshd-autostart.sh` | Start `sshd` on each Termux shell open (`pgrep`, not `ss`) |
-| `assets/termux-ssh-ubuntu.conf` | Canonical `Host ubuntu` → `100.82.95.70` on phone |
 | `assets/termux-boot-sshd` | Termux:Boot (F-Droid) script → `~/.termux/boot/sshd` |
+| **SSH canonical config** | now in `k-ssh/assets/ssh.conf` |
 | `scripts/termux-deploy-tmux.sh` | Push tmux + TPM + zsh alias to S25 via `ssh s25` |
 | `scripts/termux-deploy-sshd.sh` | Push sshd autostart + ubuntu SSH + boot script |
 | `scripts/termux-deploy-all.sh` | `termux-deploy-sshd.sh` then `termux-deploy-tmux.sh` |
@@ -132,6 +130,6 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-30 | [OPENCODE] | v1.0.18 — Added `scrcpy` (snap v3.3.4) to quick commands + When to Load. |
+| 2026-07-22 | [OPENCODE] | v1.1.0 — SSH canonical config migrated to `k-ssh/assets/ssh.conf`. Removed `ssh-kpihx-phones.conf`, `termux-ssh-ubuntu.conf`, `ssh-config` symlink from assets. SSH section now points to `k-ssh`. |
 | 2026-05-26 | [CURSOR] | v1.0.17 — Added `references/s25-hardware.md` (S25 specs + compute/inference routing); doc triad + When to Load. |
 | [SUMMARY] | — | v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |

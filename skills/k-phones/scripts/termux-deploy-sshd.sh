@@ -5,6 +5,7 @@
 set -euo pipefail
 
 readonly SKILL_ASSETS="${HOME}/.agents/skills/k-phones/assets"
+readonly KSSH_CONF="${HOME}/.agents/skills/k-ssh/assets/ssh.conf"
 readonly REMOTE='s25'
 readonly MARKER='# k-phones sshd autostart'
 readonly REMOTE_SNIPPET='.kphones-remote.zsh'
@@ -24,23 +25,20 @@ echo "==> ~/.zshrc hook"
 ssh "$REMOTE" "ZSHRC=\$HOME/.zshrc; touch \"\$ZSHRC\"
 grep -qF 'kphones-remote.zsh' \"\$ZSHRC\" 2>/dev/null || echo '[[ -f ~/.kphones-remote.zsh ]] && . ~/.kphones-remote.zsh' >> \"\$ZSHRC\""
 
-echo "==> ~/.ssh/config Host ubuntu (Tailscale IP, single block)"
-scp "${SKILL_ASSETS}/termux-ssh-ubuntu.conf" "${REMOTE}:.ssh/kphones-ubuntu.conf"
+echo "==> ~/.ssh/config (Include canonical k-ssh fragment)"
+scp "${KSSH_CONF}" "${REMOTE}:.ssh/kpihx-ssh.conf"
 ssh "$REMOTE" 'python3 << "PY"
 import re
 from pathlib import Path
 
 cfg = Path.home() / ".ssh" / "config"
-frag = Path.home() / ".ssh" / "kphones-ubuntu.conf"
-marker = "# k-phones ubuntu host"
-block = marker + "\n" + frag.read_text().strip() + "\n"
+marker = "# k-ssh canonical fragment"
+include_line = "Include ~/.ssh/kpihx-ssh.conf"
 text = cfg.read_text() if cfg.exists() else ""
-text = re.sub(r"\n# k-phones ubuntu host\n.*?(?=\nHost |\Z)", "\n", text, flags=re.S)
-text = re.sub(r"\nHost ubuntu\n.*?(?=\nHost |\Z)", "\n", text, flags=re.S)
-text = re.sub(r"^Host ubuntu\n.*?(?=\nHost |\Z)", "\n", text, flags=re.S)
+if marker not in text:
+    text = text.strip() + "\n\n" + marker + "\n" + include_line + "\n"
 cfg.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
-cfg.write_text(text.strip() + "\n\n" + block)
-print("Host ubuntu blocks:", len(re.findall(r"^Host ubuntu", cfg.read_text(), re.M)))
+cfg.write_text(text)
 PY'
 
 echo "==> termux-boot script (install Termux:Boot from F-Droid + open app once)"

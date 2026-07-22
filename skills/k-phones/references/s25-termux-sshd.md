@@ -5,7 +5,7 @@
 | Layer | Read by OpenSSH? | Role |
 |-------|------------------|------|
 | `$HOME/.ssh/config` | **Yes** | Main config on **PC**; `Include` → phone fragment |
-| `k-phones/assets/ssh-kpihx-phones.conf` | **Yes** (via Include) | `Host s25` → IP `100.125.54.1`, port `8022`, key `id_ed25519_s25` |
+| `k-ssh/assets/ssh.conf` | **Yes** (via Include) | `Host kpihx-s25 s25` → IP `100.125.54.1`, port `8022`, key `id_ed25519_s25` |
 | `references/s25-termux-sshd.md` | **No** | Runbook for **you** and **agents** — steps to run on the phone |
 | Termux `~/.ssh/config` | **Yes** (on phone) | `Host ubuntu` → PC; unrelated to `ssh s25` |
 

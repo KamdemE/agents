@@ -4,7 +4,7 @@ description: "BW-Proxy & BW-ENV operational memory - KpihX Bitwarden Sovereign M
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.7.0"
 allowed-tools: mcp__bw-mcp__*, Bash(tmux:*)
 ---
 
@@ -12,7 +12,7 @@ allowed-tools: mcp__bw-mcp__*, Bash(tmux:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **OS references:** `references/ubuntu.md` (bw-env Linux setup) · `references/windows.md` (WSL bw-env, native bw-proxy)
+> **OS references:** `references/ubuntu.md` (bw-env Linux setup) · `references/windows.md` (WSL bw-env, native bw-proxy, SSH Agent WSL bridge)
 
 ## Infrastructure Map (Sovereign)
 
@@ -64,6 +64,65 @@ KπX uses two independent yet complementary utilities to manage secrets:
 | **Lease Unlock** | `bw-proxy` | `bw-proxy admin unlock` (creates a Docker-only temporary lease) |
 | **Audit Log** | `bw-proxy` | `bw-proxy admin log view` |
 
+## Bitwarden Desktop GUI — SSH Agent
+
+The official Bitwarden desktop app (v2025.1.2+) includes a built-in SSH agent that replaces `ssh-agent`. SSH keys are stored encrypted in your vault, never as files on disk.
+
+### Activation (all platforms) — dans l'app desktop
+
+Ces étapes sont **identiques** sur Linux, Windows et macOS :
+
+1. **Open Bitwarden desktop app**, unlock your vault.
+2. **Go to Settings → SSH Agent** (gear icon, then "SSH Agent" tab).
+3. **Toggle "Enable SSH agent" ON.**
+4. **Set "Ask for authorization when using SSH agent" to `"Remember until vault is locked"`** (or `"Always"` for first-time testing).
+5. **Create an SSH key**: click `+` → item type `SSH key` → Bitwarden generates an Ed25519 key pair automatically → name it (e.g., "kpihx-ubuntu") → **Save**.
+
+### Linux natif (.deb, AppImage) — notre setup
+
+Procédure documentée pour l'Ubuntu workstation (déjà en place) :
+
+1. **Set `SSH_AUTH_SOCK` in shell rc** (déjà dans `~/.kshrc` line 38) :
+   ```bash
+   export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock
+   ```
+2. **Test the agent:**
+   ```bash
+   ssh-add -L           # doit lister les clés du vault
+   ssh -T git@github.com
+   # Bitwarden popup → accept → "Hi ...! You've successfully authenticated"
+   ```
+
+### Windows + WSL2
+
+Sur Windows, Bitwarden utilise un **named pipe** (`\\.\pipe\openssh-ssh-agent`), pas un Unix socket. Le pont `npiperelay` + `socat` est nécessaire depuis WSL.
+
+→ Voir `references/windows.md` → **Bitwarden Desktop SSH Agent — WSL Bridge** pour la procédure complète (désactiver OpenSSH, installer npiperelay, créer le bridge, tester).
+
+### Socket paths by install method
+
+| Install method | Socket / Pipe |
+|----------------|--------------|
+| **Linux natif (.deb, AppImage)** | `~/.bitwarden-ssh-agent.sock` |
+| **Linux Snap** | `~/snap/bitwarden/current/.bitwarden-ssh-agent.sock` |
+| **Linux Flatpak** | `~/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock` |
+| **Windows natif** | `\\.\pipe\openssh-ssh-agent` (named pipe) |
+| **macOS .dmg** | `~/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock` |
+
+### Requirements
+
+- Bitwarden desktop app **≥ 2025.1.2**
+- Desktop app must be **running and unlocked** for SSH agent to work
+- Flatpak builds **do not** support SSH agent — use native or Snap on Linux
+- Windows : désactiver le service OpenSSH Authentication Agent avant
+
+### Troubleshooting
+
+- `ssh-add -L` fails → Bitwarden not running, vault locked, or SSH agent not enabled in Settings
+- Socket not found → toggle SSH Agent off/on in Settings, or check install method matches socket path
+- `IdentitiesOnly yes` without `IdentityFile` → SSH skips agent keys entirely, falls back to password auth
+- **Windows/WSL :** si le pipe se bloque après usage prolongé → redémarrer l'app desktop Bitwarden
+
 ## Insights Discipline (mandatory)
 
 - Read `$HOME/.agents/skills/k-bw/references/insights.md` before non-trivial work in this skill domain.
@@ -77,6 +136,7 @@ KπX uses two independent yet complementary utilities to manage secrets:
 
 ## Changelog
 
+| 2026-07-22 | [OPENCODE] | v2.7.0 — Restructured SSH Agent section per skill-infra-scope rule: cross-platform activation + Linux native setup stay in SKILL.md; WSL bridge details moved to references/windows.md. Added WSL bridge setup, pipe-block troubleshooting, and WSLg alternative. |
 | 2026-04-28 | [ANTIGRAVITY] | v2.4.0 - Added Fast Interface documentation (`admin status`, `do` with `-o`) and detailed Operational Map. |
 | 2026-04-24 | [GEMINI] | v2.3.0 - Implemented Agnostic Web Approval UI (Browser HITL) and updated AppArmor/Docker networking. |
 | [SUMMARY] | — | v2.2.x distribution hardening; v2.1.2 naming; older -> file history |

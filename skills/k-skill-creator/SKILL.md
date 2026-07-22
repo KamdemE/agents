@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.3"
+  version: "2.4.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -34,6 +34,18 @@ Apply these KπX rules on top of the inherited baseline:
 - Keep downstream `k-*` skills concise: present the minimum runtime/workflow map, then point to the source files or dirs to inspect for detail.
 - Keep `k-skill-creator` itself as the allowed exception that also ships upstream support dirs when needed, notably `agents/` and `eval-viewer/`.
 - When a skill is renamed, moved, or added, propagate the change to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and any impacted `k-*` references.
+
+## Infrastructure Scope
+
+All skills must be designed **cross-infrastructure first**. Follow `rules/skill-infra-scope.md`.
+
+- The main `SKILL.md` describes the **general case** (cross-Linux, cross-platform).
+- **OS-specific details** go in `references/<os>.md` (e.g., `ubuntu.md`, `windows.md`, `pve.md`).
+- **Device-specific details** go in `references/<infra>.md`.
+- In `SKILL.md`, link to OS refs with a header note: `> **OS references:** references/ubuntu.md ...`
+- If a block starts with "On Ubuntu..." or "On Windows..." in the main skill, it belongs in a reference file instead.
+
+> See `rules/skill-infra-scope.md` for the full rule.
 
 ## Structural Contract
 
@@ -138,6 +150,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.3.3 — Added a reusable Insights Discipline template, explicit creation rule for `references/insights.md`, and normalized this skill's own Insights Discipline section. |
+| 2026-07-22 | [OPENCODE] | v2.4.0 — Added Infrastructure Scope section: cross-infrastructure first design, OS-specific details go in `references/<os>.md`. References `rules/skill-infra-scope.md`. |
 | 2026-04-13 | [CODEX] | v2.3.2 — Added explicit skill-creation contract for `references/insights.md` and mandatory `## Insights Discipline` usage in downstream skills. |
 | [SUMMARY] | — | v2.3.1–v1.0.0: standardized insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, and earlier historical rows condensed for table limits. |

@@ -11,6 +11,7 @@
 | `audit-commands.md` | `make audit`, `make check`, `uv`, never `pip` | BEFORE finalizing any work |
 | `tool-discipline.md` | tmux sudo gate, read-before-edit, no shell file ops | ANY bash/tool usage |
 | `skill-governance.md` | Skill creation, version bumps, changelog, no duplication | Before editing ANY `k-*` skill |
+| `skill-infra-scope.md` | Cross-infrastructure skill design, OS-specific refs pattern | Creating or updating ANY `k-*` skill with OS-specific content |
 | `k-context-hygiene.md` | Session log, active projects, zero-deletion, k-context updates | EVERY session, after any significant work |
 | `agent-registry.md` | Symlink map, per-agent config paths | When setting up or debugging an agent runtime |
 | `whats-up.md` | Status digest protocol, domain ordering | When KπX asks "what's up" |
