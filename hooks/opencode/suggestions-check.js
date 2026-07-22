@@ -1,38 +1,23 @@
 /**
- * KπX Suggestions Check — OpenCode plugin.
- * Reminds the assistant to include 💡 Suggestions (≥3 items) on every turn.
+ * KπX Suggestions Guard — OpenCode plugin.
+ * Injects a format-reminder system message on EVERY messages.transform
+ * to ensure the assistant always includes 💡 Suggestions (≥3).
+ *
+ * This is unconditional — fires every turn, not conditional on
+ * the previous response. The reminder is lightweight (single sentence)
+ * and keeps the LLM primed for the format requirement.
  */
-module.exports = async function suggestionsCheckPlugin(ctx) {
-  let checked = false;
-
+module.exports = async function suggestionsGuardPlugin() {
   return {
-    "experimental.chat.messages.transform": async (input, output) => {
-      output.messages = output.messages || [...(input.messages || [])];
+    "experimental.chat.messages.transform": async (_input, output) => {
+      output.messages = output.messages || [];
 
-      // Skip first turn (startup context handles that)
-      if (!checked) {
-        checked = true;
-        return;
-      }
-
-      const lastAssistant = [...(input.messages || [])]
-        .reverse()
-        .find((m) => m.role === "assistant");
-
-      if (!lastAssistant) return;
-
-      const content = lastAssistant.content || "";
-      const hasSuggestions = content.includes("Suggestion");
-      const suggestionCount = (content.match(/(?:^|\n)\s*\d+\.\s/g) || []).length;
-
-      if (!hasSuggestions || suggestionCount < 3) {
-        output.messages.push({
-          role: "system",
-          content:
-            "REMINDER: Your response MUST include a `💡 Suggestions` section with ≥3 proactive suggestions. " +
-            "Format: `## 💡 Suggestions` followed by 3+ numbered items.",
-        });
-      }
+      output.messages.push({
+        role: "system",
+        content:
+          "FORMAT: Your response MUST end with a `💡 Suggestions` section " +
+          "containing ≥3 numbered proactive suggestions for next steps.",
+      });
     },
   };
 };

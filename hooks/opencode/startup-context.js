@@ -57,6 +57,12 @@ module.exports = async function startupContextPlugin(ctx) {
         role: "system",
         content: buildStartupContext(),
       });
+      output.messages.unshift({
+        role: "system",
+        content:
+          "Your response MUST end with a `💡 Suggestions` section " +
+          "containing >=3 numbered proactive suggestions for next steps.",
+      });
     },
   };
 };
