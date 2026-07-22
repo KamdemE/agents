@@ -45,10 +45,11 @@ allowed-tools: "Bash(*), *"
 
 ## Active TODOs
 
-| Task | IMPORTANT | URGENT | CONCERNED | Description |
-|------|-----------|--------|-----------|-------------|
-| **ISS-20260515-001** projector runbook | YES | NO | ALL | After each reboot: `powerprofilesctl get`. Before cours: `powerprofilesctl set balanced`. On episode: journal + HDMI note. Full runbook → **`references/issues.md`** row **`ISS-20260515-001`** (Next checkpoint, 2026-05-26). |
-| **ISS-20260526-001** battery wear | YES | NO | KπX | Capacity **~67%** design — monitor. Charge cap **80%** already via sysfs (`BAT0/charge_control_end_threshold=80`) — verify after next full charge; no BIOS required unless you want Dell UI mirror. |
+| Task | IMPORTANT | URGENT | CONCERNED | Date | Description |
+|------|-----------|--------|-----------|------|-------------|
+| **ISS-20260515-001** projector runbook | YES | NO | ALL | **permanent** | `powerprofilesctl get` after each reboot. Before cours: `powerprofilesctl set balanced`. On episode: journal + HDMI note. Full runbook → **`references/issues.md`** row `ISS-20260515-001` (Next checkpoint: 2026-05-26, but the issue is permanent — projector reconnect is needed after every reboot). |
+| **ISS-20260526-001** battery wear | YES | NO | KπX | **ongoing** | Capacity **~67%** design — monitor monthly. Charge cap **80%** already via sysfs (`BAT0/charge_control_end_threshold=80`) — verify after each full charge cycle; no BIOS required unless you want Dell UI mirror. If capacity drops below **50%**, replace battery. |
+| **ISS-20260722-001** opencode-web upstream | NO | NO | OPENCODE | **2026-08-12** | Vérifier si le fix upstream **PR #28434** (MCP disabled state persistence) a été mergé dans opencode. Les settings web sont perdus au restart car stockés en `localStorage` browser uniquement (pas de persistance serveur). Si fix upstream dispo → tester et refermer l'issue. Sinon repousser le check de 3 semaines. Liens: [#23934](https://github.com/anomalyco/opencode/issues/23934), [#28428](https://github.com/anomalyco/opencode/issues/28428), PR [#28434](https://github.com/anomalyco/opencode/pull/28434). |
 
 ## Active Projects
 
