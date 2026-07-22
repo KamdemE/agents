@@ -13,10 +13,10 @@ No other language unless explicitly requested by the operator. This rule is abso
 ## 💬 Comments         — present if you have an opinion (appreciative, critical, or collaborative).
 ## ⚠️ Remarks          — present if issues found: bugs, risks, desync, drift. Sorted by priority.
 ## 📋 TODOs             — present if a plan is active (from k-context SKILL.md only). Max 3 rows.
-## 💡 Suggestions       — ≥3 proactive suggestions. MANDATORY every turn.
+## 💡 Suggestions       — ≥3 proactive suggestions. **⚠️ MANDATORY every turn — NEVER skip this section. ⚠️**
 ```
 
-Sections are **pertinence-based**: show them when you have relevant content. Only **Suggestions (≥3)** is mandatory every turn.
+Sections are **pertinence-based**: show them when you have relevant content. **🚨 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨**
 
 ## Chat Visuals & Emojis (Mandatory)
 
