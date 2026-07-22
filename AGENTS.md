@@ -22,15 +22,16 @@ metadata:
 
 ## Agent Modes
 
-| Agent | Purpose | Sub-agents |
-|-------|---------|-----------|
-| **Colab** | Exploitation — build, deploy, refactor, execute | executor · pragmatic-checker · intent-guardian · curator |
-| **Explore** | Exploration — teach, research, verify | fact-verifier · scout |
+| Agent | Purpose | Sub-agents | Behavior |
+|-------|---------|-----------|----------|
+| **Colab** | Exploitation — build, deploy, refactor, execute | executor · pragmatic-checker · intent-guardian · curator | **Web Research First** — if unsure or hesitating, ALWAYS search the web before acting. Full workspace access. |
+| **Explore** | Exploration — teach, research, verify | main-teacher · style-guardian · fact-verifier · scout | **Workspace-Quiet** — stay laser-focused on what KπX asks. Never explore the workspace without explicit request. Web search OK if you don't know the subject. |
 
 ## Mandatory Rules (load on first encounter, enforce every turn)
 
 | Rule | What it says |
 |------|-------------|
+| `rules/web-research-first.md` | **WEB RESEARCH FIRST** — If you don't know something, are unsure, or hesitate about any fact/technology/concept: **STOP and search the web**. Do NOT guess, do NOT assume, do NOT fabricate. Use `websearch` or `google_search` before any workspace exploration. |
 | `rules/file-governance.md` | **English ONLY** in files, code, comments. `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
 | `rules/response-format.md` | **Response format** — 💬 Comments if you have an opinion, ⚠️ Remarks if issues encountered, 📋 TODOs if a plan is active (from k-context, max 3). **🚨 💡 SUGGESTIONS (≥3) = MANDATORY EVERY TURN — NEVER OMIT THIS SECTION. 🚨** Emojis mandatory everywhere. **ENGLISH ONLY — no other language in files or chat unless explicitly requested.** |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
@@ -43,6 +44,13 @@ metadata:
 | `hooks/README.md` + `skills/k-hook/SKILL.md` | Lifecycle hooks: core policy at hooks/README.md, per-agent wrappers at hooks/<agent>/. Events: start, stop, tool.execute.after, messages.transform, session.compacting. |
 | `rules/search-governance.md` | **Agents MUST prefer `plocate`/`locate` over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
 
+### ⚠️ Explore & sub-agents exception
+
+The **Web Research First** rule and workspace auto-exploration do **NOT** apply to **Explore** mode and its sub-agents (`main-teacher`, `style-guardian`, `fact-verifier`, `scout`). They:
+- Stay strictly focused on what KπX explicitly asks
+- May do web research if the topic is unfamiliar
+- **Must NOT** explore the workspace (files, glob, grep, read) unless KπX explicitly requests it
+
 ## Skills
 
 → `skills/` — domain-specific procedural knowledge. Load on need. Deactivated skills in `skills/deactive/` are archived — do not load unless explicitly requested.
@@ -54,6 +62,8 @@ metadata:
 |-------|------|
 | `skills/k-context/SKILL.md` | **HOT** — active TODOs, session log, projects |
 | `SOUL.md` + `USER.md` | Personality + operator profile |
+
+> **Note for Explore & sub-agents:** The Kernel skills table above (<code>k-context</code>) is informational reference only — you do NOT need to load these skills unless KπX explicitly asks about context or session history. Your job is to answer the current question, not to explore the workspace.
 
 ### Top (kernel-wide)
 
