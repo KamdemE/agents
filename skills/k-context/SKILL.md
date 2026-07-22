@@ -1,6 +1,6 @@
 ---
 name: "k-context"
-description: "KpihX HOT context - load at EVERY session start. Active TODOs, current projects, and session log."
+description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active TODOs, current projects, and session log."
 license: "private"
 metadata:
   author: "KpihX"
@@ -13,7 +13,7 @@ allowed-tools: "Bash(*), *"
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> HOT — load at every session start.
+> **Loading:** Auto-injected by OpenCode hooks for Colab/Build (`<startup-context>` block). If you don't see it in context AND you are not Explore/Lite, load manually.
 > - **Agent-memory update mandate:** update k-<agent> skill immediately after any agent-specific learning.
 > - **🔴 ENGLISH ONLY (Mandatory — ABSOLUTE):** ALL files, code, comments, docs, skills, scripts, configs, commits, AND chat responses MUST be in English. No other language unless KπX explicitly asks. Enforced in `AGENTS.md`, `rules/file-governance.md`, `rules/response-format.md`.
 > - **🔴 Permanent Directive Capture (Mandatory):** When KπX says "from now on", "always", "never" — agent MUST immediately write it to the correct `rules/`, `AGENTS.md`, or skill file. Never just acknowledge. See `rules/tool-discipline.md` → Permanent Directive Capture.

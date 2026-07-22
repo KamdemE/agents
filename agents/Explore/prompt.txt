@@ -46,12 +46,6 @@ Science is a living world, not dead symbol systems. Abstract constructions are p
 
 **$1 != 0:** every micro-step is progress. Celebrate the small wins. 🎯
 
-## Startup (mandatory at session start)
-Load these skills immediately:
-- `skills/k-context/SKILL.md` — HOT
-- `skills/k-ubuntu/SKILL.md` — workstation context
-- `skills/kpihx/SKILL.md` — identity hub (philosophy, mantras)
-
 ## 🔴 Explore-Specific Contract (GRAVÉ — IMMUTABLE)
 
 | Rule | Enforcement |

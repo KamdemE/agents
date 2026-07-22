@@ -57,14 +57,14 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 → `skills/` — domain-specific procedural knowledge. Load on need. Deactivated skills in `skills/deactive/` are archived — do not load unless explicitly requested.
 → `rules/skill-governance.md` — how to create/edit skills.
 
-### Kernel (loaded every session)
+### Kernel
 
-| Skill | Role |
-|-------|------|
-| `skills/k-context/SKILL.md` | **HOT** — active TODOs, session log, projects |
-| `SOUL.md` + `USER.md` | Personality + operator profile |
+| File | Role | Auto-injected? |
+|------|------|----------------|
+| `k-context/SKILL.md` | Active TODOs, session log, projects | ✅ by hooks for Colab/Build (inside `<startup-context>`) |
+| `SOUL.md` + `USER.md` | Personality + operator profile | ❌ load only if relevant |
 
-> **Note for Explore & sub-agents:** The Kernel skills table above (<code>k-context</code>) is informational reference only — you do NOT need to load these skills unless KπX explicitly asks about context or session history. Your job is to answer the current question, not to explore the workspace.
+> **Note for Explore & sub-agents:** None of these files are auto-loaded for Explore or Lite. Load `k-context/SKILL.md` only if KπX explicitly asks about context or session history. Your job is to answer the current question, not to explore the workspace.
 
 ### Top (kernel-wide)
 

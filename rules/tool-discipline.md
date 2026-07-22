@@ -56,5 +56,5 @@ After discovering a new pattern, fixing a bug, learning a configuration quirk, o
 Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjust`.
 
 ## Troubleshooting
-- Unknown error → load `k-context` (active TODOs) or relevant k-infra skill for current equipment
+- Unknown error → check if k-context is already in context (auto-injected for Colab/Build); if absent, load `skills/k-context/SKILL.md`
 - New tool/skill detected → propose updating the corresponding `k-*` skill

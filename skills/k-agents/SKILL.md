@@ -160,8 +160,8 @@ The Curator daemon reads this to know which agents to monitor.
 | **AGENTS.md** | ✅ | via SOUL.md | ⚠️ manual | ✅ | ✅ | ✅ | via GEMINI.md | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **SOUL.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **k-context** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
-| **k-ubuntu** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
+| **k-context** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject | hooks auto-inject |
+| **k-infra** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject | hooks auto-inject |
 | **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink | ✅ config |
 
@@ -170,8 +170,8 @@ The Curator daemon reads this to know which agents to monitor.
 | This skill | References | Is referenced by |
 |------------|-----------|-----------------|
 | **k-agents** | — | k-context, k-hook, k-hermes, every runtime skill |
-| **k-context** | k-agents, kpihx-labs, k-hook | AGENTS.md (HOT every session), every agent |
-| **k-ubuntu** | k-agents, k-project, k-git | AGENTS.md (startup), every agent |
+| **k-context** | k-agents, kpihx-labs, k-hook | AGENTS.md (auto-injected for Colab/Build), every agent |
+| **k-infra** | k-agents, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-hook** | k-agents, all per-runtime hooks | AGENTS.md (mandatory rules) |
 | **k-hermes** | k-agents, k-hook | Hermes config, k-context |
 | **k-clis** | k-agents, all runtime skills | k-ubuntu |
