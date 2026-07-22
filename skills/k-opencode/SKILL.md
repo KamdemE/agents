@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.16.0
+  version: 1.17.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -17,6 +17,28 @@ allowed-tools: Bash, Read, Write, Edit
 # Agent Runtime — OpenCode CLI
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+## Installation
+
+### Linux / macOS (per-user, no sudo)
+
+```bash
+curl -fsSL https://opencode.ai/install | bash
+```
+
+Installs to `~/.opencode/bin/opencode`. Add to PATH:
+
+```bash
+export PATH="$HOME/.opencode/bin:$PATH"
+```
+
+(Already in `~/.kshrc` on Ubuntu.)
+
+### Verification
+
+```bash
+opencode --version
+```
 
 ## Runtime Context
 
