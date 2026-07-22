@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.17.2"
+  version: "2.18.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -17,7 +17,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Overview
 
-- `core/` owns shared policy and validation logic
+- `core/` owns shared policy, validation logic, and utilities
+  - `device_detector.py` — detects current machine via Tailscale, maps to k-<infra> skill via `assets/infras.json`
 - one subdir per runtime (`gemini/`, `claude/`, `codex/`, `copilot/`) binds that core to the agent lifecycle
 - normative rule text stays in `$HOME/.agents/AGENTS.md`
 - detailed checker/runtime mapping stays in `$HOME/.agents/hooks/README.md`
@@ -59,6 +60,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-22 | [OPENCODE] | v2.18.0 — New `hooks/core/device_detector.py`: detects current machine via Tailscale, maps to k-infra skill via `assets/infras.json`. Context injector now injects device block + full infra skill at session start. |
 | 2026-04-13 | [CODEX] | v2.17.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-11 | [CODEX] | v2.17.1 — `hooks/audit.py` now reports missing optional runtime config files as findings instead of crashing the whole audit pass. |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v2.17.1 audit.py non-fatal findings; +1 older entries condensed |

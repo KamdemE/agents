@@ -15,6 +15,8 @@ allowed-tools: Bash(flarectl:*), Bash(curl:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **OS references:** `references/ubuntu.md` (flarectl setup on workstation) · `references/windows.md` (flarectl via WSL) · `references/debian.md` (cloudflared tunnel on server)
+
 ## Cloud hub
 
 Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k-clis`** first for cross-provider routing.

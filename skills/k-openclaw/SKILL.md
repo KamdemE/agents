@@ -4,7 +4,7 @@ description: OpenClaw runtime — install/config, Tailscale Serve access, and K�
 license: private
 metadata:
   author: KpihX
-  version: "3.4.0"
+  version: "3.7.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -14,11 +14,13 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **OS references:** `references/ubuntu.md` (systemd service, gateway env) · `references/windows.md` (WSL setup, manual gateway)
+
 ## Status
 
 - **State:** active (reintroduced on 2026-05-26)
 - **Gateway access (tailnet):** Tailscale Serve + identity auth (no repeated token entry on mobile)
-- **Archive:** prior retirement notes remain in `$HOME/.agents/skills/deactive/k-openclaw/`
+- **Archive:** prior retirement history condensed in this skill's changelog
 
 ## Source-of-truth paths
 
@@ -130,11 +132,40 @@ Use `openclaw config get ...` / `openclaw config set ...` (avoid editing JSON by
 - `gateway.auth.mode = "token"`
 - `gateway.auth.allowTailscale = true`
 - `gateway.controlUi.allowedOrigins = ["https://<hostname>.ts.net"]`
+- `gateway.tailscale.resetOnExit = false` (see Tailscale independence below)
 
 ### Required Tailscale state
 
 - `tailscale serve status` must show:
   - `https://<hostname>.ts.net` → proxy `http://127.0.0.1:18789`
+  - `https://<hostname>.ts.net:1443` → proxy `http://127.0.0.1:4097` (OpenCode Web)
+
+### Gateway service (systemd user)
+
+| Item | Valeur |
+|------|--------|
+| Service file | `~/.config/systemd/user/openclaw-gateway.service` (symlink → `assets/openclaw-gateway.service`) |
+| Port local | `18789` (loopback) |
+| Port Tailscale | `443` (auto via `tailscale.mode: serve`) |
+| Drop-in | `~/.config/systemd/user/openclaw-gateway.service.d/env.conf` — env vars additionnels |
+| Dépendance | Service **indépendant** d'opencode-web (plus de `Requires=` croisé) |
+
+**Single source of truth :** le fichier vit dans `assets/openclaw-gateway.service`, symlinké vers `~/.config/systemd/user/`. Éditer l'asset, puis `systemctl --user daemon-reload && systemctl --user restart openclaw-gateway`.
+
+### Tailscale independence (no port trampling)
+
+OpenClaw manages its own Tailscale Serve route (443 → 18789) via `gateway.tailscale.mode: serve` in `openclaw.json`. However, by default OpenClaw will **reset the entire Tailscale Serve configuration on shutdown** (`resetOnExit: true`), wiping any other routes (e.g. OpenCode Web on 1443).
+
+**Fix: `gateway.tailscale.resetOnExit = false`** in `~/.openclaw/openclaw.json`. This guarantees:
+
+- OpenClaw only touches **its own port** (443) on startup.
+- OpenClaw **never resets** other routes on shutdown.
+- Zero coupling between services — each owns its own Tailscale route independently.
+- Survives OpenClaw updates, restarts, and crashes.
+
+Verify: `tailscale serve status` should show both routes after an OpenClaw restart.
+
+Voir `k-tailscale/SKILL.md` pour la config tailscale serve et l'état des ports.
 
 ### Mobile access (no token re-entry)
 
@@ -172,6 +203,6 @@ Current KπX runtime baseline (2026-05-27):
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-27 | [CURSOR] | v3.4.0 — OpenClaw workspace = `~/.agents` (kernel inject direct); bootstrap MD in `.agents/`; AGENTS symlinks unifiés (KpihX-Labs + legacy openclaw workspace); limits 60k/150k; verified Telegram inject. |
-| 2026-05-27 | [CURSOR] | v3.3.0 — doc context injection; bootstrap limits; `/new` refresh; dedicated bot `@kpihx_openclaw_bot`. |
-| [SUMMARY] | — | v3.2.0–v3.0.0: Telegram bot migration, secrets hardening, Tailscale Serve reactivation. v2.x archived under `skills/deactive/k-openclaw/`. |
+| 2026-07-21 | [OPENCODE] | v3.7.0 — `resetOnExit: false` to prevent OpenClaw from wiping other Tailscale Serve routes on shutdown. Added Tailscale independence section. |
+| 2026-07-21 | [OPENCODE] | v3.6.0 — Single Source of Truth : service file déplacé dans `assets/openclaw-gateway.service`, symlinké depuis `~/.config/systemd/user/`. |
+| [SUMMARY] | — | v3.5.0 Port Tailscale 443→1443, Gateway systemd section; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection, bot migration; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening, Tailscale Serve reactivation. v2.x history condensed. |

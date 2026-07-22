@@ -12,6 +12,8 @@ allowed-tools: "Bash(*), *"
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **OS references:** `references/windows.md` (Windows/WSL paths for VS Code, Cursor, AGY, Continue.dev, winget install)
+
 ## Key Paths
 
 | Resource | Path |

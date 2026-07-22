@@ -15,7 +15,7 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related:** `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot to `@kpihx_general_capture_bot`)
+> **Related:** `k-infras` (master infrastructure map) · `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot to `@kpihx_general_capture_bot`)
 
 ## Inventory (Tailscale)
 

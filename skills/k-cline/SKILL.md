@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: agent-runtime
   target-agent: cline
 allowed-tools: Bash, Read, Write, Edit
@@ -28,6 +28,17 @@ allowed-tools: Bash, Read, Write, Edit
 - **Kernel links (KπX):**
   - `$HOME/.cline/rules/AGENTS.md` → `$HOME/.agents/AGENTS.md`
   - `$HOME/.cline/skills` → `$HOME/.agents/skills`
+
+### Session Storage
+
+Cline stores sessions as per-session JSON files:
+
+- **`$HOME/.cline/data/sessions/<ts>_<random>/`** (37 MB total) — One directory per session.
+  - `<id>.json` — Session metadata: `{version, session_id, source, pid, started_at, ended_at, status, provider, model, cwd, workspace_root, prompt, messages_path, ...}`.
+  - `<id>.messages.json` — Full conversation: JSON array of `{role, content, ...}` messages (user + assistant). Plain JSON, no SQLite or JSONL.
+- **`$HOME/.cline/data/db/`** — Internal Cline storage (SQLite, runtime state).
+
+Total session data: ~37 MB across ~7 sessions. Each session is a standalone JSON pair — trivially portable and readable.
 
 ## Source Of Truth
 
@@ -97,5 +108,6 @@ cline doctor
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v1.1.0 — Added Session Storage section (sessions/<ts>_<random>/ JSON format). |
 | 2026-05-26 | [AUTO] | v1.0.0 — Initial Cline runtime skill (install, MCP wiring, kernel linkage, verification). |
 | [SUMMARY] | — | Initial release. |

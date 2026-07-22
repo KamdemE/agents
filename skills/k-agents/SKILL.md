@@ -6,7 +6,7 @@ description: >
   Source of truth for the Curator daemon.
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.2.0"
   scope: kernel
 ---
 
@@ -161,8 +161,8 @@ The Curator daemon reads this to know which agents to monitor.
 | **SOUL.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **k-context** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
-| **k-workspace** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
-| **k-agents** | via hooks | ❌ | ❌ | ❌ | via hooks | ❌ | ❌ | ❌ | via hooks | via hooks | ❌ | ❌ |
+| **k-ubuntu** | skill load | external_dirs | ❌ | ❌ | skill load | ❌ | ❌ | ❌ | skill load | skill load | skill load | skill load |
+| **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink | ✅ config |
 
 ## Cross-References
@@ -170,13 +170,26 @@ The Curator daemon reads this to know which agents to monitor.
 | This skill | References | Is referenced by |
 |------------|-----------|-----------------|
 | **k-agents** | — | k-context, k-hook, k-hermes, every runtime skill |
-| **k-context** | k-agents, k-workspace, k-hook | AGENTS.md (HOT every session), every agent |
-| **k-workspace** | k-agents, k-project, k-git | AGENTS.md (MANDATORY), every agent |
+| **k-context** | k-agents, kpihx-labs, k-hook | AGENTS.md (HOT every session), every agent |
+| **k-ubuntu** | k-agents, k-project, k-git | AGENTS.md (startup), every agent |
 | **k-hook** | k-agents, all per-runtime hooks | AGENTS.md (mandatory rules) |
 | **k-hermes** | k-agents, k-hook | Hermes config, k-context |
-| **k-clis** | k-agents, all runtime skills | k-workspace |
+| **k-clis** | k-agents, all runtime skills | k-ubuntu |
 | **k-optim** | k-agents, k-context | k-context |
-| **k-final** | k-agents, k-workspace, k-git | k-workspace (project finalization) |
+| **k-final** | k-agents, k-context, k-git | k-context (project finalization) |
+
+## Kernel File Layout
+
+The agent kernel lives at `$HOME/.agents/` with the following layout:
+
+| Path | Role |
+|------|------|
+| `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
+| `$HOME/.agents/AGENTS.md` | Canonical AGENTS kernel — always edit this file |
+| `$HOME/KpihX-Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` (workspace-root convenience) |
+| `$HOME/.openclaw/workspace/AGENTS.md` | Symlink → `.agents/AGENTS.md` (legacy OpenClaw template dir) |
+
+**Do not** hard-link or maintain a second copy of `AGENTS.md`. Full routing: `$HOME/.agents/AGENTS.md`.
 
 ## Curator Usage
 
@@ -200,5 +213,6 @@ Run check:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-22 | [OPENCODE] | v1.2.0 — Removed from STARTUP_SKILLS. Kernel File Layout section. Cross-references updated. |
 | 2026-06-05 | [KAMDEM] | v1.0.0 — Initial creation: 14 runtimes, injection matrix, cross-references, curator usage. |
-| [SUMMARY] | | |
+| [SUMMARY] | | v1.1.0 Kernel File Layout + k-ubuntu cross-refs; starting from v1.0.0 |

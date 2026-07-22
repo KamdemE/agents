@@ -89,7 +89,7 @@ New work should **extend** `linux-file-masterclass` or a sibling repo `sovereign
 
 | Agent task | Input | Output |
 |------------|-------|--------|
-| **Architect** | Brainstorm + k-phones / k-workspace facts | `storyboard.md` |
+| **Architect** | Brainstorm + k-phones / kpihx-labs facts | `storyboard.md` |
 | **Scripter** | storyboard | `*.tape` (VHS), test commands in tmux |
 | **Renderer** | tape + assets | terminal MP4 |
 | **Composer** | Remotion project | final MP4 |

@@ -1,0 +1,37 @@
+[Unit]
+Description=OpenClaw Gateway (v2026.7.1-2)
+After=network-online.target
+Wants=network-online.target
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+ExecStart=/home/linuxbrew/.linuxbrew/opt/node@24/bin/node /home/kpihx/.local/share/pnpm/global/5/node_modules/openclaw/dist/index.js gateway --port 18789
+Restart=always
+RestartSec=5
+RestartPreventExitStatus=78
+TimeoutStopSec=30
+TimeoutStartSec=30
+SuccessExitStatus=0 143
+OOMPolicy=continue
+KillMode=control-group
+EnvironmentFile=-/home/kpihx/.openclaw/gateway.systemd.env
+Environment=EXA_API_KEY=85c641eb-2a94-4d19-bb8c-2440b304f530
+Environment=MISTRAL_API_KEY=4eQlgTs5WUVmygTbiQvNjimw6G6DB24E
+Environment=VENICE_API_KEY=VENICE_ADMIN_KEY_AeEbqeWN6ySFTdNSRLIIA2yvapZHQhJZDariB6suMX
+Environment=K_AI_API_KEY=kai_9926c2bb09984935bbb7c94f578fab9d9e9200a561ab878eda61fa537b419aeb
+Environment=OPENCLAW_SERVICE_MANAGED_ENV_KEYS=OPENAI_API_KEY,OPENCODE_API_KEY,OPENROUTER_API_KEY,TELEGRAM_BOT_TOKEN
+Environment=HOME=/home/kpihx
+Environment=TMPDIR=/tmp
+Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+Environment=PATH=/home/linuxbrew/.linuxbrew/opt/node@24/bin:/usr/local/bin:/usr/bin:/bin:/home/kpihx/.npm-global/bin:/home/kpihx/.nvm/current/bin:/home/kpihx/.local/bin:/home/kpihx/bin:/home/kpihx/.bun/bin:/home/kpihx/.nix-profile/bin:/home/kpihx/.local/share/pnpm
+Environment=OPENCLAW_GATEWAY_PORT=18789
+Environment=OPENCLAW_SYSTEMD_UNIT=openclaw-gateway.service
+Environment="OPENCLAW_WINDOWS_TASK_NAME=OpenClaw Gateway"
+Environment=OPENCLAW_WINDOWS_TASK_HIDDEN_LAUNCHER=1
+Environment=OPENCLAW_SERVICE_MARKER=openclaw
+Environment=OPENCLAW_SERVICE_KIND=gateway
+Environment=OPENCLAW_SERVICE_VERSION=2026.7.1-2
+
+[Install]
+WantedBy=default.target

@@ -1,43 +1,39 @@
-# K-Context Hygiene — Session Log & Memory
+# K-Context Hygiene
 
-> Rules for maintaining `k-context` runtime state. Enforced by session_guard hook.
+> Rules for maintaining `k-context` runtime state.
 
-## k-context Live Updates (agent-owned)
+## Zero Information Loss (MANDATORY — reads before any other rule)
 
-The agent owns `Active Projects` and `Session Log` in k-context. At any significant advance — new project, new topic, status change, new commit, non-trivial evolution, issue fix — update both sections immediately, proactively, without asking. Don't wait for session end.
+🔴 **NEVER lose information. NEVER delete. NEVER overwrite. Append-only is the only mode.**
+- Every edit to any `.md` file under `.agents/` must be **additive** — new entries, new lines, new sections.
+- When `## Session Log`, `## Changelog`, or `Active Projects` hit their limit: **copy the overflow to `references/log.md` BEFORE condensing**. The compacted `[SUMMARY]` row is a summary of what was moved, never a replacement.
+- Archive files (`references/log.md`, `references/issues.md`) are **immutable** — no edits, no deletions, no rearrangements. Corrections = new appended entries pointing to the fix.
+- Rotation = **copy, never cut**. The information must exist in TWO places before the original is condensed.
+- This applies to ALL k-* skills, not just k-context. Every `SKILL.md` changelog, every `references/` file, every agent definition.
+
+## Live Updates (agent-owned)
+At any significant advance (new project, status change, commit, issue fix, non-trivial evolution) → update BOTH `Active Projects` and `Session Log` in `k-context/SKILL.md` immediately, proactively, without asking. Don't wait for session end.
 
 ## Limits
-
 | Section | Max | Behavior when full |
 |---------|-----|--------------------|
-| `Active Projects` | 20 live rows | Condense stale/completed items into `[ARCHIVE]` row |
-| `Session Log` | 10 entries (newest-first) | Condense older entries into `[SUMMARY]` row |
-| `Changelog` (SKILL.md) | 2 real rows | Condense older into `[SUMMARY]` row |
-
-Never condense or summarize early. Only when the limit is reached.
+| Active Projects | 20 live rows | Condense stale/completed items into `[ARCHIVE]` row |
+| Session Log | 10 entries (newest-first) | Condense older into `[SUMMARY]` row |
+| Changelog (SKILL.md) | 2 real rows | Condense older into `[SUMMARY]` row |
+Never condense early. Only when the limit is reached.
 
 ## k-context Edit Completion
-
-When editing `skills/k-context/SKILL.md`:
-- Update `## Session Log` in the same pass
-- Review `## Active Projects` if the work changed project scope or status
+When editing `k-context/SKILL.md`: update `## Session Log` + review `## Active Projects` in the same pass.
 
 ## Sessions
-
-- **Session end mandate:** Stop hook enforces a final k-context check before closing
-- **TODOs in k-context:** Only KπX adds; agents execute + remove
+- Session end: Stop hook enforces final k-context check before closing
+- TODOs in k-context: Only KπX adds; agents execute + remove
 
 ## Issue Surfacing Mandate
-
-Any detected bug, risk, stale reference, duplication, desync, or outdated instruction MUST be surfaced in `Remarques` immediately and repeated until addressed.
+Any detected bug, risk, stale reference, duplication, desync → surface in `Remarques` immediately. Repeat until addressed.
 
 ## Brainstorm Registry
+Long-lived ideas go in `references/`. Add a `.md` file when a brainstorm should survive sessions. Register each file in `## Brainstorm Registry`.
 
-Long-lived ideas and WIP project visions go in `skills/k-context/references/`.
-- Add a new `.md` file when a brainstorm should survive sessions and QMD indexing
-- Register each file in `## Brainstorm Registry` in `k-context/SKILL.md`
-- Do NOT treat brainstorm files as operational runbooks until promoted to a skill or `techskills`/`presentation`
-
-## What's Up Protocol
-
-See `rules/whats-up.md` for the complete greeting/status digest workflow.
+## What's Up
+See `rules/whats-up.md` for the full protocol.

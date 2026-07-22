@@ -27,18 +27,7 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.python3_host_prog = vim.fn.exepath("python3")
--- Resolve pyenv shim to real global Python binary
--- so .python-version in project dirs doesn't break the rplugin host
-if vim.g.python3_host_prog and vim.g.python3_host_prog:match("pyenv/shims") then
-  local pyenv = vim.fn.exepath("pyenv") or vim.fn.expand("$HOME/.pyenv/bin/pyenv")
-  local global_ver = vim.fn.system(pyenv .. " global 2>/dev/null"):gsub("%s+", "")
-  if global_ver ~= "" then
-    local real_python = vim.fn.expand("$HOME/.pyenv/versions/" .. global_ver .. "/bin/python3")
-    if vim.fn.executable(real_python) == 1 then
-      vim.g.python3_host_prog = real_python
-    end
-  end
-end
+-- pyenv support removed — uv is the sole Python toolchain
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0

@@ -15,7 +15,7 @@ HOOKS_DIR = os.path.join(AGENTS_DIR, "hooks")
 AGENTS_MD = "$HOME/.agents/AGENTS.md"
 SOUL_MD = "$HOME/.agents/SOUL.md"
 USER_MD = "$HOME/.agents/USER.md"
-STARTUP_SKILLS = ("k-context", "k-workspace", "k-agents")
+STARTUP_SKILLS = ("k-context",)
 
 # ==============================================================================
 # TIME WINDOWS
@@ -32,7 +32,8 @@ HOOK_TIMINGS = {
 
 HOOK_FEATURES = {
     # context_injector.py
-    "startup_context":                     True,  # Inject k-context + k-workspace at session bootstrap.
+    "startup_context":                     True,  # Inject k-context at session bootstrap.
+    "device_detection":                    True,  # Auto-detect device via Tailscale and inject the matching k-infra skill.
 
     # prompt_injector.py
     "dynamic_context":                     True,  # Inject date, time, user@host, and cwd before each turn.

@@ -1,0 +1,12 @@
+{
+  "infras": {
+    "kpihx-ubuntu": "k-ubuntu",
+    "kpihx-pve": "k-pve",
+    "kpihx-pve-debian": "k-pve-debian",
+    "kpihx-dockerhost": "k-pve-dockerhost",
+    "blglaptop139": "k-alienware",
+    "kpihx-s25": "k-phones",
+    "kpihx-tablet": "k-phones",
+    "deep-pc6": "k-deep-pc6"
+  }
+}

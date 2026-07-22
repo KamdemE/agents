@@ -2,7 +2,7 @@
 """
 Claude hook: SessionStart
 Event: fires when a session begins or resumes.
-Core: context_injector — injects k-context + k-workspace startup context.
+Core: context_injector — injects k-context startup context.
 """
 import json
 import sys

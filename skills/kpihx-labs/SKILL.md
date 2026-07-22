@@ -1,76 +1,153 @@
 ---
 name: kpihx-labs
 description: >
-  KπX Homelab — server infra (Proxmox, Docker-Host LXC, Traefik, Vaultwarden, Portainer,
-  Ollama), self-hosted services (polytask, wa-bot, n8n, sentinel), SSH
-  (ssh homelab / docker-host), GitLab CI/CD, presentation/ knowledge base.
-  Load for any task involving the homelab server, Docker containers, Traefik reverse proxy,
-  CI/CD pipelines, or $HOME/Work/KpihX-Labs/Homelab/ projects. NOT for generic project init (→ k-project).
+  KπX kernel top reference — the central entry point for understanding the
+  KπX sovereign kernel ecosystem. References k-context (HOT context),
+  k-infras (master infrastructure map → per-infra skills), k-clis (CLI
+  registry), k-agents (agent runtime registry), k-hook (hook architecture),
+  and all top skills. Also documents the cross-infra project directory
+  ($HOME/Work/KpihX-Labs/Homelab/) and the presentation knowledge base.
+  Load for kernel orientation, architecture overview, or project registry.
+  NOT for generic project init (→ k-project). NOT for infra-specific tasks
+  (→ k-infras → appropriate k-* infra skill).
 license: private
 metadata:
   author: KpihX
-  version: "1.10.1"
+  version: "2.2.0"
+  scope: kernel
 allowed-tools: Bash(*), "*"
 ---
 
-# KπX — Homelab & Projects
+# KpihX-Labs — Kernel Top Reference
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-## SSH & Tailscale
+> **This skill is the kernel-level entry point.** It does not contain infra-specific details — those live in their dedicated skills (see structure below).
+
+---
+
+## KπX Kernel Structure
+
+```
+kpihx-labs (this skill — kernel top reference)
+│
+├── k-context    (HOT context — session log, active projects, current intent)
+├── k-infras     (master infrastructure map)
+│   ├── k-ubuntu          (Ubuntu workstation — this machine)
+│   ├── k-alienware       (Windows + WSL — internship)
+│   ├── k-deep-pc6        (Linux server — internship)
+│   ├── k-pve             (Proxmox VE hypervisor)
+│   │   ├── k-pve-debian     (Debian VM)
+│   │   └── k-pve-dockerhost (Docker host VM)
+│   └── k-phones          (Android phones)
+│
+├── k-agents     (agent runtime registry — Colab, Explore, runtime configs)
+├── k-hook       (hook architecture — core checkers, runtime wrappers)
+├── k-clis       (CLI registry — routes to all k-* CLI skills)
+├── k-final      (post-work closure checklist)
+├── k-project    (project init templates)
+├── k-skill-creator (skill creation & governance)
+│
+├── [top skills with OS-specific refs]
+│   ├── k-tmux / k-optim / k-browser / k-code / k-codex / k-copilot
+│   ├── k-gemini / k-hermes / k-nvim / k-docker
+│   └── … (see references/ for full list)
+│
+├── [generic top skills]
+│   ├── k-ai / k-bw / k-classification / k-cloudflare / k-cloud-tools
+│   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
+│   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
+│   ├── k-openclaw / k-opencode / k-pptx / k-qmd / k-rclone / k-tailscale
+│   ├── k-tg / k-ticktick / k-vibe / k-whatsapp / k-x / k-zed
+│   └── kpihx (identity hub)
+│
+└── k-context/references/refactor.md (skills refactoring plan)
+```
+
+Implicit hierarchy: documented in `k-infras`. Not reflected in filesystem — skills are flat under `skills/`.
+
+---
+
+## OS-Specific References Governance
+
+Skills that have platform-specific behaviors use `refs/<os>.md` files to document them. This is the **single source of truth** for OS-specific variations.
+
+### File naming convention
+
+| File | OS | Scope |
+|------|----|-------|
+| `refs/ubuntu.md` | Ubuntu (native) | Local workstation paths, apt, systemd, GNOME, Intel Arc GPU |
+| `refs/windows.md` | Windows | Native Windows paths + **WSL subsection** (WSL aliases, WSL-specific configs, winget install for editors/CLIs) |
+| `refs/debian.md` | Debian Linux | Server-specific paths, apt, systemd differences from Ubuntu |
+| `refs/pve.md` | Proxmox VE | PVE-specific CLI tools, storage, networking |
+
+### Rules
+
+1. **`refs/` files are always OS/Platform-oriented.** Never machine-oriented (use infra skills for that). A `refs/windows.md` documents Windows-specific editor paths or WSL tmux aliases — not that `blglaptop139` has a specific Chrome profile.
+2. **The main `SKILL.md` stays generic.** It should work on any supported OS without modification. OS-specific details live exclusively in `refs/`.
+3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** (`k-alienware`), not in `refs/windows.md`.
+4. **Each `refs/` file is self-contained** — readable on its own without cross-referencing the main skill.
+5. **WSL is documented under `refs/windows.md`** with a clear `### WSL` subsection, not in a separate file. WSL is Windows subsystem — one file per OS.
+
+---
+
+## Workspace Conventions
+
+### Non-code file routing
+
+For content that is not code or infrastructure, use the standard XDG directories under `$HOME`:
+
+| Directory | Purpose |
+|-----------|---------|
+| `$HOME/Pictures/` | Generated visuals (Napkin, Excalidraw exports), screenshots |
+| `$HOME/Documents/` | Docs, PDFs, notes, text exports |
+| `$HOME/Downloads/` | Temporary downloaded files |
+| `$HOME/Videos/` | Recordings, screencasts |
+
+> Code and infra → `$HOME/Work/` only. Non-code files never live in `$HOME/Work/`.
+
+### Engineering Standards
+
+| Standard | Rule |
+|----------|------|
+| Build backend | `uv_build` for Python · Bun for JS/TS |
+| Architecture | Independent packages in `src/<pkg>/` — no monoliths |
+| Pattern | Directive-Sequential (Executor logic ↔ Orchestrator lifecycle) |
+| Python naming | `snake_case` for local/import · dashes for PyPI/CLI/repo name |
+| Makefile | Every project — `make push` pushes to ALL remotes simultaneously |
+| Docker base | Python → `python:3.12-slim` · JS/TS → `oven/bun:1-slim` |
+| GitLab MCPs | All MCPs in `kpihx-labs` GitLab group namespace |
+| PyPI name ≠ module | Use `[tool.uv.build-backend] module-name = "<import_name>"` to decouple |
+
+---
+
+## SSH & Tailscale — Quick Reference
+
+Detailed maps live in:
+- **Full infrastructure SSH map:** `k-infras` (master map with all aliases, routes, targets)
+- **Per-infra SSH details:** each infra skill documents its own SSH specifics
+- **Tailscale config:** `k-tailscale` (installation, serve, funnel, DERP)
+- **SSH config source of truth:** `$HOME/.ssh/config` (aliases, jump hosts, port forwards)
 
 > **Authentication Guard:** SSH keys are managed by the Bitwarden Desktop App (not `bw-env`). When connecting, the Bitwarden Desktop App will spawn an **explicit authorization popup** that MUST be manually approved for `ssh` to succeed (otherwise it fails instantly with `Permission denied (publickey)`).
 
-Full SSH config → `$HOME/.ssh/config` is the source of truth for aliases, jump hosts, port forwards.
-
-**SSH aliases** (source of truth: `$HOME/.ssh/config`):
-
-| Alias | Target | Route | Use when |
-|-------|--------|-------|----------|
-| `pve` | `pve.local` port 2222 | mDNS (LAN) | Proxmox Node (Hypervisor) |
-| `kpihx-pve` | `kpihx-pve` port 2222 | Tailscale | Remote Hypervisor access |
-| `pve-ui` | `pve.local` | LAN | Tunnels for Proxmox/Portainer |
-| `kpihx-pve-ui`| `kpihx-labs...ts.net`| Tailscale | Remote Tunnels |
-| `homelab` | `10.10.10.10` via `pve` | LAN Jump | Docker Host (Local) |
-| `kpihx-labs` | `10.10.10.10` via `kpihx-pve` | Tailscale Jump| Docker Host (Remote) |
-| `kpihx-s25` | `kpihx-s25` port 8022 | Tailscale | Android Termux access |
-
-**Tailscale devices (Verified via Dashboard):**
-
-| Device | ID | Hostname (OS) | Role |
-|--------|----|---------------|------|
-| `kpihx-pve` | `7501459151201643` | `pve` | Hypervisor (tag:server) |
-| `kpihx-ubuntu`| `2232751499623207` | `KpihX-Ubuntu` | Docker Host (Fluid Cloud) |
-| `kpihx-s25` | `833031442555825` | `KπX's Phone` | Mobile Phone |
-| `kpihx-tablet` | `7804464580897034` | `KπX's Tablet` | Tablet |
-
-## Infrastructure (`$HOME/Work/KpihX-Labs/`)
-
-**KpihX-Labs Architecture**:
-- **Proxmox Node (`kpihx-pve`)**: Physical Node (Hypervisor). Alias `pve` (local) or `kpihx-pve` (remote).
-- **Docker Node (`kpihx-ubuntu`)**: Virtual Node (Sovereign Cloud). Alias `homelab` (local) or `kpihx-labs` (remote).
-- **Local Dispatcher**: `hsh` (at root of `sh/` or via `make install`)
-
-**PVE Network Topology (`kpihx-pve`)**:
-- `vmbr0`: Public WAN interface (DHCP). External gateway to the campus network.
-- `vmbr1`: Private LAN bridge (`10.10.10.1/24`). PVE acts as a NAT router (masquerade) for all isolated VMs/Containers.
-- **Port Forwards**: TCP 80, 443, 9443 from `vmbr0` are DNAT-redirected to `10.10.10.10` (the Traefik/Portainer ingress node, usually CT 100).
-
-Vaultwarden: `vault.kpihx-labs.com` (Tailscale-only).
+---
 
 ## Projects (`$HOME/Work/KpihX-Labs/Homelab/`)
 
-Source code for all kpihx-labs projects lives here. When a KπX project is mentioned, check this directory first.
+Source code for all KpihX-Labs projects lives here. When a KπX project is mentioned, check this directory first.
 
-| Project | Purpose |
-|---------|---------|
-| `kpihx_labs/` | Main infra stack (Docker Compose) |
-| `imhotep/` | — |
-| `polytask/` | — |
-| `sentinel/` | — |
-| `wa-bot/` | WhatsApp bot |
-| `sh/` | Homelab shell scripts (backup, boot notify, etc.) |
-| `presentation/` | Knowledge / docs project (see below) |
+| Project | Purpose | Deployed on |
+|---------|---------|-------------|
+| `kpihx_labs/` | Main infra stack (Docker Compose) | `k-pve-debian` (Debian VM) |
+| `imhotep/` | — | — |
+| `polytask/` | — | — |
+| `sentinel/` | — | — |
+| `wa-bot/` | WhatsApp bot | — |
+| `sh/` | Homelab shell scripts (backup, boot notify, etc.) | — |
+| `presentation/` | Knowledge / docs project (see below) | GitHub Pages |
+
+---
 
 ## Knowledge Base — `$HOME/Work/KpihX-Labs/Homelab/presentation/`
 
@@ -84,10 +161,15 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
   - **`templates/`** — Ready-to-use config files for all homelab services: Docker Compose YAMLs + `.env` examples (Traefik, Vaultwarden, Ollama, Tailscale, AdGuard, n8n, Postgres, Watchtower, wa-bot…), GitLab CI deploy pipelines, SSH config template
 - **`scripts/`** — utility scripts: `check_links.sh`, `check_templates.sh`, `check_tutos.sh`
 
+---
+
 ## Maintenance Reflex
 
-- for homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
-- keep this skill focused on homelab topology, SSH routes, projects, and the presentation knowledge base
+- For homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
+- For agent kernel governance, load `k-agents` + `k-hook`
+- For infrastructure-specific maintenance, load the relevant infra skill from `k-infras`
+
+---
 
 ## Insights Discipline (mandatory)
 
@@ -99,7 +181,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-08 | [CODEX] | v1.10.1 — Added the CT-vs-VM DNS lesson: CT `100` works with Proxmox-managed static resolvers, while Debian cloud VMs can lose DNS if `systemd-resolved` is masked before `/etc/resolv.conf` is replaced. |
-| 2026-05-08 | [ANTIGRAVITY] | v1.10.0 — Documented exact PVE network topology (vmbr0/vmbr1 NAT rules). |
-| 2026-04-29 | [ANTIGRAVITY] | v1.9.0 — Standardized prefix-based nomenclature (kpihx-) across Tailscale and SSH. |
-| [SUMMARY] | — | +3 older changelog entries kept in file history; condensed for table limits |
+| 2026-07-22 | [OPENCODE] | v2.2.0 — Added Workspace Conventions (XDG routing + Engineering Standards ported from k-workspace). |
+| 2026-07-22 | [OPENCODE] | v2.1.0 — Added OS-Specific References Governance section. Rules: refs/ are always OS-oriented (ubuntu.md, windows.md, debian.md, pve.md). WSL under windows.md. Main SKILL.md stays generic. |
+| 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as kernel top reference. Full kernel structure tree, project registry, knowledge base, OS refs governance. |
+| [SUMMARY] | — | v1.x: PVE content (CT-vs-VM DNS, network topology, prefix nomenclature) migrated to k-pve. Full history in git. |

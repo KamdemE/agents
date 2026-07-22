@@ -30,9 +30,9 @@
     "k-workspace": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-workspace/SKILL.md",
+      "skillPath": "skills/deactive/k-workspace/SKILL.md",
       "installedAt": "2026-03-25T00:00:00.000Z",
-      "updatedAt": "2026-05-27T00:05:00.000Z"
+      "updatedAt": "2026-07-22T00:00:00.000Z"
     },
     "k-git": {
       "source": "local",
@@ -376,6 +376,13 @@
       "skillPath": "skills/k-infra/SKILL.md",
       "installedAt": "2026-06-11T00:00:00.000Z",
       "updatedAt": "2026-06-11T00:00:00.000Z"
+    },
+    "k-nftables": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-nftables/SKILL.md",
+      "installedAt": "2026-07-21T14:30:00.000Z",
+      "updatedAt": "2026-07-21T14:30:00.000Z"
     }
   }
 }

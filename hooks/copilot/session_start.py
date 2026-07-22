@@ -2,7 +2,7 @@
 """
 Copilot VS Code hook: SessionStart
 Event: fires when a new agent session starts.
-Core: context_injector — injects k-context + k-workspace startup context.
+Core: context_injector — injects k-context startup context.
 """
 import json
 import sys

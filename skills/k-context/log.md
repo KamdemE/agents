@@ -1,2 +1,3 @@
 2026-05-31 00:22 UTC | Mail Recap | Sent 3 MarkdownV2 messages (497,498,499) to Telegram (1397540599) | 30 messages, 22 unread, 0 important, 5 security alerts
 [2026-05-31T02:50:54+02:00] 📬 Mail Recap → Telegram | 30 inbox messages, 5 security alerts, 25 others | Sent successfully
+[2026-07-21] 🐛 OSC leak fix (Windows Terminal → tmux) | Caused by Win32-OpenSSH fragmenting OSC responses across TCP packets. Fix: update Win32-OpenSSH to v10.0p2+ (bundles the PR#806 fix). Variable `SSH_TERM_CONHOST_PARSER=0` works but causes visual glitches in tmux (green everywhere, missing borders) — not needed with v10.0p2. Side note: tmux `smcup@:rmcup@` and `terminal-features` overrides are NOT the right fix, they break pane rendering. Simple `escape-time 100` as insurance is sufficient.

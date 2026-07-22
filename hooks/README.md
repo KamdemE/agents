@@ -10,11 +10,17 @@ Use this file to answer 2 questions quickly:
 1. Which checker exists in `core/` and what does it do concretely?
 2. For each agent, where is it actually wired, or why is it not wired?
 
+## Core Utilities
+
+| Module | Role |
+|--------|------|
+| `device_detector.py` | Detect current machine via Tailscale → map to k-<infra> skill via `assets/infras.json`. Used by `context_injector.py` at session start. |
+
 ## Core Checkers
 
 | Checker | Role | Example the agent sees |
 |------|------|----------------|
-| `context_injector.py` | Inject startup context from the configured startup skills list | `Session date: 2026-04-03 (Friday)` + `k-context` + `k-workspace` |
+| `context_injector.py` | Inject startup context from the configured startup skills list | `Session date: 2026-04-03 (Friday)` + `k-context` |
 | `prompt_injector.py` | Inject lightweight per-turn runtime context | `<dynamic-context> ... Current directory: /home/$USER ... </dynamic-context>` |
 | `skill_watcher.py` | Inject a compact reminder that points back to `AGENTS.md` | `AGENTS CHECK:` then 3 short lines pointing to `$HOME/.agents/AGENTS.md` |
 | `path_guard.py` | Reject literal home paths or bare `~` in `.agents/` file edits | `Literal home-directory path or bare ~ detected in .agents content...` |
@@ -30,15 +36,21 @@ Use this file to answer 2 questions quickly:
 ### Startup Context
 
 ```text
-Session date: 2026-04-03 (Friday)
+Session date: 2026-07-22 (Wednesday)
+
+--- DEVICE: kpihx-ubuntu ---
+Machine: kpihx-ubuntu
+Infra skill: k-ubuntu
+OS: linux
+--- /DEVICE ---
+
+--- k-ubuntu/SKILL.md ---
+(device-specific infra skill content — e.g. hardware, services, paths)
 
 MANDATORY STARTUP CONTEXT:
 
 --- SKILL.md ---
 [k-context]
-
---- SKILL.md ---
-[k-workspace]
 ```
 
 ### Dynamic Context

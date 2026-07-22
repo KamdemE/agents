@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.8.0
+  version: 1.12.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -29,6 +29,53 @@ allowed-tools: Bash, Read, Write, Edit
   - `$HOME/.config/opencode/skills` → `$HOME/.agents/skills`
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
+
+## Session Storage (SQLite)
+
+OpenCode stores all conversation history in a single SQLite database, not JSON files.
+
+- **Database:** `$HOME/.local/share/opencode/opencode.db`
+- **Size:** ~525 MB (as of 2026-07-21, ~15K messages across ~200 sessions)
+- **WAL mode:** `opencode.db` + `opencode.db-wal` + `opencode.db-shm`
+
+### Schema (core tables)
+
+```sql
+-- One row = one conversation
+session(id, project_id, parent_id, slug, directory, title, version,
+        time_created, time_updated, time_compacting, time_archived,
+        workspace_id, path, agent, model,
+        cost, tokens_input, tokens_output, tokens_reasoning,
+        tokens_cache_read, tokens_cache_write, metadata)
+
+-- One row = one message turn
+session_message(id, session_id, type, time_created, time_updated,
+                seq, data)
+```
+
+- `session.data` → `metadata` JSON column for extra session-level info.
+- `session_message.data` → full message JSON text (tool calls, responses, file contents — the bulk of the 525 MB).
+- `session_message.seq` → monotonically ordered per session.
+- `session_message.type` → e.g. `"user"`, `"assistant"`, `"tool"`.
+- All session data is cascade-deleted when a `session` row is removed.
+
+### Query examples
+
+```bash
+# Session count, token totals, model usage
+sqlite3 ~/.local/share/opencode/opencode.db "
+  SELECT model, count(*) as sessions,
+         sum(tokens_input) as total_input,
+         sum(tokens_output) as total_output,
+         sum(cost) as total_cost
+  FROM session GROUP BY model ORDER BY total_cost DESC;"
+
+# Recent sessions with message counts
+sqlite3 ~/.local/share/opencode/opencode.db "
+  SELECT s.id, s.title, s.model, s.time_created,
+         (SELECT count(*) FROM session_message sm WHERE sm.session_id = s.id) as msgs
+  FROM session s ORDER BY s.time_created DESC LIMIT 10;"
+```
 
 ## Source Of Truth
 
@@ -165,11 +212,11 @@ STT + TTS 100% local. Config dans `tui.json` (pas `opencode.jsonc`).
 
 **Dependencies:** sox, whisper-cli (Vulkan GPU build), piper-tts, ffplay/mpv
 **Models:**
-- Whisper: `~/.local/share/whisper-cpp/ggml-large-v3-turbo-q5_0.bin` (548MB, multilingual FR/EN, GPU Vulkan)
+- Whisper: `~/.local/share/whisper-cpp/` — see `references/voice.md` for full model list, install, and management
 - Piper EN: `~/.local/share/piper-voices/en_US-ryan-high.onnx`
 - Piper FR: `~/.local/share/piper-voices/fr_FR-siwis-medium.onnx`
 
-**Keybinds (patched — see Insights):**
+**Keybinds (patched — see Insights & `references/voice.md`):**
 | Action | Keybind |
 |--------|---------|
 | STT record | `<leader>r` (Ctrl+X R) |
@@ -236,17 +283,17 @@ OpenCode integrates with Neovim via `nickjvandyke/opencode.nvim` (the active for
 
 **Requires:** `opencode` binary in `$PATH` (sourced via `$HOME/.kshrc`).
 
-## OpenCode Web (Tailscale + systemd)
+## OpenCode Web (systemd + Tailscale Serve)
 
-OpenCode Web runs as a persistent systemd user service, exposed via `tailscale serve` on a dedicated HTTPS port.
+OpenCode Web runs as a persistent systemd user service, exposed via `tailscale serve` sur le port HTTPS 1443 *(443 est réservé par OpenClaw)*.
 
 | Item | Value |
 |------|-------|
-| Service file | `$HOME/.config/systemd/user/opencode-web.service` |
-| WorkingDirectory | `%h` (systemd specifier → `$HOME`). **Ne pas changer** — `opencode` détecte le worktree automatiquement, forcer un sous-dossier ne unifie pas les historiques et peut casser les chemins relatifs des MCPs enfants. |
+| Service file | `$HOME/.config/systemd/user/opencode-web.service` (symlink → `assets/opencode-web.service`) |
+| WorkingDirectory | `%h` (systemd specifier → `$HOME`). **Ne pas changer** — `opencode` détecte le worktree automatiquement, forcer un sous-dossier n'unifie pas les historiques et peut casser les chemins relatifs des MCPs enfants. |
 | Port (local) | `4097` (localhost only) |
-| Tailscale URL | `https://kpihx-ubuntu.tail2527bd.ts.net:8443/` |
-| Port 443 | Reserved by OpenClaw (`127.0.0.1:18789`) — do not conflict |
+| Tailscale URL | `https://kpihx-ubuntu.tail2527bd.ts.net:1443/` |
+| Indépendance | Service **découplé** de `openclaw-gateway` — plus de `Requires=` |
 | Password env | `$HOME/.config/opencode/web.env` (mode `600`) |
 
 **Password status:** Currently **disabled** (EnvironmentFile line commented out in service). To re-enable:
@@ -261,6 +308,28 @@ systemctl --user restart opencode-web    # restart
 journalctl --user -u opencode-web -f     # live logs
 tailscale serve status                   # verify tailscale proxy
 ```
+
+**Service file** (`~/.config/systemd/user/opencode-web.service`):
+```ini
+[Unit]
+Description=OpenCode Web Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+ExecStart=/home/kpihx/.opencode/bin/opencode serve --port 4097 --hostname 127.0.0.1
+ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf http://127.0.0.1:4097/ && exit 0; sleep 1; done; exit 1'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+```
+
+**Single source of truth :** le fichier vit dans `assets/opencode-web.service`, symlinké vers `~/.config/systemd/user/`. Éditer l'asset, puis `systemctl --user daemon-reload && systemctl --user restart opencode-web`.
+
+Voir `k-tailscale/SKILL.md` pour la configuration tailscale serve et l'état des ports.
 
 ## Init & Connectivity
 
@@ -282,6 +351,7 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 
 - `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
 - `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
+- `references/voice.md` — STT/TTS via @renjfk/opencode-voice: model install, management, commands, and configuration
 
 ## Insights Discipline (mandatory)
 
@@ -293,8 +363,8 @@ ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-31 | [OPENCODE] | v1.8.0 — Voice setup: @renjfk/opencode-voice (STT+TTS) with patched keybinds, Vulkan GPU whisper-cli, bilingual FR/EN (large-v3-turbo + siwis/ryan Piper), no-LLM fallback. Removed opencode-notificator (broken 404). |
-| 2026-05-30 | [OPENCODE] | v1.7.0 — Permission architecture rewrite: global single source of truth, agent deltas only. Added Ollama provider, plugins (notificator, antigravity-auth), MCP destructive ask overrides, external_directory 11 paths, tmux reload pattern `Ctrl+A r`. |
-| [SUMMARY] | — | v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
+| 2026-07-21 | [OPENCODE] | v1.12.0 — Single Source of Truth : service file déplacé dans `assets/opencode-web.service`, symlinké depuis `~/.config/systemd/user/`. |
+| 2026-07-21 | [OPENCODE] | v1.11.0 — OpenCode Web: màj port 443 (tailscale serve), service découplé d'openclaw-gateway, ajout du service file complet dans la doc. |
+| [SUMMARY] | — | v1.10.0 Session Storage SQLite section; v1.9.0 Whisper models + voice reference doc; v1.8.0 Voice setup @renjfk/opencode-voice; v1.7.0 Permission architecture rewrite; v1.2.x OpenCode Web sysd + tailscale, Neovim integration; v1.1.0 init; v1.0.0 release. |
 
 Bundled: `assets/opencode.jsonc~`

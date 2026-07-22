@@ -13,6 +13,8 @@ metadata:
     - Edge Tab Groups Explorer (gkcifcdcmloogpddjlcbbbaicnpmajao)
 ---
 
+> **OS references:** `references/windows.md` (Windows Chrome/Edge CDP setup, WSL forwarding)
+
 # KπX Browser Automation
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**

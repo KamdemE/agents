@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.7"
+  version: "2.12.0"
   scope: agent-runtime
   target-agent: codex
 allowed-tools: Bash, Read, Write, Edit
@@ -36,6 +36,13 @@ allowed-tools: Bash, Read, Write, Edit
 | `$HOME/.codex/sessions/` | Session history |
 | `$HOME/.codex/history.jsonl` | Conversation/event stream |
 | `$HOME/.codex/session_index.jsonl` | Session index |
+
+### Session Storage
+
+Codex stores conversations in two tiers:
+
+- **`$HOME/.codex/history.jsonl`** (767 KB) — lightweight prompt log. Each line: `{"session_id": "<uuid>", "ts": <unix>, "text": "<user prompt>"}`. User messages only.
+- **`$HOME/.codex/sessions/YYYY/MM/DD/rollout-<timestamp>-<uuid>.jsonl`** (69 MB total) — full session transcripts. Each line: `{"timestamp": "<iso>", "type": "<event_type>", "payload": {...}}`. Event types include `session_meta` (model, cwd, cli_version, originator), user messages, assistant replies, tool calls, and tool results. Session metadata (id, model_provider, base_instructions) is in the first `session_meta` event.
 
 ## Hooks
 
@@ -138,6 +145,6 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v2.12.0 — Added Session Storage section with history.jsonl and sessions/ format docs. |
 | 2026-05-18 | [AUTO] | v2.11.7 — Mandatory shared tmux gate (≥30s poll); `sui` deprecated — aligns with AGENTS + `k-tmux`. |
-| 2026-05-01 | [CODEX] | v2.11.6 — Shared-tmux polling for password prompts (precursor to kernel gate). |
-| [SUMMARY] | — | v2.11.5 HTTP MCP bearer_token_env_var; v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |
+| [SUMMARY] | — | v2.11.6 Shared-tmux polling; v2.11.5 HTTP MCP bearer_token_env_var; v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |

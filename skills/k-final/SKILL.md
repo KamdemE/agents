@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.5.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` + `k-workspace` (kernel updates in Phase K)
+> **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
 > **Static rules:** `rules/audit-commands.md` (make audit, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
 > **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase.
 
@@ -32,7 +32,7 @@ Mandatory **closing pass** after substantive work on a repo: you **must** execut
 2. **Skip** a phase only when a precondition is **objectively false** for that tree (example: no `tests/` and no test target in `Makefile` → state the skip in `CHANGELOG` or the session note). **Fatigue, time pressure, or “probably fine” are never valid skips.**
 3. If you discover a missed gate after the fact, **go back**, run the missing steps, fix what they reveal, then update **`k-context`** (and project docs) in the same closure pass.
 
-**Kernel contract:** `AGENTS.md`, `k-context`, `k-workspace`, `k-project`, and `k-git` all instruct agents to **load this file** when finalizing or "cleaning" a project — treat that as a hard gate, not a suggestion.
+**Kernel contract:** `AGENTS.md`, `k-context`, `k-project`, and `k-git` all instruct agents to **load this file** when finalizing or "cleaning" a project — treat that as a hard gate, not a suggestion.
 
 ## Assets
 
@@ -169,7 +169,7 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 **Obligatory** after any project closure pass. See `rules/k-context-hygiene.md` and `rules/audit-commands.md` for the full contracts; this is the project-specific enforcement:
 
 1. **k-context** (`skills/k-context/SKILL.md`): update `## Active Projects` (status, next step) and `## Session Log` (agent tag, version, folder path). Obey limits: max 10 rows → rotate overflow to `references/log.md`.
-2. **k-workspace** only if new durable workspace facts were revealed.
+2. **kpihx-labs** or **k-context** only if new durable workspace facts were revealed.
 3. **`make audit`** from `$HOME/.agents/` → repeat until `ALL_OK`.
 4. **Commit + `make push`** on all `.agents/` remotes.
 
@@ -188,6 +188,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-22 | [OPENCODE] | v1.5.0 — k-workspace references replaced with k-context/kpihx-labs. Related skills, kernel contract, Phase K updated. |
 | 2026-05-29 | [OPENCODE] | v1.4.0 — Trimmed: Phase K simplified (→ rules/ pointers). Added rules/ references at top. |
-| 2026-04-26 | [ANTIGRAVITY] | v1.3.2 — Closed `MIE Ubisoft Case`. |
-| [SUMMARY] | — | v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older -> file history |
+| [SUMMARY] | — | v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |

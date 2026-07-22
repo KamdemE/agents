@@ -4,7 +4,7 @@ local ignore = {
   ".git/", ".cache/", ".local/", ".npm-global/",
   "node_modules/", "__pycache__/", ".venv/", ".env/",
   "waydroid/",
-  ".pyenv/", ".nvm/", ".cargo/", ".rustup/",
+  ".nvm/", ".cargo/", ".rustup/",
   "go/pkg/", ".dotnet/", ".java/",
   ".vscode/", ".idea/", ".windsurf/", ".cursor/",
   ".cursor-server/", ".vscode-server/", ".vscode-shared/",
@@ -220,11 +220,11 @@ return {
           "--exclude", ".npm-global", "--exclude", ".npm",
           "--exclude", ".bun", "--exclude", ".bw",
           "--exclude", ".cargo", "--exclude", ".rustup",
-          "--exclude", ".pyenv", "--exclude", ".nvm",
-          "--exclude", ".dotnet", "--exclude", ".java",
-          "--exclude", ".vscode", "--exclude", ".cursor",
-          "--exclude", ".windsurf", "--exclude", ".idea",
-          "--exclude", ".docker", "--exclude", ".android",
+           "--exclude", ".nvm",
+           "--exclude", ".dotnet", "--exclude", ".java",
+           "--exclude", ".vscode", "--exclude", ".cursor",
+           "--exclude", ".windsurf", "--exclude", ".idea",
+           "--exclude", ".docker", "--exclude", ".android",
           "--exclude", ".zoom", "--exclude", ".var",
           "--exclude", ".mozilla", "--exclude", ".gnome",
           "--exclude", ".gnupg", "--exclude", ".pki",
@@ -263,11 +263,11 @@ return {
           "--exclude", ".npm-global", "--exclude", ".npm",
           "--exclude", ".bun", "--exclude", ".bw",
           "--exclude", ".cargo", "--exclude", ".rustup",
-          "--exclude", ".pyenv", "--exclude", ".nvm",
-          "--exclude", ".dotnet", "--exclude", ".java",
-          "--exclude", ".vscode", "--exclude", ".cursor",
-          "--exclude", ".windsurf", "--exclude", ".idea",
-          "--exclude", ".docker", "--exclude", ".android",
+           "--exclude", ".nvm",
+           "--exclude", ".dotnet", "--exclude", ".java",
+           "--exclude", ".vscode", "--exclude", ".cursor",
+           "--exclude", ".windsurf", "--exclude", ".idea",
+           "--exclude", ".docker", "--exclude", ".android",
           "--exclude", ".zoom", "--exclude", ".var",
           "--exclude", ".mozilla", "--exclude", ".gnome",
           "--exclude", ".gnupg", "--exclude", ".pki",
@@ -375,7 +375,7 @@ return {
           },
           mappings = {
             n = {
-              ["<C-x>"] = function(prompt_bufnr)
+              ["<C-d>"] = function(prompt_bufnr)
                 local entry = action_state.get_selected_entry()
                 if entry then
                   pcall(vim.api.nvim_buf_delete, entry.bufnr, { force = true })

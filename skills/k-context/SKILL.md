@@ -4,7 +4,7 @@ description: "KpihX HOT context - load at EVERY session start. Active TODOs, cur
 license: "private"
 metadata:
   author: "KpihX"
-  version: "2.92.0"
+  version: "3.1.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -15,7 +15,7 @@ allowed-tools: "Bash(*), *"
 
 > HOT — load at every session start.
 > - **Agent-memory update mandate:** update k-<agent> skill immediately after any agent-specific learning.
-> - **Zero-Deletion Policy (Mandatory):** NEVER delete logs or historical entries. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be moved to `references/log.md` BEFORE the main file is compacted. Every removal MUST be an addition to the archive. [GEMINI]
+> - **Zero-Deletion Policy (Mandatory):** NEVER delete logs or historical entries. If a section (Session Log, Changelog) reaches its limit, the older entries MUST be copied to `references/log.md` BEFORE the main file is compacted. Every reduction MUST be a copy-then-summarize, never a cut. [GEMINI]
 > - **Frozen log append-only (Mandatory):** Once written, lines in **`references/log.md`**, **`references/issues.md`**, and any rotated archive are **immutable** — no in-place edits or deletions. Corrections = **new append-only lines** in live sections; rotation = **new** archive lines only, then bounded **`[SUMMARY]`** on the live section. Same rule for skill **`references/log.md`** files elsewhere.
 > - **Shared tmux collaboration (Mandatory):** Privileged/interactive shell (`sudo`, SSH passphrase, prompts) → **`k-tmux`**: reuse or create a short tmux session, `send-keys`, poll pane **≥30s** (no chat handoff before); never **`sui`**. Full: **`k-tmux/SKILL.md` → Shared interactive gate** · short: **AGENTS.md → Tool Discipline**.
 > - **Issues Transparency Rule (Mandatory):** every attempt to understand/fix any issue (system, filesystem, crashes, thermal, noisy processes, services, etc.) MUST be appended to `references/issues.md` with full command history and outputs. No deletion, no compaction.
@@ -24,7 +24,7 @@ allowed-tools: "Bash(*), *"
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
 > **Kernel Sync Rule:** ALWAYS run `make audit` in `.agents/` and fix any errors BEFORE proposing session finalization (`git commit` + `make push`).
 > **KπX directive — `.agents` VCS (2026-04-10):** Autonomous `git commit`, `git push`, and `make push` on `$HOME/.agents/` are allowed by default **after** `make audit` passes, unless KπX explicitly says not to finalize in the current session.
-> **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-workspace` cross-links.
+> **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-context` cross-links.
 > **Skills & kernel homogeneity (GRAVÉ):** Before creating or editing any skill, `AGENTS.md`, or hub `references/` file — inspect first (`tree $HOME/.agents/skills/`, `rg`), find the owning `k-*` skill, extend it; never duplicate identity paths or domain tables; create new files only when nothing covers the topic. Full rule: **AGENTS.md → Skills & kernel homogeneity — GRAVÉ**.
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
@@ -70,7 +70,7 @@ allowed-tools: "Bash(*), *"
 | 2026-05-27 | [CLINE] | **Mail recap kapoivha → Telegram** — `gws` CLI fetched 16 inbox messages (14 unread, 2 IMPORTANT). MarkdownV2 formatted recap sent to KπX via bot `KpihX` (msg_id=176). Key items: Lebara eSIM support reply (IMPORTANT), IDF Mobilites code, 4 security alerts (Google×2, Microsoft×2, Venice.ai), DMARC report, 8 other notifications. |
 
 | **envision (PSC)** | ✅ STABLE — final report layout with dual logos aligned, branding complete, and project links pushed to main and presentation repo (`ee3398d`). Ready for soutenance prep from the stabilized dense-RAG baseline. | `push audit` · `$HOME/Work/X/envision/envision/` |
-| **Terminal Editing Stack** | 🟢 ACTIVE — Vim 9.1 + Neovim 0.11; 31 nvim plugins (Lazy.nvim); LSP 8 servers; opencode.nvim; tmux plugins étendus; k-vim skill. | Premier lancement nvim interactif à faire · `$HOME/.agents/skills/k-vim/` |
+| **Terminal Editing Stack** | 🟢 ACTIVE — Vim 9.1 + Neovim 0.11; 31 nvim plugins (Lazy.nvim); LSP 8 servers; opencode.nvim; tmux plugins étendus; k-nvim skill. | Premier lancement nvim interactif à faire · `$HOME/.agents/skills/k-nvim/` |
 | **flow** | 🟢 ACTIVE — `k_env` extracted out of tree into its own framework repo; `flow` packaging no longer claims `k_env` CLI/tests | continue voice-kernel work as `flow`-only and add a local dependency on `$HOME/Work/Frameworks/k_env/` only if/when runtime imports are introduced · `$HOME/Work/AI/flow/` |
 | **k_env** | 🟢 ACTIVE — autonomous framework repo scaffolded under `Work/Frameworks/`; migrated package + tests now live in their own git root and pass locally | refine autonomous docs/API after extraction and continue the post-SecretStrategy cleanup from the Gemini intent baseline · `$HOME/Work/Frameworks/k_env/` |
 | **k-conf** | 🟢 ACTIVE — Meta-config framework renamed from `framework` to `k-conf` (package `k_conf`); global import refactor and variable replacement completed | internal dev in `$HOME/Work/AI/flow/src/k_conf/` |
@@ -92,12 +92,13 @@ allowed-tools: "Bash(*), *"
 | **PVE / vm_debian** | 🟢 ACTIVE — live CT-vs-VM DNS audit completed on `kpihx-pve`: CT `100` (`homelab`) resolves through Proxmox-managed static resolvers, while VM `101` (`pve-debian`) still ends up with `systemd-resolved` reporting `No DNS servers known` (`ISS-20260508-001`). | Patch `install.sh` DNS/resolved handling, then redeploy VM 101 and revalidate `curl raw.githubusercontent.com`. · `$HOME/KpihX-Labs/PVE/vm_debian/` |
 | **Fluid** | 🟢 ACTIVE — Deep lifecycle transparency pass completed in `AA.md`: reconstructed the real Ubuntu → PVE → service lifecycle from scripts, exposed the current root-owned `state/fluid-state.json` permission break, the `fluid-node-pve` profile mismatch (`ubuntu` instead of `pve`), and the missing `fluid.yml` blocker for the local `ts_proxy` example. | Review `AA.md`, fix state ownership + host profile semantics, then add a first real `fluid.yml` service example (starting with `ts_proxy`). · `$HOME/KpihX-Labs/Fluid/fluid/` |
 | **Lebara eSIM (S25)** | 🟡 **WAIT 30j** — Support : anciennes eSIM sur l’appareil → **ne pas rescanner** le QR **ML045066180** avant **~25/06/2026**. 2e commande **ML045067164** annulée+rembours. PDF canonique (hash `b76f1627…`) : Drive + Downloads — voir **`$HOME/Downloads/lebara-esim/CANONICAL-PDF.md`**. TickTick `6a1491488f08dbc9d7a14fbc` (échéance 25/06). | **No QR scan** · `$HOME/Downloads/lebara-esim/` |
-| **KpihX-Ubuntu (Dell 7640)** | 🟡 **MONITORING** — Display/projector **`ISS-20260515-001`** (runbook in issues Next checkpoint). Battery wear **~67%** **`ISS-20260526-001`**. Charge stop **80%** sysfs OK (75% start). | `powerprofilesctl` after reboot · `references/issues.md` |
+| **KpihX-Ubuntu (Dell 7640)** | 🟡 **MONITORING** — Display/projector **`ISS-20260515-001`** (runbook in issues Next checkpoint). Battery wear **~67%** **`ISS-20260526-001`**. Terminal D-Bus activation **`ISS-20260706-001`** (FTD). Charge stop **80%** sysfs OK (75% start). | `powerprofilesctl` after reboot · `references/issues.md` |
 | **Edge agent (CDP)** | ✅ **STABLE** — Live test + manual cleanup done; favorites test folders removed by KπX; **`k-browser` v1.3.0** Leave no trace; runbook in techskills + insights. | `edge-agent-cdp-setup.md` · `k-browser/SKILL.md` |
 | **whats_proxy** | 🟢 ACTIVE — v1.0.0 Infrastructure Contract defined: 100% transparent API, port 1140 unified bridge, and robust discovery/filtering registry. | Hardened CONTRACT.md · `$HOME/Work/KpihX-Labs/Fluid/whats_proxy/` |
 | **Gdrive_X Reorganization** | ✅ STABLE — Full controlled migration executed on 2026-05-03. Final roots: `.Trash-1000`, `Google AI Studio`, `KpihX`, `X`, `ENSPY`, `Pro`, `KpihX-Labs`, `Photos`, `ToPrint`, plus review roots. API validation passed with zero forbidden names, zero non-ASCII paths, zero duplicate Drive paths, zero singleton dirs outside exceptions/review, zero `_DUP*` residues in main roots, and zero dirty `..`/`.pdf.pdf`/browser suffix residues. | Review `_Purge_Review_2026-05-03/` and `_Review_Duplicates_2026-05-03/` deliberately before any real deletion. · `$HOME/Gdrive_X/` |
 | **Julius Caesar Exam Prep** | ✅ STABLE — Completed the comprehensive revision guide `revision_anglais.md` and `cheat_sheet.md`, generated PDF using `k-latex`, created ultra-compact `Revision` template with automated `Makefile`. | Ready for print and review. · `$HOME/Gdrive_X/ToPrint/` |
 || **SexeModel** | 🟢 ACTIVE — Scraper tasks 1-6 completed; background scraping for region 75 (Paris) running 45-90 min. Results to be verified on completion.
+| **LiveMem** | 🧠 **BRAINSTORMING** — Brain-inspired living field paradigm (BRAINSTORMING.2): Hebbian learning, multi-modal cortices, continuous flux, internal thought loop. Code reset — architecture docs intact. Next: formal math framework + first prototype "Papa" scenario. | `$HOME/Work/AI/livemem/` |
 
 | **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
 
@@ -122,6 +123,7 @@ allowed-tools: "Bash(*), *"
 | `references/edge-agent-automation-vision.md` | Brainstorm | Visible Edge + CDP for HITL agent browsing; dedicated profile; MCP attach; not Default user-data |
 | `references/voice-kernel-ollama-vision.md` | Vision | Centralize STT/TTS as a sovereign cross-agent module using Ollama as LLM backbone — distributable to any agent runtime without vendor lock |
 | `references/sovereign-tutorial-automation-vision.md` | Vision | Agent-driven tutorials (VHS terminal + Remotion + articles); phone→PC→CLI stack; no facecam |
+| `$HOME/Work/AI/livemem/BRAINSTORMING.2.md` | Brainstorm | Brain-inspired living field: Hebbian learning, multi-modal cortices, continuous flux, internal thought loop, paradigm shift from models to stable kernels |
 
 ## What's up (context-only slice)
 
@@ -138,20 +140,23 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-07-22 | [OPENCODE] | **rm wrapper binary + `.agents/` centralization mandate** — Created `k-clis/assets/rm` (trash-cli wrapper, replaces `alias rm='trash-put'`). Symlinked to `~/.local/bin/rm`. New rules in `file-governance.md`: bin-over-alias, `.agents/` centralization. New AGENTS.md mantra: `0 Loose Files · 100% .agents/ | 0 Aliases · 100% Binaries`. Removed alias rm from .kshrc and .kshrc.base. k-clis v1.3.0, k-zsh v2.0.1, AGENTS.md v3.2.0. |
+| 2026-07-22 | [OPENCODE] | **k-zsh v2.0.0 + curator v2.0.0 — truth moved to ~/.kshrc, curator mandate expanded** — ~/.kshrc is now a real file (NOT in skill assets). assets/kshrc deleted — only kshrc.base remains as deploy template. Curator v2.0.0: full k-context references scan (ALL .md files, not just log), skill sync & drift detection (k-clis as priority), cross-skill truth alignment, version awareness for installed tools (tmux, tailscale, ollama...). |
 
-| 2026-05-31 | [OPENCODE] | **Full app purge + k-optim pass** — Purged: Windsurf (966MB), Rhythmbox, Meld, Wine snap, Yarn (npm), 7 uv tools (grip, huggingface-hub, ipynb-pdf, kpihx-ai, kpihx-todo, viperx, wayland-mcp), brew/linuxbrew (5.9G), waydroid. Disabled: ydotool, gvfs-afc. Cleaned: old Gemini sessions, Codex logs (47MB). `clean_all.sh --purge --system` executed. Disk: 204G→182G (81G free, 70%). Transit dirs clean. Governance audit: 14 warnings (changelog format). |
-| 2026-05-31 | [OPENCODE] | **Ubuntu boot cleanup — 35 unit files removed, 6 snaps purged** — Disabled: cloud-init (5), CUPS (6), apport+whoopsie (4), ModemManager, ubuntu-advantage+motd-news (4), SSSD (7), fwupd (2). Purged: open-webui (service + Docker + /opt/open-webui). Snaps removed: discord, thunderbird, gnome-chess, onenote-desktop, onlyoffice-desktopeditors, jupyterlab-desktop. Tor kept + documented in k-workspace. NetworkManager-wait-online kept (user request). k-workspace SKILL.md updated with System Services section. Estimated gain: ~4-5s boot + ~1 GB RAM. |
-| 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0 — profiles, rules, agents refactor** — AGENTS.md 369→58 lines. Created: rules/ (8 files), profiles/colab + profiles/explore, agents/ (6 definitions .agents protocol), memories/current-intent.md. Removed INIT.md (→ rules/agent-registry.md + k-opencode). Trimmed: k-final, k-optim, k-workspace (→ rules/ pointers). k-opencode v1.4.0. |
-| 2026-05-29 | [OPENCODE] | **Phase 4-5 complete** — Plugin kpihx-orchestra.js (3 hooks: messages.transform, tool.execute.after, session.compacting). audit.py: _check_rules() for rules/ validation. Makefile: make link target for all agent runtimes. .gitignore: un-ignore plugins/kpihx-orchestra. |
-| 2026-05-29 | [OPENCODE] | **opencode.jsonc + symlinks** — colab/explore added as primary agents with task delegation. default_agent=colab. Symlinks: agents/ profiles/ skills/ AGENTS.md → ~/.config/opencode/. Config validated via opencode debug config. |
-| 2026-05-28 | [OPCODE] | **Session 2 — Audit fixes + stack finalization** — Fixed k-vim edit reminder format; added [SUMMARY] rows to k-vim, k-opencode, k-tmux, k-context; deduped frontmatter in k-opencode + k-tmux; all 4 pass `make audit` skill structure checks. Interactive nvim first-launch still pending. |
-| 2026-05-28 | [OPCODE] | **Terminal Editing Stack** — Vim 9.1 + Neovim 0.11 install + config; 31 nvim plugins (Lazy.nvim); 4 vim plugins (vim-plug); tmux étendu (yank/copycat/prefix-highlight); LSP 8 servers; k-vim skill créé EN; k-tmux v1.5.0; k-opencode v1.1.0 (section Neovim). |
-| 2026-05-28 | [OPCODE] | **colab P1 ACP + P4 Mistral** — 69 tests green. ACP: 51 tests, mock_proc/timing/notification fixes. P4: 18 tests, 4 intents, IndexError hardened. |
-| 2026-05-27 | [CURSOR] | **OpenClaw workspace = `~/.agents`** — kernel inject direct; `@kpihx_openclaw_bot`; AGENTS symlinks unifiés; verified 37k inject. |
-| 2026-05-28 | [OPCODE] | **OpenClaw bugfix session** — Diagnostiqué 429 Realtime (OpenAI → Google provider). Talk: `provider=google`, `apiKey={env:GOOGLE_API_KEY}`. `wl-clipboard` installé. Fixé `codex.apiKey` false positive. |
-| 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green. |
-| 2026-05-27 | [CURSOR] | **SexeModel scraper** — tasks 1-6 completed; background scraping region 75. |
-| [SUMMARY] | — | 2026-05-26: Lebara eSIM 30j, k-phones v1.0.17, ISS runbooks, prior history → `references/log.md`. |
+| 2026-07-22 | [OPENCODE] | **Skills refactoring — zombie purge + Phases 1-2** — Analysed 55 skills (top vs infra). Deleted 16 zombie marketplace skills. Created k-infras (master infrastructure map) and k-ubuntu (workstation: shell, services, DxO VPN, nftables ref). k-workspace still active at this point. |
+
+| 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. Shell architecture, system services, directory layout, MCP ecosystem, DxO VPN/RDP, nftables as sub-skill reference. |
+| 2026-07-22 | [OPENCODE] | **Phase 3 — kpihx-labs rewritten as kernel top reference** — v2.0.0. Now the kernel entry point with full structure tree, project registry, knowledge base. PVE/Docker infra content redirected to k-infras → k-pve/k-pve-debian (Phase 4). |
+| 2026-07-22 | [OPENCODE] | **Phase 4 — k-pve + k-pve-debian created** — k-pve: PVE hypervisor (network topology vmbr0/vmbr1, SSH, VM/CT inventory, DNS lessons). k-pve-debian: Debian VM (Docker deployment, Traefik, Portainer, Vaultwarden, GitLab CI). PVE insights migrated from kpihx-labs. |
+| 2026-07-22 | [OPENCODE] | **Phase 5 — k-pve-dockerhost + k-alienware + k-deep-pc6 created** — k-pve-dockerhost: Docker host CT 100 on PVE (in migration). k-alienware: Windows+WSL internship PC (Tailscale, RDP). k-deep-pc6: Linux server at DxO (SSH via VPN). |
+| 2026-07-22 | [OPENCODE] | **Phase 6 — OS refs + heavy skill refactoring** — refs governance rule in kpihx-labs. refs/windows.md for k-tmux, k-browser, k-code (with winget/WSL deep guide). refs/ for k-cloudflare, k-bw, k-openclaw, k-rclone (generic+specific split). k-tailscale v2.0 (machine identity→k-ubuntu). k-ollama v2.0 (HW config→k-ubuntu). k-optim v3.0 (Ubuntu→refs). k-ubuntu v1.1 updated with Tailscale identity, Ollama HW, extended refs. |
+| 2026-07-22 | [OPENCODE] | **Phase 7 — k-workspace deactivated, k-agents removed from STARTUP_SKILLS** — Content ported to k-ubuntu, kpihx-labs, k-agents. k-workspace moved to deactive/. All references purged. AGENTS.md skills section simplified to high-level taxonomy. Curator agent.md reinforced with GRAVÉ Zero Information Loss mandate. |
+| 2026-07-21 | [OPENCODE] | **Agent refonte — naming, prompts, permissions, rules compaction** — Convention: primary agents = Majuscule, sub-agents = minuscule. main-teacher + style-guardian supprimés, leur contenu dans Explore. Colab: coordinateur exploitation (executor → checker → curator → intent-guardian). Explore: apprentissage direct intuitio-formel, sub-agents fact-verifier + scout. Rules compactées + INDEX.md. opencode.jsonc: prompts externalisés, permissions mises à jour. |
+| 2026-07-21 | [OPENCODE] | **profiles/ purged + k-nftables created** — profiles/colab et profiles/explore supprimés (contenu mergé dans prompts). AGENTS.md → Agent Modes. Migrated UFW→nftables, created k-nftables skill with ruleset, systemd drop-in. Language rule renforcée. Curator v1.2.0. |
+| 2026-07-14 | [OPENCODE] | **LiveMem BRAINSTORMING.2 — Brain-inspired living field paradigm** — Deep brainstorming session: Hebbian learning math (rule, divergence, BCM), Hebbian vs gradient comparison, learning as stability emergence, Laplacian as local attention, multi-modal cortex architecture (528 cells × ~35 dims = ~18K state values), continuous flux (no forward pass), internal thought loop (dreaming mode), "Papa" scenario first prototype, stability metrics. Created `BRAINSTORMING.2.md` (1162 lines). Updated ARCHITECTURE.md §14, AGENTS.md, CHANGELOG.md, TODO.md, README.md. Added LiveMem to k-context Active Projects + Brainstorm Registry. |
+| 2026-07-06 | [OPENCODE] | **Terminal D-Bus fix `ISS-20260706-001`** — Root cause: `xdg-desktop-portal-gtk` crashes at boot (`cannot open display:`) → systemd timeout cascade → gnome-terminal-server activation blocked 20-30s. Fix: portal-gtk drop-in (waits for Wayland display) + pre-terminal service (pre-starts gnome-terminal-server). |
+| 2026-05-31 | [OPENCODE] | **Full app purge + Ubuntu boot cleanup** — Purged: Windsurf, brew/linuxbrew (5.9G), 7 uv tools, waydroid, open-webui. 35 systemd unit files disabled, 6 snaps removed. Disk: 204G→182G. Boot time reduced ~4-5s. (Full details in references/log.md) |
+| 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0 — profiles, rules, agents refactor** — AGENTS.md 369→58 lines. Created: rules/ (8 files), agents/ (6 definitions). Plugin, opencode.jsonc, symlinks. (Earlier entries → references/log.md) |
 
 ## References
 
@@ -162,6 +167,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 - `references/sciencurious_lab.md` — ScienCurious Lab vision and collaborative structure (Education/AI)
 - `references/insights.md` — autonomous general runtime insights (cross-domain mistakes, fixes, and anti-repeat guidance)
 - `references/issues.md` — append-only full issue ledger (diagnosis/fix attempts with full commands and outputs; newest-first)
+- `references/refactor.md` — skills refactoring architecture vision (top vs infra, equipment master map, phased execution plan)
 - **Other `references/*.md`** — durable brainstorms and WIP project visions until promoted to a skill or `$HOME/Work/`
 
 ## Insights Discipline (mandatory)
@@ -174,6 +180,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-31 | [OPENCODE] | v2.93.0 — Voice Kernel brainstorm: Oriyama cross-agent STT/TTS module vision registered. whisper.cpp Vulkan GPU + Piper ONNX + Ollama architecture documented. |
-| 2026-05-31 | [OPENCODE] | v2.92.0 — Full app purge + k-optim: Windsurf, Rhythmbox, Meld, Wine, Yarn, brew, waydroid, 7 uv tools removed; Gemini/Codex cleaned; disk 204G→182G. |
-| [SUMMARY] | — | v2.89.58 colab P4 Mistral; v2.89.48–v2.89.57 colab P1, SynapseS, Lebara, k-phones, SexeModel, OpenClaw, ISS, QMD. |
+| 2026-07-22 | [OPENCODE] | v3.1.0 — k-workspace deactivated, k-agents removed from STARTUP_SKILLS. AGENTS.md simplified. Curator GRAVÉ rule added. |
+| 2026-07-22 | [OPENCODE] | **Full kernel refactor: infra skills + OS refs + heavy skills** — Created: k-infras, k-ubuntu, k-pve, k-pve-debian, k-pve-dockerhost, k-alienware, k-deep-pc6. Rewritten: kpihx-labs v2.1 (refs governance), k-tailscale v2.0, k-ollama v2.0, k-optim v3.0. Added OS refs to 10 skills. 16 zombie skills deleted. k-workspace deactivated. |
+| [SUMMARY] | — | v3.0.0 memories/ deletion + zero-deletion reinforced; v2.97.0 Agent refonte; earlier → references/log.md |

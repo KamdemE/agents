@@ -2,7 +2,7 @@
 """
 Codex hook: SessionStart
 Event: fires when a session starts (matcher: startup|resume).
-Core: context_injector — injects k-context + k-workspace + session date.
+Core: context_injector — injects k-context + session date.
 Input stdin: {"session_id":"...","cwd":"...","hook_event_name":"SessionStart","model":"..."}
 Output stdout: JSON with `hookSpecificOutput.additionalContext` plus optional `systemMessage`.
 """

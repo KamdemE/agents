@@ -14,6 +14,8 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **OS references:** `references/ubuntu.md` (FUSE mounts, systemd services) · `references/windows.md` (WSL and native Windows rclone)
+
 ## Cloud hub
 
 Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`k-drive`** · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`

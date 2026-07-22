@@ -4,8 +4,10 @@ description: >
   KπX tmux reference — sessions, windows, panes, copy-mode, mouse scroll, config reload,
   and practical CLI/key shortcuts. Load before any tmux workflow, shared interactive shell,
   or terminal multiplexing task on KπX workstations.
+  ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
+  Never raw sudo in agent shells. Use tmux pane ubuntu:0.2 (ops).
 metadata:
-  version: 1.6.0
+  version: 1.9.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -15,7 +17,8 @@ allowed-tools: Bash(tmux:*), Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-workspace` (shell / workstation context) · `k-codex` (shared interactive tmux panes with password polling)
+> **Related skills:** `k-ubuntu` (shell / workstation context) · `k-codex` (shared interactive tmux panes with password polling)
+> **OS references:** `references/windows.md` (WSL tmux setup and limitations)
 > **Canonical config:** `$HOME/.tmux.conf` — skill asset `assets/tmux.conf` is a symlink to it.
 
 ## When to Load
@@ -44,7 +47,21 @@ Use this gate when a command may require **KπX** interaction:
 
 **`sui` is deprecated** — do not invoke it. Agents **never** run raw `sudo` in non-interactive tool shells; elevation happens in the shared pane.
 
-### Session hygiene
+### Fixed session: `ubuntu`
+
+**KπX workstation always has a running `ubuntu` tmux session** (attached, 3 windows minimum).
+
+Window 0 ("agents") has 3 panes:
+
+| Pane | App | Rules |
+|------|-----|-------|
+| `ubuntu:0.0` | opencode | Never send keys here |
+| `ubuntu:0.1` | nvim | Never send keys here |
+| `ubuntu:0.2` | **zsh** | **Designated sudo/ops pane** — all elevation here |
+
+**Always prefer `ubuntu` for sudo/ops.** Do not create separate sessions for workstation tasks unless the scope is clearly different (e.g. SSH to homelab → new session).
+
+### Session hygiene (non-`ubuntu` sessions)
 
 1. `tmux ls` — list sessions.
 2. Prefer an existing **short, topic-named** session (e.g. `pve`, `fluid`, `apt`).
@@ -493,6 +510,5 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-06-05 | [OPCODE] | v1.7.0 — Added critical rule: always identify pane via `list-panes` before `send-keys` (was sending to wrong pane). |
-| 2026-05-30 | [OPCODE] | v1.6.0 — Added `focus-events on` to bundled config (Neovim `autoread` support), k-vim healthcheck cross-reference. |
-| [SUMMARY] | — | v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |
+| 2026-07-22 | [OPENCODE] | v1.9.0 — Added **SUDO GATE** warning to description: tmux is the ONLY channel for sudo/SSH elevation. Never raw sudo in agent shells. |
+| [SUMMARY] | — | v1.8.0 fixed ubuntu session + sudo pane; v1.6.0 focus-events on, Neovim autoread; v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.4"
+  version: "2.12.0"
   scope: agent-runtime
   target-agent: gemini
 allowed-tools: Bash, Read, Write, Edit
@@ -26,11 +26,15 @@ allowed-tools: Bash, Read, Write, Edit
 - **Settings:** `$HOME/.gemini/settings.json`
 - **Temp data:** `$HOME/.gemini/tmp/kpihx/`
 
-## History
+## Session Storage
 
-- **Workspace history roots:** `$HOME/.gemini/history/`
-- **Conversation cache:** `$HOME/.gemini/tmp/kpihx/chats/`
-- **Antigravity conversations:** `$HOME/.gemini/antigravity/conversations/`
+Gemini stores conversations in three locations:
+
+- **`$HOME/.gemini/history/`** (2.9 MB) — Each session is a **git repository** named by SHA256 hash. Each directory contains a `.git/` with commits tracking the conversation timeline, plus `.gitconfig`, `.gitignore` for sandboxed git operations. Sessions are full transcripts including user prompts, tool calls, and model responses.
+- **`$HOME/.gemini/tmp/kpihx/chats/`** — Conversation cache (runtime chat state, regenerated each session).
+- **`$HOME/.gemini/antigravity/brain/<uuid>/`** — Antigravity agent memory: `.system_generated/`, media artifacts, temp storage. Used by the AGY agent mode.
+
+Total history data: ~2.9 MB across ~25 session git repos. No JSONL — Gemini uses git as its storage backend for full session traceability.
 
 ## MCP Server Installation
 
@@ -123,6 +127,6 @@ Template: `$HOME/.agents/skills/k-project/assets/AGENTS.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v2.12.0 — Added Session Storage section with git-backed history format docs. Removed from QMD indexing (QMD purged). |
 | 2026-04-26 | [ANTIGRAVITY] | v2.11.4 — `MIE Ubisoft Case`: Finalized academic study case; implemented strict markdown-to-PDF formatting rules for academic submission. |
-| 2026-04-24 | [GEMINI] | v2.11.3 — Documented Docker port conflict workarounds and Agnostic Shim strategy. |
-| [SUMMARY] | — | v2.11.2 audited and cleaned changelog; v2.11.1 path validation insight; v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |
+| [SUMMARY] | — | v2.11.3 Docker port conflict workarounds; v2.11.2 audited and cleaned changelog; v2.11.1 path validation insight; v2.11.0 Auth Blocks; v2.10.x sui rule, watchers fix, insights; older -> file history |

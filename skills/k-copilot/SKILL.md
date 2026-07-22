@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.3"
+  version: "1.8.0"
   scope: agent-runtime
   target-agent: copilot
 allowed-tools: Bash, Read, Write, Edit
@@ -28,6 +28,19 @@ allowed-tools: Bash, Read, Write, Edit
 - **Config files:** `$HOME/.copilot/mcp-config.json` (MCPs) · `$HOME/.copilot/config.json` (settings)
 - **Session state:** `$HOME/.copilot/session-state/`
 - **Command history:** `$HOME/.copilot/command-history-state.json`
+
+### Session Storage
+
+Copilot stores sessions in a SQLite database:
+
+- **`$HOME/.copilot/session-store.db`** (SQLite, ~50 KB) — Main session store.
+  - `sessions` table: `id`, `cwd`, `repository`, `host_type`, `branch`, `summary`, timestamps.
+  - `turns` table: `session_id`, `turn_index`, `user_message`, `assistant_response`, `timestamp`.
+  - Each session has one or more turns (user message + assistant response).
+- **`$HOME/.copilot/session-state/<uuid>/`** — Per-session state directories (runtime/tool state, not message transcripts).
+- **`$HOME/.copilot/command-history-state.json`** — Recent command history (JSON).
+
+Total session data (excluding logs): ~50 KB DB + per-session state dirs. Queryable directly via `sqlite3`.
 
 ## Source Of Truth
 
@@ -109,6 +122,6 @@ QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v1.8.0 — Added Session Storage section (session-store.db schema, session-state dirs). Removed from QMD indexing (QMD purged). |
 | 2026-04-18 | [CODEX] | v1.7.3 — Generalized Copilot cleanup commands from `~` to `$HOME` for kernel-wide path consistency. |
-| 2026-04-13 | [CODEX] | v1.7.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v1.7.0 manual history purge paths; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v1.7.2 Standardized insights discipline; v1.7.0 manual history purge paths; +1 older changelog entries kept in file history |

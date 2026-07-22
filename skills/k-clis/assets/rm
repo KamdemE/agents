@@ -1,0 +1,101 @@
+#!/bin/bash
+# ============================================================
+# rm — KπX safe rm wrapper (trash-cli)
+# ============================================================
+# Asset:  k-clis/assets/rm
+# Deploy: ln -sf $SKILL/assets/rm ~/.local/bin/rm
+#
+# Replaces risky `rm` with trash-cli for ALL contexts
+# (interactive, scripts, subshells, tmux, !rm, etc.)
+#
+# USAGE:
+#   rm <file>...         Move files/dirs to trash (safe delete)
+#   rm list / rm ls      List trash contents
+#   rm empty             Empty trash (permanent!)
+#   rm restore           Restore files interactively
+#   rm rm <pattern>      Permanently delete from trash by pattern
+#   rm help / rm -h / rm -help / rm --help  Show this help
+#
+# GNU rm compatibility flags (passed to trash-put):
+#   -f, -i, -r, -R, -d, -v
+#
+# FORCE REAL DELETE:
+#   /usr/bin/rm <file>   (full path bypasses the wrapper)
+# ============================================================
+
+set -e
+
+WRAPPER_NAME="rm"
+REAL_RM="/usr/bin/rm"
+
+# --- Help ---
+show_help() {
+  cat <<EOF
+Usage: $WRAPPER_NAME [OPTION]... <file>...
+       $WRAPPER_NAME list|ls        List trash
+       $WRAPPER_NAME empty          Empty trash
+       $WRAPPER_NAME restore        Restore files from trash
+       $WRAPPER_NAME rm <pattern>   Permanently delete from trash
+       $WRAPPER_NAME help|-h|-help|--help  Show this help
+
+Safe delete wrapper (trash-cli). Moves files to trash instead of
+permanent deletion. Uses trash-put for all file arguments.
+
+GNU rm compat flags: -f, -i, -r, -R, -d, -v (passed to trash-put)
+
+Force real delete: /usr/bin/rm <file>
+EOF
+}
+
+# --- Help (catch -h/-help/--help before flag loop) ---
+for arg in "$@"; do
+  case "$arg" in
+    -h|-help|--help)
+      show_help
+      exit 0
+      ;;
+  esac
+done
+
+# --- No arguments ---
+if [ $# -eq 0 ]; then
+  show_help
+  exit 1
+fi
+
+# --- Extract first non-flag argument to detect subcommand ---
+FIRST_ARG=""
+for arg in "$@"; do
+  case "$arg" in
+    -*) ;; # skip flags
+    *) FIRST_ARG="$arg"; break ;;
+  esac
+done
+
+# --- Subcommand dispatch ---
+case "$FIRST_ARG" in
+  help)
+    show_help
+    exit 0
+    ;;
+  list|ls)
+    shift
+    exec /usr/bin/trash-list "$@"
+    ;;
+  empty)
+    shift
+    exec /usr/bin/trash-empty "$@"
+    ;;
+  restore)
+    shift
+    exec /usr/bin/trash-restore "$@"
+    ;;
+  rm)
+    shift
+    exec /usr/bin/trash-rm "$@"
+    ;;
+  *)
+    # Default: trash-put with GNU rm compat flags passed through
+    exec /usr/bin/trash-put "$@"
+    ;;
+esac

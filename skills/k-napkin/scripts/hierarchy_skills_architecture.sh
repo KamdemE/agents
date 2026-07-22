@@ -8,7 +8,7 @@ Root identity, language rules, security, mantras
 
 ### Core Sessions
 - k-context: active TODOs and session log
-- k-workspace: directory layout and standards
+- k-ubuntu: workstation directory layout and standards
 
 ### Dev Skills
 - k-project: project initialization

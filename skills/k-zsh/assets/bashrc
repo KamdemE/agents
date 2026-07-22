@@ -1,0 +1,64 @@
+# ============================================================
+# .bashrc — Bash fallback (🔴 NEVER MODIFY)
+# ============================================================
+# Sources .kshrc as the universal hub. Keeps only bash-specific
+# options (shopt, PS1) and machine-local additions.
+# .kshrc.local is the ONLY escape valve for machine-local overrides.
+# ============================================================
+
+source ~/.kshrc
+
+# === Bash-specific: PS1 prompt ===
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        color_prompt=yes
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+esac
+
+# bash options
+shopt -s histappend
+shopt -s checkwinsize
+
+# programmable completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+. "$HOME/.cargo/env"
+
+# [X-SSH] Bash Auto-completion
+source /home/kpihx/Work/X/xssh/autocomplete.bash
+
+# Added by Antigravity CLI installer
+export PATH="/home/kpihx/.local/bin:$PATH"
+
+source /home/kpihx/.config/broot/launcher/bash/br
+
+

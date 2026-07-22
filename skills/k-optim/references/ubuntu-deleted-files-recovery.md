@@ -77,7 +77,7 @@ original filenames        full resolution possible
 
 **Why it works:** Carves **file signatures** from **unallocated** ext4 blocks (`freespace`). Survives Trash empty if clusters were not overwritten.
 
-**Agent rule:** Run `sudo` only in **shared tmux** (`default:0.0` — pane already used for recovery). **Do not** `tmux split-window` for sudo. See `k-tmux` / `k-workspace` → Shared interactive gate.
+**Agent rule:** Run `sudo` only in **shared tmux** (`default:0.0` — pane already used for recovery). **Do not** `tmux split-window` for sudo. See `k-tmux` / `k-ubuntu` → Shared interactive gate.
 
 **Scripts (session templates):**
 

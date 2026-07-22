@@ -12,6 +12,8 @@ allowed-tools: mcp__bw-mcp__*, Bash(tmux:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
+> **OS references:** `references/ubuntu.md` (bw-env Linux setup) · `references/windows.md` (WSL bw-env, native bw-proxy)
+
 ## Infrastructure Map (Sovereign)
 
 - **Vault Server:** Unofficial Bitwarden (Vaultwarden) in Rust.

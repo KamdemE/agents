@@ -10,7 +10,6 @@
 | :--- | :--- | :--- |
 | **Ivann KAMDEM (KπX)** | **CTO & Lead Architect** | Visual engine architecture, pipeline orchestration (Flux/Wan/Kokoro), Homelab infra, sovereignty. |
 | **Demartino KUETE** | **CPO & Pedagogy Lead** | Pedagogical engineering, scene decomposition, learning UX, conceptual validation. |
-> Context: born from live deck generation session (`.agents/docs/AGENTS.pptx`)
 > Related: `vision.md` (general agentic), `performance.md` (hardware benchmarks)
 
 ---
@@ -270,7 +269,6 @@ LONG TERM:     Human ←── spatial/interactive ──→ AI
 
 ### H1 (Now): already proven
 
-The `.agents/docs/AGENTS.pptx` deck — 7 slides with AI-generated visuals, assembled in <5 min — is prototype zero.
 
 ### H2 (6-18 months): interactive "visual sticky notes"
 
@@ -362,7 +360,6 @@ The creative DIRECTION is KπX's value-add, not the rendering.
 | `vision.md` | General agentic philosophy and Thought Studio concept |
 | `models.md` | LLM model capabilities and RAM budget |
 | `stack.md` | Technical stack (Ollama, Open-WebUI, ComfyUI TBD) |
-| `.agents/docs/AGENTS.pptx` | Prototype zero — 7-slide deck generated in this session |
 | 3Blue1Brown / Manim | Gold standard for math visualization (open-source engine) |
 | tldraw/make-real | Spatial canvas + AI generation (open-source, H3 reference) |
 | Fermat.ws | Commercial spatial AI canvas (conceptual reference) |

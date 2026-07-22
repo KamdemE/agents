@@ -1,98 +1,148 @@
 ---
 name: k-ollama
-description: Guide and templates for setting up Ollama with Intel (Arc) GPU acceleration on Ubuntu, including Vulkan and Docker IPEX-LLM options.
+description: >
+  Generic Ollama operations — installation, model management, API usage,
+  backend switching, and troubleshooting. Cross-platform patterns that
+  work on any OS. Hardware-specific tuning (Intel Arc GPU, performance
+  variables) lives in the relevant infra skill (e.g., k-ubuntu references).
+  Load for Ollama install, model pull/run, API queries, or backend switch.
 license: private
 metadata:
   author: KpihX
-  version: "1.11.3"
-  scope: ia-engine-setup
-  target-agent: all
+  version: "2.0.0"
+  scope: ai-engine
 ---
 
-# Ollama on Ubuntu with Intel (Arc) GPU Acceleration
+# Ollama — Generic Operations
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-This guide points to the source of truth for Ollama on Intel Arc Ubuntu.
+> **OS references:** `references/ubuntu.md` (systemd service, apt install) · `references/windows.md` (WSL setup, native Windows)
+> **Hardware-specific tuning:** See the relevant infra skill — e.g., `k-ubuntu` for Intel Core Ultra 7 155H with Arc Graphics iGPU on this workstation.
 
-## Backends
+---
 
-- Native: `ollama.service`
-- IPEX: Docker control plane project at `$HOME/Work/AI/ollama/ipex`
+## Installation
 
-Both must expose the same endpoint: `http://127.0.0.1:11434`
+### Linux (Ubuntu/Debian)
 
-### Hardware: Intel Core Ultra 7 155H (Meteor Lake)
-- GPU: Arc Graphics iGPU — **shared RAM** (no discrete VRAM pool), freq max 2250 MHz
-- NPU: `/dev/accel/accel0` — available but not used by IPEX-LLM Ollama directly
-- CPU: 6 P-cores + 8 E-cores + 2 LP E-cores → `OMP_NUM_THREADS=6` for inference CPU fallback
-
-### Control Plane
-
-- Project: `$HOME/Work/AI/ollama/ipex`
-- Repo: `https://github.com/KpihX/ollama-ipex` · `https://gitlab.com/kpihx/ollama-ipex`
-- Config: `$HOME/Work/AI/ollama/ipex/src/ipex/config.yaml`
-- Compose: `$HOME/Work/AI/ollama/ipex/docker-compose.yml`
-- Project AGENTS: `$HOME/Work/AI/ollama/ipex/AGENTS.md`
-- CLI: `ollama-ipex ...` and `ipex ...` after `uv tool install --editable $HOME/Work/AI/ollama/ipex`
-
-### Around This Project
-
-- `$HOME/Work/AI/ollama/ipex/` — source of truth: CLI, config, compose, docs, packaging
-- `$HOME/Work/AI/ollama/sh/` — neighboring shell area only; do not move orchestration back there
-- `$HOME/.ollama-ipex/` — IPEX model store
-- `/usr/share/ollama/.ollama/` — native/system Ollama store
-
-Use the control plane only to switch/inspect the backend:
 ```bash
-ollama-ipex start
-ollama-ipex native
-ollama-ipex status
-ollama-ipex preload qwen2.5-coder:3b
-ollama-ipex logs --lines 200
+curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-Use plain `ollama ...` for model operations:
+### macOS
+
 ```bash
+brew install ollama
+# Or download from https://ollama.com/download
+```
+
+### Windows
+
+Download from https://ollama.com/download (native Windows build available).
+
+---
+
+## Basic Commands
+
+```bash
+# List downloaded models
 ollama list
+
+# Show running models
 ollama ps
-ollama run phi4-mini:latest
+
+# Pull a model
+ollama pull <model>
+
+# Remove a model
+ollama rm <model>
+
+# Run a model (interactive)
+ollama run <model>
+
+# Run a model (one-shot prompt)
+ollama run <model> "Your prompt here"
+
+# API endpoint (default)
+curl http://127.0.0.1:11434/api/generate -d '{
+  "model": "<model>",
+  "prompt": "Your prompt here"
+}'
 ```
 
-### Key Performance Variables
-| Variable | Value | Reason |
-|---|---|---|
-| `OLLAMA_KEEP_ALIVE` | `10m` | Workstation-safe warm cache without pinning RAM forever |
-| `OLLAMA_NUM_GPU` | `999` | Offloads all layers to Arc iGPU |
-| `OLLAMA_MAX_LOADED_MODELS` | `1` | Avoids RAM split (shared VRAM) |
-| `OLLAMA_FLASH_ATTENTION` | `1` | Faster attention for long contexts |
-| `OMP_NUM_THREADS` | `6` | P-cores only for CPU fallback |
-| `SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS` | `1` | Benchmark both 0/1 — workload dependent |
-| `mem_limit` | `24g` | Leaves real headroom for desktop + editors on a 30 GiB machine |
+---
 
-### Prerequisites
-- Stop local service: run in **shared tmux** — `sudo systemctl stop ollama && sudo systemctl disable ollama` (KπX approves in pane; **`sui` deprecated**).
-- User must be in `video` + `render` groups: `sudo usermod -aG video,render $USER` via shared tmux when needed.
+## Server Management
 
-### Notes
+```bash
+# Start server (if not running as a service)
+ollama serve
 
-- Keep one public endpoint only: `11434`
-- Do not reintroduce shell wrappers or proxy layers
-- Docker/container tuning lives in the project config, not in this skill
-- For the X cluster launcher in `$HOME/ai_cluster/start_ia.sh`, keep `~/.ollama/models` as the canonical persistent store and sync it into `/tmp/$USER/ollama_models` at start, then sync `/tmp` back to `~/.ollama/models` periodically and on exit. Otherwise models pulled through the dispatcher vanish on the next restart because they were only written to the ephemeral store.
-- Current recommended active local set on this Ubuntu machine: `phi4-mini:latest` (default), `llama3.1:8b`, `qwen2.5-coder:3b`
-- `gemma3:4b` was removed from the active IPEX store after benchmark because the tested agentic runtime flow rejected it
+# Check if server is running
+curl http://127.0.0.1:11434/api/tags
+
+# Stop server
+sudo systemctl stop ollama   # Linux (systemd)
+# or: pkill ollama
+```
+
+---
+
+## Environment Variables
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `OLLAMA_HOST` | Bind address | `http://127.0.0.1:11434` |
+| `OLLAMA_MODELS` | Model storage path | `~/.ollama/models` |
+| `OLLAMA_KEEP_ALIVE` | Model unload delay | `10m` |
+| `OLLAMA_NUM_PARALLEL` | Concurrent requests | `1` |
+| `OLLAMA_MAX_LOADED_MODELS` | Max models in RAM | `1` |
+| `OLLAMA_FLASH_ATTENTION` | Flash attention | `1` (enable) |
+
+---
+
+## Model Recommendations (Generic)
+
+These models work well on most consumer hardware:
+
+| Model | Size | RAM needed | Use case |
+|-------|------|------------|----------|
+| `phi4-mini:latest` | ~2.3 GB | 4 GB+ | Fast, lightweight coding |
+| `qwen2.5-coder:3b` | ~1.8 GB | 4 GB+ | Code completion |
+| `llama3.1:8b` | ~4.6 GB | 8 GB+ | General purpose |
+| `qwen3:latest` | ~4.9 GB | 8 GB+ | Strong general reasoning |
+
+For hardware-specific recommendations, consult the relevant infra skill.
+
+---
+
+## Troubleshooting
+
+```bash
+# Check logs
+journalctl -u ollama -f   # Linux (systemd)
+
+# Test API
+curl http://127.0.0.1:11434/api/tags
+
+# Reset (delete all models and config)
+rm -rf ~/.ollama
+
+# GPU not detected
+ollama run <model> --verbose  # Check "GPU" line in output
+```
+
+---
 
 ## Insights Discipline (mandatory)
 
-- Read `$HOME/.agents/skills/k-ollama/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-ollama/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
-- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+- Read `references/insights.md` before non-trivial work in this skill domain.
+- Update `references/insights.md` at the end of the task with durable lessons.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-25 | [CODEX] | v1.11.3 — Documented the X-cluster dispatcher persistence rule: `~/.ollama/models` stays canonical, `/tmp/$USER/ollama_models` is the fast cache, and sync-back is mandatory to preserve pulls across restarts. |
-| 2026-04-18 | [CODEX] | v1.11.2 — Replaced raw `sudo` examples with the audited `sui -r` privilege pattern for local Ollama setup. |
-| [SUMMARY] | — | v1.11.1 standardized insights discipline; v1.11.0 removed retired benchmark reference and kept current local model guidance; older history in git |
+| 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as generic core. Hardware-specific config (Intel Arc GPU, performance tuning, control plane) extracted to k-ubuntu. Added OS references. |
+| [SUMMARY] | — | v1.x: Intel Arc GPU setup, IPEX-LLM control plane, specific performance tuning. Full details in k-ubuntu. |

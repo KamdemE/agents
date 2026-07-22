@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.3"
+  version: "2.6.0"
   scope: agent-runtime
   target-agent: vibe
 allowed-tools: Bash, Read, Write, Edit
@@ -26,6 +26,15 @@ allowed-tools: Bash, Read, Write, Edit
 - **Config file:** `$HOME/.vibe/config.toml`
 - **Session logs:** `$HOME/.vibe/logs/session/`
 - **History index:** `$HOME/.vibe/vibehistory`
+
+### Session Storage
+
+Vibe stores sessions as per-session directories under `$HOME/.vibe/logs/session/session_<date>_<time>_<uuid>/` (2.6 MB total, ~10 sessions). Each directory contains:
+
+- **`messages.jsonl`** — Full conversation transcript. Each line: `{"role": "user"|"assistant", "content": "<text>", "injected": false, "message_id": "<uuid>"}`. All messages in chronological order.
+- **`meta.json`** — Session metadata (JSON object).
+
+No git, no database — plain JSONL files per session.
 
 ## Source Of Truth
 
@@ -77,6 +86,6 @@ QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v2.6.0 — Added Session Storage section with messages.jsonl + meta.json format. Removed from QMD indexing (QMD purged). |
 | 2026-04-18 | [CODEX] | v2.5.3 — Generalized VIBE cache-reset commands from `~` to `$HOME` to match kernel path rules. |
-| 2026-04-13 | [CODEX] | v2.5.2 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v2.5.0 history/index cache-clearing rules; +1 older changelog entries kept in file history |
+| [SUMMARY] | — | v2.5.2 Standardized insights discipline; v2.5.0 history/index cache-clearing rules; +1 older changelog entries kept in file history |

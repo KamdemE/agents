@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.14.8"
+  version: "2.15.0"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -44,10 +44,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | `techskills` | `$HOME/Work/techskills/` | Ubuntu fixes, tools, shell patterns |
 | `presentation` | `$HOME/Work/KpihX-Labs/Homelab/presentation/` | homelab architecture and project knowledge |
 | `agents` | `$HOME/.agents/` | AGENTS, skills, hook architecture, session notes |
-| `codex` | `$HOME/.codex/` | Codex config/rules/docs only |
-| `gemini` | `$HOME/.gemini/` | Gemini config/extensions only |
-| `copilot` | `$HOME/.copilot/` | Copilot config and state checkpoints |
-| `vibe` | `$HOME/.vibe/` | VIBE config and prompts |
+
 
 Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` runtime skill to find their on-disk paths, then inspect the files directly only when needed.
 
@@ -88,7 +85,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - Ubuntu/system fix → `techskills`
 - homelab architecture/project memory → `presentation`
 - agent workflow, hooks, AGENTS, skills → `agents`
-- agent-specific runtime config/docs → one of `codex`, `gemini`, `copilot`, `vibe` (Claude legacy → `deactive/k-claude`, not indexed)
+- agent-specific runtime config/docs → use the `k-*` runtime skill directly (not indexed in QMD)
 - raw agent histories → use the corresponding `k-*` runtime skill path, not QMD
 
 ## Troubleshooting
@@ -116,6 +113,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-21 | [OPENCODE] | v2.15.0 — Removed purged collections (codex, gemini, copilot, vibe) from Collection Map and Collection Scope Reflex. |
 | 2026-05-31 | [OPENCODE] | v2.14.8 — QMD rebuilt (better-sqlite3 Node mismatch fixed via `npm install -g --force`); cleanup 31 cache + 474 orphans; insights updated with Node mismatch fix pattern. |
-| 2026-05-25 | [CURSOR] | v2.14.7 — Insights: transient `chunks failed` after parallel post-commit embed; steady-state OK when second run is clean. |
-| [SUMMARY] | — | v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |
+| [SUMMARY] | — | v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |
