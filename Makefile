@@ -2,7 +2,7 @@
 
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 
-.PHONY: push push-tags log status audit link help
+.PHONY: push push-tags log status audit install-hooks link help
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -15,6 +15,9 @@ push-tags: ## Push all tags to all remotes
 
 audit: ## Run .agents structural audit
 	python3 $(HOME)/.agents/hooks/audit.py
+
+install-hooks: ## Install git hooks from scripts/git/assets/
+	bash $(HOME)/.agents/scripts/git/install-hooks.sh
 
 link: ## Symlink .agents/ into all agent runtimes
 	ln -sfn $(HOME)/.agents/AGENTS.md $(HOME)/.config/opencode/AGENTS.md

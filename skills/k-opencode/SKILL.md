@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.15.0
+  version: 1.16.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -277,13 +277,42 @@ Wildcard allows all, specific destructive tools override to `ask` (last match wi
 
 ### Plugins
 
+OpenCode supports a `plugin` array in `opencode.jsonc` for lifecycle hooks. Standard plugins + KπX-managed hooks:
+
 ```jsonc
 "plugin": [
   "opencode-dir",
   "opencode-ssh-session",
-  "opencode-antigravity-auth@latest" // Claude + Gemini via Google OAuth (free)
+  "opencode-antigravity-auth@latest",   // Claude + Gemini via Google OAuth (free)
+  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",
+  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"
 ]
 ```
+
+#### KπX Managed — `hooks/opencode/`
+
+These are the **KπX sovereign hooks** — small standalone plugins in `~/.agents/hooks/opencode/`. Each is a self-contained `.js` file listed via `file://` URL in the plugin array (order matters).
+
+| File | Event | Agent filter | Behavior |
+|------|-------|-------------|----------|
+| `suggestions-check.js` | `messages.transform` (every turn) | Colab, Build | Injects system message: ≥3 Suggestions required |
+| `startup-context.js` | `messages.transform` (first turn only) | Colab, Build | Injects raw `k-context/SKILL.md` + device infra skill (auto-detected via tailscale status → `assets/infras.json` → k-* skill lookup) |
+
+**Agent detection:** Both plugins capture the agent name from `session.created` event (`info.agent`) at session start. Non-matching agents (Explore, Lite, Auto, Plan) get zero overhead — plugins return silently.
+
+**Execution order (plugin array order matters):**
+1. `suggestions-check` fires → pushes format reminder at end of messages
+2. `startup-context` fires → unshifts context block at start of messages
+
+Resulting message order: `[0] raw context (k-context + device infra)`, `[1] format reminder`, `[2...] user messages`.
+
+**Device auto-detection pipeline:**
+```
+tailscale status --json → Self.DNSName → assets/infras.json lookup → skills/<k-*>/SKILL.md read
+Fallback: os.hostname() if tailscale unavailable
+```
+
+**Source files:** `~/.agents/hooks/opencode/` — tracked in `.agents` git repo, auto-deployed on push.
 
 ### Voice (TUI — @renjfk/opencode-voice)
 
@@ -416,7 +445,13 @@ WantedBy=default.target
 
 **Single source of truth :** le fichier vit dans `assets/opencode-web.service`, symlinké vers `~/.config/systemd/user/`. Éditer l'asset, puis `systemctl --user daemon-reload && systemctl --user restart opencode-web`.
 
-Le post-commit hook `.git/hooks/post-commit` détecte automatiquement les changements sur `assets/opencode-web.service` (→ daemon-reload + restart) et `assets/opencode.jsonc` (→ restart). Un commit suffit, pas de step manuel.
+Le post-commit hook `.git/hooks/post-commit` détecte automatiquement les changements sur :
+- `assets/opencode-web.service` → daemon-reload + restart
+- `assets/opencode.jsonc` → restart
+- `hooks/opencode/*.js` → restart
+- `scripts/git/assets/post-commit.sh` → git hooks source of truth
+
+Pour installer les hooks git : `make install-hooks` ou `bash scripts/git/install-hooks.sh`.
 
 **MaxListenersExceededWarning** : `Environment="NODE_NO_WARNINGS=1"` dans le service file supprime ce warning cosmétique (interne OpenCode, >10 listeners sur un EventEmitter).
 
@@ -455,7 +490,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/opencode.jsonc $HOME/.config/openc
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.15.0 — **Auto-deploy hooks**: post-commit auto-restart on config/service file change. `NODE_NO_WARNINGS=1` suppresses MaxListenersExceededWarning. |
+| 2026-07-22 | [OPENCODE] | v1.16.0 — **KπX managed plugins**: `hooks/opencode/suggestions-check.js` + `startup-context.js`. Agent-filtered (Colab/Build only via `session.created`). `startup-context` injects raw k-context + device infra context (auto-detect via tailscale/infras.json). Post-commit auto-restart also triggers on `hooks/opencode/*.js`. |
 | 2026-07-22 | [OPENCODE] | v1.14.0 — **Permission architecture redesign**: global source of truth → agent deltas only. `lite`→`Lite`, `auto`→`Auto`. Colab/Explore/Build inherit global. Lite denies skills/MCPs. Auto `*: allow`. Sub-agent perms unified. YAML pitfalls. |
 | [SUMMARY] | — | v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 
