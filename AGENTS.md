@@ -94,13 +94,9 @@ Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe`
 - This applies to ALL `.agents/` files — every skill, every reference, every log, every agent definition.
 - **Any agent that edits, moves, or deletes information instead of appending is in VIOLATION of kernel sovereignty.**
 
-## Archive (archived/)
+## Tmp (tmp/)
 
-**`archived/`** is the GRAVÉ-compliant destination for superseded content:
-- `archived/<skill>/` — old k-* skills that have been replaced or deactivated
-- `archived/references/` — merged-away reference originals (listed in `k-context/SKILL.md` → Brainstorm Registry → ARCHIVED)
-
-This is **not** ephemeral storage — it's permanent GRAVÉ preservation. Files in `archived/` are never deleted, only appended.
+**`tmp/`** is temporary storage for merged-away originals and old backups. Files here may be cleaned during `.agents/` optimization (see `k-optim` Meta scope).
 
 ## Language
 

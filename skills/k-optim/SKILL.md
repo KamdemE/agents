@@ -135,6 +135,7 @@ _(To be documented per optimization pass.)_
 3. Verify hook alignment: `python3 $HOME/.agents/hooks/audit.py`
 4. Update `k-context/SKILL.md` session log if needed
 5. Check for orphaned references in `skills/` and `references/`
+6. **Clean `tmp/`**: remove all files in `$HOME/.agents/tmp/` (merged-away originals, old backups) — these are safe to delete during optimization
 
 ---
 

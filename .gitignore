@@ -21,3 +21,6 @@ plugins/*
 # Ephemeral Data Cloud skill manifest
 skills/.datacloud_skills_manifest
 hermes/
+
+# Temporary storage — merged-away originals, old backups (cleaned by k-optim)
+tmp/

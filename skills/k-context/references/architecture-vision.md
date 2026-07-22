@@ -1,7 +1,7 @@
 # Architecture Vision — Sovereign Cloud, Personal OS & Agentic Foundation
 
 > Merged from: `KpihX-Labs.md`, `k-personal-os-learning-laboratory-vision.md`, `agentic-architecture-brainstorm.md`, `sovereign-email-universe-vision.md`
-> Sources archived: `archived/` (2026-07-22)
+> Sources archived: `tmp/` (2026-07-22)
 
 ---
 

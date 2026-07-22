@@ -1,7 +1,7 @@
 # Visual Content Pipeline — Architecture & Reference
 
 > Merged from: `vision/` directory (7 files). Duplicate `vision/visual-ai-vision.md` resolved → canonical content lives in `sciencurious_lab.md`.
-> Sources archived: `archived/` (2026-07-22)
+> Sources archived: `tmp/` (2026-07-22)
 
 ---
 
