@@ -42,11 +42,13 @@ HOOK_FEATURES = {
     "governance_reminder":                 True,  # Inject the compact AGENTS pointer reminder before each turn.
 
     # response_validator.py
-    "response_validation":                 True,  # Enable final-response validation as a whole.
-    "response_check_section_order":        True,  # Enforce Comments/Remarks/TODOs/Suggestions exact section order.
-    "response_check_comments":             True,  # Require a non-empty Commentaires/Comments section body.
-    "response_check_remarks":              True,  # Require Remarques/Remarks to contain `vide`/`empty` or a flat list.
-    "response_check_todos":                True,  # Require the TODOs table header [Task|Tache | Urgent | Important].
+    # ─── RESPONSE FORMAT VALIDATION ───
+    # Only the  Suggestions check is mandatory. All other format checks are disabled.
+    "response_validation":                 True,  # Master gate for final-response validation.
+    "response_check_section_order":        False,  # Disabled: only suggestions checked.
+    "response_check_comments":             False,  # Disabled.
+    "response_check_remarks":              False,  # Disabled.
+    "response_check_todos":                False,  # Disabled.
     "response_check_suggestions":          True,  # Require at least 3 numbered proactive suggestions.
 
     # path_guard.py

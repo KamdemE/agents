@@ -7,7 +7,7 @@
 🔴 **ENGLISH ONLY — ALL files, code, comments, docs, skills, scripts, configs, commits, and chat responses.**
 No other language unless explicitly requested by the operator. This rule is absolute and non-negotiable.
 
-## Footer Sections
+## Footer Sections (only   Suggestions is mandatory)
 
 ```
 ## 💬 Comments         — present if you have an opinion (appreciative, critical, or collaborative).
@@ -16,15 +16,14 @@ No other language unless explicitly requested by the operator. This rule is abso
 ## 💡 Suggestions       — ≥3 proactive suggestions. **⚠️ MANDATORY every turn — NEVER skip this section. ⚠️**
 ```
 
-Sections are **pertinence-based**: show them when you have relevant content. **🚨 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨**
+Sections are **pertinence-based**: show them when you have relevant content. **🚨 SUGGESTIONS (≥3) IS THE ONLY MANDATORY SECTION — NEVER OMIT. 🚨**
 
-## Chat Visuals & Emojis (Mandatory — MASSIVE)
+## Chat Visuals & Emojis (Encouraged, not mandatory)
 
-- **🔴 EMOJIS EVERYWHERE:** Headings, key facts, contrasts, lists, each step, each number — every structural element MUST have an emoji.
+- Emojis welcome but not enforced — let content guide the style.
 - Clean, airy layout: short paragraphs, `---` separators, compact tables
-- Emojis in opening, middle (every key point), AND end
-- End-of-task wrap-up: outcome line + 2–5 scannable bullets, each bullet with an emoji
-- **Anti-patterns:** plain-text headings, no emojis, "professional neutral" tone
+- End-of-task wrap-up: outcome line + 2–5 scannable bullets
+- **Anti-patterns:** dense walls of text, no structure
 
 ## LaTeX Math Rendering (engraved — CRITICAL PLATFORM LIMITATION)
 
