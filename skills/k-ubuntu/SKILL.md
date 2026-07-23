@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.4.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -124,6 +124,75 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 | `scripts/TODO.md` | doc | Pending improvements and known issues |
 
 > **Migration note:** These scripts were moved from `$HOME/Work/sh/` into `.agents/skills/k-ubuntu/scripts/` for centralization. The old `$HOME/Work/sh/` still exists on disk but is no longer the source of truth. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
+
+### ksh — Universal Dispatcher
+
+`ksh` is the central CLI entrypoint for all workstation modules. It delegates to `make` targets in each module directory.
+
+**Install (once per machine):**
+```bash
+ln -sfn "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh" "$HOME/.local/bin/ksh"
+chmod +x "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh"
+```
+
+**Usage:**
+```bash
+ksh status              # Global audit: clean + backup + QMD status
+ksh backup run          # Run a backup now (calls sudo internally)
+ksh backup preview      # Estimate backup size without compressing
+ksh backup status       # systemd service + timer status
+ksh backup log          # Last 50 lines of backup journal
+ksh clean run           # Run full system cleanup
+ksh clean status        # Cleanup timer status
+```
+
+### backup_restore — Workstation Backup
+
+Archives `/home/$USER` + `/etc` to an external HDD using `tar + zstd`. Timer: every 2 days at 22:00.
+
+**Pipeline:**
+1. **Phase 0 — Metadata:** VSCode extensions, GNOME dconf, `dpkg` packages, snap, flatpak, crontabs, disk layout
+2. **Phase 1 — Size estimate:** `du` preview, readable output
+3. **Phase 2 — Compress:** `tar | pv | zstd -T0 --fast=1` → `backup-<pc>-<date>.tar.zst`
+4. **Phase 3 — Rotation:** Keeps last N archives (default: 2), deletes older ones
+
+**Mount exclusion (automatic):** `findmnt` is called at runtime to detect and exclude all active mount points under `$HOME` and `/etc` — rclone FUSE mounts (Gdrive, Gdrive_X), sshfs (Deep-PC6), USB drives, NFS: all excluded automatically without hardcoding.
+
+**Additional excludes (`excludes.conf`):** cloud dirs (Gdrive_X, OneDrive), `.ollama-ipex`, `.keras`, dev runtimes (`.npm`, `.nvm`, `.pyenv`, `.rustup`, `.go`, `.cargo`), snap, VMs.
+
+**Install (once per machine):**
+```bash
+# 1. Copy and fill the env file
+cp "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env.example" \
+   "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env"
+# edit .env: HDD_DEST_DIR, USER_BACKUP, PC_NAME, TELEGRAM_UBUNTU_TOKEN, CHAT_ID
+
+# 2. Optionally copy and edit machine-specific excludes
+cp excludes.conf.example excludes.conf
+
+# 3. Install systemd timer (runs as root)
+cd "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore"
+sudo bash install.sh
+```
+
+**Manual run via ksh:**
+```bash
+ksh backup run       # runs backup_workstation.sh via sudo
+ksh backup preview   # dry-run: size estimate only
+ksh backup log       # journalctl -u backup-restore -n 50
+ksh backup status    # systemd service + timer state
+```
+
+**Config file:** `scripts/backup_restore/.env` (gitignored, never commit)
+
+| Variable | Description |
+|----------|-------------|
+| `HDD_DEST_DIR` | Destination path on HDD, e.g. `/media/kpihx/KpihX-Backup/Backups` |
+| `USER_BACKUP` | Username to backup (e.g. `kpihx`) |
+| `PC_NAME` | Machine label in archive name (e.g. `KpihX-Ubuntu`) |
+| `KEEP_BACKUPS` | Archives to keep (default `2`) |
+| `TELEGRAM_UBUNTU_TOKEN` | Bot token for Telegram notifications |
+| `CHAT_ID` | Telegram chat ID |
 
 ### Agent kernel
 
@@ -297,6 +366,6 @@ Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> se
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v1.3.0 — Centralized all `$HOME/Work/sh/` scripts into `scripts/`. Created `assets/`, `references/`. `ksh` symlinked from `~/.local/bin/ksh`. All references updated (k-code, k-bw, k-tg, k-optim, .kshrc). |
-| 2026-07-22 | [OPENCODE] | v1.2.0 — Shell section trimmed: .kshrc hub pattern moved to k-zsh. Reference to k-zsh. |
-| [SUMMARY] | — | v1.1.0 Tailscale identity, Ollama Intel Arc HW, WaveTerm + npm prefix from k-workspace. |
+| 2026-07-23 | [OPENCODE] | v1.4.0 — Added ksh install instructions + backup_restore full documentation (pipeline, mount exclusion, config table, ksh usage). Fixed ksh.sh ROOT path (Work/sh → .agents/scripts). Fixed Makefile run target hardcoded path. Fixed systemd service @SCRIPT_DIR@ placeholder. |
+| 2026-07-23 | [OPENCODE] | v1.3.0 — Centralized all `$HOME/Work/sh/` scripts into `scripts/`. Created `assets/`, `references/`. `ksh` symlinked from `~/.local/bin/ksh`. All references updated. |
+| [SUMMARY] | — | v1.2.0 shell section → k-zsh; v1.1.0 Tailscale identity, Ollama Intel Arc HW, WaveTerm + npm prefix. |

@@ -5,7 +5,7 @@ set -euo pipefail
 # Orchestrates system modules (clean, backup)
 # Installed via 'make install' in Work/sh
 
-ROOT="$HOME/Work/sh"
+ROOT="$HOME/.agents/skills/k-ubuntu/scripts"
 
 usage() {
     echo "Usage: ksh <module> [target] | ksh status"

@@ -30,7 +30,7 @@ log:  ## Show recent backup service logs via journald
 	@journalctl -u backup-restore -n 50 --no-pager
 
 run:  ## Run a backup immediately (requires sudo)
-	@sudo -n /usr/bin/bash /home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/backup_workstation.sh
+	@sudo bash "$(CURDIR)/backup_workstation.sh"
 
 preview:  ## Estimate backup size without compression (requires sudo)
 	@sudo PREVIEW=1 bash backup_workstation.sh

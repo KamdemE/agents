@@ -5,8 +5,8 @@ After=network.target local-fs.target
 [Service]
 Type=oneshot
 User=root
-EnvironmentFile=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/.env
-ExecStart=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/backup_workstation.sh
+EnvironmentFile=@SCRIPT_DIR@/.env
+ExecStart=@SCRIPT_DIR@/backup_workstation.sh
 StandardOutput=journal
 StandardError=journal
 
