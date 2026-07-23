@@ -244,9 +244,23 @@ These `:checkhealth` items come from plugin health files, not KπX config. They 
 - `tmux focus-events` → terminal limitation, fix in `.tmux.conf` needs `tmux source-file`
 - Any `report_*` deprecation warnings in plugins → plugin needs update, no action needed
 
+## Post-Install Shell Wiring
+
+After installing Neovim, add to `~/.kshrc` (central shell hub — already present on this workstation):
+
+```bash
+export EDITOR=nvim
+```
+
+This ensures `git commit`, `crontab -e`, `visudo`, and all env-respecting tools use Neovim.
+Verify: `echo $EDITOR` → `nvim`.
+
+> **Source of truth:** `~/.kshrc` line 45 on KπX-Ubuntu. For new machines, add to `kshrc.base` template.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-23 | [OPENCODE] | v2.1.0 — Added Post-Install Shell Wiring section: document `export EDITOR=nvim` in `.kshrc`. |
 | 2026-06-05 | [OPCODE] | v2.0.0 — Centralized config in `k-nvim/config/`, `~/.config/nvim/` now symlinks. Plugin health patches removed. Healthcheck: only KπX config errors fixed. |
 | [SUMMARY] | — | v1.2.0–v1.7.0: RAM optimization (2.3GB→21MB), healthcheck governance, plugin count cleanup, rename k-vim→k-nvim, Agent autonomy rule, telescope exclusion map. |
