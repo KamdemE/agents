@@ -22,29 +22,44 @@ backup-restore-sh/
 ## Quick Start
 
 ```bash
-# 1. Configure
-cp .env.example .env
-# Edit .env: set USER_BACKUP, PC_NAME, HDD_DEST_DIR, TELEGRAM tokens
+# 1. Ensure ~/.agents/.env defines TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID
+#    (copy from ~/.agents/.env.example if not done yet)
 
-# 2. Install
+# 2. Edit machine config at the top of backup_workstation.sh
+#    USER_BACKUP, PC_NAME, HDD_DEST_DIR, KEEP_BACKUPS
+
+# 3. Install
 sudo make install
 
-# 3. Verify
-make log                          # journalctl -u backup-restore
+# 4. Verify
+make log                                      # journalctl -u backup-restore
 sudo systemctl start backup-restore.service  # run immediately
 ```
 
-## Configuration (.env)
+## Configuration
+
+### Secrets — `~/.agents/.env` (kernel secrets file)
+
+This module sources `~/.agents/.env` at runtime for all secrets.
+Add these keys to `~/.agents/.env` (template: `~/.agents/.env.example`):
 
 | Variable | Description |
 |----------|-------------|
-| `USER_BACKUP` | Username whose /home is backed up |
-| `PC_NAME` | Used in archive filename: `backup-<PC_NAME>-<date>.tar.zst` |
-| `HDD_DEST_DIR` | External HDD backup directory |
-| `KEEP_BACKUPS` | Number of archives to keep (default: 2) |
-| `CLOUD_MOUNT_NAME` | rclone mount dir to exclude (default: `gdrive`) |
-| `TELEGRAM_UBUNTU_TOKEN` | Telegram bot token for notifications |
-| `CHAT_ID` | Telegram chat ID |
+| `TELEGRAM_UBUNTU_TOKEN` | Bot token for success/error notifications |
+| `TELEGRAM_CHAT_ID` | Telegram chat ID to send notifications to |
+
+### Machine config — top of `backup_workstation.sh`
+
+Non-secret machine-specific values are hardcoded at the top of the script:
+
+| Variable | Description |
+|----------|-------------|
+| `USER_BACKUP` | Username whose /home is archived |
+| `PC_NAME` | Label in archive name: `backup-<PC_NAME>-<date>.tar.zst` |
+| `HDD_DEST_DIR` | Destination path on external HDD |
+| `KEEP_BACKUPS` | Archives to keep before rotation (default: `2`) |
+
+> Cloud mount exclusion is handled automatically via `findmnt` at runtime — no variable needed.
 
 ## Machine-Specific Excludes (excludes.conf)
 
@@ -98,9 +113,9 @@ sudo bash restore_workstation.sh /path/to/backup-xxx.tar.zst [username]
 | What | Detail |
 |------|--------|
 | Unit | `backup-restore.timer` |
-| Schedule | Every 2 days at 22:00 |
-| Persistent | Yes — catches missed runs |
-| Boot delay | 15 min after boot (+ up to 5 min random) |
+| Schedule | Every 2 days at 22:00 (`OnCalendar=*-*-1/2 22:00:00`) |
+| Persistent | Yes — if the machine was off at 22:00, runs immediately at next boot |
+| Boot delay | None — fires at 22:00 only, or immediately on boot if a run was missed |
 
 ## Logging
 
@@ -113,14 +128,17 @@ journalctl -u backup-restore -f     # follow live
 ## Makefile
 
 ```bash
-make install    # sudo: install units, secure .env, enable timer
-make purge      # sudo: disable and remove units
+make install    # sudo: install systemd units, secure .env, enable timer
+make purge      # sudo: disable timer and remove unit files
 make status     # systemctl status backup-restore.service + timer
 make log        # journalctl -u backup-restore -n 50
-make run   # sudo: run a backup immediately (drive must be mounted)
-make push       # push to all remotes
+make run        # sudo: run a backup immediately (drive must be mounted)
+make preview    # sudo: estimate size only — no compression
 make lint       # shellcheck all .sh files
 ```
+
+> `backup_restore/` is part of the `.agents/` kernel repo — it has no standalone git.
+> To push changes, run `make push` from `~/.agents/` (the repo root).
 
 ## Prerequisites
 

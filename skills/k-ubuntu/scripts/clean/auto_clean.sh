@@ -1,34 +1,36 @@
 #!/bin/bash
 # auto_clean.sh — Automated weekly cleanup: run all modules, analyze, notify via Telegram.
 # Runs as root via systemd (clean-system.service).
-# Secrets and config sourced from .env in the same directory.
-# To refresh secrets: zsh -l -c 'echo $TELEGRAM_UBUNTU_TOKEN' and 'echo $TELEGRAM_CHAT_ID'
+# Machine config hardcoded below. Secrets sourced from ~/.agents/.env.
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-LOG_DIR="/var/log/clean-system"
+# ── Machine config (edit per machine) ─────────────────────────────────────────
+USER_BACKUP="kpihx"
+PC_NAME="KpihX-Ubuntu"
+# Dirs under $HOME to skip from du analysis (rclone mounts, large VMs, etc.)
+DU_EXCLUDES=("Gdrive_X" "Gdrive" "Google Drive" "OneDrive" ".ollama" ".ollama-ipex")
 
-# ── Load secrets and config ───────────────────────────────────────────────────
-if [[ -f "$SCRIPT_DIR/.env" ]]; then
-    # shellcheck source=.env.example
-    source "$SCRIPT_DIR/.env"
+# ── Load secrets from kernel .env ──────────────────────��──────────────────────
+AGENTS_ENV="/home/$USER_BACKUP/.agents/.env"
+if [[ -f "$AGENTS_ENV" ]]; then
+    # shellcheck source=/dev/null
+    source "$AGENTS_ENV"
 else
-    echo "⚠️ [$(date)] $SCRIPT_DIR/.env not found — Telegram notification will be skipped."
+    echo "⚠️ [$(date)] ~/.agents/.env not found — Telegram notification will be skipped."
 fi
 
-# Define USER_HOME explicitly based on the USER variable from .env
-# This ensures consistency even when run via sudo, which might change $HOME
-USER="${USER:-$(whoami)}" # Get user from .env or current user
-USER_HOME="/home/$USER"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+LOG_DIR="/var/log/clean-system"
+USER_HOME="/home/$USER_BACKUP"
 export HOME="$USER_HOME" # Export for child scripts
 mkdir -p "$LOG_DIR"
 
-# Build --exclude flags from DU_EXCLUDES (space-separated subdirs of $USER_HOME)
+# Build --exclude flags from DU_EXCLUDES array (subdirs of $USER_HOME)
 _build_excludes() {
     local base="$USER_HOME"
     local args=()
-    for dir in ${DU_EXCLUDES:-}; do
+    for dir in "${DU_EXCLUDES[@]:-}"; do
         args+=(--exclude="$base/$dir")
     done
     echo "${args[@]:-}"
@@ -90,8 +92,7 @@ SAVED_KB=$(( (INITIAL_SPACE_ROOT - FINAL_SPACE_ROOT) + (INITIAL_SPACE_HOME - FIN
 SAVED_MB=$(( SAVED_KB / 1024 ))
 
 # ── 6. Telegram notification (best-effort — skipped if token not available) ───
-if [[ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ]] && [[ -n "${CHAT_ID:-}" ]]; then
-    _PC_LABEL="${PC_NAME:-$(hostname)}"
+if [[ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ]] && [[ -n "${TELEGRAM_CHAT_ID:-}" ]]; then
     
     # Audit block (only show details on failure)
     _AUDIT_MSG="⚖️ *Governance:* ${AUDIT_STATUS}"
@@ -112,7 +113,7 @@ ${QMD_DETAILS}
 \`\`\`"
     fi
 
-    MESSAGE="🧹 *${_PC_LABEL} Weekly Cleanup Report* 🚀
+    MESSAGE="🧹 *${PC_NAME} Weekly Cleanup Report* 🚀
 
 ✅ *Status:* System Optimized!
 ${_AUDIT_MSG}
@@ -137,11 +138,11 @@ ${WORKSPACE_SCAN_OUTPUT}
 \`\`\`"
 
     curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_UBUNTU_TOKEN}/sendMessage" \
-        -d "chat_id=${CHAT_ID}" \
+        -d "chat_id=${TELEGRAM_CHAT_ID}" \
         -d "text=${MESSAGE}" \
         -d "parse_mode=Markdown"
     echo "✅ [$(date)] Cleanup & Audit Finished and Notification Sent."
 else
-    echo "⚠️ [$(date)] TELEGRAM_UBUNTU_TOKEN or CHAT_ID not set — notification skipped."
+    echo "⚠️ [$(date)] TELEGRAM_UBUNTU_TOKEN or TELEGRAM_CHAT_ID not set — notification skipped."
     echo "✅ [$(date)] Cleanup & Audit Finished."
 fi

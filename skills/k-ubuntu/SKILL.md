@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.5.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -116,10 +116,9 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 | `scripts/tg-ubuntu.service` | systemd | Telegram service unit |
 | `scripts/clean/` | dir | System cleanup suite (10+ scripts, systemd timer) |
 | `scripts/backup_restore/` | dir | Workstation backup/restore (systemd timer) |
-| `scripts/sui/` | dir | **Deprecated** — kept for history, not used |
 | `scripts/scratch/` | dir | Analysis/reconstruction scripts (Workspace X, Fluid) |
 | `scripts/CHANGELOG.md` | doc | Migration history of the sh/ orchestrator |
-| `scripts/Makefile` | make | Root Makefile — multi-remote git sync, status |
+| `scripts/Makefile` | make | Root Makefile — install, dispatch (clean/backup) |
 | `scripts/README.md` | doc | Universal Orchestrator overview |
 | `scripts/TODO.md` | doc | Pending improvements and known issues |
 
@@ -143,6 +142,7 @@ ksh backup preview      # Estimate backup size without compressing
 ksh backup status       # systemd service + timer status
 ksh backup log          # Last 50 lines of backup journal
 ksh clean run           # Run full system cleanup
+ksh clean log           # journalctl -u clean-system -n 50
 ksh clean status        # Cleanup timer status
 ```
 
@@ -160,39 +160,96 @@ Archives `/home/$USER` + `/etc` to an external HDD using `tar + zstd`. Timer: ev
 
 **Additional excludes (`excludes.conf`):** cloud dirs (Gdrive_X, OneDrive), `.ollama-ipex`, `.keras`, dev runtimes (`.npm`, `.nvm`, `.pyenv`, `.rustup`, `.go`, `.cargo`), snap, VMs.
 
+**Docs:** `scripts/backup_restore/README.md` (setup, scheduling, restore) · `scripts/backup_restore/Makefile` (install, run, preview, log, status, lint)
+
 **Install (once per machine):**
 ```bash
-# 1. Copy and fill the env file
-cp "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env.example" \
-   "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env"
-# edit .env: HDD_DEST_DIR, USER_BACKUP, PC_NAME, TELEGRAM_UBUNTU_TOKEN, CHAT_ID
+# 1. Secrets → ~/.agents/.env (kernel central secrets file)
+#    Ensure TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID are set
 
-# 2. Optionally copy and edit machine-specific excludes
+# 2. Machine config → top of backup_workstation.sh
+#    Edit USER_BACKUP, PC_NAME, HDD_DEST_DIR, KEEP_BACKUPS
+
+# 3. Machine-specific excludes (optional)
+cd "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore"
 cp excludes.conf.example excludes.conf
 
-# 3. Install systemd timer (runs as root)
-cd "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore"
-sudo bash install.sh
+# 4. Install systemd timer
+sudo make install
 ```
 
 **Manual run via ksh:**
 ```bash
 ksh backup run       # runs backup_workstation.sh via sudo
-ksh backup preview   # dry-run: size estimate only
+ksh backup preview   # size estimate only, no compression
 ksh backup log       # journalctl -u backup-restore -n 50
 ksh backup status    # systemd service + timer state
 ```
 
-**Config file:** `scripts/backup_restore/.env` (gitignored, never commit)
+**Secrets** (from `~/.agents/.env`):
 
 | Variable | Description |
 |----------|-------------|
-| `HDD_DEST_DIR` | Destination path on HDD, e.g. `/media/kpihx/KpihX-Backup/Backups` |
+| `TELEGRAM_UBUNTU_TOKEN` | Bot token for success/error notifications |
+| `TELEGRAM_CHAT_ID` | Telegram chat ID |
+
+**Machine config** (hardcoded at top of `backup_workstation.sh`):
+
+| Variable | Description |
+|----------|-------------|
 | `USER_BACKUP` | Username to backup (e.g. `kpihx`) |
-| `PC_NAME` | Machine label in archive name (e.g. `KpihX-Ubuntu`) |
-| `KEEP_BACKUPS` | Archives to keep (default `2`) |
-| `TELEGRAM_UBUNTU_TOKEN` | Bot token for Telegram notifications |
-| `CHAT_ID` | Telegram chat ID |
+| `PC_NAME` | Label in archive name (e.g. `KpihX-Ubuntu`) |
+| `HDD_DEST_DIR` | Destination on HDD |
+| `KEEP_BACKUPS` | Archives to keep before rotation (default `2`) |
+
+### clean — System Cleanup Suite
+
+Runs every 2 days at 21:30 via systemd timer. Orchestrates 10+ cleanup modules, runs workspace scan, governance audit, and sends a Telegram report.
+
+**Pipeline:**
+1. **Baseline** — `df /` + `du $HOME` before cleanup
+2. **Workspace scan** — `.env` git status, venvs, node_modules, build artifacts, large files
+3. **Cleanup** — `clean_all.sh` runs all modules: snap revisions, APT/pip/npm/bun/uv/browser caches, editor caches, Docker prune, AI model caches, build artifacts
+4. **Governance audit** — `make audit` in `.agents/`
+5. **Post-cleanup analysis** — `du` after, compute reclaimed space, top 5 folders
+6. **Telegram report** — success/failure notification with reclaim stats
+
+**Docs:** `scripts/clean/README.md` (setup, scheduling) · `scripts/clean/Makefile` (install, run, log, status, lint)
+
+**Install (once per machine):**
+```bash
+cd "$HOME/.agents/skills/k-ubuntu/scripts/clean"
+
+# Secrets must be set in ~/.agents/.env (TELEGRAM_UBUNTU_TOKEN, TELEGRAM_CHAT_ID)
+
+# Edit machine config at top of auto_clean.sh:
+#   USER_BACKUP, PC_NAME, DU_EXCLUDES (rclone mounts to skip from du)
+
+# Install systemd timer
+sudo make install
+```
+
+**Manual run via ksh:**
+```bash
+ksh clean run       # runs auto_clean.sh via sudo
+ksh clean log       # journalctl -u clean-system -n 50
+ksh clean status    # systemd service + timer state
+```
+
+**Secrets** (from `~/.agents/.env`):
+
+| Variable | Description |
+|----------|-------------|
+| `TELEGRAM_UBUNTU_TOKEN` | Bot token for cleanup report notifications |
+| `TELEGRAM_CHAT_ID` | Telegram chat ID |
+
+**Machine config** (hardcoded at top of `auto_clean.sh`):
+
+| Variable | Description |
+|----------|-------------|
+| `USER_BACKUP` | Username whose /home is cleaned |
+| `PC_NAME` | Label in Telegram report |
+| `DU_EXCLUDES` | Array of subdirs to skip from du analysis (rclone mounts) |
 
 ### Agent kernel
 
@@ -366,6 +423,6 @@ Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> se
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v1.4.0 — Added ksh install instructions + backup_restore full documentation (pipeline, mount exclusion, config table, ksh usage). Fixed ksh.sh ROOT path (Work/sh → .agents/scripts). Fixed Makefile run target hardcoded path. Fixed systemd service @SCRIPT_DIR@ placeholder. |
-| 2026-07-23 | [OPENCODE] | v1.3.0 — Centralized all `$HOME/Work/sh/` scripts into `scripts/`. Created `assets/`, `references/`. `ksh` symlinked from `~/.local/bin/ksh`. All references updated. |
-| [SUMMARY] | — | v1.2.0 shell section → k-zsh; v1.1.0 Tailscale identity, Ollama Intel Arc HW, WaveTerm + npm prefix. |
+| 2026-07-23 | [OPENCODE] | v1.5.0 — Added `clean` full documentation section (pipeline, install, ksh usage, config). Unified secrets: all modules source `~/.agents/.env`, local `.env` files removed. Purged `sui/` (legacy). Fixed clean/auto_clean.sh (source, CHAT_ID, DU_EXCLUDES array). Fixed clean/Makefile (removed orphaned git targets). Fixed clean/README.md (schedule, secrets). |
+| 2026-07-23 | [OPENCODE] | v1.4.0 — Full backup_restore docs. Fixed ksh.sh ROOT path, Makefile hardcoded path, systemd @SCRIPT_DIR@. |
+| [SUMMARY] | — | v1.3.0 centralization into `scripts/`; v1.2.0 shell section → k-zsh; v1.1.0 Tailscale, Ollama, WaveTerm. |

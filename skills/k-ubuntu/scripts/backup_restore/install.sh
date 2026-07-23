@@ -1,7 +1,7 @@
 #!/bin/bash
 # install.sh — Install backup-restore systemd units and enable the timer.
 # Run once as root (or with sudo) on a new machine.
-# Requires .env to be configured first (copy from .env.example).
+# Requires ~/.agents/.env to exist and define TELEGRAM_UBUNTU_TOKEN + TELEGRAM_CHAT_ID.
 
 set -euo pipefail
 
@@ -18,8 +18,8 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-if [[ ! -f "$SCRIPT_DIR/.env" ]]; then
-    echo "❌ .env not found — copy .env.example to .env and fill in values first." >&2
+if [[ ! -f "$HOME/.agents/.env" ]]; then
+    echo "❌ ~/.agents/.env not found — create it from ~/.agents/.env.example first." >&2
     exit 1
 fi
 
@@ -28,7 +28,7 @@ if [[ ! -f "$SERVICE_SRC" ]] || [[ ! -f "$TIMER_SRC" ]]; then
     exit 1
 fi
 
-echo "   ✓ Running as root, .env and unit files found"
+echo "   ✓ Running as root, ~/.agents/.env and unit files found"
 
 # ── 2. Stop old backup-pc units if present ────────────────────────────────────
 echo "→ [install] Removing legacy backup-pc units (if present)..."
@@ -47,9 +47,9 @@ chmod 644 "$SYSTEMD_DIR/backup-restore.service" "$SYSTEMD_DIR/backup-restore.tim
 
 echo "   ✓ Units installed to $SYSTEMD_DIR/"
 
-# ── 4. Secure .env ────────────────────────────────────────────────────────────
-chmod 600 "$SCRIPT_DIR/.env"
-echo "   ✓ .env permissions set to 600"
+# ── 4. Secure ~/.agents/.env ──────────────────────────────────────────────────
+chmod 600 "$HOME/.agents/.env"
+echo "   ✓ ~/.agents/.env permissions set to 600"
 
 # ── 5. Enable and start timer ─────────────────────────────────────────────────
 echo "→ [install] Reloading systemd and enabling timer..."

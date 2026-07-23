@@ -5,7 +5,6 @@ After=network.target local-fs.target
 [Service]
 Type=oneshot
 User=root
-EnvironmentFile=@SCRIPT_DIR@/.env
 ExecStart=@SCRIPT_DIR@/backup_workstation.sh
 StandardOutput=journal
 StandardError=journal

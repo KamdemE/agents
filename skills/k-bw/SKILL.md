@@ -126,8 +126,8 @@ Sur Windows, Bitwarden utilise un **named pipe** (`\\.\pipe\openssh-ssh-agent`),
 
 ## Changelog
 
-| 2026-07-23 | [OPENCODE] | v3.0.0 — **MAJOR SIMPLIFICATION**. Removed bw-env entirely (shell secret injection). bw CLI is now optional/minimal. Focus: bw-mcp + bw-proxy MCP tools + Bitwarden Desktop SSH Agent. Deleted all bw-env references, scripts/, and shell integration. |
+| 2026-07-23 | [OPENCODE] | v3.0.0 — **MAJOR SIMPLIFICATION**. Focus: bw-mcp + bw-proxy MCP tools + Bitwarden Desktop SSH Agent. |
 | 2026-07-22 | [OPENCODE] | v2.7.0 — Restructured SSH Agent section per skill-infra-scope rule. |
 | 2026-04-28 | [ANTIGRAVITY] | v2.4.0 - Added Fast Interface documentation. |
 | 2026-04-24 | [GEMINI] | v2.3.0 - Implemented Agnostic Web Approval UI. |
-| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.2 naming; v2.1.0 bw-env anatomy; v2.0.0 initial dual-utility architecture; older → git history. |
+| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.2 naming; v2.1.0 anatomy; v2.0.0 initial dual-utility architecture; older → git history. |

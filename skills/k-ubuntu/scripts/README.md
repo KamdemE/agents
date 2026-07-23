@@ -18,18 +18,10 @@ Automated backup and bare-metal restore suite for Ubuntu workstations. Archives 
 - **Logs:** `make log`
 - **[Detailed Documentation](https://github.com/KpihX/backup-restore-sh/blob/main/README.md)**
 
-### [sui](https://github.com/KpihX/sui)
-Sudo User Interface — unified graphical `sudo` / `pkexec` gateway for local and SSH remote elevation (Zenity **`--forms`**, argv-safe remote `sudo` over SSH). Rationale: **`--reason "…"`** or **`-r "…"`** (same flag).
-- **Tracked revision (parent repo):** advance **`sui/`** to latest tag (e.g. **v3.1.23**) via `git submodule update --remote sui`; [CHANGELOG](https://github.com/KpihX/sui/blob/main/CHANGELOG.md) lists stub CI, audit `reason=present`, and **`-r`** as shorthand for **`--reason`**.
-- **Repository (GitHub):** `git@github.com:KpihX/sui.git`
-- **Repository (GitLab):** `git@gitlab.com:kpihx/sui.git`
-- **Install:** submodule [README](https://github.com/KpihX/sui/blob/main/README.md) — `sudo install -o root -g root -m 0755 sui.sh /usr/local/bin/sui` from the clone.
-- **Develop / test (inside `sui/`):** `make test` (lint + automated stub tests; no real GUI or privilege).
-
 ## 📜 Utilities
 
 ### Agent & Security Tools
-- **`sui/`** (git submodule) — see **Core Modules** section **sui** above.
+_(none — `sui` deprecated, tmux is the sudo gate. See `rules/tool-discipline.md` and `k-tmux`.)_
 
 ### Networking
 - **`debug_net.py`** — Network diagnostics utility
@@ -43,14 +35,11 @@ Sudo User Interface — unified graphical `sudo` / `pkexec` gateway for local an
 # Show available make targets
 make help
 
-# Push to all remotes (github + gitlab) — root repo and each submodule that has those remotes
-make push
-
 # Install ksh dispatcher + user systemd unit (see Makefile install target)
 make install
 
-# Submodule: run sui’s automated tests from a full clone
-cd sui && make test
+# Push to all remotes — run from ~/.agents/ (repo root)
+# cd ~/.agents && make push
 ```
 
 ## 📁 Structure
@@ -59,7 +48,6 @@ cd sui && make test
 sh/
 ├── backup_restore/       # Git submodule — backup/restore suite
 ├── clean/               # Git submodule — cleanup suite
-├── sui/                 # Git submodule — Sudo User Interface (graphical sudo gateway)
 ├── cd                   # Directory shortcuts
 ├── debug_net.py         # Network diagnostics
 ├── Makefile             # Git workflow + task runner

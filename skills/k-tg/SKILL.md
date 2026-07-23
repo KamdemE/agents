@@ -4,7 +4,7 @@ description: tg CLI + Telegram capture/infra-bot loop — Telethon user, BotFath
 license: private
 metadata:
   author: KpihX
-  version: "3.2.13"
+  version: "3.3.0"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -24,7 +24,7 @@ Productivity **orchestration** channel (capture bots, infra bridges, Telethon us
 
 ## Operating focus
 
-~**99%** of KπX Telegram use is **loop-back orchestration**: **`tg`**, **BotFather**, **capture bots** (General / Issues), **infrastructure bridge bots** (Homelab, Ubuntu, Tick, Whats, Mail, LinkedIn, N8N), and **your own account** (`tg user`). Groups, channels, and third-party DMs exist but are **out of scope** unless explicitly requested.
+~**99%** of KπX Telegram use is **loop-back orchestration**: **`tg`**, **BotFather**, **capture bots** (General / Issues), **infrastructure bridge bots** (Homelab, Ubuntu, S25, Tick, Whats, Mail, LinkedIn, N8N), and **your own account** (`tg user`). Groups, channels, and third-party DMs exist but are **out of scope** unless explicitly requested.
 
 ## Default capture bot (mandatory)
 
@@ -111,11 +111,13 @@ For **each** bot below, read **new** bot→user messages since the stored cursor
 | 5 | LinkedIn Homelab | `8662033588` |
 | 6 | Mail Homelab | `8385666882` |
 | 7 | N8N Homelab | `8724946664` |
+| 8 | S25 | `8557838158` |
 
 **Escalation examples (non-exhaustive):**
 
 - **Homelab / backup / sentinel errors:** SSH per **`k-homelab`**, inspect **units**, **scripts**, **remote backup** logs, **docker** — do **not** stop at “backup failed” without reading **why**.
 - **Ubuntu / cleanup / vault:** read the **report message**, then inspect the **invoked script**, **cron/systemd**, **local logs** on the workstation.
+- **S25:** phone bridge logs, ADB/SSH connectivity.
 - **Bridge bots (Tick/Whats/Mail/LinkedIn):** correlate with MCP health on homelab + **local** MCP config; propose concrete fixes (restart, token, tunnel, Cursor MCP reload).
 
 After each bot’s pass: **update** `telegram-processed-state.md`.
@@ -132,6 +134,7 @@ When KπX runs the **full** *what's up*, **Telegram is the last turn** — **AGE
 | `TELEGRAM_ISSUES_TOKEN` | `issues` | **Issues** (display name) — bug/incident inbox |
 | `TELEGRAM_HOMELAB_TOKEN` | `homelab` | Sentinel / Homelab |
 | `TELEGRAM_UBUNTU_TOKEN` | `ubuntu` | Ubuntu workstation reports |
+| `TELEGRAM_S25_TOKEN` | `s25` | S25 phone bot |
 | `TELEGRAM_N8N_HOMELAB_TOKEN` | `n8n-homelab` | N8N signals |
 | `TELEGRAM_TICK_HOMELAB_TOKEN` | `tick-homelab` | Tick MCP bridge (`@tick_homelab_bot`) |
 | `TELEGRAM_WHATS_HOMELAB_TOKEN` | `whats-homelab` | Whats MCP bridge (`@whats_homelab_bot`) |
@@ -158,6 +161,7 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 | **OpenClaw** | OpenClaw | `8948919586` | `@kpihx_openclaw_bot` | Active — **OpenClaw gateway** (`TELEGRAM_BOT_TOKEN` in `$HOME/.config/openclaw/gateway.env`; ephemeral export `/tmp/claw.env`) |
 | **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active — **infra only** (`/clean`, `/status`, `/backup` via `$HOME/.agents/skills/k-ubuntu/scripts/bot.py`; **not** OpenClaw) |
 | **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive (legacy) |
+| **S25** | S25 | `8557838158` | `@kpihx_s25_bot` | Active — S25 phone bot |
 
 *Third-party bots (e.g. “Nano Banana”, “ChatGPT”) are **not** KπX infra — exclude from *What's up* unless KπX asks.*
 
@@ -241,6 +245,5 @@ tg user send 93372553 "@your_bot_username"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-27 | [CURSOR] | v3.2.13 — BotFather **`@kpihx_openclaw_bot`** (OpenClaw, id **8948919586**); icon `/setuserpic`; added to Telegram folder **KpihX-Labs** (filter id **11**) + pinned top; gateway off `@k_ubuntu_bot`; token **`/tmp/claw.env`**. |
-| 2026-05-25 | [CURSOR] | v3.2.12 — Cloud hub block + title aligned with productivity skills; routing via `cloud-hub.md`. |
-| [SUMMARY] | — | v3.2.11 default bot + Lebara PDF; v3.2.10 `tg send`/CHAT_ID; v3.2.9–v3.2.3 → `references/log.md` |
+| 2026-07-23 | [OPENCODE] | v3.3.0 — Created **`@kpihx_s25_bot`** (S25, id **8557838158**) via BotFather; tokens written to `/tmp/a.txt` for setup; added to k-tg inventory + secrets matrix + infra bot list. |
+| [SUMMARY] | — | v3.2.13 OpenClaw bot + folder; v3.2.12 Cloud hub; v3.2.11 default bot + Lebara PDF; v3.2.10 tg send/CHAT_ID; v3.2.9–v3.2.3 → references/log.md |

@@ -38,10 +38,10 @@ MODULE="$1"
 shift
 
 case "$MODULE" in
-    clean)  DIR="clean" ;;
-    backup) DIR="backup_restore" ;;
-    help)   usage; exit 0 ;;
-    *)      echo "❌ Unknown module '$MODULE'"; usage; exit 1 ;;
+    clean)          DIR="clean" ;;
+    backup)         DIR="backup_restore" ;;
+    help|--help|-h) usage; exit 0 ;;
+    *)              echo "❌ Unknown module '$MODULE'"; usage; exit 1 ;;
 esac
 
 # Default target is 'run'

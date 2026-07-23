@@ -25,5 +25,8 @@ hermes/
 # Secrets — never commit
 .env
 
+# Runtime logs (auto-generated)
+logs/
+
 # Temporary storage — merged-away originals, old backups (cleaned by k-optim)
 tmp/

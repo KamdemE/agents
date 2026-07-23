@@ -2,33 +2,37 @@
 # ==============================================================================
 # backup_workstation.sh — Workstation backup: tar+zstd archive to external HDD
 # Usage: sudo ./backup_workstation.sh [DEST_DIR]
-#   DEST_DIR defaults to $HDD_DEST_DIR from .env if not provided as argument.
-# Runs as root. Sources .env for config and secrets.
+#   DEST_DIR defaults to HDD_DEST_DIR (defined below) if not provided as arg.
+# Runs as root. Secrets sourced from ~/.agents/.env.
 # Author: KpihX [CLAUDE]
 # ==============================================================================
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# ── Machine config (edit these per machine) ───────────────────────────────────
+USER_BACKUP="kpihx"
+PC_NAME="KpihX-Ubuntu"
+HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups"
+KEEP_BACKUPS=2
 
-# ── Load config and secrets ────────────────────────────────────────────────────
-if [[ -f "$SCRIPT_DIR/.env" ]]; then
-    source "$SCRIPT_DIR/.env"
+# ── Load secrets from kernel .env ─────────────────────────────────────────────
+AGENTS_ENV="$HOME/.agents/.env"
+if [[ -f "$AGENTS_ENV" ]]; then
+    # shellcheck source=/dev/null
+    source "$AGENTS_ENV"
 else
-    echo "❌ .env not found at $SCRIPT_DIR/.env — cannot continue." >&2
+    echo "❌ ~/.agents/.env not found — cannot load secrets." >&2
     exit 1
 fi
 
-# ── Validate required variables ────────────────────────────────────────────────
-: "${USER_BACKUP:?'.env must define USER_BACKUP'}"
-: "${PC_NAME:?'.env must define PC_NAME'}"
-: "${TELEGRAM_UBUNTU_TOKEN:?'.env must define TELEGRAM_UBUNTU_TOKEN'}"
-: "${CHAT_ID:?'.env must define CHAT_ID'}"
+# ── Validate required secrets ─────────────────────────────────────────────────
+: "${TELEGRAM_UBUNTU_TOKEN:?'~/.agents/.env must define TELEGRAM_UBUNTU_TOKEN'}"
+: "${TELEGRAM_CHAT_ID:?'~/.agents/.env must define TELEGRAM_CHAT_ID'}"
 
-# DEST_DIR: argument overrides .env
-TARGET_DIR="${1:-${HDD_DEST_DIR:-}}"
+# ── Destination override (argument wins over hardcoded default) ───────────────
+TARGET_DIR="${1:-${HDD_DEST_DIR}}"
 if [[ -z "$TARGET_DIR" ]]; then
-    echo "❌ No destination provided. Set HDD_DEST_DIR in .env or pass as argument." >&2
+    echo "❌ No destination provided. Set HDD_DEST_DIR at top of script or pass as argument." >&2
     echo "   Usage: sudo $0 /media/$USER_BACKUP/KpihX-Backup/Backups" >&2
     exit 1
 fi
@@ -74,7 +78,7 @@ alert() {
     # Telegram notification
     curl -s --max-time 10 -X POST \
         "https://api.telegram.org/bot${TELEGRAM_UBUNTU_TOKEN}/sendMessage" \
-        -d "chat_id=${CHAT_ID}" \
+        -d "chat_id=${TELEGRAM_CHAT_ID}" \
         -d "text=${ICON} BACKUP PC ${ICON}%0A%0A${MESSAGE}" > /dev/null || true
 }
 

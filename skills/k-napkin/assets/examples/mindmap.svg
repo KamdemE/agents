@@ -640,7 +640,7 @@
 <g id="tx_bwenvsec_1lr59l4ndsaa6-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
 <g>
 <text transform="translate(10.0, 10.0)" style="font-size:10.5px; font-family:'Roboto', napkin-fallback, sans-serif; font-weight:bold; white-space:pre;">
-<tspan x="2" y="12" dominant-baseline="ideographic">bw-env Secrets</tspan>
+<tspan x="2" y="12" dominant-baseline="ideographic">Vault Secrets</tspan>
 </text>
 </g>
 </g>

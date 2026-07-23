@@ -216,7 +216,7 @@
 <g id="tx_usevault_dgp614ne3imn-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
 <g>
 <text transform="translate(10.0, 19.0)" style="font-size:15px; font-family:'Roboto', napkin-fallback, sans-serif; white-space:pre;">
-<tspan x="2" y="9" dominant-baseline="ideographic">Use Vaultwarden for password management, bw-env for </tspan>
+<tspan x="2" y="9" dominant-baseline="ideographic">Use Vaultwarden for password management, bw-mcp for </tspan>
 <tspan x="2" y="27" dominant-baseline="ideographic">secrets injection, and bw-mcp for Bitwarden access.</tspan>
 </text>
 </g>

@@ -154,3 +154,4 @@ Only switch language if KπX explicitly asks. Never assume from context.
 
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
 - Default git email: `kapoivha@gmail.com` (set in `~/.gitconfig`). Use this on all equipment.
+- **Secrets zero-touch:** NEVER read, print, expose, or reference token files, API keys, passwords, or any secret values in chat. When a secret is needed, KπX retrieves it manually from Vaultwarden and places it where required. No agent shall look for, extract, or display secrets — ever.

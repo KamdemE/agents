@@ -2,20 +2,23 @@
 # ==============================================================================
 # restore_workstation.sh — Phoenix Protocol: bare-metal workstation restore
 # Usage: sudo ./restore_workstation.sh <backup.tar.zst> [USERNAME]
-#   USERNAME defaults to USER_BACKUP from .env or prompts interactively.
+#   USERNAME defaults to USER_BACKUP defined below, or prompts interactively.
 # Author: KpihX [CLAUDE]
 # ==============================================================================
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# ── Machine config (edit per machine) ─────────────────────────────────────────
+USER_BACKUP="kpihx"
 
-# ── Load .env if available (provides USER_BACKUP) ─────────────────────────────
-[[ -f "$SCRIPT_DIR/.env" ]] && source "$SCRIPT_DIR/.env" || true
+# ── Load secrets from kernel .env (optional — restore works without Telegram) ─
+AGENTS_ENV="$HOME/.agents/.env"
+# shellcheck source=/dev/null
+[[ -f "$AGENTS_ENV" ]] && source "$AGENTS_ENV" || true
 
 # ── Arguments ─────────────────────────────────────────────────────────────────
 ARCHIVE_PATH="${1:-}"
-USER_RESTORE="${2:-${USER_BACKUP:-}}"
+USER_RESTORE="${2:-${USER_BACKUP}}"
 RESTORE_ROOT="/tmp/phoenix_restore"
 
 if [[ "$EUID" -ne 0 ]]; then

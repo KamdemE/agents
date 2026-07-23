@@ -21,7 +21,7 @@ clean/
 ├── systemd/
 │   ├── clean-system.service   # Template — @SCRIPT_DIR@ replaced by install.sh
 │   └── clean-system.timer     # Bi-daily 21:30
-└── .env                # Secrets + config (gitignored)
+└── excludes.conf       # (optional) Machine-specific du exclusions
 ```
 
 ## Scheduling
@@ -29,9 +29,8 @@ clean/
 | What | Detail |
 |------|--------|
 | Unit | `clean-system.timer` |
-| Schedule | Every 2nd day at 21:30 (`OnCalendar=Sat *-*-* 10:00:00`) |
+| Schedule | Every 2 days at 21:30 (`OnCalendar=*-*-1/2 21:30:00`) |
 | Persistent | Yes — catches missed runs if machine was off |
-| Installed at | `/etc/systemd/system/` |
 
 ## Logging
 
@@ -44,23 +43,39 @@ make log-scan   # cat /var/log/clean-system/workspace_scan.log
 
 ## Secrets
 
-`auto_clean.sh` sources `.env` from the same directory at runtime.
-Required keys: `TELEGRAM_UBUNTU_TOKEN`, `CHAT_ID`, `USER`.
+Secrets are sourced from `~/.agents/.env` (kernel secrets file) at runtime.
+Add these keys to `~/.agents/.env` (template: `~/.agents/.env.example`):
+
+| Variable | Description |
+|----------|-------------|
+| `TELEGRAM_UBUNTU_TOKEN` | Bot token for success/failure notifications |
+| `TELEGRAM_CHAT_ID` | Telegram chat ID to send notifications to |
+
 If token is unavailable, cleanup still runs — only the Telegram notification is skipped.
 
-Copy `.env.example` → `.env` and fill in values before running `make install`.
+## Machine config
+
+Non-secret values are hardcoded at the top of `auto_clean.sh`:
+
+| Variable | Description |
+|----------|-------------|
+| `USER_BACKUP` | Username whose /home is cleaned |
+| `PC_NAME` | Label in Telegram report |
+| `DU_EXCLUDES` | Array of subdirs to skip from du analysis (rclone mounts, etc.) |
 
 ## Makefile
 
 ```bash
 make install    # sudo: generate service (resolves @SCRIPT_DIR@) + enable timer
 make purge      # sudo: disable and remove units
-make run   # sudo: simulate the weekly run (reads USER from .env)
+make run   # sudo: run cleanup now
 make log        # journalctl -u clean-system -n 50
 make log-scan   # last workspace scan log (/var/log/clean-system/)
-make push       # push to all remotes
 make lint       # shellcheck on all .sh files
 ```
+
+> `clean/` is part of the `.agents/` kernel repo — it has no standalone git.
+> To push changes, run `make push` from `~/.agents/` (the repo root).
 
 ## Install
 
@@ -87,5 +102,5 @@ Logs preserved in `/var/log/clean-system/` — remove manually if needed.
 - `workspace_scan.sh` detects `.env` files in 3 tiers: `TRACKED IN GIT` / `NOT gitignored` / `gitignored ✓`
 - `clean_work.sh --safe` removes `__pycache__`, `.pytest_cache`, and build artifacts (`dist/`, `build/`, `target/`, `.next/`)
 - `TOP_ROOT` targets `/var /usr /home /opt` only — avoids full `/` scan and RAM spike
-- `DU_EXCLUDES` in `.env` — space-separated subdirs to skip from du analysis (rclone mounts)
+- `DU_EXCLUDES` is hardcoded at the top of `auto_clean.sh` — array of subdirs to skip (rclone mounts)
 - Auto-confirm in `auto_clean.sh` uses `printf 'y%.0s' {1..100}` — compatible with `read -n 1` in all module confirm prompts
