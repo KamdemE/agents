@@ -153,3 +153,4 @@ Only switch language if KπX explicitly asks. Never assume from context.
 ## Security
 
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
+- Default git email: `kapoivha@gmail.com` (set in `~/.gitconfig`). Use this on all equipment.

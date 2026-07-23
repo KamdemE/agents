@@ -64,13 +64,15 @@ The agent auto-detects the equipment via Tailscale and creates the session on re
 
 (No `kpihx-` prefix — short equipment names only.)
 
-**Each session has exactly 3 windows:**
+**Each session has exactly 3 windows (except phones — see below):**
 
 | Window | Role |
 |--------|------|
 | `agents` | Agent workspace — opencode/nvim + ops |
-| `default` | General shell, ad-hoc commands |
+| `default` | General shell, ad-hoc commands. CWD: `~/KpihX-Labs` |
 | `tmp` | Scratch / temporary work |
+
+> **Phone exception (S25, tablet, etc.):** Phones only get 2 windows — `default` and `tmp`. The `agents` window (opencode/nvim) does not apply to Termux/Android since those tools do not run on the phone.
 
 #### `agents` window layout (3 panes, nothing pre-opened)
 
@@ -98,12 +100,21 @@ The agent auto-detects the equipment via Tailscale and creates the session on re
 | `SESSION:agents.2` (right-bottom) | **Ops pane** | `~/KpihX-Labs` | **Designated sudo/ops shell** |
 
 **Setup command (manual):**
+
+For full equipment (Ubuntu, PVE, etc.) — 3 windows:
 ```bash
 tmux new-session -d -s <equip> -c ~/KpihX-Labs
 tmux rename-window -t <equip>:0 agents
 tmux split-window -h -t <equip>:agents.0 -c ~/KpihX-Labs
 tmux split-window -v -t <equip>:agents.1 -c ~/KpihX-Labs
-tmux new-window -t <equip> -n default -c ~/
+tmux new-window -t <equip> -n default -c ~/KpihX-Labs
+tmux new-window -t <equip> -n tmp -c /tmp
+```
+
+For phones (S25, no agents window) — 2 windows:
+```bash
+tmux new-session -d -s <equip> -c ~/KpihX-Labs
+tmux rename-window -t <equip>:0 default
 tmux new-window -t <equip> -n tmp -c /tmp
 ```
 
@@ -171,6 +182,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | `assets/tmux-resurrect-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh` |
 | `assets/tmux-resurrect-restore.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh` |
 | `assets/tmux-continuum-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh` |
+| `assets/setup-session.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
 
 Current KπX settings:
 
@@ -556,6 +568,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.10.0 — Added **Standard session per equipment** section: auto-detect via Tailscale, 3 windows (agents/default/tmp), agents window layout (left=opencode, right-top=nvim, right-bottom=ops). New `assets/setup-session.sh`. |
+| 2026-07-23 | [OPENCODE] | v1.11.0 — Phone exception: phones get 2 windows (default+tmp), no agents. Phone default CWD is `~/KpihX-Labs`. Updated setup commands for both cases. |
 | 2026-07-22 | [OPENCODE] | v1.9.0 — Added **SUDO GATE** warning to description: tmux is the ONLY channel for sudo/SSH elevation. Never raw sudo in agent shells. |
 | [SUMMARY] | — | v1.8.0 fixed ubuntu session + sudo pane; v1.6.0 focus-events on, Neovim autoread; v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |
