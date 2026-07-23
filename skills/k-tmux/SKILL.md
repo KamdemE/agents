@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.10.0
+  version: 1.12.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -19,7 +19,7 @@ allowed-tools: Bash(tmux:*), Read, Write, Edit
 
 > **Related skills:** `k-ubuntu` (shell / workstation context) · `k-codex` (shared interactive tmux panes with password polling)
 > **OS references:** `references/windows.md` (WSL tmux setup and limitations)
-> **Canonical config:** `$HOME/.tmux.conf` — skill asset `assets/tmux.conf` is a symlink to it.
+> **Canonical config:** `assets/tmux.conf` (this skill) is the source of truth. `$HOME/.tmux.conf` is a **symlink** to it on every infra.
 
 ## When to Load
 
@@ -178,7 +178,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 
 | Asset | Role |
 |-------|------|
-| `assets/tmux.conf` | Symlink → `$HOME/.tmux.conf` |
+| `assets/tmux.conf` | Source of truth — `$HOME/.tmux.conf` symlinks to this |
 | `assets/tmux-resurrect-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh` |
 | `assets/tmux-resurrect-restore.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh` |
 | `assets/tmux-continuum-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh` |
@@ -490,7 +490,7 @@ This shows every pane across all sessions with the running command — no guessi
 
 ## Config Essentials
 
-Edit `$HOME/.tmux.conf` (or follow symlink from `assets/tmux.conf`).
+Edit `assets/tmux.conf` (the source of truth). `$HOME/.tmux.conf` is a symlink to it.
 
 | Setting | Example | Purpose |
 |---------|---------|---------|
@@ -556,7 +556,7 @@ tmux attach -t local
 | After reboot: `tmux ls` → no server / no sessions | Follow **First tmux after reboot** above; do not expect persistence from `tmux.service` at login |
 | After reboot: only empty `default` | `Ctrl-a Ctrl-r`; check `resurrect/last` size; restore older `tmux_resurrect_*.txt` if needed |
 | Config ignored | Wrong file path; use `tmux show -g` to inspect active values |
-| Broken symlink in skill assets | Recreate: `ln -sf $HOME/.tmux.conf assets/tmux.conf` |
+| Broken symlink in skill assets | Recreate: `ln -sf ~/.agents/skills/k-tmux/assets/tmux.conf ~/.tmux.conf` |
 
 ## Insights Discipline (mandatory)
 
@@ -568,6 +568,5 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v1.11.0 — Phone exception: phones get 2 windows (default+tmp), no agents. Phone default CWD is `~/KpihX-Labs`. Updated setup commands for both cases. |
-| 2026-07-22 | [OPENCODE] | v1.9.0 — Added **SUDO GATE** warning to description: tmux is the ONLY channel for sudo/SSH elevation. Never raw sudo in agent shells. |
-| [SUMMARY] | — | v1.8.0 fixed ubuntu session + sudo pane; v1.6.0 focus-events on, Neovim autoread; v1.3.x–v1.5.0: tmux-yank/copycat plugins, mouse copy, continuum boot fix, prefix and shared interactive gate. |
+| 2026-07-24 | [OPENCODE] | v1.12.0 — **Symlink direction reversed**: `assets/tmux.conf` is now the source of truth, `$HOME/.tmux.conf` symlinks to it (same pattern as kshrc). Updated all references: canonical config, layout table, edit instruction, troubleshooting. |
+| [SUMMARY] | — | v1.11.0 phone exception; v1.9.0 SUDO GATE; v1.8.0 ubuntu session + sudo pane; v1.6.0 focus-events; v1.3.x–v1.5.0 plugins, mouse, continuum |
