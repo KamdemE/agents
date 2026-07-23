@@ -179,9 +179,9 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | Asset | Role |
 |-------|------|
 | `assets/tmux.conf` | Source of truth — `$HOME/.tmux.conf` symlinks to this |
-| `assets/tmux-resurrect-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh` |
-| `assets/tmux-resurrect-restore.sh` | Symlink → `$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh` |
-| `assets/tmux-continuum-save.sh` | Symlink → `$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh` |
+| `assets/tmux-resurrect-save.sh` | Source of truth — `save.sh` in plugin dir symlinks to this |
+| `assets/tmux-resurrect-restore.sh` | Source of truth — `restore.sh` in plugin dir symlinks to this |
+| `assets/tmux-continuum-save.sh` | Source of truth — `continuum_save.sh` in plugin dir symlinks to this |
 | `assets/setup-session.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
 
 Current KπX settings:
