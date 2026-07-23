@@ -39,7 +39,7 @@ kpihx-labs (this skill — kernel top reference)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-pve-dockerhost (Docker host VM)
-│   └── k-phones          (Android phones)
+│   └── k-25          (Android phones)
 │
 ├── k-agents     (agent runtime registry — Colab, Explore, runtime configs)
 ├── k-hook       (hook architecture — core checkers, runtime wrappers)

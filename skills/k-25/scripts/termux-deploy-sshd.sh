@@ -1,20 +1,20 @@
 #!/usr/bin/env zsh
 # Deploy Termux sshd persistence + ubuntu SSH block. Run from Ubuntu when ssh s25 works.
-# Skill: k-phones — see references/s25-termux-sshd.md
+# Skill: k-25 — see references/s25-termux-sshd.md
 
 set -euo pipefail
 
-readonly SKILL_ASSETS="${HOME}/.agents/skills/k-phones/assets"
+readonly SKILL_ASSETS="${HOME}/.agents/skills/k-25/assets"
 readonly KSSH_CONF="${HOME}/.agents/skills/k-ssh/assets/ssh.conf"
 readonly REMOTE='s25'
-readonly MARKER='# k-phones sshd autostart'
-readonly REMOTE_SNIPPET='.kphones-remote.zsh'
-readonly UBUNTU_MARKER='# k-phones ubuntu host'
+readonly MARKER='# k-25 sshd autostart'
+readonly REMOTE_SNIPPET='.k25-remote.zsh'
+readonly UBUNTU_MARKER='# k-25 ubuntu host'
 
 echo "==> openssh on Termux"
 ssh "$REMOTE" 'command -v sshd >/dev/null || pkg install -y openssh'
 
-echo "==> ~/.kphones-remote.zsh (ubuntu alias + sshd autostart)"
+echo "==> ~/.k25-remote.zsh (ubuntu alias + sshd autostart)"
 {
   cat "${SKILL_ASSETS}/termux-zshrc-snippet.sh"
   echo
@@ -23,7 +23,7 @@ echo "==> ~/.kphones-remote.zsh (ubuntu alias + sshd autostart)"
 
 echo "==> ~/.zshrc hook"
 ssh "$REMOTE" "ZSHRC=\$HOME/.zshrc; touch \"\$ZSHRC\"
-grep -qF 'kphones-remote.zsh' \"\$ZSHRC\" 2>/dev/null || echo '[[ -f ~/.kphones-remote.zsh ]] && . ~/.kphones-remote.zsh' >> \"\$ZSHRC\""
+grep -qF 'k25-remote.zsh' \"\$ZSHRC\" 2>/dev/null || echo '[[ -f ~/.k25-remote.zsh ]] && . ~/.k25-remote.zsh' >> \"\$ZSHRC\""
 
 echo "==> ~/.ssh/config (Include canonical k-ssh fragment)"
 scp "${KSSH_CONF}" "${REMOTE}:.ssh/kpihx-ssh.conf"

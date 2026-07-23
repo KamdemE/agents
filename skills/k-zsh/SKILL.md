@@ -123,7 +123,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="micro"
 
 # Source skill assets
-[[ -f "$HOME/.agents/skills/k-phones/assets/phones.ksh" ]] && source "$_"
+[[ -f "$HOME/.agents/skills/k-25/assets/phones.ksh" ]] && source "$_"
 
 # bw-env (idempotent)
 [ -f "$HOME/Work/sh/bw_env profile.sh" ] && source "$_"

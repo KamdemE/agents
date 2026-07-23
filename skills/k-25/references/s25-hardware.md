@@ -179,4 +179,4 @@ adb -s 100.125.54.1:46281 shell "nproc; cat /proc/meminfo | head -3; cat /sys/de
 ssh s25 'uname -m; nproc; free -h; tmux -V; pkg list-installed | wc -l'
 ```
 
-Update **Last inventory** date and bump `k-phones` `SKILL.md` changelog if facts changed.
+Update **Last inventory** date and bump `k-25` `SKILL.md` changelog if facts changed.

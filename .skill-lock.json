@@ -279,12 +279,12 @@
       "installedAt": "2026-04-25T16:00:00.000Z",
       "updatedAt": "2026-04-25T16:00:00.000Z"
     },
-    "k-phones": {
+    "k-25": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-phones/SKILL.md",
+      "skillPath": "skills/k-25/SKILL.md",
       "installedAt": "2026-05-25T17:00:00.000Z",
-      "updatedAt": "2026-05-25T17:00:00.000Z"
+      "updatedAt": "2026-07-23T02:00:00.000Z"
     },
     "k-tmux": {
       "source": "local",

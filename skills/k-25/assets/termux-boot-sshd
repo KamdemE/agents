@@ -1,4 +1,4 @@
 #!/data/data/com.termux/files/usr/bin/sh
-# k-phones — ~/.termux/boot/sshd (Termux:Boot app from F-Droid, open once after install)
+# k-25 — ~/.termux/boot/sshd (Termux:Boot app from F-Droid, open once after install)
 command -v termux-wake-lock >/dev/null 2>&1 && termux-wake-lock
 sshd

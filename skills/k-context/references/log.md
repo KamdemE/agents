@@ -21,10 +21,10 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
 | 2026-05-27 | [CURSOR] | **SexeModel scraper** — tasks 1-6 completed; background scraping region 75. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
 | 2026-05-26 | [CURSOR] | **Workstation power runbooks** — ISS-20260515-001 projector, ISS-20260526-001 battery ~67% wear. *(Rotated from k-context Session Log — cap 2026-05-29.)* |
-| 2026-05-26 | [CURSOR] | **`k-phones` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
+| 2026-05-26 | [CURSOR] | **`k-25` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
 | 2026-05-26 | [CURSOR] | **Lebara eSIM 30j** — Support délai **30 j** avant retry QR ML045066180 (~25/06). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. *(Rotated from k-context Session Log — cap 2026-05-25.)* |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). *(Rotated from k-context Session Log — cap 2026-05-25.)* |
+| 2026-05-25 | [CURSOR] | **`k-25` v1.0.8** — `phones.ksh` idempotent; termux-api deploy; tmux-on-PC vs Termux clarified. *(Rotated from k-context Session Log — cap 2026-05-25.)* |
+| 2026-05-25 | [CURSOR] | **`k-25` v1.0.7** — S25 Termux local tmux Ctrl-a + continuum 5m (`termux-deploy-tmux.sh` OK). *(Rotated from k-context Session Log — cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound DNS** — SPF+Google+CF, DMARC; `outbound-setup-status.md`; handoff Phases A–C. *(Rotated from k-context Session Log — audit cap 2026-05-25.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound C′** — pivot kapoivha send-as; Outlook web dead. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **CF outbound E2E** — gws `OUT-E2E-083632`; m365 Hotmail default only. *(Rotated.)* |
@@ -34,7 +34,7 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-25 | [CURSOR] | **`k-media` v1.1.0** — YouTube LIVE `@kpihx`. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **`k-x` v1.0.0** — X `@KPIHX7` me OK; tweet 402 credits. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **Social APIs finalized** — Meta/X JSON smoke; `k-meta` v1.0.1. *(Rotated.)* |
-| 2026-05-25 | [CURSOR] | **`k-phones` v1.0.0** — S25 `ssh s25`, `adb-s25`, ssh fragment + `.kshrc`. *(Rotated.)* |
+| 2026-05-25 | [CURSOR] | **`k-25` v1.0.0** — S25 `ssh s25`, `adb-s25`, ssh fragment + `.kshrc`. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **Lebara eSIM** — chat Blue queue agent; mail refs. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **Lebara eSIM** — Mamadou connecté; attente réponse KπX. *(Rotated.)* |
 | 2026-05-25 | [CURSOR] | **Lebara eSIM** — réémission ML045066180; KπX retrait puce. *(Rotated.)* |

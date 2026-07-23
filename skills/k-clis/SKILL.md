@@ -67,9 +67,9 @@ metadata:
 | `whisper-ctranslate2` | _(this skill)_ | Local speech-to-text — Whisper |
 | `ksh` | _(this skill)_ | Universal Dispatcher |
 | `youtube_cli.py` | **`k-media`** + **`k-google`** | YouTube upload |
-| `adb` | **`k-phones`** | Android phone wireless debugging |
+| `adb` | **`k-25`** | Android phone wireless debugging |
 | `ssh` / `ssh-keygen` | **`k-ssh`** | Centralized SSH config, key management, passphrase ops |
-| `scrcpy` | **`k-phones`** | Android screen mirroring/control via ADB |
+| `scrcpy` | **`k-25`** | Android screen mirroring/control via ADB |
 | `yt-dlp` | _(this skill)_ | YouTube/video downloader — CLI for youtube-dl fork |
 
 ## Dev & Tools

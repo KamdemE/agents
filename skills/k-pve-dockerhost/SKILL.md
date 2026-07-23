@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-pve` (hypervisor — parent infra) · `k-pve-debian` (migration target) · `k-docker` (generic Docker patterns) · `k-optim` (maintenance)
+> **Related skills:** `k-pve` (hypervisor — parent infra) · `k-pve-debian` (migration target) · `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-docker` (generic Docker patterns) · `k-optim` (maintenance)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 
 ---
@@ -28,6 +28,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Type | LXC container (CT 100) on kpihx-pve |
+| Short name (tmux) | `dockerhost` |
 | LAN IP | `10.10.10.10` (vmbr1) |
 | Role | Docker host — Traefik, Portainer, all Docker Compose stacks |
 | Status | In migration to `k-pve-debian` |

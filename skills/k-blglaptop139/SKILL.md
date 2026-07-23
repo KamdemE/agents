@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map) · `k-ubuntu` (SSH client — RDP from this machine)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-ubuntu` (SSH client — RDP from this machine)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 
 ---
@@ -28,6 +28,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Hostname | `BLGLAPTOP139` |
+| Short name (tmux) | `blglaptop139` |
 | Tailscale | `blglaptop139` (`100.99.196.32`) |
 | OS | Windows (with WSL) |
 | Location | DxO internship, Grenoble |

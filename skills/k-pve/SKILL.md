@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map) · `k-pve-debian` (Debian VM — sub-infra) · `k-pve-dockerhost` (Docker host CT — sub-infra) · `k-tailscale` (mesh VPN)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-pve-debian` (Debian VM — sub-infra) · `k-pve-dockerhost` (Docker host CT — sub-infra) · `k-tailscale` (mesh VPN)
 > **Source:** Content migrated from `kpihx-labs` v1.x (PVE-specific sections)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 
@@ -29,6 +29,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Hostname | `pve` (local) / `kpihx-pve` (Tailscale) |
+| Short name (tmux) | `pve` |
 | Tailscale | `kpihx-pve` — tagged device (`tagged-devices`) |
 | Tailscale IP | `100.123.81.21` |
 | SSH OS | Linux (Proxmox VE) |

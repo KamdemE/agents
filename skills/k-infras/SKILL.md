@@ -5,10 +5,11 @@ description: >
   SSH access, and hierarchical relationships. Each infra entry maps to its
   dedicated k-* skill. Load this skill first when dealing with any
   infrastructure to get the full picture before diving into specifics.
+  Also documents the required init skills for setting up a new infra.
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.1.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -17,8 +18,9 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-phones` (Android phones)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones)
 > **Source skills:** `k-infra` (low-level hardware: disk, BIOS, filesystem) · `k-nftables` (firewall) · `k-tailscale` (mesh VPN config)
+> **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
 
 ---
@@ -29,19 +31,53 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 
 | Tailscale name | Tailscale IP | OS | Status | Skill | Notes |
 |---------------|-------------|----|--------|-------|-------|
-| `kpihx-ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. Ubuntu-specific skill. |
-| `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble). Windows + WSL. |
-| `kpihx-pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. Tagged device. |
-| `kpihx-pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. Sub-infra of k-pve. |
-| `kpihx-pve-dockerhost` | — | Linux | — | **`k-pve-dockerhost`** | Docker host VM on PVE. Sub-infra of k-pve. |
-| `kpihx-s25` | `100.125.54.1` | Android | offline | **`k-phones`** | Samsung S25 phone. |
-| `kpihx-tablet` | `100.89.79.87` | Android | offline | **`k-phones`** | Tablet. |
+| Tailscale name | Short name | Tailscale IP | OS | Status | Skill | Notes |
+|---------------|-----------|-------------|----|--------|-------|-------|
+| `kpihx-ubuntu` | `ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. |
+| `blglaptop139` | `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble). |
+| `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
+| `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
+| `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-pve-dockerhost`** | Docker host VM on PVE. |
+| `kpihx-s25` | `s25` | `100.125.54.1` | Android | offline | **`k-25`** | Samsung S25 phone. |
+| `kpihx-tablet` | — | `100.89.79.87` | Android | offline | **`k-25`** | Tablet (not configured). |
+
+---
+
+## New Infra Setup Checklist
+
+When setting up a **new infrastructure** (any equipment running a shell), an agent MUST load and follow these skills **in order** before writing any config:
+
+| Order | Skill | Purpose |
+|-------|-------|---------|
+| 1 | **`k-zsh`** | Shell setup: `.kshrc`, `.zshrc`, `.bashrc`, PATH, env vars. Copy `assets/kshrc.base` → `~/.kshrc` then customize. |
+| 2 | **`k-tailscale`** | Mesh VPN: install, authenticate, verify connectivity. |
+| 3 | **`k-tmux`** | Tmux session per equipment: standard 3-window layout (agents/default/tmp), shared interactive gate. |
+| 4 | **`k-ssh`** | SSH config: canonical `assets/ssh.conf`, key generation, Bitwarden agent, passphrase rules. |
+| 5 | **`k-clis`** | CLI registry: which CLIs to install on this infra type. |
+| 6 | **`k-nvim`** | Neovim config (when applicable — skip if Termux/headless). |
+| 7 | **`k-opencode`** | OpenCode runtime (when applicable — does not run on Termux). |
+
+**Exception:** Termux/Android phones (`k-25`) skip `k-nvim` and `k-opencode` — they do not run on Termux.
+
+### Tmux session name — short name convention
+
+Every infra skill MUST document both the **Tailscale name** (e.g. `kpihx-ubuntu`) and the **short name** (e.g. `ubuntu`) in its `## Host Identity` table. The short name is the tmux session name (see `k-tmux` → Standard session per equipment).
+
+| Equipment | Tailscale name | Short name (tmux session) |
+|-----------|---------------|--------------------------|
+| Workstation | `kpihx-ubuntu` | `ubuntu` |
+| Internship laptop | `blglaptop139` | `blglaptop139` |
+| DxO server | — | `deep-pc6` |
+| PVE hypervisor | `kpihx-pve` | `pve` |
+| Debian VM | `kpihx-pve-debian` | `pve-debian` |
+| Docker CT | — | `dockerhost` |
+| S25 phone | `kpihx-s25` | `s25` |
+
+When setting up `kshrc.base` → `~/.kshrc`, the agent reads the infra skill to find the **short name** and replaces `<INFRA_SESSION>` in the auto-tmux block with that value.
 
 ---
 
 ## Implicit Hierarchy
-
-The infrastructure follows this logical structure. It is documented here only — skills remain flat under `skills/`.
 
 ```
 kpihx-labs (kernel top reference)
@@ -54,7 +90,7 @@ kpihx-labs (kernel top reference)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-pve-dockerhost (Docker host VM)
-│   └── k-phones          (Android phones)
+│   └── k-25          (Android phones)
 │
 ├── k-clis       (CLI registry — routes to all skills)
 └── [all other top skills]
@@ -77,7 +113,7 @@ Source of truth: `$HOME/.ssh/config`. Each infra skill documents its own SSH spe
 | `pve-debian` | `10.10.10.101` via `pve` | LAN jump | `k-pve-debian` |
 | `kpihx-pve-debian` | `10.10.10.101` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
 | `deep-pc6` | `172.16.150.163` | Direct (DxO VPN) | `k-deep-pc6` |
-| `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-phones` |
+| `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-25` |
 
 ---
 
@@ -118,6 +154,5 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.0.1 — Removed "Replaces k-workspace" reference (k-workspace deactivated). |
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-infras as master infrastructure map. Lists all equipment, hierarchy, SSH access, PVE topology. No info removed from any existing skill. |
-| [SUMMARY] | — | — |
+| 2026-07-23 | [OPENCODE] | v1.1.0 — Added **New Infra Setup Checklist** (init skills: k-zsh, k-ssh, k-tmux, k-clis, k-nvim, k-opencode). Every infra skill must reference this. |
+| [SUMMARY] | — | v1.0.1 Removed k-workspace reference; v1.0.0 Created k-infras as master map. |

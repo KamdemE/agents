@@ -9,7 +9,7 @@
 | `references/s25-termux-sshd.md` | **No** | Runbook for **you** and **agents** — steps to run on the phone |
 | Termux `~/.ssh/config` | **Yes** (on phone) | `Host ubuntu` → PC; unrelated to `ssh s25` |
 
-**Ubuntu never “imports” Markdown.** Agents follow `k-phones` and execute the commands here; only files under `~/.ssh/` affect `ssh` on the workstation.
+**Ubuntu never “imports” Markdown.** Agents follow `k-25` and execute the commands here; only files under `~/.ssh/` affect `ssh` on the workstation.
 
 ## One-time (already done on device)
 
@@ -35,7 +35,7 @@ Fix = **start `sshd` again** or automate it (below).
 
 | When | Mechanism | Path on phone |
 |------|-----------|---------------|
-| **Every Termux shell** (app reopen) | Source autostart in zsh | `~/.kphones-remote.zsh` ← `termux-sshd-autostart.sh` |
+| **Every Termux shell** (app reopen) | Source autostart in zsh | `~/.k25-remote.zsh` ← `termux-sshd-autostart.sh` |
 | **Android boot** | Termux:Boot | `~/.termux/boot/sshd` ← `termux-boot-sshd` |
 
 ### A — Autostart on shell open (recommended first)
@@ -43,21 +43,21 @@ Fix = **start `sshd` again** or automate it (below).
 Add to Termux (manual or deploy script):
 
 ```bash
-# In ~/.kphones-remote.zsh (or paste termux-sshd-autostart.sh from k-phones/assets/)
-_kphones_sshd_autostart() {
+# In ~/.k25-remote.zsh (or paste termux-sshd-autostart.sh from k-25/assets/)
+_k25_sshd_autostart() {
   command -v sshd >/dev/null 2>&1 || return 0
   if ss -ltn 2>/dev/null | grep -q ':8022 '; then
     return 0
   fi
   sshd 2>/dev/null || true
 }
-_kphones_sshd_autostart
+_k25_sshd_autostart
 ```
 
 Hook `~/.zshrc`:
 
 ```bash
-[[ -f ~/.kphones-remote.zsh ]] && . ~/.kphones-remote.zsh
+[[ -f ~/.k25-remote.zsh ]] && . ~/.k25-remote.zsh
 ```
 
 **Test:** close Termux completely → reopen → one shell opens → from PC: `ssh s25` (no manual `sshd`).
@@ -89,7 +89,7 @@ Boot scripts run only after boot; they do **not** replace (A) when you only reop
 
 | Method | Command |
 |--------|---------|
-| **Automated (ADB up)** | `adb-s25 <PORT>` then `zsh "$HOME/.agents/skills/k-phones/scripts/termux-install-boot.sh"` |
+| **Automated (ADB up)** | `adb-s25 <PORT>` then `zsh "$HOME/.agents/skills/k-25/scripts/termux-install-boot.sh"` |
 | **SSH + one tap** | Script stages APK → opens installer → tap **Install** on phone → re-run script |
 | **Manual** | F-Droid → Termux:Boot → open once |
 
@@ -98,7 +98,7 @@ APK staged by script: `/sdcard/Download/termux-boot.apk` (F-Droid `com.termux.bo
 ## Deploy from Ubuntu (when `ssh s25` works once)
 
 ```bash
-zsh "$HOME/.agents/skills/k-phones/scripts/termux-deploy-sshd.sh"
+zsh "$HOME/.agents/skills/k-25/scripts/termux-deploy-sshd.sh"
 ```
 
 Pushes autostart + boot script + starts `sshd` immediately.

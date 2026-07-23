@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # Install + register Termux:Boot (com.termux.boot). Prefers PC adb; falls back to Termux SSH.
-# Skill: k-phones — see references/s25-termux-sshd.md
+# Skill: k-25 — see references/s25-termux-sshd.md
 
 set -euo pipefail
 
@@ -8,7 +8,7 @@ readonly APK_URL="https://f-droid.org/repo/com.termux.boot_1000.apk"
 readonly PKG="com.termux.boot"
 readonly REMOTE="s25"
 readonly LOCAL_APK="/tmp/termux-boot.apk"
-readonly SKILL_ASSETS="${HOME}/.agents/skills/k-phones/assets"
+readonly SKILL_ASSETS="${HOME}/.agents/skills/k-25/assets"
 
 curl -fsSL -o "$LOCAL_APK" "$APK_URL"
 echo "==> APK: $LOCAL_APK ($(wc -c <"$LOCAL_APK") bytes)"
@@ -62,7 +62,7 @@ _verify() {
 _deploy_boot_script() {
   echo "==> SSH: ensure ~/.termux/boot/sshd"
   if _ssh_ready; then
-    zsh "${HOME}/.agents/skills/k-phones/scripts/termux-deploy-sshd.sh"
+    zsh "${HOME}/.agents/skills/k-25/scripts/termux-deploy-sshd.sh"
   fi
 }
 
@@ -72,7 +72,7 @@ elif _ssh_ready; then
   echo "==> No ADB device — using SSH + on-screen Install tap"
   _install_via_ssh_ui
   print -u2 "\n⚠️  On the phone: tap **Install** on the package installer, then re-run:"
-  print -u2 "    zsh $HOME/.agents/skills/k-phones/scripts/termux-install-boot.sh"
+  print -u2 "    zsh $HOME/.agents/skills/k-25/scripts/termux-install-boot.sh"
   sleep 12
 else
   echo "✗ Need adb device or ssh s25" >&2

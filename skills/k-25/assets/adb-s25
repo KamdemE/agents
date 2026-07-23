@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # Connect ADB to kpihx-s25 over Tailscale (wireless debugging port is ephemeral).
-# Skill: k-phones — save last port in $HOME/.config/kpihx/phones/s25-adb-port
+# Skill: k-25 — save last port in $HOME/.config/kpihx/phones/s25-adb-port
 
 set -u
 
@@ -30,7 +30,7 @@ _stale_port_help() {
   print -u2 -- "    Pairing uses a DIFFERENT port: Wireless debugging → « Pair device with pairing code »"
   print -u2 -- "      adb-s25-pair PAIRING_PORT   # NOT the main-screen port"
   print -u2 -- "      then: adb-s25 DEBUG_PORT     # main screen « IP address & port »"
-  print -u2 -- "    Eduroam blocks LAN ADB — use hotspot or Tailscale + correct pair port (see k-phones/references/s25-adb-wireless.md)"
+  print -u2 -- "    Eduroam blocks LAN ADB — use hotspot or Tailscale + correct pair port (see k-25/references/s25-adb-wireless.md)"
 }
 
 _tcp_open() {

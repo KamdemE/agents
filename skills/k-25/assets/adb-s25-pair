@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # Pair kpihx-s25 wireless debugging (PAIRING port only — not the main-screen debug port).
-# Skill: k-phones
+# Skill: k-25
 
 set -u
 

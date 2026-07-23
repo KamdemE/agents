@@ -16,7 +16,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map) · `k-ubuntu` (SSH client — VPN access required first)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-ubuntu` (SSH client — VPN access required first)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 
 ---
@@ -26,6 +26,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Hostname | `deep-pc6` |
+| Short name (tmux) | `deep-pc6` |
 | LAN IP | `172.16.150.163` |
 | OS | Linux |
 | Location | DxO network (Grenoble) |

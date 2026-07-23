@@ -17,7 +17,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-env secret injection) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-env secret injection) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 > **Tailscale live state:** `tailscale status --json`
 
@@ -28,6 +28,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Hostname | `KpihX-Ubuntu` |
+| Short name (tmux) | `ubuntu` |
 | Tailscale | `kpihx-ubuntu` (`100.82.95.70`) |
 | OS | Ubuntu 26.04 LTS (Resolute Raccoon) |
 | Kernel | Linux 7.0.0-28-generic x86_64 |

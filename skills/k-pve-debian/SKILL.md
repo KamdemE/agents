@@ -19,7 +19,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-pve` (hypervisor — parent infra) · `k-infras` (master infrastructure map) · `k-docker` (generic Docker patterns) · `k-tailscale` (mesh VPN) · `k-optim` (maintenance/cleanup)
+> **Related skills:** `k-pve` (hypervisor — parent infra) · `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-docker` (generic Docker patterns) · `k-tailscale` (mesh VPN) · `k-optim` (maintenance/cleanup)
 > **Source:** Content migrated from `kpihx-labs` v1.x (Docker/deployment sections) and `k-docker` (Ubuntu-specific deployment notes)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 
@@ -30,6 +30,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Property | Value |
 |----------|-------|
 | Hostname | Debian VM on kpihx-pve |
+| Short name (tmux) | `pve-debian` |
 | Tailscale | `kpihx-pve-debian` (`100.117.171.4`) |
 | LAN IP | `10.10.10.101` (vmbr1) |
 | SSH OS | Linux (Debian) |

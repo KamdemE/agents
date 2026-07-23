@@ -81,7 +81,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-ai` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-ticktick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace`.
+Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-ai` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-ticktick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -113,6 +113,42 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 
 🔴 **ALL FILES, CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS, CHAT RESPONSES: ENGLISH ONLY.** Non-negotiable.
 Only switch language if KπX explicitly asks. Never assume from context.
+
+## Kernel Structure Map (auto-maintained)
+
+```
+~/.agents/                    # Kernel root (git repo)
+├── AGENTS.md                 # This file — kernel identity, rules, map
+├── .env                      # Secrets (gitignored) — Telegram tokens, API keys
+├── .env.example              # Template for .env — copy and fill
+├── Makefile                  # audit, push, check targets
+├── .gitignore
+├── .skill-lock.json          # Skill registry
+│
+├── hermes/                   # Hermes agent daemon (SOUL, db, memories, cron, skills)
+├── openclaw/                 # OpenClaw runtime (HEARTBEAT, IDENTITY, SOUL, USER)
+│
+├── rules/                    # Mandatory rules (13 rules, loaded every turn)
+├── hooks/                    # Lifecycle hooks (per-agent: opencode, gemini, codex, …)
+├── agents/                   # Agent definitions (Colab, Explore, executor, curator, …)
+│
+├── skills/                   # Domain skills (62 k-* skills)
+│   ├── k-ubuntu/             #   workstation
+│   ├── k-pve/                #   Proxmox hypervisor
+│   ├── k-25/                 #   Android phones (S25)
+│   ├── k-opencode/           #   OpenCode runtime
+│   ├── ...                   #   ~56 more k-* skills
+│   └── deactive/             #   Archived skills (do not load)
+│
+├── logs/                     # Centralized runtime logs
+│   └── pve_finder.log        #   PVE IP discovery logs
+│
+├── tmp/                      # Merged-away originals, old backups (cleanable)
+├── assets/                   # Global shared assets (infras.json)
+├── scripts/                  # Global utility scripts (git/)
+```
+
+> **Auto-maintenance contract:** Every agent that modifies the kernel structure (renames a skill, moves a directory, creates a new top-level directory, promotes tmp/ to permanent) MUST update this map to reflect the change. The map is the canonical orientation point for all agents — if the structure evolves and this map is not updated, it is a bug.
 
 ## Security
 

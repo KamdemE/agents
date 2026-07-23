@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.17.0
+  version: 1.18.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -39,6 +39,30 @@ export PATH="$HOME/.opencode/bin:$PATH"
 ```bash
 opencode --version
 ```
+
+### ⚠️ Android / Termux — Incompatible (upstream limitation)
+
+OpenCode does **not** ship Android-compatible binaries. The Linux ARM64 build fails on Termux with:
+
+```
+error: "...opencode" has unexpected e_type: 2
+```
+
+**Root cause:** The released Linux ARM64 binary is a non-PIE (`ET_EXEC`) glibc executable. Android's `linker64` rejects non-PIE binaries, and Termux uses bionic libc (not glibc).
+
+**Upstream issue:** [`anomalyco/opencode#11689`](https://github.com/anomalyco/opencode/issues/11689) — feature request for Android ARM64 support (unresolved as of 2026-07).
+
+**Workarounds tested on kpihx-s25 (Snapdragon 8 Elite, Android 16):**
+
+| Method | Verdict | Detail |
+|--------|---------|--------|
+| `termux-elf-cleaner` | ❌ Fails | Fixes TLS alignment but `e_type` remains `ET_EXEC` |
+| `patchelf` + glibc-runner | ❌ Fails | Binary is non-PIE regardless of interpreter |
+| `proot -0` | ⚠️ Partial | Runs but adds overhead; not practical for daily use |
+| `proot-distro ubuntu` | ✅ Works | Full Ubuntu ARM64 in proot — opencode runs normally inside |
+| Build from source with `-buildmode=pie` | ✅ Guaranteed | `CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -buildmode=pie` produces a static PIE binary that Termux can exec directly |
+
+**Recommendation for S25/Android devices:** Use `proot-distro login ubuntu` to run opencode in a glibc environment, or build from source with `-buildmode=pie`.
 
 ## Runtime Context
 
@@ -522,6 +546,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
 - `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
 - `references/voice.md` — STT/TTS via @renjfk/opencode-voice: model install, management, commands, and configuration
+- `references/android-termux.md` — Android/Termux incompatibility: root cause, workarounds tested, and build-from-source guide for ARM64 devices
 
 ## Insights Discipline (mandatory)
 
@@ -533,8 +558,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.16.0 — **KπX managed plugins**: `hooks/opencode/suggestions-check.js` + `startup-context.js`. Agent-filtered (Colab/Build only via `session.created`). `startup-context` injects raw k-context + device infra context (auto-detect via tailscale/infras.json). Post-commit auto-restart also triggers on `hooks/opencode/*.js`. |
-| 2026-07-22 | [OPENCODE] | v1.14.0 — **Permission architecture redesign**: global source of truth → agent deltas only. `lite`→`Lite`, `auto`→`Auto`. Colab/Explore/Build inherit global. Lite denies skills/MCPs. Auto `*: allow`. Sub-agent perms unified. YAML pitfalls. |
-| [SUMMARY] | — | v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
+| 2026-07-23 | [OPENCODE] | v1.18.0 — **Android/Termux incompatibility documented**: added warning section with root cause analysis, tested workarounds table, and recommended paths for ARM64 Android devices. |
+| [SUMMARY] | — | v1.16.0 KπX managed plugins (suggestions-check + startup-context); v1.14.0 Permission architecture redesign; v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`)

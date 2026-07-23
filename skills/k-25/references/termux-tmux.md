@@ -49,10 +49,10 @@ Grant **Termux:API** permission in Android settings if clipboard stays empty.
 From **Ubuntu** (PC → phone SSH must work):
 
 ```bash
-$HOME/.agents/skills/k-phones/scripts/termux-deploy-tmux.sh
+$HOME/.agents/skills/k-25/scripts/termux-deploy-tmux.sh
 ```
 
-Installs: `tmux`, `termux-api`, TPM plugins, `~/.tmux.conf`, `~/.kphones-remote.zsh`, idempotent `~/.zshrc` hook.
+Installs: `tmux`, `termux-api`, TPM plugins, `~/.tmux.conf`, `~/.k25-remote.zsh`, idempotent `~/.zshrc` hook.
 
 ## First use
 

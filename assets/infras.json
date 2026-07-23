@@ -5,8 +5,8 @@
     "kpihx-pve-debian": "k-pve-debian",
     "kpihx-dockerhost": "k-pve-dockerhost",
     "blglaptop139": "k-blglaptop139",
-    "kpihx-s25": "k-phones",
-    "kpihx-tablet": "k-phones",
+    "kpihx-s25": "k-25",
+    "kpihx-tablet": "k-25",
     "deep-pc6": "k-deep-pc6"
   }
 }

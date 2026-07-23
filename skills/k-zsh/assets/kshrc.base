@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # ============================================================
 # .kshrc.base — KπX Universal Shell Hub (deploy template)
 # ============================================================
@@ -37,3 +38,11 @@ fi
 [ -x /usr/bin/batcat ] && alias bat=batcat
 
 setopt HIST_IGNORE_SPACE
+
+# ── Auto-tmux (LAST — after full shell init, before prompt) ──────────────
+# Auto-attach to this infra's tmux session when opening a new shell.
+# Replace <INFRA_SESSION> with the equipment name (ubuntu, pve, s25, etc.).
+# See k-tmux/SKILL.md → Standard session per equipment.
+if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+  tmux has-session -t <INFRA_SESSION> 2>/dev/null && tmux attach -t <INFRA_SESSION>
+fi

@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
 # Deploy Termux tmux + zsh aliases on kpihx-s25 via SSH. Run from Ubuntu.
-# Skill: k-phones
+# Skill: k-25
 
 set -euo pipefail
 
-readonly SKILL_ASSETS="${HOME}/.agents/skills/k-phones/assets"
+readonly SKILL_ASSETS="${HOME}/.agents/skills/k-25/assets"
 readonly REMOTE='s25'
-readonly MARKER='# k-phones termux remote'
-readonly REMOTE_SNIPPET='.kphones-remote.zsh'
+readonly MARKER='# k-25 termux remote'
+readonly REMOTE_SNIPPET='.k25-remote.zsh'
 
 echo "==> pkg install tmux + termux-api (clipboard)"
 ssh "$REMOTE" 'pkg install -y tmux termux-api 2>/dev/null || pkg install tmux termux-api'
@@ -24,7 +24,7 @@ ssh "$REMOTE" "chmod 644 ~/${REMOTE_SNIPPET}"
 ssh "$REMOTE" "MARKER='${MARKER}'; SNIPPET='${REMOTE_SNIPPET}'; ZSHRC=\$HOME/.zshrc
 touch \"\$ZSHRC\"
 if grep -qF \"\$MARKER\" \"\$ZSHRC\" 2>/dev/null; then
-  grep -vF \"\$MARKER\" \"\$ZSHRC\" | grep -v '^alias ubuntu=' | grep -v 'kphones-remote.zsh' > \"\${ZSHRC}.tmp\"
+  grep -vF \"\$MARKER\" \"\$ZSHRC\" | grep -v '^alias ubuntu=' | grep -v 'k25-remote.zsh' > \"\${ZSHRC}.tmp\"
   mv \"\${ZSHRC}.tmp\" \"\$ZSHRC\"
 fi
 printf '%s\n[[ -f ~/%s ]] && . ~/%s\n' \"\$MARKER\" \"\$SNIPPET\" \"\$SNIPPET\" >> \"\$ZSHRC\""

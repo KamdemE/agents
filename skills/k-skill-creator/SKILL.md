@@ -39,6 +39,20 @@ Apply these KπX rules on top of the inherited baseline:
 
 All skills must be designed **cross-infrastructure first**. Follow `rules/skill-infra-scope.md`.
 
+### Infra Skill Checklist
+
+When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubuntu`, `k-25`, `k-pve`, etc.), the agent MUST:
+
+1. **Read `k-infras` first** — load it before any infra work. It contains:
+   - The **New Infra Setup Checklist** — 7 init skills in order (k-zsh → k-tailscale → k-tmux → k-ssh → k-clis → k-nvim → k-opencode)
+   - The **short name convention** — each infra has a Tailscale name and a short name (tmux session name)
+   - The **Equipment Inventory** — all machines with their names, IPs, and skill mappings
+2. **Read the specific infra skill** (e.g. `k-ubuntu`) to find its **short name** (used as tmux session name in `kshrc.base` auto-tmux).
+3. **Ensure the infra skill mentions `k-zsh`** and **`k-ssh`** in its `> **Related skills:**` header.
+4. **Ensure the infra skill references `k-infras`** for the full setup checklist.
+5. **Ensure the infra skill has a `## Host Identity` table** with both the Tailscale name and the short name.
+6. **For Termux/Android skills** (`k-25`): skip `k-nvim` and `k-opencode` from the checklist (they do not run on Termux).
+
 - The main `SKILL.md` describes the **general case** (cross-Linux, cross-platform).
 - **OS-specific details** go in `references/<os>.md` (e.g., `ubuntu.md`, `windows.md`, `pve.md`).
 - **Device-specific details** go in `references/<infra>.md`.

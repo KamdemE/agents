@@ -22,5 +22,8 @@ plugins/*
 skills/.datacloud_skills_manifest
 hermes/
 
+# Secrets — never commit
+.env
+
 # Temporary storage — merged-away originals, old backups (cleaned by k-optim)
 tmp/

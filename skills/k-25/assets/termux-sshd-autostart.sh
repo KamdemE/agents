@@ -1,7 +1,7 @@
-# k-phones — sourced from Termux ~/.kphones-remote.zsh
+# k-25 — sourced from Termux ~/.k25-remote.zsh
 # Start sshd when a Termux shell opens (covers app reopen; not only device boot).
 
-_kphones_sshd_autostart() {
+_k25_sshd_autostart() {
   command -v sshd >/dev/null 2>&1 || return 0
   if pgrep -x sshd >/dev/null 2>&1; then
     return 0
@@ -9,4 +9,4 @@ _kphones_sshd_autostart() {
   sshd 2>/dev/null || true
 }
 
-_kphones_sshd_autostart
+_k25_sshd_autostart

@@ -1,5 +1,5 @@
 ---
-name: k-phones
+name: k-25
 description: >
   KπX Android phones over Tailscale — SSH (Termux sshd) and ADB (wireless debugging).
   Inventory: kpihx-s25 (active), kpihx-tablet (listed, not configured). Load before phone SSH/ADB work.
@@ -15,14 +15,14 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related:** `k-infras` (master infrastructure map) · `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot to `@kpihx_general_capture_bot`)
+> **Related:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc on Termux) · `k-ssh` (SSH config — canonical fragment, keys) · `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot)
 
 ## Inventory (Tailscale)
 
-| Host | MagicDNS | Tailscale IP | SSH | ADB | Notes |
-|------|----------|--------------|-----|-----|-------|
-| **kpihx-s25** | `kpihx-s25.tail2527bd.ts.net` | `100.125.54.1` | ✅ Termux `:8022` | ✅ Wireless debug on TS IP | **Default focus** · hardware → `references/s25-hardware.md` |
-| **kpihx-tablet** | `kpihx-tablet.tail2527bd.ts.net` | `100.89.79.87` | 🚧 TBD | 🚧 TBD | Node exists; no Termux/ADB runbook yet |
+| Host | Short name | MagicDNS | Tailscale IP | SSH | ADB | Notes |
+|------|-----------|----------|--------------|-----|-----|-------|
+| **kpihx-s25** | `s25` | `kpihx-s25.tail2527bd.ts.net` | `100.125.54.1` | ✅ Termux `:8022` | ✅ Wireless debug on TS IP | **Default focus** · hardware → `references/s25-hardware.md` |
+| **kpihx-tablet** | — | `kpihx-tablet.tail2527bd.ts.net` | `100.89.79.87` | 🚧 TBD | 🚧 TBD | Node exists; no Termux/ADB runbook yet |
 
 ## When to Load
 
@@ -44,10 +44,21 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 | **ADB reconnect** | `adb-s25` — uses last saved debug port |
 | **ADB status** | `adb-s25 status` |
 | **Screen mirror** | `scrcpy -s 100.125.54.1:<DEBUG_PORT>` (or just `scrcpy` if one ADB device) |
-| **Termux:Boot install** | `zsh $HOME/.agents/skills/k-phones/scripts/termux-install-boot.sh` (needs `adb` device) |
+| **Termux:Boot install** | `zsh $HOME/.agents/skills/k-25/scripts/termux-install-boot.sh` (needs `adb` device) |
 | **Full phone deploy** | `termux-deploy-all.sh` (sshd + tmux) |
+| **Install PVE Finder** | `ln -sf ~/.agents/skills/k-25/assets/pve_finder.sh $PREFIX/bin/pve_finder` |
 
 Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard — safe to `source ~/.kshrc` repeatedly).
+
+### Termux Setup — `k25-remote.zsh`
+
+After copying `kshrc.base` → `~/.kshrc` on the phone, add this line to `~/.kshrc` to auto-start sshd on every shell:
+
+```zsh
+[[ -f ~/.k25-remote.zsh ]] && . ~/.k25-remote.zsh
+```
+
+The `~/.k25-remote.zsh` file is deployed from `assets/k25-remote.zsh` — see `scripts/termux-deploy-sshd.sh`.
 
 ## Documentation triad (read order)
 
@@ -57,6 +68,42 @@ Shell wiring: `assets/phones.ksh` sourced from `$HOME/.kshrc` (idempotent guard 
 | 2 | `references/s25-hardware.md` | **S25 SoC, RAM, GPU, storage, Termux stack, compute / inference limits** |
 | 3 | `references/phone-to-ubuntu.md` | Phone → PC SSH, **where tmux runs**, security |
 | 4 | `references/termux-tmux.md` | Termux **local** tmux, clipboard, deploy |
+
+## Termux:Boot (`assets/termux-boot.apk`)
+
+**Role:** Starts `sshd` automatically when the phone boots — otherwise you need to open Termux and tap after every reboot.
+
+Two-step install on S25 (once per phone boot cycle):
+
+1. **Install APK** (via ADB from workstation):
+   ```bash
+   adb install -r ~/.agents/skills/k-25/assets/termux-boot.apk
+   ```
+   If `INSTALL_FAILED_VERIFICATION_FAILURE`, run first:
+   ```bash
+   adb shell settings put global verifier_verify_adb_installs 0
+   ```
+
+2. **Place boot script** (runs `sshd` at boot):
+   ```bash
+   mkdir -p ~/.termux/boot/
+   cp ~/.agents/skills/k-25/assets/termux-boot-sshd ~/.termux/boot/sshd
+   chmod +x ~/.termux/boot/sshd
+   ```
+
+3. **Open Termux:Boot** once after install (Android requires manual launch to grant permissions).
+
+## PVE Finder (`pve_finder`)
+
+**Purpose:** Locate the Proxmox homelab server when its IP changes on eduroam.
+**Source:** `assets/pve_finder.sh`
+
+Install on S25 (one-time):
+```bash
+ln -sf ~/.agents/skills/k-25/assets/pve_finder.sh $PREFIX/bin/pve_finder
+```
+
+Requires `TELEGRAM_S25_TOKEN` and `CHAT_ID` in `~/.agents/.env` for Telegram alerts. Runs standalone: `pve_finder`.
 
 ## Tmux topology
 
@@ -90,10 +137,13 @@ Full runbook: `references/s25-adb-wireless.md`.
 | `assets/adb-s25` | Connect to wireless-debug **debug port** |
 | `assets/adb-s25-pair` | `adb pair` on **pairing port** only |
 | `assets/phones.ksh` | `PATH` + alias `s25` — sourced from `$HOME/.kshrc` |
+| `assets/k25-remote.zsh` | sshd autostart for Termux — source from `~/.kshrc` |
+| `assets/pve_finder.sh` | PVE server IP discovery (scans subnets via SSH fingerprint) |
 | `assets/termux-tmux.conf` | Termux `~/.tmux.conf` template (Ctrl-a, resurrect, continuum) |
 | `assets/termux-zshrc-snippet.sh` | Reference snippet for `alias ubuntu=…` |
 | `assets/termux-sshd-autostart.sh` | Start `sshd` on each Termux shell open (`pgrep`, not `ss`) |
-| `assets/termux-boot-sshd` | Termux:Boot (F-Droid) script → `~/.termux/boot/sshd` |
+| `assets/termux-boot.apk` | Termux:Boot APK (F-Droid, 26K) — install via `adb install` |
+| `assets/termux-boot-sshd` | Termux:Boot script → `~/.termux/boot/sshd` |
 | **SSH canonical config** | now in `k-ssh/assets/ssh.conf` |
 | `scripts/termux-deploy-tmux.sh` | Push tmux + TPM + zsh alias to S25 via `ssh s25` |
 | `scripts/termux-deploy-sshd.sh` | Push sshd autostart + ubuntu SSH + boot script |
@@ -115,21 +165,20 @@ State file (not in git): `$HOME/.config/kpihx/phones/s25-adb-port`.
 |---------|-------|-----|
 | `Successfully paired` but **`adb devices` empty** | **Pair ≠ connect** — `41183` was the **pairing** port | Main screen → **IP address & port** → `adb-s25 DEBUG_PORT` (different port) |
 | `ssh s25` → **Connection refused :8022** | Termux **`sshd` not running** (normal after app close/reboot) | Termux: `sshd` or deploy persistence — `references/s25-termux-sshd.md` · `scripts/termux-deploy-sshd.sh` |
-| `source ~/.kshrc` → **read-only KPHONES_ASSETS** | Old `phones.ksh` used `readonly` | Fixed v1.0.8 — idempotent `_KPHONES_PHONES_KSH_SOURCED` guard |
+| `source ~/.kshrc` → **read-only K25_ASSETS** | Old `phones.ksh` used `readonly` | Fixed v1.0.8 — idempotent `_K25_PHONES_KSH_SOURCED` guard |
 | `adb connect` fails, TCP open | Stale debug port or missing pair | Fresh pair code + `adb-s25-pair` then `adb-s25` with **live** debug port |
 
 **Pair success example:** `adb pair 100.125.54.1:41183` + code → then **`adb-s25 <debug_port>`** (not `41183` unless main screen shows the same port for connect).
 
 ## Insights Discipline (mandatory)
 
-- Read `$HOME/.agents/skills/k-phones/references/insights.md` before non-trivial work in this skill domain.
-- Update `$HOME/.agents/skills/k-phones/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Read `$HOME/.agents/skills/k-25/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-25/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.1.0 — SSH canonical config migrated to `k-ssh/assets/ssh.conf`. Removed `ssh-kpihx-phones.conf`, `termux-ssh-ubuntu.conf`, `ssh-config` symlink from assets. SSH section now points to `k-ssh`. |
-| 2026-05-26 | [CURSOR] | v1.0.17 — Added `references/s25-hardware.md` (S25 specs + compute/inference routing); doc triad + When to Load. |
-| [SUMMARY] | — | v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |
+| 2026-07-23 | [OPENCODE] | v1.2.2 — Added `assets/termux-boot.apk` + install guide in Termux:Boot section. |
+| [SUMMARY] | — | v1.2.0 Added assets/pve_finder.sh (PVE IP discovery); v1.1.0 SSH canonical config migrated to k-ssh; v1.0.17 Added references/s25-hardware.md; v1.0.15 Termux:Boot + bidirectional SSH; v1.0.8–v1.0.0 sshd autostart, IP Host blocks, tmux/ADB runbooks, tablet TBD. |
