@@ -60,9 +60,11 @@ _verify() {
 }
 
 _deploy_boot_script() {
-  echo "==> SSH: ensure ~/.termux/boot/sshd"
+  echo "==> SSH: deploy ~/.termux/boot/sshd"
   if _ssh_ready; then
-    zsh "${HOME}/.agents/skills/k-25/scripts/termux-deploy-sshd.sh"
+    ssh s25 "mkdir -p ~/.termux/boot"
+    scp "${HOME}/.agents/skills/k-25/assets/termux-boot-sshd" s25:.termux/boot/sshd
+    ssh s25 "chmod +x ~/.termux/boot/sshd"
   fi
 }
 

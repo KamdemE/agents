@@ -61,6 +61,15 @@ vim.opt.mouse = "a"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.clipboard = "unnamedplus"
+-- Force wl-clipboard provider (bypasses tmux OSC 52 — works outside nvim on Wayland)
+if vim.fn.executable("wl-copy") == 1 then
+  vim.g.clipboard = {
+    name = "wl-clipboard",
+    copy = { ["+"] = "wl-copy", ["*"] = "wl-copy" },
+    paste = { ["+"] = "wl-paste --no-newline", ["*"] = "wl-paste --no-newline" },
+    cache_enabled = false,
+  }
+end
 vim.opt.swapfile = true
 vim.opt.undofile = true
 vim.opt.backup = true

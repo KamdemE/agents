@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
@@ -150,6 +150,16 @@ ssh-keygen -p -f ~/.ssh/id_ed25519_<target>
 - **Automation keys** (GitHub/GitLab CI/CD): no passphrase (non-interactive).
   Store in Bitwarden vault for backup, served via deploy keys or CI secrets.
 
+## kshrc Setup (cross-reference)
+
+When a new infra is added, `~/.kshrc` (shell hub) follows the same centralization pattern as SSH:
+
+- **Source of truth:** `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`, `k-25/assets/kshrc`)
+- **`~/.kshrc`** is a **symlink** to that file
+- If the infra skill does not exist, create it following `k-agents` before proceeding
+
+See `k-infras` → New Infra Setup Checklist → step 1b.
+
 ## Key Distribution Workflow
 
 When a new infrastructure is added:
@@ -178,6 +188,5 @@ When a new infrastructure is added:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v1.1.0 — Refined SSH agent strategy: gcr-ssh-agent (passphrase) preferred over Bitwarden SSH agent on all platforms. Documented dual-agent conflict causing "agent refused operation" and slow KDF fallback. |
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-ssh: canonical fragment with all Host blocks, key naming convention analysis, Bitwarden SSH agent integration, passphrase management, distribution workflow. |
-| [SUMMARY] | — | — |
+| 2026-07-24 | [OPENCODE] | v1.2.0 — Added **kshrc Setup** section: `~/.kshrc` symlink pattern (source of truth = infra skill `assets/kshrc`). Cross-ref to k-infras step 1b. |
+| [SUMMARY] | — | v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |

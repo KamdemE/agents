@@ -1,0 +1,123 @@
+# ============================================================
+# .kshrc — KπX Universal Shell Hub
+# ============================================================
+# Source of truth: k-ubuntu/assets/kshrc (this file)
+# $HOME/.kshrc is a SYMLINK to this file.
+# Shell-agnostic — sourced by zsh (.zprofile, .zshrc) and bash (.bashrc).
+# Keep it thin: env vars, PATH, source calls only — not a function library.
+#
+# Deploy (new machine): create infra skill, place this file in assets/kshrc,
+# then: ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
+# ============================================================
+
+
+
+# === npm global prefix (version-agnostic, always writable) ===
+# NPM_CONFIG_PREFIX env var avoids the nvm/prefix conflict in ~/.npmrc
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+# PATH: ~/.npm-global/bin after nvm so it takes priority over nvm-versioned bin
+export PATH="$HOME/.npm-global/bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# === KπX phones (k-25) — adb-s25, adb-s25-pair via ~/.local/bin/ (symlinks) ===
+
+# Edge CDP :9222 — enabled by default via wrapper script + .desktop files (k-browser v3.x)
+
+# === Homebrew (Linuxbrew) ===
+[[ -d /home/linuxbrew/.linuxbrew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# === Python compilation ===
+export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"
+
+# === Auth / SSH ===
+# export SSH_AUTH_SOCK=/home/kpihx/.bitwarden-ssh-agent.sock
+
+# === Ollama Central Config ===
+# Single endpoint — both native and IPEX backends use port 11434
+export OLLAMA_HOST="http://localhost:11434"
+export OLLAMA_URL="$OLLAMA_HOST"
+export OPENCODE_ENABLE_EXA=true
+
+# === Misc env ===
+export CODEX_HOME="$HOME/.codex"
+export EDITOR=nvim
+
+# ── Interactive-only (aliases, history, colors) ─────────────────────────────
+# Everything below requires an interactive shell — skip for scripts/MCPs
+case $- in *i*) ;; *) return ;; esac
+
+# Default directory — open shells in KpihX-Labs workspace
+cd "$HOME/KpihX-Labs"
+
+# History
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Color support
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# Aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+# rm is now a ~/.local/bin/ wrapper (trash-cli). See k-clis/assets/rm
+alias docker-clean="sudo aa-remove-unknown && docker system prune -f"
+alias vpn-dxo='vpn-dxo'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*\([0-9]\+\s*\)|[;&|]\s*alert$//'\'')"'
+# tmux attach in Cursor/VS Code (broken /dev/tty) — see $HOME/Work/sh/tmux-attach
+alias ta='tmux-attach'
+
+# Google Workspace CLI profiles — see k-google/assets/gws-profiles.zsh
+[[ -f "$HOME/.config/gws/gws-profiles.zsh" ]] && source "$HOME/.config/gws/gws-profiles.zsh"
+
+if [ -f ~/.bash_aliases ]; then
+  . ~/.bash_aliases
+fi
+
+# === Tool aliases ===
+[ -x /usr/bin/batcat ] && alias bat=batcat
+
+setopt HIST_IGNORE_SPACE
+
+# ──── Ollama auto-sync for OpenCode ────
+# Wraps ollama pull/rm to auto-update opencode model list
+ollama() {
+  command ollama "$@"
+  local exit_code=$?
+  if [[ "$1" == "pull" || "$1" == "rm" || "$1" == "delete" ]]; then
+    ~/.local/bin/ollama-models-sync 2>/dev/null
+  fi
+  return $exit_code
+}
+
+# ── Machine-local configs (moved from .zshrc) ──────────────────────────────
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# [X-SSH] Zsh Auto-completion
+autoload -Uz compinit && compinit
+source "$HOME/Work/X/xssh/autocomplete.zsh"
+
+# OpenClaw Completion
+[ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
+
+source "$HOME/.config/broot/launcher/bash/br"
+
+# ripgrep config — skip waydroid (root-owned Android container)
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+# ── Auto-tmux (LAST — after full shell init, before prompt) ──────────────
+if [ -z "$TMUX" ] && tmux has-session -t ubuntu 2>/dev/null; then
+  tmux attach -t ubuntu
+fi

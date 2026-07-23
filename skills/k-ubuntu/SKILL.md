@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.5.0"
+  version: "1.6.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -80,7 +80,8 @@ Key facts:
 Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** for full documentation, installation guide, and template assets.
 
 **Ubuntu workstation specifics:**
-- Shell files live at `$HOME/.kshrc`, `$HOME/.zshrc`, `$HOME/.zprofile`, `$HOME/.zshenv`, `$HOME/.bashrc`
+- `$HOME/.kshrc` → **symlink** vers `assets/kshrc` (ce skill). Source de vérité locale.
+- Shell files: `$HOME/.zshrc`, `$HOME/.zprofile`, `$HOME/.zshenv`, `$HOME/.bashrc`
 - `$EDITOR` is set to `nvim` (see `.kshrc`)
 
 **Critical shell — shared tmux (replaces `sui`)**
@@ -423,6 +424,5 @@ Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> se
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v1.5.0 — Added `clean` full documentation section (pipeline, install, ksh usage, config). Unified secrets: all modules source `~/.agents/.env`, local `.env` files removed. Purged `sui/` (legacy). Fixed clean/auto_clean.sh (source, CHAT_ID, DU_EXCLUDES array). Fixed clean/Makefile (removed orphaned git targets). Fixed clean/README.md (schedule, secrets). |
-| 2026-07-23 | [OPENCODE] | v1.4.0 — Full backup_restore docs. Fixed ksh.sh ROOT path, Makefile hardcoded path, systemd @SCRIPT_DIR@. |
-| [SUMMARY] | — | v1.3.0 centralization into `scripts/`; v1.2.0 shell section → k-zsh; v1.1.0 Tailscale, Ollama, WaveTerm. |
+| 2026-07-24 | [OPENCODE] | v1.6.0 — **`~/.kshrc` moved to `assets/kshrc`** (symlink). Shell section updated. |
+| [SUMMARY] | — | v1.5.0 clean docs + secrets unification; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |

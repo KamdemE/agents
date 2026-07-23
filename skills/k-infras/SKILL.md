@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -49,7 +49,8 @@ When setting up a **new infrastructure** (any equipment running a shell), an age
 
 | Order | Skill | Purpose |
 |-------|-------|---------|
-| 1 | **`k-zsh`** | Shell setup: `.kshrc`, `.zshrc`, `.bashrc`, PATH, env vars. Copy `assets/kshrc.base` → `~/.kshrc` then customize. |
+| 1 | **`k-zsh`** | Shell setup: `.zshrc`, `.bashrc`, PATH, env vars. |
+| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). `~/.kshrc` is a **symlink** to that file. If the infra skill does not exist, create it following `k-agents` before proceeding. |
 | 2 | **`k-tailscale`** | Mesh VPN: install, authenticate, verify connectivity. |
 | 3 | **`k-tmux`** | Tmux session per equipment: standard 3-window layout (agents/default/tmp), shared interactive gate. |
 | 4 | **`k-ssh`** | SSH config: canonical `assets/ssh.conf`, key generation, Bitwarden agent, passphrase rules. |
@@ -154,5 +155,6 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-24 | [OPENCODE] | v1.2.0 — **kshrc source of truth pattern**: added step 1b to New Infra Setup Checklist — `~/.kshrc` must be a symlink to `assets/kshrc` in the infra skill. |
 | 2026-07-23 | [OPENCODE] | v1.1.0 — Added **New Infra Setup Checklist** (init skills: k-zsh, k-ssh, k-tmux, k-clis, k-nvim, k-opencode). Every infra skill must reference this. |
 | [SUMMARY] | — | v1.0.1 Removed k-workspace reference; v1.0.0 Created k-infras as master map. |

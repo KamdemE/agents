@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.18.0
+  version: 1.19.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -310,6 +310,16 @@ OpenCode uses a 3-tier hierarchy: **Global config → Agent deltas → Session r
 | 🟠 **Zone 3** | Confiance | 50+ | `awk`, `git`, `docker`, `python3`, `ssh`, `rsync`, `make`, `tar`, `zip`, `ip`, `npm`, `node`, `tee` |
 | 🔴 **Explicit Ask** | Dangereux | 35 | `rm`, `rmdir`, `shred`, `sed`, `pkill`, `sudo`, `chmod`, `dd`, `fdisk`, `systemctl`, `apt`, `passwd` |
 
+### `.env` protection (edit + bash + read — 2026-07-24)
+
+Tous les accès aux fichiers `*.env` sont interdits (`deny`). Les `*.env.example` sont autorisés (`allow`). Appliqué sur `edit`, `bash`, et `read` via `findLast` :
+
+```jsonc
+"edit": { "*": "ask", "*.env": "deny", "*.env.example": "allow" },
+"read": { "*.env": "deny", "*.env.example": "allow" },
+"bash": { /* ... */ "*.env": "deny", "*.env.example": "allow" }
+```
+
 ### MCP permissions
 
 Wildcard allows all, specific destructive tools override to `ask` (last match wins):
@@ -558,6 +568,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-24 | [OPENCODE] | v1.19.0 — **`.env` protection**: `edit` + `bash` + `read` deny `*.env`, allow `*.env.example`. Documented in permission section. |
 | 2026-07-23 | [OPENCODE] | v1.18.0 — **Android/Termux incompatibility documented**: added warning section with root cause analysis, tested workarounds table, and recommended paths for ARM64 Android devices. |
 | [SUMMARY] | — | v1.16.0 KπX managed plugins (suggestions-check + startup-context); v1.14.0 Permission architecture redesign; v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
 

@@ -1,0 +1,51 @@
+#!/usr/bin/env zsh
+# ============================================================
+# .kshrc — S25 Termux shell hub
+# ============================================================
+# Source of truth: k-25/assets/kshrc (this file)
+# $HOME/.kshrc is a SYMLINK to this file.
+# Built from k-zsh/assets/kshrc.base + k-25 specifics.
+#
+# Deploy (S25): ln -sf ~/.agents/skills/k-25/assets/kshrc ~/.kshrc
+# ============================================================
+
+# ── Interactive-only (aliases, history, colors) ─────────────
+case $- in *i*) ;; *) return ;; esac
+
+# History
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Color support
+if command -v dircolors >/dev/null 2>&1; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# Aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ta='tmux-attach'
+
+if [ -f ~/.bash_aliases ]; then
+  . ~/.bash_aliases
+fi
+
+# Tool aliases
+command -v batcat >/dev/null 2>&1 && alias bat=batcat
+command -v bat >/dev/null 2>&1 && alias bat=bat
+
+setopt HIST_IGNORE_SPACE
+
+# === k-25 — sshd autostart (every Termux shell) ===
+[[ -f ~/.agents/skills/k-25/assets/k25-remote.sh ]] && . ~/.agents/skills/k-25/assets/k25-remote.sh
+
+# ── Auto-tmux (S25 local session) ───────────────────────────
+if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+  tmux has-session -t s25 2>/dev/null && tmux attach -t s25
+fi

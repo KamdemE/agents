@@ -33,32 +33,20 @@ Fix = **start `sshd` again** or automate it (below).
 
 ## Persistence — two complementary hooks
 
-| When | Mechanism | Path on phone |
-|------|-----------|---------------|
-| **Every Termux shell** (app reopen) | Source autostart in zsh | `~/.k25-remote.zsh` ← `termux-sshd-autostart.sh` |
-| **Android boot** | Termux:Boot | `~/.termux/boot/sshd` ← `termux-boot-sshd` |
+| When | Mechanism | Source |
+|------|-----------|--------|
+| **Every Termux shell** (app reopen) | `k-25/assets/k25-remote.sh` sourced via `kshrc` | See setup in SKILL.md |
+| **Android boot** | Termux:Boot | `assets/termux-boot-sshd` → `~/.termux/boot/sshd` |
 
-### A — Autostart on shell open (recommended first)
+### A — Autostart on shell open (simplified)
 
-Add to Termux (manual or deploy script):
-
-```bash
-# In ~/.k25-remote.zsh (or paste termux-sshd-autostart.sh from k-25/assets/)
-_k25_sshd_autostart() {
-  command -v sshd >/dev/null 2>&1 || return 0
-  if ss -ltn 2>/dev/null | grep -q ':8022 '; then
-    return 0
-  fi
-  sshd 2>/dev/null || true
-}
-_k25_sshd_autostart
-```
-
-Hook `~/.zshrc`:
+Setup in one command (run on S25):
 
 ```bash
-[[ -f ~/.k25-remote.zsh ]] && . ~/.k25-remote.zsh
+ln -sf ~/.agents/skills/k-25/assets/kshrc ~/.kshrc
 ```
+
+The `kshrc` sources `~/.agents/skills/k-25/assets/k25-remote.sh` directly, which contains the sshd autostart function. No deploy scripts, no zshrc hooks, no manual file creation.
 
 **Test:** close Termux completely → reopen → one shell opens → from PC: `ssh s25` (no manual `sshd`).
 
@@ -94,14 +82,6 @@ Boot scripts run only after boot; they do **not** replace (A) when you only reop
 | **Manual** | F-Droid → Termux:Boot → open once |
 
 APK staged by script: `/sdcard/Download/termux-boot.apk` (F-Droid `com.termux.boot` v0.8.1).
-
-## Deploy from Ubuntu (when `ssh s25` works once)
-
-```bash
-zsh "$HOME/.agents/skills/k-25/scripts/termux-deploy-sshd.sh"
-```
-
-Pushes autostart + boot script + starts `sshd` immediately.
 
 ## Manual start (debug)
 

@@ -58,7 +58,7 @@ send_telegram() {
 
     curl -s -X POST \
         "https://api.telegram.org/bot${TELEGRAM_S25_TOKEN}/sendMessage" \
-        -d chat_id="${CHAT_ID}" \
+        -d chat_id="${TELEGRAM_CHAT_ID}" \
         -d text="${emoji} **${title}** ${emoji}%0A%0A${msg}" \
         -d parse_mode="Markdown" > /dev/null 2>&1
 }
