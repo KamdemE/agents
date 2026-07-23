@@ -6,6 +6,9 @@ lancedb/
 *.sqlite-wal
 *.sqlite-shm
 
+# Editor backup files (nvim, etc.)
+*~
+
 # OS artifacts
 .DS_Store
 
