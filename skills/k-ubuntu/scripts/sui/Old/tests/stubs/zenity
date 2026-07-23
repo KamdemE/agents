@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Stub zenity for automated tests. Forms mode is triggered by --forms.
+# Response lines: exitcode|ACTION|comment|password (pipe-separated, password may be empty).
+# File: SUI_STUB_ZENITY_RESPONSES; counter: SUI_TEST_STATE_DIR/zenity_count (init to 0).
+set -uo pipefail
+
+state_dir="${SUI_TEST_STATE_DIR:?SUI_TEST_STATE_DIR not set}"
+count_file="$state_dir/zenity_count"
+resp_file="${SUI_STUB_ZENITY_RESPONSES:?SUI_STUB_ZENITY_RESPONSES not set}"
+
+forms=0
+for a in "$@"; do
+  if [[ "$a" == "--forms" ]]; then
+    forms=1
+    break
+  fi
+done
+
+if [[ "$forms" -eq 1 ]]; then
+  prev="$(<"$count_file")"
+  echo $((prev + 1)) > "$count_file"
+  line="$(sed -n "$((prev + 1))p" "$resp_file" || true)"
+  if [[ -z "${line// }" ]]; then
+    exit 1
+  fi
+  IFS='|' read -r zec action comment password <<<"$line" || true
+  SEP=$'\x1e'
+  printf '%s' "${action}${SEP}${comment}${SEP}${password}"
+  exit "${zec:-0}"
+fi
+
+# Auth-failure error popups and any other zenity mode: no extra output.
+exit 0

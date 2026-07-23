@@ -25,7 +25,7 @@
 | **WhatsApp** | `k-whatsapp` | whats-mcp (HTTP preferred) | `k-whatsapp/references/mcp.md` |
 | **LinkedIn** | `k-linkedin` | linkedin-mcp | `k-linkedin/references/mcp.md` |
 | **Telegram** | `k-tg` | `tg` CLI (Telethon + Bot API) | `k-tg/SKILL.md` |
-| **Secrets** | `k-bw` | Vaultwarden, `bw-env` | all OAuth / API keys |
+| **Secrets** | `k-bw` | Vaultwarden, `Vaultwarden` | all OAuth / API keys |
 | **Homelab edge** | `kpihx-labs` | Traefik, Docker, GitLab | not public cloud |
 | **Tailscale API** | `ts-proxy` project | CLI `do` + JSON payloads | `$HOME/Work/KpihX-Labs/Fluid/ts_proxy/CONTRACT.md` |
 

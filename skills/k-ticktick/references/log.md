@@ -45,7 +45,7 @@ Purpose: detailed runtime execution log for TickTick operations (different from 
 | 2026-05-06T14:33:58Z | [ANTIGRAVITY] | tick-mcp stdio | `complete_task` | task=`📘 PSC — Rapport final...` | completed | id `69d653dd8f089081627cb56b` | final report layout and branding finalized |
 | 2026-05-06T14:34:00Z | [ANTIGRAVITY] | tick-mcp stdio | `complete_task` | task=`🇺🇸🇨🇦🇬🇧 4A International...` | completed | id `69adef188f08b6786d8d3cd8` | DRI presentation completed in April |
 | 2026-05-06T14:34:05Z | [ANTIGRAVITY] | tick-mcp stdio | `complete_task` | task=`🧪 CSC_43042_EP — TD5...` | completed | id `69d642168f089081627a31a4` | past session from April marked done |
-| 2026-05-23T16:10:00Z | [ANTIGRAVITY] | tick-mcp stdio | `list_projects` | n/a | failed (blocked) | n/a | TICKTICK_API_TOKEN is not available. Secrets are locked in bw-env. |
+| 2026-05-23T16:10:00Z | [ANTIGRAVITY] | tick-mcp stdio | `list_projects` | n/a | failed (blocked) | n/a | TICKTICK_API_TOKEN is not available. Secrets are locked in Vaultwarden. |
 | 2026-05-23T16:13:00Z | [ANTIGRAVITY] | tick-mcp stdio | `list_projects` + `query_notes` + `query_tasks` | n/a | success | multiple | Queried notes and tasks to retrieve full UEs name mapping. |
 | 2026-05-23T16:22:00Z | [ANTIGRAVITY] | tick-mcp stdio | `create_task` | title=`📝 Examen — ...` (4 tasks) | success | ids=`6a11d4248f08c8446a7bab2b`, `6a11d4278f08f2bca9e7c213`, `6a11d4298f08c8446a7babd2`, `6a11d42c8f08462348763df9` | Created 4 exam tasks with custom reminders and PC groups. |
 | 2026-05-23T16:24:00Z | [ANTIGRAVITY] | tick-mcp stdio | `update_task` + `create_task` | task_id=`69bd06d88f087c9e10117c55` (Espagnol) and created Anglais | success | multiple | Updated Espagnol task to beginner specs and created English exam task. |

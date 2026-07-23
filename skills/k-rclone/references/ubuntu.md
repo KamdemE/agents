@@ -28,4 +28,4 @@ Service templates: `assets/rclone-gdrive.service` in this skill.
 
 ## SFTP Remote
 
-`homelab-sftp:` connects to `ivann@kpihx-labs` port 2222 via Tailscale. Requires SSH key access.
+`pve:` connects to `ivann@kpihx-labs` port 2222 via Tailscale. Requires SSH key access.

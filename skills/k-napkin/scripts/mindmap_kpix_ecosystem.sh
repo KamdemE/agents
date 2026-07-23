@@ -28,6 +28,6 @@ cat > /tmp/napkin_content.md << 'EOF'
 ## Shared Infrastructure
 - AGENTS.md global kernel
 - $HOME/.agents/skills/ single source of truth
-- bw-env secrets in RAM
+- Vaultwarden secrets in RAM
 EOF
 napkin_gen /tmp/napkin_content.md mindmap svg

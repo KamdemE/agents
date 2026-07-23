@@ -1,6 +1,6 @@
 # Social / video dev platforms — KπX registry
 
-> **Secrets:** Vaultwarden → **`bw-env`** (primary). **JSON fallbacks** live under `$HOME/.config/kpihx/` — **never commit** (outside `.agents/` git).  
+> **Secrets:** Vaultwarden → **`Vaultwarden`** (primary). **JSON fallbacks** live under `$HOME/.config/kpihx/` — **never commit** (outside `.agents/` git).  
 > **Hub skill:** **`k-media`** (human entry point) · **no `k-publish` skill** — cross-post automation is vision-only → `k-context/references/vision/social-media-apis.md`.
 
 ## Skill map (no duplication)
@@ -22,7 +22,7 @@
 | **Meta Dev** | `META_APP_ID`, `META_APP_SECRET`, `META_BUSINESS_ID`, `META_WA_PHONE_NUMBER_ID`, `META_WA_NUMBER` | `meta/credentials.json` |
 | **X Dev** | `X_API_KEY`, `X_API_KEY_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` | `x/credentials.json` |
 
-Inject via **`bw-env`** — gate: `references/token-gate.md`. While `bw-env` mutates, agents **must use JSON** (`--creds-file` on CLIs), not skip them.
+Inject via **`Vaultwarden`** — gate: `references/token-gate.md`. While `Vaultwarden` mutates, agents **must use JSON** (`--creds-file` on CLIs), not skip them.
 
 ## Live status (2026-05-25)
 

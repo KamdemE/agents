@@ -5,19 +5,19 @@
 
 ---
 
-## bw-env (WSL-only)
+## Vaultwarden (WSL-only)
 
-`bw-env` is Linux-specific (`/dev/shm`, shell injection via `.kshrc`). On Windows, it runs **exclusively inside WSL**.
+`Vaultwarden` is Linux-specific (`/dev/shm`, shell injection via `.kshrc`). On Windows, it runs **exclusively inside WSL**.
 
 **Prerequisites:**
 1. WSL2 with Ubuntu installed
 2. The `.agents/` kernel cloned in WSL
 3. `.kshrc` sourced in WSL shell
 
-`bw-env` commands work identically inside WSL:
+`Vaultwarden` commands work identically inside WSL:
 ```bash
-bw-env unlock   # prompts for master password
-bw-env sync     # syncs vault
+Vaultwarden unlock   # prompts for master password
+Vaultwarden sync     # syncs vault
 ```
 
 ## bw-proxy (Cross-platform)

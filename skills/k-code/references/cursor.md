@@ -43,5 +43,5 @@ The Cursor-specific script in `$HOME/.agents/skills/k-code/scripts/cursor/`:
 
 If Cursor experiences visual bugs, freezing, or state errors, it shares the same Electron caching structure as VSCode.
 
-- The `clean_cursor.sh` script located in `$HOME/Work/sh/clean/` is designed specifically for this purpose.
-- Use `$HOME/Work/sh/clean/clean_cursor.sh -p` to perform a deep purge of its rendering and compiled JavaScript caches.
+- The `clean_cursor.sh` script located in `$HOME/.agents/skills/k-ubuntu/scripts/clean/` is designed specifically for this purpose.
+- Use `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_cursor.sh -p` to perform a deep purge of its rendering and compiled JavaScript caches.

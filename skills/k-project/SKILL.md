@@ -166,7 +166,7 @@ Stored in `assets/` — copy to project root as `Makefile` and adapt:
 For scripts/shell/misc projects with no package manager → use `k-git/assets/Makefile.git` (baseline git workflow only).
 See also **Project Init — Bash/Shell** below.
 
-**Publish secrets** (inject via bw-env before running):
+**Publish secrets** (ensure environment is loaded):
 - `Makefile.uv` → `UV_PUBLISH_TOKEN`
 - `Makefile.npm-bun` → `NPM_TOKEN` (or `BUN_AUTH_TOKEN`)
 

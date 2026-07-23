@@ -286,8 +286,8 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-04-04 | [COPILOT] | v2.38.0 — fix session_guard.py deleted-file crash; clean k-openclaw from claude.json · `$HOME/.agents/hooks/core/` |
 | 2026-04-04 | [COPILOT] | v2.37.0 — full OpenClaw purge + 5 YAML fixes; k-openclaw→deactive · `$HOME/.agents/skills/` |
 | 2026-04-04 | [CODEX] | v2.36.0 — retired OpenClaw from active context map · `$HOME/.agents/skills/` |
-| 2026-04-04 | [COPILOT] | v2.34.1 — bw_env robustness; committed+pushed · `$HOME/Work/sh/bw_env/` |
-| 2026-04-04 | [COPILOT] | v2.33.0 — renamed `bw-env/` → `bw_env/` · `$HOME/Work/sh/bw_env/` |
+| 2026-04-04 | [COPILOT] | v2.34.1 — Vaultwarden robustness; committed+pushed · `$HOME/Work/sh/Vaultwarden/` |
+| 2026-04-04 | [COPILOT] | v2.33.0 — renamed `Vaultwarden/` → `Vaultwarden/` · `$HOME/Work/sh/Vaultwarden/` |
 | 2026-05-04 | [ANTIGRAVITY] | v2.85.86 — Optimisation et Contrôle project added and tasks updated. |
 | 2026-05-04 | [ANTIGRAVITY] | v2.85.84 — Linguaskill folder moved to Academic centralized root. |
 | 2026-05-04 | [ANTIGRAVITY] | v2.85.83 — Linguaskill validation and submission. |

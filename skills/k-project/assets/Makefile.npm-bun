@@ -25,9 +25,9 @@ lint:  ## Run linter (adjust to eslint/biome/etc.)
 build:  ## Bundle with bun build (adjust entry/outdir as needed)
 	@rm -rf dist && bun build src/index.ts --outdir dist --target node
 
-publish: build  ## Publish to npm registry (requires NPM_TOKEN via bw-env)
+publish: build  ## Publish to npm registry (requires NPM_TOKEN via Vaultwarden)
 	@$(ZSH_LOGIN) 'if ! env | grep -q "^NPM_TOKEN="; then \
-		echo "NPM_TOKEN missing — run bw-env first"; exit 1; fi; \
+		echo "NPM_TOKEN missing — run Vaultwarden first"; exit 1; fi; \
 	bun publish'
 # Note: bun publish uses NPM_TOKEN from env, or BUN_AUTH_TOKEN if set.
 # Ensure package.json has "publishConfig": { "access": "public" } for scoped packages.

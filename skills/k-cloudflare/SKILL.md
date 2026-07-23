@@ -90,7 +90,7 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 
 ## Credentials
 
-- **`CF_API_TOKEN`** — Vault `GLOBAL_ENV_VARS` → **`bw-env`** · gate: **`k-clis`** → `references/token-gate.md`.
+- **`CF_API_TOKEN`** — Vault `GLOBAL_ENV_VARS` → env source · gate: **`k-clis`** → `references/token-gate.md`.
 - **Tunnel run token** — homelab server / Vault only — never on workstation git repos.
 
 ## Cross-skills

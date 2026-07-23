@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Stub ssh for remote sui tests. Handles the exact remote command shapes used by sui.sh.
+set -uo pipefail
+
+state_dir="${SUI_TEST_STATE_DIR:?}"
+args=("$@")
+target=""
+remote=""
+for ((i = 0; i < ${#args[@]}; i++)); do
+  if [[ "${args[$i]}" == "--" ]]; then
+    target="${args[$((i + 1))]}"
+    remote="${args[$((i + 2))]}"
+    break
+  fi
+done
+
+if [[ -z "$target" || -z "$remote" ]]; then
+  printf '%s\n' "stub ssh: could not parse target/command" >&2
+  exit 99
+fi
+
+if [[ "$remote" == "id -u" ]]; then
+  printf '%s\n' "1000"
+  exit 0
+fi
+
+if [[ "$remote" == "sudo -n -k" ]]; then
+  exit 0
+fi
+
+if [[ "$remote" == *"sudo -S"* && "$remote" == *"bash -s"* ]]; then
+  modes="${SUI_STUB_REMOTE_SUDO_MODES:?}"
+  countf="$state_dir/ssh_remote_sudo_count"
+  prev="$(<"$countf")"
+  echo $((prev + 1)) >"$countf"
+  read -r _pw || true
+  cat >/dev/null
+  mode="$(sed -n "$((prev + 1))p" "$modes" || true)"
+  mode="${mode//$'\r'/}"
+  mode="${mode//$'\n'/}"
+  case "$mode" in
+    ok) exit 0 ;;
+    auth)
+      printf '%s\n' "sudo: Authentication failed, try again." >&2
+      exit 1
+      ;;
+    notfound)
+      printf '%s\n' "stub: remote non-auth command error" >&2
+      exit 127
+      ;;
+    *)
+      printf '%s\n' "stub ssh sudo: unknown mode ${mode:-<empty>}" >&2
+      exit 98
+      ;;
+  esac
+fi
+
+if [[ "$remote" == "bash -s" ]]; then
+  cat >/dev/null
+  exit 0
+fi
+
+printf '%s\n' "stub ssh: unhandled remote command: $remote" >&2
+exit 97

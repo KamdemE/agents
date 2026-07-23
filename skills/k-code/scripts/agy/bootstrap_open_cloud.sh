@@ -20,7 +20,7 @@ Usage: bootstrap_open_cloud.sh [--launch [args...]] [--install-desktop] [--help]
   --install-desktop  Write ~/.local/share/applications/kpihx-antigravity-open-cloud.desktop
   --help           Show this text.
 
-Secrets: set MISTRAL_API_KEY in ~/.continue/.env (recommended) or export via ~/.kshrc / bw-env
+Secrets: set MISTRAL_API_KEY in ~/.continue/.env (recommended) or export via ~/.kshrc / Vaultwarden
          before --launch so Continue can resolve ${{ secrets.MISTRAL_API_KEY }}.
 EOF
 }
@@ -56,11 +56,11 @@ ensure_env_template() {
   fi
   cat >"${envf}" <<'EOF'
 # Continue resolves ${{ secrets.MISTRAL_API_KEY }} from this file (global).
-# Map Bitwarden custom field "MISTRAL API Key" to MISTRAL_API_KEY via bw-env, or paste for local-only IDE launches.
+# Map Bitwarden custom field "MISTRAL API Key" to MISTRAL_API_KEY via Vaultwarden, or paste for local-only IDE launches.
 MISTRAL_API_KEY=
 EOF
   chmod 0600 "${envf}"
-  echo "Created template ${envf} — set MISTRAL_API_KEY (or use bw-env + login shell)."
+  echo "Created template ${envf} — set MISTRAL_API_KEY (or use Vaultwarden + login shell)."
 }
 
 main() {
@@ -112,7 +112,7 @@ main() {
   fi
 
   if [[ "${do_launch}" -eq 1 ]]; then
-    # Desktop/menu launch uses launch_agy_ide.sh (avoids set -u + bw_env traps from .kshrc).
+    # Desktop/menu launch uses launch_agy_ide.sh (avoids set -u + secrets traps from .kshrc).
     # Terminal bootstrap may still load full shell when KπX runs this script interactively.
     if [[ -t 0 ]] && [[ -f "${HOME}/.kshrc" ]]; then
       set +u

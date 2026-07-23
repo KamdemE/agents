@@ -77,7 +77,7 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 | **Downloaded installers** | `miniconda.sh`, `rustup-init`, temp `.deb`, `ollama_install.sh` |
 | **Temp binaries/tools** | a binary fetched for a single task, never installed |
 | **Exploration/debug artifacts** | `tmux capture-pane -S -` outputs, diagnostic logs, JSON dumps |
-| **Ephemeral token/secret exports** | before import into Vaultwarden/bw-env — then DELETE |
+| **Ephemeral token/secret exports** | before import into Vaultwarden — then DELETE |
 | **Intermediate generation files** | temp renders, conversions, extractions |
 | **Throwaway tests/experiments** | `test-idea.py`, `scratch.ipynb` imported nowhere |
 
@@ -99,7 +99,7 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 - **`/tmp/` is shared by all agents** — name directories to avoid collisions
 - **Cleanup: not mandatory** (reboot = clean), but if sensitive (token, secret) → delete after use
 - **Exception:** if KπX explicitly requests a path, follow KπX
-- **Exception:** `bw-env`/Vaultwarden exports follow their own rule (`/tmp/*.env` → import + delete)
+- **Exception:** Vaultwarden exports follow their own rule (`/tmp/*.env` → import + delete)
 
 ### What does NOT go in `/tmp/`
 

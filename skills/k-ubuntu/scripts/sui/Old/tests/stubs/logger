@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Captures audit messages for assertions (instead of real syslog).
+set -uo pipefail
+state_dir="${SUI_TEST_STATE_DIR:?}"
+logf="$state_dir/logger.log"
+msg=""
+seen_ddash=0
+for a in "$@"; do
+  if [[ "$seen_ddash" -eq 1 ]]; then
+    msg="$a"
+  fi
+  if [[ "$a" == "--" ]]; then
+    seen_ddash=1
+  fi
+done
+printf '%s\n' "$msg" >>"$logf"
+exit 0

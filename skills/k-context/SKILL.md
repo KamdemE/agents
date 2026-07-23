@@ -107,7 +107,7 @@ allowed-tools: "Bash(*), *"
 || **SexeModel** | 🟢 ACTIVE — Scraper tasks 1-6 completed; background scraping for region 75 (Paris) running 45-90 min. Results to be verified on completion.
 | **LiveMem** | 🧠 **BRAINSTORMING** — Brain-inspired living field paradigm (BRAINSTORMING.2): Hebbian learning, multi-modal cortices, continuous flux, internal thought loop. Code reset — architecture docs intact. Next: formal math framework + first prototype "Papa" scenario. | `$HOME/Work/AI/livemem/` |
 
-| **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; bw-env+ollama-ipex closed; `.agents/` refonte done |
+| **[ARCHIVE]** | Stable/completed items condensed | AppArmor (Option A done); Centralized Hooks; Optimization map; QMD stable; DXO accepted; ollama-ipex closed; `.agents/` refonte done |
 
 ## Brainstorm Registry
 

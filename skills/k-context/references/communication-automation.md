@@ -182,7 +182,7 @@ Human role: **approve storyboard + voice script** — not operate UI per frame.
 - 1080p, JetBrains Mono, dark theme aligned with KπX IDE palette
 - Captions burned-in (FR/EN) from script
 - Commands copy-paste true (CI-verified where possible)
-- No real secrets in tapes (placeholders, `bw-env` mentioned not shown)
+- No real secrets in tapes (placeholders, `Vaultwarden` mentioned not shown)
 
 ### Phases
 

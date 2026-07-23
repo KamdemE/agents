@@ -73,7 +73,7 @@ One central hub (`.kshrc`) sourced by every shell. No duplicated env vars, no PA
 |--------|-------|
 | Duplicated PATH in `.zshrc`, `.bashrc`, `.profile` | Single `.kshrc` — one edit updates everything |
 | Bash and zsh drift apart over time | Identical env on both shells |
-| Secrets (bw-env) loaded in N different files | One idempotent guard in `.kshrc` |
+| Secrets loaded in N different files | One idempotent guard in `.kshrc` |
 | Each new machine means copy-pasting dotfiles | Same `.kshrc.base` template everywhere |
 
 ---
@@ -90,7 +90,7 @@ Then edit `~/.kshrc` and add:
 - **PATH entries** for binaries specific to this machine
 - **Env vars** (EDITOR, language, tool configs)
 - **Source calls** for skills assets (phones, gws profiles, etc.)
-- **bw-env** secret injection (see `k-bw`)
+- **Vaultwarden** secret injection (see `k-bw`)
 
 > **Rule of thumb:** if a PATH or env var could serve another KπX machine, add it to `.kshrc.base` instead so the template stays rich. If it's truly local (hardware paths, temporary experiments), add it directly to `~/.kshrc`.
 
@@ -125,8 +125,8 @@ export EDITOR="micro"
 # Source skill assets
 [[ -f "$HOME/.agents/skills/k-25/assets/phones.ksh" ]] && source "$_"
 
-# bw-env (idempotent)
-[ -f "$HOME/Work/sh/bw_env profile.sh" ] && source "$_"
+# Secrets (idempotent guard)
+# [ -f "$HOME/.agents/.env" ] && source "$HOME/.agents/.env"
 
 # ── Interactive-only below ──
 case $- in *i*) ;; *) return ;; esac
@@ -136,7 +136,7 @@ case $- in *i*) ;; *) return ;; esac
 **Rules:**
 1. **No bloat** — .kshrc is not a function library. Keep env vars, PATH, and source calls only.
 2. **Prefer installable CLIs** (uv tool, bun link, packages) over sourced shell helper files.
-3. **bw-env guard** — `BW_ENV_LOADED=$$` prevents infinite reload loops (PID-scoped).
+3. **Secrets guard** — idempotent check prevents infinite reload loops.
 
 ---
 

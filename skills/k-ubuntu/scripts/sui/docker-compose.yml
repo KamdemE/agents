@@ -1,0 +1,12 @@
+services:
+  sui:
+    build: .
+    image: kpihx/sui:latest
+    volumes:
+      - .:/app
+      - ~/.sui:/root/.sui
+      - /tmp/sui:/tmp/sui
+    environment:
+      - PYTHONUNBUFFERED=1
+    network_mode: host
+    privileged: true

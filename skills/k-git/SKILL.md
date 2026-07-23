@@ -35,7 +35,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 Generic git workflow — push, status, log, lint. Use for any project.
 Copy to project root as `Makefile`, adapt as needed.
 
-Shared conventions across all Makefiles: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (bw-env secrets), dynamic `push` loop over `git remote`.
+Shared conventions across all Makefiles: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (login shell for secrets), dynamic `push` loop over `git remote`.
 
 **Optional add-ons** (not in template — add as needed):
 

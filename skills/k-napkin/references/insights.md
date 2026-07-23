@@ -12,4 +12,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 ## Insights
 
 - Initial baseline created automatically from insights governance standard.
-- **2026-05-14 (Cursor agent shell):** `NAPKIN_API_KEY` was unset even after `zsh -lic`; Napkin API could not run. For dense, text-heavy sports / data posters, a hand-authored **SVG** in-repo (`media/*.svg`) delivered sharper, zoom-stable layouts than a single raster gen image; re-offer Napkin once `bw-env` / login shell loads the key.
+- **2026-05-14 (Cursor agent shell):** `NAPKIN_API_KEY` was unset even after `zsh -lic`; Napkin API could not run. For dense, text-heavy sports / data posters, a hand-authored **SVG** in-repo (`media/*.svg`) delivered sharper, zoom-stable layouts than a single raster gen image; re-offer Napkin once `Vaultwarden` / login shell loads the key.

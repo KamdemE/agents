@@ -35,7 +35,7 @@ $HOME/.agents/skills/k-code/scripts/agy/install_agy_components.sh
 $HOME/.agents/skills/k-code/scripts/agy/wire_short_launchers.sh   # repair symlinks only
 $HOME/.agents/skills/k-code/scripts/agy/sync_agy.sh
 $HOME/.agents/skills/k-code/scripts/agy/bootstrap_open_cloud.sh --install-desktop
-$HOME/Work/sh/clean/clean_agy.sh -i
+$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_agy.sh -i
 ```
 
 **Legacy apt:** installer removes `apt install antigravity` by default (`--skip-apt-remove` to keep deb).
@@ -99,7 +99,7 @@ Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher)
 
 ## Cache cleanup
 
-`$HOME/Work/sh/clean/clean_agy.sh` → `$HOME/.config/Antigravity/` — `-i` infos · `-s` safe · `-p` purge · `-l` live
+`$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_agy.sh` → `$HOME/.config/Antigravity/` — `-i` infos · `-s` safe · `-p` purge · `-l` live
 
 ## IDE UI (Planning / Fast)
 

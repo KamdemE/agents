@@ -1,0 +1,11 @@
+# Sovereign Sui Configuration
+hitl:
+  host: "127.0.0.1"
+  port: 1143
+  timeout_seconds: 120
+  max_retries: 5
+  required_rationale: true
+
+elevation:
+  backend: "auto" # [auto, sudo, gsudo, powershell]
+  shell_wrap: true

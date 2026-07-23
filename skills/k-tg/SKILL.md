@@ -20,7 +20,7 @@ Productivity **orchestration** channel (capture bots, infra bridges, Telethon us
 | Leg | Tool | Notes |
 |-----|------|--------|
 | User + DMs | `tg user` (Telethon) | Session `$HOME/.config/tg/user.session` |
-| Capture / bridges | `tg` Bot API + tokens | `bw-env` / Vaultwarden — never print tokens |
+| Capture / bridges | `tg` Bot API + tokens | Vaultwarden — never print tokens |
 
 ## Operating focus
 
@@ -55,7 +55,7 @@ When KπX refers to a **send**, **envoi**, **forward**, or **message to the bot*
 - **BotFather only** for bot create/delete/token/privacy/commands — entity id **`93372553`**.
 - **Run-speed policy (immediate minimal):** during active runs, log only **critical** facts (bot id, action, error). Put narratives into deferred curation or `references/log.md` once per slice.
 - **No secret exfiltration:** never print full **`TELEGRAM_*_TOKEN`** values in chat; use Vaultwarden names (`TELEGRAM_GENERAL_TOKEN`, `TELEGRAM_ISSUES_TOKEN`, …).
-- **`tg send` from non-interactive / agent shells:** use `zsh -l -c '…'` so **`TELEGRAM_*_TOKEN`** values load from `$HOME/.kshrc` / `bw-env` hooks. If `tg send` fails with **No chat ID**, **`CHAT_ID` is often not exported globally** — prefix the command with `set -a; source "$HOME/Work/sh/backup_restore/.env"; set +a` (Phoenix backup module defines the personal notify target alongside the Ubuntu token). Never print `.env` contents.
+- **`tg send` from non-interactive / agent shells:** use `zsh -l -c '…'` so **`TELEGRAM_*_TOKEN`** values load from `$HOME/.kshrc`. If `tg send` fails with **No chat ID**, **`CHAT_ID` is often not exported globally** — prefix the command with `set -a; source "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env"; set +a` (Phoenix backup module defines the personal notify target alongside the Ubuntu token). Never print `.env` contents.
 - **What’s up / Telegram — implementation gate (mandatory):** You must **autonomously perform ALL read-only investigations** (reading screenshots/media, server exploration via SSH, parsing logs and diagnostic files). **Do not require a "go" for inspection**. You are obliged to investigate as deeply as possible yourself before making proposals. If privileged access is required, use the **shared tmux gate** (`k-tmux`) — never `sui` (deprecated) — and poll the pane ≥30s for KπX to approve `sudo`/SSH in tmux. The slice ends at **concrete, pragmatic** recommendations and **action tracks** (“pistes”) only. **Do not implement** remediations (e.g., no TickTick API writes, no mail sends, no service/config mutative changes) **until** KπX gives explicit go-ahead. **Exception:** updating this skill’s **`references/telegram-processed-state.md`** and **`references/log.md`** is bookkeeping, not remediation.
 
 ## What's up — Telegram slice (single assistant turn, **k-tg only**)
@@ -69,7 +69,7 @@ Treat this as a **batch deep investigation** and stop only once the relevant mes
 ### Step 0 — Preconditions (blocking)
 
 1. **`tg` / Telethon:** `tg user me` must succeed (session at `$HOME/.config/tg/user.session`).
-2. **Capture bots (recommended):** `TELEGRAM_GENERAL_TOKEN` and `TELEGRAM_ISSUES_TOKEN` available (e.g. via `bw-env`) so `tg updates --bot general` / `--bot issues` works.
+2. **Capture bots (recommended):** `TELEGRAM_GENERAL_TOKEN` and `TELEGRAM_ISSUES_TOKEN` available (loaded via `.kshrc` or env source) so `tg updates --bot general` / `--bot issues` works.
 3. **Cross-skills:** load **`k-homelab`** before **any** SSH / docker-host / Proxmox investigation triggered by Homelab bot alerts; load **`k-ticktick`** / **`k-drive`** when suggestions include tasks or `Gdrive_X` placement.
 
 If Telethon is broken: **STOP** and give recovery steps (`tg user setup`, session file, API id/hash). Do **not** emit the *What's up* body until Step 0 passes or KπX scopes a reduced slice.
@@ -156,7 +156,7 @@ Also: `TELEGRAM_CHAT_ID` / per-bot `default_chat` in `$HOME/.config/tg/config.ya
 | **Homelab** | N8N | `8724946664` | `@k_n8n_x_bot` | Active |
 | **Homelab** | Flow | `(managed)` | `@kflow_homelab_bot` | Active |
 | **OpenClaw** | OpenClaw | `8948919586` | `@kpihx_openclaw_bot` | Active — **OpenClaw gateway** (`TELEGRAM_BOT_TOKEN` in `$HOME/.config/openclaw/gateway.env`; ephemeral export `/tmp/claw.env`) |
-| **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active — **infra only** (`/clean`, `/status`, `/backup` via `$HOME/Work/sh/bot.py`; **not** OpenClaw) |
+| **Ubuntu** | Ubuntu | `8331655781` | `@k_ubuntu_bot` | Active — **infra only** (`/clean`, `/status`, `/backup` via `$HOME/.agents/skills/k-ubuntu/scripts/bot.py`; **not** OpenClaw) |
 | **Ubuntu** | Openclaw Watcher | `8393219020` | — | Inactive (legacy) |
 
 *Third-party bots (e.g. “Nano Banana”, “ChatGPT”) are **not** KπX infra — exclude from *What's up* unless KπX asks.*
@@ -210,7 +210,7 @@ tg user send 93372553 "@your_bot_username"
 
 **Audit DM (no bot token):** `tg user read <bot_user_id> --limit 50`
 
-**Ephemeral token files:** one-off exports may land under `$TMPDIR/tokens/` (e.g. `/tmp/tokens/*.env`) or **`/tmp/claw.env`** (OpenClaw bot) — **chmod 600**, import into Vaultwarden / `bw-env`, then **delete** local copies.
+**Ephemeral token files:** one-off exports may land under `$TMPDIR/tokens/` (e.g. `/tmp/tokens/*.env`) or **`/tmp/claw.env`** (OpenClaw bot) — **chmod 600**, import into Vaultwarden, then **delete** local copies.
 
 **Full token from BotFather (CLI):** use the **`uv tool install` shim** python, not the project venv — `$(dirname $(readlink -f $(which tg)))/python3 -c "from tg import user as u; …"` with `u.get_messages(93372553)` and regex on message text (display in `tg user read` truncates).
 

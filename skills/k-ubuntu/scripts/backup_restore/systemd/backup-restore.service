@@ -1,0 +1,14 @@
+[Unit]
+Description=Workstation Backup — Phoenix Protocol
+After=network.target local-fs.target
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/.env
+ExecStart=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/backup_workstation.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

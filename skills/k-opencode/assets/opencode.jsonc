@@ -5,7 +5,7 @@
   "autoupdate": "notify",
   "shell": "zsh",
   "model": "opencode/deepseek-v4-flash-free",
-  "small_model": "opencode/deepseek-v4-flash-free",
+  "small_model": "opencode-go/deepseek-v4-flash",
   "default_agent": "Colab",
 
   // ──── GLOBAL permission — single source of truth ────
@@ -15,6 +15,12 @@
     "webfetch": "allow",
     "doom_loop": "ask",
     "skill": { "*": "allow" },
+
+    // ──── Read — .env protection ────
+    "read": {
+      "*.env": "deny",
+      "*.env.example": "allow"
+    },
 
     // ──── Bash — 3-zone allow + explicit ask ────
     "bash": {
@@ -343,6 +349,7 @@
     // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Explore can launch.
     "Explore": {
+      "model": "google/gemini-3-flash-preview",
       "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",
@@ -364,7 +371,7 @@
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
   "provider": {
-    // k-ai Sovereign LLM Gateway — routes to all providers (ollama, mistral, venice, openrouter, opencode, etc.)
+    // k-ai Sovereign LLM Gateway — routes to all providers (ollama, venice, opencode, etc.)
     "k-ai": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "k-ai Gateway",
@@ -378,13 +385,8 @@
         "llama3.1:8b": { "name": "Llama 3.1 8B (Ollama via k-ai)" },
         "phi4-mini:latest": { "name": "Phi4 Mini (Ollama via k-ai)" },
         "mock-model": { "name": "Mock Model (k-ai test)" },
-        "m-mistral-small-latest": { "name": "Mistral Small (via k-ai)" },
-        "m-mistral-large-latest": { "name": "Mistral Large (via k-ai)" },
         "v-llama-3.3-70b": { "name": "Llama 3.3 70B (Venice via k-ai)" },
-        "v-deepseek-v3.2": { "name": "DeepSeek V3.2 (Venice via k-ai)" },
-        "v-gemma-4-uncensored": { "name": "Gemma 4 Uncensored (Venice via k-ai)" },
-        "or-anthropic/claude-sonnet-4": { "name": "Claude Sonnet 4 (OpenRouter via k-ai)" },
-        "or-google/gemini-2.5-flash": { "name": "Gemini 2.5 Flash (OpenRouter via k-ai)" }
+        "v-deepseek-v3.2": { "name": "DeepSeek V3.2 (Venice via k-ai)" }
       }
     },
     // Ollama local — auto-synced by ~/.local/bin/ollama-models-sync
@@ -470,6 +472,17 @@
       "command": ["zsh", "-l", "-c", "linkedin-mcp serve"],
       "enabled": true,
       "timeout": 60000
+    },
+
+    // Exa Search MCP → web search via Exa API
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": {
+        "x-api-key": "2ae0e508-3c8f-468f-8870-4446fbb084d2"
+      },
+      "enabled": true,
+      "timeout": 30000
     }
   },
 

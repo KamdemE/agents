@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup Workstation — every 2 days at 22:00
+
+[Timer]
+OnCalendar=*-*-1/2 22:00:00
+Persistent=true
+Unit=backup-restore.service
+
+[Install]
+WantedBy=timers.target

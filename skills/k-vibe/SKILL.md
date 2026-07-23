@@ -47,7 +47,8 @@ No git, no database — plain JSONL files per session.
 ## MCP Config Format (VIBE — TOML array)
 
 ```toml
-# stdio MCP with login shell (for bw-env secrets)
+# stdio MCP with login shell (for environment secrets)
+# Use login shell to ensure environment is loaded
 [[mcp_servers]]
 name = "<name>"
 transport = "stdio"

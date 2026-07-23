@@ -7,7 +7,7 @@
 
 | Layer | Mechanism |
 |-------|-----------|
-| **SOT** | Vaultwarden `GLOBAL_ENV_VARS` → **`bw-env`** on login/tmux |
+| **SOT** | Vaultwarden `GLOBAL_ENV_VARS` → environment on login/tmux |
 | **Env vars** | `CF_API_TOKEN`, `CF_ACCOUNT_ID`, optional `CF_ZONE_ID` |
 | **Agent shells** | Often empty → **`k-cloud-tools/references/token-gate.md`** (tmux `default`/`remote` first) |
 | **cf-proxy (future)** | Read env only; optional `~/.cf_proxy/config.yaml` for IDs, **no** token on disk |
@@ -203,4 +203,4 @@ cf-proxy do create-access-policy '{"name":"Allow KpihX",...}'  # HITL
 
 ## QMD keywords
 
-`cf-proxy`, `API request`, `Access policy precedence`, `originRequest`, `tunnel ingress PUT`, `CF_API_TOKEN`, `bw-env`, `service token`, `self_hosted app`
+`cf-proxy`, `API request`, `Access policy precedence`, `originRequest`, `tunnel ingress PUT`, `CF_API_TOKEN`, `environment`, `service token`, `self_hosted app`

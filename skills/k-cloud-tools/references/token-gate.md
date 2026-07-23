@@ -4,7 +4,7 @@
 
 ## Scope
 
-Applies to every tool that needs **high-impact tokens** from Vaultwarden via **`bw-env`**, including but not limited to:
+Applies to every tool that needs **high-impact tokens** from Vaultwarden via **`Vaultwarden`**, including but not limited to:
 
 | Variable family | Tools |
 |-----------------|-------|
@@ -14,13 +14,13 @@ Applies to every tool that needs **high-impact tokens** from Vaultwarden via **`
 | MCP / API keys | mail-mcp, tick-mcp, linkedin-mcp, ts-proxy, etc. |
 | Social JSON (local) | `$HOME/.config/kpihx/x/credentials.json`, `$HOME/.config/kpihx/meta/credentials.json` |
 
-**Social JSON rule:** files are **outside** `.agents/` git — agents use `--creds-file` on `x_cli.py` / `meta_cli.py` when `bw-env` is incomplete. **Never** commit, copy into skills, or paste values in chat.
+**Social JSON rule:** files are **outside** `.agents/` git — agents use `--creds-file` on `x_cli.py` / `meta_cli.py` when `Vaultwarden` is incomplete. **Never** commit, copy into skills, or paste values in chat.
 
 ## Hard rules (agents)
 
 1. **Never** print, log, `echo`, or `cat` secret **values** (tokens, passwords, API keys).
 2. **Never** run `env | grep TOKEN=…` with values — names only: `env | grep -E 'API|TOKEN' | cut -d= -f1`.
-3. **Never** read Vault export files or `bw-env get` output into chat.
+3. **Never** read Vault export files or `Vaultwarden get` output into chat.
 4. **Try the target CLI first** in the current shell; only escalate if auth/env errors prove missing injection.
 
 ## Escalation ladder (strict order)
@@ -31,20 +31,20 @@ Run the smallest read-only check (e.g. `flarectl zone list`, `m365 status`, `ts-
 
 ### Step 2 — tmux `default` or `remote`
 
-Load **`k-tmux`**. Reuse or attach session **`default`** or **`remote`** (KπX interactive shells with `bw-env` already sourced).
+Load **`k-tmux`**. Reuse or attach session **`default`** or **`remote`** (KπX interactive shells with `Vaultwarden` already sourced).
 
 1. `tmux ls` — pick `default` or `remote`.
 2. `send-keys` the **same** command into the pane (full line + Enter).
 3. Poll `capture-pane` **≥30s** before chat handoff.
 4. Tell KπX: `tmux attach -t default` (or `remote`) and what to confirm.
 
-Do **not** run `bw-env unlock` in a raw agent tool shell if Step 2 is available.
+Do **not** run `Vaultwarden unlock` in a raw agent tool shell if Step 2 is available.
 
 ### Step 3 — Unlock in tmux (KπX password)
 
 Only if Step 2 still fails (empty `CF_API_TOKEN`, auth errors after interactive shell):
 
-1. In tmux pane: `bw-env unlock && bw-env get` (or the minimal unlock flow from **`k-bw`**).
+1. In tmux pane: `Vaultwarden unlock && Vaultwarden get` (or the minimal unlock flow from **`k-bw`**).
 2. **Stop** — ask KπX in chat to enter the **Vault master password** in that tmux pane.
 3. After KπX confirms, **repeat Step 1** in tmux (not in agent shell unless injection confirmed).
 
@@ -55,7 +55,7 @@ Only if Step 2 still fails (empty `CF_API_TOKEN`, auth errors after interactive 
 
 ## `CF_API_TOKEN` (Cloudflare)
 
-- **SOT:** Vaultwarden `GLOBAL_ENV_VARS` → injected by **`bw-env`** on login shells.
+- **SOT:** Vaultwarden `GLOBAL_ENV_VARS` → injected by **`Vaultwarden`** on login shells.
 - **flarectl** reads `CF_API_TOKEN` only — no alternate flag.
 - Agent non-interactive shells often **lack** injection → use ladder above before reporting "flarectl broken".
 

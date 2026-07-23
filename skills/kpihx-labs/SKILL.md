@@ -175,7 +175,7 @@ Detailed maps live in:
 - **Tailscale config:** `k-tailscale` (installation, serve, funnel, DERP)
 - **SSH config source of truth:** `$HOME/.ssh/config` (aliases, jump hosts, port forwards)
 
-> **Authentication Guard:** SSH keys are managed by the Bitwarden Desktop App (not `bw-env`). When connecting, the Bitwarden Desktop App will spawn an **explicit authorization popup** that MUST be manually approved for `ssh` to succeed (otherwise it fails instantly with `Permission denied (publickey)`).
+> **Authentication Guard:** SSH keys are managed by the Bitwarden Desktop App (not `Vaultwarden`). When connecting, the Bitwarden Desktop App will spawn an **explicit authorization popup** that MUST be manually approved for `ssh` to succeed (otherwise it fails instantly with `Permission denied (publickey)`).
 
 ---
 

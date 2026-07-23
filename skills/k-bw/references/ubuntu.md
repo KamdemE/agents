@@ -5,15 +5,15 @@
 
 ---
 
-## bw-env (Linux-specific)
+## Vaultwarden (Linux-specific)
 
-`bw-env` uses `/dev/shm` (RAM-only tmpfs) for secret injection — this is a Linux-specific feature. It requires:
+`Vaultwarden` uses `/dev/shm` (RAM-only tmpfs) for secret injection — this is a Linux-specific feature. It requires:
 
 - Linux kernel with `/dev/shm` mounted (default on Ubuntu)
-- Shell via `.kshrc` sourcing (bw-env injects into shell environment)
+- Shell via `.kshrc` sourcing (Vaultwarden injects into shell environment)
 - GPG for cold-start backup encryption
 
-**Location:** `$HOME/Work/sh/bw_env/`
+**Location:** `$HOME/.agents/skills/k-ubuntu/scripts/secrets/`
 
 ## bw-proxy (Cross-platform)
 

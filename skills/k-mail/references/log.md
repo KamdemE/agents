@@ -42,6 +42,6 @@ Purpose: detailed runtime execution log for mail operations (different from `SKI
 | 2026-05-04 | [ANTIGRAVITY] | v2.1.5 — Updated Linguaskill thread to COMPLETED after official submission. |
 | 2026-05-02 | [CODEX] | v2.1.4 — Compacted the changelog to satisfy audit row limits without changing mail operational content. |
 | 2026-05-02 | [ANTIGRAVITY] | v2.1.3 — Added TickTick tracking IDs to open academic threads. |
-| 2026-05-23T16:10:00Z | [ANTIGRAVITY] | mail-mcp stdio | `search_messages` | account_id=`poly`, query=`evaluation` | failed (blocked) | n/a | Secret 'X_LOGIN' is not available. Secrets are locked in bw-env. |
+| 2026-05-23T16:10:00Z | [ANTIGRAVITY] | mail-mcp stdio | `search_messages` | account_id=`poly`, query=`evaluation` | failed (blocked) | n/a | Secret 'X_LOGIN' is not available. Secrets are not loaded. |
 | 2026-05-23T16:13:00Z | [ANTIGRAVITY] | mail-mcp stdio | `search_messages` + `get_message` + `download_attachment` | query=`planning`, uid=10543, filename=`planning pâles 2AP3 X2024.pdf` | success | uid=10543 | Downloaded the 2AP3 exams planning PDF for analysis. |
 | 2026-05-23T16:23:00Z | [ANTIGRAVITY] | mail-mcp stdio | `search_messages` + `get_message` | query=`langues`, uid=10609 | success | uid=10609 | Retrieved languages exam convocation email. |

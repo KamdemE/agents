@@ -1,6 +1,6 @@
 ---
 name: "k-code"
-description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP, chat models), storage.json registry, profile extensions, workspaceStorage + GitHub Copilot Chat JSONL, references/profiles snapshots, profile_update.py / profile_build.py, Cursor & Antigravity sync scripts + references/cursor.md & agy.md, Work/sh/clean. Load for Code, Cursor, or AGY audits, profiles, forks, extensions, or Copilot history recovery."
+description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP, chat models), storage.json registry, profile extensions, workspaceStorage + GitHub Copilot Chat JSONL, references/profiles snapshots, profile_update.py / profile_build.py, Cursor & Antigravity sync scripts + references/cursor.md & agy.md, .agents/skills/k-ubuntu/scripts/clean. Load for Code, Cursor, or AGY audits, profiles, forks, extensions, or Copilot history recovery."
 license: "private"
 metadata:
   author: "KpihX"
@@ -36,10 +36,10 @@ allowed-tools: "Bash(*), *"
 | Exported profile files | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Global extension registry | `$HOME/.vscode/extensions/extensions.json` |
 | Installed extension payloads | `$HOME/.vscode/extensions/` |
-| Cleanup wrapper | `$HOME/Work/sh/clean/clean_editors.sh` |
-| Code cleanup script | `$HOME/Work/sh/clean/clean_vscode.sh` |
-| Cursor cleanup script | `$HOME/Work/sh/clean/clean_cursor.sh` |
-| AGY cleanup script | `$HOME/Work/sh/clean/clean_agy.sh` |
+| Cleanup wrapper | `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_editors.sh` |
+| Code cleanup script | `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_vscode.sh` |
+| Cursor cleanup script | `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_cursor.sh` |
+| AGY cleanup script | `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_agy.sh` |
 | Skill references | `$HOME/.agents/skills/k-code/references/` |
 | Registry helper | `$HOME/.agents/skills/k-code/scripts/profiles/profile_update.py` |
 | Extensions helper | `$HOME/.agents/skills/k-code/scripts/profiles/profile_build.py` |
@@ -71,7 +71,7 @@ allowed-tools: "Bash(*), *"
 | Human-readable exported profile snapshot | `$HOME/.config/Code/User/profiles/*.code-profile` |
 | Recover or search a GitHub Copilot Chat transcript | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/` — each `*.jsonl` is one session (often very long lines); locate `<hash>` via `globalStorage/storage.json` (`backupWorkspaces`, `profileAssociations.workspaces`) or by searching JSONL with `rg`/a small script |
 | Recover or search a Cursor agent conversation | `$HOME/.cursor/projects/<workspace-slug>/agent-transcripts/` — each `<session-id>.jsonl` is one Cursor thread; tool fetch artifacts typically sit in sibling `agent-tools/` files under the same workspace slug |
-| Cleanup behavior | `$HOME/Work/sh/clean/clean_vscode.sh` |
+| Cleanup behavior | `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_vscode.sh` |
 | Ready-made local references | `$HOME/.agents/skills/k-code/references/` |
 
 ## Runtime Model
@@ -119,10 +119,10 @@ For specific forks implementation and maintenance details, refer to:
 - `$HOME/.agents/skills/k-code/references/mcp/vscode.md`
 
 Regarding editor cleanup and cache purging, all scripts reside centrally in your `Work` space and not as symlinks defined in the skill memory itself. The generic wrapper `clean_editors.sh` calls the individual scripts:
-- `$HOME/Work/sh/clean/clean_editors.sh`
-- `$HOME/Work/sh/clean/clean_vscode.sh`
-- `$HOME/Work/sh/clean/clean_cursor.sh`
-- `$HOME/Work/sh/clean/clean_agy.sh`
+- `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_editors.sh`
+- `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_vscode.sh`
+- `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_cursor.sh`
+- `$HOME/.agents/skills/k-ubuntu/scripts/clean/clean_agy.sh`
 
 ## Operational Rules
 

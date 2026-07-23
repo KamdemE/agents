@@ -50,9 +50,9 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 | QMD declarative config | `$HOME/.config/qmd/index.yml` |
 | QMD optimization guide | `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
-| Workstation Orchestrator (ksh) | `$HOME/Work/sh/` |
+| Workstation Orchestrator (ksh) | `$HOME/.agents/skills/k-ubuntu/scripts/` |
 | Homelab Orchestrator (hsh) | `$HOME/Work/KpihX-Labs/Homelab/sh/` |
-| Ubuntu cleanup scripts | `$HOME/Work/sh/clean/` |
+| Ubuntu cleanup scripts | `$HOME/.agents/skills/k-ubuntu/scripts/clean/` |
 | Deleted-file recovery | `references/ubuntu.md` → Deleted-file recovery section |
 | Deleted-file recovery (full runbook) | `references/ubuntu-deleted-files-recovery.md` |
 | Homelab maintenance scripts | `$HOME/Work/KpihX-Labs/Homelab/sh/` |

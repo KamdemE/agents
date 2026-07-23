@@ -29,7 +29,8 @@ Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`
 |-------------|------|---------|------------|-----------------|
 | `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `$HOME/Gdrive_X/` | *(direct / manual)* |
 | `gdrive:` | Google Drive | `kapoivha@gmail.com` | `$HOME/Gdrive/` | `rclone-gdrive.service` |
-| `homelab-sftp:` | SFTP | `ivann@kpihx-labs` (port 2222) | *(on-demand)* | — |
+| `pve:` | SFTP | `ivann@kpihx-labs` (port 2222) | *(on-demand)* | — |
+| `deep-pc6:` | SFTP | `deep-pc6` (via SSH key) | `$HOME/Deep-PC6/` | `rclone-deep-pc6.service` |
 
 ## Adding a New Google Drive Remote
 

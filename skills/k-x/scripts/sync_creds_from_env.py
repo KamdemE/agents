@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-shot: copy X OAuth 1.0a fields from bw-env into credentials.json (run locally only)."""
+"""One-shot: copy X OAuth 1.0a fields from Vaultwarden into credentials.json (run locally only)."""
 from __future__ import annotations
 
 import json
@@ -19,7 +19,7 @@ KEYS = {
 def main() -> int:
     missing = [env for _, env in KEYS.items() if not os.environ.get(env)]
     if missing:
-        print(f"Missing env (unlock bw-env first): {', '.join(missing)}", file=sys.stderr)
+        print(f"Missing env (unlock Vaultwarden first): {', '.join(missing)}", file=sys.stderr)
         return 1
     payload = {k: os.environ[v].strip() for k, v in KEYS.items()}
     OUT.parent.mkdir(parents=True, exist_ok=True)

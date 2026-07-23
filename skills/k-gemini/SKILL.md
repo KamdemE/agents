@@ -74,7 +74,7 @@ This involves creating a standard project structure first.
 For installing MCPs specifically for the Antigravity (AGY) agent, the process is entirely different and relies on modifying a JSON config. See `$HOME/.agents/skills/k-code/references/mcp/agy.md` for full instructions.
 
 **Env var mandate (mandatory for stdio MCPs needing secrets):**
-Gemini's extension runner is restricted — `bw-env` secrets are NOT auto-inherited from the shell.
+Gemini's extension runner is restricted — environment secrets are NOT auto-inherited from the shell.
 Must explicitly declare in `gemini-extension.json`:
 ```json
 "env": { "MY_TOKEN": "$MY_TOKEN", "MY_API_KEY": "$MY_API_KEY" }

@@ -3,7 +3,7 @@
 // Template for any TypeScript project that needs:
 //   - YAML-based non-sensitive settings
 //   - .env-based secrets (local dev override)
-//   - Login-shell secret resolution (production, via bw-env)
+//   - Login-shell secret resolution (production, via Vaultwarden)
 //   - Cached singleton + runtime override support
 //
 // IMPORTANT:
@@ -16,7 +16,7 @@
 //   2. Copy config.yaml.example to: src/config.yaml
 //   3. Copy .env.example to: src/.env (fill real values for local dev)
 //   4. Replace ALL_CAPS placeholders below with your project's specifics
-//   5. Update REQUIRED_SECRETS with your secret names as they appear in bw-env
+//   5. Update REQUIRED_SECRETS with your secret names as they appear in Vaultwarden
 //
 // PLACEHOLDERS TO REPLACE:
 //   - YOUR_PACKAGE        → your package/module name (e.g., "my-mcp")
@@ -42,7 +42,7 @@ const _DOT_ENV = path.join(_PKG_DIR, ".env");
 dotenv.config({ path: _DOT_ENV, override: false });
 
 // ---------------------------------------------------------------------------
-// Required secrets — names must match bw-env / GLOBAL_ENV_VARS vault entries
+// Required secrets — names must match Vaultwarden / GLOBAL_ENV_VARS vault entries
 // ---------------------------------------------------------------------------
 
 export const REQUIRED_SECRETS: string[] = [
@@ -241,7 +241,7 @@ export class ConfigManager {
     if (required) {
       throw new SecretsUnavailableError(
         `Secret '${name}' is not available. ` +
-          `Ensure bw-env is unlocked or set it in ${_DOT_ENV}.`
+          `Ensure Vaultwarden is unlocked or set it in ${_DOT_ENV}.`
       );
     }
     return "";

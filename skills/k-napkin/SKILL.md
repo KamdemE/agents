@@ -40,7 +40,7 @@ allowed-tools: Bash
 ## Auth & Quota
 
 ```bash
-# NAPKIN_API_KEY must be loaded via bw-env (login shell)
+# NAPKIN_API_KEY must be loaded via Vaultwarden (login shell)
 echo ${NAPKIN_API_KEY:0:8}...   # verify loaded
 ```
 

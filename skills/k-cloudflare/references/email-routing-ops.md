@@ -24,7 +24,7 @@
 | Zone | Zone Settings **Edit** | `GET …/email/routing`, `POST …/enable` |
 | Zone | DNS **Edit** | `flarectl dns list` |
 
-**Edit token in dashboard** → same `CF_API_TOKEN` in Vault — **no** re-copy. Wait ~1–2 min, then `bw-env get` in tmux if needed.
+**Edit token in dashboard** → same `CF_API_TOKEN` in Vault — **no** re-copy. Wait ~1–2 min, then ensure env is loaded if needed.
 
 **Partial scope symptom:** Rules/addresses work but `GET …/email/routing` returns `Authentication error` until **Zone Settings Edit** is added.
 

@@ -37,4 +37,4 @@ The same remote names (`gdrive:`, `gdrive-x:`) work on all platforms — the rcl
 
 ## SFTP Remote
 
-The `homelab-sftp:` remote requires Tailscale connectivity and SSH key access to `ivann@kpihx-labs` — works from any OS with Tailscale connected.
+The `pve:` remote requires Tailscale connectivity and SSH key access to `ivann@kpihx-labs` — works from any OS with Tailscale connected.

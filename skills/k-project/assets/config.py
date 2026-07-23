@@ -4,7 +4,7 @@ config.py — Canonical KpihX configuration skeleton
 Template for any Python project that needs:
   - YAML-based non-sensitive settings
   - .env-based secrets (local dev override)
-  - Login-shell secret resolution (production, via bw-env)
+  - Login-shell secret resolution (production, via Vaultwarden)
   - Cached singleton + runtime override support
 
 IMPORTANT:
@@ -17,7 +17,7 @@ HOW TO USE:
   2. Copy config.yaml.example to: src/<your_package>/config.yaml
   3. Copy .env.example to: src/<your_package>/.env (fill real values for local dev)
   4. Replace ALL_CAPS placeholders below with your project's specifics
-  5. Update REQUIRED_SECRETS with your secret names as they appear in bw-env
+  5. Update REQUIRED_SECRETS with your secret names as they appear in Vaultwarden
 
 PLACEHOLDERS TO REPLACE:
   - YOUR_PACKAGE        → your package name (e.g., "my_mcp")
@@ -49,7 +49,7 @@ _CONFIG_YAML = _PKG_DIR / "config.yaml"
 _DOT_ENV = _PKG_DIR / ".env"
 
 # ---------------------------------------------------------------------------
-# Required secrets — names must match bw-env / GLOBAL_ENV_VARS vault entries
+# Required secrets — names must match Vaultwarden / GLOBAL_ENV_VARS vault entries
 # ---------------------------------------------------------------------------
 REQUIRED_SECRETS: list[str] = [
     "SECRET_ONE",
@@ -103,7 +103,7 @@ def _resolve_env(name: str) -> str | None:
     """
     Two-tier secret resolution:
       1. os.environ (already set — terminal session, explicit export, or .env loaded)
-      2. zsh -l -c login shell (bw-env secrets injected via $HOME/.kshrc)
+      2. zsh -l -c login shell (Vaultwarden secrets injected via $HOME/.kshrc)
 
     Returns None if the secret is absent in both tiers.
     """
@@ -112,7 +112,7 @@ def _resolve_env(name: str) -> str | None:
     if value:
         return value
 
-    # Tier 2: login shell — bw-env injects secrets at login time via $HOME/.kshrc
+    # Tier 2: login shell — Vaultwarden injects secrets at login time via $HOME/.kshrc
     try:
         result = subprocess.run(
             ["zsh", "-l", "-c", f'printf "%s" "${{{name}}}"'],
@@ -263,7 +263,7 @@ class Config:
         if required:
             raise SecretsUnavailableError(
                 f"Secret '{name}' is not available. "
-                f"Ensure bw-env is unlocked or set it in {_DOT_ENV}."
+                f"Ensure Vaultwarden is unlocked or set it in {_DOT_ENV}."
             )
         return ""
 

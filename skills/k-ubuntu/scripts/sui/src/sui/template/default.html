@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sui | Elevation Review</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --primary: #f43f5e;
+            --primary-glow: rgba(244, 63, 94, 0.3);
+            --success: #10b981;
+            --danger: #f43f5e;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        * { box-sizing: border-box; transition: all 0.2s ease; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 100%);
+        }
+        .container {
+            width: 95%;
+            max-width: 900px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 48px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+        .header { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+        .logo { font-size: 56px; filter: drop-shadow(0 0 15px var(--primary-glow)); }
+        .title-group h1 { margin: 0; font-weight: 600; font-size: 28px; color: var(--primary); }
+        .title-group p { margin: 4px 0 0; color: var(--text-muted); font-size: 16px; }
+        
+        .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--primary); margin-bottom: 12px; display: block; }
+        
+        .rationale-box {
+            background: rgba(244, 63, 94, 0.05);
+            border: 1px solid var(--primary-glow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            color: #e2e8f0;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            resize: vertical;
+        }
+        textarea:focus { outline: none; border-color: var(--primary); }
+        
+        .actions { display: flex; gap: 20px; }
+        button {
+            flex: 1; padding: 18px; border-radius: 16px; border: none; font-weight: 600; font-size: 16px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-approve { background: var(--success); color: white; }
+        .btn-reject { background: var(--danger); color: white; }
+        
+        .overlay {
+            position: absolute; inset: 0; background: var(--bg); border-radius: 32px; display: none;
+            flex-direction: column; justify-content: center; align-items: center; z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay" class="overlay">
+        <h1 id="overlay-title">Access Approved</h1>
+        <p id="overlay-msg">Closing window...</p>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">🛡️</div>
+            <div class="title-group">
+                <h1>{{FUNC_NAME}}</h1>
+                <p>Sovereign Unified Interface — Privilege Review</p>
+            </div>
+        </div>
+
+        <div id="rationale-section" style="display: none;">
+            <span class="section-label">Operator Rationale</span>
+            <div class="rationale-box">{{RATIONALE}}</div>
+        </div>
+
+        <span class="section-label">Command to Execute</span>
+        <textarea id="payload" rows="8"></textarea>
+
+        <span class="section-label">Operator Feedback (Optional)</span>
+        <textarea id="comment" rows="3" placeholder="Add feedback for audit logs..."></textarea>
+
+        <div class="actions">
+            <button class="btn-reject" onclick="submit('REJECTED')">❌ Deny</button>
+            <button class="btn-approve" onclick="submit('APPROVED')">⚡ Approve</button>
+        </div>
+    </div>
+
+    <script id="hitl-data" type="application/json">{{HITL_DATA_JSON}}</script>
+
+    <script>
+        const data = JSON.parse(document.getElementById('hitl-data').textContent);
+        
+        if (data.rationale) {
+            document.getElementById('rationale-section').style.display = 'block';
+        }
+
+        const payloadArea = document.getElementById('payload');
+        if (data.is_text) {
+            payloadArea.value = data.payload;
+        } else {
+            // For sui, payload is likely the command list
+            payloadArea.value = Array.isArray(data.payload) ? data.payload.join(' ') : JSON.stringify(data.payload, null, 2);
+        }
+
+        async function submit(status) {
+            let payloadValue = payloadArea.value;
+            // Sui-specific: if it was a list, we might want to split it back
+            // but let's keep it simple for now and pass it as text if modified.
+
+            const response = await fetch('/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: data.id,
+                    status: status,
+                    payload: payloadValue,
+                    comment: document.getElementById('comment').value
+                })
+            });
+
+            if (response.ok) {
+                document.getElementById('overlay').style.display = 'flex';
+                if (status === 'REJECTED') {
+                    document.getElementById('overlay-title').innerText = 'Access Denied';
+                }
+                setTimeout(() => window.close(), 1500);
+            }
+        }
+    </script>
+</body>
+</html>

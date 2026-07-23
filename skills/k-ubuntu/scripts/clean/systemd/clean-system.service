@@ -1,0 +1,13 @@
+[Unit]
+Description=Weekly System Cleanup and Analysis (Root)
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=@SCRIPT_DIR@/auto_clean.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

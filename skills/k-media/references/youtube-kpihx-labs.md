@@ -78,7 +78,7 @@ BW item **YouTube Dev** (suggested path: `KpihX-Labs/Dev/Media`):
 - `YOUTUBE_REFRESH_TOKEN` (after first consent)
 - `YOUTUBE_CHANNEL_ID` (after `channels.list`)
 
-Prefer **reuse** `kpihx-labs` OAuth client; inject via `bw-env`.
+Prefer **reuse** `kpihx-labs` OAuth client; inject via environment.
 
 ## Division of skills (no duplication)
 

@@ -29,6 +29,6 @@ cat > /tmp/napkin_content.md << 'EOF'
 
 ## Secrets and Security
 - Vaultwarden: self-hosted password manager
-- bw-env: secrets injection into shell RAM
+- Vaultwarden: secrets injection into shell RAM
 EOF
 napkin_gen /tmp/napkin_content.md list svg

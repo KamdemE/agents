@@ -1,0 +1,24 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  DOCKER_IMAGE: "kpihx/sui:latest"
+
+run_tests:
+  stage: test
+  tags:
+    - docker
+  script:
+    - make check
+
+deploy_appliance:
+  stage: deploy
+  tags:
+    - homelab
+  only:
+    - main
+  script:
+    - echo "🚀 Deploying Sui Agnostic to Homelab..."
+    - make docker-install
+    - echo "✅ Appliance deployed and shim linked."

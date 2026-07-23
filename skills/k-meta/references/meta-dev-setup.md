@@ -16,7 +16,7 @@
 | `waba_id` *(optional)* | `META_WA_BUSINESS_ACCOUNT_ID` |
 | `system_user_access_token` *(optional)* | `META_SYSTEM_USER_ACCESS_TOKEN` (Business Manager System User) |
 
-**Sync from bw-env (if env complete):**
+**Sync from Vaultwarden (if env complete):**
 
 ```bash
 cd "$HOME/.agents/skills/k-meta/scripts"

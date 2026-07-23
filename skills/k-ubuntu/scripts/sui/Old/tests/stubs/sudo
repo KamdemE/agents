@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Stub sudo for tests. Modes file: SUI_STUB_SUDO_MODES (one line per sudo -S invocation).
+# Lines: ok | auth | notfound
+# Counter: SUI_TEST_STATE_DIR/sudo_count (init to 0).
+# Short path: sudo -k only (invalidate ticket) -> exit 0.
+set -uo pipefail
+
+state_dir="${SUI_TEST_STATE_DIR:?}"
+modes_file="${SUI_STUB_SUDO_MODES:?}"
+
+if [[ $# -eq 1 && "$1" == "-k" ]]; then
+  exit 0
+fi
+
+read -r _password || true
+
+while [[ $# -gt 0 ]]; do
+  if [[ "$1" == "--" ]]; then
+    shift
+    break
+  fi
+  shift
+done
+
+prev="$(<"$state_dir/sudo_count")"
+echo $((prev + 1)) > "$state_dir/sudo_count"
+mode="$(sed -n "$((prev + 1))p" "$modes_file" || true)"
+mode="${mode//$'\r'/}"
+mode="${mode//$'\n'/}"
+
+case "$mode" in
+  ok)
+    exit 0
+    ;;
+  auth)
+    printf '%s\n' "sudo: Authentication failed, try again." >&2
+    exit 1
+    ;;
+  notfound)
+    printf '%s\n' "stub: non-auth command error" >&2
+    exit 127
+    ;;
+  *)
+    printf '%s\n' "stub sudo: unknown mode ${mode:-<empty>}" >&2
+    exit 99
+    ;;
+esac

@@ -2,7 +2,7 @@
 
 ## 2026-05-25 — [CURSOR] token gate
 
-- **`CF_API_TOKEN`** (and all Vault tokens): try CLI → tmux **`default`**/`remote`** → `bw-env unlock && bw-env get` + KπX password in chat. Never print values. See `references/token-gate.md`.
+- **`CF_API_TOKEN`** (and all Vault tokens): try CLI → tmux **`default`**/`remote`** → `Vaultwarden unlock && Vaultwarden get` + KπX password in chat. Never print values. See `references/token-gate.md`.
 
 ## 2026-05-25 — [CURSOR]
 

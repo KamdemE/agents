@@ -34,7 +34,7 @@ X API operational memory — **not** duplicated in `k-clis` (registry only) or `
 |------|--------|
 | Handle | **@KPIHX7** |
 | User id | `1643990993983926280` |
-| Auth | OAuth **1.0a** — `$HOME/.config/kpihx/x/credentials.json` (or bw-env when stable) |
+| Auth | OAuth **1.0a** — `$HOME/.config/kpihx/x/credentials.json` (or Vaultwarden when stable) |
 | Posting | Blocked until **API credits** (402) |
 | JSON creds | `$HOME/.config/kpihx/x/credentials.json` — **`me` OK** (2026-05-25) |
 

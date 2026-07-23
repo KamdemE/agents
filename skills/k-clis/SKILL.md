@@ -57,7 +57,7 @@ metadata:
 | CLI | Skill | Notes |
 |-----|-------|-------|
 | `qmd` / `qmdr` | **`k-qmd`** | BM25+vector hybrid search on knowledge bases |
-| `bw` / `bw-proxy` / `bw-env` | **`k-bw`** | Bitwarden — self-hosted Vaultwarden |
+| `bw` / `bw-proxy` / `bw-mcp` | **`k-bw`** | Bitwarden — self-hosted Vaultwarden |
 | `rclone` | **`k-rclone`** | Cloud storage FUSE mounts (Google Drive) |
 | `tg` | **`k-tg`** | Telegram — Telethon, BotFather, infra-bot |
 | `x_cli.py` | **`k-x`** | X (Twitter) API v2 — OAuth 1.0a |
@@ -120,7 +120,7 @@ metadata:
 For any CLI that needs Vault-backed tokens:
 1. Never display/log secret values — names only: `env | grep -E 'API|TOKEN' | cut -d= -f1`
 2. Run the CLI first — if it works, done
-3. If env/auth fails → **`k-tmux`** shared gate → `bw-env unlock` → retry
+3. If env/auth fails → secrets may need loading via `~/.kshrc` or appropriate env source
 4. Full procedure: **`k-bw`**
 
 ## Rules for Skill Creators

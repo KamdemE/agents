@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""X (Twitter) API v2 — OAuth 1.0a user context (KπX X Dev / bw-env)."""
+"""X (Twitter) API v2 — OAuth 1.0a user context (KπX X Dev / Vaultwarden)."""
 from __future__ import annotations
 
 import argparse
@@ -20,7 +20,7 @@ def _oauth1_from_env() -> OAuth1:
     missing = [k for k in keys if not os.environ.get(k)]
     if missing:
         raise SystemExit(
-            f"Missing env: {', '.join(missing)} — unlock Vault (bw-env) or use --creds-file"
+            f"Missing env: {', '.join(missing)} — unlock Vault (Vaultwarden) or use --creds-file"
         )
     return OAuth1(
         os.environ["X_API_KEY"],

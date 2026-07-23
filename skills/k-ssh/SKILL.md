@@ -2,12 +2,12 @@
 name: k-ssh
 description: >
   KpihX centralized SSH configuration management — canonical Host fragment,
-  standardized key naming, Bitwarden SSH agent integration, key generation,
+  standardized key naming, SSH agent strategy (gcr vs Bitwarden), key generation,
   and passphrase management for all equipment across all infrastructures.
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 
 > **Cross-infra skill:** applies to all KpihX equipment running OpenSSH
 > (Ubuntu workstation, PVE Debian, WSL, Termux Android).
-> **OS references:** OS-specific SSH setup (bw-env, socket paths) in
+> **OS references:** OS-specific SSH setup (socket paths) in
 > `k-bw/references/ubuntu.md` and `k-bw/references/windows.md`.
 
 ## Philosophy
@@ -101,26 +101,25 @@ The public key (`id_ed25519_<target>.pub`) must be added to the target's
 `~/.ssh/authorized_keys` (or the service's SSH key settings, like GitHub/GitLab
 web UI). The comment helps identify where the key came from.
 
-## Bitwarden SSH Agent Integration
+## SSH Agent Strategy
 
-All SSH keys should also be stored in the **Bitwarden vault** for backup and
-centralized management. The Bitwarden desktop app (v2025.1.2+) includes a
-built-in SSH agent that can serve these keys.
+### Linux — gcr-ssh-agent (GNOME Keyring) [PREFERRED]
 
-**Recommended workflow:**
+Default GNOME agent at `/run/user/$(id -u)/gcr/ssh`. Load keys once per session:
 
-1. Enable Bitwarden SSH agent: Settings → SSH Agent → Enable → "Remember until vault is locked"
-2. Store each SSH key in Bitwarden as an "SSH key" item (private + public key fields)
-3. Set `SSH_AUTH_SOCK` in shell rc (already done in `~/.kshrc` line 38)
-4. The Bitwarden agent serves keys automatically — SSH will find them via the socket
+```bash
+ssh-add ~/.ssh/id_ed25519_<target>
+```
 
-**Benefits:**
-- Private keys are encrypted in the vault, not just on disk
-- Cross-device sync: keys available on any machine with Bitwarden
-- Authorization popup on each use (audit trail of key usage)
-- Single `SSH_AUTH_SOCK` replaces multiple `IdentityFile` directives
+Passphrase asked once, then instant. No conflicts.
 
-**Full procedure:** See `k-bw` → **Bitwarden Desktop GUI — SSH Agent**.
+**⚠️ Avoid dual-agent:** The Bitwarden desktop GUI has its own SSH agent. If both
+are active (`SSH_AUTH_SOCK` pointing to Bitwarden while gcr runs), SSH gets
+"agent refused operation" and falls back to slow key decryption (+1-3s delay).
+
+**Fix:** Bitwarden → Settings → SSH Agent → **Disable** on all platforms.
+Passphrase + native agent (gcr/ssh-agent) is better than Bitwarden SSH agent
+everywhere — Linux, WSL, even Windows via OpenSSH agent.
 
 ## Passphrase Management
 
@@ -145,13 +144,11 @@ ssh-keygen -p -f ~/.ssh/id_ed25519_<target>
 
 ### When to use passphrases
 
-- **With Bitwarden SSH agent:** passphrases are optional — the vault itself
-  provides the encryption layer. Keys without passphrase are convenient for
-  automation scripts.
-- **Without Bitwarden agent:** a passphrase adds protection if the private key
-  file is stolen. Use `ssh-agent` (classic) or `ssh -A` forwarding carefully.
-- **Git automation keys** (GitHub, GitLab): typically no passphrase for CI/CD
-  convenience, stored encrypted in Bitwarden for the human.
+- **Every key should have a passphrase** — it protects the private key file
+  if stolen. The native agent (gcr/ssh-agent) caches the unlocked key after
+  one prompt, so you only type it once per session.
+- **Automation keys** (GitHub/GitLab CI/CD): no passphrase (non-interactive).
+  Store in Bitwarden vault for backup, served via deploy keys or CI secrets.
 
 ## Key Distribution Workflow
 
@@ -181,5 +178,6 @@ When a new infrastructure is added:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-23 | [OPENCODE] | v1.1.0 — Refined SSH agent strategy: gcr-ssh-agent (passphrase) preferred over Bitwarden SSH agent on all platforms. Documented dual-agent conflict causing "agent refused operation" and slow KDF fallback. |
 | 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-ssh: canonical fragment with all Host blocks, key naming convention analysis, Bitwarden SSH agent integration, passphrase management, distribution workflow. |
-| [SUMMARY] | — | v1.0.0 — Initial release. |
+| [SUMMARY] | — | — |

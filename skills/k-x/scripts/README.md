@@ -3,7 +3,7 @@
 ```bash
 cd "$HOME/.agents/skills/k-x/scripts"
 uv sync
-# Requires bw-env unlock (X_* in environment)
+# Requires Vaultwarden unlock (X_* in environment)
 uv run python x_cli.py me
 uv run python x_cli.py tweet "Hello" --dry-run
 uv run python x_cli.py tweet "Hello"   # needs X API credits
@@ -11,7 +11,7 @@ uv run python x_cli.py tweet "Hello"   # needs X API credits
 
 **Creds file:** `$HOME/.config/kpihx/x/credentials.json`
 
-Sync from bw-env (one-shot, local):
+Sync from Vaultwarden (one-shot, local):
 
 ```bash
 uv run python sync_creds_from_env.py

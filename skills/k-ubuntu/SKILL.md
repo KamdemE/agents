@@ -17,7 +17,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-env secret injection) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-mcp & bw-proxy) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 > **Tailscale live state:** `tailscale status --json`
 
@@ -81,13 +81,10 @@ Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** f
 
 **Ubuntu workstation specifics:**
 - Shell files live at `$HOME/.kshrc`, `$HOME/.zshrc`, `$HOME/.zprofile`, `$HOME/.zshenv`, `$HOME/.bashrc`
-- `$EDITOR` is set to `micro` (see `.kshrc` line 39)
-- bw-env idempotency guard: `BW_ENV_LOADED=$$` (PID-scoped — child processes always reload secrets)
-- Ollama backend orchestration lives in `$HOME/Work/AI/ollama/ipex`, not in `$HOME/Work/sh/`
+- `$EDITOR` is set to `nvim` (see `.kshrc`)
 
 **Critical shell — shared tmux (replaces `sui`)**
 - `sui` is deprecated. For `sudo`, SSH passphrase, or any interactive approval → `rules/tool-discipline.md` · `k-tmux/SKILL.md` → Shared interactive gate.
-- If `git push` hits `Permission denied` on `.git/refs/remotes/*.lock`, fix via shared tmux: `chown -R $USER:$USER` on affected `$HOME/Work/sh/<module>/.git` trees.
 
 ---
 
@@ -99,16 +96,34 @@ Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** f
 |------|---------|
 | `$HOME/Work/AI/MCPs/` | All MCP servers source code |
 | `$HOME/Work/AI/gemini_mcps/` | Gemini Extension wrappers |
-| `$HOME/Work/sh/bw_env/` | Bitwarden env manager — secrets in RAM via /dev/shm |
-| `$HOME/Work/sh/` | Universal Orchestrator (Phoenix Protocol v2.1.3) |
-| `$HOME/Work/sh/clean/` | System Cleanup (systemd, every 2 days starting Sun at 21:30) |
-| `$HOME/Work/sh/backup_restore/` | Workstation Backup (systemd, every 2 days starting Sun at 22:00) |
+| `$HOME/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) — remote access |
 | `$HOME/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) — remote access |
 | `$HOME/Work/techskills/` | Ubuntu living KB — real fixes documented as they happen |
 | `$HOME/Work/Others/` | Miscellaneous / Non-project files / Transit zone |
 | `$HOME/Gdrive/` | Personal Google Drive via rclone (kapoivha@gmail.com) |
 | `$HOME/Gdrive_X/` | Pro/Academic Google Drive via rclone (ivann.kamdem-pouokam.2024@polytechnique.org) |
 | `$HOME/go/` | Go workspace (GOPATH) |
+
+### Centralized Scripts — `scripts/`
+
+All workstation scripts are centralized in `scripts/` (this skill). Each is a standalone executable symlinked from `$HOME/.local/bin/` for PATH access.
+
+| Path | Type | Purpose |
+|------|------|---------|
+| `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint for all KπX operations |
+| `scripts/vpn-dxo` | shell | DxO VPN launcher (tmux session) |
+| `scripts/bot.py` | python | Telegram bot |
+| `scripts/tg-ubuntu.service` | systemd | Telegram service unit |
+| `scripts/clean/` | dir | System cleanup suite (10+ scripts, systemd timer) |
+| `scripts/backup_restore/` | dir | Workstation backup/restore (systemd timer) |
+| `scripts/sui/` | dir | **Deprecated** — kept for history, not used |
+| `scripts/scratch/` | dir | Analysis/reconstruction scripts (Workspace X, Fluid) |
+| `scripts/CHANGELOG.md` | doc | Migration history of the sh/ orchestrator |
+| `scripts/Makefile` | make | Root Makefile — multi-remote git sync, status |
+| `scripts/README.md` | doc | Universal Orchestrator overview |
+| `scripts/TODO.md` | doc | Pending improvements and known issues |
+
+> **Migration note:** These scripts were moved from `$HOME/Work/sh/` into `.agents/skills/k-ubuntu/scripts/` for centralization. The old `$HOME/Work/sh/` still exists on disk but is no longer the source of truth. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
 
 ### Agent kernel
 
@@ -234,13 +249,13 @@ Config: `$HOME/.config/waveterm/widgets.json` — all widgets use `zsh -l -c '..
 
 **Ownership rule:** JS/TS MCP servers you own → use Bun when verified; Python MCPs → uv; npm-global → third-party daily-driver CLIs only.
 
-Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }`
+Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }` — login shell ensures environment is loaded.
 
 ---
 
 ## Remote Work — DxO VPN + RDP
 
-> **Asset:** `assets/vpn-dxo` — symlinked to `$HOME/Work/sh/vpn-dxo` (in PATH)
+> **Asset:** `scripts/vpn-dxo` — launches DxO VPN in dedicated tmux session. In `$PATH` via `$HOME/.local/bin/` symlink (see **Centralized Scripts**).
 
 ### VPN (GlobalProtect via OpenConnect)
 
@@ -282,6 +297,6 @@ Secrets wrap pattern for MCPs needing bw-env: `{ "command": "zsh", "args": ["-l"
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-23 | [OPENCODE] | v1.3.0 — Centralized all `$HOME/Work/sh/` scripts into `scripts/`. Created `assets/`, `references/`. `ksh` symlinked from `~/.local/bin/ksh`. All references updated (k-code, k-bw, k-tg, k-optim, .kshrc). |
 | 2026-07-22 | [OPENCODE] | v1.2.0 — Shell section trimmed: .kshrc hub pattern moved to k-zsh. Reference to k-zsh. |
-| 2026-07-22 | [OPENCODE] | v1.1.0 — Tailscale identity, Ollama Intel Arc HW, WaveTerm + npm prefix from k-workspace. |
-| [SUMMARY] | — | — |
+| [SUMMARY] | — | v1.1.0 Tailscale identity, Ollama Intel Arc HW, WaveTerm + npm prefix from k-workspace. |

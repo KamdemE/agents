@@ -17,13 +17,13 @@
 - **Enabled** via `POST …/zones/{CF_ZONE_ID}/email/routing/enable` → `status: ready`; MX + SPF + DKIM; tunnel CNAMEs untouched.
 - **Token:** Rules + Addresses need **Edit**; **`GET/enable` need Zone Settings Edit** on zone `kpihx-labs.com`.
 - **Multi-inbox:** one `forward` per standard rule → **Email Worker** for multiple `message.forward()` calls.
-- **Ops style:** tmux + `bw-env` + step-by-step `curl` for provisioning; scripts for router rollout/E2E only.
+- **Ops style:** tmux step-by-step `curl` for provisioning; scripts for router rollout/E2E only.
 
 ## 2026-05-25 — [CURSOR] tunnel + workstation
 
 - **Ingress routes:** API `GET/PUT …/configurations` — `flarectl` cannot edit routes (DNS only).
 - **`cloudflared` quarantined on Ubuntu dev** — prod connector on homelab; laptop → `flarectl` only.
-- **`flarectl`:** `CF_API_TOKEN` via **`bw-env`** / **`k-cloud-tools`** token gate.
+- **`flarectl`:** `CF_API_TOKEN` via **environment** · **`k-cloud-tools`** token gate.
 
 ## 2026-05-25 — [CURSOR] skill bootstrap
 

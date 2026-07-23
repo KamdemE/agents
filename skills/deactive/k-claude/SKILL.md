@@ -51,7 +51,7 @@ allowed-tools: "Bash, Read, Write, Edit"
 }
 ```
 
-**Login shell wrapper** (for MCPs needing bw-env secrets):
+**Login shell wrapper** (for MCPs needing Vaultwarden secrets):
 ```json
 { "command": "zsh", "args": ["-l", "-c", "$HOME/.local/bin/<binary> serve"] }
 ```
@@ -71,7 +71,7 @@ Never attempt raw `sudo` autonomously — Claude runs as the user and legacy `su
 
 ## bw-mcp Auth
 
-- Uses `bw` CLI **directly** — independent from `bw-env`
+- Uses `bw` CLI **directly** — independent from `Vaultwarden`
 - Launches `zenity` GUI on-demand — no login shell wrapper needed
 
 ## Hooks & Permissions (`$HOME/.claude/settings.json`)

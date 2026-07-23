@@ -75,6 +75,9 @@ For every KπX skill:
   - read `references/insights.md` before non-trivial domain work
   - update it at task end when durable insights are learned
   - keep the file autonomous/evolutionary (add, refine, reorganize, prune stale)
+- **`scripts/`** for executable files (`.sh`, `.py`, binaries) — these are deployed or symlinked from `~/.local/bin/`
+- **`assets/`** for non-executable support files (configs, templates, `.json`, `.service`, `.conf`)
+- **`references/`** for documentation (`.md` files, OS-specific notes, insights)
 
 ## Insights Discipline Template
 

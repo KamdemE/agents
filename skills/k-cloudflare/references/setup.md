@@ -23,12 +23,13 @@ flarectl --version
 4. **Optional (+ tunnels):** Account **Cloudflare Tunnel** Edit.
 5. Copy token **only when creating** a new token → Vault `CF_API_TOKEN=…`. **Editing** an existing token’s permissions does **not** change the secret — no Vault update.
 
-**Edit vs roll:** Dashboard “Token updated” after permission edit = same `CF_API_TOKEN` value. **Roll** or **Create** = new secret shown once → update Vault + `bw-env get` in tmux.
+**Edit vs roll:** Dashboard “Token updated” after permission edit = same `CF_API_TOKEN` value. **Roll** or **Create** = new secret shown once → update Vault + ensure env is loaded.
 
 ### Activate session
 
 ```bash
-bw-env unlock   # or your usual bw-env flow
+# Ensure environment is loaded (secrets available)
+# Then use flarectl or cf-proxy
 env | grep -E '^CF_' | cut -d= -f1    # names only
 flarectl zone list
 flarectl dns list --zone kpihx-labs.com

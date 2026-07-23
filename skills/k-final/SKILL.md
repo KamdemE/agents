@@ -150,9 +150,9 @@ For tools managing secrets (like `bw-mcp`), system-level installs, or core homel
 
 1. **Remove old build output** before build: e.g. `rm -rf dist/` build dirs (or `make clean` if defined).
 2. `make build` then publish via Makefile (`make publish` / `make release` — see project Makefile).
-   - **Requirement**: `make publish` MUST use `$(ZSH_LOGIN)` (e.g. `$(ZSH_LOGIN) "bw-env -- uv publish"`) to load the login environment.
+   - **Requirement**: `make publish` MUST use `$(ZSH_LOGIN)` (e.g. `$(ZSH_LOGIN) "uv publish"`) to load the login environment.
    - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
-3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via **bw-env** (`k-project`). If missing or invalid → **stop**; tell KπX to unlock **Vaultwarden / bw-env** and export tokens; say **`continue`** to retry.
+3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `.kshrc` or `~/.agents/.env`). If missing or invalid → **stop**; tell KπX to export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
 
 ## Contract coherence gate (before closure decision)

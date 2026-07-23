@@ -40,7 +40,7 @@ Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding d
 |------|---------|
 | $HOME/Work/AI/MCPs/ | All MCP servers source code |
 | $HOME/Work/AI/gemini_mcps/ | Gemini Extension wrappers |
-| $HOME/Work/sh/bw_env/ | Bitwarden env manager — secrets in RAM via /dev/shm |
+| $HOME/Work/sh/Vaultwarden/ | Bitwarden env manager — secrets in RAM via /dev/shm |
 | $HOME/Work/sh/ | Universal Orchestrator (Phoenix Protocol v2.1.3) — Root Makefile with smart proxies; Multi-Remote sync; **ksh dispatcher (v2.1.0) is the key entrypoint.** |
 | $HOME/Work/sh/clean/ | System Cleanup (systemd, every 2 days starting Sun at 21:30) — logs: /var/log/clean-system/workspace_scan.log. |
 | $HOME/Work/sh/backup_restore/ | Workstation Backup (systemd, every 2 days starting Sun at 22:00) — archiving to HDD. |
@@ -76,13 +76,13 @@ Whenever work on a repo under `$HOME/Work/` (or any KπX project) is **winding d
 ## Shell Architecture
 
 ```
-$HOME/.kshrc     Universal Hub — secrets (bw-env), PATH, env vars, source calls (shell-agnostic)
+$HOME/.kshrc     Universal Hub — secrets (Vaultwarden), PATH, env vars, source calls (shell-agnostic)
 $HOME/.zprofile  sources .kshrc → login shells (MCPs, zsh -l, SSH, WaveTerm blocks)
 $HOME/.zshrc     sources .kshrc → interactive shells (terminal tabs)
 $HOME/.zshenv    deliberately DOES NOT source .kshrc (security: fires for untrusted scripts)
 ```
 
-bw-env idempotency guard: BW_ENV_LOADED=$$ (PID-scoped — child processes always reload secrets).
+Vaultwarden idempotency guard: secrets_LOADED=$$ (PID-scoped — child processes always reload secrets).
 
 ## Critical shell — shared tmux (replaces `sui`)
 
@@ -123,7 +123,7 @@ export OLLAMA_URL="$OLLAMA_HOST"
 
 > **Ownership rule:** JS/TS MCP servers you own should use Bun when the runtime is compatible and verified; if a package fails Bun verification, keep the stable owner documented in its skill. Python MCPs stay with uv; npm-global is for third-party daily-driver CLIs, not owned MCPs.
 
-Secrets wrap pattern for MCPs needing bw-env: { "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }
+Secrets wrap pattern for MCPs needing Vaultwarden: { "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }
 
 ## System Services (enabled at boot)
 

@@ -6,11 +6,11 @@
 
 | Check | Result |
 |-------|--------|
-| `GET /2/users/me` via **bw-env** | ✅ **@KPIHX7** · id `1643990993983926280` |
+| `GET /2/users/me` via **Vaultwarden** | ✅ **@KPIHX7** · id `1643990993983926280` |
 | `GET /2/users/me` via **JSON** | ✅ **@KPIHX7** (2026-05-25, JSON filled) |
 | `POST /2/tweets` | ❌ **402 CreditsDepleted** — recharge at developer.x.com / console.x.com |
 
-**Fix JSON from working env (after `bw-env unlock`):**
+**Fix JSON from working env (after `Vaultwarden unlock`):**
 
 ```bash
 cd "$HOME/.agents/skills/k-x/scripts"
@@ -24,7 +24,7 @@ uv run python x_cli.py --creds-file "$HOME/.config/kpihx/x/credentials.json" me
 
 ### Option A — Recommended (no JSON file)
 
-Secrets stay in **Vaultwarden** item **X Dev** → injected by **`bw-env`** into the shell:
+Secrets stay in **Vaultwarden** item **X Dev** → injected by **`Vaultwarden`** into the shell:
 
 | Vault field | Env var | Used for |
 |-------------|---------|----------|
@@ -35,7 +35,7 @@ Secrets stay in **Vaultwarden** item **X Dev** → injected by **`bw-env`** into
 | Bearer Token | `X_BEARER_TOKEN` | App-only (not `/users/me`) |
 | Client ID / Secret | `X_CLIENT_ID`, `X_CLIENT_SECRET` | OAuth 2.0 PKCE (future) |
 
-**You do not need a JSON file** if agents/scripts run after `bw-env unlock` (same as Cloudflare / mail).
+**You do not need a JSON file** if agents/scripts run after `Vaultwarden unlock` (same as Cloudflare / mail).
 
 Verify (names only):
 
@@ -43,7 +43,7 @@ Verify (names only):
 env | grep -E '^X_' | cut -d= -f1
 ```
 
-### Option B — JSON credentials (active while `bw-env` in mutation)
+### Option B — JSON credentials (active while `Vaultwarden` in mutation)
 
 **Path (fill secrets here):** `$HOME/.config/kpihx/x/credentials.json` · mode `600` · **never commit** (outside `.agents/` repo).
 
