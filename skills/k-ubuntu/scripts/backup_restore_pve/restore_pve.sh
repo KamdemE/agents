@@ -75,5 +75,5 @@ notify "SUCCESS" "Archive ready at $ARCHIVE%0ASize: $SIZE%0A%0AThen on PVE: pct 
 
 echo ""
 echo "📦 Archive: $ARCHIVE ($SIZE)"
-echo "➡️  Copy to PVE: scp $ARCHIVE homelab:/var/lib/vz/dump/"
+echo "➡️  Copy to PVE: scp $ARCHIVE pve:/var/lib/vz/dump/"
 echo "➡️  Restore: ssh pve \"pct restore <VMID> /var/lib/vz/dump/$(basename "$FINAL_SRC")\""
