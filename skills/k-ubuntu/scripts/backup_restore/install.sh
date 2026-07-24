@@ -1,67 +1,36 @@
 #!/bin/bash
-# install.sh — Install backup-restore systemd units and enable the timer.
+# install.sh — Symlink backup-restore systemd units and enable the timer.
 # Run once as root (or with sudo) on a new machine.
-# Requires ~/.agents/.env to exist and define TELEGRAM_UBUNTU_TOKEN + TELEGRAM_CHAT_ID.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SERVICE_SRC="$SCRIPT_DIR/systemd/backup-restore.service"
-TIMER_SRC="$SCRIPT_DIR/systemd/backup-restore.timer"
 SYSTEMD_DIR="/etc/systemd/system"
 
-# ── 1. Pre-checks ─────────────────────────────────────────────────────────────
 echo "→ [install] Pre-checks..."
-
 if [[ $EUID -ne 0 ]]; then
-    echo "❌ Must be run as root: sudo bash install.sh" >&2
-    exit 1
+    echo "❌ Must be run as root: sudo bash install.sh" >&2; exit 1
 fi
-
-if [[ ! -f "$HOME/.agents/.env" ]]; then
-    echo "❌ ~/.agents/.env not found — create it from ~/.agents/.env.example first." >&2
-    exit 1
+AGENTS_ENV="/home/kpihx/.agents/.env"
+if [[ ! -f "$AGENTS_ENV" ]]; then
+    echo "❌ $AGENTS_ENV not found — create it from .env.example first." >&2; exit 1
 fi
+echo "   ✓ Running as root, .env found"
 
-if [[ ! -f "$SERVICE_SRC" ]] || [[ ! -f "$TIMER_SRC" ]]; then
-    echo "❌ Missing systemd units in $SCRIPT_DIR/systemd/ — aborting." >&2
-    exit 1
-fi
+echo "→ [install] Creating symlinks..."
+ln -sf "$SCRIPT_DIR/systemd/backup-restore.service" "$SYSTEMD_DIR/backup-restore.service"
+ln -sf "$SCRIPT_DIR/systemd/backup-restore.timer"   "$SYSTEMD_DIR/backup-restore.timer"
 
-echo "   ✓ Running as root, ~/.agents/.env and unit files found"
+echo "   ✓ Symlinks: $SYSTEMD_DIR/backup-restore.{service,timer}"
 
-# ── 2. Stop old backup-pc units if present ────────────────────────────────────
-echo "→ [install] Removing legacy backup-pc units (if present)..."
-systemctl stop   backup-pc.timer   2>/dev/null || true
-systemctl disable backup-pc.timer  2>/dev/null || true
-systemctl stop   backup-pc.service 2>/dev/null || true
-rm -f "$SYSTEMD_DIR/backup-pc.service" "$SYSTEMD_DIR/backup-pc.timer"
-echo "   ✓ Legacy units removed (if existed)"
-
-# ── 3. Install systemd units ──────────────────────────────────────────────────
-echo "→ [install] Installing systemd units..."
-
-sed "s|@SCRIPT_DIR@|$SCRIPT_DIR|g" "$SERVICE_SRC" > "$SYSTEMD_DIR/backup-restore.service"
-cp "$TIMER_SRC" "$SYSTEMD_DIR/backup-restore.timer"
-chmod 644 "$SYSTEMD_DIR/backup-restore.service" "$SYSTEMD_DIR/backup-restore.timer"
-
-echo "   ✓ Units installed to $SYSTEMD_DIR/"
-
-# ── 4. Secure ~/.agents/.env ──────────────────────────────────────────────────
-chmod 600 "$HOME/.agents/.env"
-echo "   ✓ ~/.agents/.env permissions set to 600"
-
-# ── 5. Enable and start timer ─────────────────────────────────────────────────
 echo "→ [install] Reloading systemd and enabling timer..."
-
 systemctl daemon-reload
 systemctl enable --now backup-restore.timer
 
-echo "   ✓ Timer enabled"
+echo "→ [install] Starting service once to verify..."
+systemctl start backup-restore.service || echo "⚠️ Service start had issues — check logs: journalctl -u backup-restore"
 
-# ── 6. Done ───────────────────────────────────────────────────────────────────
 echo ""
-echo "✅ backup-restore installed."
+echo "✅ backup-restore installed (symlinks) and triggered."
 echo "   Timer:   $(systemctl list-timers backup-restore.timer --no-pager 2>/dev/null | tail -1)"
-echo "   Logs:    journalctl -u backup-restore"
-echo "   Run now: sudo systemctl start backup-restore.service"
+echo "   Logs:    journalctl -u backup-restore -f"

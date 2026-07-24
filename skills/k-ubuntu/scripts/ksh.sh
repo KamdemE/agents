@@ -8,12 +8,14 @@ usage() {
     echo "Usage: ksh <module> [args...]"
     echo ""
     echo "Modules:"
-    echo "  clean [flags]       Run clean_all.sh — passing flags through"
-    echo "  clean-admin [opts]  systemd/service admin via Makefile"
-    echo "  backup              Backup operations"
-    echo "  status              Global system audit"
+    echo "  clean [flags]        Run clean_all.sh — flags pass through"
+    echo "  clean-admin [opts]   systemd/service admin via Makefile"
+    echo "  backup [flags]       Run backup.sh — flags pass through"
+    echo "  restore [flags]      Run restore.sh — flags pass through"
+    echo "  backup-admin [opts]  systemd/admin via Makefile"
+    echo "  status               Global system audit"
     echo ""
-    echo "Detail: ksh clean --help   | ksh clean-admin help"
+    echo "Detail: ksh clean --help | ksh backup-admin help"
 }
 
 [[ $# -lt 1 ]] && usage && exit 1
@@ -42,7 +44,15 @@ case "$1" in
         ;;
     backup)
         shift
-        make -C "$ROOT/backup_restore" "${1:-status}"
+        bash "$ROOT/backup_restore/backup.sh" "$@"
+        ;;
+    restore)
+        shift
+        bash "$ROOT/backup_restore/restore.sh" "$@"
+        ;;
+    backup-admin)
+        shift
+        make -C "$ROOT/backup_restore" "$@"
         ;;
     *)
         echo "❌ Unknown module '$1'" && usage && exit 1

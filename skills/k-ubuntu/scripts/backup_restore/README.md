@@ -1,147 +1,67 @@
-# backup-restore-sh — Workstation Backup & Restore (Phoenix Protocol)
+# backup-restore — Workstation Backup & Restore (Phoenix Protocol)
 
-Automated backup and bare-metal restore suite for Ubuntu workstations.
-Archives `/home` + `/etc` to an external HDD via tar+zstd; sends a Telegram report.
-Runs automatically every 2 days via systemd timer.
+Automated backup and bare-metal restore suite for Ubuntu workstation.
+Archives `$HOME` + `/etc` to external HDD via tar+zstd; sends Telegram report.
+Runs automatically every 2 days at 22:00 via systemd timer.
+
+## Usage
+
+```bash
+# Run backup directly
+ksh backup --help            # see options
+ksh backup --preview         # dry-run: estimate size, show what would be backed up
+ksh backup /mnt/other       # backup to custom destination
+ksh backup                   # backup to default HDD mount
+
+# Full bare-metal restore (interactive, needs HDD)
+sudo bash ~/.agents/skills/k-ubuntu/scripts/backup_restore/restore.sh
+
+# Admin operations (systemd lifecycle)
+ksh backup-admin help        # list admin targets
+ksh backup-admin status      # service + timer status
+ksh backup-admin log         # last 50 journal lines
+ksh backup-admin install     # symlink systemd units + enable timer (sudo)
+ksh backup-admin purge       # remove symlinks, disable timer (sudo)
+```
 
 ## Architecture
 
 ```
-backup-restore-sh/
-├── backup_workstation.sh    # Backup: metadata export → tar+zstd → rotation
-├── restore_workstation.sh   # Restore: extract → reinstall packages → rsync home
-├── install.sh               # Install systemd units + secure .env (sudo required)
-├── purge.sh                 # Disable timer, remove units (sudo required)
-├── systemd/
-│   ├── backup-restore.service  # Template — @SCRIPT_DIR@ replaced by install.sh
-│   └── backup-restore.timer    # Every 2 days at 22:00, persistent
-├── .env                     # Machine config + secrets (gitignored)
-└── .env.example             # Keys only — copy to .env and fill in
+backup-restore/
+├── backup.sh          # Backup: metadata export → tar+zstd → rotation
+├── restore.sh         # Restore: extract → reinstall packages → rsync home
+├── excludes.conf      # Additional tar exclusion patterns (one per line)
+├── install.sh         # Symlink systemd units + enable timer + test run (sudo)
+├── purge.sh           # Remove symlinks, disable timer (sudo)
+├── Makefile           # Admin targets (status, log, install, purge, check)
+└── systemd/
+    ├── backup-restore.service   # oneshot, runs backup.sh as root
+    └── backup-restore.timer     # every 2 days at 22:00, Persistent=true
 ```
 
-## Quick Start
+## Install
 
 ```bash
-# 1. Ensure ~/.agents/.env defines TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID
-#    (copy from ~/.agents/.env.example if not done yet)
-
-# 2. Edit machine config at the top of backup_workstation.sh
-#    USER_BACKUP, PC_NAME, HDD_DEST_DIR, KEEP_BACKUPS
-
-# 3. Install
-sudo make install
-
-# 4. Verify
-make log                                      # journalctl -u backup-restore
-sudo systemctl start backup-restore.service  # run immediately
+sudo make install   # or: sudo bash install.sh
 ```
 
-## Configuration
+Creates symlinks in `/etc/systemd/system/` → `.agents/` (source of truth stays in repo),
+enables timer, runs backup once to verify.
 
-### Secrets — `~/.agents/.env` (kernel secrets file)
+## Secrets
 
-This module sources `~/.agents/.env` at runtime for all secrets.
-Add these keys to `~/.agents/.env` (template: `~/.agents/.env.example`):
+Requires `~/.agents/.env` with:
+- `TELEGRAM_UBUNTU_TOKEN` — bot token for notifications
+- `TELEGRAM_CHAT_ID` — Telegram chat ID
 
-| Variable | Description |
-|----------|-------------|
-| `TELEGRAM_UBUNTU_TOKEN` | Bot token for success/error notifications |
-| `TELEGRAM_CHAT_ID` | Telegram chat ID to send notifications to |
+## Preview mode
 
-### Machine config — top of `backup_workstation.sh`
+`--preview` or `-p` estimates backup size and lists what would be archived
+without creating the archive. Useful to verify excludes before a real run.
 
-Non-secret machine-specific values are hardcoded at the top of the script:
+## Notes
 
-| Variable | Description |
-|----------|-------------|
-| `USER_BACKUP` | Username whose /home is archived |
-| `PC_NAME` | Label in archive name: `backup-<PC_NAME>-<date>.tar.zst` |
-| `HDD_DEST_DIR` | Destination path on external HDD |
-| `KEEP_BACKUPS` | Archives to keep before rotation (default: `2`) |
-
-> Cloud mount exclusion is handled automatically via `findmnt` at runtime — no variable needed.
-
-## Machine-Specific Excludes (excludes.conf)
-
-Machine-specific paths to exclude from the backup are kept outside the script in `excludes.conf` (gitignored — never committed).
-
-```bash
-cp excludes.conf.example excludes.conf
-# Edit excludes.conf — add/remove paths specific to this machine
-```
-
-**Format:** one path per line, `#` for comments.
-- Lines starting with `/` → absolute path
-- Other lines → relative to `/home/$USER_BACKUP`
-
-Universal excludes (caches, build artifacts, `.git`, etc.) remain hardcoded in the script.
-
-## Backup
-
-```bash
-# Automatic: every 2 days at 22:00 via systemd timer
-# Manual:
-sudo bash backup_workstation.sh                          # uses HDD_DEST_DIR from .env
-sudo bash backup_workstation.sh /media/user/Disk/Backups # custom destination
-```
-
-**What gets backed up:**
-- `/home/$USER_BACKUP` (minus caches, node_modules, .venv, build artifacts, cloud mounts)
-- `/etc`
-- Metadata: APT packages, Snap list, VSCode extensions, GNOME settings, crontabs, disk layout
-
-## Restore (Phoenix Protocol)
-
-For use after a fresh Ubuntu install or hardware migration.
-
-```bash
-sudo bash restore_workstation.sh /path/to/backup-xxx.tar.zst [username]
-```
-
-**What gets restored:**
-1. APT repos + keys → reinstall all APT packages
-2. Snap packages
-3. VSCode extensions
-4. `/home/$USER_RESTORE` (rsync)
-5. GNOME preferences
-6. SSH config, VPN (Wireguard/Nekoray), network connections, crontabs
-
-> **Not restored:** `/etc/fstab`, `/etc/shadow` — machine-specific, would break the new system.
-
-## Scheduling
-
-| What | Detail |
-|------|--------|
-| Unit | `backup-restore.timer` |
-| Schedule | Every 2 days at 22:00 (`OnCalendar=*-*-1/2 22:00:00`) |
-| Persistent | Yes — if the machine was off at 22:00, runs immediately at next boot |
-| Boot delay | None — fires at 22:00 only, or immediately on boot if a run was missed |
-
-## Logging
-
-```bash
-make log                            # last 50 lines (journald)
-journalctl -u backup-restore        # full history
-journalctl -u backup-restore -f     # follow live
-```
-
-## Makefile
-
-```bash
-make install    # sudo: install systemd units, secure .env, enable timer
-make purge      # sudo: disable timer and remove unit files
-make status     # systemctl status backup-restore.service + timer
-make log        # journalctl -u backup-restore -n 50
-make run        # sudo: run a backup immediately (drive must be mounted)
-make preview    # sudo: estimate size only — no compression
-make lint       # shellcheck all .sh files
-```
-
-> `backup_restore/` is part of the `.agents/` kernel repo — it has no standalone git.
-> To push changes, run `make push` from `~/.agents/` (the repo root).
-
-## Prerequisites
-
-```bash
-sudo apt install zstd pv dselect rsync curl libnotify-bin
-```
+- Backup destination: external HDD mounted at `/media/kpihx/KpihX-Backup/`
+- Keeps last 2 backups (`KEEP_BACKUPS`), older ones are pruned automatically
+- Excludes: caches, trash, node_modules, venvs, build artifacts, large VMs
+- Uses `pv` for progress bar and `zstd --fast=1` for compression

@@ -14,9 +14,10 @@ USER_BACKUP="kpihx"
 PC_NAME="KpihX-Ubuntu"
 HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups"
 KEEP_BACKUPS=2
+PREVIEW=0
 
 # ── Load secrets from kernel .env ─────────────────────────────────────────────
-AGENTS_ENV="$HOME/.agents/.env"
+AGENTS_ENV="/home/$USER_BACKUP/.agents/.env"
 if [[ -f "$AGENTS_ENV" ]]; then
     # shellcheck source=/dev/null
     source "$AGENTS_ENV"
@@ -29,8 +30,19 @@ fi
 : "${TELEGRAM_UBUNTU_TOKEN:?'~/.agents/.env must define TELEGRAM_UBUNTU_TOKEN'}"
 : "${TELEGRAM_CHAT_ID:?'~/.agents/.env must define TELEGRAM_CHAT_ID'}"
 
-# ── Destination override (argument wins over hardcoded default) ───────────────
-TARGET_DIR="${1:-${HDD_DEST_DIR}}"
+# ── Arg parsing ───────────────────────────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            echo "Usage: $0 [--preview|-p] [DEST_DIR]"
+            echo "  --preview, -p   Dry-run: show what would be backed up, don't create archive"
+            echo "  DEST_DIR        Target directory (default: $HDD_DEST_DIR)"
+            exit 0 ;;
+        -p|--preview) PREVIEW=1; shift ;;
+        *) TARGET_DIR="$1"; shift ;;
+    esac
+done
+TARGET_DIR="${TARGET_DIR:-${HDD_DEST_DIR}}"
 if [[ -z "$TARGET_DIR" ]]; then
     echo "❌ No destination provided. Set HDD_DEST_DIR at top of script or pass as argument." >&2
     echo "   Usage: sudo $0 /media/$USER_BACKUP/KpihX-Backup/Backups" >&2
@@ -82,6 +94,8 @@ alert() {
         -d "text=${ICON} BACKUP PC ${ICON}%0A%0A${MESSAGE}" > /dev/null || true
 }
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 
 # ── Destination validation ─────────────────────────────────────────────────────
 PARENT_DIR="$(dirname "$TARGET_DIR")"
@@ -109,7 +123,7 @@ TMP_DIR="$HDD_DEST_DIR/temp_metadata"
 NOW="$(date +"%Y-%m-%d_%H-%M-%S")"
 ARCHIVE_NAME="backup-${PC_NAME}-${NOW}.tar.zst"
 FINAL_ARCHIVE_PATH="$HDD_DEST_DIR/$ARCHIVE_NAME"
-SRC_DIRS="$USER_HOME /etc"
+SRC_DIRS=("$USER_HOME" "/etc")
 
 # Universal excludes — applied on all machines.
 EXCLUDES=(
@@ -191,7 +205,7 @@ crontab -l                       > "$TMP_DIR/crontab_root.txt" 2>/dev/null || tr
 crontab -u "$USER_BACKUP" -l     > "$TMP_DIR/crontab_user.txt" 2>/dev/null || true
 lsblk -f                         > "$TMP_DIR/disk_layout.txt"
 
-SRC_DIRS="$SRC_DIRS $TMP_DIR"
+SRC_DIRS+=("$TMP_DIR")
 
 # ── Phase 1: Size estimate ─────────────────────────────────────────────────────
 log "📊 Phase 1: Estimating size..."
@@ -199,7 +213,7 @@ DU_EXCLUDES=()
 for item in "${EXCLUDES[@]}"; do
     [[ "$item" == --exclude=* ]] && DU_EXCLUDES+=("$item")
 done
-TOTAL_SIZE="$(du -scb "${DU_EXCLUDES[@]}" $SRC_DIRS 2>/dev/null | tail -1 | awk '{print $1}')"
+TOTAL_SIZE="$(du -scb "${DU_EXCLUDES[@]}" "${SRC_DIRS[@]}" 2>/dev/null | tail -1 | awk '{print $1}')"
 READABLE_SIZE="$(numfmt --to=iec-i --suffix=B "$TOTAL_SIZE")"
 log "   → Total to compress: $READABLE_SIZE"
 
@@ -211,7 +225,7 @@ fi
 
 # ── Phase 2: Compress to HDD ──────────────────────────────────────────────────
 log "📦 Phase 2: Compressing (zstd) → $FINAL_ARCHIVE_PATH"
-tar -cP "${TAR_OPTIONS[@]}" "${EXCLUDES[@]}" -cf - $SRC_DIRS | \
+tar -cP "${TAR_OPTIONS[@]}" "${EXCLUDES[@]}" -cf - "${SRC_DIRS[@]}" | \
     pv -s "$TOTAL_SIZE" -N "Compress" -p -t -e -r -b | \
     zstd -T0 --fast=1 > "$FINAL_ARCHIVE_PATH"
 
