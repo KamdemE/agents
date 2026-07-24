@@ -29,7 +29,7 @@ HDD_DEST="$HDD_MOUNT/Backups/PVE"
 RCLONE_DEST="gdrive-x:Backups/PVE"
 KEEP=3
 
-SSH_BASE="-o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p $PVE_PORT $PVE_USER@$PVE_HOST"
+SSH_BASE="-i /home/kpihx/.ssh/id_ed25519_pve -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p $PVE_PORT $PVE_USER@$PVE_HOST"
 RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10 $SSH_BASE"
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")
