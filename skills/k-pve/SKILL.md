@@ -34,8 +34,8 @@ git clone git@github.com:KpihX/agents.git ~/.agents
 ln -sf ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
 
 # 3. Secrets
-cp ~/.agents/.env.example ~/.agents/.env
-# Edit ~/.agents/.env with TELEGRAM_UBUNTU_BOT + TELEGRAM_CHAT_ID
+# Create ~/.agents/.env from ~/.agents/.env.example
+# Then edit it with TELEGRAM_UBUNTU_BOT + TELEGRAM_CHAT_ID
 ```
 
 ## ksh — PVE Dispatcher
@@ -117,7 +117,7 @@ All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (us
 | `assets/network/network.conf.d/eduroam.conf` | wpa_supplicant config for eduroam (WPA-EAP) |
 | `assets/network/eduroam-linux-Ecole_Polytechnique-...py` | Official eduroam setup script (1372 lines) |
 | `assets/backup/vzdump.conf` | Default Proxmox vzdump configuration |
-| `assets/.env.example` | Template for `~/.agents/.env` |
+
 
 ## Changelog
 
