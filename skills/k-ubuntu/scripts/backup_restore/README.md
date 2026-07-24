@@ -45,7 +45,7 @@ backup-restore/
 sudo make install   # or: sudo bash install.sh
 ```
 
-Creates symlinks in `/etc/systemd/system/` → `.agents/scripts/assets/backup_restore/` (source of truth stays in repo),
+Creates symlinks in `/etc/systemd/system/` → `.agents/skills/k-ubuntu/assets/backup_restore/` (source of truth stays in repo),
 enables timer.
 
 ## Secrets

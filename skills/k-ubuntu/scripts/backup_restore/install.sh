@@ -5,7 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ASSETS_DIR="$(dirname "$SCRIPT_DIR")/assets/backup_restore"
+ASSETS_DIR="$(cd "$SCRIPT_DIR/../../assets/backup_restore" && pwd)"
 SYSTEMD_DIR="/etc/systemd/system"
 
 echo "→ [install] Pre-checks..."

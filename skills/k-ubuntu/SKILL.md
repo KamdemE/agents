@@ -113,7 +113,7 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 |------|------|---------|
 | `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint (see below) |
 | `scripts/tg-bot.py` | python | Telegram bot daemon — listens for `/clean`, `/status`, `/backup` |
-| `scripts/assets/tg-bot.service` | systemd | User service for tg-bot.py (symlink target) |
+| `assets/tg-bot.service` | systemd | User service for tg-bot.py (symlink target) |
 | `scripts/clean/` | dir | System cleanup suite (17 scripts, systemd timer) |
 | `scripts/backup_restore/` | dir | Workstation backup/restore (8 scripts, systemd timer) |
 | `scripts/CHANGELOG.md` | doc | Version history (current v2.1.4) |
@@ -175,7 +175,7 @@ ksh clean-admin purge        # remove symlinks (sudo)
 
 **6 stages:** snap → cache → editors → work → docker → AI.
 
-**Systemd units** in `.agents/scripts/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean-system.service` (root, oneshot) · `clean-system.timer` (every 2d @21:30, Persistent)
+**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean-system.service` (root, oneshot) · `clean-system.timer` (every 2d @21:30, Persistent)
 
 ### Backup & Restore — Phoenix Protocol
 
@@ -193,7 +193,7 @@ ksh restore <archive>        # bare-metal restore
 
 **Phases:** metadata export → size estimate → tar+zstd → keep 2.
 
-**Systemd units** in `.agents/scripts/assets/backup_restore/` (symlinked to `/etc/systemd/system/`): `backup-restore.service` (root, oneshot) · `backup-restore.timer` (every 2d @22:00, Persistent)
+**Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore/` (symlinked to `/etc/systemd/system/`): `backup-restore.service` (root, oneshot) · `backup-restore.timer` (every 2d @22:00, Persistent)
 
 ### tg-bot — Telegram Listener
 
@@ -208,7 +208,7 @@ User systemd service. Polls Telegram, dispatches via ksh.
 
 **Secrets:** `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
-**Service in:** `.agents/scripts/assets/tg-bot.service` → symlink → `~/.config/systemd/user/tg-bot.service`.
+**Service in:** `.agents/skills/k-ubuntu/assets/tg-bot.service` → symlink → `~/.config/systemd/user/tg-bot.service`.
 
 **Install:** `make -C scripts install` or manual symlink. **Logs:** `journalctl --user -u tg-bot.service -f`
 #    Ensure TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID are set

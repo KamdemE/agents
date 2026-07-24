@@ -1,12 +1,12 @@
 #!/bin/bash
 # install.sh — Symlink clean-system systemd units and enable the timer.
-# Source of truth stays in .agents/k-ubuntu/scripts/assets/clean/.
+# Source of truth stays in .agents/skills/k-ubuntu/assets/clean/.
 # Run once as root (or with sudo) on a new machine.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ASSETS_DIR="$(cd "$SCRIPT_DIR/../assets/clean" && pwd)"
+ASSETS_DIR="$(cd "$SCRIPT_DIR/../../assets/clean" && pwd)"
 SYSTEMD_DIR="/etc/systemd/system"
 
 echo "→ [install] Pre-checks..."
