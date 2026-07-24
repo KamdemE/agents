@@ -50,7 +50,7 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
 
 | Layer | Path |
 |-------|------|
-| Neovim config (canonical) | `$HOME/.config/opencode/skills/k-nvim/config/` |
+| Neovim config (canonical) | `$HOME/.agents/skills/k-nvim/config/` |
 | Neovim config (runtime) | `$HOME/.config/nvim/` (symlinks to canonical) |
 | Vim config | `$HOME/.vimrc` |
 | Vim autoload | `$HOME/.vim/autoload/plug.vim` (vim-plug) |

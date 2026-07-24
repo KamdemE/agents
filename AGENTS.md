@@ -81,7 +81,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-ai` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-ticktick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace`.
+Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-ticktick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-ai`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 

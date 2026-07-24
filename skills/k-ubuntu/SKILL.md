@@ -80,7 +80,7 @@ Key facts:
 Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** for full documentation, installation guide, and template assets.
 
 **Ubuntu workstation specifics:**
-- `$HOME/.kshrc` → **symlink** vers `assets/kshrc` (ce skill). Source de vérité locale.
+- `$HOME/.kshrc` → **symlink** to `assets/kshrc` (this skill). Source of truth.
 - Shell files: `$HOME/.zshrc`, `$HOME/.zprofile`, `$HOME/.zshenv`, `$HOME/.bashrc`
 - `$EDITOR` is set to `nvim` (see `.kshrc`)
 

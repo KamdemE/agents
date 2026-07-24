@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.1"
+  version: "2.1.0"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -17,10 +17,10 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation shell) · `k-pve` (PVE shell) · `k-pve-debian` (Debian VM shell) · `k-blglaptop139` (WSL shell) · `k-tmux` (shared interactive gate) · `k-clis` (CLI registry)
+> **Related skills:** `k-tmux` (setup BEFORE zsh — kshrc.base has auto-tmux at end) · `k-infras` (master map, checklist step 1b) · `k-skill-creator` (create infra skill if absent) · `k-ubuntu` / `k-pve` / `k-25` (infra skills with their own `assets/kshrc`)
 >
 > **Asset files:**
-> - `assets/kshrc.base` → **template** — copy to `$HOME/.kshrc` on new machines, then customize
+> - `assets/kshrc.base` → **template** — seed for new infra skill's `assets/kshrc`
 > - `assets/zshrc` → **interactive zsh** — symlinked from `~/.zshrc` (🔴 NEVER MODIFY)
 > - `assets/bashrc` → **bash fallback** — symlinked from `~/.bashrc` (🔴 NEVER MODIFY)
 >
@@ -36,24 +36,34 @@ The shell config follows a strict hierarchy:
 
 | File | Scope | Editable? |
 |------|-------|-----------|
-| `.kshrc` | **THIS machine** — the actual shell config for this equipment | ✅ **YES** — edit directly, this IS the local file |
-| `.kshrc.base` | **Template** — base content for new machines | ✅ **YES** — update the template when adding common defaults |
-| `.zshrc` | Zsh plugins/theme only | 🔴 **NEVER** |
-| `.bashrc` | Bash fallback → sources .kshrc | 🔴 **NEVER** |
+| **Infra skill** `assets/kshrc` (e.g. `k-ubuntu/assets/kshrc`) | **THIS machine** — the actual shell config | ✅ **YES** — edit the asset |
+| `k-zsh/assets/kshrc.base` | **Template** — base content for new infra skills | ✅ **YES** — update template |
+| `k-zsh/assets/zshrc` | Zsh plugins/theme only | 🔴 **NEVER** |
+| `k-zsh/assets/bashrc` | Bash fallback → sources .kshrc | 🔴 **NEVER** |
 
-**How it works:**
+**How it works — setup order (tmux BEFORE zsh):**
+
+The `.kshrc.base` template has an **auto-tmux block** at the end that auto-attaches to the infra's tmux session on shell open. Therefore **tmux must be set up first** (see `k-tmux`), so the session exists when the first shell opens.
 
 ```
 New machine setup:
-  1. cp assets/kshrc.base → ~/.kshrc
-  2. Add machine-specific env vars, PATHs, source calls to ~/.kshrc
-  3. Symlink assets/zshrc → ~/.zshrc  (or leave default)
-  4. Symlink assets/bashrc → ~/.bashrc (or leave default)
-
-On an existing machine (Ubuntu, etc.):
-  ~/.kshrc IS the local config — edit it directly.
-  It was built from .kshrc.base + machine additions.
+  0. Setup tmux first (k-tmux) — creates the infra tmux session
+  1. Check if infra skill exists (e.g. k-ubuntu, k-pve, k-25)
+     ├─ YES, with assets/kshrc → go to step 3
+     └─ NO or no assets/kshrc → go to step 2
+  2. Create infra skill (k-skill-creator) if absent, or add assets/kshrc to existing skill:
+     cp k-zsh/assets/kshrc.base → <infra-skill>/assets/kshrc
+     Customize: replace <INFRA_SESSION> with infra short name (ubuntu, pve, s25...)
+     Add machine-specific env vars, PATHs, source calls
+  3. Symlink into home:
+     ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
+  4. Symlink zshrc and bashrc from k-zsh assets:
+     ln -sf ~/.agents/skills/k-zsh/assets/zshrc  ~/.zshrc
+     ln -sf ~/.agents/skills/k-zsh/assets/bashrc ~/.bashrc
+  5. Verify: open new shell — auto-attaches to infra tmux session
 ```
+
+The `.zshrc` and `.bashrc` source `~/.kshrc` — that's how the hub pattern flows.
 
 ---
 
@@ -78,21 +88,26 @@ One central hub (`.kshrc`) sourced by every shell. No duplicated env vars, no PA
 
 ---
 
-## .kshrc.base — The Template
+## `kshrc.base` — The Template
 
-`assets/kshrc.base` is the **minimal starting point** for any new KπX machine. Copy it, then add what that machine needs:
+`assets/kshrc.base` is the **seed template** for creating a new infra skill's `assets/kshrc`. It is never used directly as `~/.kshrc` — always through the infra skill chain:
 
 ```bash
-cp $HOME/.agents/skills/k-zsh/assets/kshrc.base ~/.kshrc
+# New infra skill: cp to infra skill, customize, then symlink
+cp $HOME/.agents/skills/k-zsh/assets/kshrc.base <infra-skill>/assets/kshrc
+# Edit <infra-skill>/assets/kshrc:
+#   - Replace <INFRA_SESSION> with this infra's tmux session name
+#   - Add machine-specific PATH, env vars, source calls
+# Then: ln -sf <infra-skill>/assets/kshrc ~/.kshrc
 ```
 
-Then edit `~/.kshrc` and add:
+Each infra skill's `assets/kshrc` contains:
 - **PATH entries** for binaries specific to this machine
 - **Env vars** (EDITOR, language, tool configs)
-- **Source calls** for skills assets (phones, gws profiles, etc.)
-- **Vaultwarden** secret injection (see `k-bw`)
+- **Source calls** for skill-specific assets
+- **Auto-tmux block** at the end (session name customized per infra)
 
-> **Rule of thumb:** if a PATH or env var could serve another KπX machine, add it to `.kshrc.base` instead so the template stays rich. If it's truly local (hardware paths, temporary experiments), add it directly to `~/.kshrc`.
+> **Rule of thumb:** if a PATH or env var could serve another KπX machine, add it to `kshrc.base` instead so seed stays rich. If it's truly local (hardware paths, temporary experiments), add it to the infra skill's `assets/kshrc`.
 
 ---
 
@@ -111,27 +126,7 @@ Then edit `~/.kshrc` and add:
 
 ## The .kshrc Pattern
 
-`.kshrc` is **the hub**, not a function library. Keep it thin:
-
-```bash
-# EXAMPLE .kshrc — add what YOUR machine needs
-
-# PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# Editor
-export EDITOR="micro"
-
-# Source skill assets
-[[ -f "$HOME/.agents/skills/k-25/assets/phones.ksh" ]] && source "$_"
-
-# Secrets (idempotent guard)
-# [ -f "$HOME/.agents/.env" ] && source "$HOME/.agents/.env"
-
-# ── Interactive-only below ──
-case $- in *i*) ;; *) return ;; esac
-# ... aliases, history, colors
-```
+`.kshrc` is **the hub**, not a function library. Keep it thin. See `assets/kshrc.base` for the canonical template.
 
 **Rules:**
 1. **No bloat** — .kshrc is not a function library. Keep env vars, PATH, and source calls only.
@@ -142,6 +137,8 @@ case $- in *i*) ;; *) return ;; esac
 
 ## Deploying to a New Machine
 
+**Prerequisite:** tmux must be set up first (see `k-tmux`) — the kshrc auto-tmux block needs the session to exist.
+
 1. **Install zsh + Oh My Zsh**:
    ```bash
    sudo apt install zsh
@@ -149,38 +146,40 @@ case $- in *i*) ;; *) return ;; esac
    chsh -s $(which zsh)
    ```
 
-2. **Create `~/.kshrc` from base template**:
-   ```bash
-   cp $HOME/.agents/skills/k-zsh/assets/kshrc.base ~/.kshrc
-   ```
-   Then edit `~/.kshrc` to add machine-specific env vars and PATHs.
+2. **Infra skill & kshrc**: follow the **How it works** section above (steps 1-3):
+   - Check/create infra skill with `assets/kshrc`
+   - `ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc`
 
-3. **Symlink zshrc and bashrc** (optional — if you want the KπX defaults):
+3. **Symlink zshrc and bashrc**:
    ```bash
-   SKILL="$HOME/.agents/skills/k-zsh/assets"
-   ln -sf "$SKILL/zshrc"  ~/.zshrc
-   ln -sf "$SKILL/bashrc" ~/.bashrc
+   ln -sf ~/.agents/skills/k-zsh/assets/zshrc  ~/.zshrc
+   ln -sf ~/.agents/skills/k-zsh/assets/bashrc ~/.bashrc
    ```
 
-4. **Verify**: open new shell → `echo $EDITOR` should show your configured editor.
+4. **Verify**: open new shell → auto-attaches to infra tmux session.
 
-> **Existing files on the machine** (`.bashrc`, `.profile`, etc.) should not be deleted — just append a `.kshrc` source line and leave the original content intact. The hub pattern adds, never replaces.
+> **Existing files on the machine** (`.bashrc`, `.profile`, etc.) should not be deleted — just ensure `~/.zshrc` and `~/.bashrc` are symlinks to k-zsh assets. The hub pattern adds, never replaces.
 
 ---
 
 ## OS-Specific Notes
 
+All infra skills now follow the same pattern: `assets/kshrc` in the skill, `~/.kshrc` is a symlink to it.
+
 ### Ubuntu (kpihx-ubuntu)
-`~/.kshrc` is a real file (NOT managed by the skill — edited directly on the machine). Built from `.kshrc.base` + machine additions. See `k-ubuntu` → Shell.
+See `k-ubuntu` → Shell. `~/.kshrc` → `k-ubuntu/assets/kshrc`.
 
 ### PVE (kpihx-pve)
-PVE uses its own minimal shell. Install zsh + copy `.kshrc.base` → `~/.kshrc`, then add PVE-specific paths. See `k-pve` → Shell.
+See `k-pve` → Shell. Same pattern: `assets/kshrc` in skill, symlink from home.
 
 ### WSL (blglaptop139)
-WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal can be configured to launch zsh by default. See `k-blglaptop139` → WSL Shell.
+WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal → zsh by default. See `k-blglaptop139` → Shell.
 
 ### Debian VM (kpihx-pve-debian)
-Standard apt install + `.kshrc.base` → `~/.kshrc`. See `k-pve-debian` → Shell.
+See `k-pve-debian` → Shell. Same symlink pattern.
+
+### S25 Phone (Termux)
+See `k-25` → Setup. `~/.kshrc` → `k-25/assets/kshrc`.
 
 ---
 
@@ -193,6 +192,5 @@ Standard apt install + `.kshrc.base` → `~/.kshrc`. See `k-pve-debian` → Shel
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v2.0.1 — Removed `alias rm='trash-put'` from .kshrc.base — replaced by `~/.local/bin/rm` wrapper (k-clis/assets/rm). |
-| 2026-07-22 | [OPENCODE] | v2.0.0 — Removed .kshrc.local. Purged Ubuntu-specific details. Added .kshrc.base deploy template. |
-| [SUMMARY] | — | v1.1.0 — Added .kshrc.local, frozen files, mandatory-consult. |
+| 2026-07-24 | [OPENCODE] | v2.1.0 — **kshrc pattern redesigned**: `~/.kshrc` is now a symlink to infra skill `assets/kshrc` (not a direct copy). If infra skill absent, create it (k-skill-creator), seed with kshrc.base, customize. Setup order: tmux first, then zsh. OS notes updated for all infra types. |
+| [SUMMARY] | — | v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
