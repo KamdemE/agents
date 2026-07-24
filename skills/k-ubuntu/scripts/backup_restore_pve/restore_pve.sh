@@ -8,6 +8,14 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AGENTS_ENV="/home/kpihx/.agents/.env"
 [ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
 
+case "$1" in
+    -h|--help)
+        echo "Usage: $0 [--help|-h]"
+        echo "  Restore: scans HDD + Cloud, takes newest archive."
+        echo "  No flags needed. Outputs instructions for scp+restore on PVE."
+        exit 0 ;;
+esac
+
 # ── Config ─────────────────────────────────────────────────────────────────────
 RCLONE_REMOTE="gdrive-x:Backups/PVE"
 HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"

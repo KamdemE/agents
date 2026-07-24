@@ -16,11 +16,11 @@ REMOTE_DIR="/var/lib/vz/dump"
 
 # --- HDD EXTERNE (DESTINATION 1) ---
 HDD_MOUNT_POINT="/media/kpihx/KpihX-Backup"
-HDD_DEST_DIR="$HDD_MOUNT_POINT/Homelab/Backups/PVE"
+HDD_DEST_DIR="$HDD_MOUNT_POINT/Backups/PVE"
 
 # --- CLOUD RCLONE (DESTINATION 2) ---
 RCLONE_REMOTE="gdrive-x"
-RCLONE_FOLDER="Homelab/Backups/PVE"
+RCLONE_FOLDER="Backups/PVE"
 RCLONE_DEST="$RCLONE_REMOTE:$RCLONE_FOLDER"
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")

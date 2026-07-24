@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
-# restore_workstation.sh — Phoenix Protocol: bare-metal workstation restore
-# Usage: sudo ./restore_workstation.sh <backup.tar.zst> [USERNAME]
+# restore.sh — Phoenix Protocol: bare-metal workstation restore
+# Usage: sudo ./restore.sh <backup.tar.zst> [USERNAME]
 #   USERNAME defaults to USER_BACKUP defined below, or prompts interactively.
 # Author: KpihX [CLAUDE]
 # ==============================================================================

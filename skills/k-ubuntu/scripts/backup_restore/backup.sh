@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
-# backup_workstation.sh — Workstation backup: tar+zstd archive to external HDD
-# Usage: sudo ./backup_workstation.sh [DEST_DIR]
+# backup.sh — Workstation backup: tar+zstd archive to external HDD
+# Usage: sudo ./backup.sh [DEST_DIR]
 #   DEST_DIR defaults to HDD_DEST_DIR (defined below) if not provided as arg.
 # Runs as root. Secrets sourced from ~/.agents/.env.
 # Author: KpihX [CLAUDE]

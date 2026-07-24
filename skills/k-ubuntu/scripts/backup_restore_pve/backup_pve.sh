@@ -8,6 +8,16 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AGENTS_ENV="/home/kpihx/.agents/.env"
 [ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
 
+case "$1" in
+    -h|--help)
+        echo "Usage: $0 [--help|-h]"
+        echo "  Full backup: rsync PVE → HDD → Cloud"
+        echo "  No flags needed. Runs everything."
+        echo ""
+        echo "Admin: ksh backup-pve-admin help"
+        exit 0 ;;
+esac
+
 # ── Config ─────────────────────────────────────────────────────────────────────
 SERVER_ALIAS="homelab"
 REMOTE_DIR="/var/lib/vz/dump"
