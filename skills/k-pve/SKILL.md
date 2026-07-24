@@ -105,7 +105,7 @@ All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (us
 
 ## Secrets
 
-`TELEGRAM_UBUNTU_BOT` and `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE) or `~/.agents/.env` (on workstation).
+`TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
 ## Assets (configs, not scripts)
 
