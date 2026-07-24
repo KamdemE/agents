@@ -86,7 +86,7 @@ echo "$CLOUD_FILES" | grep -vF "$NAME" | while read -r f; do
   [ -z "$f" ] && continue
   echo "  🗑️ Purging old from Drive: $f"
   rclone deletefile "$RCLONE_DEST/$f" --config "$RCLONE_CONF" --drive-use-trash=false || true
-done
+done || true
 
 SIZE=$(du -sh "$LATEST" | cut -f1)
 notify "SUCCESS" "Backup complete!%0ASize: $SIZE ($NAME)"
