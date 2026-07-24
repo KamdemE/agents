@@ -54,8 +54,11 @@ rsync -av --progress --partial --size-only --inplace --whole-file \
   "$SSH_DEST:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
 
 echo "--- 2. HDD rotation (keep $KEEP) ---"
-cd "$HDD_DEST" || exit 1
-ls -1t *.zst *.vma *.tar.gz 2>/dev/null | tail -n +$((KEEP+1)) | while read -r f; do rm -f "$f"; done
+cd "$HDD_DEST" || { echo "Cannot enter $HDD_DEST"; exit 1; }
+# Rotation: list files, keep KEEP newest, delete the rest
+for ext in zst vma tar.gz; do
+  ls -1t ./*."$ext" 2>/dev/null | tail -n +$((KEEP+1)) | while read -r f; do rm -f "$f"; done
+done || true
 
 echo "--- 3. Cloud sync ---"
 LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1)
