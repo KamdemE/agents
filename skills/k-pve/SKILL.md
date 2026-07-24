@@ -78,6 +78,18 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 |---------|---------|
 | `maintenance.sh` | Node maintenance tasks |
 
+### Assets (systemd units symlinked from `.agents/`)
+
+| Asset | Purpose |
+|-------|---------|
+| `assets/backup/pve-backup.service` | Backup: runs `backup_server.sh` (oneshot) |
+| `assets/backup/pve-backup.timer` | Backup: weekly schedule |
+| `assets/network/pve-watchdog.service` | Watchdog: runs `network_watchdog.sh` |
+| `assets/network/pve-watchdog.timer` | Watchdog: every 5 minutes |
+| `assets/network/pve-boot-notify.service` | Boot: runs `boot_notify.sh` |
+
+All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (user) and root on the PVE.
+
 ### Module docs
 
 | File | Content |
