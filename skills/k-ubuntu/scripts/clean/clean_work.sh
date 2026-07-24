@@ -17,6 +17,7 @@ NC='\033[0m'
 MODE_SAFE=false
 MODE_PURGE=false
 MODE_INFOS=false
+PARAMS=("$@")
 TOP_N=10
 
 usage() {
@@ -31,7 +32,7 @@ usage() {
 }
 
 confirm() {
-    [[ "$PARAMS" =~ "-y" || "$PARAMS" =~ "--system" ]] && return 0
+    for _p in "${PARAMS[@]}"; do [[ "$_p" == "-y" || "$_p" == "--yes" || "$_p" == "--system" ]] && return 0; done && return 0
     echo -en "${YELLOW}[CONFIRM]${NC} $1 (y/n)? "
     read -n 1 -r
     echo ""

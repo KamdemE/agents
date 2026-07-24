@@ -3,12 +3,30 @@
 Automated cleanup and disk-analysis suite for KπX Ubuntu workstation.
 Runs every 2 days at 21:30 via systemd timer; sends a Telegram report.
 
+## Usage
+
+```bash
+# Run cleanup directly — sudo used internally only when needed
+ksh clean --help                  # see options
+ksh clean -s                      # safe mode, interactive
+ksh clean -s -y                   # safe mode, auto-confirm
+ksh clean -p --system             # deep purge + system (sudo for system ops)
+ksh clean -p --system -y          # deep purge + system, auto-confirm
+
+# Admin operations (systemd lifecycle, monitoring, logs) — via Makefile
+ksh clean-admin help              # list available admin targets
+ksh clean-admin status            # service + timer status
+ksh clean-admin log               # last 50 journal lines
+ksh clean-admin install           # install systemd units (sudo)
+ksh clean-admin purge             # remove systemd units (sudo)
+```
+
 ## Architecture
 
 ```
 clean/
 ├── auto_clean.sh       # Root automation: orchestrates, analyzes, notifies Telegram
-├── clean_all.sh        # Orchestrator: calls all module scripts in order
+├── clean_all.sh        # Orchestrator: calls all module scripts in order  ← ksh clean
 ├── clean_snap.sh       # Module: snap revision cleanup
 ├── clean_cache.sh      # Module: APT, pip, npm, bun, uv, browser caches
 ├── clean_editors.sh    # Module: Wrapper for VSCode, Cursor, and Antigravity caches, logs, CachedData
@@ -63,15 +81,19 @@ Non-secret values are hardcoded at the top of `auto_clean.sh`:
 | `PC_NAME` | Label in Telegram report |
 | `DU_EXCLUDES` | Array of subdirs to skip from du analysis (rclone mounts, etc.) |
 
-## Makefile
+## Makefile (admin — via `ksh clean-admin`)
+
+The Makefile handles **meta operations only** (systemd lifecycle, monitoring).  
+Actual cleanup is done by `clean_all.sh` via `ksh clean`.
 
 ```bash
+make help       # show available admin targets
+make status     # service + timer status
+make log        # journalctl -u clean-system -n 50
 make install    # sudo: generate service (resolves @SCRIPT_DIR@) + enable timer
 make purge      # sudo: disable and remove units
-make run   # sudo: run cleanup now
-make log        # journalctl -u clean-system -n 50
-make log-scan   # last workspace scan log (/var/log/clean-system/)
-make lint       # shellcheck on all .sh files
+make check      # shellcheck (ignore SC2155/SC2317/SC2291 — known false positives)
+                # Focus on remaining SC2046/SC2086 — those can be real bugs if not intentional.
 ```
 
 > `clean/` is part of the `.agents/` kernel repo — it has no standalone git.

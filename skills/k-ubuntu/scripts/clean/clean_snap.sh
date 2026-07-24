@@ -17,6 +17,7 @@ MODE_SAFE=false
 MODE_PURGE=false
 MODE_SYSTEM=false
 MODE_INFOS=false
+PARAMS=("$@")
 MODE_SPECIFIC=false
 
 usage() {
@@ -32,7 +33,7 @@ usage() {
 }
 
 confirm() {
-    [[ "$PARAMS" =~ "-y" || "$PARAMS" =~ "--system" ]] && return 0
+    for _p in "${PARAMS[@]}"; do [[ "$_p" == "-y" || "$_p" == "--yes" || "$_p" == "--system" ]] && return 0; done && return 0
     echo -en "${YELLOW}[CONFIRM]${NC} $1 (y/n)? "
     read -n 1 -r
     echo ""
@@ -58,7 +59,7 @@ clean_safe() {
         echo "Found disabled revisions:"
         echo "$REVISIONS"
         if confirm "Remove these revisions"; then
-            echo "$REVISIONS" | while read name rev; do sudo snap remove "$name" --revision="$rev"; done
+            echo "$REVISIONS" | while read -r name rev; do sudo snap remove "$name" --revision="$rev"; done
         fi
     else
         echo "No disabled revisions found."
@@ -80,7 +81,7 @@ clean_system() {
         echo "Snapshots found:"
         echo "$SNAPSHOTS"
         if confirm "Delete all snapshots"; then
-            echo "$SNAPSHOTS" | awk '{print $1}' | while read setid; do sudo snap forget "$setid"; done
+            echo "$SNAPSHOTS" | awk '{print $1}' | while read -r setid; do sudo snap forget "$setid"; done
         fi
     else
         echo "No snapshots found."
@@ -104,7 +105,8 @@ while [[ "$#" -gt 0 ]]; do
         -i|--infos) MODE_INFOS=true ;;
         -s|--safe) MODE_SAFE=true ;;
         -p|--purge) MODE_PURGE=true ;;
-        -y|--system) MODE_SYSTEM=true ;;
+        -y|--yes) ;;
+--system) MODE_SYSTEM=true ;;
         --specific) MODE_SPECIFIC=true ;;
         -h|--help) usage ;;
         *) echo "Unknown: $1"; usage ;;

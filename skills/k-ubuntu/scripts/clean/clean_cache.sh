@@ -16,6 +16,7 @@ MODE_SAFE=false
 MODE_PURGE=false
 MODE_SYSTEM=false
 MODE_INFOS=false
+PARAMS=("$@")
 
 usage() {
     echo -e "${BLUE}Usage: $0 [OPTIONS]${NC}"
@@ -28,7 +29,7 @@ usage() {
 }
 
 confirm() {
-    [[ "$PARAMS" =~ "-y" || "$PARAMS" =~ "--system" ]] && return 0
+    for _p in "${PARAMS[@]}"; do [[ "$_p" == "-y" || "$_p" == "--yes" || "$_p" == "--system" ]] && return 0; done && return 0
     echo -en "${YELLOW}[CONFIRM]${NC} $1 (y/n)? "
     read -n 1 -r
     echo ""
@@ -107,7 +108,8 @@ while [[ "$#" -gt 0 ]]; do
         -i|--infos) MODE_INFOS=true ;;
         -s|--safe) MODE_SAFE=true ;;
         -p|--purge) MODE_PURGE=true ;;
-        -y|--system) MODE_SYSTEM=true ;;
+        -y|--yes) ;;
+--system) MODE_SYSTEM=true ;;
         *) usage ;;
     esac
     shift

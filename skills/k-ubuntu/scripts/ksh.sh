@@ -2,49 +2,49 @@
 set -euo pipefail
 
 # ksh — KpihX UNIVERSAL DISPATCHER
-# Orchestrates system modules (clean, backup)
-# Installed via 'make install' in Work/sh
-
 ROOT="$HOME/.agents/skills/k-ubuntu/scripts"
 
 usage() {
-    echo "Usage: ksh <module> [target] | ksh status"
+    echo "Usage: ksh <module> [args...]"
     echo ""
-    echo "Modules: clean, backup, help"
-    echo "Special: status (Global System Audit)"
+    echo "Modules:"
+    echo "  clean [flags]       Run clean_all.sh — passing flags through"
+    echo "  clean-admin [opts]  systemd/service admin via Makefile"
+    echo "  backup              Backup operations"
+    echo "  status              Global system audit"
+    echo ""
+    echo "Detail: ksh clean --help   | ksh clean-admin help"
 }
 
 [[ $# -lt 1 ]] && usage && exit 1
 
-# Handle global status first
-if [[ "$1" == "status" ]]; then
-    echo "🔍 [ksh] Global Workstation Audit..."
-    echo "--- CLEAN MODULE ---"
-    make -s -C "$ROOT/clean" status || echo "Clean: Offline"
-    echo ""
-    echo "--- BACKUP MODULE ---"
-    make -s -C "$ROOT/backup_restore" status || echo "Backup: Offline"
-    echo ""
-    echo "--- QMD MODULE ---"
-    if [[ -x "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" ]]; then
-        "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" || true
-    else
-        echo "QMD: check_collections.sh not installed"
-    fi
-    exit 0
-fi
-
-MODULE="$1"
-shift
-
-case "$MODULE" in
-    clean)          DIR="clean" ;;
-    backup)         DIR="backup_restore" ;;
-    help|--help|-h) usage; exit 0 ;;
-    *)              echo "❌ Unknown module '$MODULE'"; usage; exit 1 ;;
+case "$1" in
+    -h|--help) usage; exit 0 ;;
+    status)
+        shift
+        echo "🔍 [ksh] Global Workstation Audit..."
+        echo "--- CLEAN ---"
+        make -s -C "$ROOT/clean" status 2>/dev/null || echo "Clean: Offline"
+        echo "--- BACKUP ---"
+        make -s -C "$ROOT/backup_restore" status 2>/dev/null || echo "Backup: Offline"
+        echo "--- QMD ---"
+        if [[ -x "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" ]]; then
+            "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" || true
+        else echo "QMD: not installed"; fi
+        ;;
+    clean)
+        shift
+        bash "$ROOT/clean/clean_all.sh" "$@"
+        ;;
+    clean-admin)
+        shift
+        make -C "$ROOT/clean" "$@"
+        ;;
+    backup)
+        shift
+        make -C "$ROOT/backup_restore" "${1:-status}"
+        ;;
+    *)
+        echo "❌ Unknown module '$1'" && usage && exit 1
+        ;;
 esac
-
-# Default target is 'run'
-TARGET="${1:-run}"
-
-make -C "$ROOT/$DIR" "$TARGET"
