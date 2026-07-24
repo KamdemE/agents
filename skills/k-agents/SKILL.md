@@ -40,8 +40,7 @@ The Curator daemon reads this to know which agents to monitor.
 | 10 | **VIBE** | 🟢 | `~/.vibe/config.toml` | `prompts/global.md` → kernel | `skill_paths` config | ❌ | ❌ | ❌ | global.md + skills | weekly |
 | 11 | **Cline** | 🟢 | `~/.cline/` | `rules/AGENTS.md` → kernel | `skills/` symlink | ❌ | ❌ | ❌ | AGENTS.md + rules | weekly |
 | 12 | **Zed** | 🟢 | `~/.config/zed/settings.json` | `AGENTS.md` → kernel | `skills/` symlink + project | ✅ ACP bridges | ✅ native agent | native | AGENTS.md + ACP | daily |
-| 13 | **k-ai** | 🟢 | `~/.k-ai/config.yaml` | `AGENTS.md` → kernel | `skills.directories` | ❌ | ❌ | ❌ | AGENTS.md + config | weekly |
-| 14 | **Continue** | 🟡 | `~/.continue/config.json` | — | — | ❌ | ❌ | ❌ | — | weekly |
+| 13 | **Continue** | 🟡 | `~/.continue/config.json` | — | — | ❌ | ❌ | ❌ | — | weekly |
 
 ## Per-Runtime Details
 
@@ -141,29 +140,22 @@ The Curator daemon reads this to know which agents to monitor.
 - **Skills path:** `~/.config/zed/skills/` → `~/.agents/skills/` (user) + `<workspace>/.agents/skills/` (project)
 - **Known issues:** LMDB rules not git-friendly. Profiles ≠ product modes. `agy` ACP not supported.
 
-### 12. k-ai
-- **Config:** `~/.k-ai/config.yaml`
-- **Injection:** `AGENTS.md` → kernel + `skills.directories` in config
-- **ACP:** No
-- **Skills path:** `skills.directories` includes `~/.agents/skills/`
-- **Known issues:** Session history in `~/.k-ai/sessions/` — runtime memory only.
-
-### 13. Continue
+### 12. Continue
 - **Config:** `~/.continue/config.json`
 - **Status:** 🟡 Standby — installed but not primary
 - **ACP:** No
 
 ## Injection Matrix — What Each Agent Auto-Loads
 
-| File | OpenCode | Hermes | Cursor | AGY | Codex | Claude | Gemini | Copilot | VIBE | Cline | Zed | k-ai |
-|------|----------|--------|--------|-----|-------|--------|--------|---------|------|-------|-----|------|
-| **AGENTS.md** | ✅ | via SOUL.md | ⚠️ manual | ✅ | ✅ | ✅ | via GEMINI.md | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **SOUL.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **k-context** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject | hooks auto-inject |
-| **k-infra** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject | hooks auto-inject |
-| **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink | ✅ config |
+| File | OpenCode | Hermes | Cursor | AGY | Codex | Claude | Gemini | Copilot | VIBE | Cline | Zed |
+|------|----------|--------|--------|-----|-------|--------|--------|---------|------|-------|-----|
+| **AGENTS.md** | ✅ | via SOUL.md | ⚠️ manual | ✅ | ✅ | ✅ | via GEMINI.md | ✅ | ✅ | ✅ | ✅ |
+| **SOUL.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **k-context** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject |
+| **k-infra** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject |
+| **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink |
 
 ## Cross-References
 

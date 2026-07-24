@@ -25,7 +25,7 @@ allowed-tools: Bash(*), "*"
 
 | Scope | Style | Example |
 |-------|-------|---------|
-| Project / repo / CLI binary | `kebab-case` | `my-tool`, `k-ai` |
+| Project / repo / CLI binary | `kebab-case` | `my-tool`, `k-agent` |
 | Module / folder / Python package | `snake_case` | `my_tool`, `k_ai` |
 | PyPI / npm package name | `kebab-case` (same as repo) | `kpihx-ai` |
 

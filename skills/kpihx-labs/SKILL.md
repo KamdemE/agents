@@ -54,7 +54,7 @@ kpihx-labs (this skill — kernel top reference)
 │   └── … (see references/ for full list)
 │
 ├── [generic top skills]
-│   ├── k-ai / k-bw / k-classification / k-cloudflare / k-cloud-tools
+│   ├── k-bw / k-classification / k-cloudflare / k-cloud-tools
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
 │   ├── k-openclaw / k-opencode / k-pptx / k-qmd / k-rclone / k-tailscale
