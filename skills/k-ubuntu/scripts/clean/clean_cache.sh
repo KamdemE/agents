@@ -68,7 +68,7 @@ clean_safe() {
     # Trash
     if confirm "Empty Trash (System & trash-cli)"; then
         rm -rf ~/.local/share/Trash/*
-        command -v trash-empty >/dev/null 2>&1 && trash-empty
+        command -v trash-empty >/dev/null 2>&1 && trash-empty -f
         echo -e "${GREEN}[SUCCESS]${NC} Trash emptied."
     fi
     # Edge

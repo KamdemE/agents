@@ -90,16 +90,14 @@ Actual cleanup is done by `clean_all.sh` via `ksh clean`.
 make help       # show available admin targets
 make status     # service + timer status
 make log        # journalctl -u clean-system -n 50
-make install    # sudo: generate service (resolves @SCRIPT_DIR@) + enable timer
-make purge      # sudo: disable and remove units
-make check      # shellcheck (ignore SC2155/SC2317/SC2291 — known false positives)
-                # Focus on remaining SC2046/SC2086 — those can be real bugs if not intentional.
+make install    # sudo: symlink systemd units from .agents/ + enable timer + test run
+make purge      # sudo: remove symlinks, disable timer
+make check      # shellcheck on all .sh files
 ```
 
-> `clean/` is part of the `.agents/` kernel repo — it has no standalone git.
-> To push changes, run `make push` from `~/.agents/` (the repo root).
-
 ## Install
+
+Systemd units are **symlinked** from `.agents/` (source of truth stays in the repo):
 
 ```bash
 sudo make install
@@ -107,8 +105,9 @@ sudo make install
 sudo bash install.sh
 ```
 
-`install.sh` resolves `@SCRIPT_DIR@` in the service template, copies units to
-`/etc/systemd/system/`, creates `/var/log/clean-system/`, and enables the timer.
+The service unit in `systemd/clean-system.service` now has the full absolute path to
+`auto_clean.sh` (no `@SCRIPT_DIR@` sed substitution needed). The timer stays on its
+canonical schedule (every 2 days at 21:30).
 
 ## Purge (uninstall)
 
@@ -116,13 +115,16 @@ sudo bash install.sh
 sudo make purge
 ```
 
-Stops timer/service, removes unit files, daemon-reload.
-Logs preserved in `/var/log/clean-system/` — remove manually if needed.
+Removes symlinks from `/etc/systemd/system/`, stops timer, daemon-reload.
+Logs preserved in `/var/log/clean-system/`.
+
+> `clean/` is part of the `.agents/` kernel repo — it has no standalone git.
+> To push changes, run `make push` from `~/.agents/` (the repo root).
 
 ## Notes
 
 - `workspace_scan.sh` detects `.env` files in 3 tiers: `TRACKED IN GIT` / `NOT gitignored` / `gitignored ✓`
 - `clean_work.sh --safe` removes `__pycache__`, `.pytest_cache`, and build artifacts (`dist/`, `build/`, `target/`, `.next/`)
 - `TOP_ROOT` targets `/var /usr /home /opt` only — avoids full `/` scan and RAM spike
-- `DU_EXCLUDES` is hardcoded at the top of `auto_clean.sh` — array of subdirs to skip (rclone mounts)
-- Auto-confirm in `auto_clean.sh` uses `printf 'y%.0s' {1..100}` — compatible with `read -n 1` in all module confirm prompts
+- `du -x` (one filesystem) automatically skips all mount points (rclone, bind mounts). `EXCLUDE_DIRS` at the top of `auto_clean.sh` handles large same-fs dirs (`.ollama`, `.ollama-ipex`).
+- `-y` or `--yes` flag auto-confirms all prompts in `clean_all.sh` and all sub-scripts

@@ -25,4 +25,4 @@ check:  ## Shellcheck bash scripts (SC2155/SC2317/SC2291 silenced — false posi
 	@shellcheck --shell=bash -e SC2155,SC2317,SC2291 *.sh || true; \
 	  echo; \
 	  echo "👉 Focus on remaining SC2046 (intentional? check context) and SC2086 (unquoted \$HOME — cosmetic but fixable)"; \
-	  echo "👉 SC2014 in clean_snap.sh is known — expands before find, harmless for snap cache paths"
+	  echo "👉  eSC2014 in clean_snap.sh is known — expands before find, harmless for snap cache paths"
