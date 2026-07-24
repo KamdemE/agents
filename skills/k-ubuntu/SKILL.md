@@ -207,9 +207,9 @@ Smart restore: auto-selects HDD or Cloud (newer archive wins).
 ```bash
 ksh backup-pve                  # full backup: rsync → HDD → Cloud
 ksh restore-pve                 # restore (auto-select newest source)
-ksh backup-admin-pve status/log # systemd monitoring
-ksh backup-admin-pve install    # symlink units + enable timer (sudo)
-ksh backup-admin-pve purge      # remove symlinks (sudo)
+ksh backup-pve-admin status/log # systemd monitoring
+ksh backup-pve-admin install    # symlink units + enable timer (sudo)
+ksh backup-pve-admin purge      # remove symlinks (sudo)
 ```
 
 **Paths:** HDD `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Backups/PVE/` (keep 1)
