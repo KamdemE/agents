@@ -15,7 +15,7 @@ source "$SCRIPT_DIR/../lib/notifier.sh"
 PHASE="$1"
 
 # --- CONFIGURATION ---
-RCLONE_REMOTE="gdrive-x:Homelab/Backups/Docker_Host"
+RCLONE_REMOTE="gdrive-x:Backups/PVE"
 DUMP_DIR="/var/lib/vz/dump"
 LOG_FILE="/var/log/vzdump-rclone.log"
 

@@ -1,32 +1,36 @@
 # backup_restore_pve — PVE Backup & Restore
 
-Pulls PVE backups via rsync, stores on HDD + Google Drive.
-Smart restore: picks the most recent backup from HDD or Cloud.
+Pulls Proxmox backups from PVE via rsync, stores on HDD + Google Drive.
+Smart restore: auto-selects HDD or Cloud (whichever has the newer archive).
 
 ## Usage
 
 ```bash
-ksh backup-pve             # full backup: rsync from PVE → HDD → Cloud
-ksh restore-pve            # restore: auto-select HDD or Cloud (newer wins)
-ksh backup-admin-pve help  # admin targets
-ksh backup-admin-pve log   # last 50 journal lines
+sudo bash backup_pve.sh                 # full backup: rsync → HDD → Cloud
+sudo bash restore_pve.sh                # restore (auto-select newest source)
 ```
 
-## Backup path
+## Paths
 
-```
-HDD:  /media/kpihx/KpihX-Backup/Backups/PVE/   (keep 3)
-Cloud: gdrive-x:Homelab/Backups/PVE/             (keep 1)
-```
+- HDD: `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3)
+- Cloud: `gdrive-x:Backups/PVE/` (keep 1)
 
-## Install
+## Systemd timer
+
+Runs weekly (`OnCalendar=weekly`), `Persistent=true`.
+
+**Install:** `sudo bash install.sh` · **Purge:** `sudo bash purge.sh`
+
+## Secrets
+
+`TELEGRAM_UBUNTU_BOT` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+
+## Makefile targets
 
 ```bash
-sudo make install   # or: sudo bash install.sh
+make help     # show targets
+make log      # journalctl -n 50
+make install  # symlink units + enable timer (sudo)
+make purge    # remove symlinks (sudo)
+make check    # shellcheck
 ```
-
-## Restore logic
-
-1. Scan HDD and Cloud for the most recent archive (by mtime)
-2. Pick whichever is newer (if one source is empty, use the other)
-3. Copy to /tmp/pve_restore/ and display instructions for scp to PVE

@@ -8,17 +8,18 @@ usage() {
     echo "Usage: ksh <module> [args...]"
     echo ""
     echo "Modules:"
-    echo "  clean [flags]         Run clean_all.sh"
-    echo "  clean-admin [opts]    systemd/service admin via Makefile"
-    echo "  backup [flags]        Run backup.sh (Ubuntu workstation)"
-    echo "  restore [flags]       Run restore.sh"
-    echo "  backup-admin [opts]   systemd/admin via Makefile"
-    echo "  backup-pve [flags]    Run backup_pve.sh (PVE rsync + cloud)"
-    echo "  restore-pve [flags]   Run restore_pve.sh (smart: HDD or Cloud)"
-    echo "  backup-admin-pve [opts]  systemd/admin via Makefile"
-    echo "  status                Global system audit"
+    echo "  clean [flags]            Run clean_all.sh directly"
+    echo "  clean-admin [opts]       systemd/admin via Makefile"
+    echo "  backup [flags]           Run backup.sh (workstation)"
+    echo "  restore [flags]          Run restore.sh (workstation)"
+    echo "  backup-admin [opts]      systemd/admin via Makefile"
+    echo "  backup-pve [flags]       Run backup_pve.sh (PVE)"
+    echo "  restore-pve [flags]      Run restore_pve.sh (PVE)"
+    echo "  backup-pve-admin [opts]  systemd/admin for PVE via Makefile"
+    echo "  status                   Global system audit (clean + backup + QMD)"
     echo ""
-    echo "Detail: ksh clean --help | ksh backup-admin help"
+    echo "Per-module help:  ksh <module> --help   (for run modules)"
+    echo "                  ksh <module>-admin help (for admin modules)"
 }
 
 [[ $# -lt 1 ]] && usage && exit 1
@@ -32,6 +33,8 @@ case "$1" in
         make -s -C "$ROOT/clean" status 2>/dev/null || echo "Clean: Offline"
         echo "--- BACKUP ---"
         make -s -C "$ROOT/backup_restore" status 2>/dev/null || echo "Backup: Offline"
+        echo "--- PVE BACKUP ---"
+        make -s -C "$ROOT/backup_restore_pve" status 2>/dev/null || echo "PVE Backup: Offline"
         echo "--- QMD ---"
         if [[ -x "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" ]]; then
             "$HOME/.agents/skills/k-qmd/scripts/check_collections.sh" || true
@@ -65,7 +68,7 @@ case "$1" in
         shift
         bash "$ROOT/backup_restore_pve/restore_pve.sh" "$@"
         ;;
-    backup-admin-pve)
+    backup-pve-admin)
         shift
         make -C "$ROOT/backup_restore_pve" "$@"
         ;;

@@ -9,7 +9,7 @@ AGENTS_ENV="/home/kpihx/.agents/.env"
 [ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-RCLONE_REMOTE="gdrive-x:Homelab/Backups/PVE"
+RCLONE_REMOTE="gdrive-x:Backups/PVE"
 HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"
 RESTORE_DIR="/tmp/pve_restore"
 

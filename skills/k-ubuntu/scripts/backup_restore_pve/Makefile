@@ -3,6 +3,9 @@
 help:   ## Show targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
 
+status: ## Show service + timer status
+	@systemctl status pve-backup.service pve-backup.timer --no-pager 2>/dev/null || true
+
 install: ## Symlink systemd units + enable timer (sudo)
 	@sudo bash install.sh
 

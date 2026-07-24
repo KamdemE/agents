@@ -35,7 +35,7 @@ send_telegram() {
     
     local text="$icon **$title** $icon%0A%0A$message"
     
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_PVE_TOKEN/sendMessage" \
+    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_BOT/sendMessage" \
         -d chat_id="$TELEGRAM_CHAT_ID" \
         -d text="$text" \
         -d parse_mode="Markdown" > /dev/null 2>&1

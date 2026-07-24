@@ -1,68 +1,36 @@
-# backup-restore — Workstation Backup & Restore (Phoenix Protocol)
+# backup-restore — Workstation Backup (Phoenix Protocol)
 
-Automated backup and bare-metal restore suite for Ubuntu workstation.
-Archives `$HOME` + `/etc` to external HDD via tar+zstd; sends Telegram report.
-Runs automatically every 2 days at 22:00 via systemd timer.
+Archives `$HOME` + `/etc` to external HDD via tar+zstd. Sends Telegram report.
 
 ## Usage
 
 ```bash
-# Run backup directly
-ksh backup --help            # see options
-ksh backup --preview         # dry-run: estimate size, show what would be backed up
-ksh backup /mnt/other       # backup to custom destination
-ksh backup                   # backup to default HDD mount
-
-# Full bare-metal restore (interactive, needs HDD)
-sudo bash ~/.agents/skills/k-ubuntu/scripts/backup_restore/restore.sh
-
-# Admin operations (systemd lifecycle)
-ksh backup-admin help        # list admin targets
-ksh backup-admin status      # service + timer status
-ksh backup-admin log         # last 50 journal lines
-ksh backup-admin install     # symlink systemd units + enable timer (sudo)
-ksh backup-admin purge       # remove symlinks, disable timer (sudo)
+sudo bash backup.sh --help              # see flags (--preview, custom dest)
+sudo bash backup.sh                     # backup to default HDD
+sudo bash backup.sh --preview           # dry-run estimate only
 ```
 
-## Architecture
+## Systemd timer
 
-```
-backup-restore/
-├── backup.sh          # Backup: metadata export → tar+zstd → rotation
-├── restore.sh         # Restore: extract → reinstall packages → rsync home
-├── excludes.conf      # Additional tar exclusion patterns (one per line)
-├── install.sh         # Symlink systemd units, enable timer (sudo)
-├── purge.sh           # Remove symlinks, disable timer (sudo)
-├── Makefile           # Admin targets (status, log, install, purge, check)
-│
-└── systemd units live in ../../assets/backup_restore/
-    ├── backup-restore.service   # oneshot, root, runs backup.sh
-    └── backup-restore.timer     # every 2 days at 22:00, Persistent=true
-```
+Runs every 2 days at 22:00 (`OnCalendar=*-*-1/2 22:00:00`), `Persistent=true`.
 
-## Install
+**Install:** `sudo bash install.sh` · **Purge:** `sudo bash purge.sh`
 
-```bash
-sudo make install   # or: sudo bash install.sh
-```
+## Destination
 
-Creates symlinks in `/etc/systemd/system/` → `.agents/skills/k-ubuntu/assets/backup_restore/` (source of truth stays in repo),
-enables timer.
+`/media/kpihx/KpihX-Backup/Backups/Ubuntu/` — keeps last 2 archives.
 
 ## Secrets
 
-Requires `~/.agents/.env` with:
-- `TELEGRAM_UBUNTU_TOKEN` — bot token for notifications
-- `TELEGRAM_CHAT_ID` — Telegram chat ID
+Requires `~/.agents/.env` with `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID`.
 
-## Preview mode
+## Makefile targets
 
-`--preview` or `-p` estimates backup size and lists what would be archived
-without creating the archive. Useful to verify excludes before a real run.
-
-## Notes
-
-- Backup destination: `/media/kpihx/KpihX-Backup/Backups/Ubuntu/`
-- Keeps last 2 backups (`KEEP_BACKUPS`), older ones are pruned automatically
-- Excludes: caches, trash, node_modules, venvs, build artifacts, large VMs
-- Uses `pv` for progress bar and `zstd --fast=1` for compression
+```bash
+make help     # show targets
+make status   # systemd status
+make log      # journalctl -n 50
+make install  # symlink units + enable timer (sudo)
+make purge    # remove symlinks (sudo)
+make check    # shellcheck
+```

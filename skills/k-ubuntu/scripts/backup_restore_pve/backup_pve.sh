@@ -13,7 +13,7 @@ SERVER_ALIAS="homelab"
 REMOTE_DIR="/var/lib/vz/dump"
 HDD_MOUNT="/media/kpihx/KpihX-Backup"
 HDD_DEST="$HDD_MOUNT/Backups/PVE"
-RCLONE_DEST="gdrive-x:Homelab/Backups/PVE"
+RCLONE_DEST="gdrive-x:Backups/PVE"
 KEEP=3
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")
@@ -37,7 +37,7 @@ echo "--- 1. rsync from $SERVER_ALIAS:$REMOTE_DIR/ to HDD ---"
 rsync -av --progress --partial --size-only --inplace --whole-file \
   -e "ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10" \
   --exclude '*.log' --exclude '*.notes' \
-  "$SERVER_ALIAS:$REMOTE_DIR/" "$HDD_DEST/" || { notify "ERROR" "rsync failed"; exit 1; }
+  "$SERVER_ALIAS:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
 
 # ── Phase 2: HDD rotation (keep KEEP most recent) ──────────────────────────────
 echo "--- 2. HDD rotation (keep $KEEP) ---"
@@ -52,7 +52,7 @@ if [ -z "$LATEST" ]; then
 fi
 
 NAME=$(basename "$LATEST")
-rclone copy "$LATEST" "$RCLONE_DEST" --transfers=4 --drive-chunk-size=32M --stats-one-line -v || { notify "ERROR" "rclone upload failed"; exit 1; }
+rclone copy "$LATEST" "$RCLONE_DEST" --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v || { notify "ERROR" "rclone upload failed"; exit 1; }
 
 # Cloud cleanup: keep only the latest
 rclone lsf "$RCLONE_DEST" --files-only | grep -v "$NAME" | while read -r f; do

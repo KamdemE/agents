@@ -42,7 +42,7 @@ cp ~/.agents/.env.example ~/.agents/.env
 
 ```bash
 ksh maintenance          # PVE node maintenance
-ksh backup server        # Backup PVE → cloud (Google Drive)
+ksh backup               # Backup PVE → cloud (Google Drive)
 
 ksh restore              # Restore PVE from cloud
 ksh watchdog             # Network watchdog status
@@ -75,8 +75,16 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 ### Maintenance
 
 | Script | Purpose |
-|--------|---------|
+|---------|---------|
 | `maintenance.sh` | Node maintenance tasks |
+
+### Module docs
+
+| File | Content |
+|------|---------|
+| `scripts/README.md` | Root overview of all PVE modules |
+| `scripts/backup/README.md` | Backup module usage |
+| `scripts/network/README.md` | Network module usage |
 
 ## Insights Discipline (mandatory)
 
@@ -85,7 +93,7 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 
 ## Secrets
 
-`TELEGRAM_UBUNTU_BOT` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_UBUNTU_BOT` and `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE) or `~/.agents/.env` (on workstation).
 
 ## Assets (configs, not scripts)
 
