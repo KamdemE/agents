@@ -55,11 +55,11 @@ rsync -av --progress --partial --size-only --inplace --whole-file \
 
 echo "--- 2. HDD rotation (keep $KEEP) ---"
 cd "$HDD_DEST" || exit 1
-ls -1t ./*.zst ./*.vma ./*.tar.gz 2>/dev/null | tail -n +$((KEEP+1)) | while read -r f; do rm -f "$f"; done
+ls -1t *.zst *.vma *.tar.gz 2>/dev/null | tail -n +$((KEEP+1)) | while read -r f; do rm -f "$f"; done
 
 echo "--- 3. Cloud sync ---"
-LATEST=$(ls -t "$HDD_DEST"/./*.zst "$HDD_DEST"/./*.vma "$HDD_DEST"/./*.tar.gz 2>/dev/null | head -1)
-if [ -z "$LATEST" ]; then
+LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1)
+if [ -z "${LATEST:-}" ]; then
   notify "WARN" "No archive found on HDD to upload."; exit 0
 fi
 
