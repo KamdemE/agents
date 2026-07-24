@@ -62,18 +62,44 @@ for ext in zst vma tar.gz; do
 done || true
 
 echo "--- 3. Cloud sync ---"
-LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1) || true
-if [ -z "$LATEST" ]; then
+# List HDD files (limited to KEEP newest)
+HDD_FILES=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -$KEEP) || true
+if [ -z "$HDD_FILES" ]; then
   notify "WARN" "No archive found on HDD to upload."; exit 0
 fi
 
-NAME=$(basename "$LATEST")
-rclone copy "$LATEST" "$RCLONE_DEST" --config "$RCLONE_CONF" --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v || { notify "ERROR" "rclone upload failed"; exit 1; }
+# List what is already on Drive
+CLOUD_FILES=$(rclone lsf "$RCLONE_DEST" --config "$RCLONE_CONF" --files-only 2>/dev/null) || true
 
-rclone lsf "$RCLONE_DEST" --config "$RCLONE_CONF" --files-only | grep -v "$NAME" | while read -r f; do
-  rclone deletefile "$RCLONE_DEST/$f" --config "$RCLONE_CONF" --drive-use-trash=false || true
+echo "--- Smart sync: check what needs upload ---"
+UPLOADED=""
+for archive in $HDD_FILES; do
+  NAME=$(basename "$archive")
+  if echo "$CLOUD_FILES" | grep -qF "$NAME"; then
+    echo "  ✅ Already on Drive: $NAME"
+  else
+    echo "  📤 Uploading: $NAME"
+    rclone copy "$archive" "$RCLONE_DEST" --config "$RCLONE_CONF" \
+      --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v \
+      || { notify "ERROR" "rclone upload failed for $NAME"; exit 1; }
+    UPLOADED="$NAME"
+  fi
 done
 
-SIZE=$(du -sh "$LATEST" | cut -f1)
-notify "SUCCESS" "Backup complete!%0ASize: $SIZE ($NAME)"
+echo "--- Smart purge: keep on Drive only what is in HDD keep list ---"
+KEEP_NAMES=""
+for archive in $HDD_FILES; do KEEP_NAMES="$KEEP_NAMES $(basename "$archive")"; done
+echo "$CLOUD_FILES" | while read -r f; do
+  [ -z "$f" ] && continue
+  if echo "$KEEP_NAMES" | grep -qF "$f"; then
+    echo "  ✅ Keeping on Drive: $f"
+  else
+    echo "  🗑️ Purging from Drive: $f"
+    rclone deletefile "$RCLONE_DEST/$f" --config "$RCLONE_CONF" --drive-use-trash=false || true
+  fi
+done
+
+LATEST=$(echo "$HDD_FILES" | head -1)
+SIZE=$(du -sh "$LATEST" 2>/dev/null | cut -f1)
+notify "SUCCESS" "Backup complete!%0ASize: $SIZE ($(basename "$LATEST"))%0AUploaded: ${UPLOADED:-none needed}"
 echo "[$NOW] Done."
