@@ -4,7 +4,6 @@ set -euo pipefail
 # restore_pve.sh — Restore PVE backup from HDD or Google Drive (whichever is newer)
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/restore_pve.sh
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AGENTS_ENV="/home/kpihx/.agents/.env"
 [ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
 
@@ -18,7 +17,6 @@ if [[ $# -gt 0 ]]; then
     esac
 fi
 
-# ── Config ─────────────────────────────────────────────────────────────────────
 RCLONE_REMOTE="gdrive-x:Backups/PVE"
 HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"
 RESTORE_DIR="/tmp/pve_restore"
@@ -33,9 +31,8 @@ notify() { local l=$1 m=$2 t="${3:-PVE RESTORE}"
 
 mkdir -p "$RESTORE_DIR"
 
-# ── Phase 1: find latest from both sources ─────────────────────────────────────
 echo "🔍 Scanning HDD ($HDD_DIR)..."
-HDD_FILE=$(ls -t "$HDD_DIR"/*.zst "$HDD_DIR"/*.vma "$HDD_DIR"/*.tar.gz 2>/dev/null | head -1)
+HDD_FILE=$(ls -t "$HDD_DIR"/./*.zst "$HDD_DIR"/./*.vma "$HDD_DIR"/./*.tar.gz 2>/dev/null | head -1)
 HDD_MTIME=""
 [ -n "$HDD_FILE" ] && HDD_MTIME=$(stat -c %Y "$HDD_FILE" 2>/dev/null || echo "0")
 
@@ -50,7 +47,6 @@ else
   CLOUD_MTIME="0"
 fi
 
-# ── Phase 2: pick the most recent ──────────────────────────────────────────────
 if [ -z "$HDD_FILE" ] && [ -z "$CLOUD_FILE" ]; then
   notify "ERROR" "No backup found on HDD or Cloud. Aborting."; exit 1
 fi
