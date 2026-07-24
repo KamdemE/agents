@@ -211,91 +211,6 @@ User systemd service. Polls Telegram, dispatches via ksh.
 **Service in:** `.agents/skills/k-ubuntu/assets/tg-bot.service` → symlink → `~/.config/systemd/user/tg-bot.service`.
 
 **Install:** `make -C scripts install` or manual symlink. **Logs:** `journalctl --user -u tg-bot.service -f`
-#    Ensure TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID are set
-
-# 2. Machine config → top of backup_workstation.sh
-#    Edit USER_BACKUP, PC_NAME, HDD_DEST_DIR, KEEP_BACKUPS
-
-# 3. Machine-specific excludes (optional)
-cd "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore"
-cp excludes.conf.example excludes.conf
-
-# 4. Install systemd timer
-sudo make install
-```
-
-**Manual run via ksh:**
-```bash
-ksh backup run       # runs backup_workstation.sh via sudo
-ksh backup preview   # size estimate only, no compression
-ksh backup log       # journalctl -u backup-restore -n 50
-ksh backup status    # systemd service + timer state
-```
-
-**Secrets** (from `~/.agents/.env`):
-
-| Variable | Description |
-|----------|-------------|
-| `TELEGRAM_UBUNTU_TOKEN` | Bot token for success/error notifications |
-| `TELEGRAM_CHAT_ID` | Telegram chat ID |
-
-**Machine config** (hardcoded at top of `backup_workstation.sh`):
-
-| Variable | Description |
-|----------|-------------|
-| `USER_BACKUP` | Username to backup (e.g. `kpihx`) |
-| `PC_NAME` | Label in archive name (e.g. `KpihX-Ubuntu`) |
-| `HDD_DEST_DIR` | Destination on HDD |
-| `KEEP_BACKUPS` | Archives to keep before rotation (default `2`) |
-
-### clean — System Cleanup Suite
-
-Runs every 2 days at 21:30 via systemd timer. Orchestrates 10+ cleanup modules, runs workspace scan, governance audit, and sends a Telegram report.
-
-**Pipeline:**
-1. **Baseline** — `df /` + `du $HOME` before cleanup
-2. **Workspace scan** — `.env` git status, venvs, node_modules, build artifacts, large files
-3. **Cleanup** — `clean_all.sh` runs all modules: snap revisions, APT/pip/npm/bun/uv/browser caches, editor caches, Docker prune, AI model caches, build artifacts
-4. **Governance audit** — `make audit` in `.agents/`
-5. **Post-cleanup analysis** — `du` after, compute reclaimed space, top 5 folders
-6. **Telegram report** — success/failure notification with reclaim stats
-
-**Docs:** `scripts/clean/README.md` (setup, scheduling) · `scripts/clean/Makefile` (install, run, log, status, lint)
-
-**Install (once per machine):**
-```bash
-cd "$HOME/.agents/skills/k-ubuntu/scripts/clean"
-
-# Secrets must be set in ~/.agents/.env (TELEGRAM_UBUNTU_TOKEN, TELEGRAM_CHAT_ID)
-
-# Edit machine config at top of auto_clean.sh:
-#   USER_BACKUP, PC_NAME, DU_EXCLUDES (rclone mounts to skip from du)
-
-# Install systemd timer
-sudo make install
-```
-
-**Manual run via ksh:**
-```bash
-ksh clean run       # runs auto_clean.sh via sudo
-ksh clean log       # journalctl -u clean-system -n 50
-ksh clean status    # systemd service + timer state
-```
-
-**Secrets** (from `~/.agents/.env`):
-
-| Variable | Description |
-|----------|-------------|
-| `TELEGRAM_UBUNTU_TOKEN` | Bot token for cleanup report notifications |
-| `TELEGRAM_CHAT_ID` | Telegram chat ID |
-
-**Machine config** (hardcoded at top of `auto_clean.sh`):
-
-| Variable | Description |
-|----------|-------------|
-| `USER_BACKUP` | Username whose /home is cleaned |
-| `PC_NAME` | Label in Telegram report |
-| `DU_EXCLUDES` | Array of subdirs to skip from du analysis (rclone mounts) |
 
 ### Agent kernel
 
@@ -442,12 +357,12 @@ Listens for Telegram commands and dispatches them via `ksh`.
 ```bash
 systemctl --user stop tg-ubuntu.service    # stop old if exists
 rm -f ~/.config/systemd/user/tg-ubuntu.service
-ln -sf ~/.agents/skills/k-ubuntu/scripts/tg-bot.service ~/.config/systemd/user/tg-bot.service
+ln -sf ~/.agents/skills/k-ubuntu/assets/tg-bot.service ~/.config/systemd/user/tg-bot.service
 systemctl --user daemon-reload
 systemctl --user enable --now tg-bot.service
 ```
 
-**Source of truth:** `k-ubuntu/scripts/tg-bot.py` + `k-ubuntu/scripts/tg-bot.service` in `.agents/`.
+**Source of truth:** `k-ubuntu/scripts/tg-bot.py` + `k-ubuntu/assets/tg-bot.service` in `.agents/`.
 
 **Purge:**
 ```bash
