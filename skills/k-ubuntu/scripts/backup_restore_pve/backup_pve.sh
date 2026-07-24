@@ -61,8 +61,8 @@ for ext in zst vma tar.gz; do
 done || true
 
 echo "--- 3. Cloud sync ---"
-LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1)
-if [ -z "${LATEST:-}" ]; then
+LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1) || true
+if [ -z "$LATEST" ]; then
   notify "WARN" "No archive found on HDD to upload."; exit 0
 fi
 
