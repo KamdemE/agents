@@ -23,7 +23,7 @@ Runs weekly (`OnCalendar=weekly`), `Persistent=true`.
 
 ## Secrets
 
-`TELEGRAM_UBUNTU_BOT` + `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE).
+`TELEGRAM_PVE_TOKEN` + `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE).
 
 ## Install
 

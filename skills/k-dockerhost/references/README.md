@@ -95,7 +95,7 @@ echo "<derived_key>" > /root/.vault_secret && chmod 400 /root/.vault_secret
    ```bash
    ssh docker-host "cp /root/docker_host/.env.example /root/docker_host/.env && nano /root/docker_host/.env"
    # Required:
-   # TELEGRAM_UBUNTU_BOT=<bot-token>
+   # TELEGRAM_DOCKERHOST_TOKEN=<bot-token>
    # CHAT_ID=<your-chat-id>
    ```
 

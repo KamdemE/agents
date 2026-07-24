@@ -30,7 +30,7 @@ Runs every Saturday at 03:30 (`OnCalendar=Sat *-*-* 03:30:00`), `Persistent=true
 
 ## Secrets
 
-`TELEGRAM_UBUNTU_BOT` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
 ## Makefile targets
 

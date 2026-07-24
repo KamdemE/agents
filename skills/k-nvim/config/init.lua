@@ -123,6 +123,7 @@ require("lazy").setup({
 require("kpihx.keymaps")
 require("kpihx.lsp")
 require("kpihx.tmux-navigator")
+require("kpihx.trash").setup()
 
 -- Restore session on startup
 local function reattach_markview()

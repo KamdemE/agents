@@ -21,12 +21,16 @@ RCLONE_REMOTE="gdrive-x:Backups/PVE"
 HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"
 RESTORE_DIR="/tmp/pve_restore"
 
-notify() { local l=$1 m=$2 t="${3:-PVE RESTORE}"
-  if [ -n "${TELEGRAM_UBUNTU_BOT:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_BOT/sendMessage" \
-      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$l PVE $t [$l]%0A%0A$m" > /dev/null || true
+notify() { local l=$1 m=$2
+  case "$l" in
+    ERROR) ICON="❌" ;; WARN|WARNING) ICON="⚠️" ;; SUCCESS) ICON="✅" ;;
+    INFO) ICON="ℹ️" ;; *) ICON="🤖" ;;
+  esac
+  if [ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
+    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_TOKEN/sendMessage" \
+      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$ICON PVE RESTORE$ICON%0A%0A$m" > /dev/null || true
   fi
-  echo "[$l] $t - $m"
+  echo "[$l] PVE RESTORE - $m"
 }
 
 mkdir -p "$RESTORE_DIR"

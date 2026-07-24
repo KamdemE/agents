@@ -3,11 +3,11 @@ name: k-nvim
 description: KπX Neovim hub — config, plugins, LSP, and daily workflow map.
 agent: [OPCODE]
 created: "2026-05-28"
-updated: "2026-06-05"
+updated: "2026-07-24"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 2.0.0
+  version: 3.0.0
 ---
 
 # KπX — Neovim
@@ -38,7 +38,8 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
     ├── plugins.lua                   ← Full Lazy plugin spec (28 plugins)
     ├── lsp.lua                       ← LSP: basedpyright, ruff, lua_ls, jsonls, yamlls, marksman, bashls, texlab
     ├── keymaps.lua                   ← Custom keybindings
-    └── tmux-navigator.lua            ← Seamless Ctrl+h/j/k/l nvim ↔ tmux
+    ├── tmux-navigator.lua            ← Seamless Ctrl+h/j/k/l nvim ↔ tmux
+    └── trash.lua                     ← FreeDesktop trash for dd/D/cc/C
 
 ~/.config/nvim/                       ← SYMLINKS (read by nvim)
 ├── init.lua           → k-nvim/config/init.lua
@@ -135,6 +136,10 @@ Install: `:Mason` (UI) or `:MasonInstall pyright ruff-lsp lua-language-server ..
 | `Ctrl+h/j/k/l` | Navigate splits/panes (tmux-aware) |
 | `<leader>ha` | Harpoon add |
 | `<leader>hl` | Harpoon quick menu |
+| `dd` | Delete line (trashed) |
+| `D` | Delete to end of line (trashed) |
+| `cc` | Change line (trashed) |
+| `C` | Change to end of line (trashed) |
 | `<leader>u` | Undotree toggle |
 
 ## Telescope Navigation
@@ -257,10 +262,52 @@ Verify: `echo $EDITOR` → `nvim`.
 
 > **Source of truth:** `~/.kshrc` line 45 on KπX-Ubuntu. For new machines, add to `kshrc.base` template.
 
+## Trash System — FreeDesktop Integration
+
+`dd`, `D`, `cc`, `C` envoient aussi le texte supprimé dans la corbeille système Ubuntu.
+
+### How it works
+
+Each delete operation writes two files to `~/.local/share/Trash/`:
+- `files/nvim-dd-<timestamp>-<id>` — the deleted line(s)
+- `info/nvim-dd-<timestamp>-<id>.trashinfo` — FreeDesktop metadata
+
+The `.trashinfo` uses path prefix `.nvim-dd/` to visually distinguish nvim trash entries and prevent accidental `trash-restore` collisions.
+
+### What's covered
+
+| Key | Operation | Trashed |
+|-----|-----------|---------|
+| `dd` | Delete line (with count: `3dd`) | ✅ |
+| `D` | Delete to end of line | ✅ |
+| `cc` | Change line (delete + insert) | ✅ |
+| `C` | Change to end of line | ✅ |
+
+Not covered: `x` (too granular), `s`, visual `d` (complex — planned).
+
+### What survives
+
+| After this... | Trash content? | `u` undo? | Register `""`? |
+|---------------|----------------|-----------|-----------------|
+| `:w` | ✅ still there | ✅ (undofile) | ❌ cleared |
+| `:q` then reopen | ✅ still there | ✅ (undofile) | ❌ cleared |
+| `trash-empty` | ❌ wiped | depends | ❌ |
+| GNOME trash GUI delete | ❌ wiped | depends | ❌ |
+
+### CLI reference
+
+```bash
+trash-list | grep nvim-dd    # show nvim trash entries
+trash-empty                  # empty ALL trash (nvim + system)
+```
+
+### Source
+
+`lua/kpihx/trash.lua` — 80 lines, zero dependencies. No plugin needed.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-23 | [OPENCODE] | v2.1.0 — Added Post-Install Shell Wiring section: document `export EDITOR=nvim` in `.kshrc`. |
-| 2026-06-05 | [OPCODE] | v2.0.0 — Centralized config in `k-nvim/config/`, `~/.config/nvim/` now symlinks. Plugin health patches removed. Healthcheck: only KπX config errors fixed. |
-| [SUMMARY] | — | v1.2.0–v1.7.0: RAM optimization (2.3GB→21MB), healthcheck governance, plugin count cleanup, rename k-vim→k-nvim, Agent autonomy rule, telescope exclusion map. |
+| 2026-07-24 | [OPENCODE] | v3.0.0 — FreeDesktop Trash integration: new `lua/kpihx/trash.lua` intercepts dd/D/cc/C and writes to `~/.local/share/Trash/`. Added section + key table. |
+| [SUMMARY] | — | v2.1.0 Post-Install Shell Wiring; v2.0.0 centralized config; v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB), healthcheck governance, telescope exclusion map. |

@@ -28,4 +28,4 @@ sudo bash purge.sh     # remove symlinks
 
 ## Secrets
 
-`TELEGRAM_UBUNTU_BOT` + `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE).
+`TELEGRAM_PVE_TOKEN` + `TELEGRAM_CHAT_ID` from `/root/.agents/.env` (on PVE).

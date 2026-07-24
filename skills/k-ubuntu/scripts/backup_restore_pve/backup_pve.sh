@@ -35,12 +35,16 @@ RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInte
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")
 
-notify() { local l=$1 m=$2 t="${3:-PVE BACKUP}"
-  if [ -n "${TELEGRAM_UBUNTU_BOT:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_BOT/sendMessage" \
-      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$l PVE $t [$l]%0A%0A$m" > /dev/null || true
+notify() { local l=$1 m=$2
+  case "$l" in
+    ERROR) ICON="❌" ;; WARN|WARNING) ICON="⚠️" ;; SUCCESS) ICON="✅" ;;
+    INFO) ICON="ℹ️" ;; *) ICON="🤖" ;;
+  esac
+  if [ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
+    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_TOKEN/sendMessage" \
+      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$ICON PVE BACKUP$ICON%0A%0A$m" > /dev/null || true
   fi
-  echo "[$NOW] [$l] $t - $m"
+  echo "[$NOW] [$l] PVE BACKUP - $m"
 }
 
 echo "[$NOW] Starting PVE backup..."

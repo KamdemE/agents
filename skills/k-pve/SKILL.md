@@ -35,7 +35,7 @@ ln -sf ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
 
 # 3. Secrets
 # Create ~/.agents/.env from ~/.agents/.env.example
-# Then edit it with TELEGRAM_UBUNTU_BOT + TELEGRAM_CHAT_ID
+# Then edit it with TELEGRAM_PVE_TOKEN + TELEGRAM_CHAT_ID
 ```
 
 ## ksh — PVE Dispatcher

@@ -13,4 +13,4 @@ For cross-infra PVE backup operations (rsync from workstation), see `k-ubuntu/sc
 
 ## Secrets
 
-All modules load `TELEGRAM_UBUNTU_BOT` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+All modules load `TELEGRAM_PVE_TOKEN` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
