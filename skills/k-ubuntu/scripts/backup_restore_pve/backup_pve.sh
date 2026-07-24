@@ -20,7 +20,7 @@ if [[ $# -gt 0 ]]; then
 fi
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-PVE_HOST="kpihx-pve"
+PVE_HOST="100.123.81.21"
 PVE_USER="kpihx"
 PVE_PORT="2222"
 REMOTE_DIR="/var/lib/vz/dump"
