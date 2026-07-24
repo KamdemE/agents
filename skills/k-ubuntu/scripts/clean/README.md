@@ -10,6 +10,13 @@ sudo bash clean_all.sh -s -y            # safe mode, auto-confirm
 sudo bash clean_all.sh -p --system -y   # deep purge + system, auto-confirm
 ```
 
+## Permissions
+
+All `.sh` scripts must be executable (+x) for systemd services to run them:
+```bash
+chmod +x *.sh
+```
+
 ## Systemd timer
 
 Runs every 2 days at 21:30 (`OnCalendar=*-*-1/2 21:30:00`), `Persistent=true`.

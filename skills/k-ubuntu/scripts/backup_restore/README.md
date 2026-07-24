@@ -10,6 +10,13 @@ sudo bash backup.sh                     # backup to default HDD
 sudo bash backup.sh --preview           # dry-run estimate only
 ```
 
+## Permissions
+
+All `.sh` scripts must be executable (+x) for services to run them:
+```bash
+chmod +x *.sh
+```
+
 ## Systemd timer
 
 Runs every 2 days at 22:00 (`OnCalendar=*-*-1/2 22:00:00`), `Persistent=true`.
