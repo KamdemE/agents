@@ -3,19 +3,13 @@
 # 100% Transparency | 0 Hardcoding | 0 Duplicate Secrets
 
 # --- LOADER & CONFIG ---
-# Strict relative loading: The .env is always in the parent directory of this library
-LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-ENV_FILE="$LIB_DIR/../.env"
-
-if [ -f "$ENV_FILE" ]; then
-    source "$ENV_FILE"
-else
-    echo "⚠️  [notifier.sh] Error: .envfile not found at $ENV_FILE"
-fi
+# Secrets from kernel ~/.agents/.env
+ENV_FILE="$HOME/.agents/.env"
+if [ -f "$ENV_FILE" ]; then set -a; source "$ENV_FILE"; set +a; fi
 
 # Fallback defaults if env missing
-TELEGRAM_HOMELAB_TOKEN="${TELEGRAM_HOMELAB_TOKEN:-}"
-CHAT_ID="${CHAT_ID:-}"
+TELEGRAM_DOCKERHOST_TOKEN="${TELEGRAM_DOCKERHOST_TOKEN:-}"
+TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
 
 # --- NOTIFICATION ENGINE ---
 homelab_notify() {
@@ -37,9 +31,9 @@ homelab_notify() {
     esac
 
     # Telegram POST
-    if [ -n "$TELEGRAM_HOMELAB_TOKEN" ] && [ -n "$CHAT_ID" ]; then
-        curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_HOMELAB_TOKEN/sendMessage" \
-            -d chat_id="$CHAT_ID" \
+    if [ -n "$TELEGRAM_DOCKERHOST_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+        curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_DOCKERHOST_TOKEN/sendMessage" \
+            -d chat_id="$TELEGRAM_CHAT_ID" \
             -d text="$ICON **$TITLE** [$LEVEL]%0A%0A$MESSAGE" \
             -d parse_mode="Markdown" > /dev/null
     fi

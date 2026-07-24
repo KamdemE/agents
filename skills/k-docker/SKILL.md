@@ -101,7 +101,8 @@ Templates:
 | `WHATSAPP_CHAT_IDS` | ✓ | ✓ | Telegram/WA notification targets |
 | `TELEGRAM_CHAT_IDS` | ✓ | ✓ | Telegram notification targets |
 | `POSTGRES_PASSWORD` | ✓ | ✓ | Shared server postgres password |
-| `TELEGRAM_HOMELAB_TOKEN` | ✓ | ✓ | Generic Telegram homelab bot token |
+| `TELEGRAM_PVE_TOKEN` | ✓ | ✓ | PVE Telegram bot token |
+| `TELEGRAM_DOCKERHOST_TOKEN` | ✓ | ✓ | Docker host Telegram bot token |
 
 **Project-specific vars** — create per project in GitLab **Settings → CI/CD → Variables** (or via CLI):
 

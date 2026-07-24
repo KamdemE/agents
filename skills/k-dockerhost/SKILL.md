@@ -38,7 +38,7 @@ echo "Include ~/.agents/skills/k-ssh/assets/ssh.conf" > ~/.ssh/config
 
 # 4. Secrets
 cp ~/.agents/.env.example ~/.agents/.env
-# Edit ~/.agents/.env with TELEGRAM_HOMELAB_TOKEN + TELEGRAM_CHAT_ID
+# Edit ~/.agents/.env with TELEGRAM_DOCKERHOST_TOKEN + TELEGRAM_CHAT_ID
 ```
 
 ## ksh — Docker Host Dispatcher
@@ -70,7 +70,7 @@ All scripts live in `k-dockerhost/scripts/` (this skill).
 
 ## Secrets
 
-`TELEGRAM_HOMELAB_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_DOCKERHOST_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
 ## Changelog
 

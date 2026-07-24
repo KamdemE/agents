@@ -35,7 +35,7 @@ ln -sf ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
 
 # 3. Secrets
 cp ~/.agents/.env.example ~/.agents/.env
-# Edit ~/.agents/.env with TELEGRAM_HOMELAB_TOKEN + TELEGRAM_CHAT_ID
+# Edit ~/.agents/.env with TELEGRAM_PVE_TOKEN + TELEGRAM_CHAT_ID
 ```
 
 ## ksh — PVE Dispatcher
@@ -85,7 +85,7 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 
 ## Secrets
 
-`TELEGRAM_HOMELAB_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
 ## Changelog
 

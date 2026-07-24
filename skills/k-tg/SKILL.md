@@ -132,6 +132,8 @@ When KπX runs the **full** *what's up*, **Telegram is the last turn** — **AGE
 |---------|----------------|---------|
 | `TELEGRAM_GENERAL_TOKEN` | `general` | **General** (display name) — agent inbox |
 | `TELEGRAM_ISSUES_TOKEN` | `issues` | **Issues** (display name) — bug/incident inbox |
+| `TELEGRAM_PVE_TOKEN` | `pve` | PVE bridge |
+| `TELEGRAM_DOCKERHOST_TOKEN` | `dockerhost` | Docker host bridge |
 | `TELEGRAM_HOMELAB_TOKEN` | `homelab` | Sentinel / Homelab |
 | `TELEGRAM_UBUNTU_TOKEN` | `ubuntu` | Ubuntu workstation reports |
 | `TELEGRAM_S25_TOKEN` | `s25` | S25 phone bot |

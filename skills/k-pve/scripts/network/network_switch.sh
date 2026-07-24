@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(dirname "$0")" || exit 1
-# Chargement de la configuration
-[ -f .env ] && source .env
+# Secrets from kernel ~/.agents/.env
+ENV_FILE="$HOME/.agents/.env"
+[ -f "$ENV_FILE" ] && set -a && source "$ENV_FILE" && set +a
 
 # ==============================================================================
 # 1. CONFIGURATION
@@ -35,8 +35,8 @@ send_telegram() {
     
     local text="$icon **$title** $icon%0A%0A$message"
     
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_HOMELAB_TOKEN/sendMessage" \
-        -d chat_id="$CHAT_ID" \
+    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_PVE_TOKEN/sendMessage" \
+        -d chat_id="$TELEGRAM_CHAT_ID" \
         -d text="$text" \
         -d parse_mode="Markdown" > /dev/null 2>&1
 }
