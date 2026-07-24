@@ -1,0 +1,10 @@
+[Unit]
+Description=PVE Backup — rsync from PVE + cloud upload
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore_pve/backup_pve.sh
+
+[Install]
+WantedBy=multi-user.target

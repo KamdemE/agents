@@ -35,7 +35,7 @@ ln -sf ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
 
 # 3. Secrets
 cp ~/.agents/.env.example ~/.agents/.env
-# Edit ~/.agents/.env with TELEGRAM_PVE_TOKEN + TELEGRAM_CHAT_ID
+# Edit ~/.agents/.env with TELEGRAM_UBUNTU_BOT + TELEGRAM_CHAT_ID
 ```
 
 ## ksh — PVE Dispatcher
@@ -43,7 +43,7 @@ cp ~/.agents/.env.example ~/.agents/.env
 ```bash
 ksh maintenance          # PVE node maintenance
 ksh backup server        # Backup PVE → cloud (Google Drive)
-ksh backup local         # Pull backup to local machine
+
 ksh restore              # Restore PVE from cloud
 ksh watchdog             # Network watchdog status
 ksh network              # Switch WiFi/Wired interfaces
@@ -68,7 +68,7 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 | Script | Purpose |
 |--------|---------|
 | `backup/backup_server.sh` | Push PVE backup to Google Drive |
-| `backup/backup_local.sh` | Pull PVE backup to local machine |
+
 | `backup/restore.sh` | Restore PVE from Google Drive backup |
 | `backup/vzdump-hook.sh` | Auto-sync hook after Proxmox vzdump job |
 
@@ -85,7 +85,7 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 
 ## Secrets
 
-`TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_UBUNTU_BOT` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
 ## Assets (configs, not scripts)
 

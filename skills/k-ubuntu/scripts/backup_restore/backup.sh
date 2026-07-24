@@ -12,7 +12,7 @@ set -euo pipefail
 # ── Machine config (edit these per machine) ───────────────────────────────────
 USER_BACKUP="kpihx"
 PC_NAME="KpihX-Ubuntu"
-HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups"
+HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups/Ubuntu"
 KEEP_BACKUPS=2
 PREVIEW=0
 

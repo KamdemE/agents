@@ -62,7 +62,7 @@ without creating the archive. Useful to verify excludes before a real run.
 
 ## Notes
 
-- Backup destination: external HDD mounted at `/media/kpihx/KpihX-Backup/`
+- Backup destination: `/media/kpihx/KpihX-Backup/Backups/Ubuntu/`
 - Keeps last 2 backups (`KEEP_BACKUPS`), older ones are pruned automatically
 - Excludes: caches, trash, node_modules, venvs, build artifacts, large VMs
 - Uses `pv` for progress bar and `zstd --fast=1` for compression

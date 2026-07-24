@@ -116,6 +116,7 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 | `assets/tg-bot.service` | systemd | User service for tg-bot.py (symlink target) |
 | `scripts/clean/` | dir | System cleanup suite (17 scripts, systemd timer) |
 | `scripts/backup_restore/` | dir | Workstation backup/restore (8 scripts, systemd timer) |
+| `scripts/backup_restore_pve/` | dir | PVE backup/restore (rsync + cloud, systemd timer) |
 | `scripts/CHANGELOG.md` | doc | Version history (current v2.1.4) |
 | `scripts/TODO.md` | doc | Pending improvements (4 items) |
 
@@ -194,6 +195,24 @@ ksh restore <archive>        # bare-metal restore
 **Phases:** metadata export → size estimate → tar+zstd → keep 2.
 
 **Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore/` (symlinked to `/etc/systemd/system/`): `backup-restore.service` (root, oneshot) · `backup-restore.timer` (every 2d @22:00, Persistent)
+
+### PVE Backup — Phoenix Protocol
+
+Pulls Proxmox backups from PVE via rsync, stores on HDD + Google Drive.  
+Smart restore: auto-selects HDD or Cloud (newer archive wins).
+
+**Via ksh:**
+```bash
+ksh backup-pve                  # full backup: rsync → HDD → Cloud
+ksh restore-pve                 # restore (auto-select newest source)
+ksh backup-admin-pve status/log # systemd monitoring
+ksh backup-admin-pve install    # symlink units + enable timer (sudo)
+ksh backup-admin-pve purge      # remove symlinks (sudo)
+```
+
+**Paths:** HDD `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Homelab/Backups/PVE/` (keep 1)
+
+**Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore_pve/`
 
 ### tg-bot — Telegram Listener
 

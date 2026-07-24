@@ -8,7 +8,7 @@ ENV_FILE="$HOME/.agents/.env"
 if [ -f "$ENV_FILE" ]; then set -a; source "$ENV_FILE"; set +a; fi
 
 # Fallback defaults if env missing
-TELEGRAM_PVE_TOKEN="${TELEGRAM_PVE_TOKEN:-}"
+TELEGRAM_UBUNTU_BOT="${TELEGRAM_UBUNTU_BOT:-}"
 TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
 
 # --- NOTIFICATION ENGINE ---
@@ -31,8 +31,8 @@ homelab_notify() {
     esac
 
     # Telegram POST
-    if [ -n "$TELEGRAM_PVE_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-        curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_PVE_TOKEN/sendMessage" \
+    if [ -n "$TELEGRAM_UBUNTU_BOT" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+        curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_BOT/sendMessage" \
             -d chat_id="$TELEGRAM_CHAT_ID" \
             -d text="$ICON **$TITLE** [$LEVEL]%0A%0A$MESSAGE" \
             -d parse_mode="Markdown" > /dev/null
