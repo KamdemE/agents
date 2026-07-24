@@ -111,19 +111,15 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 
 | Path | Type | Purpose |
 |------|------|---------|
-| `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint for all KπX operations |
-| `scripts/vpn-dxo` | shell | DxO VPN launcher (tmux session) |
-| `scripts/bot.py` | python | Telegram bot |
-| `scripts/tg-ubuntu.service` | systemd | Telegram service unit |
-| `scripts/clean/` | dir | System cleanup suite (10+ scripts, systemd timer) |
-| `scripts/backup_restore/` | dir | Workstation backup/restore (systemd timer) |
-| `scripts/scratch/` | dir | Analysis/reconstruction scripts (Workspace X, Fluid) |
-| `scripts/CHANGELOG.md` | doc | Migration history of the sh/ orchestrator |
-| `scripts/Makefile` | make | Root Makefile — install, dispatch (clean/backup) |
-| `scripts/README.md` | doc | Universal Orchestrator overview |
-| `scripts/TODO.md` | doc | Pending improvements and known issues |
+| `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint (see below) |
+| `scripts/tg-bot.py` | python | Telegram bot daemon — listens for `/clean`, `/status`, `/backup` |
+| `scripts/tg-bot.service` | systemd | User service for tg-bot.py (symlinked from `.agents`) |
+| `scripts/clean/` | dir | System cleanup suite (17 scripts, systemd timer) |
+| `scripts/backup_restore/` | dir | Workstation backup/restore (8 scripts, systemd timer) |
+| `scripts/CHANGELOG.md` | doc | Version history (current v2.1.4) |
+| `scripts/TODO.md` | doc | Pending improvements (4 items) |
 
-> **Migration note:** These scripts were moved from `$HOME/Work/sh/` into `.agents/skills/k-ubuntu/scripts/` for centralization. The old `$HOME/Work/sh/` still exists on disk but is no longer the source of truth. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
+> **Migration note:** Sources moved from `$HOME/Work/sh/` into `.agents/`. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
 
 ### ksh — Universal Dispatcher
 
@@ -137,35 +133,84 @@ chmod +x "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh"
 
 **Usage:**
 ```bash
-ksh status              # Global audit: clean + backup + QMD status
-ksh backup run          # Run a backup now (calls sudo internally)
-ksh backup preview      # Estimate backup size without compressing
-ksh backup status       # systemd service + timer status
-ksh backup log          # Last 50 lines of backup journal
-ksh clean run           # Run full system cleanup
-ksh clean log           # journalctl -u clean-system -n 50
-ksh clean status        # Cleanup timer status
+ksh -h                    # show full usage
+
+# Clean module
+ksh clean --safe -y       # safe cleanup, auto-confirm
+ksh clean --purge         # deep purge
+ksh clean-admin status    # systemd status
+ksh clean-admin log       # last 50 journal lines
+ksh clean-admin install   # symlink systemd + enable timer (sudo)
+ksh clean-admin purge     # remove symlinks (sudo)
+
+# Backup module
+ksh backup --preview      # dry-run estimate
+ksh backup                # full backup to default HDD
+ksh backup-admin status   # systemd status
+ksh backup-admin log      # last 50 journal lines
+ksh backup-admin install  # symlink systemd + enable timer (sudo)
+ksh backup-admin purge    # remove symlinks (sudo)
+
+# Restore (bare-metal)
+ksh restore <backup.tar.zst>
+
+# Global audit
+ksh status                # clean + backup + QMD health
 ```
 
-### backup_restore — Workstation Backup
+### Clean — Automated System Cleanup
 
-Archives `/home/$USER` + `/etc` to an external HDD using `tar + zstd`. Timer: every 2 days at 22:00.
+Modular cleanup suite with systemd timer (every 2 days at 21:30).
 
-**Pipeline:**
-1. **Phase 0 — Metadata:** VSCode extensions, GNOME dconf, `dpkg` packages, snap, flatpak, crontabs, disk layout
-2. **Phase 1 — Size estimate:** `du` preview, readable output
-3. **Phase 2 — Compress:** `tar | pv | zstd -T0 --fast=1` → `backup-<pc>-<date>.tar.zst`
-4. **Phase 3 — Rotation:** Keeps last N archives (default: 2), deletes older ones
-
-**Mount exclusion (automatic):** `findmnt` is called at runtime to detect and exclude all active mount points under `$HOME` and `/etc` — rclone FUSE mounts (Gdrive, Gdrive_X), sshfs (Deep-PC6), USB drives, NFS: all excluded automatically without hardcoding.
-
-**Additional excludes (`excludes.conf`):** cloud dirs (Gdrive_X, OneDrive), `.ollama-ipex`, `.keras`, dev runtimes (`.npm`, `.nvm`, `.pyenv`, `.rustup`, `.go`, `.cargo`), snap, VMs.
-
-**Docs:** `scripts/backup_restore/README.md` (setup, scheduling, restore) · `scripts/backup_restore/Makefile` (install, run, preview, log, status, lint)
-
-**Install (once per machine):**
+**Via ksh:**
 ```bash
-# 1. Secrets → ~/.agents/.env (kernel central secrets file)
+ksh clean -s -y              # safe + auto-confirm
+ksh clean -p --system        # deep purge + system (sudo)
+ksh clean --help             # all flags
+ksh clean-admin status       # systemd status
+ksh clean-admin log          # journal output
+ksh clean-admin install      # symlink units + enable timer (sudo)
+ksh clean-admin purge        # remove symlinks (sudo)
+```
+
+**6 stages:** snap → cache → editors → work → docker → AI.
+
+**Systemd units** symlinked from `.agents/`: `clean-system.service` (root, oneshot) · `clean-system.timer` (every 2d @21:30, Persistent)
+
+### Backup & Restore — Phoenix Protocol
+
+Archives `$HOME` + `/etc` to external HDD via tar+zstd. Timer: every 2 days at 22:00.
+
+**Via ksh:**
+```bash
+ksh backup --preview         # dry-run estimate
+ksh backup                   # full backup
+ksh backup-admin status/log  # systemd monitoring
+ksh backup-admin install     # symlink units + enable timer (sudo)
+ksh backup-admin purge       # remove symlinks (sudo)
+ksh restore <archive>        # bare-metal restore
+```
+
+**Phases:** metadata export → size estimate → tar+zstd → keep 2.
+
+**Systemd units** symlinked from `.agents/`: `backup-restore.service` (root, oneshot) · `backup-restore.timer` (every 2d @22:00, Persistent)
+
+### tg-bot — Telegram Listener
+
+User systemd service. Polls Telegram, dispatches via ksh.
+
+| Command | Action |
+|---------|--------|
+| `/clean` | Run cleanup (safe) |
+| `/backup` | Preview backup |
+| `/status` | Full audit |
+| `/help` | Help |
+
+**Secrets:** `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+
+**Service:** symlinked from `.agents/` → `~/.config/systemd/user/tg-bot.service`.
+
+**Install:** `make -C scripts install` or manual symlink. **Logs:** `journalctl --user -u tg-bot.service -f`
 #    Ensure TELEGRAM_UBUNTU_TOKEN and TELEGRAM_CHAT_ID are set
 
 # 2. Machine config → top of backup_workstation.sh
@@ -380,22 +425,51 @@ Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> se
 
 ---
 
+## User Services (systemd — user level)
+
+### tg-bot — Telegram Ubuntu Bot
+
+Listens for Telegram commands and dispatches them via `ksh`.
+
+| Command | Action |
+|---------|--------|
+| `/clean [flags]` | Run cleaner (safe mode default) |
+| `/backup` | Preview backup |
+| `/status` | Global system audit |
+| `/help` | List commands |
+
+**Setup (symlink from `.agents`):**
+```bash
+systemctl --user stop tg-ubuntu.service    # stop old if exists
+rm -f ~/.config/systemd/user/tg-ubuntu.service
+ln -sf ~/.agents/skills/k-ubuntu/scripts/tg-bot.service ~/.config/systemd/user/tg-bot.service
+systemctl --user daemon-reload
+systemctl --user enable --now tg-bot.service
+```
+
+**Source of truth:** `k-ubuntu/scripts/tg-bot.py` + `k-ubuntu/scripts/tg-bot.service` in `.agents/`.
+
+**Purge:**
+```bash
+systemctl --user stop tg-bot.service
+systemctl --user disable tg-bot.service
+rm -f ~/.config/systemd/user/tg-bot.service
+systemctl --user daemon-reload
+```
+
+**Secrets:** sourced from `~/.agents/.env` — needs `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID`.
+
+**Logs:** `journalctl --user -u tg-bot.service -f`
+
+---
+
 ## Remote Work — DxO VPN + RDP
 
-> **Asset:** `scripts/vpn-dxo` — launches DxO VPN in dedicated tmux session. In `$PATH` via `$HOME/.local/bin/` symlink (see **Centralized Scripts**).
+> **DxO VPN:** see **`k-dxo`** skill — VPN, RDP, accounts, and remote access setup.
 
-### VPN (GlobalProtect via OpenConnect)
+### DxO VPN + RDP
 
-| Command | Effect |
-|---------|--------|
-| `vpn-dxo` | Launch VPN in tmux session `vpn-dxo` + attach (enter sudo password) |
-| `vpn-dxo` (if already running) | Re-attach to session |
-| `vpn-dxo status` | Check if VPN is running |
-| `vpn-dxo stop` | Kill the tmux session |
-
-**Connection:** WebKit popup → Microsoft auth (email + MFA). Tunnel stays active in background.
-
-**Params:** `--ignore-tls-errors --fix-openssl` (self-signed DxO cert + OpenSSL 3+ legacy renegotiation)
+See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP via Remmina, accounts, and Windows procedure.
 
 ### RDP (Remmina → BLGLAPTOP139 / deep-pc6)
 

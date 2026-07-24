@@ -27,10 +27,7 @@ echo "→ [install] Reloading systemd and enabling timer..."
 systemctl daemon-reload
 systemctl enable --now backup-restore.timer
 
-echo "→ [install] Starting service once to verify..."
-systemctl start backup-restore.service || echo "⚠️ Service start had issues — check logs: journalctl -u backup-restore"
-
 echo ""
-echo "✅ backup-restore installed (symlinks) and triggered."
+echo "✅ backup-restore installed (symlinks) and timer enabled."
 echo "   Timer:   $(systemctl list-timers backup-restore.timer --no-pager 2>/dev/null | tail -1)"
 echo "   Logs:    journalctl -u backup-restore -f"

@@ -28,10 +28,7 @@ echo "→ [install] Reloading systemd and enabling timer..."
 systemctl daemon-reload
 systemctl enable --now clean-system.timer
 
-echo "→ [install] Starting service once to verify..."
-systemctl start clean-system.service || echo "⚠️ Service start had issues — check logs: journalctl -u clean-system"
-
 echo ""
-echo "✅ clean-system installed (symlinks) and triggered."
+echo "✅ clean-system installed (symlinks) and timer enabled."
 echo "   Timer:   $(systemctl list-timers clean-system.timer --no-pager 2>/dev/null | tail -1)"
 echo "   Logs:    journalctl -u clean-system -f"
