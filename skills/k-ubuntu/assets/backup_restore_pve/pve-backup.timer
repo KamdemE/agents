@@ -1,8 +1,8 @@
 [Unit]
-Description=PVE Backup — weekly
+Description=PVE Backup — every Saturday at 03:30
 
 [Timer]
-OnCalendar=weekly
+OnCalendar=Sat *-*-* 03:30:00
 Persistent=true
 
 [Install]
