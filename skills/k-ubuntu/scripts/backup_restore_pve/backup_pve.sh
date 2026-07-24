@@ -29,8 +29,9 @@ HDD_DEST="$HDD_MOUNT/Backups/PVE"
 RCLONE_DEST="gdrive-x:Backups/PVE"
 KEEP=3
 
-SSH_BASE="-i /home/kpihx/.ssh/id_ed25519_pve -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p $PVE_PORT $PVE_USER@$PVE_HOST"
-RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10 $SSH_BASE"
+SSH_OPTS="-i /home/kpihx/.ssh/id_ed25519_pve -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p $PVE_PORT"
+SSH_DEST="$PVE_USER@$PVE_HOST"
+RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10 $SSH_OPTS"
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")
 
@@ -44,7 +45,7 @@ notify() { local l=$1 m=$2 t="${3:-PVE BACKUP}"
 
 # ── Phase 0: pre-checks ────────────────────────────────────────────────────────
 echo "[$NOW] Starting PVE backup..."
-ssh -q $SSH_BASE exit || { notify "ERROR" "PVE unreachable"; exit 1; }
+ssh -q $SSH_OPTS $SSH_DEST exit || { notify "ERROR" "PVE unreachable"; exit 1; }
 [ -d "$HDD_MOUNT" ] || { notify "ERROR" "HDD not mounted at $HDD_MOUNT"; exit 1; }
 mkdir -p "$HDD_DEST"
 
@@ -53,7 +54,7 @@ echo "--- 1. rsync from $PVE_HOST:$REMOTE_DIR/ to HDD ---"
 rsync -av --progress --partial --size-only --inplace --whole-file \
   -e "$RSYNC_SSH" \
   --exclude '*.log' --exclude '*.notes' \
-  "$PVE_USER@$PVE_HOST:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
+  "$SSH_DEST:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
 
 # ── Phase 2: HDD rotation (keep KEEP most recent) ──────────────────────────────
 echo "--- 2. HDD rotation (keep $KEEP) ---"
