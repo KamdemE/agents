@@ -25,6 +25,7 @@ PVE_PORT="2222"
 REMOTE_DIR="/var/lib/vz/dump"
 HDD_MOUNT="/media/kpihx/KpihX-Backup"
 HDD_DEST="$HDD_MOUNT/Backups/PVE"
+RCLONE_CONF="/home/kpihx/.config/rclone/rclone.conf"
 RCLONE_DEST="gdrive-x:Backups/PVE"
 KEEP=3
 
@@ -67,10 +68,10 @@ if [ -z "$LATEST" ]; then
 fi
 
 NAME=$(basename "$LATEST")
-rclone copy "$LATEST" "$RCLONE_DEST" --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v || { notify "ERROR" "rclone upload failed"; exit 1; }
+rclone copy "$LATEST" "$RCLONE_DEST" --config "$RCLONE_CONF" --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v || { notify "ERROR" "rclone upload failed"; exit 1; }
 
-rclone lsf "$RCLONE_DEST" --files-only | grep -v "$NAME" | while read -r f; do
-  rclone deletefile "$RCLONE_DEST/$f" --drive-use-trash=false || true
+rclone lsf "$RCLONE_DEST" --config "$RCLONE_CONF" --files-only | grep -v "$NAME" | while read -r f; do
+  rclone deletefile "$RCLONE_DEST/$f" --config "$RCLONE_CONF" --drive-use-trash=false || true
 done
 
 SIZE=$(du -sh "$LATEST" | cut -f1)
