@@ -8,13 +8,15 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AGENTS_ENV="/home/kpihx/.agents/.env"
 [ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
 
-case "$1" in
-    -h|--help)
-        echo "Usage: $0 [--help|-h]"
-        echo "  Restore: scans HDD + Cloud, takes newest archive."
-        echo "  No flags needed. Outputs instructions for scp+restore on PVE."
-        exit 0 ;;
-esac
+if [[ $# -gt 0 ]]; then
+    case "$1" in
+        -h|--help)
+            echo "Usage: $0 [--help|-h]"
+            echo "  Restore: scans HDD + Cloud, takes newest archive."
+            echo "  No flags needed. Outputs instructions for scp+restore on PVE."
+            exit 0 ;;
+    esac
+fi
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 RCLONE_REMOTE="gdrive-x:Backups/PVE"
@@ -74,4 +76,4 @@ notify "SUCCESS" "Archive ready at $ARCHIVE%0ASize: $SIZE%0A%0AThen on PVE: pct 
 echo ""
 echo "📦 Archive: $ARCHIVE ($SIZE)"
 echo "➡️  Copy to PVE: scp $ARCHIVE homelab:/var/lib/vz/dump/"
-echo "➡️  Restore: ssh homelab \"pct restore <VMID> /var/lib/vz/dump/$(basename "$FINAL_SRC")\""
+echo "➡️  Restore: ssh pve \"pct restore <VMID> /var/lib/vz/dump/$(basename "$FINAL_SRC")\""

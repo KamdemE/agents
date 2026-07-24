@@ -11,7 +11,7 @@ source "$SCRIPT_DIR/../lib/notifier.sh"
 # ==============================================================================
 
 # --- SERVEUR (SOURCE) ---
-SERVER_ALIAS="homelab"
+SERVER_ALIAS="pve"
 REMOTE_DIR="/var/lib/vz/dump"
 
 # --- HDD EXTERNE (DESTINATION 1) ---
