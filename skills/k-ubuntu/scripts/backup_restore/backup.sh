@@ -45,7 +45,7 @@ done
 TARGET_DIR="${TARGET_DIR:-${HDD_DEST_DIR}}"
 if [[ -z "$TARGET_DIR" ]]; then
     echo "❌ No destination provided. Set HDD_DEST_DIR at top of script or pass as argument." >&2
-    echo "   Usage: sudo $0 /media/$USER_BACKUP/KpihX-Backup/Backups" >&2
+    echo "   Usage: sudo $0 /media/$USER_BACKUP/KpihX-Backup/Backups/Ubuntu" >&2
     exit 1
 fi
 

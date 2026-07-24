@@ -28,7 +28,7 @@ fi
 
 if [[ -z "$ARCHIVE_PATH" ]]; then
     echo "Usage: sudo $0 <path/to/backup.tar.zst> [username]"
-    echo "Example: sudo $0 /media/kpihx/KpihX-Backup/backup-kpihx-ubuntu-2026-01-01.tar.zst kpihx"
+    echo "Example: sudo $0 /media/kpihx/KpihX-Backup/Backups/Ubuntu/backup-kpihx-ubuntu-2026-01-01.tar.zst kpihx"
     exit 1
 fi
 
