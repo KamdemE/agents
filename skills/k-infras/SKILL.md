@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-pve-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones)
 > **Source skills:** `k-infra` (low-level hardware: disk, BIOS, filesystem) · `k-nftables` (firewall) · `k-tailscale` (mesh VPN config)
 > **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
@@ -37,7 +37,7 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 | `blglaptop139` | `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble). |
 | `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
 | `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
-| `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-pve-dockerhost`** | Docker host VM on PVE. |
+| `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-dockerhost`** | Docker host VM on PVE. |
 | `kpihx-s25` | `s25` | `100.125.54.1` | Android | offline | **`k-25`** | Samsung S25 phone. |
 | `kpihx-tablet` | — | `100.89.79.87` | Android | offline | **`k-25`** | Tablet (not configured). |
 
@@ -71,7 +71,7 @@ Every infra skill MUST document both the **Tailscale name** (e.g. `kpihx-ubuntu`
 | DxO server | — | `deep-pc6` |
 | PVE hypervisor | `kpihx-pve` | `pve` |
 | Debian VM | `kpihx-pve-debian` | `pve-debian` |
-| Docker CT | — | `dockerhost` |
+| Docker host | — | `dockerhost` |
 | S25 phone | `kpihx-s25` | `s25` |
 
 When setting up `kshrc.base` → `~/.kshrc`, the agent reads the infra skill to find the **short name** and replaces `<INFRA_SESSION>` in the auto-tmux block with that value.
@@ -90,7 +90,7 @@ kpihx-labs (kernel top reference)
 │   ├── k-deep-pc6        (Linux server — internship)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
-│   │   └── k-pve-dockerhost (Docker host VM)
+│   │   └── k-dockerhost (Docker host VM)
 │   └── k-25          (Android phones)
 │
 ├── k-clis       (CLI registry — routes to all skills)
@@ -155,6 +155,6 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v1.2.0 — **kshrc source of truth pattern**: added step 1b to New Infra Setup Checklist — `~/.kshrc` must be a symlink to `assets/kshrc` in the infra skill. |
-| 2026-07-23 | [OPENCODE] | v1.1.0 — Added **New Infra Setup Checklist** (init skills: k-zsh, k-ssh, k-tmux, k-clis, k-nvim, k-opencode). Every infra skill must reference this. |
-| [SUMMARY] | — | v1.0.1 Removed k-workspace reference; v1.0.0 Created k-infras as master map. |
+| 2026-07-24 | [OPENCODE] | v1.3.0 — **k-pve-dockerhost renamed to k-dockerhost**. Updated all references. |
+| 2026-07-24 | [OPENCODE] | v1.2.0 — kshrc source of truth pattern (step 1b). |
+| [SUMMARY] | — | v1.1.0 New Infra Setup Checklist; v1.0.1–v1.0.0 master map created. |
