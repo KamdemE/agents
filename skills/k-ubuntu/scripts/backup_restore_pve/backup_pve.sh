@@ -77,7 +77,7 @@ if echo "$CLOUD_FILES" | grep -qF "$NAME"; then
 else
   echo "  📤 Uploading: $NAME"
   rclone copy "$LATEST" "$RCLONE_DEST" --config "$RCLONE_CONF" \
-    --transfers=4 --drive-chunk-size=32M --bwlimit 5M --stats-one-line -v \
+    --transfers=4 --drive-chunk-size=32M --stats-one-line -v \
     || { notify "ERROR" "rclone upload failed"; exit 1; }
 fi
 
