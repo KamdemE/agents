@@ -45,8 +45,8 @@ backup-restore/
 sudo make install   # or: sudo bash install.sh
 ```
 
-Creates symlinks in `/etc/systemd/system/` → `.agents/` (source of truth stays in repo),
-enables timer, runs backup once to verify.
+Creates symlinks in `/etc/systemd/system/` → `.agents/scripts/assets/backup_restore/` (source of truth stays in repo),
+enables timer.
 
 ## Secrets
 

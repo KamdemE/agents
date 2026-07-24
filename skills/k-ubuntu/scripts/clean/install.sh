@@ -1,12 +1,12 @@
 #!/bin/bash
 # install.sh — Symlink clean-system systemd units and enable the timer.
-# Source of truth stays in .agents/k-ubuntu/scripts/clean/systemd/.
+# Source of truth stays in .agents/k-ubuntu/scripts/assets/clean/.
 # Run once as root (or with sudo) on a new machine.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SKILL_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+ASSETS_DIR="$(cd "$SCRIPT_DIR/../assets/clean" && pwd)"
 SYSTEMD_DIR="/etc/systemd/system"
 
 echo "→ [install] Pre-checks..."
@@ -17,8 +17,8 @@ fi
 echo "   ✓ Running as root"
 
 echo "→ [install] Creating symlinks..."
-ln -sf "$SCRIPT_DIR/systemd/clean-system.service" "$SYSTEMD_DIR/clean-system.service"
-ln -sf "$SCRIPT_DIR/systemd/clean-system.timer"   "$SYSTEMD_DIR/clean-system.timer"
+ln -sf "$ASSETS_DIR/clean-system.service" "$SYSTEMD_DIR/clean-system.service"
+ln -sf "$ASSETS_DIR/clean-system.timer"   "$SYSTEMD_DIR/clean-system.timer"
 mkdir -p /var/log/clean-system
 
 echo "   ✓ Symlinks: $SYSTEMD_DIR/clean-system.{service,timer}"

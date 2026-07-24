@@ -105,7 +105,7 @@ sudo make install
 sudo bash install.sh
 ```
 
-The service unit in `systemd/clean-system.service` now has the full absolute path to
+The service unit in `.agents/scripts/assets/clean/clean-system.service` has the full absolute path to
 `auto_clean.sh` (no `@SCRIPT_DIR@` sed substitution needed). The timer stays on its
 canonical schedule (every 2 days at 21:30).
 

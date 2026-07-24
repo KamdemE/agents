@@ -5,6 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ASSETS_DIR="$(dirname "$SCRIPT_DIR")/assets/backup_restore"
 SYSTEMD_DIR="/etc/systemd/system"
 
 echo "→ [install] Pre-checks..."
@@ -18,8 +19,8 @@ fi
 echo "   ✓ Running as root, .env found"
 
 echo "→ [install] Creating symlinks..."
-ln -sf "$SCRIPT_DIR/systemd/backup-restore.service" "$SYSTEMD_DIR/backup-restore.service"
-ln -sf "$SCRIPT_DIR/systemd/backup-restore.timer"   "$SYSTEMD_DIR/backup-restore.timer"
+ln -sf "$ASSETS_DIR/backup-restore.service" "$SYSTEMD_DIR/backup-restore.service"
+ln -sf "$ASSETS_DIR/backup-restore.timer"   "$SYSTEMD_DIR/backup-restore.timer"
 
 echo "   ✓ Symlinks: $SYSTEMD_DIR/backup-restore.{service,timer}"
 
