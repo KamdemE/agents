@@ -34,12 +34,12 @@ clean/
 ├── clean_docker.sh     # Module: docker prune (images, containers, volumes)
 ├── clean_ai.sh         # Module: AI model caches, unused weights
 ├── workspace_scan.sh   # Scanner: .env git status, venvs, node_modules, build artifacts, large files
-├── install.sh          # Generate + install systemd units, create log dir (sudo required)
-├── purge.sh            # Disable timer, remove units (sudo required)
-├── systemd/
-│   ├── clean-system.service   # Template — @SCRIPT_DIR@ replaced by install.sh
-│   └── clean-system.timer     # Bi-daily 21:30
-└── excludes.conf       # (optional) Machine-specific du exclusions
+├── install.sh          # Symlink systemd units, create log dir, enable timer (sudo required)
+├── purge.sh            # Disable timer, remove symlinks (sudo required)
+│
+└── systemd units live in ../../assets/clean/
+    ├── clean-system.service   # Oneshot, root, runs auto_clean.sh
+    └── clean-system.timer     # Bi-daily 21:30, Persistent
 ```
 
 ## Scheduling
@@ -90,7 +90,7 @@ Actual cleanup is done by `clean_all.sh` via `ksh clean`.
 make help       # show available admin targets
 make status     # service + timer status
 make log        # journalctl -u clean-system -n 50
-make install    # sudo: symlink systemd units from .agents/ + enable timer + test run
+make install    # sudo: symlink systemd units from .agents/ + enable timer
 make purge      # sudo: remove symlinks, disable timer
 make check      # shellcheck on all .sh files
 ```

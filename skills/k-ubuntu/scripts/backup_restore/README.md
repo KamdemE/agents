@@ -31,11 +31,12 @@ backup-restore/
 ├── backup.sh          # Backup: metadata export → tar+zstd → rotation
 ├── restore.sh         # Restore: extract → reinstall packages → rsync home
 ├── excludes.conf      # Additional tar exclusion patterns (one per line)
-├── install.sh         # Symlink systemd units + enable timer + test run (sudo)
+├── install.sh         # Symlink systemd units, enable timer (sudo)
 ├── purge.sh           # Remove symlinks, disable timer (sudo)
 ├── Makefile           # Admin targets (status, log, install, purge, check)
-└── systemd/
-    ├── backup-restore.service   # oneshot, runs backup.sh as root
+│
+└── systemd units live in ../../assets/backup_restore/
+    ├── backup-restore.service   # oneshot, root, runs backup.sh
     └── backup-restore.timer     # every 2 days at 22:00, Persistent=true
 ```
 
