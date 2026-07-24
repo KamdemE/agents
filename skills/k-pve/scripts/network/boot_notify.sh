@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# On se place dans le dossier du script
-cd "$(dirname "$0")" || exit 1
-
-[ -f .env ] && source .env
+# Secrets from kernel ~/.agents/.env (loaded by notifier.sh)
 
 # ==============================================================================
 # 1. CONFIGURATION & AUTO-DÉTECTION

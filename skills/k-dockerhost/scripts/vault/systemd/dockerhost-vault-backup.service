@@ -1,0 +1,10 @@
+[Unit]
+Description=Docker Host Vaultwarden Backup
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/kpihx/.agents/skills/k-dockerhost/scripts/vault/backup.sh
+
+[Install]
+WantedBy=multi-user.target

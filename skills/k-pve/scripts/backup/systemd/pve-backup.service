@@ -1,0 +1,10 @@
+[Unit]
+Description=PVE Backup to Cloud (Google Drive)
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/kpihx/.agents/skills/k-pve/scripts/backup/backup_server.sh
+
+[Install]
+WantedBy=multi-user.target
