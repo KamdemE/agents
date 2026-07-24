@@ -87,10 +87,22 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 
 `TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
+## Assets (configs, not scripts)
+
+| File | Purpose |
+|------|---------|
+| `assets/network/interfaces.wired` | PVE network interfaces config — wired mode (vmbr0/vmbr1, bridge NAT) |
+| `assets/network/interfaces.wifi` | PVE network interfaces config — WiFi mode (wlo1) |
+| `assets/network/network.conf.d/polytechnique.conf` | wpa_supplicant config for Polytechnique wired 802.1X |
+| `assets/network/network.conf.d/eduroam.conf` | wpa_supplicant config for eduroam (WPA-EAP) |
+| `assets/network/eduroam-linux-Ecole_Polytechnique-...py` | Official eduroam setup script (1372 lines) |
+| `assets/backup/vzdump.conf` | Default Proxmox vzdump configuration |
+| `assets/.env.example` | Template for `~/.agents/.env` |
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v2.0.0 — Refactored with ksh dispatcher, scripts from Homelab/sh/proxmox/ centralized here. Stop copies: source of truth in `.agents/`. |
+| 2026-07-24 | [OPENCODE] | v2.0.0 — Refactored with ksh dispatcher, scripts + assets from Homelab/sh/proxmox/ centralized here. Stop copies: source of truth in `.agents/`. |
 | [SUMMARY] | — | v1.x original PVE skill. |
 

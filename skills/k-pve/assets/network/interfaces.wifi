@@ -1,0 +1,43 @@
+auto lo
+iface lo inet loopback
+
+# --- MODE WI-FI (wlo1) ---
+auto wlo1
+iface wlo1 inet dhcp
+    wpa-conf /etc/wpa_supplicant/eduroam.conf
+
+# Interface Dummy pour Proxmox (vmbr0 ne peut pas bridger le wifi)
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.99.1/24
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+    comment "Interface Dummy - Mode Wifi"
+
+# --- RESEAU INTERNE (NAT via wlo1) ---
+auto vmbr1
+iface vmbr1 inet static
+    address 10.10.10.1/24
+    bridge-ports none
+    bridge-stp off
+    bridge-fd 0
+    post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+
+    # NAT (Sortie par wlo1)
+    post-up iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o wlo1 -j MASQUERADE
+    post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o wlo1 -j MASQUERADE
+
+    # Port Forwarding (Entrée wlo1)
+    post-up iptables -t nat -A PREROUTING -i wlo1 -p tcp --dport 80 -j DNAT --to 10.10.10.10:80
+    post-down iptables -t nat -D PREROUTING -i wlo1 -p tcp --dport 80 -j DNAT --to 10.10.10.10:80
+    
+    post-up iptables -t nat -A PREROUTING -i wlo1 -p tcp --dport 443 -j DNAT --to 10.10.10.10:443
+    post-down iptables -t nat -D PREROUTING -i wlo1 -p tcp --dport 443 -j DNAT --to 10.10.10.10:443
+    
+    post-up iptables -t nat -A PREROUTING -i wlo1 -p tcp --dport 9443 -j DNAT --to 10.10.10.10:9443
+    post-down iptables -t nat -D PREROUTING -i wlo1 -p tcp --dport 9443 -j DNAT --to 10.10.10.10:9443
+
+iface nic0 inet manual
+iface nic2 inet manual
+source /etc/network/interfaces.d/*

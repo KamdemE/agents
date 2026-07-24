@@ -72,10 +72,23 @@ All scripts live in `k-dockerhost/scripts/` (this skill).
 
 `TELEGRAM_DOCKERHOST_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
 
+## Assets
+
+| File | Purpose |
+|------|---------|
+| `assets/.env.example` | Template for `~/.agents/.env` |
+
+## References
+
+| File | Purpose |
+|------|---------|
+| `references/README.md` | Vaultwarden backup documentation (original from Homelab/sh/) |
+| `references/insights.md` | Runtime lessons |
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v2.0.0 — Renamed from k-pve-dockerhost, refactored with ksh dispatcher, scripts from Homelab/sh/docker_host/ centralized here. Stop copies: source of truth in `.agents/`. |
+| 2026-07-24 | [OPENCODE] | v2.0.0 — Renamed from k-pve-dockerhost, refactored with ksh dispatcher, scripts + assets from Homelab/sh/docker_host/ centralized here. Stop copies: source of truth in `.agents/`. |
 | [SUMMARY] | — | v1.x original k-pve-dockerhost skill. |
 

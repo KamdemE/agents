@@ -1,0 +1,48 @@
+auto lo
+iface lo inet loopback
+
+auto nic1
+iface nic1 inet manual
+	wpa-conf /etc/wpa_supplicant/polytechnique.conf
+	wpa-driver wired
+
+# public bridge
+auto vmbr0
+iface vmbr0 inet dhcp
+	bridge-ports nic1
+	bridge-stp off
+	bridge-fd 0
+	# small break, waiting for WPA auth
+	pre-up sleep 7
+
+# private bridge - for containers later
+auto vmbr1
+iface vmbr1 inet static
+	address 10.10.10.1/24
+	bridge-ports none
+	bridge-stp off
+	bridge-fd 0
+	post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+	# masquerading (to allow the container to reach outside)
+	post-up iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o vmbr0 -j MASQUERADE 
+	post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o vmbr0 -j MASQUERADE
+
+	# redirections
+	# port 80 (HTTP) -> Container
+	post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 80 -j DNAT --to 10.10.10.10:80 
+	post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 80 -j DNAT --to 10.10.10.10:80
+
+	# port 443 (HTTPS) -> Container
+	post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 443 -j DNAT --to 10.10.10.10:443 
+	post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 443 -j DNAT --to 10.10.10.10:443
+
+	# port 9443 (Portainer) -> Container
+	post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 9443 -j DNAT --to 10.10.10.10:9443 
+	post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 9443 -j DNAT --to 10.10.10.10:9443 
+ 
+iface nic0 inet manual
+
+iface nic2 inet manual
+
+
+source /etc/network/interfaces.d/*
