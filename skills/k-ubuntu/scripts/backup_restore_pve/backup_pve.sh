@@ -39,14 +39,14 @@ notify() { local l=$1 m=$2 t="${3:-PVE BACKUP}"
 
 # ── Phase 0: pre-checks ────────────────────────────────────────────────────────
 echo "[$NOW] Starting PVE backup..."
-ssh -q -F /home/kpihx/.ssh/config -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 "$SERVER_ALIAS" exit || { notify "ERROR" "PVE unreachable"; exit 1; }
+ssh -q -F /home/kpihx/.agents/skills/k-ssh/assets/ssh.conf -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 "$SERVER_ALIAS" exit || { notify "ERROR" "PVE unreachable"; exit 1; }
 [ -d "$HDD_MOUNT" ] || { notify "ERROR" "HDD not mounted at $HDD_MOUNT"; exit 1; }
 mkdir -p "$HDD_DEST"
 
 # ── Phase 1: rsync from PVE to HDD ────────────────────────────────────────────
 echo "--- 1. rsync from $SERVER_ALIAS:$REMOTE_DIR/ to HDD ---"
 rsync -av --progress --partial --size-only --inplace --whole-file \
-  -e "ssh -F /home/kpihx/.ssh/config -o StrictHostKeyChecking=accept-new -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10" \
+  -e "ssh -F /home/kpihx/.agents/skills/k-ssh/assets/ssh.conf -o StrictHostKeyChecking=accept-new -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10" \
   --exclude '*.log' --exclude '*.notes' \
   "$SERVER_ALIAS:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
 
