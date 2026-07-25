@@ -10,6 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from core import prompt_injector, skill_watcher
+from core.prompt_enforcer import ENFORCEMENT_PROMPT
 
 # ==============================================================================
 # PART 1: EVENT HANDLER
@@ -18,7 +19,8 @@ from core import prompt_injector, skill_watcher
 def handle_before_agent(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
     reminder = skill_watcher.build_governance_reminder()
-    parts = [part for part in (dynamic, reminder) if part]
+    enforcement = ENFORCEMENT_PROMPT
+    parts = [part for part in (dynamic, reminder, enforcement) if part]
     if not parts:
         return {}
     return {"hookSpecificOutput": {"additionalContext": "\n".join(parts)}}

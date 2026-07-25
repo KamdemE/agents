@@ -1,0 +1,43 @@
+[project]
+name = "nvim-python-host"
+version = "0.1.0"
+description = "Single venv for all nvim Python provider needs. No system Python.\nEvery dependency maps to a specific nvim plugin or feature."
+requires-python = ">=3.12"
+dependencies = [
+    # pynvim - Neovim Python provider / host plugin.
+    # Required by ALL Python-based nvim plugins (molten, jupytext, telescope
+    # extension, etc.). Provides the g:python3_host_prog interface.
+    # https://github.com/neovim/pynvim
+    "pynvim",
+    # cairosvg - Molten figure export.
+    # Enables SVG export of inline figures and plots from Jupyter cells.
+    # https://github.com/Kozea/CairoSVG
+    "cairosvg",
+
+    # pnglatex - Molten LaTeX rendering.
+    # Renders LaTeX math expressions inside notebook cells as PNG images.
+    # https://github.com/m42e/pnglatex
+    "pnglatex",
+
+    # nbformat - Molten notebook I/O.
+    # Allows reading and writing .ipynb notebook files (import/export).
+    # https://github.com/jupyter/nbformat
+    "nbformat",
+
+    # pillow - Molten image handling.
+    # Base image processing library used by various nvim Python plugins
+    # for displaying inline images in the buffer.
+    # https://python-pillow.org
+    "pillow",
+
+    # jupyter-client - Molten-nvim kernel.
+    # Molten runs Python code inside nvim cells by spawning a Jupyter kernel.
+    # This package provides the kernel manager and communication protocol.
+    # Without it: Molten ERROR: "Required python module jupyter-client not found"
+    # https://github.com/jupyter/jupyter_client
+    "jupyter-client",
+    "cairosvg>=2.9.0",
+    "pnglatex>=1.1",
+    "nbformat>=5.10.4",
+    "pillow>=12.3.0",
+]

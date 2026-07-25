@@ -3,7 +3,7 @@ name: k-dxo
 description: DxO internship infrastructure — VPN, RDP, accounts, and remote access procedures.
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: infrastructure
 ---
 
@@ -22,6 +22,13 @@ metadata:
 | Microsoft Authenticator MFA | `ikamdem@dxo.com` | — | Set up via https://myapplications.microsoft.com |
 | Slack | `ikamdem@dxo.com` | — | Invitation sent by email |
 | Adobe CC Photography | — | — | Invitation sent by email |
+
+## CLI Tools
+
+| CLI | Path | Purpose |
+|-----|------|---------|
+| `vpn-dxo` | `k-dxo/scripts/vpn-dxo` (symlink → `~/.local/bin/`) | GlobalProtect VPN connection via tmux |
+| `tmux6` | `k-dxo/assets/tmux6` (symlink → `~/.local/bin/`) | SSH + tmux to deep-pc6 server |
 
 ## VPN (GlobalProtect)
 
@@ -83,5 +90,6 @@ RDP is only accessible when the DxO VPN is connected.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v1.1.0 — Added tmux6 CLI (SSH+tmux to deep-pc6) in assets/, symlinked to ~/.local/bin/. |
 | 2026-07-24 | [OPENCODE] | v1.0.0 — Created k-dxo: moved vpn-dxo from k-ubuntu, added accounts, VPN, RDP, setup procedures. |
 | [SUMMARY] | — | — |

@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 1.19.0
+  version: 2.2.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -72,7 +72,10 @@ error: "...opencode" has unexpected e_type: 2
 - **Auth store:** `$HOME/.local/share/opencode/auth.json`
 - **Global kernel symlinks (KπX):**
   - `$HOME/.config/opencode/AGENTS.md` → `$HOME/.agents/AGENTS.md`
-  - `$HOME/.config/opencode/skills` → `$HOME/.agents/skills`
+  - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
+  - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
+- **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink needed.
+- **Plugins discovery — explicit `file://` only:** No symlink — all plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/hooks/opencode/`.
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
 
@@ -130,7 +133,7 @@ sqlite3 ~/.local/share/opencode/opencode.db "
 | `$HOME/.config/opencode/opencode.jsonc` | OpenCode runtime config (symlink → `assets/opencode.jsonc`) — model, permissions, MCPs, lifecycle plugins | ✅ `skills/k-opencode/assets/opencode.jsonc` |
 | `$HOME/.config/opencode/tui.json` | TUI config (symlink → `assets/tui.json`) — voice plugin, UI extensions | ✅ `skills/k-opencode/assets/tui.json` |
 | `$HOME/.config/opencode/AGENTS.md` | Global instruction kernel (symlink target: `$HOME/.agents/AGENTS.md`) | ✅ in repo root |
-| `$HOME/.config/opencode/skills/` | Skill discovery path (symlink target: `$HOME/.agents/skills/`) | ✅ skills/ directory |
+| `$HOME/.agents/skills/` | Skill discovery — OpenCode natively scans this (Global Compatibility path). No symlink required. | ✅ skills/ directory |
 | `$HOME/.local/share/opencode/auth.json` | Provider login credentials | ❌ credentials (never track) |
 | `$HOME/.config/opencode/agents/` | Agent discovery path (symlink target: `$HOME/.agents/agents/`) | ✅ agents/ directory |
 
@@ -281,6 +284,7 @@ opencode models
 
 ## Operational Rules (KπX)
 
+- **NEVER use `/usr/bin/rm` or `/bin/rm`** — they bypass the trash-safe `rm` wrapper (see `k-clis/assets/rm`). Always use `rm` (the `~/.local/bin/rm` wrapper which moves to trash). This is enforced in `opencode.jsonc` → `"bash"` via explicit path denials globally and `*rm*` wildcard in Auto's permission block.
 - Keep OpenCode runtime config centralized in `$HOME/.config/opencode/opencode.jsonc`; avoid per-project overrides unless explicitly requested.
 - Prefer `zsh -l -c` wrappers for local MCP servers that need secret-bearing login-shell context.
 - Do not hardcode secrets in `opencode.jsonc`; use `{env:VAR_NAME}` placeholders.
@@ -348,8 +352,9 @@ OpenCode has **two separate plugin systems**, configured in different files:
   "opencode-dir",                           // standard — directory navigation
   "opencode-ssh-session",                   // standard — persistent SSH sessions
   "opencode-antigravity-auth@latest",        // standard — Claude + Gemini via Google OAuth (free)
-  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",   // KπX
-  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"       // KπX
+  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",   // KπX — format reminder
+  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",      // KπX — startup context
+  "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer.js"       // KπX — enforcement block
 ]
 ```
 
@@ -367,20 +372,22 @@ Config source: `assets/tui.json` — symlinké vers `~/.config/opencode/tui.json
 
 #### KπX Managed — `hooks/opencode/`
 
-These are the **KπX sovereign hooks** — small standalone plugins in `~/.agents/hooks/opencode/`. Each is a self-contained `.js` file listed via `file://` URL in the plugin array (order matters).
+These are the **KπX sovereign hooks** — small standalone plugins in `~/.agents/hooks/opencode/`. Each is a self-contained `.js` file listed via `file://` URL in the `"plugin"` array of `opencode.jsonc` (order matters). No `plugins/` symlink — explicit `file://` paths only.
 
 | File | Event | Agent filter | Behavior |
 |------|-------|-------------|----------|
-| `suggestions-check.js` | `messages.transform` (every turn) | Colab, Build | Injects system message: ≥3 Suggestions required |
-| `startup-context.js` | `messages.transform` (first turn only) | Colab, Build | Injects raw `k-context/SKILL.md` + device infra skill (auto-detected via tailscale status → `assets/infras.json` → k-* skill lookup) |
+| `suggestions-check.js` | `messages.transform` (every turn) | Colab, Build, Auto | Injects system message: ≥3 Suggestions required |
+| `startup-context.js` | `messages.transform` (first turn only) | Colab, Build, Auto | Injects raw `k-context/SKILL.md` + device infra skill (auto-detected via tailscale status → `assets/infras.json` → k-* skill lookup) |
+| `prompt-enforcer.js` | `messages.transform` (every turn) | Colab, Build, Auto | Pushes raw first-person enforcement block as `role: "user"` at end of prompt |
 
-**Agent detection:** Both plugins capture the agent name from `session.created` event (`info.agent`) at session start. Non-matching agents (Explore, Lite, Auto, Plan) get zero overhead — plugins return silently.
+**Agent detection:** All plugins capture the agent name from `session.created` event (`info.agent`) at session start. Non-matching agents get zero overhead — plugins return silently.
 
 **Execution order (plugin array order matters):**
-1. `suggestions-check` fires → pushes format reminder at end of messages
-2. `startup-context` fires → unshifts context block at start of messages
+1. `startup-context` fires → unshifts context block at start of messages
+2. `suggestions-check` fires → pushes format reminder at end of messages
+3. `prompt-enforcer` fires → pushes enforcement block at very end of messages
 
-Resulting message order: `[0] raw context (k-context + device infra)`, `[1] format reminder`, `[2...] user messages`.
+Resulting message order: `[0] raw context (k-context + device infra)`, `[1...N] user messages`, `[N+1] format reminder`, `[N+2] prompt enforcement`.
 
 **Device auto-detection pipeline:**
 ```
@@ -443,7 +450,7 @@ STT + TTS 100% local. Config dans `tui.json` (pas `opencode.jsonc`). **Tracké d
 }
 ```
 
-Auto-synced by `~/.local/bin/ollama-models-sync` after `ollama pull`/`rm` (zsh hook in `.kshrc`).
+Auto-synced by `scripts/opencode-ollama.sh` (sourced from `.kshrc`) after `ollama pull`/`rm`/`delete`. See the `Scripts` section.
 
 ### Utilisation
 
@@ -539,7 +546,6 @@ OpenCode connects to the KπX kernel via:
 
 ```bash
 ln -sf $HOME/.agents/AGENTS.md $HOME/.config/opencode/AGENTS.md
-ln -sf $HOME/.agents/skills $HOME/.config/opencode/skills
 ln -sf $HOME/.agents/agents $HOME/.config/opencode/agents
 ln -sf $HOME/.agents/skills/k-opencode/assets/opencode.jsonc $HOME/.config/opencode/opencode.jsonc
 ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tui.json
@@ -547,9 +553,17 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 **Agent discovery:** Agents defined in `$HOME/.agents/agents/` (`.agents` protocol) are symlinked to `$HOME/.config/opencode/agents/`. Files in `~/.config/opencode/agents/` become discoverable as subagents.
 
-**Skills discovery:** Symlink `$HOME/.config/opencode/skills` → `$HOME/.agents/skills/`. All `k-*` skills discoverable.
+**Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink necessary. See [docs](https://opencode.ai/docs/skills).
+
+**Plugins discovery — explicit `file://` only:** Plugins are loaded exclusively via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/hooks/opencode/`. No `plugins/` symlink.
 
 **Config source of truth:** `assets/opencode.jsonc` — symlinké vers `~/.config/opencode/opencode.jsonc`. Éditer l'asset, jamais le runtime directement. Model, MCP, permissions, defaults. **Tous les changements sont tracés dans git via le repo `.agents`.**
+
+## Scripts
+
+| Script | Role |
+|--------|------|
+| `scripts/opencode-ollama.sh` | Ollama zsh wrapper + auto-sync models into `opencode.jsonc`. Sourced from `.kshrc`. |
 
 ## References
 
@@ -568,8 +582,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v1.19.0 — **`.env` protection**: `edit` + `bash` + `read` deny `*.env`, allow `*.env.example`. Documented in permission section. |
-| 2026-07-23 | [OPENCODE] | v1.18.0 — **Android/Termux incompatibility documented**: added warning section with root cause analysis, tested workarounds table, and recommended paths for ARM64 Android devices. |
-| [SUMMARY] | — | v1.16.0 KπX managed plugins (suggestions-check + startup-context); v1.14.0 Permission architecture redesign; v1.13.0 Agent & Subagent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions; v1.2.x Web sysd; v1.1.0 init; v1.0.0 release. |
+| 2026-07-25 | [OPENCODE] | v2.2.0 — **Symlinks cleanup**: removed `~/.config/opencode/plugins` and `~/.config/opencode/skills` (plugins use `file://` only, skills are natively discovered). Added `prompt-enforcer.js` plugin. Added `/bin/rm` deny + Auto `*rm*` wildcard in opencode.jsonc. |
+| 2026-07-25 | [OPENCODE] | v2.1.0 — **`/usr/bin/rm` blocked** in opencode.jsonc global bash + Auto agent. GRAVÉ rule in AGENTS.md. Scripts section added. Legacy refs updated. |
+| [SUMMARY] | — | v2.0.0 `scripts/opencode-ollama.sh` combined wrapper; v1.19.0 `.env` protection; v1.18.0 Android/Termux incompatibility docs; v1.16.0 KπX managed plugins; v1.14.0 Permission redesign; v1.13.0 Agent System; v1.12.0 service file; v1.11.0 port 443; v1.10.0 SQLite; v1.9.0 Whisper; v1.8.0 Voice; v1.7.0 Permissions. |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`)

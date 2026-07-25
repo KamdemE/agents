@@ -17,7 +17,7 @@ allowed-tools: Bash(*), "*"
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site)
+> **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site) · `k-node` (Node/bun runtime versions, npm global tools, fnm management)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** check `$HOME/Work/techskills/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
 

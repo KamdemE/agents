@@ -1,0 +1,3 @@
+#!/bin/bash
+# tmux6 — SSH to deep-pc6 and attach to its tmux session
+exec ssh -t deep-pc6 tmux "$@"

@@ -47,16 +47,6 @@ Force real delete: /usr/bin/rm <file>
 EOF
 }
 
-# --- Help (catch -h/-help/--help before flag loop) ---
-for arg in "$@"; do
-  case "$arg" in
-    -h|-help|--help)
-      show_help
-      exit 0
-      ;;
-  esac
-done
-
 # --- No arguments ---
 if [ $# -eq 0 ]; then
   show_help
@@ -95,7 +85,37 @@ case "$FIRST_ARG" in
     exec /usr/bin/trash-rm "$@"
     ;;
   *)
-    # Default: trash-put with GNU rm compat flags passed through
-    exec /usr/bin/trash-put "$@"
+    # Help check (only in default case, not before subcommand dispatch)
+    for arg; do
+      case "$arg" in -h|-help|--help) show_help; exit 0 ;; esac
+    done
+
+    # Split arguments into flags + bypass files (real delete) + trash files.
+    # Flags are forwarded identically to the final command.
+    # Bypass patterns tested with bash =~ (no subprocess, 1000× faster than grep).
+    bypass_patterns=(
+      # tmux-resurrect pane content snapshots — regenerated every 5 min
+      "\.tmux/resurrect/save/pane_contents/"
+      # Old tmux-resurrect backup files (txt)
+      "\.tmux/resurrect/.*\.txt"
+    )
+
+    flags=(); rm_files=(); trash_files=(); after_sep=0
+    for arg; do
+      if [ "$arg" = "--" ]; then after_sep=1; flags+=("$arg"); continue; fi
+      if [ "$after_sep" -eq 0 ] && [[ "$arg" == -* ]]; then
+        flags+=("$arg"); continue
+      fi
+      matched=0
+      for pattern in "${bypass_patterns[@]}"; do
+        if [[ "$arg" =~ $pattern ]]; then
+          rm_files+=("$arg"); matched=1; break
+        fi
+      done
+      [ "$matched" -eq 0 ] && trash_files+=("$arg")
+    done
+
+    [ ${#rm_files[@]} -gt 0 ] && /usr/bin/rm "${flags[@]}" "${rm_files[@]}"
+    [ ${#trash_files[@]} -gt 0 ] && exec /usr/bin/trash-put "${flags[@]}" "${trash_files[@]}"
     ;;
 esac

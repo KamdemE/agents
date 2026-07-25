@@ -7,7 +7,7 @@ updated: "2026-07-24"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.0.0
+  version: 3.5.0
 ---
 
 # KπX — Neovim
@@ -41,10 +41,18 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
     ├── tmux-navigator.lua            ← Seamless Ctrl+h/j/k/l nvim ↔ tmux
     └── trash.lua                     ← FreeDesktop trash for dd/D/cc/C
 
+k-nvim/assets/                        ← Non-code assets (venv configs, service overrides)
+└── uv-nvim/
+    └── pyproject.toml                ← Python host venv definition (see Python Provider section)
+
 ~/.config/nvim/                       ← SYMLINKS (read by nvim)
 ├── init.lua           → k-nvim/config/init.lua
 ├── lazy-lock.json     → k-nvim/config/lazy-lock.json
 └── lua/kpihx/         → k-nvim/config/lua/kpihx/
+
+~/.local/share/nvim/uv-nvim/          ← RUNTIME (venv created by uv)
+├── pyproject.toml    → k-nvim/assets/uv-nvim/pyproject.toml  (symlink)
+└── .venv/            ← uv-managed virtualenv (generated, never edit)
 ```
 
 ### Install Location
@@ -57,10 +65,11 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
 | Vim autoload | `$HOME/.vim/autoload/plug.vim` (vim-plug) |
 | Plugin data | `$HOME/.local/share/nvim/lazy/` (Lazy-managed, read-only) |
 | Undo history | `$HOME/.local/share/nvim/undo/` |
+| Python host venv | `$HOME/.local/share/nvim/uv-nvim/.venv/` (uv-managed) |
 
 > **Rule:** `~/.local/share/nvim/lazy/` contains plugin code managed by Lazy.nvim.  
 > Do NOT modify files there — all changes get wiped on `:Lazy update`.  
-> KπX only owns `k-nvim/config/`. Plugin healthcheck false positives are ignored.
+> KπX only owns `k-nvim/config/` and `k-nvim/assets/`. Plugin healthcheck false positives are ignored.
 
 ### Bundled references
 
@@ -97,18 +106,82 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
 
 ## LSP — Language Servers
 
-| Language | Server | Formatter | Analyzer | Mason name |
-|----------|--------|-----------|----------|------------|
-| Python | pyright | ruff | ruff | `pyright`, `ruff-lsp` |
-| TypeScript/JS | ts_ls | prettier | eslint | `typescript-language-server` |
-| Lua | lua_ls | stylua | — | `lua-language-server` |
-| JSON | jsonls | — | — | `json-lsp` |
-| YAML | yamlls | — | — | `yaml-language-server` |
-| Markdown | marksman | — | — | `marksman` |
-| Bash | bashls | shfmt | — | `bash-language-server` |
-| LaTeX | texlab | — | — | `texlab` |
+| Language | Server | Formatter | Analyzer | Install method |
+|----------|--------|-----------|----------|----------------|
+| Python | basedpyright | ruff | ruff | `uv tool install basedpyright` (via uv, not Mason) |
+| TypeScript/JS | ts_ls | prettier | eslint | `:MasonInstall typescript-language-server` |
+| Lua | lua_ls | stylua | — | `:MasonInstall lua-language-server` |
+| JSON | jsonls | — | — | `:MasonInstall json-lsp` |
+| YAML | yamlls | — | — | `:MasonInstall yaml-language-server` |
+| Markdown | marksman | — | — | `:MasonInstall marksman` |
+| Bash | bashls | shfmt | — | `:MasonInstall bash-language-server` |
+| LaTeX | texlab | — | — | `:MasonInstall texlab` |
 
-Install: `:Mason` (UI) or `:MasonInstall pyright ruff-lsp lua-language-server ...`
+Install:
+- **Mason packages:** `:MasonInstall lua-language-server json-lsp yaml-language-server marksman bash-language-server texlab typescript-language-server`
+- **basedpyright:** `uv tool install basedpyright` (not via Mason — uses its own bundled Node.js)
+- **ruff:** `:MasonInstall ruff`
+
+## Python Provider — UV-Nvim Venv
+
+All Python dependencies required by nvim plugins live in a single uv-managed virtualenv.
+No system Python is ever touched. No pip is ever used. Everything goes through uv.
+
+### Architecture
+
+```
+k-nvim/assets/uv-nvim/pyproject.toml     ← Source of truth (list of Python packages)
+    │ symlink
+    ▼
+~/.local/share/nvim/uv-nvim/pyproject.toml
+    │
+    ▼ uv venv + uv sync
+~/.local/share/nvim/uv-nvim/.venv/bin/python3  ← Python binary used by nvim
+    │ g:python3_host_prog (init.lua)
+    ▼
+nvim Python provider (all plugins)
+```
+
+### Dependencies (from pyproject.toml)
+
+| Package | Required by | Role |
+|---------|-------------|------|
+| `pynvim` | All nvim Python plugins | Neovim Python host provider. Every plugin that uses Python communicates via pynvim. Essential. |
+| `jupyter-client` | molten-nvim | Jupyter kernel for running Python code inside nvim cells. Without it: Molten ERROR "Required python module jupyter-client not found". |
+
+### Management commands
+
+```bash
+# Create or recreate the venv from scratch
+cd ~/.local/share/nvim/uv-nvim && uv venv && uv sync
+
+# Add a new dependency
+cd ~/.local/share/nvim/uv-nvim && uv add <package> && uv sync
+
+# Upgrade all dependencies
+cd ~/.local/share/nvim/uv-nvim && uv sync --upgrade
+
+# List installed packages
+cd ~/.local/share/nvim/uv-nvim && uv pip list
+```
+
+### How init.lua connects to this venv
+
+```lua
+vim.g.python3_host_prog = vim.fn.expand("$HOME")
+  .. "/.local/share/nvim/uv-nvim/.venv/bin/python3"
+```
+
+This tells nvim to use the Python interpreter from the uv venv as its Python provider. Every Python-based nvim plugin (molten, jupytext, telescope extensions, etc.) will use this Python and find all installed packages.
+
+### Why this approach
+
+- **Zero system Python touch.** `/usr/bin/python3` is never modified, never called by nvim.
+- **Zero pip.** `pyproject.toml` + `uv sync` replaces `pip install` entirely.
+- **Zero python3-venv dependency.** uv creates its own virtualenvs without needing the Ubuntu system package.
+- **Single source of truth.** All Python packages for nvim are declared in one file, in version control.
+- **Reproducible.** `uv sync` guarantees the same package versions across machines.
+- **Trivially deleteable.** `rm -rf ~/.local/share/nvim/uv-nvim` removes everything, no system residue.
 
 ## Quick Keys (Normal mode)
 
@@ -241,6 +314,31 @@ When the user asks you to fix nvim errors, you MUST:
 5. Report detailed results before asking for further instructions.
 6. Do NOT ask the user for permission at each step — execute autonomously.
 
+### Post-modification healthcheck protocol (MANDATORY)
+
+After ANY modification to Neovim config files (`init.lua`, `plugins.lua`, `lsp.lua`, `keymaps.lua`, `trash.lua`, or any `lua/kpihx/*.lua`), the agent MUST:
+
+1. **Run the exact command, no variation allowed:**
+   ```
+   nvim --headless "+checkhealth" "+w! /tmp/nvim-health.md" "+qa" 2>/dev/null && cat /tmp/nvim-health.md | grep -E "❌|✗|FAIL|ERROR|WARNING|⚠️"
+   ```
+
+2. **Extract and present ONLY errors and warnings** — everything that is not ✅:
+   - Lines containing `❌`, `✗`, `FAIL`, `ERROR`, `WARNING`, `⚠️`
+   - Present them as-is, no truncation, no grep -v filtering, no head/tail
+
+3. **For EACH issue, provide a COMPLETE analysis:**
+   - **Exact error message** — verbatim from checkhealth
+   - **Root cause** — trace the full dependency chain: what plugin requires what, which package provides it, why it is missing on this specific system.
+   - **Why it happens NOW** — config change? removed dependency? version mismatch? missing system package? Never say "pre-existing" without explaining why it was pre-existing and what keeps it unfixed.
+   - **Impact assessment** — what exactly breaks or degrades. Which nvim features stop working? Be specific.
+   - **Fix proposal** — at least one concrete, executable fix with exact commands. If multiple fixes exist, list them with pros/cons. If there is a reason not to apply the fix (e.g., "would touch system python"), explain that reason and propose alternatives.
+   - **Why the fix works** — the mechanism: what does the fix command actually do, where does it install what, why does that resolve the issue.
+
+4. **Never hide, skip, truncate, or beautify any error or warning.** Every single one must appear in the report with its full analysis.
+
+5. **Update SKILL.md** with the changelog before running the check — the check is the final verification.
+
 ### Known false positives (plugin-level, ignore)
 
 These `:checkhealth` items come from plugin health files, not KπX config. They have **zero impact on daily use**:
@@ -264,7 +362,8 @@ Verify: `echo $EDITOR` → `nvim`.
 
 ## Trash System — FreeDesktop Integration
 
-`dd`, `D`, `cc`, `C` envoient aussi le texte supprimé dans la corbeille système Ubuntu.
+`dd`, `D`, `cc`, `C` send deleted text to the FreeDesktop trash (`~/.local/share/Trash/`).
+Visible in trash-cli, GNOME trash, Ubuntu trash. Survives `:w` and nvim restart.
 
 ### How it works
 
@@ -272,9 +371,9 @@ Each delete operation writes two files to `~/.local/share/Trash/`:
 - `files/nvim-dd-<timestamp>-<id>` — the deleted line(s)
 - `info/nvim-dd-<timestamp>-<id>.trashinfo` — FreeDesktop metadata
 
-The `.trashinfo` uses path prefix `.nvim-dd/` to visually distinguish nvim trash entries and prevent accidental `trash-restore` collisions.
+The `.trashinfo` uses path prefix `.nvim-dd/` to distinguish nvim trash entries and prevent accidental `trash-restore` collisions.
 
-### What's covered
+### What is covered
 
 | Key | Operation | Trashed |
 |-----|-----------|---------|
@@ -309,5 +408,6 @@ trash-empty                  # empty ALL trash (nvim + system)
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v3.0.0 — FreeDesktop Trash integration: new `lua/kpihx/trash.lua` intercepts dd/D/cc/C and writes to `~/.local/share/Trash/`. Added section + key table. |
-| [SUMMARY] | — | v2.1.0 Post-Install Shell Wiring; v2.0.0 centralized config; v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB), healthcheck governance, telescope exclusion map. |
+| 2026-07-24 | [OPENCODE] | v3.5.0 — Python provider migrated to dedicated uv venv (`k-nvim/assets/uv-nvim/pyproject.toml`). Zero system Python, zero pip. Added "Python Provider — UV-Nvim Venv" section. Cleaned up `uv tool jupyter-client` (merged into venv). Trash section fully in English. SKILL.md fully rewritten in English. |
+| 2026-07-24 | [OPENCODE] | v3.4.0 — Fixed molten ❌: installed jupyter-client via `uv tool install jupyter-client` (no system python, no pip). Molten now has its kernel. Warnings for optional modules (cairosvg, plotly, etc.) remain — they are optional. |
+| [SUMMARY] | — | v3.3.0 expanded healthcheck protocol; v3.2.0 added healthcheck section; v3.1.0 basedpyright via uv; v3.0.0 FreeDesktop Trash; v2.1.0 Post-Install Shell Wiring; v2.0.0 centralized config; v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB). |

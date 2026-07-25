@@ -1,0 +1,57 @@
+#!/bin/bash
+# openclaw-opencode — Show OpenCode models for OpenClaw config
+# Usage: openclaw-opencode [--apply]
+
+set -e
+
+OPENCLAW_CONFIG="$HOME/.openclaw/openclaw.json"
+OPENCODE_MODELS=$(opencode models 2>/dev/null)
+
+if [ -z "$OPENCODE_MODELS" ]; then
+    echo "Error: Cannot fetch opencode models"
+    exit 1
+fi
+
+# Build opencode provider models JSON
+OPENCODE_MODELS_JSON=$(echo "$OPENCODE_MODELS" | grep "^opencode/" | while read -r model; do
+    model_id="${model#opencode/}"
+    cat << EOF
+          {
+            "id": "$model_id",
+            "name": "$model_id (opencode)",
+            "reasoning": false,
+            "input": ["text"],
+            "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
+            "contextWindow": 128000,
+            "maxTokens": 32768,
+            "api": "openai-completions"
+          }
+EOF
+done | jq -s '.')
+
+# Build opencode-go provider models JSON
+OPENCODE_GO_MODELS_JSON=$(echo "$OPENCODE_MODELS" | grep "^opencode-go/" | while read -r model; do
+    model_id="${model#opencode-go/}"
+    cat << EOF
+          {
+            "id": "$model_id",
+            "name": "$model_id (opencode-go)",
+            "reasoning": false,
+            "input": ["text"],
+            "cost": {"input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0},
+            "contextWindow": 128000,
+            "maxTokens": 32768,
+            "api": "openai-completions"
+          }
+EOF
+done | jq -s '.')
+
+# Build models aliases JSON directly via jq
+MODELS_ALIASES=$(echo "$OPENCODE_MODELS" | grep -E "^(opencode/|opencode-go/)" | \
+  jq -R 'split("/") | { (.[0] + "/" + .[1]): { alias: (.[1] | split("-")[0]) } }' | jq -s 'add' 2>/dev/null || echo "{}")
+
+echo "OpenCode models detected:"
+echo "$OPENCODE_MODELS" | grep -E "^(opencode/|opencode-go/)" | wc -l
+echo ""
+echo "To apply this configuration, run:"
+echo "  openclaw-opencode --apply"

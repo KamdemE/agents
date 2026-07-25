@@ -36,6 +36,7 @@ metadata:
 | `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. ENGLISH ONLY. |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
 | `rules/audit-commands.md` | `uv` not `pip`. `make audit` after any `.agents/` change. `make push` not raw git push. `make check` for Python tests. Post-work checklist: audit, docs, version, sync, finalize. |
+| `rules/uv-first.md` | **UV-FIRST** — All Python operations MUST use `uv` (`uv tool install`, `uv pip install`, `uv run`, `uv venv`). **Never** touch system Python (`/usr/bin/python3`). **Never** use `pip`. **Never** install `python3-*` apt packages. System Python is read-only. Exceptions only if explicitly authorized by KπX. |
 | `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. |
 | `rules/skill-infra-scope.md` | Cross-infrastructure skill design: general case in `SKILL.md`, OS-specific details in `references/<os>.md`. |
 | `rules/k-context-hygiene.md` | Session log + active projects updated proactively. Zero-deletion (append-only). Overflow → `references/log.md`. Issues → `references/issues.md`. |
@@ -69,7 +70,7 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 
 ### Top (kernel-wide)
 
-`kpihx-labs` (architecture, conventions, governance) · `k-agents` (runtime registry) · `k-hook` (lifecycle hooks) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (optimization) · `k-project` · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
+`kpihx-labs` (architecture, conventions, governance) · `k-agents` (runtime registry) · `k-hook` (lifecycle hooks) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (optimization) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
 
 ### Identity
 
@@ -132,12 +133,13 @@ Only switch language if KπX explicitly asks. Never assume from context.
 ├── hooks/                    # Lifecycle hooks (per-agent: opencode, gemini, codex, …)
 ├── agents/                   # Agent definitions (Colab, Explore, executor, curator, …)
 │
-├── skills/                   # Domain skills (62 k-* skills)
+├── skills/                   # Domain skills (63 k-* skills)
 │   ├── k-ubuntu/             #   workstation
 │   ├── k-pve/                #   Proxmox hypervisor
 │   ├── k-25/                 #   Android phones (S25)
 │   ├── k-opencode/           #   OpenCode runtime
-│   ├── ...                   #   ~56 more k-* skills
+│   ├── k-uv/                 #   UV/Python ecosystem
+│   ├── ...                   #   ~57 more k-* skills
 │   └── deactive/             #   Archived skills (do not load)
 │
 ├── logs/                     # Centralized runtime logs
@@ -150,8 +152,43 @@ Only switch language if KπX explicitly asks. Never assume from context.
 
 > **Auto-maintenance contract:** Every agent that modifies the kernel structure (renames a skill, moves a directory, creates a new top-level directory, promotes tmp/ to permanent) MUST update this map to reflect the change. The map is the canonical orientation point for all agents — if the structure evolves and this map is not updated, it is a bug.
 
+## Config Management Standard (Source of Truth)
+
+**Every configuration file, script, override, or runtime asset MUST live in `.agents/` as its single source of truth.** Local paths (systemd, shell configs, editor configs) are symlinks back to the canonical `.agents/` location.
+
+| Principle | Rule |
+|-----------|------|
+| **Source of truth** | The file lives in `.agents/skills/<skill>/assets/` or `.agents/scripts/`. Edit there. |
+| **Local path** | A symlink from the standard OS location to the `.agents/` source. Never a standalone file. |
+| **Override files** | systemd drop-ins, `.d/` overrides, config snippets — same rule: asset in `.agents/`, symlink to the OS location. |
+| **Survival** | Symlinks survive `gateway install --force`, config regens, and reinstallations. The source is version-controlled in git. |
+| **Migration** | Any loose config file found outside `.agents/` that is not a symlink should be moved and symlinked. Exceptions only for files that cannot be symlinked (immutable paths, container mounts). |
+
+Example — systemd drop-in for OpenClaw Gateway:
+```
+.agents/skills/k-openclaw/assets/exec-override.conf    # source of truth (edit here)
+~/.config/systemd/user/openclaw-gateway.service.d/     # OS location (symlink)
+    ├── exec-override.conf → .agents/.../exec-override.conf
+    └── env.conf            # also belongs in .agents/ if possible
+```
+
+**Verification:** Every agent that creates or modifies a config file MUST check whether it should live in `.agents/` with a local symlink. If yes, create the source first, then symlink.
+
 ## Security
 
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
 - Default git email: `kapoivha@gmail.com` (set in `~/.gitconfig`). Use this on all equipment.
 - **Secrets zero-touch:** NEVER read, print, expose, or reference token files, API keys, passwords, or any secret values in chat. When a secret is needed, KπX retrieves it manually from Vaultwarden and places it where required. No agent shall look for, extract, or display secrets — ever.
+
+## rm Discipline (GRAVÉ)
+
+🔴 **NEVER USE `/usr/bin/rm` OR `/bin/rm` — EVER.** This is ABSOLUTE and applies to ALL agents, ALL profiles, ALL contexts, including the `Auto` agent.
+
+- `rm` in PATH points to `~/.local/bin/rm` which is the **trash-safe wrapper** (`k-clis/assets/rm`). It moves files to trash instead of permanent deletion.
+- `/usr/bin/rm` and `/bin/rm` are the **real GNU rm** that permanently destroys data. Using either is a **kernel sovereignty violation**.
+- All OpenCode agents (including Auto) have these blocked at the tool level in `opencode.jsonc`.
+- For Auto agent specifically: **all `*rm*` commands are denied** by wildcard, then `rm` (the trash wrapper) is explicitly re-allowed. This means ANY variant (`/usr/bin/rm`, `/bin/rm`, `rm -rf`, etc.) is blocked — only the bare `rm` command works.
+- If you genuinely need permanent deletion: use `rm rm <pattern>` (trash-cli's trash-rm) or manually empty trash with `rm empty`.
+- **No exceptions.** Not for scripts, not for automation, not for cleanup. If a script calls `/usr/bin/rm` or `/bin/rm`, it must be refactored to use the `rm` wrapper.
+- See `rules/rm-discipline.md` for the full rule.
+- This rule is enforced in: `rules/rm-discipline.md`, `opencode.jsonc` (global bash + Auto agent), `k-opencode/SKILL.md` (Operational Rules), this file.

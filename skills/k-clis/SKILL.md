@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.6.0
+  version: 1.9.0
   scope: operations
 ---
 
@@ -82,7 +82,7 @@ metadata:
 | `tmux` | **`k-tmux`** | Terminal multiplexer — shared interactive gate, fluid shell mesh |
 | `nvim` | **`k-nvim`** | Editor — centralized config, LSP, plugins. **After install, set `$EDITOR`** (e.g. `export EDITOR=nvim` in `.kshrc`). |
 | `micro` | _(this skill)_ | Lightweight TUI editor — fallback (no dedicated skill) |
-| `trash-put` / `trash-cli` | _(this skill)_ | Safe `rm` replacement — see **`assets/rm`** for the active wrapper state |
+| `trash-put` / `trash-cli` | _(this skill)_ | Safe `rm` replacement — see **`assets/rm`** for the active wrapper state. Has **bypass patterns** (auto real-delete for tmux pane captures, etc.). |
 | `plocate` / `locate` | _(this skill)_ | **⚡ AGENTS MUST PREFER `locate`/`plocate` OVER `find`/`grep`/Glob FOR FILE SEARCH** (~100× faster). See **`references/plocate.md`** for setup. |
 | `bat` / `batcat` | _(this skill)_ | `cat` with syntax highlighting, git gutter, paging. `batcat` on Ubuntu (rename conflict). |
 | `rg` (ripgrep) | _(this skill)_ | Fast recursive text search — replaces `grep -r`. Skips .git, node_modules, binary files. Installed via cargo/apt. |
@@ -93,9 +93,10 @@ metadata:
 | CLI | Skill | Notes |
 |-----|-------|-------|
 | `git` / `gh` / `glab` | **`k-git`** | VCS — SSH protocol, Makefile push |
-| `uv` | **`k-project`** | Python project init and deps |
-| `bun` | **`k-project`** | JS/TS project init |
-| `nvm` | _(this skill)_ | Node version manager — per-project Node via `.nvmrc` |
+| `uv` | **`k-uv`** · **`k-project`** | Python tool/venv/package management (k-uv) · Project init (k-project) |
+| `bun` | **`k-node`** · **`k-project`** | JS/TS runtime & package manager — sovereign choice for KpihX-owned projects |
+| `fnm` / `nvm` | **`k-node`** | Node version manager — `fnm` (Fast Node Manager, Rust). Dynamic PATH via `--use-on-cd`. nvm retained as fallback. |
+| `node` / `npm` | **`k-node`** | Node.js runtime & package manager — npm global prefix (`~/.npm-global`), EACCES prevention |
 | `latexmk` / `pdflatex` | **`k-latex`** | LaTeX compilation |
 | `make` | **`k-project`** / workspace | Build system — Makefile templates |
 
@@ -123,6 +124,33 @@ For any CLI that needs Vault-backed tokens:
 3. If env/auth fails → secrets may need loading via `~/.kshrc` or appropriate env source
 4. Full procedure: **`k-bw`**
 
+## rm wrapper — Bypass Patterns
+
+`rm` → `trash-put` by default, but some paths bypass trash and do a real delete.
+This prevents cache/temp files from polluting `~/.local/share/Trash/`.
+
+### Active bypass patterns (from `assets/rm`)
+
+| Pattern | Rationale |
+|---------|-----------|
+| `.tmux/resurrect/save/pane_contents/` | tmux-resurrect pane content snapshots saved every 5 min by continuum auto-save. 1362 files/day in trash without bypass. |
+| `.tmux/resurrect/.*\.txt` | Old tmux-resurrect backup files — same reason. |
+
+### How to add a new pattern
+
+Edit `assets/rm` and add a regex to the `bypass_patterns` array in the `*)` case:
+
+```bash
+bypass_patterns=(
+  # existing patterns...
+  "my/cache/dir"
+)
+```
+
+The pattern is tested with `grep -Eq` against each non-flag argument. If any
+argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
+`trash-put`.
+
 ## Rules for Skill Creators
 
 - If you create a new skill for a CLI, **add it to this registry** in the same pass.
@@ -137,6 +165,6 @@ For any CLI that needs Vault-backed tokens:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.6.0 — Added `bat`, `rg`, `fd`, `magick`, `asciinema`, `k-ssh` (ssh/ssh-keygen) to registry. New `Media, AI & Utilities` section. Purged pyenv. Split `adb`/`ssh` into separate entries. |
-| 2026-07-22 | [OPENCODE] | v1.4.0 — Added `plocate`/`locate` entry with search-preference mandate (agents MUST prefer locate over find/grep). Created references/plocate.md + rules/search-governance.md. |
-| [SUMMARY] | — | v1.3.0 `rm` wrapper; v1.2.0+ Shell & Terminal subgroup; v1.1.0 nvim/zsh/micro; v1.0.0 merged k-cloud-tools. |
+| 2026-07-25 | [OPENCODE] | v1.9.0 — `bun`/`fnm`/`node`/`npm` routing: `k-project` → `k-node` (dual for bun). New `k-node` skill created for comprehensive Node/JS/TS ecosystem inventory. |
+| 2026-07-24 | [OPENCODE] | v1.8.0 — `uv` routing: `k-project` → `k-uv` · `k-project` (dual). New `k-uv` skill created for comprehensive UV/Python ecosystem inventory. |
+| [SUMMARY] | — | v1.7.0 rm bypass patterns; v1.6.0 CLI additions (bat/rg/fd/magick); v1.4.0 plocate; v1.3.0 rm wrapper; v1.2.0 shell subgroup; v1.1.0 nvim/zsh/micro; v1.0.0 merged k-cloud-tools. |

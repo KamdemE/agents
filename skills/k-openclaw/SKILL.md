@@ -4,7 +4,7 @@ description: OpenClaw runtime — install/config, Tailscale Serve access, and K�
 license: private
 metadata:
   author: KpihX
-  version: "3.7.0"
+  version: "3.9.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -26,7 +26,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 - **OpenClaw config:** `$HOME/.openclaw/openclaw.json`
 - **OpenClaw agent state:** `$HOME/.openclaw/agents/`
-- **Gateway service:** `$HOME/.config/systemd/user/openclaw-gateway.service`
+- **Gateway service:** `$HOME/.config/systemd/user/openclaw-gateway.service` (symlink → `assets/openclaw-gateway.service`)
+- **Gateway ExecStart override:** `~/.config/systemd/user/openclaw-gateway.service.d/exec-override.conf` (symlink → `assets/exec-override.conf`) — overrides `ExecStart` and `PATH` to use openclaw CLI + fnm node
 - **KπX global kernel (source + OpenClaw workspace):** `$HOME/.agents/` (= `$HOME/KpihX-Labs/.agents/` git root; `$HOME/.agents` → symlink)
 - **OpenClaw workspace:** `agents.defaults.workspace = ~/.agents` — injects **`$HOME/.agents/AGENTS.md`** directly (no copy, no desync)
 - **Legacy mirror (symlink only):** `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/KpihX-Labs/.agents/AGENTS.md` (not used by gateway)
@@ -106,6 +107,24 @@ Les sessions Telegram gardent d'anciennes limites bootstrap tant qu'elles ne son
 - Telegram : demander le `name:` du frontmatter YAML → attendu **`kpihx-agents`**
 - Session store : `injectedWorkspaceFiles` → `AGENTS.md` `truncated: false`, `injectedChars` ≈ 37500+ (sans frontmatter)
 - Control UI / chat : commande **`/context list`**
+
+## Assets
+
+| Asset | Role |
+|-------|------|
+| `assets/openclaw-gateway.service` | Systemd service (symlink target for `~/.config/systemd/user/`) |
+| `assets/exec-override.conf` | Systemd drop-in — overrides ExecStart and PATH |
+| `assets/openclaw-opencode` | CLI script: sync OpenCode models into OpenClaw config. Symlinked as `~/.local/bin/openclaw-opencode`. |
+
+### Ecosystem Tools
+
+| Tool | Role | Source |
+|------|------|--------|
+| **ClawHub** (`clawhub`) | Public skill registry — discover, install, and publish OpenClaw skills/extensions | `npm i -g clawhub` or pnpm global |
+| **MCPorter** (`mcporter`) | MCP server management for OpenClaw — discover, configure, call, and debug MCP servers. OpenClaw agents use mcporter to access external MCP servers (HTTP, SSE, stdio). See [docs](https://docs.openclaw.ai/cli/mcp). | `npm i -g mcporter` or pnpm global |
+| **OpenClaw MCP** (`openclaw mcp ...`) | Native MCP server registry — `list`, `add`, `set`, `probe`, `doctor`, etc. Manages OpenClaw's own `mcp.servers` entries (does not read mcporter config). | Built-in |
+
+Note: `openclaw mcp list` reads OpenClaw-managed servers only. Use `mcporter list` for the mcporter-managed registry.
 
 ## Installation (this workstation)
 
@@ -203,6 +222,6 @@ Current KπX runtime baseline (2026-05-27):
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-21 | [OPENCODE] | v3.7.0 — `resetOnExit: false` to prevent OpenClaw from wiping other Tailscale Serve routes on shutdown. Added Tailscale independence section. |
-| 2026-07-21 | [OPENCODE] | v3.6.0 — Single Source of Truth : service file déplacé dans `assets/openclaw-gateway.service`, symlinké depuis `~/.config/systemd/user/`. |
-| [SUMMARY] | — | v3.5.0 Port Tailscale 443→1443, Gateway systemd section; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection, bot migration; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening, Tailscale Serve reactivation. v2.x history condensed. |
+| 2026-07-25 | [OPENCODE] | v3.9.0 — Added Assets table, updated Ecosystem Tools, changelog for openclaw-opencode. |
+| 2026-07-25 | [OPENCODE] | v3.8.0 — Added Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP). Renamed openclaw-models-sync → openclaw-opencode in assets/, symlinked to ~/.local/bin/. |
+| [SUMMARY] | — | v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |

@@ -26,8 +26,12 @@ end
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.g.python3_host_prog = vim.fn.exepath("python3")
--- pyenv support removed — uv is the sole Python toolchain
+vim.g.python3_host_prog = vim.fn.expand("$HOME")
+  .. "/.local/share/nvim/uv-nvim/.venv/bin/python3"
+-- Dedicated uv venv for nvim Python provider.
+-- No system Python, no pip. Managed via pyproject.toml:
+--   ~/.agents/skills/k-nvim/assets/uv-nvim/pyproject.toml
+-- Update: cd ~/.local/share/nvim/uv-nvim && uv sync --upgrade
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0

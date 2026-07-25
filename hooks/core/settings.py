@@ -35,6 +35,9 @@ HOOK_FEATURES = {
     "startup_context":                     True,  # Inject k-context at session bootstrap.
     "device_detection":                    True,  # Auto-detect device via Tailscale and inject the matching k-infra skill.
 
+    # prompt_enforcer.py
+    "prompt_enforcer":                     True,  # Inject raw first-person enforcement block before each turn.
+
     # prompt_injector.py
     "dynamic_context":                     True,  # Inject date, time, user@host, and cwd before each turn.
 

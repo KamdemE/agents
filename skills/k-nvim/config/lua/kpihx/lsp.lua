@@ -10,8 +10,11 @@ local function config(name, opts)
   vim.lsp.config(name, opts)
 end
 
+local basedpyright_cmd = vim.fn.expand("$HOME")
+  .. "/.local/share/uv/tools/basedpyright/bin/basedpyright-langserver"
+
 config("basedpyright", {
-  cmd = { "basedpyright-langserver", "--stdio" },
+  cmd = { basedpyright_cmd, "--stdio" },
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt" },
   settings = {

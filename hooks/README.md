@@ -21,6 +21,7 @@ Use this file to answer 2 questions quickly:
 | Checker | Role | Example the agent sees |
 |------|------|----------------|
 | `context_injector.py` | Inject startup context from the configured startup skills list | `Session date: 2026-04-03 (Friday)` + `k-context` |
+| `prompt_enforcer.py` | Inject raw first-person enforcement block as if the user wrote it at the end of their prompt. No system framing. | `YOU MUST DO EXACTLY WHAT I SAID!!!! EXACTLY AS I SAID IT! ...` |
 | `prompt_injector.py` | Inject lightweight per-turn runtime context | `<dynamic-context> ... Current directory: /home/$USER ... </dynamic-context>` |
 | `skill_watcher.py` | Inject a compact reminder that points back to `AGENTS.md` | `AGENTS CHECK:` then 3 short lines pointing to `$HOME/.agents/AGENTS.md` |
 | `path_guard.py` | Reject literal home paths or bare `~` in `.agents/` file edits | `Literal home-directory path or bare ~ detected in .agents content...` |
@@ -125,6 +126,7 @@ Next:
 |------|--------|--------|-------|-------|
 | `context_injector.py` | `SessionStart` | `SessionStart` | `SessionStart` | `SessionStart` |
 | `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `prompt_enforcer.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
 | `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
 | `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `PreToolUse` for `create_file`, `replace_string_in_file`, and related aliases |
 | `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` | `PreToolUse` for normalized write/replace operations |

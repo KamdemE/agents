@@ -202,6 +202,11 @@
       // ──── ASK — commandes dangereuses (liste explicite) ────
       "rm": "ask",
       "rm *": "ask",
+      // /usr/bin/rm and /bin/rm are DENIED — they bypass the safe trash wrapper. Use `rm` instead.
+      "/usr/bin/rm": "deny",
+      "/usr/bin/rm *": "deny",
+      "/bin/rm": "deny",
+      "/bin/rm *": "deny",
       "rmdir *": "ask",
       "shred *": "ask",
       "sed *": "ask",
@@ -311,13 +316,20 @@
     },
 
     // Auto: catch-all *: allow — NO tool blocked, can launch ALL sub-agents
+    // ALL *rm* commands are blocked by wildcard, then `rm` (trash wrapper) is explicitly re-allowed.
+    // This means ANY variant (/usr/bin/rm, /bin/rm, rm -rf, etc.) is blocked — only bare `rm` works.
     "Auto": {
       "model": "opencode/deepseek-v4-flash-free",
       "description": "Auto agent — full permissions, all tools allowed, all sub-agents callable, future-proof",
       "mode": "primary",
       "color": "#F44336",
       "permission": {
-        "*": "allow"
+        "*": "allow",
+        "bash": {
+          "*rm*": "deny",
+          "rm": "allow",
+          "rm *": "allow"
+        }
       }
     },
 
@@ -379,26 +391,9 @@
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
+  // ──── Provider — auto-discovered + custom ────
   "provider": {
-    // k-ai Sovereign LLM Gateway — routes to all providers (ollama, venice, opencode, etc.)
-    "k-ai": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "k-ai Gateway",
-      "options": {
-        "baseURL": "http://localhost:8080/v1"
-      },
-      "models": {
-        "qwen3-ctx2k:latest": { "name": "Qwen3 2K (Ollama via k-ai)" },
-        "qwen3-ctx4k:latest": { "name": "Qwen3 4K (Ollama via k-ai)" },
-        "qwen3-ctx8k:latest": { "name": "Qwen3 8K (Ollama via k-ai)" },
-        "llama3.1:8b": { "name": "Llama 3.1 8B (Ollama via k-ai)" },
-        "phi4-mini:latest": { "name": "Phi4 Mini (Ollama via k-ai)" },
-        "mock-model": { "name": "Mock Model (k-ai test)" },
-        "v-llama-3.3-70b": { "name": "Llama 3.3 70B (Venice via k-ai)" },
-        "v-deepseek-v3.2": { "name": "DeepSeek V3.2 (Venice via k-ai)" }
-      }
-    },
-    // Ollama local — auto-synced by ~/.local/bin/ollama-models-sync
+    // Ollama local — auto-synced by opencode-ollama.sh
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama (local)",
@@ -406,44 +401,31 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-ctx2k": { "name": "qwen3-ctx2k:latest (4.9 GB local)" },
         "qwen3-ctx4k": { "name": "qwen3-ctx4k:latest (4.9 GB local)" },
+        "qwen3-ctx2k": { "name": "qwen3-ctx2k:latest (4.9 GB local)" },
         "qwen3-ctx8k": { "name": "qwen3-ctx8k:latest (4.9 GB local)" },
         "qwen3-ctx12k": { "name": "qwen3-ctx12k:latest (4.9 GB local)" },
-        "llama3.1-ctx12k": { "name": "llama3.1-ctx12k:latest (4.6 GB local)" },
-        "llama3.1-ctx8k": { "name": "llama3.1-ctx8k:latest (4.6 GB local)" },
-        "phi4-mini-ctx12k": { "name": "phi4-mini-ctx12k:latest (2.3 GB local)" },
-        "llama3.1-ctx2k": { "name": "llama3.1-ctx2k:latest (4.6 GB local)" },
         "llama3.1-ctx4k": { "name": "llama3.1-ctx4k:latest (4.6 GB local)" },
-        "phi4-mini-ctx4k": { "name": "phi4-mini-ctx4k:latest (2.3 GB local)" },
-        "qwen2.5-coder-ctx12k": { "name": "qwen2.5-coder-ctx12k:latest (1.8 GB local)" },
-        "qwen2.5-coder-ctx8k": { "name": "qwen2.5-coder-ctx8k:latest (1.8 GB local)" },
-        "qwen2.5-coder-ctx2k": { "name": "qwen2.5-coder-ctx2k:latest (1.8 GB local)" },
-        "qwen2.5-coder-ctx4k": { "name": "qwen2.5-coder-ctx4k:latest (1.8 GB local)" },
+        "llama3.1-ctx8k": { "name": "llama3.1-ctx8k:latest (4.6 GB local)" },
+        "llama3.1-ctx12k": { "name": "llama3.1-ctx12k:latest (4.6 GB local)" },
+        "llama3.1-ctx2k": { "name": "llama3.1-ctx2k:latest (4.6 GB local)" },
+        "phi4-mini-ctx12k": { "name": "phi4-mini-ctx12k:latest (2.3 GB local)" },
+        "phi4-mini-ctx8k": { "name": "phi4-mini-ctx8k:latest (2.3 GB local)" },
         "qwen2.5-ctx12k": { "name": "qwen2.5-ctx12k:latest (4.4 GB local)" },
         "qwen2.5-ctx2k": { "name": "qwen2.5-ctx2k:latest (4.4 GB local)" },
-        "phi4-mini-ctx8k": { "name": "phi4-mini-ctx8k:latest (2.3 GB local)" },
+        "qwen2.5-coder-ctx12k": { "name": "qwen2.5-coder-ctx12k:latest (1.8 GB local)" },
         "qwen2.5-ctx8k": { "name": "qwen2.5-ctx8k:latest (4.4 GB local)" },
         "phi4-mini-ctx2k": { "name": "phi4-mini-ctx2k:latest (2.3 GB local)" },
+        "phi4-mini-ctx4k": { "name": "phi4-mini-ctx4k:latest (2.3 GB local)" },
         "qwen2.5-ctx4k": { "name": "qwen2.5-ctx4k:latest (4.4 GB local)" },
+        "qwen2.5-coder-ctx2k": { "name": "qwen2.5-coder-ctx2k:latest (1.8 GB local)" },
+        "qwen2.5-coder-ctx4k": { "name": "qwen2.5-coder-ctx4k:latest (1.8 GB local)" },
+        "qwen2.5-coder-ctx8k": { "name": "qwen2.5-coder-ctx8k:latest (1.8 GB local)" },
         "qwen2.5": { "name": "qwen2.5:7b-instruct-q4_k_m (4.4 GB local)" },
         "qwen3": { "name": "qwen3:latest (4.9 GB local)" },
         "qwen2.5-coder": { "name": "qwen2.5-coder:3b (1.8 GB local)" },
         "llama3.1": { "name": "llama3.1:8b (4.6 GB local)" },
         "phi4-mini": { "name": "phi4-mini:latest (2.3 GB local)" }
-      }
-    },
-    // Venice AI — for uncensored models (Gemma 4 Uncensored, etc.)
-    "venice": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Venice AI",
-      "options": {
-        "baseURL": "https://api.venice.ai/api/v1"
-      },
-      "models": {
-        "gemma-4-uncensored": { "name": "Gemma 4 Uncensored (Venice)", "options": { "reasoningEffort": "none" } },
-        "google-gemma-4-31b-it": { "name": "Google Gemma 4 31B Instruct (Venice)", "options": { "reasoningEffort": "none" } },
-        "venice-uncensored": { "name": "Venice Uncensored" }
       }
     }
   },
@@ -507,7 +489,8 @@
     "opencode-ssh-session",
     "opencode-antigravity-auth@latest",
     "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",
-    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"
+    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",
+    "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer.js"
   ],
 
   "compaction": {

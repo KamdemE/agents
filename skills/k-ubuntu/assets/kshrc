@@ -13,9 +13,9 @@
 
 
 # === npm global prefix (version-agnostic, always writable) ===
-# NPM_CONFIG_PREFIX env var avoids the nvm/prefix conflict in ~/.npmrc
+# Belt-and-suspenders: .npmrc prefix= covers subprocess (always read),
+# NPM_CONFIG_PREFIX covers interactive shells directly.
 export NPM_CONFIG_PREFIX="$HOME/.npm-global"
-# PATH: ~/.npm-global/bin after nvm so it takes priority over nvm-versioned bin
 export PATH="$HOME/.npm-global/bin:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
@@ -26,8 +26,12 @@ export PATH="$HOME/.opencode/bin:$PATH"
 
 # Edge CDP :9222 — enabled by default via wrapper script + .desktop files (k-browser v3.x)
 
-# === Homebrew (Linuxbrew) ===
-[[ -d /home/linuxbrew/.linuxbrew ]] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# === fnm (Fast Node Manager) — dynamic version management + auto-switch ===
+FNM_PATH="$HOME/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+    export PATH="$FNM_PATH:$PATH"
+    eval "$(fnm env --use-on-cd --shell zsh 2>/dev/null)"
+fi
 
 # === Python compilation ===
 export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"
@@ -89,16 +93,11 @@ fi
 
 setopt HIST_IGNORE_SPACE
 
-# ──── Ollama auto-sync for OpenCode ────
-# Wraps ollama pull/rm to auto-update opencode model list
-ollama() {
-  command ollama "$@"
-  local exit_code=$?
-  if [[ "$1" == "pull" || "$1" == "rm" || "$1" == "delete" ]]; then
-    ~/.local/bin/ollama-models-sync 2>/dev/null
-  fi
-  return $exit_code
-}
+# ──── Ollama wrapper + OpenCode model sync ────
+# Sourced from k-opencode/scripts/opencode-ollama.sh
+_ollama_sh="$HOME/.agents/skills/k-opencode/scripts/opencode-ollama.sh"
+[ -f "$_ollama_sh" ] && source "$_ollama_sh"
+unset _ollama_sh
 
 # ── Machine-local configs (moved from .zshrc) ──────────────────────────────
 

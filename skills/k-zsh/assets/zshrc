@@ -64,3 +64,6 @@ source ~/.oh-my-zsh/plugins/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
 echo '\e[5 q'
 
 # Machine-local configs (PATH, completions, auto-tmux) moved to ~/.kshrc
+
+# fnm is loaded via ~/.kshrc (universal shell hub)
+export TRASH="$HOME/.local/share/Trash"

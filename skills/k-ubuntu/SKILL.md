@@ -424,6 +424,13 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 ---
 
+## Bundled references
+
+| File | Content |
+|------|---------|
+| `references/insights.md` | Durable lessons, mistakes, validated fixes |
+| `references/log.md` | Operation log — significant system changes (pip purges, tool migrations, apt removals) |
+
 ## Insights Discipline (mandatory)
 
 - Read `$HOME/.agents/skills/k-ubuntu/references/insights.md` before non-trivial work in this skill domain.

@@ -10,12 +10,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from core import prompt_injector, skill_watcher
+from core.prompt_enforcer import ENFORCEMENT_PROMPT
 
 
 def handle_user_prompt_submit(agent_name: str, cwd: str | None = None) -> dict:
     dynamic = prompt_injector.get_dynamic_context(cwd=cwd)
     reminder = skill_watcher.build_governance_reminder()
-    parts = [part for part in (dynamic, reminder) if part]
+    enforcement = ENFORCEMENT_PROMPT
+    parts = [part for part in (dynamic, reminder, enforcement) if part]
     if not parts:
         return {}
     return {

@@ -19,7 +19,6 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-27 | [CURSOR] | **OpenClaw workspace = `~/.agents`** — kernel inject direct; `@kpihx_openclaw_bot`; AGENTS symlinks unifiés; verified 37k inject. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
 | 2026-05-28 | [OPCODE] | **OpenClaw bugfix session** — Diagnostiqué 429 Realtime (OpenAI → Google provider). Talk: `provider=google`, `apiKey={env:GOOGLE_API_KEY}`. `wl-clipboard` installé. Fixé `codex.apiKey` false positive. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
 | 2026-05-26 | [CURSOR] | **colab P1 ACP** — `AcpClient` NDJSON + permission auto-reply; `AcpSession` connect/prompt/cancel; CLI `colab agent prompt`; 16 tests green. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
-| 2026-05-27 | [CURSOR] | **SexeModel scraper** — tasks 1-6 completed; background scraping region 75. *(Rotated from k-context Session Log — cap 2026-07-21.)* |
 | 2026-05-26 | [CURSOR] | **Workstation power runbooks** — ISS-20260515-001 projector, ISS-20260526-001 battery ~67% wear. *(Rotated from k-context Session Log — cap 2026-05-29.)* |
 | 2026-05-26 | [CURSOR] | **`k-25` v1.0.17** — `references/s25-hardware.md` (SM-S938B / SD 8 Elite specs). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
 | 2026-05-26 | [CURSOR] | **Lebara eSIM 30j** — Support délai **30 j** avant retry QR ML045066180 (~25/06). *(Rotated from k-context Session Log — cap 2026-05-29.)* |
