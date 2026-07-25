@@ -30,28 +30,30 @@ metadata:
 | **Own projects** | Bun — single binary for runtime, test, build, publish |
 | **Third-party CLIs** | npm global (`~/.npm-global`) — version-agnostic, always reachable |
 | **Node version management** | fnm (Rust, ~15ms init) — dynamic multishell PATH, `--use-on-cd` |
-| **nvm** | Retained as fallback — some tools still expect nvm layout |
-| **System Node** | NEVER — managed by fnm/nvm only |
+| **nvm** | Legacy — installé mais plus sourcé dans `.kshrc`. Conservé pour compatibilité avec quelques outils. |
+| **System Node** | NEVER — managed by fnm only |
 
 ### PATH resolution order
 
 ```
-~/.bun/bin              ← Bun runtime (own projects, priority)
-~/.npm-global/bin       ← Global CLI tools (gemini, codex, copilot…)
-~/.nvm/versions/.../bin ← Active Node version (managed by fnm via multishell)
+~/.bun/bin                     ← Bun runtime (own projects, priority)
+~/.npm-global/bin              ← Global CLI tools (gemini, codex, copilot…)
+/run/user/.../fnm_multishells/ ← Active Node version (fnm dynamic multishell)
 ```
 
 ---
 
 ## Runtimes — Version & Configuration
 
-| Runtime | Binary | Version | Install method |
-|---------|--------|---------|----------------|
-| **Node.js** | `~/.nvm/versions/node/v22.22.1/bin/node` | `22.22.1` | nvm |
-| **npm** | `~/.nvm/versions/node/v22.22.1/bin/npm` | `10.9.4` | bundled with Node |
-| **Bun** | `~/.bun/bin/bun` | `1.3.11` | `curl -fsSL https://bun.sh/install \| bash` |
-| **fnm** | `~/.local/share/fnm/fnm` | latest | `curl -fsSL https://fnm.vercel.app/install` |
-| **pnpm** | `~/.npm-global/bin/pnpm` | `10.32.1` | `npm install -g pnpm` |
+| Runtime | Binary | Version | Active via | Install method |
+|---------|--------|---------|-----------|----------------|
+| **Node.js** | fnm multishell → v24.18.0 | `24.18.0` | fnm (`.kshrc` eval) | `fnm install 24` |
+| **npm** | fnm multishell → v24.18.0 | `10.9.4` | bundled with fnm's Node | `fnm install 24` (bundled) |
+| **Bun** | `~/.bun/bin/bun` | `1.3.11` | direct PATH | `curl -fsSL https://bun.sh/install \| bash` |
+| **fnm** | `~/.local/share/fnm/fnm` | latest | direct PATH | `curl -fsSL https://fnm.vercel.app/install` |
+| **pnpm** | `~/.npm-global/bin/pnpm` | `10.32.1` | npm global | `npm install -g pnpm` |
+
+Legacy nvm paths still on disk but NOT in PATH: `~/.nvm/versions/node/v22.22.1/` (v22.22.1) and `~/.nvm/versions/node/v24.18.0/` (v24.18.0).
 
 ### npm prefix
 
@@ -70,23 +72,27 @@ The `.npmrc` prefix is read by **every** npm invocation — shell, subprocess, s
 
 ## Node Versions
 
-### fnm (primary)
+### fnm (ACTIVE — via `.kshrc`)
 
 | Version | Path | Default |
 |---------|------|---------|
-| **v24.18.0** | `~/.local/share/fnm/node-versions/v24.18.0/` | ✅ default |
+| **v24.18.0** | `~/.local/share/fnm/node-versions/v24.18.0/` | ✅ via `fnm default 24` |
 
-### nvm (fallback)
+fnm est sourcé dans `.kshrc` avec `--use-on-cd`. Le multishell gère dynamiquement `node`, `npm`, `npx` en PATH.
 
-| Version | Path | Notes |
-|---------|------|-------|
-| **v22.22.1** | `~/.nvm/versions/node/v22.22.1/` | Currently active (legacy) |
-| **v24.18.0** | `~/.nvm/versions/node/v24.18.0/` | Same version as fnm, sync pending |
+### nvm (LEGACY — installé mais PAS sourcé)
 
-Status: fnm is installed and configured, but nvm is still the active Node provider. Full migration to fnm requires:
-1. Updating `.kshrc` to source fnm instead of nvm (see `fnm.md` ref)
-2. Updating systemd service paths for OpenClaw Gateway
-3. Removing nvm (`rm -rf ~/.nvm`) — frees ~500MB
+| Version | Path | Status |
+|---------|------|--------|
+| **v22.22.1** | `~/.nvm/versions/node/v22.22.1/` | Sur disque, PLUS dans PATH |
+| **v24.18.0** | `~/.nvm/versions/node/v24.18.0/` | Sur disque, PLUS dans PATH |
+
+nvm n'est plus sourcé dans `.kshrc` (remplacé par fnm). Les binaires existent encore sur disque mais ne sont pas en PATH — ils ne gênent pas.
+
+### Cleanup restant
+
+1. **Mettre à jour les paths systemd** qui référencent encore `~/.nvm/` (ex: OpenClaw Gateway drop-in)
+2. **Supprimer nvm** (`rm -rf ~/.nvm`) — libère ~500Mo (pas urgent, peut attendre une session clean)
 
 ---
 
@@ -241,5 +247,6 @@ du -sh ~/.bun             # bun
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v1.1.0 — **CORRECTION :** fnm est actif, nvm est legacy inactif. La V1 disait à tort "nvm v22.22.1 currently active" car testée dans un shell agent sans `.kshrc`. Fixé : table runtimes rewritée, section Node Versions corrigée, PATH resolution corrigé. Aussi : `.npmrc` `prefix=` décommenté (était commenté "for nvm compatibility" mais nvm n'est plus sourcé). Insights.md mis à jour. |
 | 2026-07-25 | [OPENCODE] | v1.0.0 — Created k-node skill. Comprehensive inventory of Node versions (fnm + nvm), npm global packages (13), bun runtime, and JS/TS project configs. Documents PATH resolution order, prefix governance, and migration status nvm→fnm. |
 | [SUMMARY] | — | v1.0.0 — Created on 2026-07-25. |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.7.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -312,7 +312,7 @@ Generic Ollama operations (install, model management, API): **`k-ollama`**
 | Python | `uv` (`$HOME/.local/bin/uv`) | CLIs: `uv tool install --editable .` · Scripts: `uv run --with` |
 | JS/TS (owned projects / MCP servers) | **Bun** when runtime-compatible | `bun add/run/build/test/publish` · `bun link / bun install -g` |
 | JS tools (3rd party) | npm-global (`$HOME/.npm-global/`) | `npm install -g` for daily-driver CLIs |
-| Node.js | nvm v22.22.1 | Per-project versions only |
+| Node.js | fnm v24.18.0 | via `fnm install 24` — dynamic multishell, `--use-on-cd` |
 
 **Never:** `pip install` globally · `npm install -g <local-path>` · hatchling/poetry/setuptools
 
@@ -441,5 +441,6 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v1.7.0 — `assets/kshrc` : idempotency guard `__KSHRC_LOADED` ajouté pour éviter la duplication PATH. Node.js dans Package Management : nvm→fnm. |
 | 2026-07-24 | [OPENCODE] | v1.6.0 — **`~/.kshrc` moved to `assets/kshrc`** (symlink). Shell section updated. |
 | [SUMMARY] | — | v1.5.0 clean docs + secrets unification; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |

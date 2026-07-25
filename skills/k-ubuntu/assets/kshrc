@@ -10,7 +10,16 @@
 # then: ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
 # ============================================================
 
-
+# === Idempotency guard ===
+# .kshrc can be sourced from .zprofile, .zshrc, and maybe .zshenv.
+# This guard prevents PATH duplication.
+if [ -n "$__KSHRC_LOADED" ]; then
+  # Still set critical vars that might not persist across shells
+  export NPM_CONFIG_PREFIX="${NPM_CONFIG_PREFIX:-$HOME/.npm-global}"
+  export EDITOR="${EDITOR:-nvim}"
+  return
+fi
+export __KSHRC_LOADED=1
 
 # === npm global prefix (version-agnostic, always writable) ===
 # Belt-and-suspenders: .npmrc prefix= covers subprocess (always read),
