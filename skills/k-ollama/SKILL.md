@@ -43,6 +43,26 @@ Download from https://ollama.com/download (native Windows build available).
 
 ---
 
+## Systemd Service (system)
+
+Le service systemd canonical et son drop-in vivent dans ce skill (`assets/`). Leur installation se fait via symlinks :
+
+```bash
+# Service principal
+sudo ln -sf ~/.agents/skills/k-ollama/assets/ollama.service /etc/systemd/system/ollama.service
+
+# Drop-in (override) — configuration GPU/hardware
+sudo mkdir -p /etc/systemd/system/ollama.service.d
+sudo ln -sf ~/.agents/skills/k-ollama/assets/ollama-override.conf /etc/systemd/system/ollama.service.d/override.conf
+
+# Activer
+sudo systemctl daemon-reload
+sudo systemctl enable ollama.service
+sudo systemctl restart ollama.service
+```
+
+> **Source of truth:** les fichiers dans `assets/` sont la seule source — ne JAMAIS éditer directement `/etc/systemd/system/ollama.service` ou son drop-in.
+
 ## Basic Commands
 
 ```bash

@@ -116,16 +116,30 @@ Optional additional flags:
 | `--transfers 8` | Parallel transfers (default 4) |
 | `--buffer-size 256M` | Read-ahead buffer (streaming) |
 
-## Systemd User Service
+## Systemd User Service — Source of Truth
 
-Template: `assets/rclone-gdrive.service`
+**Mount systemd files must be created in the relevant infra skill's assets/**, not directly in `~/.config/systemd/user/`. The rclone skill holds the generic template; infra-specific services live in their respective skill (e.g., `k-dxo/assets/rclone-deep-pc6.service`, `k-ubuntu/assets/rclone-gdrive.service`). Then symlink to `~/.config/systemd/user/`.
 
-Copy + adapt for each new mount:
+Template: `assets/rclone-gdrive.service` (generic Google Drive).
+
+### Adding a new mount
+
+Onboarding pattern for each new mount:
+
+1. **Identify the relevant infra skill** (e.g., `k-dxo` for Deep-PC6, `k-ubuntu` for workstation mounts)
+2. **Create the systemd service** in that skill's `assets/` (copy from template, adapt flags and paths)
+3. **Symlink** : `ln -sf ~/.agents/skills/<skill>/assets/rclone-<name>.service ~/.config/systemd/user/rclone-<name>.service`
+4. **Enable** : `systemctl --user daemon-reload && systemctl --user enable --now rclone-<name>.service`
+
+**The source of truth is always in `.agents/`.** Never edit the file in `~/.config/systemd/user/` directly.
 
 ```bash
+# Example: new mount for a specific infra
 cp $HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service \
+   $HOME/.agents/skills/<infra-skill>/assets/rclone-<name>.service
+# Edit Description, ExecStart remote/mountpoint in the file under .agents/
+ln -sf $HOME/.agents/skills/<infra-skill>/assets/rclone-<name>.service \
    $HOME/.config/systemd/user/rclone-<name>.service
-# Edit: Description, ExecStart remote/mountpoint
 systemctl --user daemon-reload
 systemctl --user enable --now rclone-<name>.service
 systemctl --user status rclone-<name>.service

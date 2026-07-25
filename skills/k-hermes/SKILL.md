@@ -50,8 +50,22 @@ Hermes passively updates two crucial files in `memories/` using a Honcho-style r
 ## Assets & Wrappers
 
 - `assets/hermes.sh` : The sovereign wrapper injecting `$HERMES_HOME`.
-- Symlinked to `~/.local/bin/hermes`.
-- The symlink overrides any system-level `hermes` binary (e.g., from pip). To use the system Hermes instead, invoke it directly via full path.
+  Symlinked to `~/.local/bin/hermes`.
+- `assets/hermes-gateway.service` : Systemd user service for the Hermes Gateway daemon.
+  Symlinked to `~/.config/systemd/user/hermes-gateway.service`.
+
+### Hermes Gateway — systemd user service
+
+```bash
+# Symlink from .agents (source of truth)
+systemctl --user stop hermes-gateway.service
+ln -sf ~/.agents/skills/k-hermes/assets/hermes-gateway.service ~/.config/systemd/user/hermes-gateway.service
+systemctl --user daemon-reload
+systemctl --user enable --now hermes-gateway.service
+
+# Logs
+journalctl --user -u hermes-gateway.service -f
+```
 
 ## Usage Commands
 

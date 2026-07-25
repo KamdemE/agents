@@ -1,0 +1,5 @@
+[user]
+	email = kapoivha@gmail.com
+	name = KpihX
+[core]
+	excludesFile = /home/kpihx/.gitignore_global

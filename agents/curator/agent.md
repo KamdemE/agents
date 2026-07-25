@@ -43,6 +43,15 @@ Maintain the KπX kernel at `~/.agents/`. You are launched by Colab (or forced b
 - If a brainstorm or vision in references/ has become reality (feature shipped, decision made), ensure the relevant skill reflects it
 - **Goal:** zero information silo — every durable insight lives in a skill, not just in a brainstorm doc
 
+### 1b. Systemd service symlink audit (NEW)
+- Scan ALL systemd service files (system + user) for symlinks to `.agents/`:
+  - `find /etc/systemd/system/ -type l` + `find ~/.config/systemd/user/ -type l`
+  - Check each symlink target exists (`readlink -f` returns valid path)
+  - Flag broken symlinks: target path starts with `/home/kpihx/.agents/` or `/home/kpihx/.config/opencode/skills/` but file doesn't exist
+- Fix broken symlinks automatically when target canonical exists in `.agents/skills/<skill>/assets/`
+- For critical services (tailscaled, ollama, networking), propose fix but wait for human approval if ambiguity
+- Report all found issues to `k-context/references/issues.md`
+
 ### 2. Skill sync & drift detection
 - **FIRST PRIORITY: `k-clis`** — this is the CLI registry. Ensure:
   - Every CLI installed on the system (check `~/.local/bin/`, `~/.bun/bin/`, `~/.npm-global/bin/`, `uv tool list`, `cargo install --list`, apt packages that KπX added) is registered with a skill route

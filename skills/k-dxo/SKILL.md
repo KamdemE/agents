@@ -86,10 +86,17 @@ RDP is only accessible when the DxO VPN is connected.
 - The VPN only allows internet access on the `DxO-Public` Wi-Fi; internal resources require the GlobalProtect VPN
 - `vpn-dxo` on Ubuntu uses `gpclient` (openconnect-based), which may open a WebKit popup for MFA — follow the prompts
 
+## Assets
+
+| File | Purpose |
+|------|---------|
+| `assets/tmux6` | SSH+tmux launcher for deep-pc6 (symlinked to `~/.local/bin/`) |
+| `assets/rclone-deep-pc6.service` | systemd user service for rclone mount of DxO PC6 remote |
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-25 | [OPENCODE] | v1.1.0 — Added tmux6 CLI (SSH+tmux to deep-pc6) in assets/, symlinked to ~/.local/bin/. |
+| 2026-07-25 | [OPENCODE] | v1.1.0 — Added tmux6 CLI and rclone-deep-pc6.service in assets/. |
 | 2026-07-24 | [OPENCODE] | v1.0.0 — Created k-dxo: moved vpn-dxo from k-ubuntu, added accounts, VPN, RDP, setup procedures. |
 | [SUMMARY] | — | — |

@@ -128,6 +128,19 @@ See OS-specific reference:
 
 _(To be documented per optimization pass.)_
 
+### Systemd service symlink audit (mandatory before cleanup)
+
+- **Check ALL systemd symlinks to `.agents/` are valid:**
+  ```bash
+  # System services
+  find /etc/systemd/system/ -xtype l -lname '/home/kpihx/.agents/*' -o -lname '/home/kpihx/.config/opencode/skills/*'
+  # User services
+  find ~/.config/systemd/user/ -xtype l
+  ```
+- For each broken symlink: identify the canonical asset in `.agents/skills/<skill>/assets/` and re-symlink
+- Log all fixes to `k-context/references/issues.md`
+- **Zero-tolerance:** no broken `.agents/` symlinks in systemd should remain after an optimization pass
+
 ### Actions
 
 1. Run `make audit` and fix any warnings
