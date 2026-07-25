@@ -23,11 +23,12 @@
 - Edge in tmux `default`, window `browser` (CDP 9222, profile `~/.config/kpihx-edge-automation`)
 - Run `edge-agent-status` before CDP attach
 
-## File Operations
-- Read before Edit — never shell redirection for file edits
-- No `sed`/`printf`/`echo >` for file edits
-- No shell file ops (`cat`/`awk`/`echo >` for file creation/edits)
-- No real IPs, tokens, full legal names; use placeholders
+## File Operations (GRAVÉ)
+- **NEVER, EVER use shell redirection (`cat ... > ...`, `echo >`, `sed`, `awk`) to edit or create files.** 
+- **Always use the native `Edit` tool** (or `Write` tool for new files) provided by your environment. This is an absolute rule.
+- Read before Edit — you must use the `Read` tool to read the file contents first to ensure you patch it correctly.
+- No shell file ops (`cat`/`awk`/`echo >` for file creation/edits).
+- No real IPs, tokens, full legal names; use placeholders.
 
 ## Shell Security
 - API keys/TOKENS: `env | grep -E "API\|TOKEN" | cut -d= -f1` — NEVER output values

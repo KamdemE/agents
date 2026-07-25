@@ -3,7 +3,7 @@ name: kpihx-agents
 description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink.
 metadata:
   author: KpihX
-  version: "3.4.0"
+  version: "3.5.0"
   scope: agent-kernel
 ---
 
@@ -179,6 +179,15 @@ Example — systemd drop-in for OpenClaw Gateway:
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
 - Default git email: `kapoivha@gmail.com` (set in `~/.gitconfig`). Use this on all equipment.
 - **Secrets zero-touch:** NEVER read, print, expose, or reference token files, API keys, passwords, or any secret values in chat. When a secret is needed, KπX retrieves it manually from Vaultwarden and places it where required. No agent shall look for, extract, or display secrets — ever.
+
+## File Operations Discipline (GRAVÉ)
+
+🔴 **NEVER USE SHELL REDIRECTION TO EDIT FILES.**
+
+- **NEVER, EVER use `cat ... > ...`, `echo >`, `sed`, or `awk` to edit or create files.**
+- You must **always** use the native `Edit` tool (or `Write` tool for strictly new files) provided by your environment. This is non-negotiable.
+- **Read before Edit:** You must always use the `Read` tool to read the file contents first. You are forbidden to edit blindly or use `cat` to read before an edit if a native `Read` tool is available.
+- See `rules/tool-discipline.md` for the full rule.
 
 ## rm Discipline (GRAVÉ)
 
