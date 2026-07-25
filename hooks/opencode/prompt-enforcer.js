@@ -1,21 +1,29 @@
 /**
  * KπX Prompt Enforcer — OpenCode plugin.
+ * Reads the enforcement text from core/prompt_enforcer.txt and injects it.
  */
-export default async function() {
+const fs = require("fs");
+const path = require("path");
+
+module.exports = async function() {
+  const txtPath = path.join(process.env.HOME, ".agents", "hooks", "core", "prompt_enforcer.txt");
+  let enforcementText = "";
+  try {
+    enforcementText = fs.readFileSync(txtPath, "utf8").trim();
+  } catch (e) {
+    enforcementText = "ERROR READING PROMPT ENFORCER: " + e.message;
+  }
+
   return {
     "experimental.chat.messages.transform": async (_input, output) => {
       const msgsStr = JSON.stringify(output.messages || []);
-      if (!msgsStr.includes('"Colab"') && !msgsStr.includes('"Build"') && !msgsStr.includes('"Auto"')) return output;
+      if (!msgsStr.includes('"Colab"') && !msgsStr.includes('"Build"') && !msgsStr.includes('"Auto"')) return;
 
       output.messages = output.messages || [];
       output.messages.push({
-        info: { role: "user" },
-        parts: [{ 
-          type: "text", 
-          text: "YOU MUST DO EXACTLY WHAT I SAID!!!! EXACTLY AS I SAID IT! DO ALL ACTIONS IF I EXPLICITLY ASKED FOR ACTIONS, OTHERWISE DO NOT TAKE ANY INITIATIVE — JUST PROPOSE! IF I ASK A QUESTION, EXPECT AN ANSWER WITH ANALYSIS AND PROPOSALS/SUGGESTIONS — AND NO ACTIONS WITHOUT MY EXPLICIT GREEN LIGHT! IF THERE ARE ACTIONS AND QUESTIONS/CONCERNS: EXECUTE THE ACTIONS FIRST EXACTLY AS I REQUESTED, THEN ANSWER ALL CONCERNS/QUESTIONS IN ORDER, EXACTLY AS RAISED!! YOU DO NOT HAVE THE RIGHT TO DEVIATE FROM WHAT I SAID. IF I SAY 'FULL READ' IT MEANS READ EVERYTHING. IF I SAY 'EDIT' IT DOES NOT MEAN REWRITE — PATCH EDIT WITH THE EDIT TOOL!!!! ONLY IF I EXPLICITLY SAY 'YOU HAVE THE GREEN LIGHT' — ONLY IN THAT CASE CAN YOU TAKE INITIATIVE! IF A PROBLEM ARISES MID-EXECUTION, FIX THEN INFORM ME AT THE END ! 100% TRANSPARENCY AND FULL DETAIL. IF IT IS A PRE-EXISTING PROBLEM, PRESENT THEM ALL IN THE REMARKS SECTION EVEN IF YOU DID NOT CAUSE THEM! ALWAYS GIVE SUGGESTIONS IN THE SUGGESTIONS SECTION — AT LEAST 3, AT THE VERY END. IF YOU ARE STUCK MID-TASK, STOP AND ASK MY OPINION BEFORE CONTINUING. DO NOT STOP UNTIL YOU HAVE EXACTLY DONE WHAT I SAID. UPDATE THE PLAN/TODO IF THERE WAS ONE. AND ABOVE ALL: VERIFY — RE-READ WHAT YOU DID AND TEST IT IF ACTIONS WERE INVOLVED. RESPOND EXACTLY IN THE LANGUAGE OF MY FIRST SENTENCE IN THIS PROMPT. EDIT FILES IN THE FILE'S EXISTING LANGUAGE, OR ENGLISH IF NEW. AS SOON AS YOU NOTICE A NEW RULE I GIVE YOU (E.G. 'DON'T DO THIS ANYMORE', 'FROM NOW ON', 'YOU MUST'), YOU MUST PROACTIVELY UPDATE rules/ AND AGENTS.md! AS SOON AS YOU NOTICE A SHIFT IN PROJECT DIRECTION (E.G. WE WERE WORKING ON THE SERVER THEN SWITCH TO A PROJECT OR SOMETHING ELSE), YOU AUTOMATICALLY UPDATE THE SESSION LOG IN k-context/SKILL.md BY ROLLING THE SURPLUS TO ITS log.md (NO LOSS OF INFO WHEN EDITING IN ~/.agents!). WHEN EDITING A FILE, NEVER REDUCE INFORMATION — JUST UPDATE OR APPEND! NEVER DELETE COMMENTS, JUST DON'T TOUCH OR UPDATE THEM! YOU REMOVE SOMETHING ONLY IF I SAID THAT EXPLICITLY."
-        }]
+        role: "user",
+        content: enforcementText
       });
-      return output;
-    }
+    },
   };
 }
