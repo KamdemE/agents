@@ -204,6 +204,30 @@ Edge is patched to always start with `--remote-debugging-port=9222`:
 - `/opt/microsoft/msedge/microsoft-edge` wrapper script
 - System and user `.desktop` files
 
+### Permanent CDP Setup (survives Edge updates)
+
+The wrapper at `/opt/microsoft/msedge/microsoft-edge` gets overwritten on each Edge update. Use a user-local wrapper instead:
+
+**Source of truth:** `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`
+```bash
+#!/bin/bash
+exec /opt/microsoft/msedge/msedge --remote-debugging-port=9222 "$@"
+```
+
+**Symlink:** `~/.local/bin/msedge` → `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`
+This works because `~/.local/bin/` is in your `$PATH` before `/opt/microsoft/msedge/`.
+
+**Desktop entry:** `~/.local/share/applications/msedge.desktop` → `~/.agents/skills/k-browser/assets/msedge.desktop`
+With `Exec=msedge --remote-debugging-port=9222 %U`. Local `.desktop` files take priority over system ones, so clicking the Edge icon launches with CDP enabled.
+
+**Why this survives updates:** Both the wrapper script and the `.desktop` file are stored in `.agents/` and only symlinked to their system locations. Edge updates only touch `/opt/microsoft/msedge/` and `/usr/share/applications/`, never `~/.local/` or `~/.agents/`.
+
+**Reinstall steps (after fresh Edge install):**
+```bash
+chmod +x ~/.agents/skills/k-browser/assets/msedge-wrapper.sh
+ln -sf ~/.agents/skills/k-browser/assets/msedge-wrapper.sh ~/.local/bin/msedge
+ln -sf ~/.agents/skills/k-browser/assets/msedge.desktop ~/.local/share/applications/msedge.desktop
+
 ## MCP Configuration
 
 ### OpenCode (`~/.config/opencode/opencode.jsonc`)
