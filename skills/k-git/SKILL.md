@@ -40,7 +40,7 @@ Centralized git configuration: email, name, SSH protocol, remote naming.
 Symlinked to `~/.gitconfig` on every equipment.
 Copy to project root as `Makefile`, adapt as needed.
 
-Shared conventions across all Makefiles: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, `ZSH_LOGIN := zsh -lc` (login shell for secrets), dynamic `push` loop over `git remote`.
+Shared conventions across all Makefiles: `.DEFAULT_GOAL := help`, auto-help via `grep -E`, dynamic `push` loop over `git remote`.
 
 **Optional add-ons** (not in template — add as needed):
 

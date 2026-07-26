@@ -123,8 +123,6 @@ export OLLAMA_URL="$OLLAMA_HOST"
 
 > **Ownership rule:** JS/TS MCP servers you own should use Bun when the runtime is compatible and verified; if a package fails Bun verification, keep the stable owner documented in its skill. Python MCPs stay with uv; npm-global is for third-party daily-driver CLIs, not owned MCPs.
 
-Secrets wrap pattern for MCPs needing Vaultwarden: { "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }
-
 ## System Services (enabled at boot)
 
 | Service | Role | Notes |

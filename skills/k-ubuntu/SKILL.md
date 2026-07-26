@@ -375,7 +375,7 @@ Config: `$HOME/.config/waveterm/widgets.json` — all widgets load their own env
 
 **Ownership rule:** JS/TS MCP servers you own → use Bun when verified; Python MCPs → uv; npm-global → third-party daily-driver CLIs only.
 
-Secrets pattern for MCPs: `{ "command": "zsh", "args": ["-l", "-c", "<binary> serve"] }` — login shell ensures environment is loaded.
+
 
 ---
 

@@ -232,7 +232,7 @@ Local (stdio-equivalent) server:
   "mcp": {
     "mail_fallback": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "/home/kpihx/.local/bin/mail-mcp serve"],
+      "command": ["mail-mcp", "serve"],
       "enabled": true,
       "timeout": 60000
     }

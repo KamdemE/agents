@@ -1,6 +1,4 @@
 .DEFAULT_GOAL := help
-SHELL         := /bin/zsh
-ZSH_LOGIN     := zsh -lc
 BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
 
 help:  ## Show available targets

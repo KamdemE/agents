@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Read-only inbox verification for @kpihx-labs.com inbound routing (GWS + M365 Graph).
 # Usage: verify-inbound-e2e.sh [TAG]
-# Run in login zsh if m365/gws wrappers are needed: zsh -lic '$HOME/.agents/skills/k-cloudflare/scripts/verify-inbound-e2e.sh TAG'
+# Run directly — PATH and environment are set by .zshenv + .kshrc
 set -euo pipefail
 
 TAG="${1:-}"

@@ -51,11 +51,6 @@ allowed-tools: "Bash, Read, Write, Edit"
 }
 ```
 
-**Login shell wrapper** (for MCPs needing Vaultwarden secrets):
-```json
-{ "command": "zsh", "args": ["-l", "-c", "$HOME/.local/bin/<binary> serve"] }
-```
-
 After editing `$HOME/.claude.json` → restart Claude Code. Verify with `/mcp`.
 
 Do not enumerate MCPs here; read `$HOME/.claude.json` directly.

@@ -208,14 +208,14 @@ Edge is patched to always start with `--remote-debugging-port=9222`:
 
 ### OpenCode (`~/.config/opencode/opencode.jsonc`)
 ```jsonc
-"browser": { "command": ["zsh", "-l", "-c", "browser-mcp"], "enabled": true, "timeout": 60000 },
-"chrome-agent": { "command": ["zsh", "-l", "-c", "chrome-agent-mcp"], "enabled": true, "timeout": 60000 }
+"browser": { "command": ["browser-mcp"], "enabled": true, "timeout": 60000 },
+"chrome-agent": { "command": ["chrome-agent-mcp"], "enabled": true, "timeout": 60000 }
 ```
 
 ### Cursor (`~/.cursor/mcp.json`) & Cline (`~/.cline/data/settings/cline_mcp_settings.json`)
 ```json
-"browser": { "command": "zsh", "args": ["-l", "-c", "browser-mcp"] },
-"chrome-agent": { "command": "zsh", "args": ["-l", "-c", "chrome-agent-mcp"] }
+"browser": { "command": "browser-mcp" },
+  "chrome-agent": { "command": "chrome-agent-mcp" }
 ```
 
 ## Scripts

@@ -445,11 +445,11 @@
       "enabled": true,
       "timeout": 60000
     },
-    // Browser MCP → 10% (CAPTCHA/2FA/formulaires spéciaux) — disabled, chrome-agent suffit
+    // Browser MCP — CAPTCHA/2FA/formulaires spéciaux
     "browser": {
       "type": "local",
       "command": ["browser-mcp"],
-      "enabled": false,
+      "enabled": true,
       "timeout": 60000
     },
     // Chrome Agent MCP → 90% (navigation, tabs, devtools, contenu)
