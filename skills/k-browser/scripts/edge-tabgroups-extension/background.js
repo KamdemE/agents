@@ -33,22 +33,6 @@ async function getTree() {
   return result;
 }
 
-async function getContent(tabIds) {
-  const results = [];
-  for (const id of tabIds) {
-    try {
-      const [r] = await chrome.scripting.executeScript({
-        target: {tabId: id},
-        func: () => document.body?.innerText?.trim()?.slice(0, 5000) || ''
-      });
-      results.push({id, content: (r?.result || '').slice(0, 3000)});
-    } catch {
-      results.push({id, content: '[unreadable]'});
-    }
-  }
-  return results;
-}
-
 chrome.runtime.onInstalled.addListener(async () => {
   await chrome.storage.local.set({tree: await getTree()});
 });

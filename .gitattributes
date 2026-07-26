@@ -1,0 +1,38 @@
+# ###########################################################################
+# KπX .gitattributes — Script Permissions
+# ###########################################################################
+#
+# All scripts in hooks/, scripts/, and skills/**/scripts/ must be executable.
+# Permission: 755 = user:rwx, group:rx, other:rx (executable by all)
+#
+# Supported extensions (.py .sh .zsh .ksh .js .ts) are defined per directory
+# below. To change permissions globally, update the "755" value on each line.
+# ###########################################################################
+
+# ── hooks/ (runtime hooks — must be executable for agent lifecycle) ─────────
+hooks/**/*.py    text eol=lf 755
+hooks/**/*.sh    text eol=lf 755
+hooks/**/*.zsh   text eol=lf 755
+hooks/**/*.ksh   text eol=lf 755
+hooks/**/*.js    text eol=lf 755
+hooks/**/*.ts    text eol=lf 755
+
+# ── scripts/ (git hooks installer, global utilities) ───────────────────────
+scripts/**/*.py    text eol=lf 755
+scripts/**/*.sh    text eol=lf 755
+scripts/**/*.zsh   text eol=lf 755
+scripts/**/*.ksh   text eol=lf 755
+scripts/**/*.js    text eol=lf 755
+scripts/**/*.ts    text eol=lf 755
+
+# ── skills/**/scripts/ (per-skill scripts — developer entry points) ────────
+skills/**/scripts/*.py    text eol=lf 755
+skills/**/scripts/*.sh    text eol=lf 755
+skills/**/scripts/*.zsh   text eol=lf 755
+skills/**/scripts/*.ksh   text eol=lf 755
+skills/**/scripts/*.js    text eol=lf 755
+skills/**/scripts/*.ts    text eol=lf 755
+
+# ── skills/assets/ (installation scripts, templates) ───────────────────────
+skills/**/assets/install.sh    text eol=lf 755
+skills/**/assets/purge.sh      text eol=lf 755
