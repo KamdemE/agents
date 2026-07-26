@@ -9,6 +9,7 @@ the previous state from old_string, and warns if version/Changelog/SessionLog we
 not updated in this edit. The agent can then do a follow-up Edit to complete the
 update. No blocking — enforcement falls back to session_guard at Stop.
 """
+
 from __future__ import annotations
 
 import json
@@ -51,11 +52,15 @@ def handle_post_tool_use(tool_name: str, tool_input: dict) -> dict:
         # Write: no pre-write state available for comparison
         return {}
 
-    errors = skill_edit_guard._check_required_updates(file_path, previous_text, current_text)
+    errors = skill_edit_guard._check_required_updates(
+        file_path, previous_text, current_text
+    )
     if not errors:
         return {}
 
-    lines = ["⚠️  SKILL.md advisory (edit applied — follow up needed before session end):"]
+    lines = [
+        "⚠️  SKILL.md advisory (edit applied — follow up needed before session end):"
+    ]
     lines.extend(f"   - {e}" for e in errors)
     lines.append(
         "   → Complete the update with another Edit covering all required sections "
@@ -71,8 +76,8 @@ def main() -> None:
         tool_input = input_data.get("tool_input", {})
         result = handle_post_tool_use(tool_name, tool_input)
         print(json.dumps(result))
-    except Exception:
-        print(json.dumps({}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

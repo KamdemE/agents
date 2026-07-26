@@ -4,6 +4,7 @@ Per-turn governance reminder.
 It does not restate AGENTS rules in detail; it only points the agent back to
 AGENTS.md as the single source of truth.
 """
+
 from __future__ import annotations
 
 from core.settings import AGENTS_MD, is_hook_feature_enabled

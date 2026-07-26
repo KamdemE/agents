@@ -8,6 +8,7 @@ Usage:
     hostname, skill_name, device_os = detect_device()
     # (hostname, skill_name) = (None, None) if no match found.
 """
+
 from __future__ import annotations
 
 import json
@@ -36,7 +37,7 @@ def _load_infra_map() -> dict[str, str]:
             raw: dict[str, Any] = json.load(f)
         infras: dict[str, Any] = raw.get("infras", {})
         return {k.strip().lower(): v for k, v in infras.items()}
-    except Exception:
+    except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError):
         return {}
 
 
@@ -45,7 +46,10 @@ def _tailscale_hostname() -> str | None:
     try:
         r = subprocess.run(
             ["tailscale", "status", "--json"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
         )
         if r.returncode != 0:
             return None
@@ -87,11 +91,14 @@ def detect_device() -> tuple[str | None, str | None, str | None]:
     try:
         r = subprocess.run(
             ["tailscale", "status", "--json"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
         )
         if r.returncode == 0:
             device_os = json.loads(r.stdout).get("Self", {}).get("OS")
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         pass
 
     return hostname, skill_name, device_os

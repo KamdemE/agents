@@ -42,7 +42,9 @@ def main() -> int:
         rows.append(
             {
                 "subject": item.get("subject", ""),
-                "from": (item.get("from") or {}).get("emailAddress", {}).get("address", ""),
+                "from": (item.get("from") or {})
+                .get("emailAddress", {})
+                .get("address", ""),
                 "received": item.get("receivedDateTime", ""),
                 "id": item.get("id", ""),
             }

@@ -4,6 +4,7 @@ Claude hook: SessionStart
 Event: fires when a session begins or resumes.
 Core: context_injector — injects k-context startup context.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -30,8 +31,8 @@ def main():
         json.load(sys.stdin)
         agent_name = sys.argv[1] if len(sys.argv) > 1 else "CLAUDE"
         print(json.dumps(handle_session_start(agent_name)))
-    except Exception:
-        print(json.dumps({}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, IndexError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

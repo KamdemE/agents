@@ -6,7 +6,7 @@ description: >
   Source of truth for the Curator daemon.
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.0"
   scope: kernel
 ---
 
@@ -92,7 +92,7 @@ The Curator daemon reads this to know which agents to monitor.
 - **Hooks:** `hooks.json` with `pre_tool_use.py` (no-op shim)
 - **Skills path:** `~/.codex/skills/` → `~/.agents/skills/`
 - **Curator access:** Via file inspection only
-- **Known issues:** No structured file-edit hook events. `make audit` decoupled.
+- **Known issues:** No structured file-edit hook events. `make check` decoupled.
 
 ### 6. Claude Code (deactive)
 - **Config:** `~/.claude.json`
@@ -153,7 +153,7 @@ The Curator daemon reads this to know which agents to monitor.
 | **SOUL.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **USER.md** | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **k-context** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject |
-| **k-infra** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject |
+| **k-infras** | hooks auto-inject | external_dirs | ❌ | ❌ | hooks auto-inject | ❌ | ❌ | ❌ | hooks auto-inject | hooks auto-inject | hooks auto-inject |
 | **k-agents** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **skills/** | ✅ symlink | isolated | per-project | ✅ | ✅ auto-sync | ✅ symlink | ✅ native scan | ✅ symlink | ✅ config | ✅ symlink | ✅ symlink |
 
@@ -163,7 +163,7 @@ The Curator daemon reads this to know which agents to monitor.
 |------------|-----------|-----------------|
 | **k-agents** | — | k-context, k-hook, k-hermes, every runtime skill |
 | **k-context** | k-agents, kpihx-labs, k-hook | AGENTS.md (auto-injected for Colab/Build), every agent |
-| **k-infra** | k-agents, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
+| **k-infras** | k-agents, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-hook** | k-agents, all per-runtime hooks | AGENTS.md (mandatory rules) |
 | **k-hermes** | k-agents, k-hook | Hermes config, k-context |
 | **k-clis** | k-agents, all runtime skills | k-ubuntu |
@@ -205,6 +205,5 @@ Run check:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.2.0 — Removed from STARTUP_SKILLS. Kernel File Layout section. Cross-references updated. |
-| 2026-06-05 | [KAMDEM] | v1.0.0 — Initial creation: 14 runtimes, injection matrix, cross-references, curator usage. |
-| [SUMMARY] | | v1.1.0 Kernel File Layout + k-ubuntu cross-refs; starting from v1.0.0 |
+| 2026-07-26 | [OPENCODE] | v1.3.0 — **make check target**: Updated references from make audit to make check, in line with the new unified validation process. |
+| [SUMMARY] | — | v1.0.0–v1.2.0 Initial creation: 14 runtimes, injection matrix, cross-references, curator usage. Removed from STARTUP_SKILLS. Kernel File Layout section. |

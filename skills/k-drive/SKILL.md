@@ -18,6 +18,8 @@ allowed-tools: Bash(*), Read(*), Glob(*), rg(*)
 
 Google **file layer** on FUSE mounts: **`k-google`** → **`k-rclone`** → **this skill** · Workspace API → **`gws`** · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`
 
+> **Mount services:** The Gdrive and Gdrive_X mounts are managed by systemd user services sourced from `k-rclone/assets/`. See `k-rclone` for service management, troubleshooting, or adding new mounts. The `rclone-deep-pc6.service` mount lives in `k-dxo`.
+
 ## Identity Snapshot
 
 - **Matricule X:** `EX240207`
@@ -120,5 +122,6 @@ TODO:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v1.2.9 — Added mount service reference to `k-rclone` in cloud hub section. |
 | 2026-05-25 | [CURSOR] | v1.2.8 — Cloud-hub routing; title aligned with k-google/k-rclone stack. |
 | [SUMMARY] | — | v1.2.7 Health folder topology; v1.2.6 LinguaSkill path; v1.2.5 Gdrive_X migration map; older → `references/log.md` |

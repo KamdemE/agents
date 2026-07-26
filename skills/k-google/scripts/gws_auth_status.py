@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -50,7 +49,9 @@ def main() -> int:
         print(f"  config_dir: {row['config_dir']}")
         print(f"  project_id: {row['project_id']}")
         print(f"  client_secret.json: {'yes' if row['client_secret_json'] else 'NO'}")
-        print(f"  credentials.json: {'yes' if row['credentials_json'] else 'NO (run gws auth login)'}")
+        print(
+            f"  credentials.json: {'yes' if row['credentials_json'] else 'NO (run gws auth login)'}"
+        )
     return 0
 
 

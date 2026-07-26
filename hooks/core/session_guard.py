@@ -1,6 +1,8 @@
 """Core: delayed finalization guard for a dirty $HOME/.agents/ repo."""
+
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import time
@@ -62,7 +64,9 @@ def _changed_skill_paths(changed_files: list[str], agents_dir: str) -> list[str]
     ]
 
 
-def _build_finalization_message(changed_files: list[str], agents_dir: str, oldest_age_minutes: int | None) -> str:
+def _build_finalization_message(
+    changed_files: list[str], agents_dir: str, oldest_age_minutes: int | None
+) -> str:
     skill_paths = _changed_skill_paths(changed_files, agents_dir)
     other_paths = [
         _status_line_to_abs_path(line, agents_dir)
@@ -157,9 +161,11 @@ def check_agents_git_status() -> dict:
             "changed_files": changed_files,
             "agents_dir": AGENTS_DIR,
             "oldest_age_minutes": oldest_age_minutes,
-            "message": _build_finalization_message(changed_files, AGENTS_DIR, oldest_age_minutes),
+            "message": _build_finalization_message(
+                changed_files, AGENTS_DIR, oldest_age_minutes
+            ),
         }
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError):
         return {
             "has_changes": False,
             "changed_files": [],

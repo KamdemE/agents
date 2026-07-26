@@ -8,6 +8,26 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-07-25 | [OPENCODE] | **Lebara eSIM (S25) résolue et archivée** — QR rescanné avec succès après la période d'attente de 30j (~25/06/2026). eSIM active sur le S25. Dossier `$HOME/Downloads/lebara-esim/` et PDF canonique conservés comme archive. TickTick clôturée. Archivé dans k-context `[ARCHIVE]`. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-25 | [OPENCODE] | **Systemd audit + migration — all services symlinked to .agents/** — Fixed 6 broken symlinks, purged 2 obsolete + 1 zombie service. Migrated ollama.service, hermes-gateway.service, rclone-deep-pc6.service → respective k-* skills/assets/. Gitconfig centralized in k-git/assets/. Curator + k-optim updated. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 3 — kpihx-labs rewritten as kernel top reference** — v2.0.0. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 4 — k-pve + k-pve-debian created** — Hypervisor + Debian VM skills. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 5 — k-pve-dockerhost + k-alienware + k-deep-pc6 created** — Docker host CT + internship PC + DxO server skills. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 6 — OS refs + heavy skill refactoring** — refs governance rule, per-skill OS refs/*.md, k-tailscale v2.0, k-ollama v2.0, k-optim v3.0. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Phase 7 — k-workspace deactivated** — Content ported to k-ubuntu, kpihx-labs, k-agents. k-workspace→deactive/. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Skills refactoring — zombie purge + Phases 1-2** — Deleted 16 zombie marketplace skills. Created k-infras + k-ubuntu. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Post-commit hook + MaxListeners fix + Web Research First rule** — opencode-web auto-restart on config changes. k-opencode v1.15.0. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **k-context references archive + merge** — 15 stale files → tmp/references/, 4 merged docs created. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **Issues rules reinforced** — Pre-check, Proactive Update, Transparency. ISS-20260722-001. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **OpenCode hooks + Suggestions-only** — Orchestra plugin extension, response-format.md updated. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **rm wrapper binary + `.agents/` centralization mandate** — k-clis/assets/rm (trash-cli), symlinked to ~/.local/bin/rm. Bin-over-alias rule. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-22 | [OPENCODE] | **k-zsh v2.0.0 + curator v2.0.0** — ~/.kshrc truth moved out of assets. Curator expanded: full refs scan, skill drift detection, version awareness. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-21 | [OPENCODE] | **Agent refonte + profiles/ purged** — Colab/Explore split, rules INDEX.md, nftables skill created. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-14 | [OPENCODE] | **LiveMem BRAINSTORMING.2 — Brain-inspired living field paradigm** — Hebbian learning, multi-modal cortex, "Papa" scenario. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-07-06 | [OPENCODE] | **Terminal D-Bus fix ISS-20260706-001** — portal-gtk crash cascade fix. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-05-31 | [OPENCODE] | **Full app purge + Ubuntu boot cleanup** — Windsurf, brew (5.9G), 7 uv tools, waydroid, open-webui purged. Disk 204G→182G. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
+| 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0** — AGENTS.md 369→58 lines, rules/ (8 files), agents/ (6 definitions). *(Rotated from k-context Session Log — cap 2026-07-25.)* |
 | 2026-07-21 | [OPENCODE] | **profiles/ purged, contenus utiles mergés dans les prompts** — profiles/colab et profiles/explore supprimés (orphelins, personne ne les lisait). Contenu utile : startup skills, orchestration diagram, question-rhythm, TEACH FIRST warning, philosophie — mergé dans agents/Colab/prompt.md et agents/Explore/prompt.md. AGENTS.md → Agent Modes (plus de Profiles). Symlink mort ~/.config/opencode/profiles supprimé. Language rule renforcée dans file-governance.md. Curator v1.2.0 : language audit ajouté. |
 | 2026-07-21 | [OPENCODE] | **k-nftables skill created** — Migrated UFW→nftables; created `k-nftables` skill with full ruleset docs, interface map, commands; `/etc/nftables.conf` → symlink to `skills/k-nftables/assets/nftables.conf`; systemd drop-in for `ProtectHome=read-only` to allow symlink resolution. |
 | 2026-05-31 | [OPENCODE] | **Full app purge + k-optim pass** — Purged: Windsurf (966MB), Rhythmbox, Meld, Wine snap, Yarn (npm), 7 uv tools (grip, huggingface-hub, ipynb-pdf, kpihx-ai, kpihx-todo, viperx, wayland-mcp), brew/linuxbrew (5.9G), waydroid. Disabled: ydotool, gvfs-afc. Cleaned: old Gemini sessions, Codex logs (47MB). `clean_all.sh --purge --system` executed. Disk: 204G→182G (81G free, 70%). Transit dirs clean. Governance audit: 14 warnings (changelog format). |
@@ -321,3 +341,42 @@ New entries are added here when the main k-context `## Session Log` section reac
 | 2026-05-31 | [HERMES] | Mail Recap: Sent 3 MarkdownV2 messages (497,498,499) to Telegram (1397540599). 30 messages processed, 22 unread, 0 important, 5 security alerts. |
 | 2026-05-31 | [HERMES] | Mail Recap → Telegram: 30 inbox messages, 5 security alerts, 25 others. Sent successfully. |
 | 2026-07-21 | [HERMES] | OSC leak fix (Windows Terminal → tmux): Caused by Win32-OpenSSH fragmenting OSC responses across TCP packets. Fix: update Win32-OpenSSH to v10.0p2+ (bundles PR#806 fix). Variable `SSH_TERM_CONHOST_PARSER=0` works but causes visual glitches — not needed with v10.0p2. |
+| 2026-07-22 | [OPENCODE] | v3.2.0 — **Issues governance rules added:** Issues Pre-check (search before create), Issues Proactive Update (update on solve/defer), Issues Transparency (commands/outputs). `ISS-20260722-001` (opencode-web settings lost after restart, upstream #23934). AGENTS.md updated with rule reference. |
+| 2026-07-21 | [OPENCODE] | **profiles/ purged + k-nftables created** — profiles/colab et profiles/explore supprimés (contenu mergé dans prompts). AGENTS.md → Agent Modes. Migrated UFW→nftables, created k-nftables skill with ruleset, systemd drop-in. |
+| 2026-07-14 | [OPENCODE] | **LiveMem BRAINSTORMING.2 — Brain-inspired living field paradigm** — Deep brainstorming: Hebbian learning, continuous flux, multi-modal cortices, "Papa" scenario, stability metrics. |
+| 2026-07-06 | [OPENCODE] | **Terminal D-Bus fix `ISS-20260706-001`** — xdg-desktop-portal-gtk crash at boot. Fix: portal-gtk drop-in + pre-terminal service. |
+| 2026-05-31 | [OPENCODE] | **Full app purge + Ubuntu boot cleanup** — Purged Windsurf, brew (5.9G), 7 uv tools, waydroid, open-webui. 35 systemd units disabled, 6 snaps removed. Disk: 204G→182G. |
+| 2026-05-29 | [OPENCODE] | **Sovereign kernel v3.0** — AGENTS.md 369→58 lines, rules/ (8 files), agents/ (6 definitions). (Earlier → log.md) |
+| 2026-07-22 | [OPENCODE] | **OpenCode hooks + Suggestions-only** — Orchestra plugin extended: k-context injection at session start (TODOs + Active Projects), Suggestions check per turn. |
+| 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. |
+| 2026-07-22 | [OPENCODE] | **Phase 3 — kpihx-labs rewritten as kernel top reference** — v2.0.0. |
+| 2026-07-22 | [OPENCODE] | **Phase 4 — k-pve + k-pve-debian created** — PVE hypervisor + Debian VM skills. |
+| 2026-07-22 | [OPENCODE] | **Phase 5 — k-pve-dockerhost + k-alienware + k-deep-pc6 created** — Docker host, Windows+WSL, DxO Linux server. |
+| 2026-07-22 | [OPENCODE] | **Phase 6 — OS refs + heavy skill refactoring** — refs governance, OS-specific refs for 10 skills. |
+| 2026-07-22 | [OPENCODE] | **Phase 7 — k-workspace deactivated, k-agents removed from STARTUP_SKILLS** — Content ported, all refs purged. |
+| 2026-07-25 | [OPENCODE] | **Systemd audit + migration** — (duplicate entry, preserved for completeness) |
+| 2026-07-21 | [OPENCODE] | **Agent refonte — naming, prompts, permissions, rules compaction** — Convention: primary = Majuscule, sub = minuscule. Rules compacted. |
+
+---
+## Session Log Rotation — 2026-07-26
+
+Entries rotated from k-context/SKILL.md (exceeded 10-row limit). Rotation MUST use the EDIT tool only — never sed, cat, echo >>, or any shell redirection.
+
+| 2026-07-22 | [OPENCODE] | **rm wrapper binary + `.agents/` centralization mandate** — Created `k-clis/assets/rm` (trash-cli wrapper). Symlinked to `~/.local/bin/rm`. New AGENTS.md mantra: `0 Loose Files · 100% .agents/ | 0 Aliases · 100% Binaries`. k-clis v1.3.0, k-zsh v2.0.1. |
+| 2026-07-22 | [OPENCODE] | **k-zsh v2.0.0 + curator v2.0.0 — truth moved to ~/.kshrc, curator mandate expanded** — ~/.kshrc is now a real file (NOT in skill assets). assets/kshrc deleted — only kshrc.base remains as deploy template. Curator v2.0.0: full k-context references scan (ALL .md files, not just log), skill sync & drift detection (k-clis as priority), cross-skill truth alignment, version awareness for installed tools (tmux, tailscale, ollama...). |
+| 2026-07-22 | [OPENCODE] | **Skills refactoring — zombie purge + Phases 1-2** — Analysed 55 skills (top vs infra). Deleted 16 zombie marketplace skills. Created k-infras (master infrastructure map) and k-ubuntu (workstation: shell, services, DxO VPN, nftables ref). k-workspace still active at this point. |
+| 2026-07-22 | [OPENCODE] | **Post-commit hook + MaxListeners fix + Web Research First rule** — `opencode-web.service`: auto `daemon-reload`/`try-restart` on config/service changes; `NODE_NO_WARNINGS=1` suppresses MaxListenersWarning. Both in hooks/ post-commit. k-opencode v1.15.0. New `rules/web-research-first.md` + Colab vs Explore behavior split in both AGENTS.md files. `kpihx` removed from colab startup skills in KpihX-Labs/AGENTS.md. |
+| 2026-07-22 | [OPENCODE] | **k-context references archive + merge** — 15 stale reference files + `vision/` dir moved to `tmp/references/`. 4 merged docs created: `architecture-vision.md`, `agent-mcp-architecture.md`, `communication-automation.md`, `visual-content-pipeline.md`. Brainstorm Registry split into LIVE + ARCHIVED sections. `mac-studio/` moved to `tmp/mac-studio/`. |
+| 2026-07-26 | [OPENCODE] | **ts-proxy cleanup**: Removed leftover scratch files `dummy.yaml` and `output.json` from the repository root (not used by the codebase). *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-26 | [OPENCODE] | **plocate consolidation & startup hooks TODO priority**: Removed search-tool mentions of `locate` across `~/.agents/`. Updated startup hooks to prioritize presenting k-context TODOs first. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-26 | [OPENCODE] | **tg-proxy security hardening**: README: Security section (perms 700/600), Docker untested note. `~/.config/tg-proxy/` perms fixed (775→700, 664→600). k-tg v4.2.0 (proactive skill update). *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-26 | [OPENCODE] | **k-infra purged, merged into k-infras v1.4.0**. ntfs-shrink-dual-boot.md + insights.md moved to k-infras/references/. Dead refs fixed. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-26 | [OPENCODE] | **MASSIVE tooling session: Loom indexed on tg_proxy, k-loom v1.1.0, k-opencode v2.3.0**. old/ purged from tg_proxy. Dead-code analysis: 76 nodes (68 FPs). k-uv + loom-tool added. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-26 | [OPENCODE] | **tg-proxy v1.1.0 — type_hints wiring, autosave refactor, dead code removal, docs cleanup**. Verified in production. All 6 `.md` files updated. Commit 4915fe3 (12 files, 517 insertions, 25/25 tests). *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **k-pve cleanup: backup_local.sh purged, backup_server.sh → backup**. k-pve v2.1.0. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **k-pve refactor analysis + READMEs enriched**. k-pve SKILL.md v2.0.0→v2.1.0. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **Full service inventory in k-ubuntu/SKILL.md + openclaw correction**. k-ubuntu v1.8.0. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **Startup hooks adjusted: STARTUP DIRECTIVE added to opencode + core**. k-hook v2.20.0. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **Lebara eSIM (S25) résolue et archivée** — QR rescanné avec succès. eSIM active sur le S25. TickTick clôturée. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-25 | [OPENCODE] | **rclone Gdrive services centralised in k-rclone + rclone.conf migrated**. k-rclone v1.3.0, k-drive v1.2.9. *(Rotated from k-context Session Log — cap 2026-07-26.)* |
+| 2026-07-22 | [OPENCODE] | **Issues rules reinforced** — Added ISS-20260722-001 (opencode-web settings persisted in browser localStorage only). New rules in k-context: Issues Pre-check, Issues Proactive Update, Issues Transparency. AGENTS.md updated. |

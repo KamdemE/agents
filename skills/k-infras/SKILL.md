@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.4.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,8 +18,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones)
-> **Source skills:** `k-infra` (low-level hardware: disk, BIOS, filesystem) · `k-nftables` (firewall) · `k-tailscale` (mesh VPN config)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
+> **Scope also covers:** low-level hardware (disk partitioning, BIOS/UEFI, filesystem recovery, dual-boot, interrupted ntfsresize recovery) — see `references/ntfs-shrink-dual-boot.md`. Firewall: `k-nftables`. Mesh VPN: `k-tailscale`.
 > **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
 
@@ -155,6 +155,5 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v1.3.0 — **k-pve-dockerhost renamed to k-dockerhost**. Updated all references. |
-| 2026-07-24 | [OPENCODE] | v1.2.0 — kshrc source of truth pattern (step 1b). |
-| [SUMMARY] | — | v1.1.0 New Infra Setup Checklist; v1.0.1–v1.0.0 master map created. |
+| 2026-07-26 | [OPENCODE] | v1.4.0 — **k-infra merged into k-infras**. ntfs-shrink-dual-boot.md + insights.md moved here. k-infra purged. Low-level hardware now covered by k-infras. |
+| [SUMMARY] | — | v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |

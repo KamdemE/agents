@@ -16,19 +16,9 @@ HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups/Ubuntu"
 KEEP_BACKUPS=2
 PREVIEW=0
 
-# ── Load secrets from kernel .env ─────────────────────────────────────────────
-AGENTS_ENV="/home/$USER_BACKUP/.agents/.env"
-if [[ -f "$AGENTS_ENV" ]]; then
-    # shellcheck source=/dev/null
-    source "$AGENTS_ENV"
-else
-    echo "❌ ~/.agents/.env not found — cannot load secrets." >&2
-    exit 1
-fi
-
-# ── Validate required secrets ─────────────────────────────────────────────────
-: "${TELEGRAM_UBUNTU_TOKEN:?'~/.agents/.env must define TELEGRAM_UBUNTU_TOKEN'}"
-: "${TELEGRAM_CHAT_ID:?'~/.agents/.env must define TELEGRAM_CHAT_ID'}"
+# ── Load libs ──────────────────────────────────────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/../notifier.sh"
 
 # ── Arg parsing ───────────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do
@@ -87,11 +77,8 @@ alert() {
             notify-send "Backup Workstation [$TYPE]" "$MESSAGE" 2>/dev/null || true
     fi
 
-    # Telegram notification
-    curl -s --max-time 10 -X POST \
-        "https://api.telegram.org/bot${TELEGRAM_UBUNTU_TOKEN}/sendMessage" \
-        -d "chat_id=${TELEGRAM_CHAT_ID}" \
-        -d "text=${ICON} BACKUP PC ${ICON}%0A%0A${MESSAGE}" > /dev/null || true
+    # Telegram notification via notifier.sh
+    notify_telegram "$TYPE" "$MESSAGE" "BACKUP PC"
 }
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

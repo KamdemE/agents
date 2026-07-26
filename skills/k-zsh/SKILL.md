@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -192,5 +192,6 @@ See `k-25` → Setup. `~/.kshrc` → `k-25/assets/kshrc`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-26 | [OPENCODE] | v2.2.0 — **with-env helper added**: Added the `with-env` function to `kshrc.base` and `k-ubuntu/assets/kshrc` to allow secure command execution with isolated `.env` loading. |
 | 2026-07-24 | [OPENCODE] | v2.1.0 — **kshrc pattern redesigned**: `~/.kshrc` is now a symlink to infra skill `assets/kshrc` (not a direct copy). If infra skill absent, create it (k-skill-creator), seed with kshrc.base, customize. Setup order: tmux first, then zsh. OS notes updated for all infra types. |
 | [SUMMARY] | — | v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Copy Meta Dev fields from Vaultwarden into credentials.json (local one-shot)."""
+
 from __future__ import annotations
 
 import json
@@ -20,7 +21,10 @@ MAP = {
 def main() -> int:
     missing = [e for _, e in MAP.items() if not os.environ.get(e)]
     if missing:
-        print(f"Missing env (unlock Vaultwarden / check Vault Meta Dev): {missing}", file=sys.stderr)
+        print(
+            f"Missing env (unlock Vaultwarden / check Vault Meta Dev): {missing}",
+            file=sys.stderr,
+        )
         return 1
     payload = {k: os.environ[v].strip() for k, v in MAP.items()}
     OUT.parent.mkdir(parents=True, exist_ok=True)

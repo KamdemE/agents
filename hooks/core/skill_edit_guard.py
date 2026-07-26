@@ -1,4 +1,5 @@
 """Core: pre-write validation for KπX skill edits."""
+
 from __future__ import annotations
 
 import os
@@ -10,7 +11,6 @@ from core.skill_content_guard import validate_skill_content_text
 from core.skill_structure_guard import (
     extract_frontmatter,
     extract_table_after_heading,
-    parse_table_rows,
     validate_skill_structure_text,
 )
 
@@ -60,7 +60,9 @@ def _table_snapshot(text: str, heading: str) -> str:
     return "\n".join(extract_table_after_heading(text, heading)).strip()
 
 
-def _build_candidate_text(tool_name: str, tool_input: dict) -> tuple[str | None, str | None]:
+def _build_candidate_text(
+    tool_name: str, tool_input: dict
+) -> tuple[str | None, str | None]:
     spec = _TOOL_SPECS.get(tool_name)
     if not spec:
         return None, None
@@ -83,7 +85,9 @@ def _build_candidate_text(tool_name: str, tool_input: dict) -> tuple[str | None,
     return existing_text.replace(old_string, new_string, 1), existing_text
 
 
-def _check_required_updates(file_path: str, previous_text: str | None, candidate_text: str) -> list[str]:
+def _check_required_updates(
+    file_path: str, previous_text: str | None, candidate_text: str
+) -> list[str]:
     if previous_text is None or previous_text == candidate_text:
         return []
     if not is_hook_feature_enabled("skill_edit_header_footer_check"):
@@ -96,7 +100,9 @@ def _check_required_updates(file_path: str, previous_text: str | None, candidate
             f"{path}: edited `SKILL.md` without bumping `metadata.version` "
             f"(see {AGENTS_MD} → '### Provenance & Quality')."
         )
-    if _table_snapshot(previous_text, "Changelog") == _table_snapshot(candidate_text, "Changelog"):
+    if _table_snapshot(previous_text, "Changelog") == _table_snapshot(
+        candidate_text, "Changelog"
+    ):
         errors.append(
             f"{path}: edited `SKILL.md` without updating `## Changelog` "
             f"(see {AGENTS_MD} → '### Provenance & Quality')."
@@ -104,7 +110,8 @@ def _check_required_updates(file_path: str, previous_text: str | None, candidate
     if (
         os.path.basename(os.path.dirname(file_path)) == "k-context"
         and is_hook_feature_enabled("skill_edit_k_context_session_log")
-        and _table_snapshot(previous_text, "Session Log") == _table_snapshot(candidate_text, "Session Log")
+        and _table_snapshot(previous_text, "Session Log")
+        == _table_snapshot(candidate_text, "Session Log")
     ):
         errors.append(
             f"{path}: edited `k-context` without updating `## Session Log` "
@@ -114,17 +121,18 @@ def _check_required_updates(file_path: str, previous_text: str | None, candidate
 
 
 def _build_notes(file_path: str) -> list[str]:
-    if (
-        os.path.basename(os.path.dirname(file_path)) == "k-context"
-        and is_hook_feature_enabled("skill_edit_k_context_project_note")
-    ):
+    if os.path.basename(
+        os.path.dirname(file_path)
+    ) == "k-context" and is_hook_feature_enabled("skill_edit_k_context_project_note"):
         return [
             "Also review `## Active Projects` if this work changed project scope, status, or introduced a new project."
         ]
     return []
 
 
-def evaluate_skill_edit(tool_name: str, tool_input: dict, check_header_footer: bool = True) -> dict:
+def evaluate_skill_edit(
+    tool_name: str, tool_input: dict, check_header_footer: bool = True
+) -> dict:
     """Return a normalized result for one prospective skill edit.
 
     Args:
@@ -132,8 +140,14 @@ def evaluate_skill_edit(tool_name: str, tool_input: dict, check_header_footer: b
             completeness check. Use False in PreToolUse hooks that delegate the
             check to a PostToolUse advisory instead.
     """
-    file_path = tool_input.get(_TOOL_SPECS[tool_name]["path_field"], "") if tool_name in _TOOL_SPECS else ""
-    if not is_hook_feature_enabled("skill_edit_guard") or not _is_kpi_skill_path(file_path):
+    file_path = (
+        tool_input.get(_TOOL_SPECS[tool_name]["path_field"], "")
+        if tool_name in _TOOL_SPECS
+        else ""
+    )
+    if not is_hook_feature_enabled("skill_edit_guard") or not _is_kpi_skill_path(
+        file_path
+    ):
         return {"file_path": file_path, "errors": [], "notes": []}
 
     candidate_text, previous_text = _build_candidate_text(tool_name, tool_input)
@@ -154,7 +168,9 @@ def evaluate_skill_edit(tool_name: str, tool_input: dict, check_header_footer: b
     }
 
 
-def build_edit_block_message(tool_name: str, file_path: str, errors: list[str], notes: list[str] | None = None) -> str:
+def build_edit_block_message(
+    tool_name: str, file_path: str, errors: list[str], notes: list[str] | None = None
+) -> str:
     """Format one human-readable blocking message for runtime wrappers."""
     details = "\n".join(f"- {item}" for item in errors)
     message = (

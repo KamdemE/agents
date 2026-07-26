@@ -1,8 +1,9 @@
 """Core: path guard for file edits targeting $HOME/.agents/."""
+
 import os
 import re
 
-from core.settings import AGENTS_MD, AGENTS_DIR, is_hook_feature_enabled
+from core.settings import AGENTS_DIR, AGENTS_MD, is_hook_feature_enabled
 
 # Matches literal home-directory paths or a bare ~ not preceded by $
 _PATTERN_HOME = re.compile(r"/home/[^/\s\"'`]+|(?<!\$)\b~\b")
@@ -31,7 +32,9 @@ def check_path_generalization(content: str):
 _DEFAULT_CHECKS = [check_path_generalization]
 
 
-def guard_content(content: str, file_path: str = None, checks: list = None) -> list:
+def guard_content(
+    content: str, file_path: str | None = None, checks: list | None = None
+) -> list:
     """
     Runs checks against content. Returns list of error strings (empty = all clear).
     Scoping rule: if file_path is provided and is NOT within $HOME/.agents/, returns [].

@@ -61,10 +61,10 @@ Full runbook: **`references/termux-tmux.md`** (Ctrl-a, continuum, **termux-api**
 | **PC tmux (default)** | `ubuntu` |
 | PC shell only | `ssh ubuntu` |
 | Local Termux tmux | `tmux` (autosave/restore like PC) |
-| One-shot agent task | `ssh ubuntu -t 'zsh -l -c "agent -p \"your task\" --trust --workspace \$HOME/KpihX-Labs"'` |
+| One-shot agent task | `ssh ubuntu -t 'agent -p "your task" --trust --workspace \$HOME/KpihX-Labs'` |
 | Long agent run | `ubuntu` → PC session **`default`** (e.g. window `agents`) → `agent` |
 
-Use **`zsh -l -c`** for one-liners so `agent` is on `PATH` (`$HOME/.local/bin`).
+Ensure `agent` is on `PATH` (`$HOME/.local/bin`) before running one-liners.
 
 Keep **Termux `sshd`** running only when you need **PC → phone** (`ssh s25`). For **phone → PC**, only outbound SSH from Termux is required.
 

@@ -4,7 +4,7 @@
 
 # Source the Homelab universal library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+source "$SCRIPT_DIR/../notifier.sh"
 
 set -e
 
@@ -13,13 +13,13 @@ RCLONE_REMOTE="gdrive-x:Backups/PVE"
 DUMP_DIR="/var/lib/vz/dump"
 VZDUMP_CONF="/etc/vzdump.conf"
 
-homelab_notify "INFO" "Disaster Recovery process initiated. Fetching latest from Cloud." "PVE RESTORE"
+notify_telegram "INFO" "Disaster Recovery process initiated. Fetching latest from Cloud." "PVE RESTORE"
 
 # 1. Fetch latest archive name from Google Drive
 LATEST_REMOTE=$(rclone lsf "$RCLONE_REMOTE" --files-only | sort -r | head -n 1)
 
 if [ -z "$LATEST_REMOTE" ]; then
-    homelab_notify "ERROR" "No archive found on Google Drive. Recovery aborted." "PVE RESTORE"
+    notify_telegram "ERROR" "No archive found on Google Drive. Recovery aborted." "PVE RESTORE"
     exit 1
 fi
 
@@ -28,9 +28,9 @@ echo "📦 Found latest remote: $LATEST_REMOTE"
 # 2. Download to local dump dir
 echo "🚚 Downloading to $DUMP_DIR..."
 if rclone copy "$RCLONE_REMOTE/$LATEST_REMOTE" "$DUMP_DIR" --progress; then
-    homelab_notify "SUCCESS" "Archive successfully recovered from Cloud. Ready for 'pct restore' or 'qmrestore'." "PVE RESTORE"
+    notify_telegram "SUCCESS" "Archive successfully recovered from Cloud. Ready for 'pct restore' or 'qmrestore'." "PVE RESTORE"
 else
-    homelab_notify "ERROR" "Download failed. Check networking/rclone." "PVE RESTORE"
+    notify_telegram "ERROR" "Download failed. Check networking/rclone." "PVE RESTORE"
     exit 1
 fi
 

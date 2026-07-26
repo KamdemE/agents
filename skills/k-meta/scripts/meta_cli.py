@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Meta Graph API smoke — app token, WA phone, business (KπX Meta Dev)."""
+
 from __future__ import annotations
 
 import argparse
@@ -55,7 +56,7 @@ def _get(url: str, params: dict | None = None) -> tuple[int, dict]:
     r = requests.get(url, params=params or {}, timeout=30)
     try:
         body = r.json()
-    except Exception:
+    except (ValueError, TypeError):
         body = {"raw": r.text[:500]}
     return r.status_code, body
 
@@ -77,7 +78,13 @@ def _app_access_token(creds: dict) -> str:
 
 def cmd_smoke(args: argparse.Namespace) -> int:
     creds = _load_creds(args.creds_file) if args.creds_file else _from_env()
-    required = ("app_id", "app_secret", "business_id", "wa_phone_number_id", "wa_number")
+    required = (
+        "app_id",
+        "app_secret",
+        "business_id",
+        "wa_phone_number_id",
+        "wa_number",
+    )
     for k in required:
         v = creds.get(k, "")
         if not v or "PASTE_" in v:
@@ -88,15 +95,26 @@ def cmd_smoke(args: argparse.Namespace) -> int:
     print(json.dumps({"step": "app_token", "http": 200, "ok": True}))
 
     core_codes: list[int] = []
-    c, app_body = _get(f"{GRAPH}/{creds['app_id']}", {"fields": "name,id", "access_token": token})
+    c, app_body = _get(
+        f"{GRAPH}/{creds['app_id']}", {"fields": "name,id", "access_token": token}
+    )
     core_codes.append(c)
-    print(json.dumps({"step": "app", "tier": "core", "http": c, "data": app_body}, indent=2))
+    print(
+        json.dumps(
+            {"step": "app", "tier": "core", "http": c, "data": app_body}, indent=2
+        )
+    )
 
-    user_token = creds.get("system_user_access_token") or os.environ.get("META_SYSTEM_USER_ACCESS_TOKEN", "")
+    user_token = creds.get("system_user_access_token") or os.environ.get(
+        "META_SYSTEM_USER_ACCESS_TOKEN", ""
+    )
     wa_token = user_token or token
     c, wa_body = _get(
         f"{GRAPH}/{creds['wa_phone_number_id']}",
-        {"fields": "display_phone_number,verified_name,quality_rating", "access_token": wa_token},
+        {
+            "fields": "display_phone_number,verified_name,quality_rating",
+            "access_token": wa_token,
+        },
     )
     print(
         json.dumps(
@@ -119,7 +137,12 @@ def cmd_smoke(args: argparse.Namespace) -> int:
         )
         print(
             json.dumps(
-                {"step": "waba_phone_numbers", "tier": "extended", "http": c2, "data": waba_body},
+                {
+                    "step": "waba_phone_numbers",
+                    "tier": "extended",
+                    "http": c2,
+                    "data": waba_body,
+                },
                 indent=2,
             )
         )

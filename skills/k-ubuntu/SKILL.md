@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.7.0"
+  version: "1.8.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -34,7 +34,7 @@ allowed-tools: Bash, Read, Write, Edit
 | Kernel | Linux 7.0.0-28-generic x86_64 |
 | CPU | Intel Core Ultra 7 155H |
 | RAM | 30 GiB |
-| Disk | KIOXIA 1024GB (nvme0n1) — see `k-infra` for partitioning |
+| Disk | KIOXIA 1024GB (nvme0n1) — see `k-infras` references/ntfs-shrink-dual-boot.md for partitioning |
 
 ### Tailscale Identity
 
@@ -58,7 +58,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 Full Tailscale operations reference: **`k-tailscale`** (generic patterns: install, serve, funnel, DERP, ACL, troubleshooting).
 
-Hardware details (disk layout, BIOS/UEFI, dual-boot): **`k-infra`**
+Hardware details (disk layout, BIOS/UEFI, dual-boot): **`k-infras`** (see `references/ntfs-shrink-dual-boot.md`)
 
 ---
 
@@ -241,22 +241,40 @@ User systemd service. Polls Telegram, dispatches via ksh.
 
 ---
 
-## System Services (enabled at boot)
+## System Services — Full Inventory (enabled, verified)
 
-Key services managed on this workstation. For full list: `systemctl list-unit-files --state=enabled`.
+All services listed below are **active and running** (verified 2026-07-25). Source of truth is within `.agents/` with a symlink to the OS location. For custom services, the `Source (.agents/)` column shows the canonical file path; for KπX-managed configs, the symlink target is listed.
 
-| Service | Role | Notes |
-|---------|------|-------|
-| `tor@default.service` | Anonymizing overlay network (SOCKS5 proxy on 127.0.0.1:9050) | ~112 MB RAM. Disable if not actively using Tor. |
-| `docker.service` | Container runtime | Core infra |
-| `tailscaled.service` | Tailscale mesh VPN | Persistent connectivity to homelab and peers |
-| `rclone-gdrive.service` | Google Drive FUSE mount (kapoivha@gmail.com) | `~/Gdrive` mount point |
-| `rclone-gdrive-x.service` | Google Drive FUSE mount (Poly X account) | `~/Gdrive_X` mount point |
-| `nftables.service` | Firewall | Managed via `k-nftables` |
-| `ssh.service` | SSH daemon | Local SSH access |
-| `NetworkManager.service` | Network management | Default Ubuntu |
-| `systemd-resolved.service` | DNS resolver | Default Ubuntu |
-| `snapd.service` | Snap package daemon | Pre-installed |
+| Service | Role | Statut | Source (.agents/) | Symlink |
+|---------|------|--------|-------------------|---------|
+| `nftables.service` | Firewall | ✅ enabled + active | `k-nftables/assets/nftables.conf` (config) | ✅ `/etc/nftables.conf` |
+| `docker.service` | Container runtime | ✅ enabled + active | — (system default) | — |
+| `tailscaled.service` | Tailscale mesh VPN | ✅ enabled + active | — (system default) | — |
+| `ssh.service` | SSH daemon | ✅ enabled + active | — (system default) | — |
+| `tor@default.service` | Tor SOCKS5 proxy | ✅ enabled-runtime + active | — (system default) | — |
+| `NetworkManager.service` | Network management | ✅ enabled + active | — (system default) | — |
+| `systemd-resolved.service` | DNS resolver | ✅ enabled + active | — (system default) | — |
+| `snapd.service` | Snap daemon | ✅ enabled + active | — (system default) | — |
+| `ollama.service` | LLM runtime (Intel Arc iGPU) | ✅ linked + active | `k-ollama/assets/ollama.service` + `override.conf` | ✅ symlink via `k-ollama` |
+| | | | | |
+| **User services** (systemctl --user) | | | | |
+| `tg-bot.service` | Telegram bot (clean/status/backup) | ✅ enabled + active | `k-ubuntu/assets/tg-bot.service` | ✅ `~/.config/systemd/user/tg-bot.service` |
+| `opencode-web.service` | OpenCode Web server | ✅ enabled + active | `k-opencode/assets/opencode-web.service` | ✅ `~/.config/systemd/user/opencode-web.service` |
+| `rclone-gdrive.service` | Gdrive (kapoivha@gmail.com → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive.service` | ✅ `~/.config/systemd/user/rclone-gdrive.service` |
+| `rclone-gdrive-x.service` | Gdrive_X (X account → ~/Gdrive_X) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive-x.service` | ✅ `~/.config/systemd/user/rclone-gdrive-x.service` |
+| `rclone-deep-pc6.service` | Deep-PC6 (via k-dxo → ~/Deep-PC6) | ✅ enabled + active | `k-dxo/assets/rclone-deep-pc6.service` | ✅ `~/.config/systemd/user/rclone-deep-pc6.service` |
+| | | | | |
+| **Timers** (system) | | | | |
+| `clean-system.timer` | Weekly system cleanup (21:30) | ✅ enabled + active | `k-ubuntu/assets/clean/clean-system.service` + `.timer` | ✅ `/etc/systemd/system/clean-system.*` |
+| `backup-restore.timer` | Daily workstation backup (22:00) | ✅ enabled + active | `k-ubuntu/assets/backup_restore/backup-restore.service` + `.timer` | ✅ `/etc/systemd/system/backup-restore.*` |
+| `pve-backup.timer` | PVE weekly backup (Sat 03:30) | ✅ enabled + active | `k-ubuntu/assets/backup_restore_pve/pve-backup.service` + `.timer` | ✅ `/etc/systemd/system/pve-backup.*` |
+| | | | | |
+| **Config symlinks** | | | | |
+| `~/.kshrc` | Shell config (zsh) | ✅ valide | `k-ubuntu/assets/kshrc` | ✅ symlink |
+| `~/.local/bin/ksh` | Universal dispatcher | ✅ valide | `k-ubuntu/scripts/ksh.sh` | ✅ symlink |
+| `~/.config/rclone/rclone.conf` | rclone config (4 remotes) | ✅ valide | `k-rclone/assets/rclone.conf` | ✅ symlink |
+| `~/.local/bin/rm` | Trash-safe rm wrapper | ✅ valide | `k-clis/assets/rm` | ✅ symlink |
+| `openclaw-gateway.service` | OpenClaw Gateway runtime (user service) | ✅ enabled + active | `k-openclaw/assets/openclaw-gateway.service` + `assets/exec-override.conf` | ✅ `~/.config/systemd/user/openclaw-gateway.service` |
 
 ---
 
@@ -339,7 +357,7 @@ Full CLI registry with routing to dedicated k-* skills: **`k-clis`**
 
 ### WaveTerm widgets
 
-Config: `$HOME/.config/waveterm/widgets.json` — all widgets use `zsh -l -c '...'` wrapper to load the login environment.
+Config: `$HOME/.config/waveterm/widgets.json` — all widgets load their own environment.
 
 ### npm-global prefix
 
@@ -426,10 +444,14 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 ## Bundled references
 
-| File | Content |
-|------|---------|
+| File / Script | Content |
+|---------------|---------|
 | `references/insights.md` | Durable lessons, mistakes, validated fixes |
 | `references/log.md` | Operation log — significant system changes (pip purges, tool migrations, apt removals) |
+| `scripts/notifier.sh` | Telegram notification wrapper — uses TELEGRAM_PVE_TOKEN from .env |
+| `scripts/tg-bot.py` | Telegram bot bridge script |
+| `scripts/backup_restore` | Backup/restore automation script |
+| `scripts/clean` | System cleanup script |
 
 ## Insights Discipline (mandatory)
 
@@ -441,6 +463,5 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-25 | [OPENCODE] | v1.7.0 — `assets/kshrc` : idempotency guard `__KSHRC_LOADED` ajouté pour éviter la duplication PATH. Node.js dans Package Management : nvm→fnm. |
-| 2026-07-24 | [OPENCODE] | v1.6.0 — **`~/.kshrc` moved to `assets/kshrc`** (symlink). Shell section updated. |
-| [SUMMARY] | — | v1.5.0 clean docs + secrets unification; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |
+| 2026-07-26 | [OPENCODE] | v1.8.0 — **with-env helper added**: Added the `with-env` function and Zsh autocompletion to `assets/kshrc` for secure command execution with isolated `.env` loading. |
+| [SUMMARY] | — | v1.5.0–v1.7.0 clean docs + secrets + kshrc symlink + idempotency guard; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |

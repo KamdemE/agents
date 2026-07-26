@@ -4,6 +4,7 @@ Hooks Audit
 Single entry point to validate KπX hook wiring, KπX skill structure/content,
 and runtime config references across supported agent CLIs.
 """
+
 from __future__ import annotations
 
 import ast
@@ -19,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "hooks"))
 
-from core.settings import AGENTS_DIR, HOME, SKILLS_DIR
+from core.settings import HOME, SKILLS_DIR
 from core.skill_content_guard import validate_skill_content
 from core.skill_structure_guard import validate_skill_structure
 
@@ -58,7 +59,7 @@ def _parse_yaml_frontmatters(paths: list[Path]) -> list[str]:
         "require 'yaml'; "
         "ARGV.each do |p| "
         "txt = File.read(p); "
-        "next unless txt.start_with?(\"---\\n\"); "
+        'next unless txt.start_with?("---\\n"); '
         "m = txt.match(/\\A---\\n(.*?)\\n---\\n/m); "
         "YAML.safe_load(m[1]) if m; "
         "end"
@@ -86,7 +87,9 @@ def _check_json_hook_commands(config_path: Path, event_map: dict) -> list[str]:
     findings: list[str] = []
     for event_name, groups in event_map.items():
         if not isinstance(groups, list):
-            findings.append(f"{_display(config_path)}: event `{event_name}` must be a list.")
+            findings.append(
+                f"{_display(config_path)}: event `{event_name}` must be a list."
+            )
             continue
         for group in groups:
             for hook in group.get("hooks", []):
@@ -105,9 +108,17 @@ def _check_gemini() -> list[str]:
         return findings
     data = json.loads(GEMINI_SETTINGS.read_text(encoding="utf-8"))
     findings.extend(_check_json_hook_commands(GEMINI_SETTINGS, data.get("hooks", {})))
-    for expected in ("SessionStart", "BeforeAgent", "AfterAgent", "BeforeTool", "SessionEnd"):
+    for expected in (
+        "SessionStart",
+        "BeforeAgent",
+        "AfterAgent",
+        "BeforeTool",
+        "SessionEnd",
+    ):
         if expected not in data.get("hooks", {}):
-            findings.append(f"{_display(GEMINI_SETTINGS)}: missing expected Gemini hook `{expected}`.")
+            findings.append(
+                f"{_display(GEMINI_SETTINGS)}: missing expected Gemini hook `{expected}`."
+            )
     return findings
 
 
@@ -117,9 +128,17 @@ def _check_claude() -> list[str]:
         return findings
     data = json.loads(CLAUDE_SETTINGS.read_text(encoding="utf-8"))
     findings.extend(_check_json_hook_commands(CLAUDE_SETTINGS, data.get("hooks", {})))
-    for expected in ("SessionStart", "UserPromptSubmit", "PreToolUse", "Stop", "SessionEnd"):
+    for expected in (
+        "SessionStart",
+        "UserPromptSubmit",
+        "PreToolUse",
+        "Stop",
+        "SessionEnd",
+    ):
         if expected not in data.get("hooks", {}):
-            findings.append(f"{_display(CLAUDE_SETTINGS)}: missing expected Claude hook `{expected}`.")
+            findings.append(
+                f"{_display(CLAUDE_SETTINGS)}: missing expected Claude hook `{expected}`."
+            )
     return findings
 
 
@@ -130,7 +149,9 @@ def _check_codex() -> list[str]:
         return findings
     config = tomllib.loads(CODEX_CONFIG.read_text(encoding="utf-8"))
     if not config.get("features", {}).get("codex_hooks", False):
-        findings.append(f"{_display(CODEX_CONFIG)}: `features.codex_hooks` must be enabled.")
+        findings.append(
+            f"{_display(CODEX_CONFIG)}: `features.codex_hooks` must be enabled."
+        )
     if not CODEX_HOOKS.exists():
         findings.append(f"{_display(CODEX_HOOKS)}: missing deployed Codex hooks file.")
         return findings
@@ -138,7 +159,9 @@ def _check_codex() -> list[str]:
     findings.extend(_check_json_hook_commands(CODEX_HOOKS, data.get("hooks", {})))
     for expected in ("SessionStart", "UserPromptSubmit", "Stop"):
         if expected not in data.get("hooks", {}):
-            findings.append(f"{_display(CODEX_HOOKS)}: missing expected Codex hook `{expected}`.")
+            findings.append(
+                f"{_display(CODEX_HOOKS)}: missing expected Codex hook `{expected}`."
+            )
     return findings
 
 
@@ -191,47 +214,65 @@ def _wrapper_smoke_tests() -> list[str]:
     )
 
     try:
-        gemini_start = _load_module(HOOKS_DIR / "gemini/session_start.py", "audit_gemini_start")
+        gemini_start = _load_module(
+            HOOKS_DIR / "gemini/session_start.py", "audit_gemini_start"
+        )
         result = gemini_start.handle_session_start("GEMINI")
         if result and "hookSpecificOutput" not in result:
             findings.append(
                 f"{_display(HOOKS_DIR / 'gemini/session_start.py')}: invalid startup payload shape in smoke test."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'gemini/session_start.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'gemini/session_start.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        gemini_before = _load_module(HOOKS_DIR / "gemini/before_agent.py", "audit_gemini_before")
+        gemini_before = _load_module(
+            HOOKS_DIR / "gemini/before_agent.py", "audit_gemini_before"
+        )
         result = gemini_before.handle_before_agent("GEMINI", cwd=HOME)
         if result and "hookSpecificOutput" not in result:
             findings.append(
                 f"{_display(HOOKS_DIR / 'gemini/before_agent.py')}: invalid prompt-injection payload shape in smoke test."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'gemini/before_agent.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'gemini/before_agent.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        response_validator = _load_module(HOOKS_DIR / "core/response_validator.py", "audit_response_validator")
+        response_validator = _load_module(
+            HOOKS_DIR / "core/response_validator.py", "audit_response_validator"
+        )
         result = response_validator.validate_response(valid_response)
         if not result.get("passed"):
             findings.append(
                 f"{_display(HOOKS_DIR / 'core/response_validator.py')}: valid Markdown-heading response failed smoke test."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'core/response_validator.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'core/response_validator.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        gemini_after = _load_module(HOOKS_DIR / "gemini/after_agent.py", "audit_gemini_after")
+        gemini_after = _load_module(
+            HOOKS_DIR / "gemini/after_agent.py", "audit_gemini_after"
+        )
         result = gemini_after.handle_after_agent({"prompt_response": invalid_response})
         if result.get("decision") != "deny":
             findings.append(
                 f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: malformed response was not denied."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'gemini/after_agent.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        claude_start = _load_module(HOOKS_DIR / "claude/session_start.py", "audit_claude_start")
+        claude_start = _load_module(
+            HOOKS_DIR / "claude/session_start.py", "audit_claude_start"
+        )
         result = claude_start.handle_session_start("CLAUDE")
         if result:
             hook_output = result.get("hookSpecificOutput", {})
@@ -239,11 +280,15 @@ def _wrapper_smoke_tests() -> list[str]:
                 findings.append(
                     f"{_display(HOOKS_DIR / 'claude/session_start.py')}: missing `hookEventName=SessionStart` in smoke test."
                 )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'claude/session_start.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'claude/session_start.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        claude_prompt = _load_module(HOOKS_DIR / "claude/user_prompt_submit.py", "audit_claude_prompt")
+        claude_prompt = _load_module(
+            HOOKS_DIR / "claude/user_prompt_submit.py", "audit_claude_prompt"
+        )
         result = claude_prompt.handle_user_prompt_submit("CLAUDE", cwd=HOME)
         if result:
             hook_output = result.get("hookSpecificOutput", {})
@@ -251,11 +296,15 @@ def _wrapper_smoke_tests() -> list[str]:
                 findings.append(
                     f"{_display(HOOKS_DIR / 'claude/user_prompt_submit.py')}: missing `hookEventName=UserPromptSubmit` in smoke test."
                 )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'claude/user_prompt_submit.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'claude/user_prompt_submit.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        codex_start = _load_module(HOOKS_DIR / "codex/session_start.py", "audit_codex_start")
+        codex_start = _load_module(
+            HOOKS_DIR / "codex/session_start.py", "audit_codex_start"
+        )
         result = codex_start.handle_session_start("CODEX")
         hook_output = result.get("hookSpecificOutput", {})
         if hook_output.get("hookEventName") != "SessionStart":
@@ -266,11 +315,15 @@ def _wrapper_smoke_tests() -> list[str]:
             findings.append(
                 f"{_display(HOOKS_DIR / 'codex/session_start.py')}: missing `hookSpecificOutput.additionalContext` in smoke test."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'codex/session_start.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'codex/session_start.py')}: smoke test failed: {exc}"
+        )
 
     try:
-        codex_user = _load_module(HOOKS_DIR / "codex/user_prompt_submit.py", "audit_codex_prompt")
+        codex_user = _load_module(
+            HOOKS_DIR / "codex/user_prompt_submit.py", "audit_codex_prompt"
+        )
         result = codex_user.handle_user_prompt_submit("CODEX", cwd=HOME)
         hook_output = result.get("hookSpecificOutput", {})
         if hook_output.get("hookEventName") != "UserPromptSubmit":
@@ -281,18 +334,24 @@ def _wrapper_smoke_tests() -> list[str]:
             findings.append(
                 f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: missing `hookSpecificOutput.additionalContext` in smoke test."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'codex/user_prompt_submit.py')}: smoke test failed: {exc}"
+        )
 
     try:
         claude_stop = _load_module(HOOKS_DIR / "claude/stop.py", "audit_claude_stop")
-        result = claude_stop.handle_stop(last_assistant_message=invalid_response, stop_hook_active=False)
+        result = claude_stop.handle_stop(
+            last_assistant_message=invalid_response, stop_hook_active=False
+        )
         if result.get("decision") != "block":
             findings.append(
                 f"{_display(HOOKS_DIR / 'claude/stop.py')}: malformed response was not blocked."
             )
-    except Exception as exc:
-        findings.append(f"{_display(HOOKS_DIR / 'claude/stop.py')}: smoke test failed: {exc}")
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+        findings.append(
+            f"{_display(HOOKS_DIR / 'claude/stop.py')}: smoke test failed: {exc}"
+        )
 
     return findings
 
@@ -308,7 +367,9 @@ def _check_rules() -> list[str]:
     for ref in sorted(set(rule_refs)):
         rule_path = ROOT / "rules" / ref
         if not rule_path.exists():
-            findings.append(f"{_display(rule_path)}: referenced in AGENTS.md but missing.")
+            findings.append(
+                f"{_display(rule_path)}: referenced in AGENTS.md but missing."
+            )
             continue
         content = rule_path.read_text(encoding="utf-8").strip()
         if len(content) < 20:

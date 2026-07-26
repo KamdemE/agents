@@ -25,9 +25,9 @@ echo "   ✓ Running as root"
 echo "→ [install] Installing systemd units..."
 
 # Adjust unit file names as needed
-cp "$PROJECT_ROOT/systemd/<project>.service" /etc/systemd/system/<project>.service
-cp "$PROJECT_ROOT/systemd/<project>.timer"   /etc/systemd/system/<project>.timer
-chmod 644 /etc/systemd/system/<project>.service /etc/systemd/system/<project>.timer
+cp "$PROJECT_ROOT/systemd/<project>.service" "/etc/systemd/system/<project>.service"
+cp "$PROJECT_ROOT/systemd/<project>.timer"   "/etc/systemd/system/<project>.timer"
+chmod 644 "/etc/systemd/system/<project>.service" "/etc/systemd/system/<project>.timer"
 
 echo "   ✓ Units installed to /etc/systemd/system/"
 
@@ -49,6 +49,6 @@ echo "   ✓ Timer enabled"
 # ── 5. Done ───────────────────────────────────────────────────────────────────
 echo ""
 echo "✅ <project-name> installed successfully."
-echo "   Timer:  $(systemctl list-timers <project>.timer --no-pager 2>/dev/null | tail -1)"
+echo "   Timer:  $(systemctl list-timers "<project>.timer" --no-pager 2>/dev/null | tail -1)"
 echo "   Logs:   journalctl -u <project>"
 echo "   Run now: sudo systemctl start <project>.service"

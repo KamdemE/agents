@@ -52,6 +52,7 @@ original filenames        full resolution possible
    ```python
    import hashlib
    from pathlib import Path
+
    uri = "file:///home/kpihx/Downloads/RAS/example.png"
    h = hashlib.md5(uri.encode()).hexdigest()
    for size in ("x-large", "large", "normal"):

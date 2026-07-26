@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -126,7 +127,10 @@ CLEANUP_OPS = [
     ("archive", "from:no-reply@email.lebara.fr"),
     ("archive", "from:news@communications.socgen.com"),
     ("archive", "from:noreply@t.deliveroo.com older_than:14d"),
-    ("archive", "from:account-security-noreply@accountprotection.microsoft.com older_than:30d"),
+    (
+        "archive",
+        "from:account-security-noreply@accountprotection.microsoft.com older_than:30d",
+    ),
     ("archive", "from:no-reply@accounts.google.com older_than:30d"),
     ("archive", "is:unread older_than:180d"),
 ]
@@ -179,7 +183,9 @@ def list_all_ids(q: str, max_messages: int | None = None) -> list[str]:
     return ids
 
 
-def batch_modify(ids: list[str], add: list[str], remove: list[str], dry_run: bool) -> int:
+def batch_modify(
+    ids: list[str], add: list[str], remove: list[str], dry_run: bool
+) -> int:
     n = 0
     for i in range(0, len(ids), BATCH):
         chunk = ids[i : i + BATCH]
@@ -219,7 +225,14 @@ def ensure_labels(dry_run: bool) -> dict[str, str]:
         }
         print(f"  create label: {name}", flush=True)
         if not dry_run:
-            created = api("labels", "create", "--params", '{"userId":"me"}', "--json", json.dumps(body))
+            created = api(
+                "labels",
+                "create",
+                "--params",
+                '{"userId":"me"}',
+                "--json",
+                json.dumps(body),
+            )
             by_name[name] = created["id"]
     return by_name
 
@@ -296,10 +309,10 @@ def empty_trash(dry_run: bool) -> None:
         return
     try:
         api("trash", "empty", "--params", '{"userId":"me"}')
-    except Exception:
+    except subprocess.CalledProcessError:
         try:
             api("messages", "emptyTrash", "--params", '{"userId":"me"}')
-        except Exception as e:
+        except subprocess.CalledProcessError as e:
             print(f"  skip emptyTrash (scope or API): {e}", flush=True)
 
 
@@ -326,7 +339,10 @@ def main() -> int:
     empty_trash(dry)
 
     if not dry:
-        print("\n=== RE-APPLY FILTERS TO EXISTING (batch archive inbox stragglers) ===", flush=True)
+        print(
+            "\n=== RE-APPLY FILTERS TO EXISTING (batch archive inbox stragglers) ===",
+            flush=True,
+        )
         for q in [
             "in:inbox from:mail.ticktick.com",
             "in:inbox from:linkedin.com",

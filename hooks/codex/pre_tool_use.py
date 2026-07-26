@@ -9,6 +9,7 @@ This file remains as a no-op shim so already-running Codex sessions, or stale
 deployed hook copies, do not break when they still try to execute the legacy
 PreToolUse entrypoint.
 """
+
 import sys
 
 

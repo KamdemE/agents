@@ -1,4 +1,5 @@
 """Core: settings for paths, timings, startup skills, and feature flags."""
+
 from __future__ import annotations
 
 import os
@@ -32,45 +33,38 @@ HOOK_TIMINGS = {
 
 HOOK_FEATURES = {
     # context_injector.py
-    "startup_context":                     True,  # Inject k-context at session bootstrap.
-    "device_detection":                    True,  # Auto-detect device via Tailscale and inject the matching k-infra skill.
-
+    "startup_context": True,  # Inject k-context at session bootstrap.
+    "device_detection": True,  # Auto-detect device via Tailscale and inject the matching k-infra skill.
     # prompt_enforcer.py
-    "prompt_enforcer":                     True,  # Inject raw first-person enforcement block before each turn.
-
+    "prompt_enforcer": True,  # Inject raw first-person enforcement block before each turn.
     # prompt_injector.py
-    "dynamic_context":                     True,  # Inject date, time, user@host, and cwd before each turn.
-
+    "dynamic_context": True,  # Inject date, time, user@host, and cwd before each turn.
     # skill_watcher.py
-    "governance_reminder":                 True,  # Inject the compact AGENTS pointer reminder before each turn.
-
+    "governance_reminder": True,  # Inject the compact AGENTS pointer reminder before each turn.
     # response_validator.py
     # ─── RESPONSE FORMAT VALIDATION ───
     # Only the  Suggestions check is mandatory. All other format checks are disabled.
-    "response_validation":                 True,  # Master gate for final-response validation.
-    "response_check_section_order":        False,  # Disabled: only suggestions checked.
-    "response_check_comments":             False,  # Disabled.
-    "response_check_remarks":              False,  # Disabled.
-    "response_check_todos":                False,  # Disabled.
-    "response_check_suggestions":          True,  # Require at least 3 numbered proactive suggestions.
-
+    "response_validation": True,  # Master gate for final-response validation.
+    "response_check_section_order": False,  # Disabled: only suggestions checked.
+    "response_check_comments": False,  # Disabled.
+    "response_check_remarks": False,  # Disabled.
+    "response_check_todos": False,  # Disabled.
+    "response_check_suggestions": True,  # Require at least 3 numbered proactive suggestions.
     # path_guard.py
-    "path_generalization":                 True,  # Enforce $HOME/$USER-style paths for .agents file edits.
-
+    "path_generalization": True,  # Enforce $HOME/$USER-style paths for .agents file edits.
     # skill_edit_guard.py
-    "skill_edit_guard":                    True,  # Validate KπX skill edits before the write tool executes.
-    "skill_edit_structure_check":          True,  # Require edited k-* skills to remain structurally valid.
-    "skill_edit_content_check":            True,  # Require bundled top-level files to stay surfaced in the skill.
-    "skill_edit_header_footer_check":      True,  # Require metadata.version and changelog updates on edited skills.
-    "skill_edit_k_context_session_log":    True,  # Require k-context edits to also update Session Log.
-    "skill_edit_k_context_project_note":   True,  # Add a soft reminder about Active Projects on k-context edits.
-
+    "skill_edit_guard": True,  # Validate KπX skill edits before the write tool executes.
+    "skill_edit_structure_check": True,  # Require edited k-* skills to remain structurally valid.
+    "skill_edit_content_check": True,  # Require bundled top-level files to stay surfaced in the skill.
+    "skill_edit_header_footer_check": True,  # Require metadata.version and changelog updates on edited skills.
+    "skill_edit_k_context_session_log": True,  # Require k-context edits to also update Session Log.
+    "skill_edit_k_context_project_note": True,  # Add a soft reminder about Active Projects on k-context edits.
     # session_guard.py
-    "session_dirty_repo":                  True,  # Check whether $HOME/.agents/ still has pending git changes.
-    "session_dirty_grace_period":          True,  # Only surface finalization after the grace window has elapsed.
-    "session_skill_structure_report":      True,  # Include skill_structure_guard findings in finalization.
-    "session_skill_content_report":        True,  # Include skill_content_guard findings in finalization.
-    "session_maintenance_reminder":        True,  # Include the compact finalization steps in session messages.
+    "session_dirty_repo": True,  # Check whether $HOME/.agents/ still has pending git changes.
+    "session_dirty_grace_period": True,  # Only surface finalization after the grace window has elapsed.
+    "session_skill_structure_report": True,  # Include skill_structure_guard findings in finalization.
+    "session_skill_content_report": True,  # Include skill_content_guard findings in finalization.
+    "session_maintenance_reminder": True,  # Include the compact finalization steps in session messages.
 }
 
 

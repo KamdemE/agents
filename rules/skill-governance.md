@@ -14,7 +14,7 @@
 | No duplicates | Never recopy identity tables or path lists in a second skill |
 | No desync | Same fact = one source file; others POINT (relative link or `$HOME/.agents/skills/...` path) |
 | Location | New skill `k-<domain>/` under `$HOME/.agents/skills/` + entry in `.skill-lock.json` |
-| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; `make audit` BEFORE commit |
+| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; `make check` BEFORE commit |
 
 ## Skill Structure (MANDATORY)
 Every `k-*` skill: `SKILL.md` at root (YAML frontmatter, `⚠️ WHEN EDITING...` reminder, `## Changelog` at bottom). Optional: `scripts/`, `references/`, `assets/`.

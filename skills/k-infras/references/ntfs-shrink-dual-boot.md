@@ -1,7 +1,7 @@
 # NTFS shrink + boot sector recovery — Windows dual-boot prep
 
 > **Canonical reference** for shrinking an NTFS partition from Linux, recovering from interrupted `ntfsresize` via manual boot sector fix, freeing space for Windows 11 dual-boot, and configuring GRUB for dual-boot.
-> **Skill owner:** `k-infra` (infrastructure scope).
+> **Skill owner:** `k-infras` (infrastructure master map).
 > **Validated:** 2026-06-11 — NVMe KIOXIA 1024GB, ntfs-3g v2022.10.3, Ubuntu 24.04, Windows 11.
 
 ---

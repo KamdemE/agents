@@ -3,13 +3,13 @@ name: k-final
 description: >
   Post-work project closure workflow: tests, hygiene, config-as-docs, markdown
   sync, versioning, git (submodules order), CI/CD watch, deploy log check,
-  local install, build/publish, then `.agents/` kernel sync (k-context, audit,
+  local install, build/publish, then `.agents/` kernel sync (k-context, check,
   push). Every phase is obligatory when it applies - no silent skips. Load when
   finishing a feature or release pass on any KpihX project.
 license: private
 metadata:
   author: KpihX
-  version: "1.5.0"
+  version: "1.6.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -19,7 +19,7 @@ allowed-tools: Bash, Read, Write, Edit
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
-> **Static rules:** `rules/audit-commands.md` (make audit, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
+> **Static rules:** `rules/audit-commands.md` (make check, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
 > **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase.
 
 ## Role
@@ -144,7 +144,7 @@ For tools managing secrets (like `bw-mcp`), system-level installs, or core homel
    - The `install` target MUST recursively `chown` the data directory to `REAL_USER`.
 4. **Audit & Verification**:
    - The `Makefile` MUST include an `audit` target (see templates) verifying root ownership, directory permissions (700 for data), and AppArmor enforcement.
-   - Run `make audit` after every install; success is mandatory.
+   - Run `make check` after every install; success is mandatory.
 
 ## Phase J — Build & publish
 
@@ -170,7 +170,7 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 1. **k-context** (`skills/k-context/SKILL.md`): update `## Active Projects` (status, next step) and `## Session Log` (agent tag, version, folder path). Obey limits: max 10 rows → rotate overflow to `references/log.md`.
 2. **kpihx-labs** or **k-context** only if new durable workspace facts were revealed.
-3. **`make audit`** from `$HOME/.agents/` → repeat until `ALL_OK`.
+3. **`make check`** from `$HOME/.agents/` → repeat until `ALL_OK`.
 4. **Commit + `make push`** on all `.agents/` remotes.
 
 ## Blocker protocol
@@ -188,6 +188,5 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v1.5.0 — k-workspace references replaced with k-context/kpihx-labs. Related skills, kernel contract, Phase K updated. |
-| 2026-05-29 | [OPENCODE] | v1.4.0 — Trimmed: Phase K simplified (→ rules/ pointers). Added rules/ references at top. |
-| [SUMMARY] | — | v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |
+| 2026-07-26 | [OPENCODE] | v1.6.0 — **make check target**: Updated references from make audit to make check across the skill, in line with the new unified validation process. |
+| [SUMMARY] | — | v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |

@@ -2,7 +2,7 @@
 id: curator
 name: curator
 version: "2.0.0"
-description: Kernel maintainer — monitors agents/, rules/, hooks/, skills/ for drift. Promotes patterns to skills. Runs make audit.
+description: Kernel maintainer — monitors agents/, rules/, hooks/, skills/ for drift. Promotes patterns to skills. Runs make check.
 mode: subagent
 scope: colab
 role: sub-agent
@@ -70,7 +70,7 @@ Maintain the KπX kernel at `~/.agents/`. You are launched by Colab (or forced b
 - Write violations to `k-context/SKILL.md` → `## Session Log` for review
 
 ### 4. Audit governance
-- Run `make audit` in `~/.agents/`
+- Run `make check` in `~/.agents/`
 - Parse output for errors and warnings
 - Fix structural issues (changelog format, missing SUMMARY rows, missing bundled file references)
 - Fix content issues only if clear-cut (stale paths, outdated references)

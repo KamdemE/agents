@@ -171,13 +171,23 @@ The native OS "Save As" dialog cannot be interacted with via CDP or browser MCP.
 ```python
 import json, urllib.request, asyncio, websockets
 
+
 async def set_download_path(path="/tmp"):
-    resp = json.loads(urllib.request.urlopen("http://127.0.0.1:9222/json/version").read())
+    resp = json.loads(
+        urllib.request.urlopen("http://127.0.0.1:9222/json/version").read()
+    )
     async with websockets.connect(resp["webSocketDebuggerUrl"]) as ws:
-        await ws.send(json.dumps({"id": 1, "method": "Browser.setDownloadBehavior", "params": {
-            "behavior": "allow", "downloadPath": path
-        }}))
+        await ws.send(
+            json.dumps(
+                {
+                    "id": 1,
+                    "method": "Browser.setDownloadBehavior",
+                    "params": {"behavior": "allow", "downloadPath": path},
+                }
+            )
+        )
         await asyncio.wait_for(ws.recv(), timeout=5)
+
 
 # Then trigger the download (click Download button / link)
 # File lands directly in path without any dialog

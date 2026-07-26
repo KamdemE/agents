@@ -154,7 +154,7 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 ### Why
 
 - **Single source of truth**: the asset is canonical, not a loose file
-- **Versioned**: auditable, traceable (via `make audit`)
+- **Versioned**: auditable, traceable (via `make check`)
 - **Deployable**: symlink on a new machine = everything portable
 - **No duplication**: one asset, N symlinks
 

@@ -1,0 +1,33 @@
+# KπX central ruff config for .agents/ Python scripts
+# See: https://docs.astral.sh/ruff/settings/
+
+# Target Python version
+target-version = "py312"
+
+# Rules to ignore globally (negligible or infrastructural false positives)
+lint.ignore = [
+    # ── Cosmetic / style-only (no functional impact) ──
+    "ISC004",   # implicit-string-concatenation-in-collection-literal — minor style
+    "C401",     # unnecessary-generator-set — minor perf, generators are fine
+    "C416",     # unnecessary-comprehension — same
+    "RUF200",   # invalid-pyproject-toml — false positive on k-project template (version = "VERSION")
+
+    # ── Pre-existing typing modernization (UP rules) — auto-fixable gradually ──
+    # These are auto-fixable with ruff check --fix. Kept here temporarily
+    # so they don't block the pipeline until a full cleanup pass.
+    "UP006",    # non-pep585-annotation (List -> list) — auto-fixable
+    "UP007",    # non-pep604-annotation-union (Union[X,Y] -> X|Y) — auto-fixable
+    "UP035",    # deprecated-import (typing.X) — auto-fixable
+    "UP045",    # non-pep604-annotation-optional (Optional[X] -> X|None) — auto-fixable
+
+    # ── Cosmetic f-string / minor patterns (auto-fixable, non-blocking) ──
+    "PIE810",   # multiple-starts-ends-with — suggestion only
+    "RUF059",   # unused-unpacked-variable — prefix with _ if unused
+
+    # ── SIM rules (style suggestions, minor) ──
+    "SIM102",   # collapsible-if — style only
+    "SIM114",   # if-with-same-arms — style only
+]
+
+# Exclude virtual environments and generated files
+exclude = [".venv", "__pycache__", ".git", "*.egg-info", "**/.venv/**"]

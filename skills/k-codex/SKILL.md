@@ -48,7 +48,7 @@ Codex stores conversations in two tiers:
 
 - source of truth: `$HOME/.codex/hooks.json` and `$HOME/.agents/hooks/codex/`
 - required runtime flag for **live Codex** (hooks still run): `features.codex_hooks = true` in `$HOME/.codex/config.toml`
-- **`make audit`** (`$HOME/.agents/hooks/audit.py`) no longer inspects Codex config or `hooks.json` — decoupled from local Codex install; re-enable in `audit.py` if you want CI-style enforcement again.
+- **`make check`** (`$HOME/.agents/hooks/audit.py`) no longer inspects Codex config or `hooks.json` — decoupled from local Codex install; re-enable in `audit.py` if you want CI-style enforcement again.
 - live wrappers: `session_start.py`, `user_prompt_submit.py`, `stop.py`
 - Codex-specific JSON envelope details live in `$HOME/.agents/hooks/README.md`
 - `.agents/` write guards are intentionally not wired on Codex in this setup; `pre_tool_use.py` exists only as a compatibility shim
@@ -147,4 +147,4 @@ metadata:
 |------|-------|--------|
 | 2026-07-21 | [OPENCODE] | v2.12.0 — Added Session Storage section with history.jsonl and sessions/ format docs. |
 | 2026-05-18 | [AUTO] | v2.11.7 — Mandatory shared tmux gate (≥30s poll); `sui` deprecated — aligns with AGENTS + `k-tmux`. |
-| [SUMMARY] | — | v2.11.6 Shared-tmux polling; v2.11.5 HTTP MCP bearer_token_env_var; v2.11.4 `$HOME` path cleanup; v2.11.3 `make audit` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |
+| [SUMMARY] | — | v2.11.6 Shared-tmux polling; v2.11.5 HTTP MCP bearer_token_env_var; v2.11.4 `$HOME` path cleanup; v2.11.3 `make check` no longer validates Codex `hooks.json` / `codex_hooks`; v2.11.2 insights discipline; v2.11.0 CLI cache/storage paths; older entries kept in file history |

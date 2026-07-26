@@ -4,6 +4,7 @@ Claude hook: PreToolUse
 Event: fires after Claude creates tool parameters and before the tool executes.
 Core: path_guard + skill_edit_guard for `.agents/` file writes.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -36,7 +37,9 @@ def handle_pre_tool_use(tool_name: str, tool_input: dict) -> dict:
         # Header/footer check (version + Changelog + SessionLog) is delegated to
         # PostToolUse as a non-blocking advisory. Only structure + content checks
         # remain here as blocking guards.
-        skill_result = skill_edit_guard.evaluate_skill_edit(tool_name, tool_input, check_header_footer=False)
+        skill_result = skill_edit_guard.evaluate_skill_edit(
+            tool_name, tool_input, check_header_footer=False
+        )
         errors.extend(skill_result["errors"])
         if errors:
             return _build_deny(
@@ -57,8 +60,8 @@ def main():
         tool_name = input_data.get("tool_name", "")
         tool_input = input_data.get("tool_input", {})
         print(json.dumps(handle_pre_tool_use(tool_name, tool_input)))
-    except Exception:
-        print(json.dumps({}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

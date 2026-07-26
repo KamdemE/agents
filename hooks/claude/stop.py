@@ -4,6 +4,7 @@ Claude hook: Stop
 Event: fires when Claude has finished responding.
 Core: response_validator + session_guard.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -46,8 +47,8 @@ def main():
                 )
             )
         )
-    except Exception:
-        print(json.dumps({}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

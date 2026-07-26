@@ -12,7 +12,7 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 ## Insights
 
 - Initial baseline created automatically from insights governance standard.
-- `make audit` being green is necessary but not sufficient for `.agents` closure; run a final `rg` sweep for hardcoded home paths (`/home/<user>`, `~/`) and operational raw-`sudo` examples before the commit/push step.
+- `make check` being green is necessary but not sufficient for `.agents` closure; run a final `rg` sweep for hardcoded home paths (`/home/<user>`, `~/`) and operational raw-`sudo` examples before the commit/push step.
 - **Sovereign Installation Lessons**: 
     - Always use `REAL_HOME` and `REAL_USER` (detected via `getent` / `SUDO_USER`) in Makefiles to ensure path resolution remains correct under elevation.
     - `uv tool install` must specify `--tool-bin-dir $(REAL_HOME)/.local/bin` to prevent binary placement in `/root`.

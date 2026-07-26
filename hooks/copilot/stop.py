@@ -4,6 +4,7 @@ Copilot VS Code hook: Stop
 Event: fires when an agent session attempts to stop.
 Core: response_validator + session_guard.
 """
+
 from __future__ import annotations
 
 import json
@@ -30,7 +31,10 @@ def _extract_last_assistant_response(transcript_path: str | None) -> str:
                 if record.get("type") != "response_item":
                     continue
                 payload = record.get("payload", {})
-                if payload.get("type") != "message" or payload.get("role") != "assistant":
+                if (
+                    payload.get("type") != "message"
+                    or payload.get("role") != "assistant"
+                ):
                     continue
                 text = "".join(
                     item.get("text", "")
@@ -60,7 +64,9 @@ def handle_stop(
     transcript_path: str | None = None,
     stop_hook_active: bool = False,
 ) -> dict:
-    response_text = (last_assistant_message or "").strip() or _extract_last_assistant_response(transcript_path)
+    response_text = (
+        last_assistant_message or ""
+    ).strip() or _extract_last_assistant_response(transcript_path)
     if response_text and not stop_hook_active:
         validation = response_validator.validate_response(response_text)
         if not validation["passed"]:
@@ -88,7 +94,7 @@ def main() -> None:
                 )
             )
         )
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         print(json.dumps({}))
 
 

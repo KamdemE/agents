@@ -134,7 +134,7 @@
       "cat * > *": "deny",
       "cat * >> *": "deny",
       "cd *": "allow",
-      "cp *": "allow",
+      "cp *": "ask",
       "docker *": "allow",
       "docker rm*": "ask",
       "docker stop*": "ask",
@@ -298,7 +298,7 @@
   // This section defines ONLY provider-specific overrides (model, permissions, colors).
   "agent": {
     // Build: inherits everything from global — no delta needed
-    "Build": {},
+    // "Build": {},
 
     // Lite: minimal agent with Ollama — inherits global, denies skills + MCPs
     "Lite": {
@@ -336,17 +336,17 @@
     },
 
     // Plan: built-in read-only agent
-    "Plan": {
-      "permission": {
-        "edit": "deny",
-        "bash": {
-          "*": "deny",
-          "git diff*": "allow",
-          "git log*": "allow",
-          "rg *": "allow"
-        }
-      }
-    },
+    // "Plan": {
+    //   "permission": {
+    //     "edit": "deny",
+    //     "bash": {
+    //       "*": "deny",
+    //       "git diff*": "allow",
+    //       "git log*": "allow",
+    //       "rg *": "allow"
+    //     }
+    //   }
+    // },
 
     // Colab 🟢 — exploitation mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Colab can launch.
@@ -435,34 +435,43 @@
   "mcp": {
     "mail_fallback": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "/home/kpihx/.local/bin/mail-mcp serve"],
+      "command": ["/home/kpihx/.local/bin/mail-mcp", "serve"],
       "enabled": true,
       "timeout": 60000
     },
     "tick_fallback": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "/home/kpihx/.local/bin/tick-mcp serve"],
+      "command": ["/home/kpihx/.local/bin/tick-mcp", "serve"],
       "enabled": true,
       "timeout": 60000
     },
     // Browser MCP → 10% (CAPTCHA/2FA/formulaires spéciaux) — disabled, chrome-agent suffit
     "browser": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "browser-mcp"],
+      "command": ["browser-mcp"],
       "enabled": false,
       "timeout": 60000
     },
     // Chrome Agent MCP → 90% (navigation, tabs, devtools, contenu)
     "chrome-agent": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "chrome-agent-mcp"],
+      "command": ["chrome-agent-mcp"],
       "enabled": true,
       "timeout": 60000
     },
     // LinkedIn MCP → social publishing, profile
     "linkedin": {
       "type": "local",
-      "command": ["zsh", "-l", "-c", "linkedin-mcp serve"],
+      "command": ["linkedin-mcp", "serve"],
+      "enabled": true,
+      "timeout": 60000
+    },
+
+    // Loom MCP → persistent code index for cross-session search
+    // Use `uv tool install loom-tool` first (loom-mcp binary in PATH)
+    "loom": {
+      "type": "local",
+      "command": ["loom-mcp"],
       "enabled": true,
       "timeout": 60000
     },
@@ -489,10 +498,11 @@
   "plugin": [
     "opencode-dir",
     "opencode-ssh-session",
+    "opencode-ast",
     "opencode-antigravity-auth@latest",
-    "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer.js",
     "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",
-    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js"
+    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",
+    "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer-strict.js"
   ],
 
   "compaction": {

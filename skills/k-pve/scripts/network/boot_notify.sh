@@ -6,7 +6,7 @@
 # 1. CONFIGURATION & AUTO-DÉTECTION
 # ==============================================================================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+source "$SCRIPT_DIR/../notifier.sh"
 
 LOG_FILE="/var/log/boot_notify.log"
 
@@ -31,6 +31,6 @@ done
 echo "$(date) - Réseau OK. Envoi Telegram..." >> "$LOG_FILE"
 
 # Envoi du message
-homelab_notify "SUCCESS" "🚀 **SERVEUR EN LIGNE**%0AJe suis redémarré et connecté !" "SYSTEM"
+notify_telegram "SUCCESS" "🚀 **SERVEUR EN LIGNE**%0AJe suis redémarré et connecté !" "SYSTEM"
 
 echo "$(date) - Terminé." >> "$LOG_FILE"

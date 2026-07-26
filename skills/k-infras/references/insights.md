@@ -1,4 +1,4 @@
-# k-infra Insights
+# k-infras Insights
 
 > Runtime memory: durable lessons, mistakes to avoid, validated fixes.
 

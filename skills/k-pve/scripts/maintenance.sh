@@ -3,7 +3,7 @@
 cd "$(dirname "$0")" || exit 1
 # Source the Homelab universal library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/lib/notifier.sh"
+source "$SCRIPT_DIR/notifier.sh"
 
 # ==============================================================================
 # CONFIGURATION
@@ -25,7 +25,7 @@ log() {
 # DÉBUT DU TRAITEMENT
 # ==============================================================================
 log "Démarrage de la maintenance..."
-homelab_notify "CLEAN" "Début de la maintenance automatique (Mises à jour + Nettoyage)..." "MAINTENANCE"
+notify_telegram "CLEAN" "Début de la maintenance automatique (Mises à jour + Nettoyage)..." "MAINTENANCE"
 
 # 1. MISE À JOUR SYSTÈME (Debian/Proxmox)
 log "Update & Upgrade APT..."
@@ -41,7 +41,7 @@ log "Nettoyage Docker sur le conteneur 100..."
 
 # 3. NOTIFICATION FINALE ET REBOOT
 log "Maintenance terminée. Redémarrage..."
-homelab_notify "SUCCESS" "Maintenance terminée.%0A🔄 Le serveur va redémarrer dans 1 minute." "MAINTENANCE"
+notify_telegram "SUCCESS" "Maintenance terminée.%0A🔄 Le serveur va redémarrer dans 1 minute." "MAINTENANCE"
 
 # On attend un peu pour que le message Telegram parte
 sleep 5

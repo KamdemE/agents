@@ -21,7 +21,7 @@ usage() {
 case "$1" in
     -h|--help) usage; exit 0 ;;
     maintenance) shift; bash "$ROOT/maintenance.sh" "$@" ;;
-    backup) shift; bash "$ROOT/backup/backup_server.sh" ;;
+    backup) shift; bash "$ROOT/backup/backup" ;;
     restore) shift; bash "$ROOT/backup/restore.sh" "$@" ;;
     watchdog) shift; bash "$ROOT/network/network_watchdog.sh" "$@" ;;
     network) shift; bash "$ROOT/network/network_switch.sh" "$@" ;;

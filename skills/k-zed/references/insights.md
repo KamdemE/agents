@@ -21,7 +21,7 @@ Durable lessons for Zed agent hub work. Newest entries at the top.
 
 - **Symptom:** Native agent only sees extension MCPs (e.g. Exa); custom `mail-mcp` / `tick-mcp` never appear; **no log lines** for those server ids in `Zed.log`.
 - **Cause:** Manual stdio servers were declared with extension shape (`enabled`, `remote`, nested `settings.command` / `settings.args`) but **no Zed extension** is installed for those ids.
-- **Fix:** Use Zed custom-server shape per [MCP docs](https://zed.dev/docs/ai/mcp): top-level `command`, `args`, `env` (and often `"source": "custom"`). KπX pattern: login-shell wrapper `zsh -l -c "$HOME/.local/bin/<mcp> serve"`.
+- **Fix:** Use Zed custom-server shape per [MCP docs](https://zed.dev/docs/ai/mcp): top-level `command`, `args`, `env` (and often `"source": "custom"`). Ensure the binary is on `PATH` or provide the full path to `"$HOME/.local/bin/<mcp> serve"`.
 - **Profile trap:** `enable_all_context_servers: false` + whitelist only Exa → agent sees Exa only even when globals are fixed.
 - **Verify:** Agent Panel → MCP settings → green dot “Server is active”; new thread after edit.
 

@@ -1,6 +1,8 @@
 """Core: structure validation for KπX-owned skill files."""
+
 from __future__ import annotations
 
+import json
 import os
 import re
 
@@ -26,7 +28,7 @@ def extract_table_after_heading(text: str, heading: str) -> list[str]:
     if not match:
         return []
 
-    lines = text[match.end():].splitlines()
+    lines = text[match.end() :].splitlines()
     table_lines: list[str] = []
     for line in lines:
         if not line.strip():
@@ -56,10 +58,14 @@ def _validate_changelog_rows(rows: list[list[str]], skill_path: str) -> list[str
     path = display_path(skill_path)
 
     if len(rows) < 3:
-        return [f"{path}: `## Changelog` must contain a header, separator, and body rows."]
+        return [
+            f"{path}: `## Changelog` must contain a header, separator, and body rows."
+        ]
 
     body = rows[2:]
-    summary_indices = [idx for idx, row in enumerate(body) if row and row[0] == "[SUMMARY]"]
+    summary_indices = [
+        idx for idx, row in enumerate(body) if row and row[0] == "[SUMMARY]"
+    ]
     if len(summary_indices) != 1:
         return [
             f"{path}: changelog must contain exactly one `[SUMMARY]` row "
@@ -72,19 +78,27 @@ def _validate_changelog_rows(rows: list[list[str]], skill_path: str) -> list[str
 
     explicit_rows = body[:summary_idx]
     if len(explicit_rows) > 2:
-        errors.append(f"{path}: changelog may contain at most 2 explicit rows before `[SUMMARY]`.")
+        errors.append(
+            f"{path}: changelog may contain at most 2 explicit rows before `[SUMMARY]`."
+        )
 
     previous_date: str | None = None
     for row in explicit_rows:
         if len(row) < 3:
-            errors.append(f"{path}: changelog rows must have 3 columns: Date, Agent, Action.")
+            errors.append(
+                f"{path}: changelog rows must have 3 columns: Date, Agent, Action."
+            )
             continue
 
         date_value, agent_value = row[0], row[1]
         if not _DATE_RE.match(date_value):
-            errors.append(f"{path}: invalid changelog date `{date_value}`; expected `YYYY-MM-DD`.")
+            errors.append(
+                f"{path}: invalid changelog date `{date_value}`; expected `YYYY-MM-DD`."
+            )
         if not _AGENT_TAG_RE.match(agent_value):
-            errors.append(f"{path}: invalid agent provenance `{agent_value}`; expected `[AGENT]`.")
+            errors.append(
+                f"{path}: invalid agent provenance `{agent_value}`; expected `[AGENT]`."
+            )
         if previous_date is not None and date_value > previous_date:
             errors.append(f"{path}: changelog rows must be newest-first.")
         previous_date = date_value
@@ -115,20 +129,24 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
     if not h1_match:
         errors.append(f"{path}: missing top-level H1 heading after frontmatter.")
     else:
-        after_h1 = body[h1_match.end():]
+        after_h1 = body[h1_match.end() :]
         reminder_match = re.match(
             r"\n\n\*\*⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER "
             r"\(VERSION, ETC\.\) AND THE FOOTER \(CHANGELOG\)\.\*\*",
             after_h1,
         )
         if reminder_match is None:
-            errors.append(f"{path}: missing mandatory edit reminder directly under the H1 heading.")
+            errors.append(
+                f"{path}: missing mandatory edit reminder directly under the H1 heading."
+            )
 
     changelog_table = extract_table_after_heading(text, "Changelog")
     if not changelog_table:
         errors.append(f"{path}: missing `## Changelog` footer table.")
     else:
-        errors.extend(_validate_changelog_rows(parse_table_rows(changelog_table), skill_path))
+        errors.extend(
+            _validate_changelog_rows(parse_table_rows(changelog_table), skill_path)
+        )
 
     if skill_dir_name == "k-context":
         session_log_table = extract_table_after_heading(text, "Session Log")
@@ -140,19 +158,35 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
             summary_count = sum(1 for row in body_rows if row and row[0] == "[SUMMARY]")
             explicit_rows = [row for row in body_rows if row and row[0] != "[SUMMARY]"]
             if summary_count > 1:
-                errors.append(f"{path}: `k-context` session log may contain at most one `[SUMMARY]` row.")
+                errors.append(
+                    f"{path}: `k-context` session log may contain at most one `[SUMMARY]` row."
+                )
             if len(explicit_rows) > 10:
-                errors.append(f"{path}: `k-context` session log may contain at most 10 explicit rows.")
-            if summary_count == 1 and body_rows and not (body_rows[-1] and body_rows[-1][0] == "[SUMMARY]"):
-                errors.append(f"{path}: `k-context` session log must end with `[SUMMARY]`.")
+                errors.append(
+                    f"{path}: `k-context` session log may contain at most 10 explicit rows."
+                )
+            if (
+                summary_count == 1
+                and body_rows
+                and not (body_rows[-1] and body_rows[-1][0] == "[SUMMARY]")
+            ):
+                errors.append(
+                    f"{path}: `k-context` session log must end with `[SUMMARY]`."
+                )
             for row in explicit_rows:
                 if len(row) < 3:
-                    errors.append(f"{path}: malformed `k-context` session log row; expected 3 columns.")
+                    errors.append(
+                        f"{path}: malformed `k-context` session log row; expected 3 columns."
+                    )
                     continue
                 if not _DATE_RE.match(row[0]):
-                    errors.append(f"{path}: invalid `k-context` session log date `{row[0]}`.")
+                    errors.append(
+                        f"{path}: invalid `k-context` session log date `{row[0]}`."
+                    )
                 if not _AGENT_TAG_RE.match(row[1]):
-                    errors.append(f"{path}: invalid `k-context` session log provenance `{row[1]}`.")
+                    errors.append(
+                        f"{path}: invalid `k-context` session log provenance `{row[1]}`."
+                    )
 
     return errors
 
@@ -164,14 +198,20 @@ def validate_skill_structure(skill_path: str) -> list[str]:
 
 def build_skill_structure_violation_report(skill_paths: list[str]) -> str:
     """Return a human-readable report for all invalid KπX skill structures."""
-    relevant = [path for path in skill_paths if path.endswith("/SKILL.md") or path.endswith("\\SKILL.md")]
+    relevant = [
+        path
+        for path in skill_paths
+        if path.endswith("/SKILL.md") or path.endswith("\\SKILL.md")
+    ]
     findings: list[str] = []
 
     for skill_path in relevant:
         try:
             findings.extend(validate_skill_structure(skill_path))
-        except Exception as exc:
-            findings.append(f"{display_path(skill_path)}: structure check failed unexpectedly: {exc}")
+        except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+            findings.append(
+                f"{display_path(skill_path)}: structure check failed unexpectedly: {exc}"
+            )
 
     if not findings:
         return ""

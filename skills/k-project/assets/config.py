@@ -32,10 +32,9 @@ from __future__ import annotations
 import copy
 import logging
 import os
-import subprocess
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from dotenv import load_dotenv  # pip: python-dotenv
 
@@ -101,31 +100,14 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
 
 def _resolve_env(name: str) -> str | None:
     """
-    Two-tier secret resolution:
-      1. os.environ (already set — terminal session, explicit export, or .env loaded)
-      2. zsh -l -c login shell (Vaultwarden secrets injected via $HOME/.kshrc)
+    Resolve a secret from the process environment.
 
-    Returns None if the secret is absent in both tiers.
+    The caller must ensure secrets are loaded (via .env, explicit export,
+    or Vaultwarden unlock) before calling.
     """
-    # Tier 1: current process env (covers: terminal session, .env load, explicit export)
     value = os.environ.get(name)
     if value:
         return value
-
-    # Tier 2: login shell — Vaultwarden injects secrets at login time via $HOME/.kshrc
-    try:
-        result = subprocess.run(
-            ["zsh", "-l", "-c", f'printf "%s" "${{{name}}}"'],
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
-        value = result.stdout.strip()
-        if value:
-            logger.debug("Secret '%s' resolved via login shell.", name)
-            return value
-    except (FileNotFoundError, subprocess.TimeoutExpired) as exc:
-        logger.warning("Login shell resolution failed for '%s': %s", name, exc)
 
     return None
 
@@ -174,7 +156,7 @@ class Config:
     # ------------------------------------------------------------------
     # Hardcoded defaults — override in config.yaml
     # ------------------------------------------------------------------
-    _defaults: dict[str, Any] = {
+    _defaults: ClassVar[dict[str, Any]] = {
         "server": {
             "host": "DEFAULT_HOST",
             "port": "DEFAULT_PORT",
@@ -244,8 +226,7 @@ class Config:
 
     def get_secret(self, name: str, *, required: bool = True) -> str:
         """
-        Resolve a secret by name via the two-tier strategy:
-          os.environ → zsh -l -c login shell
+        Resolve a secret by name from the process environment.
 
         Args:
             name:     Secret name (e.g., "SECRET_ONE").
@@ -316,6 +297,7 @@ def update_config(**overrides: Any) -> Config:
 # ---------------------------------------------------------------------------
 # Module-level convenience — import these directly in other modules
 # ---------------------------------------------------------------------------
+
 
 def get_config() -> Config:
     """Shorthand: from config import get_config; cfg = get_config()"""

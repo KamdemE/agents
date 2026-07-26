@@ -58,9 +58,39 @@ export OPENCODE_ENABLE_EXA=true
 export CODEX_HOME="$HOME/.codex"
 export EDITOR=nvim
 
+# === with-env helper ===
+# Execute command with loaded environment variables from an env file (default: ~/.agents/.env)
+# Usage: with-env [-e/--env-file <file>] <command> [args...]
+with-env() {
+    local env_file="$HOME/.agents/.env"
+    if [[ "$1" == "-e" || "$1" == "--env-file" ]]; then
+        env_file="$2"
+        shift 2
+    fi
+    if [ ! -f "$env_file" ]; then
+        echo "❌ Error: Env file '$env_file' not found." >&2
+        return 1
+    fi
+    if [ $# -eq 0 ]; then
+        echo "Usage: with-env [-e/--env-file <file>] <command> [args...]" >&2
+        return 1
+    fi
+    (
+        set -a
+        source "$env_file"
+        set +a
+        "$@"
+    )
+}
+
 # ── Interactive-only (aliases, history, colors) ─────────────────────────────
 # Everything below requires an interactive shell — skip for scripts/MCPs
 case $- in *i*) ;; *) return ;; esac
+
+# Autocomplete for with-env
+if [ -n "$ZSH_VERSION" ] && type compdef >/dev/null 2>&1; then
+    compdef _precommand with-env
+fi
 
 # Default directory — open shells in KpihX-Labs workspace
 cd "$HOME/KpihX-Labs"

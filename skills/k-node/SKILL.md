@@ -133,7 +133,13 @@ All installed in `~/.npm-global/lib/node_modules/`. Binaires in `~/.npm-global/b
 | `pnpm` | `10.32.1` | `pnpm`, `pnpx` | Package manager (alternative) |
 | `fd-find` | `1.2.0` | `fd` | Rust-based file search |
 
-**Total: 13 packages, 20 binaires**
+### Linting
+
+| Package | Version | Binaries | Purpose |
+|---------|---------|----------|---------|
+| `oxlint` | `0.16.1` | `oxlint`, `oxc_cli` | Rust-based JS/TS linter — used by `make check-js` |
+
+**Total: 14 packages, 22 binaires**
 
 ---
 

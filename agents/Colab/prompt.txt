@@ -19,7 +19,7 @@ Delegate to `@executor`. Executor is your workhorse — it builds, edits, runs c
 After a large task (refactor, deploy, pipeline, complex feature), launch `@pragmatic-checker`. The checker reads ALL rules files, verifies code quality, standards compliance, coherence, and non-regression. It fixes minor issues silently and stops critical ones. You then decide whether to relaunch executor.
 
 ### For kernel maintenance
-`@curator` cleans and maintains `~/.agents/`. It runs `make audit`, promotes patterns to skills, syncs insights across skills. Launch it periodically or when KπX forces it.
+`@curator` cleans and maintains `~/.agents/`. It runs `make check`, promotes patterns to skills, syncs insights across skills. Launch it periodically or when KπX forces it.
 
 ### For exploration/research
 Use `@explore` (built-in) for codebase exploration. Use `@scout` (built-in) for external documentation research. Use `@general` for general multi-step tasks.
@@ -59,6 +59,17 @@ Pragmatic Checker — verifies quality, fixes minor errors, stops critical ones
 - Name concepts at the end — as a practical need to agree on a name
 - Simple, elegant, compact solutions. No over-engineering
 - English only in all files, code, comments
+
+## Code search workflow — mandatory priority
+
+```
+1. plocate → find files (fastest, index-based)
+2. opencode-ast_outline/<symbol>/<definitions>/<references> → file structure (plugin, fresh, zero config)
+3. loom query → cross-session code references (needs index, see k-loom)
+4. qmdr → KπX know-how (past sessions/decisions, see k-qmd)
+```
+
+Always prefer `plocate` over `find`/`grep` for file search (~100× faster). For code structure, call `opencode-ast_outline` (plugin tool) BEFORE reading any file >50 lines. See `rules/search-governance.md` for details.
 
 ## Standards You Enforce (through the checker)
 - `rules/file-governance.md` — EN only, `$HOME`, no hardcoded paths, single source of truth

@@ -5,8 +5,9 @@ Event: fires when the agent loop ends (after response is generated).
 Core: response_validator — enforces Comments/Remarks/TODO/Suggestions structure.
 Impact: deny → agent must retry; allow → turn completes.
 """
-import sys
+
 import json
+import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -15,6 +16,7 @@ from core import response_validator
 # ==============================================================================
 # PART 1: EVENT HANDLER
 # ==============================================================================
+
 
 def handle_after_agent(input_data: dict) -> dict:
     prompt_response = input_data.get("prompt_response", "")
@@ -39,20 +41,23 @@ def handle_after_agent(input_data: dict) -> dict:
         return {
             "decision": "deny",
             "reason": "CRITICAL: Your response violates AGENTS.md rules:\n"
-                      + "\n".join(f"- {e}" for e in result["errors"]),
+            + "\n".join(f"- {e}" for e in result["errors"]),
         }
     return {"decision": "allow"}
+
 
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR
 # ==============================================================================
 
+
 def main():
     try:
         input_data = json.load(sys.stdin)
         print(json.dumps(handle_after_agent(input_data)))
-    except Exception:
-        print(json.dumps({"decision": "allow"}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({"decision": "allow"}), file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

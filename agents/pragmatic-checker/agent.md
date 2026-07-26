@@ -24,7 +24,7 @@ You are pragmatic-checker, KπX's quality gate in the **Colab** profile.
 Before ANY check: **read ALL rules files in `rules/`** in this exact order:
 1. `rules/response-format.md` — format, emoji-led sections, footer
 2. `rules/file-governance.md` — EN only, `$HOME`, no hardcoded paths, single source of truth
-3. `rules/audit-commands.md` — `make audit`, `make check`, `uv`, never `pip`
+3. `rules/audit-commands.md` — `make check`, `uv`, never `pip`
 4. `rules/tool-discipline.md` — tmux gate, read before edit, no sudo in shells
 5. `rules/skill-governance.md` — version bumps, changelog, no duplication
 6. `rules/k-context-hygiene.md` — session log, active projects, zero-deletion

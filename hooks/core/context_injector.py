@@ -1,19 +1,18 @@
 """Core: startup context injection from the configured startup skill list."""
+
 import datetime
 import os
 
 from core.device_detector import (
-    device_context_block,
     detect_device,
+    device_context_block,
     infra_skill_path,
 )
 from core.settings import (
-    AGENTS_MD,
     SOUL_MD,
     USER_MD,
     get_startup_skill_paths,
     is_hook_feature_enabled,
-    display_path,
 )
 
 
@@ -54,7 +53,7 @@ def build_context_output(agent_name: str) -> dict:
     if not is_hook_feature_enabled("startup_context"):
         return {"context": "", "system_message": ""}
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     date_line = f"Session date: {now.strftime('%Y-%m-%d')} ({now.strftime('%A')})"
     parts = [date_line]
 
@@ -77,6 +76,16 @@ def build_context_output(agent_name: str) -> dict:
     # Startup skills
     context = get_context_content()
     parts.append(f"\nMANDATORY STARTUP CONTEXT:\n{context}")
+
+    # Directive: ask LLM to present projects, session log, and TODOs from k-context
+    parts.append(
+        "\nSTARTUP DIRECTIVE:\n"
+        "The k-context above contains Active Projects, Session Log, and Active TODOs.\n"
+        "After loading this context, you MUST present the following explicitly to the user:\n"
+        "1. All active TODO items (## Active TODOs) — task, importance, urgency, concerned skill (MUST be presented first in priority).\n"
+        "2. All active projects (## Active Projects) — with status, next action, and folder path.\n"
+        "3. Key session log entries (## Session Log) — newest first, most relevant to current work."
+    )
 
     return {
         "context": "\n".join(parts),

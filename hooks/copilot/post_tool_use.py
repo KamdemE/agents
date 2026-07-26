@@ -4,6 +4,7 @@ Copilot VS Code hook: PostToolUse
 Event: fires after a tool execution.
 Role: advisory SKILL.md header/footer completeness check (non-blocking).
 """
+
 from __future__ import annotations
 
 import json
@@ -15,7 +16,9 @@ from core import skill_edit_guard
 from core.settings import is_hook_feature_enabled
 
 
-def _normalize_replace_payload(tool_name: str, tool_input: dict) -> tuple[str, str, str] | None:
+def _normalize_replace_payload(
+    tool_name: str, tool_input: dict
+) -> tuple[str, str, str] | None:
     if tool_name in {"Edit", "replace"}:
         file_path = tool_input.get("file_path", "")
         old_string = tool_input.get("old_string", "")
@@ -32,7 +35,9 @@ def _normalize_replace_payload(tool_name: str, tool_input: dict) -> tuple[str, s
 
 
 def _build_advisory(file_path: str, previous_text: str, current_text: str) -> dict:
-    errors = skill_edit_guard._check_required_updates(file_path, previous_text, current_text)
+    errors = skill_edit_guard._check_required_updates(
+        file_path, previous_text, current_text
+    )
     if not errors:
         return {}
 
@@ -82,7 +87,7 @@ def main() -> None:
         tool_name = input_data.get("tool_name", "")
         tool_input = input_data.get("tool_input", {})
         print(json.dumps(handle_post_tool_use(tool_name, tool_input)))
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         print(json.dumps({}))
 
 

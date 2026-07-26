@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+source "$SCRIPT_DIR/../notifier.sh"
 
 # Cibles & Chemins
 TARGET="8.8.8.8"
@@ -51,7 +51,7 @@ get_current_ip() {
 # ==============================================================================
 if [ -f "$LOCK_FILE" ]; then
     # Si le verrou a plus de 15 minutes, on le casse
-    if [ $(find "$LOCK_FILE" -mmin +15) ]; then
+    if [ "$(find "$LOCK_FILE" -mmin +15)" ]; then
         log "⚠️ Verrou expiré supprimé."
         rm "$LOCK_FILE"
     else
@@ -96,7 +96,7 @@ else
 
     if $PING_CMD -c 1 "$TARGET" > /dev/null 2>&1; then
         log "✅ Hôte réparé (Action 0)"
-        homelab_notify "SUCCESS" "Simple réveil d'interface ($MODE)." "RÉSEAU RÉTABLI"
+        notify_telegram "SUCCESS" "Simple réveil d'interface ($MODE)." "RÉSEAU RÉTABLI"
         HOST_OK=true
     else
         # --- ACTION 1 : WPA Supplicant + DHCP (Hard) ---
@@ -115,7 +115,7 @@ else
         if $PING_CMD -c 1 "$TARGET" > /dev/null 2>&1; then
             HOST_OK=true
             log "✅ Hôte réparé (Action 1)"
-            homelab_notify "SUCCESS" "Relance WPA/DHCP réussie ($MODE)." "RÉSEAU RÉTABLI"
+            notify_telegram "SUCCESS" "Relance WPA/DHCP réussie ($MODE)." "RÉSEAU RÉTABLI"
         else
             # --- ACTION 2 : Restart Systemd (Nuclear) ---
             log "Action 2: Restart system networking..."
@@ -128,7 +128,7 @@ else
 
             if $PING_CMD -c 1 "$TARGET" > /dev/null 2>&1; then
                 log "✅ Hôte réparé (Action 2)"
-                homelab_notify "WARN" "Restart service networking complet ($MODE)." "RÉSEAU RÉTABLI"
+                notify_telegram "WARN" "Restart service networking complet ($MODE)." "RÉSEAU RÉTABLI"
                 HOST_OK=true
             fi
         fi
@@ -149,7 +149,7 @@ if [ -n "$CURRENT_IP" ] && [ "$CURRENT_IP" != "$LAST_IP" ]; then
     echo "$CURRENT_IP" > "$LAST_IP_FILE"
     # On ignore les IP privées Docker ou vides
     if [[ "$CURRENT_IP" != 192.168* ]] && [[ "$CURRENT_IP" != 10.* ]]; then
-        homelab_notify "INFO" "Interface $IF_WAN : \`$CURRENT_IP\` ($MODE)" "NOUVELLE IP"
+        notify_telegram "INFO" "Interface $IF_WAN : \`$CURRENT_IP\` ($MODE)" "NOUVELLE IP"
     fi
 fi
 
@@ -182,7 +182,7 @@ if ! $PCT_CMD exec $CT_ID -- ping -c 1 "$TARGET" > /dev/null 2>&1; then
     
     if $PCT_CMD exec $CT_ID -- ping -c 1 "$TARGET" > /dev/null 2>&1; then
         log "✅ Conteneur reconnecté."
-        homelab_notify "SUCCESS" "Le Docker-Host a retrouvé internet ($MODE)." "CONTENEUR RÉTABLI"
+        notify_telegram "SUCCESS" "Le Docker-Host a retrouvé internet ($MODE)." "CONTENEUR RÉTABLI"
     else
         log "❌ Échec réparation Conteneur."
     fi

@@ -3,7 +3,7 @@ name: k-pve
 description: Proxmox VE hypervisor (kpihx-pve) — network, backup, maintenance, and automation scripts.
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.1.0"
   scope: infrastructure
 ---
 
@@ -30,8 +30,8 @@ Source of truth is `.agents/`. On PVE:
 # 1. Clone .agents repo (as user kpihx or $USER)
 git clone git@github.com:KpihX/agents.git ~/.agents
 
-# 2. Symlink ksh dispatcher
-ln -sf ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
+# 2. ksh dispatcher
+cp ~/.agents/skills/k-pve/scripts/ksh ~/.local/bin/ksh
 
 # 3. Secrets
 # Create ~/.agents/.env from ~/.agents/.env.example
@@ -67,7 +67,7 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 
 | Script | Purpose |
 |--------|---------|
-| `backup/backup_server.sh` | Push PVE backup to Google Drive |
+| `backup/backup` | Push PVE backup to Google Drive |
 
 | `backup/restore.sh` | Restore PVE from Google Drive backup |
 | `backup/vzdump-hook.sh` | Auto-sync hook after Proxmox vzdump job |
@@ -78,25 +78,26 @@ All scripts live in `k-pve/scripts/` (this skill). They are deployed via `~/.age
 |---------|---------|
 | `maintenance.sh` | Node maintenance tasks |
 
-### Assets (systemd units symlinked from `.agents/`)
+### Assets (systemd units — source of truth in `.agents/`, deploy via `sudo cp`)
 
-| Asset | Purpose |
-|-------|---------|
-| `assets/backup/pve-backup.service` | Backup: runs `backup_server.sh` (oneshot) |
-| `assets/backup/pve-backup.timer` | Backup: weekly schedule |
-| `assets/network/pve-watchdog.service` | Watchdog: runs `network_watchdog.sh` |
-| `assets/network/pve-watchdog.timer` | Watchdog: every 5 minutes |
-| `assets/network/pve-boot-notify.service` | Boot: runs `boot_notify.sh` |
+| Asset | Purpose | Symlink target |
+|-------|---------|---------------|
+| `assets/network/pve-watchdog.service` | Watchdog: runs `network_watchdog.sh` | `/etc/systemd/system/pve-watchdog.service` |
+| `assets/network/pve-watchdog.timer` | Watchdog: every 5 minutes | `/etc/systemd/system/pve-watchdog.timer` |
+| `assets/network/pve-boot-notify.service` | Boot: runs `boot_notify.sh` | `/etc/systemd/system/pve-boot-notify.service` |
+| `assets/backup/vzdump.conf` | Registers vzdump hook (no service — called by Proxmox) | `/etc/vzdump.conf` (copy) |
 
-All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (user) and root on the PVE.
+Backup auto-sync is handled by `vzdump-hook.sh` → `backup` — no systemd timer needed. See `scripts/backup/README.md`.
 
-### Module docs
+### Module docs (setup instructions)
 
-| File | Content |
-|------|---------|
-| `scripts/README.md` | Root overview of all PVE modules |
-| `scripts/backup/README.md` | Backup module usage |
-| `scripts/network/README.md` | Network module usage |
+Each sub-module README contains its OWN complete setup procedure — install, dependencies, verify — specific to that module. Read the relevant README before deploying.
+
+| Module | README | Covers |
+|--------|--------|--------|
+| All modules (general) | `scripts/README.md` | Prerequisites, general setup, symlinks, ksh |
+| Backup | `scripts/backup/README.md` | Backup scripts, vzdump hook registration, rclone, verify |
+| Network | `scripts/network/README.md` | Watchdog, boot notify, interface switch, eduroam, logs |
 
 ## Insights Discipline (mandatory)
 
@@ -105,7 +106,7 @@ All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (us
 
 ## Secrets
 
-`TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
+`TELEGRAM_PVE_TOKEN` and `TELEGRAM_CHAT_ID` from `~/.agents/.env`. All scripts load these vars via `scripts/notifier.sh`. See module READMEs for detailed setup.
 
 ## Assets (configs, not scripts)
 
@@ -123,6 +124,7 @@ All units use `/home/kpihx/.agents/...` paths — they work for both `kpihx` (us
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v2.1.0 — Sub-module READMEs updated with full setup procedures (scripts/, backup/, network/). SKILL.md: vue générale + renvois vers READMEs. Delta analysis: k-pve structure already correct, minimal adjustments needed. |
 | 2026-07-24 | [OPENCODE] | v2.0.0 — Refactored with ksh dispatcher, scripts + assets from Homelab/sh/proxmox/ centralized here. Stop copies: source of truth in `.agents/`. |
 | [SUMMARY] | — | v1.x original PVE skill. |
 

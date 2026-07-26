@@ -8,7 +8,7 @@
 |------|--------|-----------|
 | `response-format.md` | Footer sections, emoji-led format, interaction style | EVERY response you send |
 | `file-governance.md` | EN-only files, `$HOME` paths, single source of truth | ANY file operation |
-| `audit-commands.md` | `make audit`, `make check`, `uv`, never `pip` | BEFORE finalizing any work |
+| `audit-commands.md` | `make check`, `uv`, never `pip` | BEFORE finalizing any work |
 | `tool-discipline.md` | tmux sudo gate, read-before-edit, no shell file ops | ANY bash/tool usage |
 | `skill-governance.md` | Skill creation, version bumps, changelog, no duplication | Before editing ANY `k-*` skill |
 | `skill-infra-scope.md` | Cross-infrastructure skill design, OS-specific refs pattern | Creating or updating ANY `k-*` skill with OS-specific content |

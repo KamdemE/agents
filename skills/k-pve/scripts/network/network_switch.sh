@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Secrets from kernel ~/.agents/.env
-ENV_FILE="$HOME/.agents/.env"
-[ -f "$ENV_FILE" ] && set -a && source "$ENV_FILE" && set +a
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+source "$SCRIPT_DIR/../notifier.sh"
 
 # ==============================================================================
 # 1. CONFIGURATION
@@ -22,23 +21,9 @@ fi
 # ==============================================================================
 
 log() {
-    # Affiche à l'écran et écrit dans le fichier log
     local msg="$(date '+%Y-%m-%d %H:%M:%S') - $1"
     echo "$msg"
     echo "$msg" >> "$LOG_FILE"
-}
-
-send_telegram() {
-    local icon="$1"
-    local title="$2"
-    local message="$3"
-    
-    local text="$icon **$title** $icon%0A%0A$message"
-    
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_PVE_TOKEN/sendMessage" \
-        -d chat_id="$TELEGRAM_CHAT_ID" \
-        -d text="$text" \
-        -d parse_mode="Markdown" > /dev/null 2>&1
 }
 
 wait_for_internet() {
@@ -124,7 +109,7 @@ if systemctl restart networking; then
         NEW_IP=$(ip -4 addr show "$IFACE" | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | head -n 1)
         
         log "✅ Connectivité OK. IP: $NEW_IP"
-        send_telegram "$ICON" "RÉSEAU BASCULÉ" "Le serveur est passé en mode **$MODE** avec succès.%0A%0A📌 Interface : \`$IFACE\`%0A🌐 IP : \`$NEW_IP\`"
+        notify_telegram "SUCCESS" "Serveur basculé en mode **$MODE** avec succès.%0A📌 Interface : \`$IFACE\`%0A🌐 IP : \`$NEW_IP\`" "RÉSEAU BASCULÉ"
     else
         log "⚠️ Service redémarré mais PAS d'internet."
         # On ne rollback pas forcément ici, car c'est peut-être juste un délai DHCP

@@ -11,6 +11,7 @@ def m365_run(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["m365", *args],
         capture_output=True,
+        check=False,
         text=True,
     )
 

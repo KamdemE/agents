@@ -5,8 +5,9 @@ Event: fires before a tool executes (matcher: write_file|replace).
 Core: path_guard + skill_edit_guard for `.agents/` file writes.
 Impact: deny → tool execution is blocked with reason shown to agent.
 """
-import sys
+
 import json
+import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -15,12 +16,13 @@ from core import path_guard, skill_edit_guard
 # Map Gemini tool name → (content_field, path_field)
 _TOOL_FIELDS = {
     "write_file": ("content", "file_path"),
-    "replace":    ("new_string", "file_path"),
+    "replace": ("new_string", "file_path"),
 }
 
 # ==============================================================================
 # PART 1: EVENT HANDLER
 # ==============================================================================
+
 
 def handle_before_tool(tool_name: str, tool_input: dict) -> dict:
     fields = _TOOL_FIELDS.get(tool_name)
@@ -46,9 +48,11 @@ def handle_before_tool(tool_name: str, tool_input: dict) -> dict:
         }
     return {"decision": "allow"}
 
+
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR
 # ==============================================================================
+
 
 def main():
     try:
@@ -56,8 +60,9 @@ def main():
         tool_name = input_data.get("tool_name", "")
         tool_input = input_data.get("tool_input", {})
         print(json.dumps(handle_before_tool(tool_name, tool_input)))
-    except Exception:
-        print(json.dumps({"decision": "allow"}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({"decision": "allow"}), file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

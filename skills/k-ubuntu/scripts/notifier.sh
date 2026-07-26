@@ -8,7 +8,7 @@ ENV_FILE="$HOME/.agents/.env"
 TELEGRAM_UBUNTU_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
 
-ubuntu_notify() {
+notify_telegram() {
     LEVEL="${1:-INFO}"; MESSAGE="${2:-}"; TITLE="${3:-UBUNTU}"
     [ -z "$MESSAGE" ] && return
     case $LEVEL in

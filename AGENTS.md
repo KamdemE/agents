@@ -35,7 +35,7 @@ metadata:
 | `rules/file-governance.md` | **English ONLY** in files, code, comments. `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
 | `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. ENGLISH ONLY. |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
-| `rules/audit-commands.md` | `uv` not `pip`. `make audit` after any `.agents/` change. `make push` not raw git push. `make check` for Python tests. Post-work checklist: audit, docs, version, sync, finalize. |
+| `rules/audit-commands.md` | `uv` not `pip`. `make check` after any `.agents/` change. `make push` not raw git push. Post-work checklist: check, docs, version, sync, finalize. |
 | `rules/uv-first.md` | **UV-FIRST** — All Python operations MUST use `uv` (`uv tool install`, `uv pip install`, `uv run`, `uv venv`). **Never** touch system Python (`/usr/bin/python3`). **Never** use `pip`. **Never** install `python3-*` apt packages. System Python is read-only. Exceptions only if explicitly authorized by KπX. |
 | `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. |
 | `rules/skill-infra-scope.md` | Cross-infrastructure skill design: general case in `SKILL.md`, OS-specific details in `references/<os>.md`. |
@@ -45,7 +45,7 @@ metadata:
 | `rules/whats-up.md` | Status digest protocol: one domain per turn. Sequence: context/mail/whatsapp/tick/tg. Full exploration mandate. |
 | `rules/hermes-governance.md` | Hermes = memory/daemon only, not primary executor. Cron profile disables bash. External memory isolation. |
 | `hooks/README.md` + `skills/k-hook/SKILL.md` | Lifecycle hooks: core policy at hooks/README.md, per-agent wrappers at hooks/<agent>/. Events: start, stop, tool.execute.after, messages.transform, session.compacting. |
-| `rules/search-governance.md` | **Agents MUST prefer `plocate`/`locate` over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
+| `rules/search-governance.md` | **Agents MUST prefer `plocate` over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
 
 ### ⚠️ Explore & sub-agents exception
 
@@ -179,6 +179,7 @@ Example — systemd drop-in for OpenClaw Gateway:
 - Git: **SSH only**. Remotes: `github` / `gitlab`. Never HTTPS.
 - Default git email: `kapoivha@gmail.com` (set in `~/.gitconfig`). Use this on all equipment.
 - **Secrets zero-touch:** NEVER read, print, expose, or reference token files, API keys, passwords, or any secret values in chat. When a secret is needed, KπX retrieves it manually from Vaultwarden and places it where required. No agent shall look for, extract, or display secrets — ever.
+- **Commands with secrets:** When executing shell commands that require secrets (such as package publishing or deployment), agents MUST use the `with-env` helper function to keep credentials isolated in a temporary subshell (preventing leakage into the parent environment). Because `with-env` is a shell function loaded by `.kshrc`, it is only available in interactive shells. Therefore, the agent MUST execute these commands inside an interactive **tmux ops pane** (see `k-tmux`).
 
 ## File Operations Discipline (GRAVÉ)
 

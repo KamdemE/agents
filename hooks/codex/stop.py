@@ -6,8 +6,9 @@ Core: response_validator + session_guard.
 Impact: exit 2 = Codex displays stderr and forces another turn.
 Input stdin: {"session_id":"...","hook_event_name":"Stop","transcript_path":"...",...}
 """
-import sys
+
 import json
+import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -16,6 +17,7 @@ from core import response_validator, session_guard
 # ==============================================================================
 # PART 1: EVENT HANDLER
 # ==============================================================================
+
 
 def _extract_last_assistant_response(transcript_path: str | None) -> str:
     """Extract the last assistant final answer from a Codex transcript."""
@@ -36,7 +38,10 @@ def _extract_last_assistant_response(transcript_path: str | None) -> str:
                 if record.get("type") != "response_item":
                     continue
                 payload = record.get("payload", {})
-                if payload.get("type") != "message" or payload.get("role") != "assistant":
+                if (
+                    payload.get("type") != "message"
+                    or payload.get("role") != "assistant"
+                ):
                     continue
                 text = "".join(
                     item.get("text", "")
@@ -63,7 +68,9 @@ def handle_stop(
     last_assistant_message: str | None = None,
 ) -> tuple[int, dict | None, str | None]:
     """Returns (exit_code, payload, stderr_reason)."""
-    response_text = last_assistant_message or _extract_last_assistant_response(transcript_path)
+    response_text = last_assistant_message or _extract_last_assistant_response(
+        transcript_path
+    )
     if response_text:
         validation = response_validator.validate_response(response_text)
         if not validation["passed"]:
@@ -79,9 +86,11 @@ def handle_stop(
         return 2, _build_block_payload(reason), reason
     return 0, None, None
 
+
 # ==============================================================================
 # PART 2: MAIN ORCHESTRATOR
 # ==============================================================================
+
 
 def main():
     try:
@@ -95,8 +104,9 @@ def main():
         if stderr_reason:
             print(stderr_reason, file=sys.stderr)
         sys.exit(exit_code)
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         sys.exit(0)  # fail-safe
+
 
 if __name__ == "__main__":
     main()

@@ -275,7 +275,7 @@ Remote bearer token via env variable:
 ## Verification Commands
 
 ```bash
-zsh -l -c 'which opencode && opencode --version'
+opencode --version
 opencode debug config
 opencode mcp list
 opencode providers list
@@ -286,7 +286,7 @@ opencode models
 
 - **NEVER use `/usr/bin/rm` or `/bin/rm`** — they bypass the trash-safe `rm` wrapper (see `k-clis/assets/rm`). Always use `rm` (the `~/.local/bin/rm` wrapper which moves to trash). This is enforced in `opencode.jsonc` → `"bash"` via explicit path denials globally and `*rm*` wildcard in Auto's permission block.
 - Keep OpenCode runtime config centralized in `$HOME/.config/opencode/opencode.jsonc`; avoid per-project overrides unless explicitly requested.
-- Prefer `zsh -l -c` wrappers for local MCP servers that need secret-bearing login-shell context.
+- Secrets for local MCP servers are loaded via `$HOME/.kshrc` at shell startup.
 - Do not hardcode secrets in `opencode.jsonc`; use `{env:VAR_NAME}` placeholders.
 - Keep AGENTS/skills linked to `$HOME/.agents/` so OpenCode shares the same sovereign kernel as Codex, Vibe, Copilot, and Zed.
 
@@ -336,27 +336,56 @@ Wildcard allows all, specific destructive tools override to `ask` (last match wi
 
 `~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`, `~/.config/nvim/**`, `~/.local/share/nvim/**`
 
-### Plugins — Two Plugin Systems
+### Plugins — Three Systems
 
-OpenCode has **two separate plugin systems**, configured in different files:
+OpenCode has **three separate extension systems**, configured differently:
 
-| System | Config file | Purpose | KπX plugins |
-|--------|------------|---------|-------------|
-| **Lifecycle** | `opencode.jsonc` → `"plugin"` array | `event`, `messages.transform`, etc. | 2 (suggestions-check, startup-context) |
-| **TUI** | `tui.json` → `"plugin"` array | Voice STT/TTS, UI extensions | 1 (@renjfk/opencode-voice) |
+| System | Config file | Mechanism | Purpose |
+|--------|------------|-----------|---------|
+| **Lifecycle plugins** | `opencode.jsonc` → `"plugin"` array | npm or `file://` JS modules | `event` hooks, `messages.transform`, tool definitions |
+| **TUI plugins** | `tui.json` → `"plugin"` array | npm modules | UI extensions (voice STT/TTS, visual) |
+| **Slash commands** | `.opencode/commands/*.md` | Markdown files auto-discovered | Custom `/command` shortcuts in TUI |
 
-#### Lifecycle plugins (`opencode.jsonc`)
+#### Lifecycle plugins — 3 installation types
+
+| Type | Format | Example | When to use |
+|------|--------|---------|-------------|
+| **npm package** | `"package-name"` | `"opencode-dir"` | Official or published npm plugins (auto-installed by OpenCode) |
+| **npm with version** | `"package-name@version"` | `"opencode-antigravity-auth@latest"` | Pin a specific version or track `@latest` |
+| **Local file** | `"file:///absolute/path.js"` | `"file:///home/kpihx/.agents/hooks/opencode/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
+
+#### Current KπX lifecycle plugins (7)
+
+These are loaded from `opencode.jsonc` → `"plugin"` array:
 
 ```jsonc
 "plugin": [
-  "opencode-dir",                           // standard — directory navigation
-  "opencode-ssh-session",                   // standard — persistent SSH sessions
-  "opencode-antigravity-auth@latest",        // standard — Claude + Gemini via Google OAuth (free)
-  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",   // KπX — format reminder
-  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",      // KπX — startup context
-  "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer.js"       // KπX — enforcement block
+  "opencode-dir",                           // Type 1: npm — directory navigation
+  "opencode-ssh-session",                   // Type 1: npm — persistent SSH sessions
+  "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
+  "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
+  "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",   // Type 3: file:// — KπX format reminder
+  "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",      // Type 3: file:// — KπX startup context injection
+  "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer-strict.js" // Type 3: file:// — KπX enforcement block (strict)
 ]
 ```
+
+#### KπX Managed — `hooks/opencode/` (file://)
+
+These are the **KπX sovereign hooks** — self-contained `.js` files in `~/.agents/hooks/opencode/`. Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed.
+
+| File | Event | Agent filter | Behavior |
+|------|-------|-------------|----------|
+| `suggestions-check.js` | `messages.transform` (every turn) | Colab, Build, Auto | Injects system message: ≥3 Suggestions required |
+| `startup-context.js` | `messages.transform` (first turn only) | Colab, Build, Auto | Injects raw `k-context/SKILL.md` + device-identifying string (device name only) |
+| `prompt-enforcer-strict.js` | `messages.transform` (every turn) | Colab, Build, Auto | Pushes raw first-person enforcement block as `role: "user"` at end of prompt |
+
+**Agent detection:** All plugins capture the agent name from `session.created` event (`info.agent`) at session start. Non-matching agents get zero overhead — plugins return silently.
+
+**Execution order (plugin array order matters):**
+1. `startup-context` fires → unshifts context block at start of messages
+2. `suggestions-check` fires → pushes format reminder at end of messages
+3. `prompt-enforcer-strict` fires → pushes enforcement block at very end of messages
 
 #### TUI plugin (`tui.json`)
 
@@ -370,22 +399,21 @@ OpenCode has **two separate plugin systems**, configured in different files:
 
 Config source: `assets/tui.json` — symlinké vers `~/.config/opencode/tui.json`.
 
-#### KπX Managed — `hooks/opencode/`
+#### Slash commands (`.opencode/commands/`)
 
-These are the **KπX sovereign hooks** — small standalone plugins in `~/.agents/hooks/opencode/`. Each is a self-contained `.js` file listed via `file://` URL in the `"plugin"` array of `opencode.jsonc` (order matters). No `plugins/` symlink — explicit `file://` paths only.
+Custom `/command` shortcuts are auto-discovered from markdown files in `.opencode/commands/`. No config entry needed.
 
-| File | Event | Agent filter | Behavior |
-|------|-------|-------------|----------|
-| `suggestions-check.js` | `messages.transform` (every turn) | Colab, Build, Auto | Injects system message: ≥3 Suggestions required |
-| `startup-context.js` | `messages.transform` (first turn only) | Colab, Build, Auto | Injects raw `k-context/SKILL.md` + device infra skill (auto-detected via tailscale status → `assets/infras.json` → k-* skill lookup) |
-| `prompt-enforcer.js` | `messages.transform` (every turn) | Colab, Build, Auto | Pushes raw first-person enforcement block as `role: "user"` at end of prompt |
+**Discovery path (in order):**
+1. Project-level: `<project-root>/.opencode/commands/*.md`
+2. Global: `~/.config/opencode/commands/*.md` (NOT `.opencode/command/`)
 
-**Agent detection:** All plugins capture the agent name from `session.created` event (`info.agent`) at session start. Non-matching agents get zero overhead — plugins return silently.
+**Example — `/context` plugin (IgorWarzocha):**
+```
+~/.config/opencode/commands/
+  └── context.md        ← makes `/context` available in every session
+```
 
-**Execution order (plugin array order matters):**
-1. `startup-context` fires → unshifts context block at start of messages
-2. `suggestions-check` fires → pushes format reminder at end of messages
-3. `prompt-enforcer` fires → pushes enforcement block at very end of messages
+The `/context` command shows a detailed token-usage breakdown by component (system prompt, tools, user messages, etc.) using `js-tiktoken` for estimation. Installed globally for all projects.
 
 Resulting message order: `[0] raw context (k-context + device infra)`, `[1...N] user messages`, `[N+1] format reminder`, `[N+2] prompt enforcement`.
 

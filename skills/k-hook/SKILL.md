@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.19.0"
+  version: "2.20.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -60,6 +60,6 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v2.20.0 — Added STARTUP DIRECTIVE block (acts as LLM prompt) to `opencode/startup-context.js` and `core/context_injector.py`: instructs the LLM to explicitly present Active Projects, Session Log (newest-first), and Active TODOs from the injected k-context at session start. hooks/README.md updated with example and description. |
 | 2026-07-25 | [OPENCODE] | v2.19.0 — New `hooks/core/prompt_enforcer.py`: constant `ENFORCEMENT_PROMPT` injected on every turn for Gemini (BeforeAgent), Codex/Claude/Copilot (UserPromptSubmit), and OpenCode (JS plugin, Colab/Build/Auto only). |
-| 2026-07-22 | [OPENCODE] | v2.18.0 — New `hooks/core/device_detector.py`: detects current machine via Tailscale, maps to k-infra skill via `assets/infras.json`. Context injector now injects device block + full infra skill at session start. |
-| [SUMMARY] | — | v2.17.2 standardized insights; v2.17.1 audit.py non-fatal findings; +1 older entries condensed |
+| [SUMMARY] | — | v2.18.0–v2.17.0: device_detector.py, standardized insights, audit.py non-fatal findings. (Full entries → references/log.md if created) |

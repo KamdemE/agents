@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.2"
+  version: "1.3.0"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -20,17 +20,17 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 
 Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`k-drive`** · map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md`
 
-> **Config file:** `$HOME/.config/rclone/rclone.conf` — source of truth for all remotes.
-> **Templates:** `assets/rclone-gdrive.service` — systemd user service for FUSE mounts.
+> **Config file:** `$HOME/.config/rclone/rclone.conf` — symlink → `assets/rclone.conf` (source of truth in `.agents/`).
+> **Mount services:** `assets/rclone-gdrive.service` + `assets/rclone-gdrive-x.service` — symlinked from `~/.config/systemd/user/`.
 
 ## Existing Remotes
 
 | Remote name | Type | Account | Mount path | Systemd service |
 |-------------|------|---------|------------|-----------------|
-| `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `$HOME/Gdrive_X/` | *(direct / manual)* |
+| `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `$HOME/Gdrive_X/` | `rclone-gdrive-x.service` |
 | `gdrive:` | Google Drive | `kapoivha@gmail.com` | `$HOME/Gdrive/` | `rclone-gdrive.service` |
 | `pve:` | SFTP | `ivann@kpihx-labs` (port 2222) | *(on-demand)* | — |
-| `deep-pc6:` | SFTP | `deep-pc6` (via SSH key) | `$HOME/Deep-PC6/` | `rclone-deep-pc6.service` |
+| `deep-pc6:` | SFTP | `deep-pc6` (via SSH key) | `$HOME/Deep-PC6/` | `rclone-deep-pc6.service` (in `k-dxo`) |
 
 ## Adding a New Google Drive Remote
 
@@ -118,27 +118,28 @@ Optional additional flags:
 
 ## Systemd User Service — Source of Truth
 
-**Mount systemd files must be created in the relevant infra skill's assets/**, not directly in `~/.config/systemd/user/`. The rclone skill holds the generic template; infra-specific services live in their respective skill (e.g., `k-dxo/assets/rclone-deep-pc6.service`, `k-ubuntu/assets/rclone-gdrive.service`). Then symlink to `~/.config/systemd/user/`.
+**All rclone mount services live in `.agents/` as their single source of truth**, symlinked to `~/.config/systemd/user/`. Never create or edit files directly in `~/.config/systemd/user/`.
 
-Template: `assets/rclone-gdrive.service` (generic Google Drive).
+| Service | Source of truth | Owner skill |
+|---------|---------------|-------------|
+| `rclone-gdrive.service` | `assets/rclone-gdrive.service` | `k-rclone` (workstation Gdrive) |
+| `rclone-gdrive-x.service` | `assets/rclone-gdrive-x.service` | `k-rclone` (workstation Gdrive_X) |
+| `rclone-deep-pc6.service` | `k-dxo/assets/rclone-deep-pc6.service` | `k-dxo` (Deep-PC6 remote) |
 
 ### Adding a new mount
 
 Onboarding pattern for each new mount:
 
-1. **Identify the relevant infra skill** (e.g., `k-dxo` for Deep-PC6, `k-ubuntu` for workstation mounts)
-2. **Create the systemd service** in that skill's `assets/` (copy from template, adapt flags and paths)
+1. **Identify the owner skill** (use `k-rclone` for generic workstation mounts, `k-dxo` for DxO-specific, etc.)
+2. **Create the systemd service** in that skill's `assets/` (copy existing service as reference, adapt `ExecStart` flags and paths)
 3. **Symlink** : `ln -sf ~/.agents/skills/<skill>/assets/rclone-<name>.service ~/.config/systemd/user/rclone-<name>.service`
 4. **Enable** : `systemctl --user daemon-reload && systemctl --user enable --now rclone-<name>.service`
 
 **The source of truth is always in `.agents/`.** Never edit the file in `~/.config/systemd/user/` directly.
 
 ```bash
-# Example: new mount for a specific infra
-cp $HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service \
-   $HOME/.agents/skills/<infra-skill>/assets/rclone-<name>.service
-# Edit Description, ExecStart remote/mountpoint in the file under .agents/
-ln -sf $HOME/.agents/skills/<infra-skill>/assets/rclone-<name>.service \
+# Example: new mount
+ln -sf $HOME/.agents/skills/<skill>/assets/rclone-<name>.service \
    $HOME/.config/systemd/user/rclone-<name>.service
 systemctl --user daemon-reload
 systemctl --user enable --now rclone-<name>.service
@@ -177,5 +178,6 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-25 | [OPENCODE] | v1.3.0 — Gdrive services centralized: `assets/rclone-gdrive.service` + `assets/rclone-gdrive-x.service` as USER services (source of truth). Symlinked from `~/.config/systemd/user/`. Legacy loose files removed. `assets/rclone.conf` added as canonical config. |
 | 2026-05-25 | [CURSOR] | v1.2.2 — Cloud-hub routing block; YAML description aligned with k-google stack. |
 | [SUMMARY] | — | v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API when FUSE stalls; insights discipline. |

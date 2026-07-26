@@ -33,8 +33,8 @@ echo "   ✓ Service stopped"
 # ── 4. Remove unit files ───────────────────────────────────────────────────────
 echo "→ [purge] Removing unit files..."
 
-rm -f /etc/systemd/system/<project>.service
-rm -f /etc/systemd/system/<project>.timer
+rm -f "/etc/systemd/system/<project>.service"
+rm -f "/etc/systemd/system/<project>.timer"
 
 echo "   ✓ Unit files removed"
 

@@ -12,7 +12,7 @@ TELEGRAM_PVE_TOKEN="${TELEGRAM_PVE_TOKEN:-}"
 TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
 
 # --- NOTIFICATION ENGINE ---
-homelab_notify() {
+notify_telegram() {
     LEVEL="${1:-INFO}"
     MESSAGE="${2:-}"
     TITLE="${3:-HOMELAB}"

@@ -7,7 +7,6 @@ PKG_NAME         ?= $(shell basename $$(pwd))
 REAL_USER := $(shell logname 2>/dev/null || echo $$USER)
 REAL_HOME := $(shell getent passwd $(REAL_USER) | cut -d: -f6)
 BUN       := $(shell command -v bun 2>/dev/null || ls $(REAL_HOME)/.bun/bin/bun 2>/dev/null || echo bun)
-ZSH_LOGIN := zsh -l -c
 
 APPARMOR_TARGET := /etc/apparmor.d/opt.$(PKG_NAME).bin.$(PKG_NAME)
 

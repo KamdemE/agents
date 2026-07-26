@@ -12,7 +12,6 @@ import argparse
 import json
 from pathlib import Path
 
-
 HOME = Path.home()
 STORAGE_PATH = HOME / ".config/Code/User/globalStorage/storage.json"
 
@@ -40,7 +39,9 @@ def parse_assign(value: str) -> tuple[str, str]:
     workspace = workspace.strip()
     profile_hash = profile_hash.strip()
     if not workspace or not profile_hash:
-        raise argparse.ArgumentTypeError("both <workspace-path> and <profile-hash> are required")
+        raise argparse.ArgumentTypeError(
+            "both <workspace-path> and <profile-hash> are required"
+        )
     return workspace, profile_hash
 
 

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.0.0"
+  version: "3.1.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **OS references:** `references/ubuntu.md` (Ubuntu cleanup: apt, snap, GNOME, ext4 recovery, services, home media) · `references/windows.md` (Windows cleanup: temp files, app caches, disk cleanup)
-> **Static rules:** `rules/audit-commands.md` (make audit, make check) · `rules/k-context-hygiene.md` (session log, issues log) · `rules/tool-discipline.md` (shared tmux gate)
+> **Static rules:** `rules/audit-commands.md` (make check) · `rules/k-context-hygiene.md` (session log, issues log) · `rules/tool-discipline.md` (shared tmux gate)
 > **Last Known State limit:** each `### Last Known State` section holds **at most 7 items**.
 > **Issues ledger sync (mandatory):** every optimization-related diagnostic/fix attempt must be appended to `$HOME/.agents/skills/k-context/references/issues.md` with full commands and outputs (no compaction, no deletion).
 
@@ -143,7 +143,7 @@ _(To be documented per optimization pass.)_
 
 ### Actions
 
-1. Run `make audit` and fix any warnings
+1. Run `make check` and fix any warnings
 2. Check QMD health: `qmd status`, `qmd collection list`
 3. Verify hook alignment: `python3 $HOME/.agents/hooks/audit.py`
 4. Update `k-context/SKILL.md` session log if needed

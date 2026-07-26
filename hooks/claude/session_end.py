@@ -4,6 +4,7 @@ Claude hook: SessionEnd
 Event: fires when the Claude session terminates.
 Core: session_guard — advisory reminder only.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -23,8 +24,8 @@ def main():
     try:
         json.load(sys.stdin)
         print(json.dumps(handle_session_end()))
-    except Exception:
-        print(json.dumps({}))
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ import fnmatch
 import sys
 import zipfile
 from pathlib import Path
+
 from scripts.quick_validate import validate_skill
 
 # Patterns to exclude when packaging skills.
@@ -88,9 +89,9 @@ def package_skill(skill_path, output_dir=None):
 
     # Create the .skill file (zip format)
     try:
-        with zipfile.ZipFile(skill_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        with zipfile.ZipFile(skill_filename, "w", zipfile.ZIP_DEFLATED) as zipf:
             # Walk through the skill directory, excluding build artifacts
-            for file_path in skill_path.rglob('*'):
+            for file_path in skill_path.rglob("*"):
                 if not file_path.is_file():
                     continue
                 arcname = file_path.relative_to(skill_path.parent)
@@ -103,14 +104,16 @@ def package_skill(skill_path, output_dir=None):
         print(f"\n✅ Successfully packaged skill to: {skill_filename}")
         return skill_filename
 
-    except Exception as e:
+    except (OSError, ValueError) as e:
         print(f"❌ Error creating .skill file: {e}")
         return None
 
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python utils/package_skill.py <path/to/skill-folder> [output-directory]")
+        print(
+            "Usage: python utils/package_skill.py <path/to/skill-folder> [output-directory]"
+        )
         print("\nExample:")
         print("  python utils/package_skill.py skills/public/my-skill")
         print("  python utils/package_skill.py skills/public/my-skill ./dist")

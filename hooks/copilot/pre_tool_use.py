@@ -4,6 +4,7 @@ Copilot VS Code hook: PreToolUse
 Event: fires before any tool execution.
 Core: path_guard + skill_edit_guard for .agents file writes.
 """
+
 from __future__ import annotations
 
 import json
@@ -24,7 +25,9 @@ def _build_deny(reason: str) -> dict:
     }
 
 
-def _normalize_single_edit(tool_name: str, tool_input: dict) -> tuple[str | None, dict | None, str | None, str | None]:
+def _normalize_single_edit(
+    tool_name: str, tool_input: dict
+) -> tuple[str | None, dict | None, str | None, str | None]:
     # Returns: (canonical_tool_name, canonical_input, file_path, content_for_path_guard)
     if tool_name in {"Write", "Edit", "write_file", "replace"}:
         if tool_name in {"Write", "write_file"}:
@@ -36,7 +39,12 @@ def _normalize_single_edit(tool_name: str, tool_input: dict) -> tuple[str | None
                 "path": path_value,
                 "content": content_value if isinstance(content_value, str) else "",
             }
-            return canonical_tool, canonical_input, str(path_value or ""), canonical_input["content"]
+            return (
+                canonical_tool,
+                canonical_input,
+                str(path_value or ""),
+                canonical_input["content"],
+            )
 
         old_value = tool_input.get("old_string")
         new_value = tool_input.get("new_string")
@@ -47,7 +55,12 @@ def _normalize_single_edit(tool_name: str, tool_input: dict) -> tuple[str | None
             "old_string": old_value if isinstance(old_value, str) else "",
             "new_string": new_value if isinstance(new_value, str) else "",
         }
-        return canonical_tool, canonical_input, str(path_value or ""), canonical_input["new_string"]
+        return (
+            canonical_tool,
+            canonical_input,
+            str(path_value or ""),
+            canonical_input["new_string"],
+        )
 
     if tool_name in {"create_file", "createFile"}:
         path_value = tool_input.get("filePath") or tool_input.get("path")
@@ -56,7 +69,12 @@ def _normalize_single_edit(tool_name: str, tool_input: dict) -> tuple[str | None
             "path": path_value,
             "content": content_value if isinstance(content_value, str) else "",
         }
-        return "write_file", canonical_input, str(path_value or ""), canonical_input["content"]
+        return (
+            "write_file",
+            canonical_input,
+            str(path_value or ""),
+            canonical_input["content"],
+        )
 
     if tool_name in {"replace_string_in_file", "replaceStringInFile"}:
         path_value = tool_input.get("filePath") or tool_input.get("file_path")
@@ -67,13 +85,20 @@ def _normalize_single_edit(tool_name: str, tool_input: dict) -> tuple[str | None
             "old_string": old_value if isinstance(old_value, str) else "",
             "new_string": new_value if isinstance(new_value, str) else "",
         }
-        return "replace", canonical_input, str(path_value or ""), canonical_input["new_string"]
+        return (
+            "replace",
+            canonical_input,
+            str(path_value or ""),
+            canonical_input["new_string"],
+        )
 
     return None, None, None, None
 
 
 def _validate_one(tool_name: str, tool_input: dict) -> list[str]:
-    canonical_tool, canonical_input, file_path, content = _normalize_single_edit(tool_name, tool_input)
+    canonical_tool, canonical_input, file_path, content = _normalize_single_edit(
+        tool_name, tool_input
+    )
     if not canonical_tool or canonical_input is None:
         return []
 
@@ -118,7 +143,7 @@ def main() -> None:
         tool_name = input_data.get("tool_name", "")
         tool_input = input_data.get("tool_input", {})
         print(json.dumps(handle_pre_tool_use(tool_name, tool_input)))
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         print(json.dumps({}))
 
 

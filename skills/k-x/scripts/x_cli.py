@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """X (Twitter) API v2 — OAuth 1.0a user context (KπX X Dev / Vaultwarden)."""
+
 from __future__ import annotations
 
 import argparse
@@ -56,9 +57,11 @@ def _auth(args: argparse.Namespace) -> OAuth1:
 def _print_resp(r: requests.Response) -> int:
     try:
         body = r.json()
-    except Exception:
+    except (ValueError, TypeError):
         body = {"raw": r.text[:500]}
-    print(json.dumps({"http": r.status_code, "data": body}, indent=2, ensure_ascii=False))
+    print(
+        json.dumps({"http": r.status_code, "data": body}, indent=2, ensure_ascii=False)
+    )
     if r.status_code == 402:
         print(
             "\nhint: X API credits depleted — add credits in https://developer.x.com/ (Pay-per-use).",
@@ -81,7 +84,9 @@ def cmd_tweet(args: argparse.Namespace) -> int:
     if args.dry_run:
         print(json.dumps({"dry_run": True, "text": args.text}, indent=2))
         return 0
-    r = requests.post(f"{API}/tweets", auth=_auth(args), json={"text": args.text}, timeout=30)
+    r = requests.post(
+        f"{API}/tweets", auth=_auth(args), json={"text": args.text}, timeout=30
+    )
     return _print_resp(r)
 
 

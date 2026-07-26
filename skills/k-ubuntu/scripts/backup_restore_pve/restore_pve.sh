@@ -4,8 +4,8 @@ set -euo pipefail
 # restore_pve.sh — Restore PVE backup from HDD or Google Drive (whichever is newer)
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/restore_pve.sh
 
-AGENTS_ENV="/home/kpihx/.agents/.env"
-[ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/../notifier.sh"
 
 if [[ $# -gt 0 ]]; then
     case "$1" in
@@ -21,16 +21,9 @@ RCLONE_REMOTE="gdrive-x:Backups/PVE"
 HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"
 RESTORE_DIR="/tmp/pve_restore"
 
-notify() { local l=$1 m=$2
-  case "$l" in
-    ERROR) ICON="❌" ;; WARN|WARNING) ICON="⚠️" ;; SUCCESS) ICON="✅" ;;
-    INFO) ICON="ℹ️" ;; *) ICON="🤖" ;;
-  esac
-  if [ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_TOKEN/sendMessage" \
-      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$ICON PVE RESTORE$ICON%0A%0A$m" > /dev/null || true
-  fi
+notify_telegram_wrapper() { local l=$1 m=$2
   echo "[$l] PVE RESTORE - $m"
+  notify_telegram "$l" "$m" "PVE RESTORE"
 }
 
 mkdir -p "$RESTORE_DIR"
@@ -52,7 +45,7 @@ else
 fi
 
 if [ -z "$HDD_FILE" ] && [ -z "$CLOUD_FILE" ]; then
-  notify "ERROR" "No backup found on HDD or Cloud. Aborting."; exit 1
+  notify_telegram_wrapper "ERROR" "No backup found on HDD or Cloud. Aborting."; exit 1
 fi
 
 if [ -n "$HDD_FILE" ] && [ "$HDD_MTIME" -ge "$CLOUD_MTIME" ] 2>/dev/null; then
@@ -66,12 +59,12 @@ else
   echo "✅ Using HDD ($(basename "$HDD_FILE"))"
 fi
 
-notify "INFO" "Restoring: $(basename "$FINAL_SRC") (from $(echo "$FINAL_SRC" | grep -q 'tmp' && echo 'Cloud' || echo 'HDD'))"
+notify_telegram_wrapper "INFO" "Restoring: $(basename "$FINAL_SRC") (from $(echo "$FINAL_SRC" | grep -q 'tmp' && echo 'Cloud' || echo 'HDD'))"
 
 cp "$FINAL_SRC" "$RESTORE_DIR/$(basename "$FINAL_SRC")"
 ARCHIVE="$RESTORE_DIR/$(basename "$FINAL_SRC")"
 SIZE=$(du -sh "$ARCHIVE" | cut -f1)
-notify "SUCCESS" "Archive ready at $ARCHIVE%0ASize: $SIZE%0A%0AThen on PVE: pct restore <VMID> /var/lib/vz/dump/$(basename "$FINAL_SRC")"
+notify_telegram_wrapper "SUCCESS" "Archive ready at $ARCHIVE%0ASize: $SIZE%0A%0AThen on PVE: pct restore <VMID> /var/lib/vz/dump/$(basename "$FINAL_SRC")"
 
 echo ""
 echo "📦 Archive: $ARCHIVE ($SIZE)"

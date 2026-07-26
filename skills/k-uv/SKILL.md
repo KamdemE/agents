@@ -7,7 +7,7 @@ description: >
   audit, or Python environment debugging.
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.2.0"
   scope: operations
 ---
 
@@ -17,7 +17,7 @@ metadata:
 
 > **Rules that enforce uv-first:**
 > - `rules/uv-first.md` — All Python operations MUST use uv. Never pip. Never system Python.
-> - `rules/audit-commands.md` — `uv` not `pip`. `make audit` after `.agents/` changes.
+> - `rules/audit-commands.md` — `uv` not `pip`. `make check` after `.agents/` changes.
 > - `rules/file-governance.md` — Single source of truth, `.agents/` centralization.
 
 > **Related skills:** `k-project` (project init with uv) · `k-ubuntu` (uv tool table per machine) · `k-nvim` (uv-nvim Python provider venv) · `k-clis` (CLI registry routing) · `k-hermes` (uv tool hermes-agent extra deps) · `k-final` (`uv tool install --editable .` in closure)
@@ -87,6 +87,19 @@ uv python install graalpy  # GraalPy 3.12, 3.11, 3.10, 3.8
 
 All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/tools/<name>/` and exposes binaries in `~/.local/bin/`.
 
+### Code Intelligence (LOOM)
+
+| Tool | Version | Binaries | Purpose |
+|------|---------|----------|---------|
+| `loom-tool` | v0.7.1 | `loom`, `loom-mcp` | Persistent code graph index — cross-session code search |
+
+### Linting & Type Checking
+
+| Tool | Version | Binaries | Purpose |
+|------|---------|----------|---------|
+| `ruff` | v0.16.0 | `ruff` | Fast Python linter + formatter (replaces flake8 + isort + black) |
+| `pyright` | v1.1.411 | `pyright`, `pyright-langserver`, `pyright-python`, `pyright-python-langserver` | Python static type checker |
+
 ### MCP Servers (stdio)
 
 | Tool | Version | Binaries | Purpose |
@@ -117,7 +130,7 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 | `asciinema` | v2.4.0 | `asciinema` | Terminal session recorder (text-based `.cast`) |
 | `ollama-ipex` | v0.2.2 | `ipex`, `ollama-ipex` | Ollama Intel Arc GPU extension |
 | `piper-tts` | v1.4.2 | `piper` | Local neural text-to-speech (TTS) |
-| `tg` | v0.2.0 | `tg` | Telegram CLI — Telethon-based |
+| `tg` (deprecated) | v0.2.0 | `tg` | **Replaced by `tg-proxy`** — see `k-tg` skill. Deprecated, project directory removed. |
 | `whisper-ctranslate2` | v0.5.7 | `whisper-ctranslate2` | Local speech-to-text (Whisper + CTranslate2) |
 | `yt-dlp` | v2026.7.4 | `yt-dlp` | YouTube/video downloader |
 
@@ -213,11 +226,33 @@ uv python list --only-installed  # Verify Pythons
 for d in ~/KpihX-Labs/*/; do [ -f "$d/.venv/bin/python" ] && echo "$d"; done
 ```
 
+### Package Publication (PyPI)
+
+Python packages inside the KpihX-Labs workspace are published using `uv publish`.
+
+*   **If a Makefile exists:** Run the publication command inside a secure subshell using the `with-env` helper:
+    ```bash
+    with-env make uv-publish
+    ```
+*   **If no Makefile exists:** Create the `uv-publish` target in the project's `Makefile`:
+    ```makefile
+    uv-build:
+    	@rm -rf dist/
+    	@$(UV) build
+
+    uv-publish: uv-build
+    	@if [ -z "$$UV_PUBLISH_TOKEN" ]; then \
+    		echo "❌ Error: UV_PUBLISH_TOKEN is not set. Run with: with-env make uv-publish"; \
+    		exit 1; \
+    	fi \
+    	@$(UV) publish
+    ```
+
 ---
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v1.0.0 — Created k-uv skill. Comprehensive inventory of uv tools (19), managed Pythons (2), project venvs (5), dedicated venvs (2). Documents uv-first philosophy, migration history (moved to `k-ubuntu/references/log.md`), and key commands. |
-| [SUMMARY] | — | v1.0.0 — Created on 2026-07-24. |
+| 2026-07-26 | [OPENCODE] | v1.2.0 — **make check target + ruff/pyright infra**: Added ruff (v0.16.0) and pyright (v1.1.411) to tool inventory. |
+| [SUMMARY] | — | v1.0.0–v1.1.0 — PyPI Publication guide + Comprehensive inventory of uv tools (19), managed Pythons (2), project venvs (5), dedicated venvs (2). Documents uv-first philosophy, migration history, and key commands. |

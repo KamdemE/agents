@@ -1,6 +1,8 @@
 """Core: bundled-content coverage checks for KπX-owned skills."""
+
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from core.settings import AGENTS_MD, display_path
@@ -17,7 +19,11 @@ def _coverage_dirs(skill_dir: Path) -> tuple[str, ...]:
 
 
 def _is_file_mentioned(skill_text: str, rel_path: str, file_name: str) -> bool:
-    return rel_path in skill_text or f"`{rel_path}`" in skill_text or f"`{file_name}`" in skill_text
+    return (
+        rel_path in skill_text
+        or f"`{rel_path}`" in skill_text
+        or f"`{file_name}`" in skill_text
+    )
 
 
 def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
@@ -32,7 +38,9 @@ def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
         directory = skill_dir / directory_name
         if not directory.is_dir():
             continue
-        for file_path in sorted(child for child in directory.iterdir() if child.is_file()):
+        for file_path in sorted(
+            child for child in directory.iterdir() if child.is_file()
+        ):
             if file_path.name in _IGNORED_FILES:
                 continue
             rel_path = str(file_path.relative_to(skill_dir))
@@ -50,19 +58,27 @@ def validate_skill_content(skill_path: str) -> list[str]:
     try:
         skill_text = path.read_text(encoding="utf-8")
     except OSError as exc:
-        return [f"{display_path(str(path))}: unable to read SKILL.md for content coverage check: {exc}"]
+        return [
+            f"{display_path(str(path))}: unable to read SKILL.md for content coverage check: {exc}"
+        ]
     return validate_skill_content_text(skill_path, skill_text)
 
 
 def build_skill_content_violation_report(skill_paths: list[str]) -> str:
     """Return a human-readable report for bundled-content coverage issues."""
-    relevant = [Path(path) for path in skill_paths if path.endswith("/SKILL.md") or path.endswith("\\SKILL.md")]
+    relevant = [
+        Path(path)
+        for path in skill_paths
+        if path.endswith("/SKILL.md") or path.endswith("\\SKILL.md")
+    ]
     findings: list[str] = []
     for skill_path in relevant:
         try:
             findings.extend(validate_skill_content(str(skill_path)))
-        except Exception as exc:
-            findings.append(f"{display_path(str(skill_path))}: content coverage check failed unexpectedly: {exc}")
+        except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as exc:
+            findings.append(
+                f"{display_path(str(skill_path))}: content coverage check failed unexpectedly: {exc}"
+            )
 
     if not findings:
         return ""

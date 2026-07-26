@@ -51,9 +51,7 @@ def contact_row(c: dict) -> dict:
 
 
 def matches_filter(row: dict, flt: str) -> bool:
-    blob = " ".join(
-        [row["name"], *row["emails"], *row["phones"], *row["orgs"]]
-    ).lower()
+    blob = " ".join([row["name"], *row["emails"], *row["phones"], *row["orgs"]]).lower()
     if flt == "all":
         return True
     if flt == "email":

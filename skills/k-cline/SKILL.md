@@ -87,7 +87,7 @@ Remote HTTP server:
 ## Verification Commands
 
 ```bash
-zsh -l -c 'which cline && cline --version'
+cline --version
 cline --help
 cline doctor
 ```

@@ -1,9 +1,0 @@
-[Unit]
-Description=PVE Backup to Cloud — weekly
-
-[Timer]
-OnCalendar=weekly
-Persistent=true
-
-[Install]
-WantedBy=timers.target

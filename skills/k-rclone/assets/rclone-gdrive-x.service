@@ -1,0 +1,15 @@
+[Unit]
+Description=Rclone mount for Google Drive (X account) at ~/Gdrive_X
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/mkdir -p /home/kpihx/Gdrive_X
+ExecStart=/usr/bin/rclone mount gdrive-x: /home/kpihx/Gdrive_X --config=/home/kpihx/.config/rclone/rclone.conf --vfs-cache-mode full --allow-other --dir-cache-time 1000h --poll-interval 1m --vfs-read-ahead 128M --vfs-cache-max-age 24h --attr-timeout 1000h
+ExecStop=/bin/fusermount -uz /home/kpihx/Gdrive_X
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

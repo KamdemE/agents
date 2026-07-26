@@ -3,6 +3,7 @@ Core: Prompt Injector
 Injects lightweight dynamic context before each LLM call.
 Wrappers decide where to inject this per-turn context in their own lifecycle.
 """
+
 import datetime
 import getpass
 import os
@@ -15,7 +16,7 @@ def get_dynamic_context(cwd: str | None = None) -> str:
     """Returns a small XML block with date, time, machine, user, and cwd."""
     if not is_hook_feature_enabled("dynamic_context"):
         return ""
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     current_cwd = cwd or os.getcwd()
     user = getpass.getuser()
     machine = socket.gethostname()

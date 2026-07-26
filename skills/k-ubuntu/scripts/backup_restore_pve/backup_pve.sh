@@ -4,8 +4,8 @@ set -euo pipefail
 # backup_pve.sh — Pull PVE backups via rsync + upload to Google Drive
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/backup_pve.sh
 
-AGENTS_ENV="/home/kpihx/.agents/.env"
-[ -f "$AGENTS_ENV" ] && set -a && source "$AGENTS_ENV" && set +a
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/../notifier.sh"
 
 if [[ $# -gt 0 ]]; then
     case "$1" in
@@ -35,28 +35,16 @@ RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInte
 
 NOW=$(date +"%Y-%m-%d %H:%M:%S")
 
-notify() { local l=$1 m=$2
-  case "$l" in
-    ERROR) ICON="❌" ;; WARN|WARNING) ICON="⚠️" ;; SUCCESS) ICON="✅" ;;
-    INFO) ICON="ℹ️" ;; *) ICON="🤖" ;;
-  esac
-  if [ -n "${TELEGRAM_UBUNTU_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot$TELEGRAM_UBUNTU_TOKEN/sendMessage" \
-      -d "chat_id=$TELEGRAM_CHAT_ID" -d "text=$ICON PVE BACKUP$ICON%0A%0A$m" > /dev/null || true
-  fi
-  echo "[$NOW] [$l] PVE BACKUP - $m"
-}
-
 echo "[$NOW] Starting PVE backup..."
-ssh -q "${SSH_OPTS[@]}" "$SSH_DEST" exit || { notify "ERROR" "PVE unreachable"; exit 1; }
-[ -d "$HDD_MOUNT" ] || { notify "ERROR" "HDD not mounted at $HDD_MOUNT"; exit 1; }
+ssh -q "${SSH_OPTS[@]}" "$SSH_DEST" exit || { notify_telegram "ERROR" "PVE unreachable" "PVE BACKUP"; exit 1; }
+[ -d "$HDD_MOUNT" ] || { notify_telegram "ERROR" "HDD not mounted at $HDD_MOUNT" "PVE BACKUP"; exit 1; }
 mkdir -p "$HDD_DEST"
 
 echo "--- 1. rsync from $PVE_HOST:$REMOTE_DIR/ to HDD ---"
 rsync -av --progress --partial --size-only --inplace --whole-file \
   -e "$RSYNC_SSH" \
   --exclude '*.log' --exclude '*.notes' \
-  "$SSH_DEST:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify "ERROR" "rsync failed"; exit 1; }
+  "$SSH_DEST:$REMOTE_DIR/" "$HDD_DEST/" 2>&1 | grep -v "^\." || { notify_telegram "ERROR" "rsync failed" "PVE BACKUP"; exit 1; }
 
 echo "--- 2. HDD rotation (keep $KEEP) ---"
 cd "$HDD_DEST" || { echo "Cannot enter $HDD_DEST"; exit 1; }
@@ -69,7 +57,7 @@ echo "--- 3. Cloud sync ---"
 # Take the single most recent file from HDD
 LATEST=$(ls -t "$HDD_DEST"/*.zst "$HDD_DEST"/*.vma "$HDD_DEST"/*.tar.gz 2>/dev/null | head -1) || true
 if [ -z "$LATEST" ]; then
-  notify "WARN" "No archive found on HDD to upload."; exit 0
+  notify_telegram "WARN" "No archive found on HDD to upload." "PVE BACKUP"; exit 0
 fi
 
 NAME=$(basename "$LATEST")
@@ -82,7 +70,7 @@ else
   echo "  📤 Uploading: $NAME"
   rclone copy "$LATEST" "$RCLONE_DEST" --config "$RCLONE_CONF" \
     --transfers=4 --drive-chunk-size=32M --stats-one-line -v \
-    || { notify "ERROR" "rclone upload failed"; exit 1; }
+    || { notify_telegram "ERROR" "rclone upload failed" "PVE BACKUP"; exit 1; }
 fi
 
 # Drive: keep only the latest, purge the rest
@@ -93,5 +81,5 @@ echo "$CLOUD_FILES" | grep -vF "$NAME" | while read -r f; do
 done || true
 
 SIZE=$(du -sh "$LATEST" | cut -f1)
-notify "SUCCESS" "Backup complete!%0ASize: $SIZE ($NAME)"
+notify_telegram "SUCCESS" "Backup complete!%0ASize: $SIZE ($NAME)" "PVE BACKUP"
 echo "[$NOW] Done."

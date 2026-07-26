@@ -9,7 +9,7 @@ PYTHON_SCRIPT="$1"
 USER_ID="$2"
 USER_PASS="$3"
 
-if [ -z "$PYTHON_SCRIPT" ] cd "$(dirname "$0")" || exit 1|| [ -z "$USER_ID" ] || [ -z "$USER_PASS" ]; then
+if [ -z "$PYTHON_SCRIPT" ] || [ -z "$USER_ID" ] || [ -z "$USER_PASS" ]; then
     echo "Usage: $0 <path_to_python_script> <email> <password>"
     exit 1
 fi

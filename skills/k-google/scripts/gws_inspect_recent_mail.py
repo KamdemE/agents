@@ -35,10 +35,7 @@ def get_headers(profile: str, msg_id: str) -> dict[str, str]:
     if r.returncode != 0:
         raise RuntimeError(r.stderr or r.stdout[:500])
     data = parse_json_stdout(r.stdout)
-    return {
-        h["name"]: h["value"]
-        for h in data.get("payload", {}).get("headers", [])
-    }
+    return {h["name"]: h["value"] for h in data.get("payload", {}).get("headers", [])}
 
 
 def main() -> int:

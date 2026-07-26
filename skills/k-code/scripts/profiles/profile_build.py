@@ -9,7 +9,6 @@ import argparse
 import json
 from pathlib import Path
 
-
 HOME = Path.home()
 SOURCE_PATH = HOME / ".vscode/extensions/extensions.json"
 PROFILES_ROOT = HOME / ".config/Code/User/profiles"
@@ -74,15 +73,21 @@ def main() -> int:
 
     all_extensions = load_source_extensions()
     filtered = [
-        extension for extension in all_extensions
+        extension
+        for extension in all_extensions
         if extension.get("identifier", {}).get("id") in wanted_ids
     ]
 
-    missing = [extension_id for extension_id in wanted_ids if extension_id not in {
-        extension.get("identifier", {}).get("id") for extension in filtered
-    }]
+    missing = [
+        extension_id
+        for extension_id in wanted_ids
+        if extension_id
+        not in {extension.get("identifier", {}).get("id") for extension in filtered}
+    ]
     if missing:
-        raise SystemExit(f"Unknown extension ids in source registry: {', '.join(missing)}")
+        raise SystemExit(
+            f"Unknown extension ids in source registry: {', '.join(missing)}"
+        )
 
     ordered = sorted(
         filtered,

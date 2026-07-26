@@ -4,7 +4,7 @@
 
 # Source the Homelab universal library
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+source "$SCRIPT_DIR/../notifier.sh"
 
 set -e
 
@@ -18,14 +18,14 @@ log() {
 }
 
 log "🚀 Manual Cloud Push initiated on Server node..."
-homelab_notify "INFO" "Manual Cloud Push started for Hypervisor guests." "PVE BACKUP"
+notify_telegram "INFO" "Manual Cloud Push started for Hypervisor guests." "PVE BACKUP"
 
 # Identify the latest archive (snapshot, stop, or suspend)
 LATEST_ARCHIVE=$(ls -t "$DUMP_DIR"/vzdump-*.zst "$DUMP_DIR"/vzdump-*.vma "$DUMP_DIR"/vzdump-*.tar.gz 2>/dev/null | head -n 1)
 
 if [ -z "$LATEST_ARCHIVE" ]; then
     log "⚠️ Warning: No archive found in $DUMP_DIR to upload."
-    homelab_notify "WARN" "No archive found on Proxmox for push sync." "PVE BACKUP"
+    notify_telegram "WARN" "No archive found on Proxmox for push sync." "PVE BACKUP"
     exit 1
 fi
 
@@ -51,10 +51,10 @@ if /usr/bin/rclone --config /root/.config/rclone/rclone.conf copy "$LATEST_ARCHI
     
     SIZE=$(du -sh "$LATEST_ARCHIVE" | cut -f1)
     log "✅ Backup complete. Size: $SIZE"
-    homelab_notify "SUCCESS" "Manual Cloud Sync Complete!%0ASize: $SIZE ($ARCHIVE_NAME)" "PVE BACKUP"
+    notify_telegram "SUCCESS" "Manual Cloud Sync Complete!%0ASize: $SIZE ($ARCHIVE_NAME)" "PVE BACKUP"
 else
     log "❌ Error: Rclone upload failed."
-    homelab_notify "ERROR" "Manual Rclone upload failed for $ARCHIVE_NAME" "PVE BACKUP"
+    notify_telegram "ERROR" "Manual Rclone upload failed for $ARCHIVE_NAME" "PVE BACKUP"
     exit 1
 fi
 

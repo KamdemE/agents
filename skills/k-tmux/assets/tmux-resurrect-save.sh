@@ -195,7 +195,7 @@ dump_panes() {
 				continue
 			fi
 			full_command="$(pane_full_command $pane_pid)"
-			dir=$(echo $dir | sed 's/ /\\ /') # escape all spaces in directory path
+			dir=${dir// /\\ } # escape all spaces in directory path
 			echo "${line_type}${d}${session_name}${d}${window_number}${d}${window_active}${d}${window_flags}${d}${pane_index}${d}${pane_title}${d}${dir}${d}${pane_active}${d}${pane_command}${d}:${full_command}"
 		done
 }
@@ -230,7 +230,7 @@ remove_old_backups() {
 	# remove resurrect files older than 30 days (default), but keep at least 5 copies of backup.
 	local delete_after="$(get_tmux_option "$delete_backup_after_option" "$default_delete_backup_after")"
 	local -a files
-	files=($(ls -t $(resurrect_dir)/${RESURRECT_FILE_PREFIX}_*.${RESURRECT_FILE_EXTENSION} | tail -n +6))
+	mapfile -t files < <(ls -t "$(resurrect_dir)"/${RESURRECT_FILE_PREFIX}_*.${RESURRECT_FILE_EXTENSION} | tail -n +6)
 	[[ ${#files[@]} -eq 0 ]] ||
 		find "${files[@]}" -type f -mtime "+${delete_after}" -exec rm -v "{}" \; > /dev/null
 }

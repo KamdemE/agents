@@ -1,4 +1,6 @@
 #!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+source "$SCRIPT_DIR/../notifier.sh"
 # auto_clean.sh — Automated weekly cleanup: run all modules, analyze, notify via Telegram.
 # Runs as root via systemd (clean-system.service).
 # Machine config hardcoded below. Secrets sourced from ~/.agents/.env.
@@ -38,7 +40,7 @@ echo "🚀 [$(date)] Starting Automated Weekly Cleanup (as Root) — HOME=$HOME"
 
 # ── 1. Baseline measurements ──────────────────────────────────────────────────
 INITIAL_SPACE_ROOT=$(df / | tail -1 | awk '{print $3}')
-INITIAL_SPACE_HOME=$(du -s -x "$USER_HOME" $(_build_excludes) 2>/dev/null | awk '{print $1}' || echo 0)
+INITIAL_SPACE_HOME=$(du -s -x "$USER_HOME" "$(_build_excludes)" 2>/dev/null | awk '{print $1}' || echo 0)
 
 # ── 2. Run Workspace Scan ────────────────────────────────────────────────
 echo "--- Running workspace_scan.sh ---"
@@ -76,12 +78,12 @@ fi
 # ── 5. Post-cleanup analysis ──────────────────────────────────────────────────
 echo "--- Post-Cleanup Analysis ---"
 FINAL_SPACE_ROOT=$(df / | tail -1 | awk '{print $3}')
-FINAL_SPACE_HOME=$(du -s -x "$USER_HOME" $(_build_excludes) 2>/dev/null | awk '{print $1}' || echo 0)
+FINAL_SPACE_HOME=$(du -s -x "$USER_HOME" "$(_build_excludes)" 2>/dev/null | awk '{print $1}' || echo 0)
 
 DISK_USAGE=$(df -h / | tail -1 | awk '{print $5}')
 DISK_FREE=$(df -h / | tail -1 | awk '{print $4}')
 
-TOP_HOME=$(du -h -x --max-depth=1 "$USER_HOME" $(_build_excludes) 2>/dev/null | sort -hr | head -n 6 | tail -n 5)
+TOP_HOME=$(du -h -x --max-depth=1 "$USER_HOME" "$(_build_excludes)" 2>/dev/null | sort -hr | head -n 6 | tail -n 5)
 
 # Target known large dirs only — avoids full / scan and the RAM spike it causes
 TOP_ROOT=$(du -xh -d 1 /var /usr /home /opt 2>/dev/null | sort -hr | head -n 6 | tail -n 5)
@@ -135,12 +137,6 @@ ${TOP_ROOT}
 ${WORKSPACE_SCAN_OUTPUT}
 \`\`\`"
 
-    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_UBUNTU_TOKEN}/sendMessage" \
-        -d "chat_id=${TELEGRAM_CHAT_ID}" \
-        -d "text=${MESSAGE}" \
-        -d "parse_mode=Markdown"
+    notify_telegram "CLEAN" "$MESSAGE" "NETTOYAGE"
     echo "✅ [$(date)] Cleanup & Audit Finished and Notification Sent."
-else
-    echo "⚠️ [$(date)] TELEGRAM_UBUNTU_TOKEN or TELEGRAM_CHAT_ID not set — notification skipped."
-    echo "✅ [$(date)] Cleanup & Audit Finished."
 fi

@@ -4,6 +4,7 @@ Claude hook: UserPromptSubmit
 Event: fires when a user submits a prompt, before Claude processes it.
 Core: prompt_injector + skill_watcher.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -32,9 +33,11 @@ def main():
     try:
         input_data = json.load(sys.stdin)
         agent_name = sys.argv[1] if len(sys.argv) > 1 else "CLAUDE"
-        print(json.dumps(handle_user_prompt_submit(agent_name, cwd=input_data.get("cwd"))))
-    except Exception:
-        print(json.dumps({}))
+        print(
+            json.dumps(handle_user_prompt_submit(agent_name, cwd=input_data.get("cwd")))
+        )
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        print(json.dumps({}), file=sys.stderr)
 
 
 if __name__ == "__main__":

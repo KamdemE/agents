@@ -4,6 +4,7 @@ Copilot VS Code hook: SessionStart
 Event: fires when a new agent session starts.
 Core: context_injector — injects k-context startup context.
 """
+
 import json
 import sys
 from pathlib import Path
@@ -30,7 +31,7 @@ def main() -> None:
         json.load(sys.stdin)
         agent_name = sys.argv[1] if len(sys.argv) > 1 else "COPILOT"
         print(json.dumps(handle_session_start(agent_name)))
-    except Exception:
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
         print(json.dumps({}))
 
 

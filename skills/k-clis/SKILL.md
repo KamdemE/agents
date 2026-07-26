@@ -51,6 +51,7 @@ metadata:
 | `ts-proxy` | _(this skill)_ | Tailscale API + HITL |
 | `docker` / `docker-compose` | **`k-docker`** | Container build & deploy |
 | `ollama` | **`k-ollama`** | Local LLM serving — Intel Arc GPU |
+| `uv` | **`k-uv`** | UV/Python ecosystem — tool install, venvs, versions |
 
 ## Productivity & Communication
 
@@ -83,7 +84,7 @@ metadata:
 | `nvim` | **`k-nvim`** | Editor — centralized config, LSP, plugins. **After install, set `$EDITOR`** (e.g. `export EDITOR=nvim` in `.kshrc`). |
 | `micro` | _(this skill)_ | Lightweight TUI editor — fallback (no dedicated skill) |
 | `trash-put` / `trash-cli` | _(this skill)_ | Safe `rm` replacement — see **`assets/rm`** for the active wrapper state. Has **bypass patterns** (auto real-delete for tmux pane captures, etc.). |
-| `plocate` / `locate` | _(this skill)_ | **⚡ AGENTS MUST PREFER `locate`/`plocate` OVER `find`/`grep`/Glob FOR FILE SEARCH** (~100× faster). See **`references/plocate.md`** for setup. |
+| `plocate` | _(this skill)_ | **⚡ AGENTS MUST PREFER `plocate` OVER `find`/`grep`/Glob FOR FILE SEARCH** (~100× faster). See **`references/plocate.md`** for setup. |
 | `bat` / `batcat` | _(this skill)_ | `cat` with syntax highlighting, git gutter, paging. `batcat` on Ubuntu (rename conflict). |
 | `rg` (ripgrep) | _(this skill)_ | Fast recursive text search — replaces `grep -r`. Skips .git, node_modules, binary files. Installed via cargo/apt. |
 | `fd` | _(this skill)_ | Fast file find — replaces `find` for everyday use. Installed via cargo/apt. |

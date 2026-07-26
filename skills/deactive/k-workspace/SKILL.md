@@ -151,7 +151,7 @@ Full Telescope exclusion map and `find_command` details: `k-vim/references/teles
 
 Full registry of KπX-added CLIs with routing to dedicated skills: **`k-clis`**.
 
-WaveTerm widgets: $HOME/.config/waveterm/widgets.json — all use zsh -l -c '...' wrapper.
+WaveTerm widgets: $HOME/.config/waveterm/widgets.json — all load their own environment.
 npm global prefix: $HOME/.npmrc → prefix=$HOME/.npm-global (no EACCES, no sudo needed).
 
 ### System CLIs (npm-global)

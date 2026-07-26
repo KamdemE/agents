@@ -7,6 +7,7 @@ import os
 import subprocess
 from typing import Any
 
+
 def _cfg(subdir: str) -> str:
     return os.path.join(os.path.expanduser("~"), ".config", "gws", subdir)
 
@@ -41,6 +42,7 @@ def gws_run(profile: str, *args: str) -> subprocess.CompletedProcess[str]:
         capture_output=True,
         text=True,
         env=gws_env(profile),
+        check=False,
     )
 
 

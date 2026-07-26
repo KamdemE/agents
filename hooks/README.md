@@ -37,7 +37,7 @@ Use this file to answer 2 questions quickly:
 ### Startup Context
 
 ```text
-Session date: 2026-07-22 (Wednesday)
+Session date: 2026-07-25 (Friday)
 
 --- DEVICE: kpihx-ubuntu ---
 Machine: kpihx-ubuntu
@@ -52,7 +52,16 @@ MANDATORY STARTUP CONTEXT:
 
 --- SKILL.md ---
 [k-context]
+
+STARTUP DIRECTIVE:
+The k-context above contains Active Projects, Session Log, and Active TODOs.
+After loading this context, you MUST present the following explicitly to the user:
+1. All active TODO items (## Active TODOs) — task, importance, urgency, concerned skill (MUST be presented first in priority).
+2. All active projects (## Active Projects) — with status, next action, and folder path.
+3. Key session log entries (## Session Log) — newest first, most relevant to current work.
 ```
+
+This STARTUP DIRECTIVE block acts as a **prompt to the LLM**: it instructs the model to explicitly present the injected k-context content (Active Projects, Session Log, Active TODOs) to the user at session start, rather than silently loading it. Both `opencode/startup-context.js` and `core/context_injector.py` inject this block after the k-context content.
 
 ### Dynamic Context
 
@@ -128,6 +137,9 @@ Next:
 | `prompt_injector.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
 | `prompt_enforcer.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
 | `skill_watcher.py` | `BeforeAgent` | `UserPromptSubmit` | `UserPromptSubmit` | `UserPromptSubmit` |
+| `prompt-enforcer-strict.js` (OpenCode) | — | — | — | — |
+
+> **OpenCode JS plugins** (applied to Colab, Build, Auto): `startup-context.js` (startup), `prompt-enforcer-strict.js` (prompt identical to `prompt_enforcer.py`), `suggestions-check.js` (post-response). Wired in `opencode.jsonc`. See `opencode/` directory.
 | `path_guard.py` | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` | not wired — current Codex hook surface in this setup does not expose structured file-edit events here | `PreToolUse` for `create_file`, `replace_string_in_file`, and related aliases |
 | `skill_edit_guard.py` (structure + content) | `BeforeTool` for `write_file` and `replace` | `PreToolUse` for `Write` and `Edit` — structure/content blocking only | not wired — same Codex limitation as `path_guard.py` | `PreToolUse` for normalized write/replace operations |
 | `skill_edit_guard.py` (header/footer) | `BeforeTool` for `write_file` and `replace` — full blocking | `PostToolUse` for `Edit` — advisory only; agent sees warning, session_guard enforces at Stop | not wired | `PostToolUse` advisory for replace-style edits |

@@ -1,4 +1,4 @@
-# plocate — Much Faster locate
+# plocate — Much Faster Search
 
 **Asset:** `k-clis/references/plocate.md`
 **Scope:** Ubuntu / Debian
@@ -15,7 +15,7 @@ Typical speedup: **~100×** on a full disk search.
 sudo apt install plocate
 ```
 
-This replaces `mlocate` if installed. The `locate` command automatically points to `plocate`.
+This replaces `mlocate` if installed. The `plocate` command is the primary tool.
 
 ## Database Setup
 
@@ -48,16 +48,16 @@ sudo updatedb -l 0 -U /home/kpihx
 
 ## Agent Usage Mandate
 
-**Always prefer `locate <pattern>` over `find / -name <pattern>` or recursive `grep`/Glob operations.**
+**Always prefer `plocate <pattern>` over `find / -name <pattern>` or recursive `grep`/Glob operations.**
 
 ### Good — fast (milliseconds):
 
 ```bash
-locate SOME_FILE
-locate -i CASE_INSENSITIVE        # case-insensitive
-locate -l 20 PATTERN              # limit to 20 results
-locate --regex 'PATTERN'          # regex search (basic regex)
-locate -b BASENAME                # match basename only (not full path)
+plocate SOME_FILE
+plocate -i CASE_INSENSITIVE        # case-insensitive
+plocate -l 20 PATTERN              # limit to 20 results
+plocate --regex 'PATTERN'          # regex search (basic regex)
+plocate -b BASENAME                # match basename only (not full path)
 ```
 
 ### Bad — slow (seconds to minutes):
@@ -67,10 +67,10 @@ find / -name SOME_FILE             # slow — full tree scan
 grep -r PATTERN /some/dir         # slow — reads every file
 ```
 
-### When NOT to use locate
+### When NOT to use plocate
 
 - **Real-time search**: files created/renamed since last `updatedb` won't appear.
-- **Permissions**: `locate` respects visibility — no results for paths the user cannot read.
+- **Permissions**: `plocate` respects visibility — no results for paths the user cannot read.
 - **Network/remote filesystems**: excluded by default (`PRUNEFS` in `/etc/updatedb.conf`).
 
 For these cases, fall back to `find` with narrow scope or `fd` (if installed).

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """YouTube Data API v3 — OAuth (kpihx-labs Desktop client) + smoke tests."""
+
 from __future__ import annotations
 
 import argparse
@@ -51,14 +52,26 @@ def _youtube_service(creds):
 
 def cmd_auth(args: argparse.Namespace) -> int:
     creds = _load_credentials(args.token, args.client)
-    print(json.dumps({"status": "ok", "token_file": str(args.token), "scopes": list(creds.scopes or SCOPES)}))
+    print(
+        json.dumps(
+            {
+                "status": "ok",
+                "token_file": str(args.token),
+                "scopes": list(creds.scopes or SCOPES),
+            }
+        )
+    )
     return 0
 
 
 def cmd_channels(args: argparse.Namespace) -> int:
     creds = _load_credentials(args.token, args.client)
     yt = _youtube_service(creds)
-    resp = yt.channels().list(part="snippet,contentDetails,statistics", mine=True).execute()
+    resp = (
+        yt.channels()
+        .list(part="snippet,contentDetails,statistics", mine=True)
+        .execute()
+    )
     items = []
     for ch in resp.get("items", []):
         sn = ch.get("snippet", {})
@@ -84,7 +97,11 @@ def cmd_upload(args: argparse.Namespace) -> int:
     creds = _load_credentials(args.token, args.client)
     yt = _youtube_service(creds)
     body = {
-        "snippet": {"title": args.title, "description": args.description, "categoryId": "22"},
+        "snippet": {
+            "title": args.title,
+            "description": args.description,
+            "categoryId": "22",
+        },
         "status": {"privacyStatus": args.privacy},
     }
     media = MediaFileUpload(str(path), chunksize=1024 * 1024, resumable=True)
@@ -113,13 +130,17 @@ def main() -> int:
     p.add_argument("--token", type=Path, default=DEFAULT_TOKEN)
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    sub.add_parser("auth", help="OAuth consent + save token").set_defaults(func=cmd_auth)
+    sub.add_parser("auth", help="OAuth consent + save token").set_defaults(
+        func=cmd_auth
+    )
     sub.add_parser("channels", help="List my channels").set_defaults(func=cmd_channels)
     up = sub.add_parser("upload", help="Upload video file")
     up.add_argument("--file", required=True)
     up.add_argument("--title", default="KpihX smoke test")
     up.add_argument("--description", default="Automated smoke upload — safe to delete.")
-    up.add_argument("--privacy", choices=("private", "unlisted", "public"), default="unlisted")
+    up.add_argument(
+        "--privacy", choices=("private", "unlisted", "public"), default="unlisted"
+    )
     up.set_defaults(func=cmd_upload)
 
     args = p.parse_args()
