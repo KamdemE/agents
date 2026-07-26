@@ -24,7 +24,17 @@ allowed-tools: Bash, Read, Write, Edit
 > - `assets/zshrc` → **interactive zsh** — symlinked from `~/.zshrc` (🔴 NEVER MODIFY)
 > - `assets/bashrc` → **bash fallback** — symlinked from `~/.bashrc` (🔴 NEVER MODIFY)
 >
-> **Not managed by k-zsh (real files, never touched):** `.zprofile`, `.zshenv`
+> **Not directly managed by k-zsh but must be configured:** `.zshenv`, `.zprofile`
+> - **`.zshenv`** — loads `.kshrc` for **all** zsh shells (interactive + non-interactive):
+>   ```bash
+>   [[ -f ~/.kshrc ]] && source ~/.kshrc
+>   ```
+> - **`.zprofile`** — also loads `.kshrc` for **login shells** (belt-and-suspenders):
+>   ```bash
+>   [[ -f ~/.kshrc ]] && source ~/.kshrc
+>   ```
+> 
+> ⚠️ Why both? `.zshenv` runs in every zsh shell (including agent non-interactive sub-shells). `.zprofile` runs only in login shells. Having `.kshrc` sourced from `.zshenv` ensures `fnm` and PATH are available even in `make` sub-shells and MCP server invocations.
 
 ---
 

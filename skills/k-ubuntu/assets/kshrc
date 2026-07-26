@@ -43,6 +43,8 @@ if [ -d "$FNM_PATH" ]; then
 fi
 
 # === Python compilation ===
+
+# === Python compilation ===
 export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"
 
 # === Auth / SSH ===

@@ -1,6 +1,7 @@
 # $HOME/.agents/Makefile — agent memory repo lifecycle
 
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
+SHELL = /bin/zsh
 
 .PHONY: push push-tags log status audit check check-py check-sh check-js install-hooks link help
 
@@ -32,8 +33,8 @@ check-sh: ## Lint Shell scripts using shellcheck (ignore known false positives)
 		{} + # SC1090-91:non-constant source (modular .kshrc). SC2034:exported vars. SC2154:sourced vars. SC2086:word-split intentional. SC2012:ls readable. SC2004:style. SC2015:A&&B||C intended. SC2014:find expansion needed. SC2129:style. SC2181:style. SC2035:no dashes. SC2029:client-side expansion. SC2155:export VAR="$(cmd)" idiomatic. SC2291:ASCII art spaces. SC2024:sudo context safe. SC2317:indirect calls. SC2162:backslash edge-case
 
 check-js: ## Lint OpenCode hooks (Node.js CommonJS)
-	@echo "🔍 Checking JS/TS scripts..." 
-	@npx oxlint hooks/opencode/
+	@echo "🔍 Checking JS/TS scripts..."
+	@oxlint hooks/opencode/
 	@for f in hooks/opencode/*.js; do node -c "$$f" || exit $$?; done
 
 check: check-py check-sh check-js audit ## Run all  evalidations (Ruff, Pyright, Shellcheck, JS, and Audit)

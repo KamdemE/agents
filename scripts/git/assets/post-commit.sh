@@ -18,11 +18,11 @@ else
 
     if git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -qE "$PATTERN"; then
         echo "--- [QMD Hook] Relevant files modified. Updating QMD index..."
-        if "$QMD_BIN" update "$COLLECTION"; then
+        if fnm exec "$QMD_BIN" update "$COLLECTION"; then
             if pgrep -af "qmd(.js)? embed ${COLLECTION}" > /dev/null 2>&1; then
                 echo "--- [QMD Hook] Embed already running. Skipping duplicate background embed."
             else
-                nohup "$QMD_BIN" embed "$COLLECTION" > "$EMBED_LOG" 2>&1 &
+                nohup fnm exec "$QMD_BIN" embed "$COLLECTION" > "$EMBED_LOG" 2>&1 &
                 echo "--- [QMD Hook] Background embed started. Log: $EMBED_LOG"
             fi
             echo "--- [QMD Hook] QMD index update complete."

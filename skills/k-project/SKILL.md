@@ -111,6 +111,7 @@ bun init -y / npm init -y
 
 | File | Notes |
 |------|-------|
+| `Makefile` | Seeded from `assets/Makefile.uv` or `assets/Makefile.npm-bun`. **MUST have `SHELL := /bin/zsh`** at top — ensures `.zshenv` → `.kshrc` → `fnm` → Node v24 is available inside make recipes. Without it, `make` uses `/bin/sh` which lacks fnm/Node PATH. |
 | `.gitignore` | `.venv/`, `dist/`, `node_modules/`, `.env`, `.agents/` ... |
 | `README.md` | Overview, install, usage |
 | `CHANGELOG.md` | Newest-first, semver entries |
