@@ -1,51 +1,255 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env sh
 # ============================================================
-# .kshrc — S25 Termux shell hub
+# .kshrc.base — KπX Universal Shell Hub (Base)
 # ============================================================
-# Source of truth: k-25/assets/kshrc (this file)
-# $HOME/.kshrc is a SYMLINK to this file.
-# Built from k-zsh/assets/kshrc.base + k-25 specifics.
 #
-# Deploy (S25): ln -sf ~/.agents/skills/k-25/assets/kshrc ~/.kshrc
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  THIS IS THE CENTRAL SHELL HUB                              ║
+# ║  - Sourced by .zshrc, .bashrc, .zshenv, .profile           ║
+# ║  - Two sections with independent idempotency guards         ║
+# ║  - Shell-agnostic: works in zsh AND bash                    ║
+# ║  - DO NOT add machine-specific paths here                   ║
+# ║  - DO NOT add secrets here                                  ║
+# ║  - DO NOT add interactive-only widgets (fzf, oh-my-zsh)     ║
+# ║                                                              ║
+# ║  SYNC RULE: If you add something that could benefit ALL      ║
+# ║  infras, add it here too. Per-infra kshrc files are COPIED   ║
+# ║  from this base and differ ONLY by INFRA_SESSION name and    ║
+# ║  a few machine-specific lines.                               ║
+# ╚══════════════════════════════════════════════════════════════╝
+#
+# ── Structure ──────────────────────────────────────────────────
+#   Section 1: UNIVERSAL      (guard: __KSHRC_LOADED)
+#     PATH + exports for EVERY shell (scripts, cron, make, SSH)
+#     Safe for non-interactive: no eval, no aliases, no functions
+#
+#   Section 2: INTERACTIVE    (guard: __KSHRC_INTERACTIVE_LOADED)
+#     Aliases, cd, completions, with-env, auto-tmux
+#     Gated by: case $- in *i*)  (must be an interactive shell)
+#
+# ── Shell-specific guards ──────────────────────────────────────
+#   Zsh-only blocks:   if [ -n "$ZSH_VERSION" ]; then ... fi
+#   Bash-only blocks:  if [ -n "$BASH_VERSION" ]; then ... fi
+#
+# ── Deploy ─────────────────────────────────────────────────────
+#   ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
 # ============================================================
 
-# ── Interactive-only (aliases, history, colors) ─────────────
+# ════════════════════════════════════════════════════════════════
+# SECTION 1: UNIVERSAL — runs ONCE per shell for EVERY process
+# ════════════════════════════════════════════════════════════════
+# This section is safe for scripts, cron jobs, make, zsh -c ...
+# Do NOT put: function definitions, aliases, `cd`, `eval`,
+#             interactive completions, or anything that requires a TTY.
+#
+# If you need a variable to be available EVERYWHERE (scripts too),
+# add it here. If it's only for your terminal, add it in SECTION 2.
+# ════════════════════════════════════════════════════════════════
+
+if [ -z "$__KSHRC_LOADED" ]; then
+  __KSHRC_LOADED=1
+  # NOTE: NOT exported — each new shell process loads fresh.
+  # This is intentional: child processes (tmux panes, new terminals)
+  # should re-run Section 1 to get the latest PATH and exports.
+
+  # ── PATH entries ──────────────────────────────────────────────
+  # Each directory is tested before adding (silently skip missing).
+  # Order: general tools first, language-specific next, AI tools last.
+
+  # General user binaries (pipx, uv tool, trash-cli, Rust/cargo)
+  [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+  # Node.js ecosystem: npm global, bun, fnm
+  [ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
+  [ -d "$HOME/.bun/bin" ] && export PATH="$HOME/.bun/bin:$PATH"
+
+  # fnm binary (scripts can run `fnm` — interactive env in Section 2)
+  FNM_PATH="$HOME/.local/share/fnm"
+  [ -d "$FNM_PATH" ] && export PATH="$FNM_PATH:$PATH"
+
+  # AI / Code tools
+  [ -d "$HOME/.opencode/bin" ] && export PATH="$HOME/.opencode/bin:$PATH"
+
+  # ── Package managers ─────────────────────────────────────────
+  export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+
+  # ── Cargo (Rust) ─────────────────────────────────────────────
+  [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+  # ── Editors ──────────────────────────────────────────────────
+  # EDITOR: prefer nvim, fallback micro, fallback nano
+  if command -v nvim >/dev/null 2>&1; then
+    export EDITOR="nvim"
+  elif command -v micro >/dev/null 2>&1; then
+    export EDITOR="micro"
+  elif command -v nano >/dev/null 2>&1; then
+    export EDITOR="nano"
+  fi
+  # VISUAL: prefer code (VS Code), fallback to EDITOR
+  if command -v code >/dev/null 2>&1; then
+    export VISUAL="code"
+  else
+    export VISUAL="${EDITOR:-nvim}"
+  fi
+
+  # ── AI / LLM tools ──────────────────────────────────────────
+  export OLLAMA_HOST="${OLLAMA_HOST:-http://localhost:11434}"
+
+  # ── Build tools ──────────────────────────────────────────────
+  export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"
+
+  # ── File search ──────────────────────────────────────────────
+  export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+  # ── Trash ────────────────────────────────────────────────────
+  export TRASH="${XDG_DATA_HOME:-$HOME/.local/share}/Trash"
+
+  # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
+  # They will be available in ALL shells: scripts, cron, make,
+  # SSH commands, terminals, tmux panes.
+  # ═══════════════════════════════════════════════════════════════
+fi
+
+# ════════════════════════════════════════════════════════════════
+# SECTION 2: INTERACTIVE-ONLY — runs ONCE per interactive shell
+# ════════════════════════════════════════════════════════════════
+# This section ONLY runs if:
+#   1. The shell is interactive ($- contains 'i') — terminal, SSH, tmux pane
+#   2. __KSHRC_INTERACTIVE_LOADED has not been set yet in this process
+#
+# Scripts, cron, make, `ssh host command`, `zsh -c` — all SKIP this section.
+#
+# Put here: aliases, shell prompt tweaks, `cd`, completions,
+#           with-env, auto-tmux, and any function that reads secrets.
+# ════════════════════════════════════════════════════════════════
+
 case $- in *i*) ;; *) return ;; esac
 
-# History
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
+if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
+  __KSHRC_INTERACTIVE_LOADED=1
+  # NOTE: NOT exported — each new interactive shell sets its own.
 
-# Color support
-if command -v dircolors >/dev/null 2>&1; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
-fi
+  # ── Workspace entry ─────────────────────────────────────────
+  cd "$HOME/KpihX-Labs"
 
-# Aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias ta='tmux-attach'
+  # ── History ─────────────────────────────────────────────────
+  HISTCONTROL=ignoreboth
+  HISTSIZE=10000
+  HISTFILESIZE=20000
 
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
-fi
+  # ── Colors (shell-agnostic, POSIX) ──────────────────────────
+  if [ -x /usr/bin/dircolors ]; then
+    test -r "$HOME/.dircolors" && eval "$(dircolors -b "$HOME/.dircolors")" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+  fi
 
-# Tool aliases
-command -v batcat >/dev/null 2>&1 && alias bat=batcat
-command -v bat >/dev/null 2>&1 && alias bat=bat
+  # ── Generic aliases (shell-agnostic) ───────────────────────
+  alias ll='ls -alF'
+  alias la='ls -A'
+  alias l='ls -CF'
+  alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*\([0-9]\+\s*\)|[;&|]*\s*alert$//'\'')"'
+  alias ta='tmux-attach'
+  alias docker-clean="sudo aa-remove-unknown && docker system prune -f"
 
-setopt HIST_IGNORE_SPACE
+  # ── with-env helper (INTERACTIVE ONLY) ──────────────────────
+  # DO NOT move to Section 1 — scripts should not have automatic
+  # access to secrets. Only interactive shells define this function.
+  # Usage: with-env [-e/--env-file <file>] <command> [args...]
+  with-env() {
+    local env_file="$HOME/.agents/.env"
+    if [ "$1" = "-e" ] || [ "$1" = "--env-file" ]; then
+      env_file="$2"
+      shift 2
+    fi
+    if [ ! -f "$env_file" ]; then
+      echo "Error: Env file '$env_file' not found." >&2
+      return 1
+    fi
+    if [ $# -eq 0 ]; then
+      echo "Usage: with-env [-e/--env-file <file>] <command> [args...]" >&2
+      return 1
+    fi
+    (
+      set -a
+      . "$env_file"
+      set +a
+      "$@"
+    )
+  }
 
-# === k-25 — sshd autostart (every Termux shell) ===
-[[ -f ~/.agents/skills/k-25/assets/k25-remote.sh ]] && . ~/.agents/skills/k-25/assets/k25-remote.sh
+  # ── ZSH-SPECIFIC interactive ─────────────────────────────────
+  if [ -n "$ZSH_VERSION" ]; then
+    # Completion system (required before any compdef or completion source)
+    autoload -Uz compinit && compinit
 
-# ── Auto-tmux (S25 local session) ───────────────────────────
-if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
-  tmux has-session -t s25 2>/dev/null && tmux attach -t s25
+    # Zsh options
+    setopt HIST_IGNORE_SPACE
+
+    # fnm auto-switch (per-directory node version)
+    if [ -d "$FNM_PATH" ] && command -v fnm >/dev/null 2>&1; then
+      eval "$(fnm env --use-on-cd --shell zsh 2>/dev/null)"
+    fi
+
+    # Bun completions (zsh)
+    [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+    # with-env zsh autocomplete
+    type compdef >/dev/null 2>&1 && compdef _precommand with-env 2>/dev/null || true
+
+    # ══ >>> ADD ZSH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ═══
+    # If it only works in zsh (widgets, zle, zstyle, hooks),
+    # guard it with [ -n "$ZSH_VERSION" ] and put it here.
+    # ══════════════════════════════════════════════════════════
+  fi
+
+  # ── BASH-SPECIFIC interactive ────────────────────────────────
+  if [ -n "$BASH_VERSION" ]; then
+    # ══ >>> ADD BASH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ══
+    # If it only works in bash (shopt, PROMPT_COMMAND, etc.),
+    # guard it with [ -n "$BASH_VERSION" ] and put it here.
+    # ═════════════════════════════════════════════════════════
+  fi
+
+  # ── Shell-agnostic interactive (zsh AND bash) ────────────────
+  # Tool aliases
+  [ -x /usr/bin/batcat ] && alias bat=batcat
+
+  # Google Workspace profiles
+  [ -f "$HOME/.config/gws/gws-profiles.zsh" ] && source "$HOME/.config/gws/gws-profiles.zsh"
+
+  # Legacy bash aliases (if any)
+  [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"
+
+  # ══ >>> ADD GENERIC (zsh+bash) INTERACTIVE SETTINGS HERE <<< ═
+  # If it's safe for both shells and only useful interactively
+  # (aliases, source of compat files, etc.), put it here.
+  # ══════════════════════════════════════════════════════════════
+
+  # ── OpenCode Ollama integration (bash+zsh compatible) ──────
+  # Wraps ollama pull/rm/delete to auto-sync models into opencode.jsonc.
+  # File has its own interactive guard — safe to source here.
+  _ollama_sh="$HOME/.agents/skills/k-opencode/scripts/opencode-ollama.sh"
+  [ -f "$_ollama_sh" ] && source "$_ollama_sh"
+  unset _ollama_sh
+
+  # === k-25 — sshd autostart (every Termux shell) ===
+  [ -f "$HOME/.agents/skills/k-25/assets/k25-remote.sh" ] && . "$HOME/.agents/skills/k-25/assets/k25-remote.sh"
+
+  # ── Auto-tmux (interactive only) ────────────────────────────
+  # Replace <INFRA_SESSION> with actual infra name (ubuntu, s25, pve...).
+  # Runs ONCE per new interactive shell (inside __KSHRC_INTERACTIVE_LOADED guard).
+  # If already inside tmux ($TMUX set), or no TTY, skip.
+  if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1 && [ -t 0 ]; then
+    if tmux has-session -t s25 2>/dev/null; then
+      tmux attach -t s25
+    fi
+  fi
+
+  # ══ >>> THIS IS THE LAST GUARDED BLOCK <<< ═══════════════════
+  # Anything below the `fi` on the next line is outside the guard
+  # and runs EVERY TIME .kshrc is sourced interactively.
+  # ══════════════════════════════════════════════════════════════
 fi

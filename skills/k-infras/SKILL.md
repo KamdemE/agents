@@ -49,8 +49,8 @@ When setting up a **new infrastructure** (any equipment running a shell), an age
 
 | Order | Skill | Purpose |
 |-------|-------|---------|
-| 1 | **`k-zsh`** | Shell setup: `.zshrc`, `.bashrc`, PATH, env vars. |
-| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). `~/.kshrc` is a **symlink** to that file. If the infra skill does not exist, create it following `k-agents` before proceeding. |
+| 1 | **`k-zsh`** | Shell setup: 5 shared files (zshrc, zshenv, zprofile, bashrc, profile) symlinked from `k-zsh/assets/`. PATH, env vars, hub pattern. |
+| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). Infra skills have ONLY `kshrc` — the 5 other files are shared from `k-zsh`. If infra skill has no `assets/kshrc`, copy `kshrc.base`, customize, then symlink. |
 | 2 | **`k-tailscale`** | Mesh VPN: install, authenticate, verify connectivity. |
 | 3 | **`k-tmux`** | Tmux session per equipment: standard 3-window layout (agents/default/tmp), shared interactive gate. |
 | 4 | **`k-ssh`** | SSH config: canonical `assets/ssh.conf`, key generation, Bitwarden agent, passphrase rules. |

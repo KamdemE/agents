@@ -65,13 +65,21 @@ test -d ~/.agents || git clone git@github.com:KpihX/agents.git ~/.agents
 cd ~/.agents && git pull github master
 ```
 
-### 1. Shell — `~/.kshrc`
+### 1. Shell — 6 symlinks from .agents
 
 ```bash
+# 5 shared files from k-zsh/assets/
+ln -sf ~/.agents/skills/k-zsh/assets/zshrc    ~/.zshrc
+ln -sf ~/.agents/skills/k-zsh/assets/zshenv   ~/.zshenv
+ln -sf ~/.agents/skills/k-zsh/assets/zprofile ~/.zprofile
+ln -sf ~/.agents/skills/k-zsh/assets/bashrc   ~/.bashrc
+ln -sf ~/.agents/skills/k-zsh/assets/profile  ~/.profile
+
+# kshrc from k-25 assets (infra-specific: s25 tmux + sshd autostart)
 ln -sf ~/.agents/skills/k-25/assets/kshrc ~/.kshrc
 ```
 
-This sources `assets/k25-remote.sh` directly, which auto-starts `sshd` on every Termux shell.
+The `kshrc` sources `assets/k25-remote.sh` directly, which auto-starts `sshd` on every Termux shell.
 
 ### 2. SSH — Include k-ssh canonical config
 

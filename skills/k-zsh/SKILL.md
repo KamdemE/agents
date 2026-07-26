@@ -20,18 +20,21 @@ allowed-tools: Bash, Read, Write, Edit
 > **Related skills:** `k-tmux` (setup BEFORE zsh — kshrc.base has auto-tmux at end) · `k-infras` (master map, checklist step 1b) · `k-skill-creator` (create infra skill if absent) · `k-ubuntu` / `k-pve` / `k-25` (infra skills with their own `assets/kshrc`)
 >
 > **Asset files:**
-> - `assets/kshrc.base` → **template** — seed for new infra skill's `assets/kshrc`
-> - `assets/zshrc` → **interactive zsh** — symlinked from `~/.zshrc` (🔴 NEVER MODIFY)
-> - `assets/bashrc` → **bash fallback** — symlinked from `~/.bashrc` (🔴 NEVER MODIFY)
+> - `assets/kshrc.base` → **infrastructure template** — seed for new infra skill's `assets/kshrc` (🔴 NEVER MODIFY base, edit infra copy)
+> - `assets/bashrc` → **bash fallback template** — used by `k-ubuntu/assets/bashrc`
+> - `assets/zshrc` → **zsh template** — used by `k-ubuntu/assets/zshrc`
 >
-> **Not directly managed by k-zsh but must be configured:** `.zshenv`
-> - **`.zshenv`** — loads `.kshrc` for **all** zsh shells (interactive + non-interactive):
->   ```bash
->   [[ -f ~/.kshrc ]] && source ~/.kshrc
->   ```
-> - `.zprofile` no longer needs `source ~/.kshrc` — `.zshenv` is the single source for all shells.
-> 
-> ⚠️ Why both? `.zshenv` runs in every zsh shell (including agent non-interactive sub-shells). `.zprofile` runs only in login shells. Having `.kshrc` sourced from `.zshenv` ensures `fnm` and PATH are available even in `make` sub-shells and MCP server invocations.
+> **Per-infra startup files** (in each infra skill's `assets/`):
+> - `kshrc` → **the hub** — 2 sections (universal + interactive), symlinked from `~/.kshrc`
+> - `zshrc` → **interactive zsh** — symlinked from `~/.zshrc` (🔴 NEVER MODIFY)
+> - `zshenv` → **zsh universal** — symlinked from `~/.zshenv` (🔴 NEVER MODIFY)
+> - `zprofile` → **zsh login** — symlinked from `~/.zprofile` (🔴 NEVER MODIFY)
+> - `bashrc` → **bash interactive** — symlinked from `~/.bashrc` (🔴 NEVER MODIFY)
+> - `profile` → **sh/bash login** — symlinked from `~/.profile` (🔴 NEVER MODIFY)
+>
+> The startup files are **per-infra** (k-ubuntu, k-25, etc.) because each may differ slightly
+> (tmux session name, machine-specific completions). They are NEVER edited in place —
+> always through the infra skill's asset.
 
 ---
 
@@ -55,22 +58,21 @@ The `.kshrc.base` template has an **auto-tmux block** at the end that auto-attac
 ```
 New machine setup:
   0. Setup tmux first (k-tmux) — creates the infra tmux session
-  1. Check if infra skill exists (e.g. k-ubuntu, k-pve, k-25)
-     ├─ YES, with assets/kshrc → go to step 3
-     └─ NO or no assets/kshrc → go to step 2
-  2. Create infra skill (k-skill-creator) if absent, or add assets/kshrc to existing skill:
-     cp k-zsh/assets/kshrc.base → <infra-skill>/assets/kshrc
-     Customize: replace <INFRA_SESSION> with infra short name (ubuntu, pve, s25...)
-     Add machine-specific env vars, PATHs, source calls
-  3. Symlink into home:
-     ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
-  4. Symlink zshrc and bashrc from k-zsh assets:
-     ln -sf ~/.agents/skills/k-zsh/assets/zshrc  ~/.zshrc
-     ln -sf ~/.agents/skills/k-zsh/assets/bashrc ~/.bashrc
-  5. Verify: open new shell — auto-attaches to infra tmux session
+  1. 5 shared files from k-zsh (zshrc, zshenv, zprofile, bashrc, profile):
+     ln -sf ~/.agents/skills/k-zsh/assets/zshrc    ~/.zshrc
+     ln -sf ~/.agents/skills/k-zsh/assets/zshenv   ~/.zshenv
+     ln -sf ~/.agents/skills/k-zsh/assets/zprofile ~/.zprofile
+     ln -sf ~/.agents/skills/k-zsh/assets/bashrc   ~/.bashrc
+     ln -sf ~/.agents/skills/k-zsh/assets/profile  ~/.profile
+  2. Check if infra skill has assets/kshrc (e.g. k-ubuntu, k-pve, k-25)
+     ├─ YES → ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
+     └─ NO  → cp k-zsh/assets/kshrc.base → <infra-skill>/assets/kshrc
+               replace <INFRA_SESSION> with infra short name
+               add machine-specific lines, then symlink
+  3. Verify: open new shell — auto-attaches to infra tmux session
 ```
 
-The `.zshrc` and `.bashrc` source `~/.kshrc` — that's how the hub pattern flows.
+The 5 shared files (`.zshrc`, `.zshenv`, `.zprofile`, `.bashrc`, `.profile`) source `~/.kshrc` — that's how the hub pattern flows.
 
 ---
 
@@ -79,9 +81,12 @@ The `.zshrc` and `.bashrc` source `~/.kshrc` — that's how the hub pattern flow
 One central hub (`.kshrc`) sourced by every shell. No duplicated env vars, no PATH drift.
 
 ```
-.kshrc         ← THE hub — env vars, PATH, source calls (shared by ALL shells)
-.zshrc         ← sources .kshrc → interactive shells (terminal tabs, tmux)
-.bashrc        ← sources .kshrc → bash fallback
+.kshrc         ← THE hub — infra-specific (k-ubuntu, k-25, etc.) — symlink from infra skill
+.zshrc         ← sources .kshrc → interactive zsh — symlink from k-zsh/assets/
+.zshenv        ← sources .kshrc → ALL zsh (scripts too) — symlink from k-zsh/assets/
+.zprofile      ← login-only actions — symlink from k-zsh/assets/
+.bashrc        ← sources .kshrc → bash fallback — symlink from k-zsh/assets/
+.profile       ← sources .bashrc if bash — symlink from k-zsh/assets/
 ```
 
 ### Benefits
@@ -120,14 +125,17 @@ Each infra skill's `assets/kshrc` contains:
 
 ## 🔴 Frozen Files — Never Modify
 
-`.zshrc` and `.bashrc` are symlinked from `k-zsh/assets/`. They are NEVER edited directly:
+5 shared files are symlinked from `k-zsh/assets/`. They are NEVER edited directly:
 
 | File | Why frozen |
 |------|------------|
-| `.zshrc` | Zsh-specific (theme, plugins, completions). Only update the asset for structural fixes (broken plugin, new omz feature). Never for PATH or env vars. |
+| `.zshrc` | Zsh-specific (theme, plugins, completions). Only update the asset for structural fixes. Never for PATH or env vars. |
+| `.zshenv` | Zsh universal — minimal, just sources .kshrc. Never add aliases/eval here. |
+| `.zprofile` | Zsh login — minimal (example: exec tmux). Only login-specific actions. |
 | `.bashrc` | Bash fallback. Sources .kshrc + bash options. No env vars here. |
+| `.profile` | Sh/bash login — sources .bashrc if bash. PATH handled by .kshrc. |
 
-**The only exception**: if an automated installer (Antigravity, broot, cargo, etc.) appends to one of these files. The append goes through the symlink into the asset — review and either keep it (genuine structural addition) or move the content to `~/.kshrc` and revert the asset.
+**The only exception**: if an automated installer appends to one of these files. The append goes through the symlink into the asset — review and either keep it (genuine structural addition) or move the content to `~/.kshrc` and revert the asset.
 
 ---
 
@@ -153,19 +161,22 @@ Each infra skill's `assets/kshrc` contains:
    chsh -s $(which zsh)
    ```
 
-2. **Infra skill & kshrc**: follow the **How it works** section above (steps 1-3):
-   - Check/create infra skill with `assets/kshrc`
-   - `ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc`
-
-3. **Symlink zshrc and bashrc**:
+2. **5 shared files from k-zsh** (all symlinks → `k-zsh/assets/`):
    ```bash
-   ln -sf ~/.agents/skills/k-zsh/assets/zshrc  ~/.zshrc
-   ln -sf ~/.agents/skills/k-zsh/assets/bashrc ~/.bashrc
+   ln -sf ~/.agents/skills/k-zsh/assets/zshrc    ~/.zshrc
+   ln -sf ~/.agents/skills/k-zsh/assets/zshenv   ~/.zshenv
+   ln -sf ~/.agents/skills/k-zsh/assets/zprofile ~/.zprofile
+   ln -sf ~/.agents/skills/k-zsh/assets/bashrc   ~/.bashrc
+   ln -sf ~/.agents/skills/k-zsh/assets/profile  ~/.profile
    ```
+
+3. **Infra skill & kshrc**: follow the **How it works** section above (step 2):
+   - Check infra skill: if `assets/kshrc` exists → symlink; if not → cp base, customize, symlink
+   - `ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc`
 
 4. **Verify**: open new shell → auto-attaches to infra tmux session.
 
-> **Existing files on the machine** (`.bashrc`, `.profile`, etc.) should not be deleted — just ensure `~/.zshrc` and `~/.bashrc` are symlinks to k-zsh assets. The hub pattern adds, never replaces.
+> **Existing files on the machine** should not be deleted — just replace with symlinks to `.agents/` assets. The hub pattern adds, never replaces.
 
 ---
 

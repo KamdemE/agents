@@ -208,7 +208,8 @@ Edge is patched to always start with `--remote-debugging-port=9222`:
 
 The wrapper at `/opt/microsoft/msedge/microsoft-edge` gets overwritten on each Edge update. Use a user-local wrapper instead:
 
-**Source of truth:** `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`
+**Source of truth:** `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`  
+**CDP helper:** `~/.agents/skills/k-browser/assets/msedge-cdp.sh` — lightweight variant (no wrapper, runs `/opt/microsoft/msedge/msedge --remote-debugging-port=9222` directly)
 ```bash
 #!/bin/bash
 exec /opt/microsoft/msedge/msedge --remote-debugging-port=9222 "$@"
