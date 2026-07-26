@@ -103,7 +103,7 @@ Notes:
 
 QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
-- `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
+- `qmdr query/vsearch ...` for important searches needing freshness guarantees
 
 ## Optimization (History & Cache)
 

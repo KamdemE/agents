@@ -69,7 +69,7 @@ Do not list installed MCPs here; read `$HOME/.vibe/config.toml` directly.
 
 QMD policy: do not configure QMD as a VIBE MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths
-- `qmdr query/search/vsearch ...` for important searches needing freshness guarantees
+- `qmdr query/vsearch ...` for important searches needing freshness guarantees
 
 ## Optimization (History & Cache)
 

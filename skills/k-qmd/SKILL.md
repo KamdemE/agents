@@ -50,10 +50,10 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 
 ## Operational Rules
 
-- run `qmd update <collection>` before searching when freshness matters
+- run `qmd update <collection>` before searching when freshness matters — prefer `qmdr query` for important searches
 - run `qmd embed <collection>` only when new files were added or content changed materially
 - before any important semantic or exploratory search, run `qmd status`; if `Pending > 0`, run `qmd embed` before querying
-- prefer `qmdr query/search/vsearch ...` for important searches so the freshness gate is enforced automatically
+- prefer `qmdr query/vsearch ...` for important searches so the freshness gate is enforced automatically
 - use plain `qmd` for admin/read flows: `status`, `get`, `multi-get`, `embed`, `update`, `cleanup`, `collection ...`
 - keep QMD hot-only; large raw transcripts and chat/session histories do not belong in the index
 - when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
@@ -67,16 +67,16 @@ Raw runtime histories stay out of QMD on purpose. Use the corresponding `k-*` ru
 
 QMD is now CLI-first in KπX runtimes. Use:
 - `qmd query ...`
-- `qmd search ...`
+- `qmdr query ...`
 - `qmd get ...`
 - `qmd multi-get ...`
 - `qmdr query ...`
-- `qmdr search ...`
+- `qmdr query ...`
 - `qmdr vsearch ...`
 
 Rule of thumb:
 - `qmd` = inspect, administer, or fetch exact content
-- `qmdr` = important search/exploration where freshness must be guaranteed first
+- `qmdr query/vsearch` = important query/exploration where freshness must be guaranteed first
 
 Exact command shapes and setup details live in `references/mcp-setup.md`.
 
@@ -101,7 +101,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - `references/qmd-optimization.md` — inspection checklist, SQLite probes, cleanup flow, and latest QMD optimization actions
 - `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
 - `references/post-commit-hook.sh` — shared git hook template for repo-name-derived collections; safe by default (`update-only`, optional debounced embeddings)
-- `scripts/qmdr` — explicit wrapper that auto-runs the freshness gate before `query`, `search`, or `vsearch`
+- `scripts/qmdr` — explicit wrapper that auto-runs the freshness gate before `query` or `vsearch`
 
 ## Insights Discipline (mandatory)
 
