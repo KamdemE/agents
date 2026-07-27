@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -112,6 +112,9 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 | Path | Type | Purpose |
 |------|------|---------|
 | `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint (see below) |
+| `assets/cinema-mode.conf` | config | Centralized defaults for Gamescope cinema viewport geometry |
+| `scripts/gamescope-cinema.sh` | shell | Scale-compensated Wayland Gamescope launcher (AZERTY synced) |
+| `scripts/inject-cinema-actions.py` | python | Desktop Action Injector for "Launch in Cinema Mode" context menus |
 | `scripts/tg-bot.py` | python | Telegram bot daemon — listens for `/clean`, `/status`, `/backup` |
 | `assets/tg-bot.service` | systemd | User service for tg-bot.py (symlink target) |
 | `scripts/clean/` | dir | System cleanup suite (17 scripts, systemd timer) |
@@ -442,6 +445,13 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 ---
 
+## Display — ASUS VE228 Stretch Fix
+
+The ASUS VE228 monitor's internal scaler stretches non-standard resolutions vertically. The software-native solution is the **Tiling Shell** GNOME extension (installable via Extension Manager GUI). It creates a custom 1920x880 snap zone, leaving 200px black at the bottom when combined with `xwayland-native-scaling` and a solid black wallpaper.
+
+→ **Full engineering journey:** [`techskills/ubuntu-asus-ve228-stretch-fix.md`](https://github.com/kpihx/techskills/blob/master/ubuntu-asus-ve228-stretch-fix.md) — Paths A–G, Gamescope detour, final resolution.
+→ **Issues:** [`k-context/references/issues.md#ISS-20260727-001`](../k-context/references/issues.md)
+
 ## Bundled references
 
 | File / Script | Content |
@@ -463,5 +473,6 @@ See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP v
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-27 | [OPENCODE] | v1.9.0 — **Cinema Mode (Gamescope) Integration**: Added scale-compensated launcher wrapper `gamescope-cinema.sh` with AZERTY layout sync, `cinema-mode.conf` config, and `inject-cinema-actions.py` crawler. |
 | 2026-07-26 | [OPENCODE] | v1.8.0 — **with-env helper added**: Added the `with-env` function and Zsh autocompletion to `assets/kshrc` for secure command execution with isolated `.env` loading. |
 | [SUMMARY] | — | v1.5.0–v1.7.0 clean docs + secrets + kshrc symlink + idempotency guard; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |

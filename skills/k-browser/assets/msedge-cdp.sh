@@ -7,4 +7,4 @@
 #
 # Installed via: ln -sf ~/.agents/skills/k-browser/assets/msedge-wrapper.sh ~/.local/bin/msedge
 
-exec /opt/microsoft/msedge/msedge --remote-debugging-port=9222 --class=msedge-cdp "$@"
+exec /opt/microsoft/msedge/msedge --remote-debugging-port=9222 --class=msedge-cdp --user-data-dir=$HOME/.config/msedge-cdp "$@"

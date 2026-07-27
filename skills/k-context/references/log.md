@@ -8,6 +8,10 @@ New entries are added here when the main k-context `## Session Log` section reac
 
 | Date | Agent | Entry |
 |---|---|---|
+| 2026-07-26 | [OPENCODE] | **with-env completions & documentation** — Added Zsh autocomplete support for `with-env` to `k-ubuntu/assets/kshrc` and `k-zsh/assets/kshrc.base`. Updated `k-uv/SKILL.md` with PyPI package publication guide, `~/.agents/AGENTS.md` with general `with-env` / tmux ops pane rules for secrets, and `k-ubuntu/SKILL.md` version. *(Rotated from k-context Session Log — cap 2026-07-27.)* |
+| 2026-07-26 | [OPENCODE] | **with-env helper added** — Added Zsh/Bash helper function `with-env` to `k-ubuntu/assets/kshrc` and `k-zsh/assets/kshrc.base` supporting default env loading and custom files. Proactively updated `k-zsh` skill to v2.2.0. *(Rotated from k-context Session Log — cap 2026-07-27.)* |
+| 2026-07-26 | [OPENCODE] | **.env.example update** — Added `UV_PUBLISH_TOKEN=` under PyPI section in `.env.example`. *(Rotated from k-context Session Log — cap 2026-07-27.)* |
+| 2026-07-26 | [OPENCODE] | **with-env completions, check & cleanup** — Added autocomplete, PyPI guide, AGENTS rules, and session log updates. *(Rotated from k-context Session Log — cap 2026-07-27.)* |
 | 2026-07-25 | [OPENCODE] | **Lebara eSIM (S25) résolue et archivée** — QR rescanné avec succès après la période d'attente de 30j (~25/06/2026). eSIM active sur le S25. Dossier `$HOME/Downloads/lebara-esim/` et PDF canonique conservés comme archive. TickTick clôturée. Archivé dans k-context `[ARCHIVE]`. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
 | 2026-07-25 | [OPENCODE] | **Systemd audit + migration — all services symlinked to .agents/** — Fixed 6 broken symlinks, purged 2 obsolete + 1 zombie service. Migrated ollama.service, hermes-gateway.service, rclone-deep-pc6.service → respective k-* skills/assets/. Gitconfig centralized in k-git/assets/. Curator + k-optim updated. *(Rotated from k-context Session Log — cap 2026-07-25.)* |
 | 2026-07-22 | [OPENCODE] | **Phase 2 — k-ubuntu created** — Workstation-specific skill from k-workspace content. *(Rotated from k-context Session Log — cap 2026-07-25.)* |

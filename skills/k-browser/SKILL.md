@@ -255,6 +255,7 @@ ln -sf ~/.agents/skills/k-browser/assets/msedge.desktop ~/.local/share/applicati
 | Path | Content |
 |------|---------|
 | `references/edge-cdp-setup.md` | CDP :9222 setup details |
+| `references/edge-cdp-profile.md` | Profile identity, extensions, permissions, how to extract |
 | `references/insights.md` | Durable runtime lessons |
 | `references/workflows-google-ai-studio.md` | AI Studio automation |
 

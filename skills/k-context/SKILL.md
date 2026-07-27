@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.6.0"
+  version: "3.7.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -47,6 +47,7 @@ allowed-tools: "Bash(*), *"
 
 | Task | IMPORTANT | URGENT | CONCERNED | Date | Description |
 |------|-----------|--------|-----------|------|-------------|
+| **GNOME extensions audit** | NO | NO | K-UBUNTU | — | Analyser les extensions GNOME installées et les référencer dans `k-ubuntu/SKILL.md` avec les automatismes d'installation (Extension Manager CLI). |
 | **ISS-20260722-001** opencode-web upstream | NO | NO | OPENCODE | **2026-08-12** | Vérifier si le fix upstream **PR #28434** (MCP disabled state persistence) a été mergé dans opencode. Les settings web sont perdus au restart car stockés en `localStorage` browser uniquement (pas de persistance serveur). Si fix upstream dispo → tester et refermer l'issue. Sinon repousser le check de 3 semaines. Liens: [#23934](https://github.com/anomalyco/opencode/issues/23934), [#28428](https://github.com/anomalyco/opencode/issues/28428), PR [#28434](https://github.com/anomalyco/opencode/pull/28434). |
 | **tg-homelab (k-pve)** | NO | NO | PVE | — | Old `tg-homelab.service` purged. Rebuild as k-pve arch: Telegram bot for PVE monitoring, server logs, backup notifications. Define scope vs `tg-bot` (workstation) before implementation. |
 | **rclone client_id** | YES | NO | GDRIVE | 2026 | Rclone's shared Google Drive client_id is being retired in 2026. Must create own OAuth client_id in Google Cloud Console + `rclone config reconnect` for both gdrive: and gdrive-x: before it stops working. See k-rclone/SKILL.md for procedure. |
@@ -155,17 +156,15 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-07-27 | [OPENCODE] | **ASUS VE228 Display Stretch Resolution (`ISS-20260727-001`)**: Full engineering journey documented in techskills. Explored Paths A-G (DDC/CI, DRM margins, modelines, EDID injection, xrandr transform, OBS Projector, CEA-861 Overscan). Gamescope tested (worked but centered). **Final resolution: Tiling Shell** GNOME extension + `xwayland-native-scaling` + solid black wallpaper. Cleaned all intermediate packages (obs-studio, gamescope). Pushed tutorial to techskills. |
 | 2026-07-27 | [OPENCODE] | **Shell startup files refactor (majeur)** : Nouvelle architecture. `.kshrc` redesigned avec 2 sections (universelle + interactive) à guards indépendants, plus de fuite d'env (`__KSHRC_LOADED` plus exporté). Les 5 fichiers partagés (zshrc/zshenv/zprofile/bashrc/profile) sont ds `k-zsh/assets/` et symlinkés depuis ~/. Chaque infra skill n'a que son `kshrc` dans assets/ (k-ubuntu, k-25). `kshrc.base` mis à jour avec le nouveau pattern. Backups des anciens dans `.agents/tmp/`. Voir session pour détails. |
 | 2026-07-27 | [OPENCODE] | **Architecture corrigée** : Les 5 fichiers partagés sont dans `k-zsh/assets/` (et non k-ubuntu), les infra skills n'ont QUE leur kshrc. Symlinks fixes. k-25/assets/ nettoyé. Skills mis à jour. |
+| 2026-07-27 | [OPENCODE] | **Prompt enforcer modifié** — Question part updated in all 3 files (`prompt-enforcer.js`, `prompt-enforcer-strict.js`, `core/prompt_enforcer.py`): added `IF YOU DID NOT ALREADY ANSWER IT PREVIOUSLY` condition to the question rule to prevent redundant answers. |
 | 2026-07-26 | [OPENCODE] | **Commit 08c9fbf — QMD fix**: Removed fnm exec from post-commit hook. QMD index now updates successfully. Pushed to github + gitlab. |
 | 2026-07-26 | [OPENCODE] | **make check refactor**: Added `check-python` (ruff+pyright) and `check-sh` (shellcheck) targets to `.agents/Makefile`. Replaced all references to `make audit` with `make check` in active skills (k-optim v3.1.0, k-context v3.6.0, k-final v1.6.0, k-uv v1.2.0, k-agents v1.3.0, k-codex, k-optim) and agents (Colab prompt, curator, pragmatic-checker). Updated pre-commit hook to `make check`. Installed `ruff` and `pyright` via `uv tool install`. |
 | 2026-07-26 | [OPENCODE] | **ts-proxy path migration**: Moved ts-proxy directory from `Fluid/ts_proxy` to `~/KpihX-Labs/ts_proxy/`, adjusted its `uv` editable installation link, and verified CLI execution. |
 | 2026-07-26 | [OPENCODE] | **ts-proxy warning resolution**: Resolved a hidden `pytest` `RuntimeWarning` in `test_admin_login_error` and `test_admin_login` where coroutine mocks were left unawaited. Rewrote the mocks to cleanly close and drive the coroutines using `.close()` and `.send(None)`. Bumped version to `v1.1.1` in `pyproject.toml`, successfully ran `make check` (182 passed, 0 warnings), committed, published to PyPI, and pushed to github + gitlab. |
 | 2026-07-26 | [OPENCODE] | **tg-proxy & ts-proxy release**: Fixed a Telethon exception handling lint error in `tg-proxy`'s `client.py` and ran `make check` (25 passed). Fixed git permissions (root ownership of `packed-refs` and `.git/logs/HEAD` via tmux `sudo chown`) and added `push` target in `ts-proxy`'s `Makefile`, then ran `make check` (182 passed). Staged changes, committed, built, published both packages to PyPI using `with-env`, and pushed branches and tags to github + gitlab. |
-| 2026-07-26 | [OPENCODE] | **with-env completions & documentation**: Added Zsh autocomplete support for `with-env` to `k-ubuntu/assets/kshrc` and `k-zsh/assets/kshrc.base`. Updated `k-uv/SKILL.md` with PyPI package publication guide, `~/.agents/AGENTS.md` with general `with-env` / tmux ops pane rules for secrets, and `k-ubuntu/SKILL.md` version. |
-| 2026-07-26 | [OPENCODE] | **with-env helper added**: Added Zsh/Bash helper function `with-env` to `k-ubuntu/assets/kshrc` and `k-zsh/assets/kshrc.base` supporting default env loading and custom files. Proactively updated `k-zsh` skill to v2.2.0. |
-| 2026-07-26 | [OPENCODE] | **.env.example update**: Added `UV_PUBLISH_TOKEN=` under PyPI section in `.env.example`. |
-| 2026-07-26 | [OPENCODE] | **with-env completions, check & cleanup**: Added autocomplete, PyPI guide, AGENTS rules, and session log updates. |
 | [SUMMARY] | — | *(Full entries → `references/log.md`)* |
 
 ## References
