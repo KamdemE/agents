@@ -192,5 +192,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-07-31 | [OPENCODE] | v3.7.0 — **whats-proxy CLI shipped**: Session log entry + Active Projects row for the new non-MCP WhatsApp CLI proxy (`~/KpihX-Labs/whats_proxy/`, 65 actions, Bun+Baileys daemon, github+gitlab). |
 | 2026-07-26 | [OPENCODE] | v3.6.0 — **make check target**: Updated references from make audit to make check, in line with the new unified validation process. |
 | [SUMMARY] | — | v3.2.0–v3.4.0 Lebara eSIM archive + Post-commit hook extended + k-workspace deactivated + k-agents from STARTUP_SKILLS + Curator GRAVÉ. Issues governance rules, Full kernel refactor. Earlier → references/log.md |
