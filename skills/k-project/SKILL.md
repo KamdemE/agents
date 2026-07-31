@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.0"
+  version: "2.9.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -280,6 +280,7 @@ This creates/updates `.gitmodules`:
 - **Git workflow + Makefile templates** → `k-git`
 - **Server deployment** → `k-docker`
 - **Contract template** → `references/contract-template.md`
+- **Daemon-based CLI patterns** → `references/daemon-pattern.md` (O_EXCL lock, socket-first bind, readiness wait, idle-exit ping exclusion, env-scoped test isolation — verified in whats-proxy v0.2.0)
 
 ## Insights Discipline (mandatory)
 
@@ -289,8 +290,7 @@ This creates/updates `.gitmodules`:
 
 ## Changelog
 
-| 2026-07-26 | [OPENCODE] | v2.8.0 — **SHELL=/bin/zsh mandatory**: Added documentation and Makefile template update ensuring every project's Makefile has `SHELL := /bin/zsh` for fnm/Node compatibility. |
-| 2026-06-03 | [OPENCODE] | v2.7.1 — Clarified naming convention scope: applies ONLY to KπX-owned publishable projects, never to third-party wrappers. Added explicit exclusions list. |
-| 2026-04-23 | [ANTIGRAVITY] | v2.7.0 — Harmonized dev install with link/unlink convention; added explicit security-hardened installation path reference pointing to k-final for critical projects. |
-| 2026-04-18 | [CODEX] | v2.6.2 — Replaced raw-`sudo` project-init examples with `sui -r` guidance and clarified that privilege must stay scoped inside install logic. |
-| [SUMMARY] | — | v2.6.0 made `CONTRACT.md` mandatory and clarified metadata-vs-runtime split enforcement; +2 older changelog entries kept in file history |
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-07-31 | [OPENCODE] | v2.9.0 — **Daemon-based CLI patterns**: new `references/daemon-pattern.md` (O_EXCL single-owner lock — Unix sockets empirically cannot arbitrate races; socket-first bind ordering; dispatch readiness wait; idle-exit must exclude ping; env-scoped test process discovery). Verified in whats-proxy v0.2.0. |
+| [SUMMARY] | — | v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |
