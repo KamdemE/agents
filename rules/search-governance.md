@@ -4,7 +4,7 @@
 
 ## Mandate
 
-**Agents MUST prefer `plocate` over `find`/`grep`/Glob for file search.**
+**Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily) over `find`/`grep`/Glob for file search.**
 
 - `plocate <pattern>` → milliseconds (pre-built index)
 - `find / -name <pattern>` → seconds to minutes (full scan)

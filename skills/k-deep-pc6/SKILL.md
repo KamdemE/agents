@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -43,7 +43,7 @@ allowed-tools: Bash, Read, Write, Edit
 **User:** `ikamdem@corp.dxo.com`  
 **Connection:** SSH over DxO VPN (GlobalProtect via OpenConnect on Ubuntu workstation)
 
-**Prerequisite:** DxO VPN must be connected first (`vpn-dxo` on Ubuntu). See `k-ubuntu` → Remote Work.
+**Prerequisite:** DxO VPN must be connected first (`sudo systemctl start vpn-dxo` on Ubuntu). See `k-ubuntu` → Remote Work.
 
 ---
 
@@ -57,5 +57,6 @@ Deep-PC6 is a Linux development/server machine at the DxO internship. Its exact 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-03 | [OPENCODE] | v1.1.0 — Updated VPN prerequisite reference: `vpn-dxo` CLI removed (k-dxo v1.4.0), now `sudo systemctl start vpn-dxo`. |
 | 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-deep-pc6. Linux server at DxO internship. SSH config, VPN prerequisite. Purpose TBD as discovered. |
 | [SUMMARY] | — | — |

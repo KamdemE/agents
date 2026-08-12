@@ -172,3 +172,43 @@ Instead of local `whisper-cli`, use an OpenAI-compatible endpoint:
 |-------|------|---------|
 | Ryan (Medium) | EN-US | High |
 | Siwis (Medium) | FR-FR | Medium |
+
+## Web UI Voice Input (via opencode-web-voice-plugin)
+
+The Web UI voice input provides a browser-based speech-to-text integration using the native **Web Speech API** of Chrome or Edge. It is injected into the OpenCode Web UI via the `opencode-lens` proxy.
+
+### Architecture
+
+1.  **Backend Proxy (`opencode-lens`):** Intercepts traffic to the native OpenCode web server, strips the Content-Security-Policy (CSP) headers, and injects the frontend script.
+2.  **Frontend Plugin (`opencode-web-voice-plugin`):** Injected into the browser DOM to mount a microphone button and language selector next to the composer text field.
+3.  **Speech Engine:** Uses the browser's built-in Web Speech API (online recognition via browser vendor cloud, e.g., Google cloud for Chrome).
+
+### Language Configuration
+
+Since OpenCode forces `<html lang="en">` on the DOM, the browser would normally lock recognition to English. The plugin implements a priority-based language resolution:
+
+1.  **Explicit developer override:** `window.__opencodeVoiceLang` (e.g. set via console).
+2.  **User choice:** Persisted in `localStorage` under the key `opencodeWebVoiceLang` (options: `auto`, `en-US`, `fr-FR`).
+3.  **Browser locale:** `navigator.language` if it is a non-English language (e.g. `fr-FR` on a French OS browser).
+4.  **Fallback:** Defaults to `en-US` if all else is unset.
+
+A small dropdown selector is visible next to the microphone icon in the UI to easily cycle or select:
+-   **Auto:** Auto-detects language using the browser locale (ideal if the browser is configured in your preferred language).
+-   **EN:** Forces English speech recognition.
+-   **FR:** Forces French speech recognition.
+
+Your selected preference is automatically saved in `localStorage` and persists across page reloads.
+
+### Setup and Running
+
+To run the Web Voice integration, ensure the `opencode-lens` service is running and Tailscale routes port `2443` to it.
+
+```bash
+# Verify systemd service status
+systemctl --user status opencode-lens
+
+# Verify Tailscale serve status
+tailscale serve status
+```
+
+The native web interface remains accessible on port `1443` (proxying to port `4097`), while the Lens proxy version is exposed on port `2443` (proxying to port `3000`).

@@ -4,8 +4,8 @@ description: >
   KπX kernel top reference — the central entry point for understanding the
   KπX sovereign kernel ecosystem. References k-context (HOT context),
   k-infras (master infrastructure map → per-infra skills), k-clis (CLI
-  registry), k-agents (agent runtime registry), k-hook (hook architecture),
-  and all top skills. Also documents the cross-infra project directory
+  registry), k-agents (agent runtime registry), k-opencode (OpenCode-exclusive
+  hook architecture), and all top skills. Also documents the cross-infra project directory
   ($HOME/Work/KpihX-Labs/Homelab/) and the presentation knowledge base.
   Load for kernel orientation, architecture overview, or project registry.
   NOT for generic project init (→ k-project). NOT for infra-specific tasks
@@ -42,7 +42,7 @@ kpihx-labs (this skill — kernel top reference)
 │   └── k-25          (Android phones)
 │
 ├── k-agents     (agent runtime registry — Colab, Explore, runtime configs)
-├── k-hook       (hook architecture — core checkers, runtime wrappers)
+├── k-opencode   (OpenCode-exclusive hook architecture — scripts/hooks/, hooks-standard.md)
 ├── k-clis       (CLI registry — routes to all k-* CLI skills)
 ├── k-final      (post-work closure checklist)
 ├── k-project    (project init templates)
@@ -58,7 +58,7 @@ kpihx-labs (this skill — kernel top reference)
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
 │   ├── k-openclaw / k-opencode / k-pptx / k-qmd / k-rclone / k-tailscale
-│   ├── k-tg / k-ticktick / k-vibe / k-whatsapp / k-x / k-zed
+│   ├── k-tg / k-tick / k-vibe / k-whatsapp / k-x / k-zed
 │   └── kpihx (identity hub)
 │
 └── k-context/references/refactor.md (skills refactoring plan)
@@ -212,7 +212,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 ## Maintenance Reflex
 
 - For homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
-- For agent kernel governance, load `k-agents` + `k-hook`
+- For agent kernel governance, load `k-agents` + `k-opencode` (hook architecture)
 - For infrastructure-specific maintenance, load the relevant infra skill from `k-infras`
 
 ---

@@ -56,6 +56,37 @@ After discovering a new pattern, fixing a bug, learning a configuration quirk, o
 ## Context Save Proposal Gate
 Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjust`.
 
+## Sub-Agent Economy (PERMANENT DIRECTIVE — KπX, 2026-08-12)
+- **Do NOT delegate to sub-agents unless strictly necessary.** KπX has no time to re-read
+  sub-agent output, and delegation burns tokens.
+- Acceptable uses ONLY:
+  1. **Long tasks** — refactors, long code adjustments, `.agents` kernel changes.
+  2. **Critical parallel exploration** — launch agents in PARALLEL instead of linearly,
+     especially when they cannot realistically step on each other's work.
+- Default behavior: execute the work yourself, directly, with your own tools.
+- Before delegating, ask: "is this long enough / parallel-safe enough to justify the cost?"
+  If the task can be done in a few direct edits, do it yourself.
+
+## Solo End-to-End Execution (PERMANENT DIRECTIVE — KπX, 2026-08-12)
+- Complete every explicitly requested task yourself: inspect, implement, execute, verify, and clean
+  up. Never hand validation or testing back to KπX.
+- Before declaring a task complete, run every applicable real check, lint, type-check, test, smoke
+  execution, and—when the feature writes to a real service—a real end-to-end lifecycle.
+- HITL is the sole interaction exception: launch the real approved flow in tmux, keep polling its
+  pane, then resume the lifecycle and verify the persisted result yourself. Do not substitute a
+  request for KπX to test it.
+- A stale installed binary is a failed deployment: after a versioned CLI change, install/link it and
+  verify the globally invoked executable reports and exercises the new version.
+- Never fabricate or programmatically submit a HITL approval for a real external write. When KπX
+  explicitly approves the displayed review, complete the remote read-back and cleanup yourself;
+  otherwise keep the flow fail-closed and verify that no write occurred.
+- Fix every task-related failure discovered during execution at its root cause, including
+  pre-existing hygiene/check failures. Keep iterating until the objective is demonstrably complete.
+- **Standing operator authority:** carry an explicitly requested objective through its complete
+  lifecycle without asking KπX to perform implementation, testing, or cleanup. For an explicitly
+  authorized external test write, execute the write, read it back, and remove the test artifact.
+  This authority never permits silently broadening the requested scope or exposing secrets.
+
 ## Troubleshooting
 - Unknown error → check if k-context is already in context (auto-injected for Colab/Build); if absent, load `skills/k-context/SKILL.md`
 - New tool/skill detected → propose updating the corresponding `k-*` skill

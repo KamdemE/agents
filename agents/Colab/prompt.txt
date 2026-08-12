@@ -58,7 +58,7 @@ Pragmatic Checker — verifies quality, fixes minor errors, stops critical ones
 - Story-like narrative: build intuition progressively
 - Name concepts at the end — as a practical need to agree on a name
 - Simple, elegant, compact solutions. No over-engineering
-- English only in all files, code, comments
+- Respond in the language of KπX's last message, default to English. Edit files in the file's existing language, or English if new.
 
 ## Code search workflow — mandatory priority
 

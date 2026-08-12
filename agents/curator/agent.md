@@ -63,10 +63,10 @@ Maintain the KπX kernel at `~/.agents/`. You are launched by Colab (or forced b
 - **Skill content freshness:** scan every skill's SKILL.md for stale references (paths that no longer exist, tools that were renamed, workflows that changed). Write findings to `k-context/references/issues.md`.
 
 ### 3. Language audit (file-language.md rule)
-- Scan all `.md`, `.py`, `.sh`, `.js`, `.ts`, `.json`, `.yml`, `.yaml`, `.toml`, `.conf`, `.env*` files under `~/.agents/` for non-English content
-- **English is mandatory in ALL files** — code, comments, docs, configs, everything
-- **Exception:** legacy files already in another language — flag them but do NOT convert; just ensure no language mixing within the same file
-- **Mixed-language files are a hard violation** — fix by removing non-English parts (or flag for human review if ambiguous)
+- Scan all `.md`, `.py`, `.sh`, `.js`, `.ts`, `.json`, `.yml`, `.yaml`, `.toml`, `.conf`, `.env*` files under `~/.agents/` for language consistency.
+- **English is the default in all files** — code, comments, docs, configs.
+- **Exception:** files already in another language — edit them in that language; ensure no language mixing within the same file.
+- **Mixed-language files are a hard violation** — fix by keeping the file's primary language or converting fully to English.
 - Write violations to `k-context/SKILL.md` → `## Session Log` for review
 
 ### 4. Audit governance

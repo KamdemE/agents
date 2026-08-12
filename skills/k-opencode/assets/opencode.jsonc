@@ -254,43 +254,18 @@
     // ──── External directories ────
     "external_directory": {
       "~/.agents/**": "allow",
-      "~/.config/opencode/**": "allow",
+      "~/.config/**": "allow",
       "/tmp/**": "allow",
       "~/Downloads/**": "allow",
       "~/Pictures/**": "allow",
       "~/Gdrive_X/**": "allow",
       "~/Gdrive/**": "allow",
       "~/KpihX-Labs/**": "allow",
-      "~/Work/**": "allow",
-      "~/.config/nvim/**": "allow",
-      "~/.local/share/nvim/**": "allow"
+      "~/.local/**": "allow"
     },
 
     // ──── MCP chrome-agent — all allow ────
-    "chrome-agent_*": "allow",
-
-    // ──── MCP mail_fallback — all allow, destructive ask ────
-    "mail_fallback_*": "allow",
-    "mail_fallback_send_message": "ask",
-    "mail_fallback_reply_message": "ask",
-    "mail_fallback_forward_message": "ask",
-    "mail_fallback_delete_messages": "ask",
-    "mail_fallback_delete_folder": "ask",
-    "mail_fallback_trash_messages": "ask",
-
-    // ──── MCP tick_fallback — all allow, destructive ask ────
-    "tick_fallback_*": "allow",
-    "tick_fallback_delete_task": "ask",
-    "tick_fallback_delete_project": "ask",
-    "tick_fallback_delete_tag": "ask",
-    "tick_fallback_delete_habit": "ask",
-    "tick_fallback_delete_query_preset": "ask",
-    "tick_fallback_batch_delete_tasks": "ask",
-    "tick_fallback_merge_tags": "ask",
-
-    // ──── MCP linkedin — all allow, destructive ask ────
-    "linkedin_*": "allow",
-    "linkedin_delete_post": "ask"
+    "chrome-agent_*": "allow"
   },
 
   // ──── AGENT deltas — only overrides from global ────
@@ -386,6 +361,26 @@
           "general": "allow"
         }
       }
+    },
+
+    // Agent 🟣 — end-to-end solo execution mode. The OPPOSITE of Colab.
+    // Built for one thing: take a big task from start to finish, no matter how long.
+    // Holds ONLY the objective. Iterates until 100% done. All sub-agents at disposal.
+    // Delta: task → ALL sub-agents allowed. tmux send-keys + capture-pane allowed (ops pane).
+    "Agent": {
+      "description": "End-to-end solo agent — holds only the objective, iterates until fully achieved. All sub-agents at disposal.",
+      "mode": "primary",
+      "color": "#9C27B0",
+      "prompt": "{file:~/.agents/agents/Agent/prompt.txt}",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "bash": {
+          "tmux send-keys*": "allow",
+          "tmux capture-pane*": "allow"
+        }
+      }
     }
   },
 
@@ -394,7 +389,34 @@
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
+  // ──── Provider — auto-discovered + custom ────
   "provider": {
+    "ollama6": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama6",
+      "options": {
+        "baseURL": "http://localhost:11436/v1"
+      },
+      "models": {
+        "R4C3R/mistral-7b-instruct-v0.3-heretic:q4_k_m": { "name": "R4C3R/mistral-7b-instruct-v0.3-heretic:q4_k_m (4.1 GB — deep-pc6)" },
+        "R4C3R/qwen2.5-coder-7b-instruct-heretic:q8_0": { "name": "R4C3R/qwen2.5-coder-7b-instruct-heretic:q8_0 (7.5 GB — deep-pc6)" },
+        "R4C3R/qwen3-8b-heretic:q4_k_m": { "name": "R4C3R/qwen3-8b-heretic:q4_k_m (4.7 GB — deep-pc6)" },
+        "byczech/glm-4.7-flash-uncensored-16G-AU-IQ3_M:30b": { "name": "byczech/glm-4.7-flash-uncensored-16G-AU-IQ3_M:30b (12.7 GB — deep-pc6)" },
+        "gemma3:27b": { "name": "gemma3:27b (16.2 GB — deep-pc6)" },
+        "gpt-oss:20b": { "name": "gpt-oss:20b (12.8 GB — deep-pc6)" },
+        "jikepjikep_16HEX/gemma-4-26b-nightshift-heretic-uncensored-a4b-moe-q4:latest": { "name": "jikepjikep_16HEX/gemma-4-26b-nightshift-heretic-uncensored-a4b-moe-q4:latest (16.8 GB — deep-pc6)" },
+        "ministral-3:8b": { "name": "ministral-3:8b (5.6 GB — deep-pc6)" },
+        "mistral-small3.1:24b": { "name": "mistral-small3.1:24b (14.4 GB — deep-pc6)" },
+        "mistral-small3.2:24b": { "name": "mistral-small3.2:24b (14.1 GB — deep-pc6)" },
+        "mistral-small:24b": { "name": "mistral-small:24b (13.3 GB — deep-pc6)" },
+        "mo-shakib/gemma4-e4b-uncensored:q4_k_m": { "name": "mo-shakib/gemma4-e4b-uncensored:q4_k_m (8.9 GB — deep-pc6)" },
+        "qwen3-vl:32b": { "name": "qwen3-vl:32b (19.5 GB — deep-pc6)" },
+        "qwen3-vl:8b": { "name": "qwen3-vl:8b (5.7 GB — deep-pc6)" },
+        "qwen3:30b": { "name": "qwen3:30b (17.3 GB — deep-pc6)" },
+        "sorc/qwen3.5-uncensored:9b": { "name": "sorc/qwen3.5-uncensored:9b (8.9 GB — deep-pc6)" },
+        "tripolskypetr/qwen3.6-uncensored-aggressive:latest": { "name": "tripolskypetr/qwen3.6-uncensored-aggressive:latest (19.7 GB — deep-pc6)" }
+      }
+    },
     // Ollama local — auto-synced by opencode-ollama.sh
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -403,45 +425,17 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-ctx4k": { "name": "qwen3-ctx4k:latest (4.9 GB local)" },
-        "qwen3-ctx2k": { "name": "qwen3-ctx2k:latest (4.9 GB local)" },
-        "qwen3-ctx8k": { "name": "qwen3-ctx8k:latest (4.9 GB local)" },
-        "qwen3-ctx12k": { "name": "qwen3-ctx12k:latest (4.9 GB local)" },
-        "llama3.1-ctx4k": { "name": "llama3.1-ctx4k:latest (4.6 GB local)" },
-        "llama3.1-ctx8k": { "name": "llama3.1-ctx8k:latest (4.6 GB local)" },
-        "llama3.1-ctx12k": { "name": "llama3.1-ctx12k:latest (4.6 GB local)" },
-        "llama3.1-ctx2k": { "name": "llama3.1-ctx2k:latest (4.6 GB local)" },
-        "phi4-mini-ctx12k": { "name": "phi4-mini-ctx12k:latest (2.3 GB local)" },
-        "phi4-mini-ctx8k": { "name": "phi4-mini-ctx8k:latest (2.3 GB local)" },
-        "qwen2.5-ctx12k": { "name": "qwen2.5-ctx12k:latest (4.4 GB local)" },
-        "qwen2.5-ctx2k": { "name": "qwen2.5-ctx2k:latest (4.4 GB local)" },
-        "qwen2.5-coder-ctx12k": { "name": "qwen2.5-coder-ctx12k:latest (1.8 GB local)" },
-        "qwen2.5-ctx8k": { "name": "qwen2.5-ctx8k:latest (4.4 GB local)" },
-        "phi4-mini-ctx2k": { "name": "phi4-mini-ctx2k:latest (2.3 GB local)" },
-        "phi4-mini-ctx4k": { "name": "phi4-mini-ctx4k:latest (2.3 GB local)" },
-        "qwen2.5-ctx4k": { "name": "qwen2.5-ctx4k:latest (4.4 GB local)" },
-        "qwen2.5-coder-ctx2k": { "name": "qwen2.5-coder-ctx2k:latest (1.8 GB local)" },
-        "qwen2.5-coder-ctx4k": { "name": "qwen2.5-coder-ctx4k:latest (1.8 GB local)" },
-        "qwen2.5-coder-ctx8k": { "name": "qwen2.5-coder-ctx8k:latest (1.8 GB local)" },
-        "qwen2.5": { "name": "qwen2.5:7b-instruct-q4_k_m (4.4 GB local)" },
+        "qwen2.5": { "name": "qwen2.5:latest (4.4 GB local)" },
         "qwen3": { "name": "qwen3:latest (4.9 GB local)" },
-        "qwen2.5-coder": { "name": "qwen2.5-coder:3b (1.8 GB local)" },
-        "llama3.1": { "name": "llama3.1:8b (4.6 GB local)" },
         "phi4-mini": { "name": "phi4-mini:latest (2.3 GB local)" }
       }
-    }
+    },
   },
 
   "mcp": {
     "mail_fallback": {
       "type": "local",
       "command": ["/home/kpihx/.local/bin/mail-mcp", "serve"],
-      "enabled": true,
-      "timeout": 60000
-    },
-    "tick_fallback": {
-      "type": "local",
-      "command": ["/home/kpihx/.local/bin/tick-mcp", "serve"],
       "enabled": true,
       "timeout": 60000
     },
@@ -460,9 +454,10 @@
       "timeout": 60000
     },
     // LinkedIn MCP → social publishing, profile
+    // Remote HTTP (tailnet) — local STDIO binary (k-linkedin-mcp via bun -g) no longer installed
     "linkedin": {
-      "type": "local",
-      "command": ["linkedin-mcp", "serve"],
+      "type": "remote",
+      "url": "https://linkedin.kpihx-labs.com/mcp",
       "enabled": true,
       "timeout": 60000
     },
@@ -500,9 +495,14 @@
     "opencode-ssh-session",
     "opencode-ast",
     "opencode-antigravity-auth@latest",
-    "file:///home/kpihx/.agents/hooks/opencode/suggestions-check.js",
-    "file:///home/kpihx/.agents/hooks/opencode/startup-context.js",
-    "file:///home/kpihx/.agents/hooks/opencode/prompt-enforcer-strict.js"
+    "opencode-claude-auth@latest",
+    // Runtime hooks — re-enabled 2026-08-09 (KπX directive). Order matters (see k-opencode/SKILL.md).
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/startup-context.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-lite.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-strict.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/stop-enforcer.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/math-enforcer.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/suggestions-check.js"
   ],
 
   "compaction": {

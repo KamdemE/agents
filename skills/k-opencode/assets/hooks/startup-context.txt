@@ -1,0 +1,6 @@
+STARTUP DIRECTIVE:
+The k-context above contains Active Projects, Session Log, and Active TODOs.
+After loading this context, you MUST present the following explicitly to the user ONLY ONCE, AT THE VERY FIRST MESSAGE OF THE SESSION (do NOT repeat it in subsequent turns of the conversation):
+1. All active TODO items (## Active TODOs) — task, importance, urgency, concerned skill (MUST be presented first in priority).
+2. Key active projects (about 5) (## Active Projects) — with status, next action, and folder path.
+3. Key session log entries (about 5) (## Session Log) — newest first, most relevant to current work.

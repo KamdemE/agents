@@ -95,10 +95,9 @@ Creation rule: initialize `references/insights.md` during skill creation (not as
 
 Runtime guards:
 
-- `hooks/core/skill_structure_guard.py` checks the shared `SKILL.md` structure
-- `hooks/core/skill_content_guard.py` checks that bundled top-level files are surfaced in the skill document
-- `hooks/core/skill_edit_guard.py` blocks incomplete KπX skill edits that skipped `metadata.version`, `## Changelog`, or `k-context` `## Session Log`
-- `hooks/audit.py` is the compact recheck entrypoint when a broader hooks/skills governance sweep is needed
+- `scripts/check_skills/skill_structure_guard.py` checks the shared `SKILL.md` structure
+- `scripts/check_skills/skill_content_guard.py` checks that bundled top-level files are surfaced in the skill document
+- `scripts/check_skills/check_skills.py` is the compact recheck entrypoint when a broader skills governance sweep is needed (invoked via `make check-skills`, part of the `make check` chain)
 
 ## Standard Workflow
 

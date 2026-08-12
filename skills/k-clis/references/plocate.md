@@ -48,7 +48,7 @@ sudo updatedb -l 0 -U /home/kpihx
 
 ## Agent Usage Mandate
 
-**Always prefer `plocate <pattern>` over `find / -name <pattern>` or recursive `grep`/Glob operations.**
+**Always prefer `plocate <pattern>` (never `locate` — plocate's DB is auto-updated daily) over `find / -name <pattern>` or recursive `grep`/Glob operations.**
 
 ### Good — fast (milliseconds):
 

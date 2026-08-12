@@ -11,15 +11,6 @@ set -euo pipefail
 USER_BACKUP="kpihx"
 PC_NAME="KpihX-Ubuntu"
 
-# ── Load secrets from kernel .env ──────────────────────��──────────────────────
-AGENTS_ENV="/home/$USER_BACKUP/.agents/.env"
-if [[ -f "$AGENTS_ENV" ]]; then
-    # shellcheck source=/dev/null
-    source "$AGENTS_ENV"
-else
-    echo "⚠️ [$(date)] ~/.agents/.env not found — Telegram notification will be skipped."
-fi
-
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOG_DIR="/var/log/clean-system"
 USER_HOME="/home/$USER_BACKUP"

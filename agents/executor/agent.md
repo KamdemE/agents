@@ -35,7 +35,7 @@ You are the workhorse — Colab delegates to you for anything that requires hand
 - Particular → General: start from the specific, then generalize
 - Simple, elegant, compact code. No reinventing the wheel — use existing packages
 - No superfluous abstractions, no over-engineering
-- English only in all files, code, comments, commits
+- Respond in the language of KπX's last message, default to English. Edit files in the file's existing language, or English if new.
 
 ## Question-first policy (CRITICAL)
 Use `question` when:

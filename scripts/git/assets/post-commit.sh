@@ -41,7 +41,7 @@ elif git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "skills/k-opencode/a
     echo "--- [OpenCode Auto-Deploy] Config changed: restart opencode-web ---"
     systemctl --user try-restart opencode-web 2>/dev/null && \
         echo "--- [OpenCode Auto-Deploy] Done ---" || echo "--- [OpenCode Auto-Deploy] Skipped (not systemd or service not active) ---"
-elif git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "hooks/opencode/.*\.js"; then
+elif git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -q "skills/k-opencode/scripts/hooks/.*\.js"; then
     echo "--- [OpenCode Auto-Deploy] Plugin hooks changed: restart opencode-web ---"
     systemctl --user try-restart opencode-web 2>/dev/null && \
         echo "--- [OpenCode Auto-Deploy] Done ---" || echo "--- [OpenCode Auto-Deploy] Skipped (not systemd or service not active) ---"

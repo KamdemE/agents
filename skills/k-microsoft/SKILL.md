@@ -79,7 +79,7 @@ m365 outlook event list --query '$top=10&$select=subject,start,end'
 | **Mail** | `m365 outlook message list/get` | **`k-mail`** |
 | **Calendar** | `m365 outlook event list` | this skill |
 | **OneDrive** | `m365 onedrive list`, `m365 file get` | this skill |
-| **To Do** | `m365 todo task list` | **`k-ticktick`** (dedupe) |
+| **To Do** | `m365 todo task list` | **`k-tick`** (dedupe) |
 | **Planner** | `m365 planner plan list` | this skill |
 | **Teams** | `m365 teams message list` (if licensed) | this skill |
 | **Contacts** | `m365 request` → `/me/contacts` | `scripts/m365_inspect_contacts.py` |

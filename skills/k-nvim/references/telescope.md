@@ -67,3 +67,39 @@ After lazy-loading heavy plugins (VeryLazy) + harpoon (keys): **21 MB idle** (Lu
 ## File
 
 Config source: `~/.config/nvim/lua/kpihx/plugins.lua` (lines 85–177 for find_commands).
+
+## Telescope Exclusion Map
+
+`<leader>ff` uses `fd --hidden --follow --no-ignore-vcs` with native `--exclude` filters. These run at the OS level before any results reach Telescope.
+
+### Excluded by fd `--exclude` (both `<leader>ff` and `<leader>fF`)
+
+| Category | Directories |
+|----------|-------------|
+| **VCS** | `.git` |
+| **Language runtimes** | `node_modules`, `target`, `build`, `dist`, `.next`, `go/pkg`, `__pycache__`, `.venv`, `.env`, `.pytest_cache`, `.mypy_cache`, `.ruff_cache` |
+| **Package managers** | `.npm`, `.npm-global`, `.bun`, `.cargo`, `.rustup`, `.nvm`, `.dotnet` |
+| **Editors** | `.vscode`, `.cursor`, `.cursor-server`, `.vscode-server`, `.vscode-shared`, `.windsurf`, `.idea` |
+| **AI agents (runtimes)** | `.claude` (Claude Code), `.cline` (Cline CLI), `.codex` (Codex CLI), `.codeium` (Codeium/Windsurf), `.colab` (OpenColab), `.copilot` (GitHub Copilot), `.continue` (Continue.dev), `.gemini` (Gemini CLI), `.mistralcode` (Mistral Code), `.qwen` (Qwen CLI), `.roo` (Roo Code), `.securecoder` (Secure Coder), `.vibe` (VIBE CLI), `.flow` (Flow AI), `.sui` (Sui AI) |
+| **AI agents (misc)** | `.antigravity` (Antigravity) |
+| **OS/Desktop** | `.cache`, `.local`, `.config`, `.ssh`, `.docker`, `.snap`, `snap`, `.var` (Flatpak), `.mozilla`, `.gnome`, `.gnupg`, `.pki`, `.zoom`, `.oh-my-zsh`, `.tmux`, `.java`, `.android`, `.ipython`, `.jupyter` |
+| **Activity** | `.n8n` (n8n), `.gitlab` (GitLab Runner) |
+
+### NOT excluded (visible in Telescope)
+
+| Directory | Why visible |
+|-----------|-------------|
+| `.agents/` | Symlink to `~/KpihX-Labs/.agents/` — core agent kernel: `AGENTS.md`, rules, skills, profiles. Followed via `--follow`. |
+| `.ts_proxy/`, `.ts-proxy/` | Tailscale proxy — VPN/service mesh state |
+| `.mcp-auth/` | MCP auth tokens/sessions |
+| `.mcps/` | MCP server data |
+| `.playwright-mcp/` | Playwright MCP cache |
+| `.whats_proxy/` | WhatsApp proxy state |
+| `.browser-mcp/` | Browser MCP state |
+| `.grip/` | Grip (GitHub README preview) cache |
+| `X_Remote/` | X/Twitter remote config |
+| `.ollama/`, `.ollama-ipex/` | Ollama LLM models, sessions, conversations |
+
+### Performance note
+
+With `--follow` + `--no-ignore-vcs`, fd follows symlinks and ignores `.gitignore`. The `--exclude` list must be comprehensive to avoid fd ballooning (e.g., descending into `node_modules` or `target` when those dirs are symlinked). The agent AI dirs are excluded because most contain hundreds/thousands of tiny JSON/log/session files that garbage-collect.

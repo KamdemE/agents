@@ -128,6 +128,12 @@ For deep/high-level topics (advanced math, physics, research):
 You teach ANY domain: mathematics, physics, computer science, engineering, philosophy, history. Adapt depth and examples to the domain.
 
 ## Standards
-- English only in files
-- Follow `rules/file-governance.md` and `rules/response-format.md`
-- **🔴 LaTeX MATH RENDERING in OpenCode Web (engraved):** Use `$$...$$` with blank lines around for ALL LaTeX math. Never `\(...\)` or `\[...\]` which are not supported by KaTeX in OpenCode Web. Always: blank line, `$$`, formula, `$$`, blank line. This is the ONLY format that renders correctly.
+- Respond in the language of KπX's last message, default to English. Edit files in the file's existing language, or English if new.
+- 🔴🔴🔴 MATH RENDERING RULES IN OPENCODE WEB (MANDATORY ORDER — NEVER BYPASS):
+  1. INLINE MATH MUST EXCLUSIVELY USE THE PARENTHESIS NOTATION: \( <FORMULA> \) (E.G. \( E = mc^2 \)). DO NOT USE SINGLE DOLLAR DELIMITERS $...$ OR DOUBLE DOLLAR DELIMITERS $$...$$ INLINE.
+  2. DISPLAY / BLOCK MATH (ON SEPARATE LINES) MUST EXCLUSIVELY USE THE DOUBLE DOLLAR DELIMITERS WITH NEWLINES AROUND THEM:
+     $$
+     <FORMULA>
+     $$
+     DO NOT USE \[...\] OR BLOCK-STYLE \(...\).
+  THIS IS THE ONLY SPECIFIC DUAL FORM OF MATH RENDERING SUPPORTED BY THE OPENCODE WEB INTERFACE. ANY OTHER COMBINATION WILL FAIL TO RENDER CORRECTLY. YOU MUST ALWAYS USE THESE SPECIFIC RULES AND MUST NEVER DEVIATE!

@@ -30,7 +30,6 @@ allowed-tools: Bash, Read, Write, Edit
 | File | Role |
 |------|------|
 | `$HOME/.codex/config.toml` | Model, behavior (sandbox/approvals/trust), MCPs — **source of truth** |
-| `$HOME/.codex/hooks.json` | Deployed hook config — symlink or copy of `$HOME/.agents/hooks/codex/hooks.json` |
 | `$HOME/.codex/memories/` | Persisted insights from past sessions |
 | `$HOME/.codex/rules/default.rules` | Auto-allow prefix_rule patterns (accumulated by Codex) |
 | `$HOME/.codex/sessions/` | Session history |
@@ -46,12 +45,9 @@ Codex stores conversations in two tiers:
 
 ## Hooks
 
-- source of truth: `$HOME/.codex/hooks.json` and `$HOME/.agents/hooks/codex/`
-- required runtime flag for **live Codex** (hooks still run): `features.codex_hooks = true` in `$HOME/.codex/config.toml`
-- **`make check`** (`$HOME/.agents/hooks/audit.py`) no longer inspects Codex config or `hooks.json` — decoupled from local Codex install; re-enable in `audit.py` if you want CI-style enforcement again.
-- live wrappers: `session_start.py`, `user_prompt_submit.py`, `stop.py`
-- Codex-specific JSON envelope details live in `$HOME/.agents/hooks/README.md`
-- `.agents/` write guards are intentionally not wired on Codex in this setup; `pre_tool_use.py` exists only as a compatibility shim
+- **Codex-specific Python hooks (`hooks/codex/`, `session_start.py`, `user_prompt_submit.py`, `stop.py`) were removed 2026-08-09** when the kernel moved to an OpenCode-only hook architecture (see `k-opencode/references/hooks-standard.md`). Codex no longer has dedicated lifecycle hooks in `.agents/` — it still reads the shared `AGENTS.md` kernel via symlink (`$HOME/.codex/AGENTS.md`), but per-turn enforcement/context-injection is now OpenCode-exclusive.
+- **`make check`** (`$HOME/.agents/scripts/check_skills/check_skills.py` via `make check-skills`) validates skill structure/content only — it never inspected Codex-specific config or `hooks.json`.
+- If Codex-specific hooks are ever needed again, model them after the current `k-opencode/scripts/hooks/*.js` pattern (`TARGET_AGENTS`-style scoping, see `hooks-standard.md`) rather than restoring the old Python wrappers.
 
 ## MCP Config Format (Codex — TOML)
 

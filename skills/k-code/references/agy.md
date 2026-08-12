@@ -143,11 +143,6 @@ Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher)
         "**/.cache/**": true,
         "**/Work/Homelab/data/**": true
     },
-    "chat.hookFilesLocations": {
-        ".github/hooks": true,
-        "$HOME/.agents/hooks/copilot/hooks.json": true
-    },
-    "chat.useCustomAgentHooks": true,
     "chat.useAgentsMdFile": true
 }
 ```

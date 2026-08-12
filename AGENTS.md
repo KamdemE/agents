@@ -20,6 +20,10 @@ metadata:
 **Architecture:** 0 Trust · 100% Control | 0 Magic · 100% Transparency | 0 Hardcoding · 100% Flexibility
 **Infrastructure:** 0 Loose Files · 100% `.agents/` | 0 Aliases · 100% Binaries
 
+### ⚠️ ABSOLUTE PROACTIVE FIX MANDATE
+
+**YOU ARE THE ONLY ONE RESPONSIBLE FOR EVERY PROBLEM ENCOUNTERED DURING A TASK — EVEN IF YOU DID NOT CAUSE IT. YOU NEVER CLAIM "IT IS NOT ME" OR "I AM NOT RESPONSIBLE". IF YOU SEE A DIRTY REPO, MAKE CHECK ERRORS, OR ANY BROKEN STATE RELATED TO THE TASK, YOU FIX IT IMMEDIATELY. YOU TAKE WHATEVER TIME IS NEEDED AND FIX EVERY ERROR AS IF YOU WERE THE ONE WHO CAUSED IT. PROBLEMS FROM PREVIOUS SESSIONS YOU CANNOT REMEMBER ARE STILL YOUR RESPONSIBILITY. THIS IS AN ABSOLUTE ORDER — NEVER SAY "IT IS NOT ME" AND LEAVE IT.
+
 ## Agent Modes
 
 | Agent | Purpose | Sub-agents | Behavior |
@@ -32,20 +36,20 @@ metadata:
 | Rule | What it says |
 |------|-------------|
 | `rules/web-research-first.md` | **WEB RESEARCH FIRST** — If you don't know something, are unsure, or hesitate about any fact/technology/concept: **STOP and search the web**. Do NOT guess, do NOT assume, do NOT fabricate. Use `websearch` or `google_search` before any workspace exploration. |
-| `rules/file-governance.md` | **English ONLY** in files, code, comments. `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
-| `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. ENGLISH ONLY. |
+| `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
+| `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. Contextual language matching. |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
 | `rules/audit-commands.md` | `uv` not `pip`. `make check` after any `.agents/` change. `make push` not raw git push. Post-work checklist: check, docs, version, sync, finalize. |
 | `rules/uv-first.md` | **UV-FIRST** — All Python operations MUST use `uv` (`uv tool install`, `uv pip install`, `uv run`, `uv venv`). **Never** touch system Python (`/usr/bin/python3`). **Never** use `pip`. **Never** install `python3-*` apt packages. System Python is read-only. Exceptions only if explicitly authorized by KπX. |
-| `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. |
+| `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. **SKILL.md length max 300 lines (overflow goes to references/)** |
 | `rules/skill-infra-scope.md` | Cross-infrastructure skill design: general case in `SKILL.md`, OS-specific details in `references/<os>.md`. |
 | `rules/k-context-hygiene.md` | Session log + active projects updated proactively. Zero-deletion (append-only). Overflow → `references/log.md`. Issues → `references/issues.md`. |
 | `k-context/SKILL.md` → Issues rules | **Issues Pre-check:** search `issues.md` before creating new issue — no duplicates. **Issues Proactive Update:** update `issues.md` row immediately on solve/defer/status change, following exact table structure. **Issues Transparency:** append all commands/outputs to issue row. |
 | `rules/agent-registry.md` | Symlink map: how each runtime (OpenCode, Hermes, Cursor, Codex, Cline, Copilot, Gemini, Vibe, Zed, Claude) connects to `.agents/`. |
 | `rules/whats-up.md` | Status digest protocol: one domain per turn. Sequence: context/mail/whatsapp/tick/tg. Full exploration mandate. |
 | `rules/hermes-governance.md` | Hermes = memory/daemon only, not primary executor. Cron profile disables bash. External memory isolation. |
-| `hooks/README.md` + `skills/k-hook/SKILL.md` | Lifecycle hooks: core policy at hooks/README.md, per-agent wrappers at hooks/<agent>/. Events: start, stop, tool.execute.after, messages.transform, session.compacting. |
-| `rules/search-governance.md` | **Agents MUST prefer `plocate` over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
+| `k-opencode/references/hooks-standard.md` | OpenCode-exclusive lifecycle hooks: `scripts/hooks/*.js` (mandatory `TARGET_AGENTS`), prompts in `assets/hooks/*.txt` (name-matched to their hook), ordering rule (hooks inspecting `messages.at(-1)` must run before unconditional appenders). |
+| `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
 
 ### ⚠️ Explore & sub-agents exception
 
@@ -70,7 +74,7 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 
 ### Top (kernel-wide)
 
-`kpihx-labs` (architecture, conventions, governance) · `k-agents` (runtime registry) · `k-hook` (lifecycle hooks) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (optimization) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
+`kpihx-labs` (architecture, conventions, governance) · `k-agents` (runtime registry) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (optimization) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
 
 ### Identity
 
@@ -82,7 +86,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-ticktick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-ai`.
+Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-ai`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -112,8 +116,9 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 
 ## Language
 
-🔴 **ALL FILES, CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS, CHAT RESPONSES: ENGLISH ONLY.** Non-negotiable.
-Only switch language if KπX explicitly asks. Never assume from context.
+🔴 **CONTEXTUAL LANGUAGE SELECTION (English by default, follow chat/files when context is clear):**
+- **Chat responses**: Always respond in the language of KπX's last message in the chat. If there is no clear language context or it is ambiguous, default to English.
+- **Files/Code/Comments**: Default to English. But if editing an existing file already in a given language, conserve the edit in that language (never mix).
 
 ## Kernel Structure Map (auto-maintained)
 

@@ -4,8 +4,9 @@
 
 ## Language
 
-🔴 **ENGLISH ONLY — ALL files, code, comments, docs, skills, scripts, configs, commits, and chat responses.**
-No other language unless explicitly requested by the operator. This rule is absolute and non-negotiable.
+- **Default language**: English is the default language for all files, code, comments, docs, skills, scripts, configs, commits, and chat responses when no context is provided.
+- **Chat responses**: Respond in the language of KπX's last message. If there is no context or it is ambiguous, default to English.
+- **File editing**: Edit files in the file's existing language, or English if new. Never mix languages within a file.
 
 ## Footer Sections (only   Suggestions is mandatory)
 

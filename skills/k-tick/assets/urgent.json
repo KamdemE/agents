@@ -1,0 +1,5 @@
+{
+  "min_priority": 5,
+  "sort_by": "dueDate",
+  "limit": 30
+}

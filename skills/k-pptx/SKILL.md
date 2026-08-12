@@ -4,7 +4,7 @@ description: PPTX generation workflow memory — `powerpoint` MCP CLI behavior, 
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.1.0"
   scope: tool-memory
 allowed-tools: "Bash(*), *"
 ---
@@ -87,6 +87,6 @@ ls -la "$HOME/.local/share/uv/tools/powerpoint/lib/python3.12/site-packages/powe
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-03 | [AGENT] | v1.1.0 — First full k-pptx execution (ResNet deep-research deck, 23 slides): programmatic `build_deck.py` driving PresentationManager/ChartManager directly with the uv tool venv python (no MCP server round-trips); insights.md expanded with uv install name gotcha, `\n`/`\t` bullet conventions, layout indices, chart data dict, PlaceholderPicture shape_type 14 verification, LibreOffice PDF smoke-test loop. |
 | 2026-04-13 | [CODEX] | v1.0.1 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-07 | [CLAUDE] | v1.0.0 — initial skill: mapped local `powerpoint` MCP CLI, upstream fork, installed tools, and random-explorer markdown+assets deck workflow |
-| [SUMMARY] | — | initial baseline |
+| [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |

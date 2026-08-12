@@ -12,12 +12,12 @@
 | context / projects | `k-context` | Active Projects + Session Log + Brainstorm Registry — exhaustive, no synthesis |
 | mail | `k-mail` | Mail briefing per `k-mail` `## What's up` section |
 | whats / whatsapp | `k-whatsapp` | WhatsApp briefing per `k-whatsapp` `## What's up` section |
-| tick | `k-ticktick` | TickTick briefing per `k-ticktick` `## What's up` section |
+| tick | `k-tick` | TickTick briefing per `k-tick` `## What's up` section |
 | tg / telegram | `k-tg` | Deep Telegram triage (Issues → General → infra bots); LAST in the default ladder |
 
 ## Default Full Sequence
 
-`k-context` → `k-mail` → `k-whatsapp` → `k-ticktick` → `k-tg`
+`k-context` → `k-mail` → `k-whatsapp` → `k-tick` → `k-tg`
 
 ## Hard Rules
 

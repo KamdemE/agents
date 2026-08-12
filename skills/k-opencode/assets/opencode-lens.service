@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenCode Web Lens Reverse Proxy
+After=network.target opencode-web.service
+Requires=opencode-web.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-lens
+Environment="OPENCODE_TARGET=http://127.0.0.1:4097"
+Environment="OPENCODE_WEB_PLUGINS=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-web-voice-plugin/lens.plugin.json"
+ExecStart=/home/kpihx/.local/share/fnm/node-versions/v24.18.0/installation/bin/node scripts/lens-proxy.mjs
+ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf -o /dev/null http://127.0.0.1:3000/ && exit 0; sleep 1; done; exit 1'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

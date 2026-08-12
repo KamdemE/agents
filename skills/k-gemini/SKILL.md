@@ -100,10 +100,7 @@ QMD policy: do not configure QMD as a Gemini MCP. Use local CLI directly:
 
 ## Hooks
 
-`$HOME/.gemini/settings.json` is also the source of truth for Gemini hook wiring.
-
-- live wrappers: `session_start.py`, `before_agent.py`, `after_agent.py`, `before_tool.py`, `session_end.py`
-- exact event mapping and concrete examples live in `$HOME/.agents/hooks/README.md`
+**Gemini-specific Python hooks (`session_start.py`, `before_agent.py`, `after_agent.py`, `before_tool.py`, `session_end.py`) were removed 2026-08-09** when the kernel moved to an OpenCode-only hook architecture (see `k-opencode/references/hooks-standard.md`). Gemini no longer has dedicated lifecycle hooks in `.agents/` — it still reads the shared `AGENTS.md` kernel via symlink (`$HOME/.gemini/GEMINI.md`), but per-turn enforcement/context-injection is now OpenCode-exclusive. If Gemini-specific hooks are ever needed again, model them after the current `k-opencode/scripts/hooks/*.js` pattern rather than restoring the old Python wrappers.
 
 ## Project Context
 

@@ -130,7 +130,8 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   # NOTE: NOT exported — each new interactive shell sets its own.
 
   # ── Workspace entry ─────────────────────────────────────────
-  cd "$HOME/KpihX-Labs"
+  # cd to KpihX-Labs; create it on first boot if missing.
+  cd "$HOME/KpihX-Labs" 2>/dev/null || { mkdir -p "$HOME/KpihX-Labs" && cd "$HOME/KpihX-Labs"; }
 
   # ── History ─────────────────────────────────────────────────
   HISTCONTROL=ignoreboth

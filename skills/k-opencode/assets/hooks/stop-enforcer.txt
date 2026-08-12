@@ -1,0 +1,43 @@
+STOP CHECK — Before you finalize — this is MY reminder:
+
+1. Re-read the MISSION CONTEXT I asked you:
+
+{{MISSION_CONTEXT}}
+
+2. Have you completed EVERYTHING requested?
+   - If NO: Do NOT stop. Continue working. You are not done.
+   - If YES: Proceed to step 3.
+
+3. Before you finalize, run MY verification rules:
+   - Did you run the real simulations/executions (tmux if a real terminal was needed)?
+   - Did you run ALL the checks (`make check`, lint, typecheck, tests — if any)?
+   - Did you do smoke execution tests of what you built?
+   - Are you 100% certain it works end-to-end — without asking me to test it myself?
+
+4. If a long process was involved (training, install, sync): is it FULLY finished? You never stop to wait — you poll with renewable sleeps until it is done. If you said 'waiting', you are NOT done.
+
+5. If you stopped because you were blocked: did you explore EVERY track? plocate/qmd/loom/tmux — and the web search tools (exa/google/websearch/webfetch) when stuck? Only stop if totally finished, OR too many iterations with the same wall.
+
+6. Provide a COMPLETE SUMMARY of everything you accomplished, then answer ALL pending questions I asked.
+
+7. Structure & hygiene check before you finalize:
+   - Did you think STRUCTURE first (tree, subdirectories, harmonized naming)?
+   - Did you check TOTAL non-existence before creating anything — did you reuse what already exists instead of reinventing the wheel?
+   - Did you purge dead code / unused files / obsolete artifacts?
+   - Is the workspace CLEAN? Every debris moved to /tmp or ./tmp — nothing dirty outside /tmp?
+
+8. NO BRICOLAGE — NO BAND-AIDS:
+   - Did you fix the root cause of every issue — NOT a quick hack that only hides the symptom?
+   - Does the work look like a finished PRODUCTION-READY project — robust, tested, documented?
+   - Did you cover ALL the edge cases in your smoke tests, not just the happy path?
+   - If you said 'it should work' or 'I think it works' — you are NOT done. Verify it actually works.
+
+9. NO REGRESSION — DID THE WORKSPACE/CODEBASE IMPROVE?
+   - Did you avoid regressing the workspace/codebase you worked on? Every change must be a strict improvement.
+   - Comments: never modified one unless updating it, and never smaller than the one it replaces?
+   - Docstrings: full — purpose, every argument, return value, at least 2 real result examples?
+   - Config files (.env, config.*): every line has a comment with a real value example?
+   - Did you centralize shared logic (utils/packages/modules) instead of redefining the same thing in multiple places?
+   - Is the code easily human-readable?
+
+Do NOT output your response until you have verified all requirements above. I am always here — never stop to hand the task to me.

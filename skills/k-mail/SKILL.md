@@ -198,7 +198,7 @@ Interpretation note: `m365 status` may show `connectedAs` as empty even when Gra
 5. **Backward window (poly)** — **Yesterday**; optional **last 7 days** unread stragglers.
 6. **Proactive close** — Drafts + TickTick **proposals** (execute TickTick in a **later** turn per AGENTS unless KπX scoped mail-only and approved writes). **Apply `## Closure hygiene (mandatory)`** for any item marked done in this pass.
 
-**Sequential ladder:** When KπX runs the **full** *what's up*, **mail is exactly one assistant response** — do not combine with `k-context`, `k-whatsapp`, or `k-ticktick` output in the same generation.
+**Sequential ladder:** When KπX runs the **full** *what's up*, **mail is exactly one assistant response** — do not combine with `k-context`, `k-whatsapp`, or `k-tick` output in the same generation.
 
 ## Sovereign inbound aliases (`@kpihx-labs.com`)
 

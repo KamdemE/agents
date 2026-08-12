@@ -161,11 +161,11 @@ The Curator daemon reads this to know which agents to monitor.
 
 | This skill | References | Is referenced by |
 |------------|-----------|-----------------|
-| **k-agents** | — | k-context, k-hook, k-hermes, every runtime skill |
-| **k-context** | k-agents, kpihx-labs, k-hook | AGENTS.md (auto-injected for Colab/Build), every agent |
+| **k-agents** | — | k-context, k-opencode, k-hermes, every runtime skill |
+| **k-context** | k-agents, kpihx-labs, k-opencode | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-infras** | k-agents, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
-| **k-hook** | k-agents, all per-runtime hooks | AGENTS.md (mandatory rules) |
-| **k-hermes** | k-agents, k-hook | Hermes config, k-context |
+| **k-opencode** | k-agents, `scripts/hooks/` | AGENTS.md (mandatory rules) |
+| **k-hermes** | k-agents, k-opencode | Hermes config, k-context |
 | **k-clis** | k-agents, all runtime skills | k-ubuntu |
 | **k-optim** | k-agents, k-context | k-context |
 | **k-final** | k-agents, k-context, k-git | k-context (project finalization) |

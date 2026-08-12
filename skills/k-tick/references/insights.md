@@ -1,0 +1,15 @@
+# k-tick — Insights
+
+Append-only operational memory for `tick-proxy`. Add durable lessons here:
+recurring mistakes, validated fixes, anti-repeat guidance.
+
+| Date | Insight |
+|------|---------|
+| 2026-08-12 | **A real task-write lifecycle cannot bypass HITL.** Two real `task-create` NOTE runs reached the local review server in tmux and expired after the 300-second no-response timeout; each returned `meta.status:"rejected"` and created nothing remotely. This is the correct fail-closed outcome. Never simulate approval with a local POST merely to force an external TickTick write; retain mocked/local-HTTP E2E coverage for automation and use a real human approval only when it is intentionally available. |
+| 2026-08-12 | **Task writes are review-first; note reviews are intentionally minimal.** `task-create` and `task-update` always enter HITL. When `kind="NOTE"` is explicit on creation or detected from the existing task during update, the dedicated local page fixes the original read-only beside an editable title/content/desc proposal; IDs and kind never return from the browser. The successful action adds only `data.diff`, a unified original-to-submitted delta. Do not invent `meta.review`, duplicate audit wrappers, or an optional review flag. |
+| 2026-08-12 | **Treat V2 `access_forbidden` as device approval, not a retry loop.** The shared canonical web-header builder, including `X-Device`, must cover sign-on, MFA verification, and the V2 status probe. Send MFA as `wc=true&remember=true` with `x-verify-id: <authId>` and `{code, method:"app"}` only; a long-lived `authId` requires HITL confirmation of the email device-approval link followed by one sign-on retry. Keep credentials transient and never expose server error bodies. |
+| 2026-08-09 | **Verification is structural, not a flag.** `tick-proxy` has no `--verify` option: the 6 silent-failure writes (`task-move`, `task-parent-set`, `subtask-create`, `project-create`, `project-update`, `habit-update`) carry an `@always_verify` decorator on the handler. `make check` fails if the decorator is missing on an action declared `verify="always"`. Never try to "skip verification" — there is no code path for it. |
+| 2026-08-09 | **`meta` has no `verified` boolean.** The presence of a non-empty `meta.verification` object means verified; `null` means the action has no decorator. Reading `meta.verified` returns nothing — check `meta.verification.ok`. |
+| 2026-08-09 | **The password is never stored.** `~/.config/tick-proxy/.env` holds at most `TICK_API_TOKEN`, `TICK_SESSION_TOKEN`, `TICK_EMAIL`. A 401 on V2 is NOT auto-repaired — it surfaces with the hint `tick-proxy admin session-refresh`, which collects credentials in the HITL form and discards the password immediately. |
+| 2026-08-09 | **No presets.** Recurring queries live as JSON files in `k-tick/assets/` and are passed by path: `tick-proxy do query-tasks ~/.agents/skills/k-tick/assets/urgent.json`. There is no `preset-*` action and no `presets.json`. |
+| 2026-08-09 | **V1 always reports `groupId: null`.** To read a project's real folder, use `sync-full` or `workspace-map` (both V2), never `project-list`. |

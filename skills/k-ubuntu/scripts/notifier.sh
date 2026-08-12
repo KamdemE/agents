@@ -2,7 +2,8 @@
 # lib/notifier.sh — Telegram notification for k-ubuntu scripts
 # Token: TELEGRAM_UBUNTU_TOKEN (from ~/.agents/.env)
 
-ENV_FILE="$HOME/.agents/.env"
+USER_BACKUP="kpihx"
+ENV_FILE="/home/$USER_BACKUP/.agents/.env"
 [ -f "$ENV_FILE" ] && set -a && source "$ENV_FILE" && set +a
 
 TELEGRAM_UBUNTU_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"

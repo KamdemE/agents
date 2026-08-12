@@ -50,3 +50,12 @@ Details in `k-context/references/log.md`.
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-07-24 | [OPENCODE] | Created initial log with 2026-07-24 global pip purge + migration and 2026-05-31 uv tool purge entries. |
+
+## Archived changelog rows from `k-ubuntu/SKILL.md` (2026-08-04 rotation)
+
+| 2026-07-27 | [OPENCODE] | v1.9.0 — **Cinema Mode (Gamescope) Integration**: Added scale-compensated launcher wrapper `gamescope-cinema.sh` with AZERTY layout sync, `cinema-mode.conf` config, and `inject-cinema-actions.py` crawler. |
+| [SUMMARY] | — | v1.8.0 with-env helper; v1.5.0–v1.7.0 clean docs + secrets + kshrc symlink + idempotency guard; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |
+
+## Complete changelog rotation from `k-ubuntu/SKILL.md` (2026-08-04)
+
+| [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.9.0"
+  version: "1.11.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -98,7 +98,6 @@ Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** f
 | `$HOME/Work/AI/MCPs/` | All MCP servers source code |
 | `$HOME/Work/AI/gemini_mcps/` | Gemini Extension wrappers |
 | `$HOME/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) — remote access |
-| `$HOME/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) — remote access |
 | `$HOME/Work/techskills/` | Ubuntu living KB — real fixes documented as they happen |
 | `$HOME/Work/Others/` | Miscellaneous / Non-project files / Transit zone |
 | `$HOME/Gdrive/` | Personal Google Drive via rclone (kapoivha@gmail.com) |
@@ -111,7 +110,7 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 
 | Path | Type | Purpose |
 |------|------|---------|
-| `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint (see below) |
+| `scripts/ksh.sh` | shell | Universal Dispatcher — central entrypoint |
 | `assets/cinema-mode.conf` | config | Centralized defaults for Gamescope cinema viewport geometry |
 | `scripts/gamescope-cinema.sh` | shell | Scale-compensated Wayland Gamescope launcher (AZERTY synced) |
 | `scripts/inject-cinema-actions.py` | python | Desktop Action Injector for "Launch in Cinema Mode" context menus |
@@ -125,116 +124,7 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 
 > **Migration note:** Sources moved from `$HOME/Work/sh/` into `.agents/`. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
 
-### ksh — Universal Dispatcher
-
-`ksh` is the central CLI entrypoint for all workstation modules. It delegates to `make` targets in each module directory.
-
-**Install (once per machine):**
-```bash
-ln -sfn "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh" "$HOME/.local/bin/ksh"
-chmod +x "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh"
-```
-
-**Usage:**
-```bash
-ksh -h                    # show full usage
-
-# Clean module
-ksh clean --safe -y       # safe cleanup, auto-confirm
-ksh clean --purge         # deep purge
-ksh clean-admin status    # systemd status
-ksh clean-admin log       # last 50 journal lines
-ksh clean-admin install   # symlink systemd + enable timer (sudo)
-ksh clean-admin purge     # remove symlinks (sudo)
-
-# Backup module
-ksh backup --preview      # dry-run estimate
-ksh backup                # full backup to default HDD
-ksh backup-admin status   # systemd status
-ksh backup-admin log      # last 50 journal lines
-ksh backup-admin install  # symlink systemd + enable timer (sudo)
-ksh backup-admin purge    # remove symlinks (sudo)
-
-# Restore (bare-metal)
-ksh restore <backup.tar.zst>
-
-# Global audit
-ksh status                # clean + backup + QMD health
-```
-
-### Clean — Automated System Cleanup
-
-Modular cleanup suite with systemd timer (every 2 days at 21:30).
-
-**Via ksh:**
-```bash
-ksh clean -s -y              # safe + auto-confirm
-ksh clean -p --system        # deep purge + system (sudo)
-ksh clean --help             # all flags
-ksh clean-admin status       # systemd status
-ksh clean-admin log          # journal output
-ksh clean-admin install      # symlink units + enable timer (sudo)
-ksh clean-admin purge        # remove symlinks (sudo)
-```
-
-**6 stages:** snap → cache → editors → work → docker → AI.
-
-**Permissions:** scripts must be executable (`chmod +x *.sh` in each module dir) or services fail silently with `exit-code`/`203/EXEC`.
-
-**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean-system.service` (root, oneshot) · `clean-system.timer` (every 2d @21:30, Persistent)
-
-### Backup & Restore — Phoenix Protocol
-
-Archives `$HOME` + `/etc` to external HDD via tar+zstd. Timer: every 2 days at 22:00.
-
-**Via ksh:**
-```bash
-ksh backup --preview         # dry-run estimate
-ksh backup                   # full backup
-ksh backup-admin status/log  # systemd monitoring
-ksh backup-admin install     # symlink units + enable timer (sudo)
-ksh backup-admin purge       # remove symlinks (sudo)
-ksh restore <archive>        # bare-metal restore
-```
-
-**Phases:** metadata export → size estimate → tar+zstd → keep 2.
-
-**Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore/` (symlinked to `/etc/systemd/system/`): `backup-restore.service` (root, oneshot) · `backup-restore.timer` (every 2d @22:00, Persistent)
-
-### PVE Backup — Phoenix Protocol
-
-Pulls Proxmox backups from PVE via rsync, stores on HDD + Google Drive.  
-Smart restore: auto-selects HDD or Cloud (newer archive wins).
-
-**Via ksh:**
-```bash
-ksh backup-pve                  # full backup: rsync → HDD → Cloud
-ksh restore-pve                 # restore (auto-select newest source)
-ksh backup-pve-admin status/log # systemd monitoring
-ksh backup-pve-admin install    # symlink units + enable timer (sudo)
-ksh backup-pve-admin purge      # remove symlinks (sudo)
-```
-
-**Paths:** HDD `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Backups/PVE/` (keep 1)
-
-**Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore_pve/`
-
-### tg-bot — Telegram Listener
-
-User systemd service. Polls Telegram, dispatches via ksh.
-
-| Command | Action |
-|---------|--------|
-| `/clean` | Run cleanup (safe) |
-| `/backup` | Preview backup |
-| `/status` | Full audit |
-| `/help` | Help |
-
-**Secrets:** `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID` from `~/.agents/.env`.
-
-**Service in:** `.agents/skills/k-ubuntu/assets/tg-bot.service` → symlink → `~/.config/systemd/user/tg-bot.service`.
-
-**Install:** `make -C scripts install` or manual symlink. **Logs:** `journalctl --user -u tg-bot.service -f`
+Full `ksh` dispatcher usage, Clean/Backup/PVE-backup module commands, and the tg-bot Telegram listener setup/purge → **`references/scripts-modules.md`**.
 
 ### Agent kernel
 
@@ -244,85 +134,15 @@ User systemd service. Polls Telegram, dispatches via ksh.
 
 ---
 
-## System Services — Full Inventory (enabled, verified)
+## System Services
 
-All services listed below are **active and running** (verified 2026-07-25). Source of truth is within `.agents/` with a symlink to the OS location. For custom services, the `Source (.agents/)` column shows the canonical file path; for KπX-managed configs, the symlink target is listed.
-
-| Service | Role | Statut | Source (.agents/) | Symlink |
-|---------|------|--------|-------------------|---------|
-| `nftables.service` | Firewall | ✅ enabled + active | `k-nftables/assets/nftables.conf` (config) | ✅ `/etc/nftables.conf` |
-| `docker.service` | Container runtime | ✅ enabled + active | — (system default) | — |
-| `tailscaled.service` | Tailscale mesh VPN | ✅ enabled + active | — (system default) | — |
-| `ssh.service` | SSH daemon | ✅ enabled + active | — (system default) | — |
-| `tor@default.service` | Tor SOCKS5 proxy | ✅ enabled-runtime + active | — (system default) | — |
-| `NetworkManager.service` | Network management | ✅ enabled + active | — (system default) | — |
-| `systemd-resolved.service` | DNS resolver | ✅ enabled + active | — (system default) | — |
-| `snapd.service` | Snap daemon | ✅ enabled + active | — (system default) | — |
-| `ollama.service` | LLM runtime (Intel Arc iGPU) | ✅ linked + active | `k-ollama/assets/ollama.service` + `override.conf` | ✅ symlink via `k-ollama` |
-| | | | | |
-| **User services** (systemctl --user) | | | | |
-| `tg-bot.service` | Telegram bot (clean/status/backup) | ✅ enabled + active | `k-ubuntu/assets/tg-bot.service` | ✅ `~/.config/systemd/user/tg-bot.service` |
-| `opencode-web.service` | OpenCode Web server | ✅ enabled + active | `k-opencode/assets/opencode-web.service` | ✅ `~/.config/systemd/user/opencode-web.service` |
-| `rclone-gdrive.service` | Gdrive (kapoivha@gmail.com → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive.service` | ✅ `~/.config/systemd/user/rclone-gdrive.service` |
-| `rclone-gdrive-x.service` | Gdrive_X (X account → ~/Gdrive_X) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive-x.service` | ✅ `~/.config/systemd/user/rclone-gdrive-x.service` |
-| `rclone-deep-pc6.service` | Deep-PC6 (via k-dxo → ~/Deep-PC6) | ✅ enabled + active | `k-dxo/assets/rclone-deep-pc6.service` | ✅ `~/.config/systemd/user/rclone-deep-pc6.service` |
-| | | | | |
-| **Timers** (system) | | | | |
-| `clean-system.timer` | Weekly system cleanup (21:30) | ✅ enabled + active | `k-ubuntu/assets/clean/clean-system.service` + `.timer` | ✅ `/etc/systemd/system/clean-system.*` |
-| `backup-restore.timer` | Daily workstation backup (22:00) | ✅ enabled + active | `k-ubuntu/assets/backup_restore/backup-restore.service` + `.timer` | ✅ `/etc/systemd/system/backup-restore.*` |
-| `pve-backup.timer` | PVE weekly backup (Sat 03:30) | ✅ enabled + active | `k-ubuntu/assets/backup_restore_pve/pve-backup.service` + `.timer` | ✅ `/etc/systemd/system/pve-backup.*` |
-| | | | | |
-| **Config symlinks** | | | | |
-| `~/.kshrc` | Shell config (zsh) | ✅ valide | `k-ubuntu/assets/kshrc` | ✅ symlink |
-| `~/.local/bin/ksh` | Universal dispatcher | ✅ valide | `k-ubuntu/scripts/ksh.sh` | ✅ symlink |
-| `~/.config/rclone/rclone.conf` | rclone config (4 remotes) | ✅ valide | `k-rclone/assets/rclone.conf` | ✅ symlink |
-| `~/.local/bin/rm` | Trash-safe rm wrapper | ✅ valide | `k-clis/assets/rm` | ✅ symlink |
-| `openclaw-gateway.service` | OpenClaw Gateway runtime (user service) | ✅ enabled + active | `k-openclaw/assets/openclaw-gateway.service` + `assets/exec-override.conf` | ✅ `~/.config/systemd/user/openclaw-gateway.service` |
+Full inventory of all active system/user services, timers, and config symlinks (18+ entries, verified) → **`references/system-services.md`**.
 
 ---
 
 ## Ollama (Intel Arc iGPU)
 
-This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama is tuned for this hardware.
-
-### Hardware
-
-| Component | Detail |
-|-----------|--------|
-| CPU | Intel Core Ultra 7 155H (6P + 8E + 2LP cores) |
-| GPU | Arc Graphics iGPU — shared RAM, no discrete VRAM, max 2250 MHz |
-| NPU | `/dev/accel/accel0` — available but not used by Ollama directly |
-| RAM | 30 GiB total |
-
-### Control Plane
-
-Ollama backend orchestration: `$HOME/Work/AI/ollama/ipex/`
-
-```bash
-ollama-ipex start      # Switch to IPEX (Intel Arc GPU) backend
-ollama-ipex native     # Switch to native (CPU) backend
-ollama-ipex status     # Check current backend
-ollama-ipex preload <model>
-```
-
-### Performance Tuning
-
-| Variable | Value | Reason |
-|----------|-------|--------|
-| `OLLAMA_KEEP_ALIVE` | `10m` | Warm cache without pinning RAM |
-| `OLLAMA_NUM_GPU` | `999` | Offload all layers to iGPU |
-| `OLLAMA_MAX_LOADED_MODELS` | `1` | Avoid RAM split (shared VRAM) |
-| `OLLAMA_FLASH_ATTENTION` | `1` | Faster attention for long contexts |
-| `OMP_NUM_THREADS` | `6` | P-cores only for CPU fallback |
-| `mem_limit` | `24g` | Headroom for desktop + editors on 30 GiB |
-
-### Prerequisites
-
-- User in `video` + `render` groups: `sudo usermod -aG video,render $USER`
-- Native service management: `sudo systemctl stop ollama && sudo systemctl disable ollama` (stop before switching to IPEX)
-- Single endpoint: both backends expose `http://127.0.0.1:11434`
-
-Generic Ollama operations (install, model management, API): **`k-ollama`**
+This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama is tuned for this hardware (IPEX vs native backend control plane, performance tuning env vars, group prerequisites) → **`references/ollama-igpu.md`**. Generic Ollama operations (install, model management, API): **`k-ollama`**.
 
 ---
 
@@ -337,34 +157,7 @@ Generic Ollama operations (install, model management, API): **`k-ollama`**
 
 **Never:** `pip install` globally · `npm install -g <local-path>` · hatchling/poetry/setuptools
 
-npm global prefix: `$HOME/.npmrc → prefix=$HOME/.npm-global` (no EACCES, no sudo needed).
-
-### System CLIs installed on this machine
-
-**npm-global:**
-| CLI | Install | Purpose |
-|-----|---------|---------|
-| `fd` | `npm i -g fd-find` | Telescope file-search backend |
-
-**uv tool:**
-| CLI | Install | Purpose |
-|-----|---------|---------|
-| `asciinema` | `uv tool install asciinema` | Terminal session recorder |
-
-**Speech-to-text (whisper-ctranslate2):**
-- Installed CLI: `whisper-ctranslate2` (0.5.7)
-- Intel Arc note: exposes `cpu`/`cuda`; no Arc backend flag yet — use optimized CPU settings
-- Default model: `distil-large-v3` with `--device cpu --compute_type int8 --vad_filter true`
-
-Full CLI registry with routing to dedicated k-* skills: **`k-clis`**
-
-### WaveTerm widgets
-
-Config: `$HOME/.config/waveterm/widgets.json` — all widgets load their own environment.
-
-### npm-global prefix
-
-`$HOME/.npmrc` → `prefix=$HOME/.npm-global` — no EACCES, no sudo needed for global installs.
+Machine-installed system CLIs (fd, asciinema, whisper-ctranslate2), WaveTerm widgets config, and npm-global prefix detail → **`references/package-management.md`**. Full CLI registry with routing to dedicated k-* skills: **`k-clis`**.
 
 ---
 
@@ -378,55 +171,11 @@ Config: `$HOME/.config/waveterm/widgets.json` — all widgets load their own env
 
 **Ownership rule:** JS/TS MCP servers you own → use Bun when verified; Python MCPs → uv; npm-global → third-party daily-driver CLIs only.
 
-
-
----
-
-## User Services (systemd — user level)
-
-### tg-bot — Telegram Ubuntu Bot
-
-Listens for Telegram commands and dispatches them via `ksh`.
-
-| Command | Action |
-|---------|--------|
-| `/clean [flags]` | Run cleaner (safe mode default) |
-| `/backup` | Preview backup |
-| `/status` | Global system audit |
-| `/help` | List commands |
-
-**Setup (symlink from `.agents`):**
-```bash
-systemctl --user stop tg-ubuntu.service    # stop old if exists
-rm -f ~/.config/systemd/user/tg-ubuntu.service
-ln -sf ~/.agents/skills/k-ubuntu/assets/tg-bot.service ~/.config/systemd/user/tg-bot.service
-systemctl --user daemon-reload
-systemctl --user enable --now tg-bot.service
-```
-
-**Source of truth:** `k-ubuntu/scripts/tg-bot.py` + `k-ubuntu/assets/tg-bot.service` in `.agents/`.
-
-**Purge:**
-```bash
-systemctl --user stop tg-bot.service
-systemctl --user disable tg-bot.service
-rm -f ~/.config/systemd/user/tg-bot.service
-systemctl --user daemon-reload
-```
-
-**Secrets:** sourced from `~/.agents/.env` — needs `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID`.
-
-**Logs:** `journalctl --user -u tg-bot.service -f`
-
 ---
 
 ## Remote Work — DxO VPN + RDP
 
-> **DxO VPN:** see **`k-dxo`** skill — VPN, RDP, accounts, and remote access setup.
-
-### DxO VPN + RDP
-
-See **`k-dxo`** skill for full setup: VPN (GlobalProtect via openconnect), RDP via Remmina, accounts, and Windows procedure.
+> **DxO VPN:** see **`k-dxo`** skill for full setup — VPN (GlobalProtect via openconnect), RDP via Remmina, accounts, and Windows procedure.
 
 ### RDP (Remmina → BLGLAPTOP139 / deep-pc6)
 
@@ -452,12 +201,28 @@ The ASUS VE228 monitor's internal scaler stretches non-standard resolutions vert
 → **Full engineering journey:** [`techskills/ubuntu-asus-ve228-stretch-fix.md`](https://github.com/kpihx/techskills/blob/master/ubuntu-asus-ve228-stretch-fix.md) — Paths A–G, Gamescope detour, final resolution.
 → **Issues:** [`k-context/references/issues.md#ISS-20260727-001`](../k-context/references/issues.md)
 
+## Battery Health / Dell Charging Thresholds
+
+On Dell laptops (like the 7640), standard Linux ACPI tools and WMI sysfs are often hardware-locked. The GNOME GUI toggle for battery health will silently revert to "Maximize charge" upon reboot/unplug.
+
+To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must bypass the standard tools and use the permanently preserved Dell CCTK installer from this skill's assets.
+
+→ **Full resolution runbook:** [`references/dell-battery-health.md`](references/dell-battery-health.md) (covers CCTK installation, BIOS password AZERTY/QWERTY trap, and execution).
+
+---
+
 ## Bundled references
 
 | File / Script | Content |
 |---------------|---------|
 | `references/insights.md` | Durable lessons, mistakes, validated fixes |
 | `references/log.md` | Operation log — significant system changes (pip purges, tool migrations, apt removals) |
+| `references/system-services.md` | Full systemd services/timers/symlinks inventory |
+| `references/ollama-igpu.md` | Ollama Intel Arc iGPU tuning: IPEX/native backend, env vars, prerequisites |
+| `references/package-management.md` | System CLIs, WaveTerm widgets, npm-global detail |
+| `references/scripts-modules.md` | `ksh` dispatcher usage, Clean/Backup/PVE-backup modules, tg-bot listener setup |
+| `references/dell-battery-health.md` | Dell CCTK installation, battery charging threshold enforcement, and QWERTY/AZERTY trap |
+| `assets/command-configure_5.1.0-6.ubuntu24_amd64.tar.gz` | Preserved Dell Command Configure installer used by the battery-health runbook |
 | `scripts/notifier.sh` | Telegram notification wrapper — uses TELEGRAM_PVE_TOKEN from .env |
 | `scripts/tg-bot.py` | Telegram bot bridge script |
 | `scripts/backup_restore` | Backup/restore automation script |
@@ -473,6 +238,6 @@ The ASUS VE228 monitor's internal scaler stretches non-standard resolutions vert
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-27 | [OPENCODE] | v1.9.0 — **Cinema Mode (Gamescope) Integration**: Added scale-compensated launcher wrapper `gamescope-cinema.sh` with AZERTY layout sync, `cinema-mode.conf` config, and `inject-cinema-actions.py` crawler. |
-| 2026-07-26 | [OPENCODE] | v1.8.0 — **with-env helper added**: Added the `with-env` function and Zsh autocompletion to `assets/kshrc` for secure command execution with isolated `.env` loading. |
-| [SUMMARY] | — | v1.5.0–v1.7.0 clean docs + secrets + kshrc symlink + idempotency guard; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |
+| 2026-08-09 | [COLAB] | v1.11.0 — **SKILL.md size reduction (300-line rule)**: Extracted System Services inventory, Ollama iGPU tuning, Package Management CLI details, and the ksh/Clean/Backup/PVE-backup/tg-bot module docs into 4 new `references/*.md` files. **Fixed a pre-existing duplication**: the "tg-bot — Telegram Listener" section was documented twice (once under Directory Layout, once under a separate "User Services" heading) — consolidated into a single copy in `references/scripts-modules.md`, no information lost (both versions were textually identical). |
+| 2026-08-03 | [OPENCODE] | v1.10.0 — **Dell Battery Charging Limits**: Documented hard BIOS/sysfs lock on Dell 7640, deprecation of `libsmbios-bin` on Ubuntu 26.04, required use of CCTK, and the critical QWERTY/AZERTY BIOS terminal password trap for setting thresholds. |
+| [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |

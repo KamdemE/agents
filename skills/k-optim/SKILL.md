@@ -46,7 +46,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 |------|----------------|
 | Agent governance and response contract | `$HOME/.agents/AGENTS.md` |
 | Current hot session state and TODOs | `$HOME/.agents/skills/k-context/SKILL.md` |
-| Shared hook and skill audits | `$HOME/.agents/hooks/audit.py` |
+| Shared skill audits | `$HOME/.agents/scripts/check_skills/check_skills.py` (via `make check-skills`) |
 | QMD declarative config | `$HOME/.config/qmd/index.yml` |
 | QMD optimization guide | `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
@@ -140,12 +140,13 @@ _(To be documented per optimization pass.)_
 - For each broken symlink: identify the canonical asset in `.agents/skills/<skill>/assets/` and re-symlink
 - Log all fixes to `k-context/references/issues.md`
 - **Zero-tolerance:** no broken `.agents/` symlinks in systemd should remain after an optimization pass
+- **Automated check:** `make check-systemd` (`scripts/check-systemd.sh`, joined into the `check:` chain) verifies every deployed `.agents`-owned unit (system + user) with `systemd-analyze verify` on the DEPLOYED path (drop-in-aware), and lists not-linked unit-file assets under activated skills (`*/assets/*` scope) — informational, with a VERIFY warning if any was supposed to be linked for this infra
 
 ### Actions
 
 1. Run `make check` and fix any warnings
 2. Check QMD health: `qmd status`, `qmd collection list`
-3. Verify hook alignment: `python3 $HOME/.agents/hooks/audit.py`
+3. Verify skill alignment: `make check-skills` (or `python3 $HOME/.agents/scripts/check_skills/check_skills.py`)
 4. Update `k-context/SKILL.md` session log if needed
 5. Check for orphaned references in `skills/` and `references/`
 6. **Clean `tmp/`**: remove all files in `$HOME/.agents/tmp/` (merged-away originals, old backups) — these are safe to delete during optimization
@@ -162,5 +163,6 @@ _(To be documented per optimization pass.)_
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-03 | [OPENCODE] | v3.1.0 — **check-systemd automation referenced**: `make check-systemd` (`.agents/scripts/check-systemd.sh`) verifies deployed `.agents`-owned systemd units (drop-in-aware) + not-linked unit assets under activated skills (informational VERIFY warning). |
 | 2026-07-22 | [OPENCODE] | v3.0.0 — Rewritten as generic optimization framework. Ubuntu cleanup content (apt, snap, GNOME, ext4, services, scripts) extracted to references/ubuntu.md. Homelab scope stays as cross-infra reference. |
 | [SUMMARY] | — | v2.x: full Ubuntu runbook with ext4 recovery, service audit, script maps. Full details now in references/ubuntu.md. |

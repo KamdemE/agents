@@ -21,7 +21,7 @@
 | **Google Drive files** | `k-rclone` + `k-drive` | `rclone` mounts | `k-rclone/SKILL.md` |
 | **Microsoft** | `k-microsoft` | `m365` (content only; `az` **deactivated**) | `techskills/m365-cli.md` |
 | **Mail** | `k-mail` | mail-mcp (poly), `m365 outlook` (Hotmail) | `k-mail/references/mcp.md` |
-| **Tasks / calendar** | `k-ticktick` | tick-mcp | `k-ticktick/references/mcp.md` |
+| **Tasks / calendar** | `k-tick` | tick-proxy | `k-tick/SKILL.md` |
 | **WhatsApp** | `k-whatsapp` | whats-mcp (HTTP preferred) | `k-whatsapp/references/mcp.md` |
 | **LinkedIn** | `k-linkedin` | linkedin-mcp | `k-linkedin/references/mcp.md` |
 | **Telegram** | `k-tg` | `tg` CLI (Telethon + Bot API) | `k-tg/SKILL.md` |
@@ -31,7 +31,7 @@
 
 ## What's up ladder (one skill per turn)
 
-1. `k-context` → 2. `k-mail` → 3. `k-whatsapp` → 4. `k-ticktick` → 5. `k-tg`
+1. `k-context` → 2. `k-mail` → 3. `k-whatsapp` → 4. `k-tick` → 5. `k-tg`
 
 ## Future: CLI + MCP unified contract
 

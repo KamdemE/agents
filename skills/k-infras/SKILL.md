@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.5.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -45,7 +45,26 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 
 ## New Infra Setup Checklist
 
-When setting up a **new infrastructure** (any equipment running a shell), an agent MUST load and follow these skills **in order** before writing any config:
+When setting up a **new infrastructure** (any equipment running a shell), an agent MUST load and follow these steps **in order** before writing any config:
+
+### Step 0 — Infrastructure Directory Standard (MANDATORY, first)
+
+**Before ANY other skill setup**, every new infra MUST bootstrap the KπX directory standard. Everything lives **exclusively and 100% inside `~/KpihX-Labs/`** by default — the kernel, all projects, all work. The only exception is transient/debug debris, which belongs in `/tmp` (never next to the original file, never in `~` root — see `rules/file-governance.md`):
+
+```bash
+mkdir -p ~/KpihX-Labs
+git clone git@github.com:KpihX/agents.git ~/KpihX-Labs/.agents   # real repo lives HERE
+ln -sfn ~/KpihX-Labs/.agents ~/.agents                            # ~/.agents is a symlink, never a standalone clone
+```
+
+Rules:
+- `~/KpihX-Labs/.agents/` is the **real git clone** (source of truth, single canonical copy).
+- `~/.agents/` is **always a symlink** → `~/KpihX-Labs/.agents/`. Never a real directory, never a second clone.
+- All projects are created inside `~/KpihX-Labs/` (`~/KpihX-Labs/<project>/`), never outside it.
+- Only `/tmp`-scoped debris may live outside `~/KpihX-Labs/`.
+- **Verify before proceeding:** `readlink ~/.agents` must resolve to `~/KpihX-Labs/.agents`, and `git -C ~/.agents status` must work.
+
+Then continue with the ordered checklist below.
 
 | Order | Skill | Purpose |
 |-------|-------|---------|
@@ -155,5 +174,6 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-09 | [COLAB] | v1.5.0 — **New Infra Setup: Step 0 Infrastructure Directory Standard added (MANDATORY, first)**: every new infra must first create `~/KpihX-Labs/` if absent, clone the kernel to `~/KpihX-Labs/.agents/` (real repo — single canonical copy), and symlink `~/.agents` → `~/KpihX-Labs/.agents`. Everything lives 100% inside `~/KpihX-Labs/` by default; only `/tmp`-scoped debris may live outside. Verification command (`readlink ~/.agents`) documented. |
 | 2026-07-26 | [OPENCODE] | v1.4.0 — **k-infra merged into k-infras**. ntfs-shrink-dual-boot.md + insights.md moved here. k-infra purged. Low-level hardware now covered by k-infras. |
 | [SUMMARY] | — | v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |

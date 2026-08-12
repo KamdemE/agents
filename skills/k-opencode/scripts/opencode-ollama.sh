@@ -15,10 +15,19 @@ case $- in *i*) ;; *) return ;; esac
 
 # ──── Ollama auto-sync for OpenCode ────
 ollama() {
-  command ollama "$@"
-  local exit_code=$?
-  if [[ "$1" == "pull" || "$1" == "rm" || "$1" == "delete" ]]; then
-    # Inline Python script that does what ollama-models-sync did
+  local exit_code=0
+  local run_sync=0
+  if [[ "$1" == "sync" ]]; then
+    run_sync=1
+  else
+    command ollama "$@"
+    exit_code=$?
+    if [[ "$1" == "pull" || "$1" == "rm" || "$1" == "delete" ]]; then
+      run_sync=1
+    fi
+  fi
+
+  if [[ $run_sync -eq 1 ]]; then
     python3 - "$@" << 'PYEOF' 2>/dev/null
 import json, os, urllib.request
 
@@ -46,34 +55,37 @@ if not models:
 with open(config_path, "r") as f:
     lines = f.readlines()
 
-# Find provider block boundaries
-in_provider = False
-provider_start = -1
-provider_end = -1
-depth = 0
-
+# Find the "ollama" sub-block boundaries inside the provider section
+# (surgical — preserves the other providers, e.g. ollama6, untouched)
+start = -1
 for i, line in enumerate(lines):
     stripped = line.strip()
     if stripped.startswith("//"):
         continue
-    if '"provider"' in stripped and "{" in stripped:
-        provider_start = i
-        in_provider = True
-        depth = 0
-    if in_provider:
-        depth += stripped.count("{") - stripped.count("}")
-        if depth == 0 and provider_start != -1:
-            provider_end = i
-            break
+    # exact key match: '"ollama"' (closing quote) never matches "ollama6"
+    if '"ollama"' in stripped:
+        start = i
+        break
 
-if provider_start == -1:
+if start == -1:
     raise SystemExit(1)
 
-# Build new provider block
-new_provider_lines = [
-    '  // ──── Provider — auto-discovered + custom ────\n',
-    '  "provider": {\n',
-    '    // Ollama local — auto-synced by opencode-ollama.sh\n',
+depth = 0
+end = -1
+for j in range(start, len(lines)):
+    stripped = lines[j].strip()
+    if stripped.startswith("//"):
+        continue
+    depth += stripped.count("{") - stripped.count("}")
+    if depth == 0 and j > start:
+        end = j
+        break
+
+if end == -1:
+    raise SystemExit(1)
+
+# Build the new ollama sub-block
+new_block = [
     '    "ollama": {\n',
     '      "npm": "@ai-sdk/openai-compatible",\n',
     '      "name": "Ollama (local)",\n',
@@ -86,23 +98,26 @@ new_provider_lines = [
 model_items = list(models.items())
 for idx, (model_id, model_info) in enumerate(model_items):
     comma = "," if idx < len(model_items) - 1 else ""
-    new_provider_lines.append(f'        "{model_id}": {{ "name": "{model_info["name"]}" }}{comma}\n')
+    new_block.append(f'        "{model_id}": {{ "name": "{model_info["name"]}" }}{comma}\n')
 
-new_provider_lines.extend([
+new_block.extend([
     '      }\n',
-    '    }\n',
-    '  },\n',
+    '    },\n',
 ])
 
-# Replace the provider block
-new_lines = lines[:provider_start] + new_provider_lines + lines[provider_end+1:]
+# Replace the ollama sub-block only
+lines[start:end + 1] = new_block
 
 with open(config_path, "w") as f:
-    f.writelines(new_lines)
+    f.writelines(lines)
 
 count = len(models)
 print(f"✓ Ollama synced: {count} models into opencode.jsonc")
 PYEOF
+    local python_exit=$?
+    if [[ "$1" == "sync" ]]; then
+      return $python_exit
+    fi
   fi
   return $exit_code
 }

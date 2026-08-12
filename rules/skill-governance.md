@@ -19,6 +19,13 @@
 ## Skill Structure (MANDATORY)
 Every `k-*` skill: `SKILL.md` at root (YAML frontmatter, `⚠️ WHEN EDITING...` reminder, `## Changelog` at bottom). Optional: `scripts/`, `references/`, `assets/`.
 
+## Skill Size Limits (MANDATORY)
+To keep the documentation clean, scannable, and maintainable, `SKILL.md` files must never exceed **300 lines**.
+- When a `SKILL.md` file approaches or exceeds this limit, agents must proactively synthesize the content, extract detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and add a link in the main `SKILL.md`.
+- No information must be lost: the creation of these reference files is mandatory to preserve details.
+- This limit is strictly enforced by the audit pipeline.
+- **Exception — `k-context`:** this flat 300-line target does NOT apply to `k-context/SKILL.md`. `k-context` already has its own dedicated capacity-management mechanism (see `rules/k-context-hygiene.md`): `## Session Log` capped at 10 explicit rows, `## Changelog` capped at 2 explicit rows, both rolling overflow to `references/log.md` — while `## Active Projects` and `## Active TODOs` are allowed to grow (append-only, condensed into `[ARCHIVE]`/removed only per k-context's own rules, never by a blanket line-count cutoff). The audit pipeline explicitly skips the 300-line check for `k-context`.
+
 ## Changelog Rules
 - Newest-first. SKILL.md: max 2 real entries + `[SUMMARY]`.
 - Summary rows stay short; never replace real entries before the limit.

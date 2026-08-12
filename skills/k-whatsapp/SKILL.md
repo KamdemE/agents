@@ -41,13 +41,13 @@ Productivity **content** channel · map: `$HOME/.agents/skills/k-clis/references
 
 **Tools:** Prefer `get_messages` for per-chat history; `find_messages` / `search_messages` when correlating keywords across chats; `list_chats` for unread counts. See `references/mcp.md` for post-send re-read rules.
 
-**Sequential ladder:** If KπX started a **full** *what's up*, this skill is **one turn** in the chain — **AGENTS.md → What's up**. Do not bundle `k-mail` or `k-ticktick` in the same generation.
+**Sequential ladder:** If KπX started a **full** *what's up*, this skill is **one turn** in the chain — **AGENTS.md → What's up**. Do not bundle `k-mail` or `k-tick` in the same generation.
 
 ## Closure hygiene (mandatory)
 
 - **1:1 chat fully handled** (you sent the last needed message, or KπX confirms the matter closed): **archive the chat** (WhatsApp **Archive**), then confirm state. **Do not** archive **groups** (`@g.us`) as a blanket action — groups stay active; only mute/leave per explicit KπX instruction.
 - **KπX says *I replied elsewhere* / *c’est bon*:** Still **verify** the 1:1 thread; if the story is closed, **archive** (or confirm already archived) **before** continuing.
-- **Persistent nudge:** On later turns touching WhatsApp, if a **closed** 1:1 is **still unarchived**, one line *Still to archive: …* until fixed. Align with **`k-mail` `## Closure hygiene`** and **`k-ticktick`** for mail + tasks.
+- **Persistent nudge:** On later turns touching WhatsApp, if a **closed** 1:1 is **still unarchived**, one line *Still to archive: …* until fixed. Align with **`k-mail` `## Closure hygiene`** and **`k-tick`** for mail + tasks.
 
 ## Runtime Discipline (mandatory)
 

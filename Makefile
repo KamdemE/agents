@@ -11,7 +11,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-tags log status audit check check-py check-sh check-js install-hooks link help
+.PHONY: push push-tags log status check-skills check check-py check-sh check-js check-systemd install-hooks link help
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -22,16 +22,16 @@ push: ## Push to all configured remotes
 push-tags: ## Push all tags to all remotes
 	git push github --tags && git push gitlab --tags
 
-audit: ## Run .agents structural audit
-	python3 $(HOME)/.agents/hooks/audit.py
+check-skills: ## Run .agents structural skills audit
+	python3 $(HOME)/.agents/scripts/check_skills/check_skills.py
 
 check-py: ## Auto-fix and lint Python files using ruff and pyright
 	@echo "🔍 Auto-fixing Python (ruff format + ruff check --fix)..."
-	@ruff format hooks/ scripts/ skills/
-	@ruff check --fix hooks/ scripts/ skills/
+	@ruff format scripts/ skills/
+	@ruff check --fix scripts/ skills/
 	@echo "🔍 Checking Python scripts..."
-	@ruff check hooks/ scripts/ skills/
-	@pyright hooks/ scripts/
+	@ruff check scripts/ skills/
+	@pyright scripts/
 
 check-sh: ## Lint Shell scripts using shellcheck (ignore known false positives)
 	@echo "🔍 Checking Shell scripts..."
@@ -42,10 +42,14 @@ check-sh: ## Lint Shell scripts using shellcheck (ignore known false positives)
 
 check-js: ## Lint JS/TS files in hooks, scripts, and skill scripts
 	@echo "🔍 Checking JS/TS scripts..."
-	@oxlint hooks/ scripts/ skills/ --deny-warnings
-	@for f in $$(find hooks/ scripts/ skills/ \( -name "*.js" -o -name "*.ts" \) -type f); do node -c "$$f" || exit $$?; done
+	@oxlint scripts/ skills/ --deny-warnings
+	@for f in $$(find scripts/ skills/ -name "*.js" -type f); do node -c "$$f" || exit $$?; done
 
-check: check-py check-sh check-js audit ## Run all  evalidations (Ruff, Pyright, Shellcheck, JS, and Audit)
+check-systemd: ## Verify deployed .agents-owned systemd units (systemd-analyze)
+	@echo "🔍 Checking deployed systemd units (.agents-owned)..."
+	@bash $(HOME)/.agents/scripts/check-systemd.sh
+
+check: check-py check-sh check-js check-systemd check-skills ## Run all validations (Ruff, Pyright, Shellcheck, JS, Systemd, and Skills Audit)
 
 tools: ## Required global tools: ruff (uv tool install ruff), pyright (uv tool install pyright), oxlint (npm install -g oxlint)
 

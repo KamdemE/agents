@@ -99,7 +99,7 @@ loom export /tmp/graph.html --open
 ## Tool Chain Priority
 
 ```
-1. plocate  → find files (fastest, system index)
+1. plocate  → find files (fastest, system index — never `locate`, DB auto-updated daily)
 2. opencode-ast    → file structure (plugin, fresh parse)
 3. loom query      → cross-reference (persistent index)
 4. qmdr            → KπX know-how (past decisions)

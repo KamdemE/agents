@@ -79,27 +79,9 @@ HTTP servers: use `"type": "http"`. Restart Copilot + verify via `/mcp` after an
 
 Do not list installed MCPs here; read `$HOME/.copilot/mcp-config.json` directly.
 
-## Copilot VS Code Hooks Wiring (Preview)
+## Copilot VS Code Hooks (Removed)
 
-Copilot VS Code hooks are wired through:
-
-- Wrapper scripts: `$HOME/.agents/hooks/copilot/`
-- Hook file: `$HOME/.agents/hooks/copilot/hooks.json`
-- VS Code setting: `chat.hookFilesLocations` includes `$HOME/.agents/hooks/copilot/hooks.json` (expand to an absolute path in JSON if required)
-
-Implemented hook events:
-
-- `SessionStart` → `session_start.py`
-- `UserPromptSubmit` → `user_prompt_submit.py`
-- `PreToolUse` → `pre_tool_use.py`
-- `PostToolUse` → `post_tool_use.py`
-- `Stop` → `stop.py`
-
-Notes:
-
-- Wrappers are adapted to VS Code hook event names and payload shape.
-- `PreToolUse` normalizes VS Code tool aliases (for example `create_file`, `replace_string_in_file`) so core guards can reuse existing logic.
-- `PostToolUse` runs header/footer completeness checks as advisory for replace-style edits.
+**Copilot VS Code Python hooks (`session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `post_tool_use.py`, `stop.py`) were removed 2026-08-09** when the kernel moved to an OpenCode-only hook architecture (see `k-opencode/references/hooks-standard.md`). Copilot no longer has dedicated lifecycle hooks in `.agents/` — it still reads the shared `AGENTS.md` kernel via symlink (`$HOME/.copilot/copilot-instructions.md`), but per-turn enforcement/context-injection is now OpenCode-exclusive. If Copilot-specific hooks are ever needed again, model them after the current `k-opencode/scripts/hooks/*.js` pattern rather than restoring the old Python wrappers.
 
 QMD policy: do not configure QMD as a Copilot MCP. Use local CLI directly:
 - `qmd status`, `qmd get`, `qmd embed` for admin/read paths

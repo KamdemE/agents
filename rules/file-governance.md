@@ -3,11 +3,11 @@
 > Non-negotiable rules for ALL file operations.
 
 ## Language (CRITICAL — ABSOLUTE)
-**ALL FILES: CODE, COMMENTS, DOCS, SKILLS, SCRIPTS, CONFIGS, COMMITS, READMEs, MARKDOWN: ENGLISH ONLY.** Non-negotiable.
+**English is the default language for all file operations and chat responses, unless context dictates otherwise.**
 
 - **First write = English.** Always. Every new file starts in English.
-- **Editing an existing file = stay in the file's language.** Read the file first. If it's in English, edit in English. If it's in another language (legacy), edit in that same language. **Never, ever mix languages in the same file.**
-- **Response language** (chat with KπX): **English only.** Only switch if KπX explicitly asks. Never infer from context.
+- **Editing an existing file = stay in the file's language.** Read the file first. If it's in English, edit in English. If it's in another language (e.g., legacy or localized files), edit in that same language. **Never, ever mix languages in the same file.**
+- **Response language** (chat with KπX): **Respond in the language of KπX's last message in the chat.** If there is no clear language context or it is ambiguous, default to English.
 - **Exception:** Editing a legacy file that was written in another language — match that language for the edit. No mixing.
 - **Hard rule:** If you haven't read the file, you don't know its language → you CANNOT edit it. Read first, always.
 

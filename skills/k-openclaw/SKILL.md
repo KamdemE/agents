@@ -4,7 +4,7 @@ description: OpenClaw runtime — install/config, Tailscale Serve access, and K�
 license: private
 metadata:
   author: KpihX
-  version: "3.9.0"
+  version: "3.12.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -199,6 +199,7 @@ Voir `k-tailscale/SKILL.md` pour la config tailscale serve et l'état des ports.
 - `openclaw gateway status`
 - `openclaw status --deep`
 - `openclaw doctor` and `openclaw doctor --fix`
+- systemd service management: `openclaw-gateway.service` located at `~/.config/systemd/user/openclaw-gateway.service` (symlinked from `assets/openclaw-gateway.service`)
 
 ## Security note (secrets in config)
 
@@ -212,16 +213,19 @@ Preferred hardening path:
 Current KπX runtime baseline (2026-05-27):
 
 - gateway and telegram/exa/whisper credentials are on env SecretRefs
-- auth profiles (`openai`, `mistral`, `venice`) use env SecretRefs
+- auth profiles (`openai`) use env SecretRefs
 - systemd injects env through:
-  - `$HOME/.config/openclaw/gateway.env`
-  - `$HOME/.config/systemd/user/openclaw-gateway.service.d/env.conf`
+  - `$HOME/.config/openclaw/gateway.env` (systemd user environment file)
+  - `$HOME/.config/systemd/user/openclaw-gateway.service.d/env.conf` (additional environment overrides)
+- Local runtime daemon configuration/secrets (such as CLI or manual execution) are read from:
+  - `$HOME/.openclaw/.env` (contains primary secrets like `OPENCODE_API_KEY`)
+  - `$HOME/.openclaw/gateway.systemd.env` (contains `OPENCODE_API_KEY` and `OPENCODE_ZEN_API_KEY`, referenced by the systemd service file `EnvironmentFile=-/home/kpihx/.openclaw/gateway.systemd.env`)
 - keep `openclaw secrets audit` near-zero; if any plaintext remains, treat it as migration debt and clear it immediately
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-25 | [OPENCODE] | v3.9.0 — Added Assets table, updated Ecosystem Tools, changelog for openclaw-opencode. |
-| 2026-07-25 | [OPENCODE] | v3.8.0 — Added Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP). Renamed openclaw-models-sync → openclaw-opencode in assets/, symlinked to ~/.local/bin/. |
-| [SUMMARY] | — | v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |
+| 2026-07-29 | [OPENCODE] | v3.12.0 — Removed Venice, Mistral, k-ai and OpenRouter from active auth profiles list to reflect configuration purge. |
+| 2026-07-29 | [OPENCODE] | v3.11.0 — Documented systemd service name and path under Operational checks. |
+| [SUMMARY] | — | v3.10.0 env files docs; v3.9.0–v3.8.0 Assets & Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP, openclaw-opencode); v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |

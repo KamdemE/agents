@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.12.0
+  version: 1.13.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -49,74 +49,7 @@ Use this gate when a command may require **KπX** interaction:
 
 ### Standard session per equipment
 
-**Every KπX equipment gets a tmux session named after itself** with this standard layout.
-The agent auto-detects the equipment via Tailscale and creates the session on request.
-
-| Equipment | Session name | k-<infra> skill |
-|-----------|-------------|-----------------|
-| Workstation (Ubuntu) | `ubuntu` | `k-ubuntu` |
-| Proxmox hypervisor | `pve` | `k-pve` |
-| Debian VM (Docker) | `pve-debian` | `k-pve-debian` |
-| Docker CT | `dockerhost` | `k-pve-dockerhost` |
-| Internship laptop | `blglaptop139` | `k-blglaptop139` |
-| S25 phone | `s25` | `k-25` |
-| DxO server | `deep-pc6` | `k-deep-pc6` |
-
-(No `kpihx-` prefix — short equipment names only.)
-
-**Each session has exactly 3 windows (except phones — see below):**
-
-| Window | Role |
-|--------|------|
-| `agents` | Agent workspace — opencode/nvim + ops |
-| `default` | General shell, ad-hoc commands. CWD: `~/KpihX-Labs` |
-| `tmp` | Scratch / temporary work |
-
-> **Phone exception (S25, tablet, etc.):** Phones only get 2 windows — `default` and `tmp`. The `agents` window (opencode/nvim) does not apply to Termux/Android since those tools do not run on the phone.
-
-#### `agents` window layout (3 panes, nothing pre-opened)
-
-```
-┌────────────────────┬────────────────────┐
-│                    │                    │
-│  Pane 0 (left)     │  Pane 1 (right-top)│
-│  Agents pane       │  Editors pane      │
-│  (opencode)        │  (nvim, etc.)      │
-│  ~/KpihX-Labs      │  ~/KpihX-Labs      │
-│                    │                    │
-│                    ├────────────────────┤
-│                    │                    │
-│                    │  Pane 2 (right-btm)│
-│                    │  Ops pane          │
-│                    │  (shell)           │
-│                    │  ~/KpihX-Labs      │
-└────────────────────┴────────────────────┘
-```
-
-| Pane | Role | Path | Usage |
-|------|------|------|-------|
-| `SESSION:agents.0` (left) | **Agents pane** | `~/KpihX-Labs` | opencode / AI CLI runtimes |
-| `SESSION:agents.1` (right-top) | **Editors pane** | `~/KpihX-Labs` | nvim / editors |
-| `SESSION:agents.2` (right-bottom) | **Ops pane** | `~/KpihX-Labs` | **Designated sudo/ops shell** |
-
-**Setup command (manual):**
-
-For full equipment (Ubuntu, PVE, etc.) — 3 windows:
-```bash
-tmux new-session -d -s <equip> -c ~/KpihX-Labs
-tmux rename-window -t <equip>:0 agents
-tmux split-window -h -t <equip>:agents.0 -c ~/KpihX-Labs
-tmux split-window -v -t <equip>:agents.1 -c ~/KpihX-Labs
-tmux new-window -t <equip> -n default -c ~/KpihX-Labs
-tmux new-window -t <equip> -n tmp -c /tmp
-```
-
-For phones (S25, no agents window) — 2 windows:
-```bash
-tmux new-session -d -s <equip> -c ~/KpihX-Labs
-tmux rename-window -t <equip>:0 default
-tmux new-window -t <equip> -n tmp -c /tmp
-```
+Every KπX equipment gets a tmux session named after itself (`ubuntu`, `pve`, `pve-debian`, `dockerhost`, `blglaptop139`, `s25`, `deep-pc6`). Full equipment gets 3 windows (`agents` 3-pane layout, `default`, `tmp`); phones get 2 (`default`, `tmp`). Full layout diagram + setup commands → **`references/session-layout.md`**.
 
 ### Session hygiene (non-`ubuntu` sessions)
 
@@ -184,16 +117,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | `assets/tmux-continuum-save.sh` | Source of truth — `continuum_save.sh` in plugin dir symlinks to this |
 | `assets/setup-session.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
 
-Current KπX settings:
-
-- `mouse on` — click to focus panes, resize splits, select windows
-- `focus-events on` — sends focus gained/lost to Neovim for `autoread` (reload files when switching back to tmux window)
-- wheel up → copy-mode scroll (not shell history)
-- wheel down → scroll down; `-e` exits copy-mode at bottom
-- `history-limit 50000` — large scrollback buffer
-- `tmux-resurrect` — saves/restores sessions, windows, panes, layouts, cwd, and pane text
-- `tmux-continuum` — auto-saves every 5 minutes and auto-restores when tmux starts
-- `@continuum-boot on` — tmux-continuum generates `$HOME/.config/systemd/user/tmux.service` for user-session startup on Linux
+Current KπX settings: `mouse on`, `focus-events on`, wheel → copy-mode scroll, `history-limit 50000`, `tmux-resurrect`/`tmux-continuum` auto-save every 5 min + auto-restore on boot (`@continuum-boot on` generates the systemd unit). Full plugin behavior/scope → **`references/plugins.md`**. Reboot recovery workflow (mandatory, `@continuum-boot` is OFF) → **`references/boot-recovery.md`**.
 
 Apply after edits:
 
@@ -201,251 +125,13 @@ Apply after edits:
 tmux source-file $HOME/.tmux.conf
 ```
 
-## Plugins — TPM
+## Sessions, Windows & Panes — CLI + Keys
 
-| Plugin | Prefix key | Purpose |
-|--------|-----------|---------|
-| `tmux-resurrect` | `Ctrl-a Ctrl-s` save / `Ctrl-a Ctrl-r` restore | Session/window/pane/layout/cwd save & restore |
-| `tmux-continuum` | — (auto 5min) | Auto-save + auto-restore on first tmux |
-| `tmux-yank` | `Ctrl-a Ctrl-y` (vi copy-mode) | System clipboard integration (xclip/wl-copy) |
-| `tmux-copycat` | `Ctrl-a /` in copy-mode | Regex file/pattern search in scrollback |
-| `tmux-prefix-highlight` | — | Shows prefix indicator in status bar |
+Full CLI/keybind tables for creating/entering/switching/deleting **sessions**, tabs (**windows**), and split/move/resize/kill (**panes**) → **`references/cli-reference.md`**.
 
-Install commands:
+## Copy-Mode, Scrolling & Mouse
 
-```bash
-# Add to ~/.tmux.conf, then:
-tmux new -s tpm-install && ~/.tmux/plugins/tpm/scripts/install_plugins.sh
-# Or from existing tmux: prefix + I (capital I)
-```
-
-Plugin install paths:
-
-| Plugin | Path |
-|--------|------|
-| TPM | `$HOME/.tmux/plugins/tpm/` |
-| tmux-resurrect | `$HOME/.tmux/plugins/tmux-resurrect/` |
-| tmux-continuum | `$HOME/.tmux/plugins/tmux-continuum/` |
-
-Behavior:
-
-| Need | Mechanism |
-|------|-----------|
-| Manual save | `Ctrl-a Ctrl-s` (`tmux-resurrect`) |
-| Manual restore | `Ctrl-a Ctrl-r` (`tmux-resurrect`) |
-| Automatic save | every 5 minutes (`tmux-continuum`) |
-| Automatic restore | first tmux start after reboot (`@continuum-restore on`) — run `tmux` from a terminal post-login |
-| Login systemd boot | **off** (`@continuum-boot off`; `tmux.service` disabled — avoids login server dying before restore) |
-| Last pane display | captured via `@resurrect-capture-pane-contents on` |
-
-Scope:
-
-- Restores tmux sessions, windows/tabs, panes, layouts, current directories, and captured pane text.
-- Does **not** restore terminal emulator tabs outside tmux.
-- Does **not** restore shell command history for arrow-key navigation; shell history remains owned by zsh (`$HOME/.zsh_history` or any future zsh history split).
-- Captured pane text can include sensitive terminal output; avoid displaying secrets before a save.
-- On Linux, `@continuum-boot on` would create `$HOME/.config/systemd/user/tmux.service`; **KπX keeps it off** (see **First tmux after reboot**).
-
-### First tmux after reboot (post-login) — mandatory workflow
-
-> **Do not trust an immediate `tmux ls` right after login.** `@continuum-boot` is **off** and `tmux.service` is **disabled** — there is no login-time server. **`no server running`** until you run step 2 (`tmux` from a real terminal).
-
-**After every reboot, in order:**
-
-1. **Check server (optional)** — `tmux ls`  
-   - `no server running` → normal; go to step 2.  
-   - Only `default` or wrong layout → step 4 after attach.
-
-2. **Start tmux once from a real terminal** (Cursor, GNOME Terminal, etc.) — not via the user `tmux.service` unit:
-   ```bash
-   tmux
-   ```
-   Auto-restore (`@continuum-restore on`) runs **only on this new server start** (first client loads plugins → `continuum_restore.sh` after ~1s).
-
-3. **Verify sessions** — `tmux ls` inside or outside tmux. Expect your named sessions (`live`, `pve`, …) if the last save was good.
-
-4. **If empty or only a bare `default`** — manual restore:
-   ```bash
-   # inside tmux: Ctrl-a Ctrl-r
-   ```
-   If `last` points at a tiny/empty save (reboot loop), pick an older file:
-   ```bash
-   ls -lt $HOME/.tmux/resurrect/tmux_resurrect_*.txt | head
-   wc -c $HOME/.tmux/resurrect/$(readlink -f $HOME/.tmux/resurrect/last)
-   ```
-   See tmux-resurrect docs for restoring a specific timestamped file.
-
-5. **Before the next reboot** — inside tmux: `Ctrl-a Ctrl-s`, then confirm `last` is non-trivial:
-   ```bash
-   wc -c $HOME/.tmux/resurrect/$(readlink -f $HOME/.tmux/resurrect/last)
-   ```
-   Do **not** rely on shutdown `ExecStop` save — journals show `save.sh: no server running` when the unit stops.
-
-**Diagnose boot/shutdown (optional):**
-
-```bash
-journalctl --user -u tmux.service -b 0 --no-pager | tail -30
-```
-
-**Config (2026-05-25):** `@continuum-boot off` + `systemctl --user disable tmux.service`. Restore happens when KπX runs step 2. Forensics: `references/insights.md`.
-
-## Sessions — Create, Enter, Switch, Delete
-
-### CLI (outside tmux)
-
-| Goal | Command |
-|------|---------|
-| New detached session | `tmux new -s NAME` |
-| New session, run command | `tmux new -s NAME -d 'cmd'` |
-| List sessions | `tmux ls` / `tmux list-sessions` |
-| Attach | `tmux attach -t NAME` / `tmux a -t NAME` |
-| Attach or create | `tmux new -A -s NAME` |
-| Kill session | `tmux kill-session -t NAME` |
-| Kill all except current | `tmux kill-session -a` |
-| Kill every session | `tmux kill-server` |
-| Rename session | `tmux rename-session -t OLD NEW` |
-
-### Inside tmux (prefix = `Ctrl-a`)
-
-| Keys | Action |
-|------|--------|
-| `d` | Detach (session keeps running) |
-| `s` | Interactive session picker |
-| `$` | Rename current session |
-| `(` | Previous session |
-| `)` | Next session |
-
-### Quick patterns
-
-```bash
-# Dev session that survives disconnect
-tmux new -As dev
-
-# One-shot remote command in named session
-tmux new -s deploy -d 'ssh homelab "docker compose up -d"' && tmux attach -t deploy
-
-# Find which session owns a pane running a process
-tmux list-panes -a -F '#{session_name} #{pane_id} #{pane_current_command}'
-```
-
-## Windows — Tabs Inside a Session
-
-### CLI
-
-```bash
-tmux new-window -t SESSION: -n NAME      # new window
-tmux kill-window -t SESSION:INDEX        # kill window by index
-tmux rename-window -t SESSION:INDEX NAME
-tmux select-window -t SESSION:INDEX
-tmux list-windows -t SESSION
-```
-
-### Keys (after prefix)
-
-| Keys | Action |
-|------|--------|
-| `c` | New window |
-| `,` | Rename window |
-| `&` | Kill window (confirm) |
-| `w` | Window picker |
-| `n` | Next window |
-| `p` | Previous window |
-| `0`–`9` | Jump to window index |
-| `l` | Last active window |
-
-Window target syntax: `session:window` or `session:window.pane` (e.g. `dev:2.1`).
-
-## Panes — Split, Move, Resize, Kill
-
-### Keys (after prefix)
-
-| Keys | Action |
-|------|--------|
-| `%` | Split vertical (side by side) |
-| `"` | Split horizontal (top/bottom) |
-| `o` | Cycle panes |
-| `;` | Last active pane |
-| `q` | Show pane numbers (press number to jump) |
-| `x` | Kill pane (confirm) |
-| `z` | Toggle pane zoom (fullscreen toggle) |
-| `{` | Move pane left |
-| `}` | Move pane right |
-| `Ctrl-o` | Rotate panes |
-| `Alt-↑/↓/←/→` | Resize pane (with mouse off, or default bindings) |
-
-### CLI
-
-```bash
-tmux split-window -h              # vertical split in current window
-tmux split-window -v              # horizontal split
-tmux kill-pane -t SESSION:WIN.PANE
-tmux select-pane -t SESSION:WIN.PANE
-tmux swap-pane -s SRC -t DST
-tmux display-panes                # show pane indices
-```
-
-### Layouts
-
-| Keys | Action |
-|------|--------|
-| `Space` | Cycle preset layouts |
-| `Alt-1` … `Alt-5` | Layout: even-horizontal, even-vertical, main-horizontal, main-vertical, tiled |
-
-## Copy-Mode & Scrolling
-
-Enter copy-mode to scroll the tmux buffer (not the shell prompt history).
-
-> **Why Shift+drag “does nothing”:** With `mouse on`, tmux owns the mouse. **Cursor, Zed, and most integrated terminals do not pass Shift+drag to the OS** — there is no highlight, no copy. Use the workflows below (wheel or drag-in-copy-mode), not desktop-style Shift+select.
-
-| Keys | Action |
-|------|--------|
-| `[` | Enter copy-mode |
-| `q` / `Esc` | Cancel copy-mode (no copy) |
-| `PgUp` / wheel up | Scroll up (wheel enters copy-mode via KπX config) |
-| `PgDn` / wheel down | Scroll down |
-| `/` / `?` | Search (vi copy-mode) |
-| `v` | Begin keyboard selection (vi) |
-| `y` | Copy selection to system clipboard + exit |
-| `Enter` | Same as `y` (copy + exit) |
-| `]` | Paste tmux buffer |
-
-### Mouse copy (KπX default — `mode-keys vi`)
-
-| Action | Result |
-|--------|--------|
-| **Drag** (no Shift) on text | Enters copy-mode, highlights selection |
-| **Release** after drag | Copies to clipboard, exits copy-mode |
-| **Wheel up** | Scroll history in copy-mode (unchanged) |
-| **Right-click** | Copy-mode (scroll/select) — not the tmux popup menu |
-| **Shift+drag** | Ignored by design in integrated terminals — use drag without Shift |
-
-Clipboard pipe: `xclip` (XWayland) with `wl-copy` fallback — on pure Wayland install `wl-clipboard` (`apt install wl-clipboard`) if copy is empty.
-
-Reload after config change: `tmux source-file $HOME/.tmux.conf`
-
-## Mouse (KπX Config)
-
-With `mouse on` and wheel bindings:
-
-- **Wheel up** → enter copy-mode and scroll history
-- **Wheel down** → scroll down; exits copy-mode at bottom (`-e`)
-- **Click pane** → focus
-- **Click window name** → switch window
-- **Drag border** → resize pane
-- **Drag on text** → copy-mode selection + copy on release (see above)
-
-If wheel still changes shell history: confirm config is loaded (`tmux show -g mouse`), reload with `tmux source-file ~/.tmux.conf`, and check the terminal emulator forwards wheel events to tmux.
-
-## Synchronised Panes
-
-Type the same input in all panes of the current window:
-
-```bash
-setw synchronize-panes on    # or prefix + toggle if bound
-setw synchronize-panes off
-```
-
-Useful for running the same command on multiple SSH hosts — turn off immediately after.
+Copy-mode keys, KπX mouse-drag-to-copy behavior, wheel bindings, and synchronised panes → **`references/copy-mode-mouse.md`**.
 
 ## Send Keys & Capture Output
 
@@ -488,75 +174,15 @@ tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_curr
 
 This shows every pane across all sessions with the running command — no guessing.
 
-## Config Essentials
+## References
 
-Edit `assets/tmux.conf` (the source of truth). `$HOME/.tmux.conf` is a symlink to it.
-
-| Setting | Example | Purpose |
-|---------|---------|---------|
-| Prefix | `set -g prefix C-a` | Change prefix from Ctrl-b (enabled in workspace) |
-| Index from 1 | `set -g base-index 1` / `setw -g pane-base-index 1` | Windows/panes start at 1 |
-| True color | `set -g default-terminal "tmux-256color"` | Better colors |
-| Activity alert | `setw -g monitor-activity on` | Highlight idle windows with activity |
-| Reattach | `set -g detach-on-destroy off` | Stay in tmux when a pane exits (tmux 3.2+) |
-
-Reload without restart:
-
-```bash
-tmux source-file ~/.tmux.conf
-```
-
-## Useful One-Liners
-
-```bash
-# Is tmux running?
-tmux has-session 2>/dev/null && echo yes || echo no
-
-# Current session/window/pane (inside tmux)
-echo "$TMUX"
-
-# Kill all sessions except named
-tmux kill-session -a -t dev
-
-# New window in another session from outside
-tmux new-window -t dev -n logs
-
-# Run command in existing pane
-tmux send-keys -t dev:0.0 C-c 'npm run dev' Enter
-
-# Popup (tmux 3.2+)
-tmux display-popup -E -w 80% -h 60% 'htop'
-```
-
-## SSH + tmux Pattern
-
-On remote host, always prefer tmux for long jobs:
-
-```bash
-ssh homelab -t 'tmux new -As main'
-# detach with prefix+d — job survives disconnect
-```
-
-Local persistence across laptop sleep:
-
-```bash
-tmux new -As local
-# reattach after wake
-tmux attach -t local
-```
-
-## Troubleshooting
-
-| Symptom | Fix |
-|---------|-----|
-| Wheel browses shell history | Reload KπX config; verify wheel bindings in `~/.tmux.conf` |
-| Colors broken in neovim/htop | Set `default-terminal "tmux-256color"`, ensure `TERM` in shell |
-| `sessions should be nested` warning | Already inside tmux — use `tmux switch-client` or nested intentionally |
-| Cannot attach | `tmux ls` — session may be dead; check `tmux info` |
-| After reboot: `tmux ls` → no server / no sessions | Follow **First tmux after reboot** above; do not expect persistence from `tmux.service` at login |
-| After reboot: only empty `default` | `Ctrl-a Ctrl-r`; check `resurrect/last` size; restore older `tmux_resurrect_*.txt` if needed |
-| Config ignored | Wrong file path; use `tmux show -g` to inspect active values |
-| Broken symlink in skill assets | Recreate: `ln -sf ~/.agents/skills/k-tmux/assets/tmux.conf ~/.tmux.conf` |
+- `references/session-layout.md` — Standard session layout per equipment: 3-pane `agents` window diagram, setup commands
+- `references/plugins.md` — TPM plugins (resurrect, continuum, yank, copycat, prefix-highlight): install, paths, behavior, scope
+- `references/boot-recovery.md` — First-tmux-after-reboot mandatory workflow (continuum-boot off, manual restore steps)
+- `references/cli-reference.md` — Full CLI + keybind tables: sessions, windows, panes, layouts
+- `references/copy-mode-mouse.md` — Copy-mode keys, mouse-drag-to-copy, wheel bindings, synchronised panes
+- `references/config-and-troubleshooting.md` — Config essentials, useful one-liners, SSH+tmux pattern, troubleshooting table
+- `references/windows.md` — WSL tmux setup and limitations
 
 ## Insights Discipline (mandatory)
 
@@ -568,5 +194,6 @@ tmux attach -t local
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-09 | [COLAB] | v1.13.0 — **SKILL.md size reduction (300-line rule)**: Extracted session layout diagram, TPM plugins, boot-recovery workflow, full CLI/keybind reference (sessions/windows/panes), copy-mode/mouse details, and config/troubleshooting into 6 new `references/*.md` files. Main SKILL.md now keeps the mandatory shared interactive gate, mental model, and critical send-keys safety checklist. |
 | 2026-07-24 | [OPENCODE] | v1.12.0 — **Symlink direction reversed**: `assets/tmux.conf` is now the source of truth, `$HOME/.tmux.conf` symlinks to it (same pattern as kshrc). Updated all references: canonical config, layout table, edit instruction, troubleshooting. |
 | [SUMMARY] | — | v1.11.0 phone exception; v1.9.0 SUDO GATE; v1.8.0 ubuntu session + sudo pane; v1.6.0 focus-events; v1.3.x–v1.5.0 plugins, mouse, continuum |
