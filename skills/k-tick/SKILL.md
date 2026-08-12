@@ -24,7 +24,17 @@ tick-proxy do <action> [payload|file]           # Flat RPC, --format json|table,
 ```
 Config: `~/.config/tick-proxy/.env` — `TICK_API_TOKEN` (V1, required), `TICK_SESSION_TOKEN`
 (V2, optional), `TICK_EMAIL` (e-mail, optional). **The password is NEVER stored.**
-Autosave: `/tmp/tick-proxy-autosave/{action}_{timestamp}.json`.
+Autosave: `/tmp/tick-proxy-autosave/{action}_{timestamp}.jsonmap`.
+
+## Runtime Discipline (mandatory)
+
+- **NEVER read the tool's source code when stuck on payload parameters.** The tool's code will not be local in production after the beta.
+- **ALWAYS use `--help`**: resolve any query, parameter, or payload schema ambiguity by executing:
+  ```bash
+  tick-proxy --help
+  tick-proxy do <action> --help
+  ```
+- **Poll with `sleep 5`** after sending a destructive or write action to the tmux ops pane until the HITL review completes or times out.
 
 ### Install
 ```bash
