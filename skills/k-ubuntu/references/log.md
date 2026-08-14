@@ -56,6 +56,11 @@ Details in `k-context/references/log.md`.
 | 2026-07-27 | [OPENCODE] | v1.9.0 — **Cinema Mode (Gamescope) Integration**: Added scale-compensated launcher wrapper `gamescope-cinema.sh` with AZERTY layout sync, `cinema-mode.conf` config, and `inject-cinema-actions.py` crawler. |
 | [SUMMARY] | — | v1.8.0 with-env helper; v1.5.0–v1.7.0 clean docs + secrets + kshrc symlink + idempotency guard; v1.4.0 backup_restore; v1.3.0 scripts/ centralization; v1.2.0 shell → k-zsh; v1.1.0 Tailscale/Ollama/WaveTerm |
 
+## Archived changelog rows from `k-ubuntu/SKILL.md` (2026-08-14 rotation)
+
+| 2026-08-03 | [OPENCODE] | v1.10.0 — **Dell Battery Charging Limits**: Documented hard BIOS/sysfs lock on Dell 7640, deprecation of `libsmbios-bin` on Ubuntu 26.04, required use of CCTK, and the critical QWERTY/AZERTY BIOS terminal password trap for setting thresholds. |
+
+
 ## Complete changelog rotation from `k-ubuntu/SKILL.md` (2026-08-04)
 
 | [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |

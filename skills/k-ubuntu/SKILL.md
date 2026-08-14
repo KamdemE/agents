@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.11.0"
+  version: "1.12.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -132,6 +132,13 @@ Full `ksh` dispatcher usage, Clean/Backup/PVE-backup module commands, and the tg
 |------|------|
 | `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
 
+### MIME Type Associations
+
+To ensure uniform file associations and avoid the priority hijacking by Nautilus for local file schemes, the user-level MIME type database is centralized:
+- `$HOME/.config/mimeapps.list` → **symlink** to `assets/mimeapps.list` (this skill).
+- Cleaned from legacy, missing applications (Slack, Brave, VLC, Rhythmbox, OnlyOffice, old Thunderbird) and linked to local system apps (`nvim.desktop`, `mpv.desktop`, `com.microsoft.Edge.desktop`, `libreoffice`).
+- Removed `x-scheme-handler/file` to restore correct fallback behavior.
+
 ---
 
 ## System Services
@@ -157,7 +164,7 @@ This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama is t
 
 **Never:** `pip install` globally · `npm install -g <local-path>` · hatchling/poetry/setuptools
 
-Machine-installed system CLIs (fd, asciinema, whisper-ctranslate2), WaveTerm widgets config, and npm-global prefix detail → **`references/package-management.md`**. Full CLI registry with routing to dedicated k-* skills: **`k-clis`**.
+Machine-installed system CLIs (fd, asciinema, k-whisper / k-piper via k-ai), WaveTerm widgets config, and npm-global prefix detail → **`references/package-management.md`**. Full CLI registry with routing to dedicated k-* skills: **`k-clis`**.
 
 ---
 
@@ -223,6 +230,7 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 | `references/scripts-modules.md` | `ksh` dispatcher usage, Clean/Backup/PVE-backup modules, tg-bot listener setup |
 | `references/dell-battery-health.md` | Dell CCTK installation, battery charging threshold enforcement, and QWERTY/AZERTY trap |
 | `assets/command-configure_5.1.0-6.ubuntu24_amd64.tar.gz` | Preserved Dell Command Configure installer used by the battery-health runbook |
+| `assets/mimeapps.list` | Centralized desktop file MIME type associations (symlinked to `~/.config/mimeapps.list`) |
 | `scripts/notifier.sh` | Telegram notification wrapper — uses TELEGRAM_PVE_TOKEN from .env |
 | `scripts/tg-bot.py` | Telegram bot bridge script |
 | `scripts/backup_restore` | Backup/restore automation script |
@@ -238,6 +246,6 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-09 | [COLAB] | v1.11.0 — **SKILL.md size reduction (300-line rule)**: Extracted System Services inventory, Ollama iGPU tuning, Package Management CLI details, and the ksh/Clean/Backup/PVE-backup/tg-bot module docs into 4 new `references/*.md` files. **Fixed a pre-existing duplication**: the "tg-bot — Telegram Listener" section was documented twice (once under Directory Layout, once under a separate "User Services" heading) — consolidated into a single copy in `references/scripts-modules.md`, no information lost (both versions were textually identical). |
-| 2026-08-03 | [OPENCODE] | v1.10.0 — **Dell Battery Charging Limits**: Documented hard BIOS/sysfs lock on Dell 7640, deprecation of `libsmbios-bin` on Ubuntu 26.04, required use of CCTK, and the critical QWERTY/AZERTY BIOS terminal password trap for setting thresholds. |
+| 2026-08-14 | [COLAB] | v1.12.0 — **MIME Associations Centralization**: Centralized `mimeapps.list` in `k-ubuntu/assets/`, symlinked it to `~/.config/mimeapps.list`, and cleaned up obsolete associations (Brave, Slack, VLC, Rhythmbox, OnlyOffice, Thunderbird). |
+| 2026-08-09 | [COLAB] | v1.11.0 — **SKILL.md size reduction (300-line rule)**: Extracted System Services inventory, Ollama iGPU tuning, Package Management CLI details, and the ksh/Clean/Backup/PVE-backup/tg-bot module docs into 4 new `references/*.md` files. **Fixed a pre-existing duplication**: consolidated into a single copy in `references/scripts-modules.md`. |
 | [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
