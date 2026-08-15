@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.31.0
+  version: 2.32.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -53,7 +53,7 @@ OpenCode does **not** ship Android-compatible binaries (non-PIE glibc ARM64 bina
   - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
   - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
 - **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink needed.
-- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `context/` package via `index.ts`.
+- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package via `index.ts`.
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
 
@@ -107,7 +107,7 @@ OpenCode and its environment are extended via four distinct systems:
 1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 11 active plugins (5 npm, 6 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, npm modules) for console interface features (voice STT/TTS via `@renjfk/opencode-voice`). See **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
-4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice-plugin` using the Web Speech API). See **`references/voice.md`**.
+4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice` using the Web Speech API). See **`references/voice.md`**.
 
 **Device auto-detection pipeline:** `tailscale status --json → Self.DNSName → assets/infras.json lookup → skills/<k-*>/SKILL.md read` (fallback `os.hostname()`).
 
@@ -177,7 +177,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink necessary. See [docs](https://opencode.ai/docs/skills).
 
-**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `context/` package (via `index.ts`).
+**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package (via `index.ts`).
 
 **Config source of truth:** `assets/opencode.jsonc` — symlinked to `~/.config/opencode/opencode.jsonc`. Edit the asset, never the runtime directly. **All changes are tracked in git via the `.agents` repo.**
 
@@ -212,8 +212,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | v2.32.0 — **Fork rename + standardization (org kpihx-labs, subgroup `opencode`)**: renamed the 2 non-conforming forks to `opencode-*` standard: `opencode-web-voice-plugin` → `opencode-web-voice`, `Opencode-Context-Analysis-Plugin` → `opencode-context` (both github + gitlab). Moved the 3 GitLab repos into the subgroup `kpihx-labs/opencode/`. Renamed local submodule dirs `context/` → `opencode-context/`, `web/opencode-web-voice-plugin/` → `web/opencode-web-voice/`; updated `.gitmodules`, local remotes (github+gitlab→subgroup, +upstream Flickwire/IgorWarzocha), `opencode.jsonc` `file://` path, `context-plugin.md` Source of truth, `README .agents` table, Makefile comment + `submodule-upstream` target. Added GitHub topic `opencode` on the 3 repos. |
 | 2026-08-15 | [COLAB] | v2.31.0 — **3 plugins as git submodules (org kpihx-labs, github+gitlab)**: `context`, `web/opencode-lens`, `web/opencode-web-voice-plugin` now point to forks on org `kpihx-labs` (each carries `github` + `gitlab` remotes for sync) instead of local copies. `.gitmodules` + `git submodule init` registered. `.gitignore` excludes submodule `vendor/`/`node_modules/`/`dist/`. Makefile: `submodule-init`/`submodule-update` targets. `README.md` (`.agents`) documents the remotes, submodules and install. |
-| 2026-08-15 | [COLAB] | v2.30.0 — **`/context` plugin load fix (WORKING)**: the plugin now loads and `context_usage` executes. Root cause: `@opencode-ai/plugin` was not resolvable from the plugin file. Fix: symlinked it into `context/node_modules/@opencode-ai/plugin` (an ANCESTOR of `context-usage.ts` — Node/Bun resolve bare imports up the tree; `vendor/node_modules` is NOT an ancestor, so the earlier fix there was wrong). Kept `export default ContextUsagePlugin` (function, matching the working `opencode-ast` npm plugin). Added deepseek-v4/-flash/-flash-free tokenizer aliases to `tokenizer-aliases.json` (model was unresolved). `assets/opencode.jsonc` loads it via explicit `file://`. Removed `opencode-context-plugin` from `links.jsonc` + unlinked `~/.config/opencode/plugins`. Verified: `bun import('./context-usage.ts')` → `MODULE LOADED`, tokenizer resolves, `/context` runs end-to-end in TUI. Updated `references/context-plugin.md`. |
-| [SUMMARY] | — | v2.29.0 GO.md rename (→ `references/log.md`) · v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v2.30.0 `/context` load fix (→ `references/log.md`) · v2.29.0 GO.md rename (→ `references/log.md`) · v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`) · `assets/opencode-lens.service` (symlink target for `~/.config/systemd/user/`)

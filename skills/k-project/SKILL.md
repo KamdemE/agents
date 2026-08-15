@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.12.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -293,6 +293,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | v2.12.0 — **Proxy relocation reference updated**: `references/daemon-pattern.md` path updated (`~/KpihX-Labs/whats_proxy/` → `~/KpihX-Labs/proxies/whats-proxy/`) after the `*_proxy` family moved into `proxies/` and aligned to kebab-case naming. |
 | 2026-08-15 | [COLAB] | v2.11.0 — **Template → gitlab URL unification**: updated `## Templates` — `assets/pyproject.toml` + `assets/config.py` are the source of truth; external repos (techskills/𝛱/TechSkills `templates/`) that referenced them via local symlinks were unplugged 2026-08-15 and now use the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. |
-| 2026-08-14 | [COLAB] | v2.10.0 — **Config Standard (JSONC)**: KπX config-file standard is now **JSONC** (JSON + comments) for `.agents/` config assets and non-code config; `config.py`/`config.ts` (plain, no import) for code projects; `.env` for secrets. Documented in Architecture Philosophy. |
-| [SUMMARY] | — | v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |
+| [SUMMARY] | — | v2.10.0 Config Standard (JSONC) (→ `references/log.md`) · v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |

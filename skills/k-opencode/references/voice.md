@@ -173,14 +173,14 @@ Instead of local `whisper-cli`, use an OpenAI-compatible endpoint:
 | Ryan (Medium) | EN-US | High |
 | Siwis (Medium) | FR-FR | Medium |
 
-## Web UI Voice Input (via opencode-web-voice-plugin)
+## Web UI Voice Input (via opencode-web-voice)
 
 The Web UI voice input provides a browser-based speech-to-text integration using the native **Web Speech API** of Chrome or Edge. It is injected into the OpenCode Web UI via the `opencode-lens` proxy.
 
 ### Architecture
 
 1.  **Backend Proxy (`opencode-lens`):** Intercepts traffic to the native OpenCode web server, strips the Content-Security-Policy (CSP) headers, and injects the frontend script.
-2.  **Frontend Plugin (`opencode-web-voice-plugin`):** Injected into the browser DOM to mount a microphone button and language selector next to the composer text field.
+2.  **Frontend Plugin (`opencode-web-voice`):** Injected into the browser DOM to mount a microphone button and language selector next to the composer text field.
 3.  **Speech Engine:** Uses the browser's built-in Web Speech API (online recognition via browser vendor cloud, e.g., Google cloud for Chrome).
 
 ### Language Configuration

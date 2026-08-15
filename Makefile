@@ -80,9 +80,12 @@ set-links: ## Alias for `link` — (re)create .agents-owned symlinks from assets
 chmod: ## Normalize execute permissions on all kernel scripts (scripts/exec/chmod.sh, default 755)
 	@bash $(HOME)/.agents/scripts/exec/chmod.sh 755
 
-submodule-init: ## Init + checkout the plugin submodules (context, opencode-lens, opencode-web-voice-plugin)
+submodule-init: ## Init + checkout the plugin submodules (opencode-context, opencode-lens, opencode-web-voice)
 	git submodule init && git submodule update --init --recursive
 
 submodule-update: ## Fetch latest from the plugin submodule remotes (github+gitlab)
 	git submodule foreach 'git remote get-url github >/dev/null 2>&1 && git pull github main || echo "SKIP: no github remote"'
 	git submodule foreach 'git remote get-url gitlab >/dev/null 2>&1 && git pull gitlab main || echo "SKIP: no gitlab remote"'
+
+submodule-upstream: ## Fetch latest from the upstream origin repos (Flickwire/IgorWarzocha) and merge into main
+	git submodule foreach 'git remote get-url upstream >/dev/null 2>&1 && git fetch upstream && git merge upstream/main || echo "SKIP: no upstream remote"'

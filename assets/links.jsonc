@@ -72,10 +72,10 @@
       "infras": ["*"]
     },
     // opencode-context-plugin-deps: @opencode-ai/plugin resolution for the /context tool plugin.
-    // MUST be an ANCESTOR (context/node_modules/), not vendor/node_modules/ — Node/Bun resolve bare
+    // MUST be an ANCESTOR (opencode-context/node_modules/), not vendor/node_modules/ — Node/Bun resolve bare
     // imports up the tree. node_modules is gitignored, so this link is what makes the fix durable.
     "opencode-context-plugin-deps": {
-      "source": "$HOME/.agents/skills/k-opencode/scripts/plugins/context/node_modules/@opencode-ai/plugin",
+      "source": "$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-context/node_modules/@opencode-ai/plugin",
       "target": "$HOME/.config/opencode/node_modules/@opencode-ai/plugin",
       "skill": "k-opencode",
       "infras": ["*"]

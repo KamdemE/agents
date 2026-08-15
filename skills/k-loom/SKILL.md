@@ -4,7 +4,7 @@ description: "Loom — lightweight persistent code index MCP for cross-session c
 license: "private"
 metadata:
   author: "KpihX"
-  version: "1.1.0"
+  version: "1.2.0"
   scope: "code-tooling"
 ---
 
@@ -22,8 +22,8 @@ metadata:
 
 ```bash
 uv tool install loom-tool                     # one time → `loom` + `loom-mcp` in PATH
-cd ~/KpihX-Labs/tg_proxy && loom analyze .    # build index (~10-60s)
-cd ~/KpihX-Labs/tg_proxy && loom install      # git post-commit hook → auto-sync on commit
+cd ~/KpihX-Labs/proxies/tg-proxy && loom analyze .    # build index (~10-60s)
+cd ~/KpihX-Labs/proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
 ```
 
 The git hook runs `loom sync --old-sha HEAD~1 --new-sha HEAD` after every commit (~2-5s, incremental).
@@ -111,6 +111,6 @@ loom export /tmp/graph.html --open
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | **v1.2.0 — Example path updated** in the Installation section (`~/KpihX-Labs/tg_proxy` → `~/KpihX-Labs/proxies/tg-proxy`) after tg-proxy moved into `proxies/`. |
 | 2026-07-26 | [OPENCODE] | v1.1.0 — Rewritten: real commands (loom 0.7.1), auto-sync via git hook, maintenance routine, dead-code FP guide. |
-| 2026-07-26 | [OPENCODE] | v1.0.0 — Created — initial skill documentation. |
-| [SUMMARY] | — | v1.0.0–v1.1.0 — Created and rewritten on 2026-07-26. |
+| [SUMMARY] | — | v1.0.0 — Created — initial skill documentation (→ `references/log.md`). |

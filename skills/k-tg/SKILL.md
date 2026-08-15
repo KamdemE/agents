@@ -4,7 +4,7 @@ description: tg-proxy — Telegram admin proxy CLI. Replaces old `tg` binary. Bo
 license: private
 metadata:
   author: KpihX
-  version: "4.2.0"
+  version: "4.3.0"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -12,7 +12,7 @@ allowed-tools: "Bash(*), Read(*), Glob(*), *"
 # KπX — Telegram (`tg-proxy`)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
-> **Project:** `$HOME/KpihX-Labs/tg_proxy/` · **Repos:** GitHub + GitLab (tg-proxy)
+> **Project:** `$HOME/KpihX-Labs/proxies/tg-proxy/` · **Repos:** GitHub + GitLab (tg-proxy)
 > **Related:** `k-tmux` (HITL shared gate) · `k-clis` (CLI registry)
 
 ## Identity
@@ -26,7 +26,7 @@ Config: `~/.config/tg-proxy/.env` (`TG_API_ID` + `TG_API_HASH` only). Tokens sto
 
 ### Install
 ```bash
-cd $HOME/KpihX-Labs/tg_proxy && uv tool install --editable .
+cd $HOME/KpihX-Labs/proxies/tg-proxy && uv tool install --editable .
 ```
 
 ---
@@ -122,5 +122,6 @@ chmod 600 ~/.config/tg-proxy/.env ~/.config/tg-proxy/user.session
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | **v4.3.0 — Project path updated** (`$HOME/KpihX-Labs/tg_proxy/` → `$HOME/KpihX-Labs/proxies/tg-proxy/`) after tg-proxy was moved into `proxies/` and aligned to the kebab-case naming convention. |
 | 2026-07-26 | [OPENCODE] | **v4.2.0 — Security section added (config dir perms 700/600).** Proactive skill update after tg-proxy README security hardening. |
 | [SUMMARY] | — | v4.0.0–v4.1.0 — Full `tg` → `tg-proxy` rewrite + compact condensed. Earlier → `references/log.md`. |

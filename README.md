@@ -21,11 +21,11 @@ The opencode plugins under `skills/k-opencode/scripts/plugins/` are **git
 submodules** pointing at forks on org `kpihx-labs` (each also carries a `gitlab`
 remote for sync):
 
-| Submodule | GitHub (url in `.gitmodules`) | GitLab (second remote) |
+| Submodule | GitHub (url in `.gitmodules`) | GitLab (second remote, subgroup `opencode`) |
 |-----------|-------------------------------|------------------------|
-| `context` | `kpihx-labs/Opencode-Context-Analysis-Plugin` | `kpihx-labs/Opencode-Context-Analysis-Plugin` |
-| `web/opencode-lens` | `kpihx-labs/opencode-lens` | `kpihx-labs/opencode-lens` |
-| `web/opencode-web-voice-plugin` | `kpihx-labs/opencode-web-voice-plugin` | `kpihx-labs/opencode-web-voice-plugin` |
+| `opencode-context` | `kpihx-labs/opencode-context` | `kpihx-labs/opencode/opencode-context` |
+| `web/opencode-lens` | `kpihx-labs/opencode-lens` | `kpihx-labs/opencode/opencode-lens` |
+| `web/opencode-web-voice` | `kpihx-labs/opencode-web-voice` | `kpihx-labs/opencode/opencode-web-voice` |
 
 The submodules' `vendor/`, `node_modules/`, and `dist/` are gitignored (not
 versioned) — reinstall locally. The plugin source of truth lives in the forks.

@@ -4,6 +4,7 @@ Older changelog entries condensed out of `SKILL.md` (max 2 explicit rows before 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v2.10.0 — **Config Standard (JSONC)**: KπX config-file standard is now **JSONC** (JSON + comments) for `.agents/` config assets and non-code config; `config.py`/`config.ts` (plain, no import) for code projects; `.env` for secrets. Documented in Architecture Philosophy. |
 | 2026-07-26 | [OPENCODE] | v2.8.0 — **SHELL=/bin/zsh mandatory**: Added documentation and Makefile template update ensuring every project's Makefile has `SHELL := /bin/zsh` for fnm/Node compatibility. |
 | 2026-06-03 | [OPENCODE] | v2.7.1 — Clarified naming convention scope: applies ONLY to KπX-owned publishable projects, never to third-party wrappers. Added explicit exclusions list. |
 | 2026-04-23 | [ANTIGRAVITY] | v2.7.0 — Harmonized dev install with link/unlink convention; added explicit security-hardened installation path reference pointing to k-final for critical projects. |

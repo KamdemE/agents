@@ -46,10 +46,10 @@ cd ~/.config/opencode/.opencode/plugin && npm install \
 Per KπX governance, the plugin source lives in `.agents` (versioned) and is
 symlinked into the runtime discovery paths.
 
-**Source of truth:** `skills/k-opencode/scripts/plugins/context/`
+**Source of truth:** `skills/k-opencode/scripts/plugins/opencode-context/`
 
 ```
-context/
+opencode-context/
 ├── index.ts              ← package entry (re-exports ContextUsagePlugin as default)
 ├── context-usage.ts      ← registers the context_usage tool
 ├── tokenizer-registry.mjs / .d.ts

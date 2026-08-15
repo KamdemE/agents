@@ -99,7 +99,7 @@ Resulting message order: `[0] raw context (k-context + device infra)`, `[1...N] 
 
 These plugins do not run within the OpenCode core process, but are injected into the DOM of the OpenCode Web UI via the `opencode-lens` reverse proxy.
 
-*   **Example — `opencode-web-voice-plugin`:**
+*   **Example — `opencode-web-voice`:**
     *   **Rôle :** Ajoute un bouton microphone et un sélecteur de langue (EN/FR/Auto) à l'interface web pour le Speech-to-Text utilisant la Web Speech API du navigateur.
     *   **Emplacement :** Les fichiers d'injection se trouvent sous `.agents/skills/k-opencode/scripts/plugins/web/`.
     *   **Installation :** Chargé dynamiquement par le proxy Node.js `opencode-lens` qui intercepte le trafic web (exposé sur le port Tailscale `2443` via `tailscale serve`), désactive le Content-Security-Policy (CSP) et injecte le script JS.

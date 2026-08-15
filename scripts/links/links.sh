@@ -31,7 +31,7 @@ LINKS=(
   "$HOME/.config/opencode/opencode.jsonc|$HOME/.agents/skills/k-opencode/assets/opencode.jsonc"
   "$HOME/.config/opencode/tui.json|$HOME/.agents/skills/k-opencode/assets/tui.json"
   "$HOME/.config/opencode/commands/context.md|$HOME/.agents/skills/k-opencode/assets/plugins/context/context.md"
-  "$HOME/.config/opencode/plugins|$HOME/.agents/skills/k-opencode/scripts/plugins/context"
+  "$HOME/.config/opencode/plugins|$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-context"
 
   # --- k-zsh -------------------------------------------------------------------
   "$HOME/.zshrc|$HOME/.agents/skills/k-zsh/assets/zshrc"
