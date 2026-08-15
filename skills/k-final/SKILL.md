@@ -127,7 +127,7 @@ Always prefer local linking for development to ensure the CLI uses the current c
 - Use `make unlink` to clean up.
 
 ### 🛡️ Sovereign Security Projects (Critical/System)
-For tools managing secrets (like `bw-mcp`), system-level installs, or core homelab automation, enforce **Root-Protection** and **Confinement**:
+For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 2026-08-14), system-level installs, or core homelab automation, enforce **Root-Protection** and **Confinement**:
 
 1. **Root-Immutable Install**:
    - Use `make install` to deploy in `/opt/$(PKG_NAME)` with `root:root` ownership.

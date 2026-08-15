@@ -1,5 +1,7 @@
 # MCP Setup — k-mail
 
+> **⚠️ 2026-08-14:** `mail-mcp` / `k-mail-mcp` were **purged** (MCP purge — only `*-proxy` real CLIs are kept). Use **`mail-proxy`** instead. The original `mail-mcp` content below is kept for the record (never deleted). See `k-uv/references/purged.md` and `k-node/references/purged.md`.
+
 Generic MCP setup reference for `mail-mcp`.
 
 ## Preferred: STDIO (KπX exception)

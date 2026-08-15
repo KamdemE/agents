@@ -17,6 +17,8 @@ allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 
 > **Related:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup) · `k-ssh` (SSH config — canonical fragment, keys, Include) · `k-tmux` (tmux config — canonical config to symlink) · `k-clis` (Tailscale) · `k-tg` (wireless-debug screenshot)
 
+> **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
+
 ## Inventory (Tailscale)
 
 | Host | Short name | MagicDNS | Tailscale IP | SSH | ADB | Notes |

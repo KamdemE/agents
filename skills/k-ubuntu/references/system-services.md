@@ -22,7 +22,7 @@ All services listed below are **active and running** (verified 2026-07-25). Sour
 | `rclone-deep-pc6.service` | Deep-PC6 (via k-dxo → ~/Deep-PC6) | ✅ enabled + active | `k-dxo/assets/rclone-deep-pc6.service` | ✅ `~/.config/systemd/user/rclone-deep-pc6.service` |
 | | | | | |
 | **Timers** (system) | | | | |
-| `clean-system.timer` | Weekly system cleanup (21:30) | ✅ enabled + active | `k-ubuntu/assets/clean/clean-system.service` + `.timer` | ✅ `/etc/systemd/system/clean-system.*` |
+| `clean.timer` | Weekly system cleanup (21:30) | ✅ enabled + active | `k-ubuntu/assets/clean/clean.service` + `.timer` | ✅ `/etc/systemd/system/clean.*` |
 | `backup-restore.timer` | Daily workstation backup (22:00) | ✅ enabled + active | `k-ubuntu/assets/backup_restore/backup-restore.service` + `.timer` | ✅ `/etc/systemd/system/backup-restore.*` |
 | `pve-backup.timer` | PVE weekly backup (Sat 03:30) | ✅ enabled + active | `k-ubuntu/assets/backup_restore_pve/pve-backup.service` + `.timer` | ✅ `/etc/systemd/system/pve-backup.*` |
 | | | | | |

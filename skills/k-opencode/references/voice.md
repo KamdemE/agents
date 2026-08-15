@@ -34,8 +34,8 @@ Optional LLM endpoint for normalization (skipped if omitted → raw whisper text
 | Tool | Role |
 |------|------|
 | `sox` | Audio capture (mic → wav) |
-| `whisper-cli` | STT inference (Vulkan GPU build) |
-| `piper-tts` | TTS inference |
+| `whisper-cli` | STT inference (Vulkan GPU build) — wrapped by `k-whisper` |
+| `piper` | TTS inference (C++ build) — wrapped by `k-piper` |
 | `ffplay` / `mpv` | Audio playback |
 | `wget` / `curl` | Model download |
 

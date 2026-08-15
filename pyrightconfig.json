@@ -1,0 +1,6 @@
+{
+  "extraPaths": [
+    "libs",
+    "scripts/check_skills"
+  ]
+}

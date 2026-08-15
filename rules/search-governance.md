@@ -4,7 +4,7 @@
 
 ## Mandate
 
-**Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily) over `find`/`grep`/Glob for file search.**
+**Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.**
 
 - `plocate <pattern>` → milliseconds (pre-built index)
 - `find / -name <pattern>` → seconds to minutes (full scan)
@@ -22,7 +22,7 @@
 
 ## When NOT to use plocate (fall back to `find`)
 
-- **Real-time**: files created or renamed since last `updatedb` won't appear
+- **Real-time**: files created or renamed since last `updatedb` won't appear (run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`)
 - **Very recent files**: prefer `find` with narrow scope (e.g. `find /home/kpihx/Work/`)
 - **Readability edge**: `plocate` respects file permissions
 
@@ -42,6 +42,21 @@ In addition to `plocate` for file search, agents MUST use the following code ana
 | **opencode-ast_references** | Find references to a symbol in the same file | Plugin |
 | **loom query** | Cross-session code search — find symbols across indexed projects | MCP (needs `loom analyze .` first) |
 | **qmd** / **qmdr** | Search KπX knowledge base (past sessions, skills, configs) | CLI (see `k-qmd` skill) |
+
+## Semantic / Know-how questions → `qmd query` (MANDATORY)
+
+🔴 **For SEMANTIC questions — understanding the KπX ecosystem, its history, past sessions/passes, or "how did we do X before" WITHOUT clear keywords — agents MUST use `qmd query` (or `qmdr`).**
+
+| Situation | Tool |
+|-----------|------|
+| Understand the ecosystem / how things connect | `qmd query` (BM25+vector hybrid over past sessions, skills, configs) |
+| Recover history / past sessions / previous passes on a topic | `qmd query` |
+| Semantic questions WITHOUT exact keywords ("pourquoi", "comment on a fait", know-how) | `qmd query` |
+| Find a specific fact you know the wording of | `qmd query` with that wording |
+
+- **Never guess or answer from memory alone** for ecosystem/history questions — run `qmd query` first (see `k-qmd` skill for CLI usage and collections).
+- `qmd query` is the FIRST tool for semantic/know-how questions; `plocate` stays for file search; `loom` for cross-session code search; `opencode-ast` for fresh file structure.
+- Same rule enforced in `AGENTS.md` → Code search workflow.
 
 ## Enforcement
 

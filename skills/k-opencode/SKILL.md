@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.25.0
+  version: 2.30.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -53,7 +53,7 @@ OpenCode does **not** ship Android-compatible binaries (non-PIE glibc ARM64 bina
   - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
   - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
 - **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink needed.
-- **Plugins discovery — explicit `file://` only:** No symlink — all plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`.
+- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `context/` package via `index.ts`.
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
 
@@ -101,15 +101,19 @@ opencode models
 
 3-tier hierarchy: **Global config → Agent deltas → Session runtime**, `findLast` wins. Global bash zones (🟢 read-only, 🟡 low-risk, 🟠 trusted, 🔴 explicit ask), `.env`/`*auth.json`/`*credentials.json` protection, MCP permission overrides, and `external_directory` allowlist → full detail in **`references/permissions.md`**.
 
-## Plugins — Three Systems & KπX Hooks
+## Plugins & Hooks — Four Systems
 
-OpenCode has three extension systems: **Lifecycle plugins** (`opencode.jsonc` → `"plugin"`, npm or `file://`), **TUI plugins** (`tui.json` → `"plugin"`, npm), and **Slash commands** (`.opencode/commands/*.md`, auto-discovered). The 11 active lifecycle plugins, the full KπX sovereign hooks table (`scripts/hooks/*.js` with `TARGET_AGENTS`, event, behavior), execution order, TUI plugin config, and slash command discovery → **`references/plugins-architecture.md`**. Coding standards for creating/editing hooks (mandatory `TARGET_AGENTS`, prompt/hook name matching, `libs/` helper usage) → **`references/hooks-standard.md`**.
+OpenCode and its environment are extended via four distinct systems:
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 11 active plugins (5 npm, 6 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
+2. **TUI plugins:** (`tui.json` → `"plugin"`, npm modules) for console interface features (voice STT/TTS via `@renjfk/opencode-voice`). See **`references/voice.md`**.
+3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
+4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice-plugin` using the Web Speech API). See **`references/voice.md`**.
 
 **Device auto-detection pipeline:** `tailscale status --json → Self.DNSName → assets/infras.json lookup → skills/<k-*>/SKILL.md read` (fallback `os.hostname()`).
 
 ### Voice (TUI — @renjfk/opencode-voice)
 
-STT + TTS 100% local via `@renjfk/opencode-voice`. Config in `tui.json` (not `opencode.jsonc`), tracked as `assets/tui.json`. Dependencies (sox, whisper-cli, piper-tts), model install/management, keybinds, and plugin patches → **`references/voice.md`**.
+STT + TTS 100% local via `@renjfk/opencode-voice`. Config in `tui.json` (not `opencode.jsonc`), tracked as `assets/tui.json`. Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and plugin patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
 
 ### Providers: Ollama (local) & Ollama6 (deep-pc6)
 
@@ -173,7 +177,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink necessary. See [docs](https://opencode.ai/docs/skills).
 
-**Plugins discovery — explicit `file://` only:** Plugins are loaded exclusively via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. No `plugins/` symlink.
+**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `context/` package (via `index.ts`).
 
 **Config source of truth:** `assets/opencode.jsonc` — symlinked to `~/.config/opencode/opencode.jsonc`. Edit the asset, never the runtime directly. **All changes are tracked in git via the `.agents` repo.**
 
@@ -195,7 +199,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - `references/providers.md` — Ollama & Ollama6 provider config examples
 - `references/android-termux.md` — Android/Termux incompatibility: root cause, workarounds tested, and build-from-source guide for ARM64 devices
 - `references/voice.md` — STT/TTS via @renjfk/opencode-voice and Web Voice Plugin: model install, Web Speech configuration, and browser integrations
-- `references/GO.md` — OpenCode GO system reference (Go-based MCP servers and tooling)
+- `references/go.md` — OpenCode GO system reference (Go-based MCP servers and tooling) — renamed from GO.md 2026-08-15 (workspace G0.md symlink removed)
 - `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
 
 ## Insights Discipline (mandatory)
@@ -208,8 +212,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-11 | [COLAB] | v2.25.0 — **Fix of OpenCode session titles (silent title-gen)** : root cause found in the binary source `SessionPrompt.ensureTitle` — title generation only fires if the history contains **exactly ONE non-synthetic user message** (`if(t.history.filter(O).length!==1)return`). The lifecycle hooks injected `user` messages WITHOUT the `synthetic:true` flag (`startup-context.js` unshift + `appendMessage` of prompt-enforcer-lite/strict/math-enforcer) → 2+ "real" user messages → gate return → title never generated (regressed ~2026-08-10, hooks re-enabled 08-09). Fix = PATCH `synthetic:true` on the injected parts in `libs/message-utils.js` (`appendMessage`) and `startup-context.js` (unshift). Verified: `node --check` OK, gate simulation (BEFORE=2→skip, AFTER=1→fire), `make check` ALL_OK. ⚠️ OpenCode restart required (hooks loaded at boot). The `small_model` was NOT the cause (valid and active in this chat). |
-| 2026-08-09 | [COLAB] | v2.24.0 — **`/context` plugin (IgorWarzocha) FULLY re-installed (KπX green light)** : purge of the incomplete install (only `command/context.md` existed → the command called the `context_usage` tool without implementation) ; complete install following the repo — source of truth in `.agents/skills/k-opencode/scripts/plugins/context-plugin/` (`command/context.md` + `plugin/context-usage.ts` + `tokenizer-registry` + `vendor/node_modules` with `js-tiktoken` + `@huggingface/transformers`) ; runtime symlinks `~/.config/opencode/commands/context.md` and `~/.config/opencode/plugins/` (plural discovery paths, confirmed by the official OpenCode docs) ; documentation in `references/context-plugin.md` (repo, install, deps, troubleshooting). |
-| [SUMMARY] | — | v2.23.0 and earlier copied to `references/log.md` ; the live table keeps only the two most recent entries. |
+| 2026-08-15 | [COLAB] | v2.30.0 — **`/context` plugin load fix (WORKING)**: the plugin now loads and `context_usage` executes. Root cause: `@opencode-ai/plugin` was not resolvable from the plugin file. Fix: symlinked it into `context/node_modules/@opencode-ai/plugin` (an ANCESTOR of `context-usage.ts` — Node/Bun resolve bare imports up the tree; `vendor/node_modules` is NOT an ancestor, so the earlier fix there was wrong). Kept `export default ContextUsagePlugin` (function, matching the working `opencode-ast` npm plugin). Added deepseek-v4/-flash/-flash-free tokenizer aliases to `tokenizer-aliases.json` (model was unresolved). `assets/opencode.jsonc` loads it via explicit `file://`. Removed `opencode-context-plugin` from `links.jsonc` + unlinked `~/.config/opencode/plugins`. Verified: `bun import('./context-usage.ts')` → `MODULE LOADED`, tokenizer resolves, `/context` runs end-to-end in TUI. Updated `references/context-plugin.md`. |
+| 2026-08-15 | [COLAB] | v2.29.0 — **GO.md → go.md rename + G0.md symlink unplugged**: `references/GO.md` renamed to `references/go.md` (lowercase); workspace `~/KpihX-Labs/G0.md` symlink removed + `kpihx-labs-G0-md` links.jsonc entry dropped (no local symlink — reference the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-opencode/references/go.md`). Updated SKILL.md `## References` + the file's self-header. |
+| [SUMMARY] | — | v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`) · `assets/opencode-lens.service` (symlink target for `~/.config/systemd/user/`)

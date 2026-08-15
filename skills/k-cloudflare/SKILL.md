@@ -100,7 +100,7 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 | Traefik, Docker, tunnel on server | **`kpihx-labs`**, **`k-docker`** |
 | Internal mesh, ACL | **Tailscale**, **`ts-proxy`**, **`k-clis`** |
 | Inbox verification, What's up mail | **`k-mail`**, **`k-microsoft`**, **`k-google`** (gws) |
-| Secrets | **`k-bw`** |
+| Secrets | local config / env (no longer injected via `k-bw` — purged 2026-08-14) |
 
 ## Insights Discipline (mandatory)
 

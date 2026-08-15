@@ -86,14 +86,14 @@ m365 outlook event list --query '$top=10&$select=subject,start,end'
 | **Search** | `m365 search` | this skill |
 | **Anything else Graph** | `m365 request --url …` | this skill |
 
-Poly academic mail: **mail-mcp** — not `m365`.
+Poly academic mail: **mail-proxy** (ex-`mail-mcp`, purgé 2026-08-14) — not `m365`.
 
 ## Mail routing
 
 | Mailbox | Tool | Skill |
 |---------|------|-------|
 | Hotmail / Outlook | `m365 outlook *` | **`k-mail`** + this skill |
-| Poly Zimbra | mail-mcp | **`k-mail`** — not `m365` |
+| Poly Zimbra | mail-proxy (ex-`mail-mcp`) | **`k-mail`** — not `m365` |
 
 What's up: Zimbra canonical; dedupe Outlook — **`k-mail`**.
 

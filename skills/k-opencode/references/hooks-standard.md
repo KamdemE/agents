@@ -59,6 +59,7 @@ There must no longer be disparate or generic names that hide the concerned agent
 - To load a prompt, use `loadPrompt("hook-name")` imported from `./libs/prompt-loader.js` (or `../../libs/prompt-loader.js` depending on the tree).
 - To check for the prior presence of a prompt in the history to avoid duplicate injections, use `promptMarker("hook-name")` to extract its first signature line.
 - To manipulate messages or extract text robustly, import the functions from `./libs/message-utils.js`.
+- To strip JSONC comments from `.agents` config assets (e.g. `infras_skills.jsonc`), import `stripJsonc` from the shared `libs/jsonc_lib.js` (the JS twin of `libs/jsonc_lib.sh` / `libs/jsonc_lib.py`) — **not** a local inline `stripJsoncComments`. `startup-context.js` switched to this shared import on 2026-08-15 (single source of truth; no duplicated JSONC stripper in hooks).
 
 ## 5. Ordering Rule (MANDATORY — real bug found 2026-08-09)
 

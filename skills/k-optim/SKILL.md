@@ -1,14 +1,15 @@
 ---
 name: k-optim
 description: >
-  KπX optimization state and action map. Generic framework covering
-  four optimization scopes: local machine, homelab server, agent runtimes,
-  and kernel governance. OS-specific cleanup actions live in references/
-  (ubuntu.md, windows.md). Load before any cleanup/optim work.
+  KπX optimization state and action map — READ THIS FIRST when KπX talks
+  about "nettoyer / purge / clean / optimiser / cleanup". Generic framework
+  covering four optimization scopes: local machine, homelab server, agent
+  runtimes, and kernel governance. OS-specific cleanup actions live in
+  references/ (ubuntu.md, windows.md). Load before any cleanup/optim work.
 license: private
 metadata:
   author: KpihX
-  version: "3.1.0"
+  version: "3.10.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -29,6 +30,8 @@ allowed-tools: Bash, Read, Write, Edit
 > **AFTER PERFORMING AN OPTIMIZATION, THIS FILE MUST BE UPDATED WITH EVENTUAL FIXES OF COMMANDS AND THE LAST KNOWN STATE.**
 > **AUTO-UPDATE MANDATE:** do not wait for KπX confirmation to write the operational trace; update `k-optim` and `k-context/references/issues.md` automatically at the end of each relevant optimization/incident action.
 
+> **🔴 GRAVÉ — MANDATORY EXHAUSTIVE LOG AFTER EVERY FULL K-OPTIM RUN:** AFTER EACH COMPLETE `k-optim` RUN (a full cleanup/purge/optimization pass), **`references/log.md` MUST BE UPDATED WITH EVERYTHING THAT WAS DONE — EXHAUSTIVELY** (every command, every purge, every dir/file touched, every skill edited, every version bumped, every problem found+fixed). NO SUMMARIES, NO OMISSIONS, NO "ETC.". Append the full run trace to `references/log.md` (append-only, GRAVÉ). THIS IS AN ABSOLUTE, NON-NEGOTIABLE OBLIGATION — the operational history must never be lost. Only after logging is the run considered complete.
+
 `k-optim` is the compact operational map for KπX optimization work, organized in four scopes (executed in order):
 
 - **Local machine scope** — storage cleanup, project artifact removal, cache management. See `references/ubuntu.md` (Ubuntu) or `references/windows.md` (Windows).
@@ -37,6 +40,50 @@ allowed-tools: Bash, Read, Write, Edit
 - **Meta scope** — `.agents/` governance hygiene, QMD cleanliness, hook/skill alignment. (Final cleanup step)
 
 In all scopes: **load this skill before starting any cleanup/optim work** — reuse existing standards and scripts instead of reinventing. Log new scripts, key actions, and notable results in the relevant `### Last Known State` section and `## Script & Action Log` so the state stays current.
+
+---
+
+## Purge Discipline (Absolute Obligation)
+
+When KπX asks to **purge** or **uninstall** a package, application, or tool, the agent MUST perform a complete and exhaustive cleanup of all associated files and directories across the entire system. No debris must remain. This includes purging:
+- **User home directories**: `~` root level, `~/.local/`, `~/.config/`, `~/.local/share/`, `~/.cache/`, etc.
+- **Snaps / Flatpaks**: snap packages, snap cache, snap user/system directories.
+- **Systemd units**: both user-level (`~/.config/systemd/user/`) and system-level (`/etc/systemd/system/`) services and timers (including configurations, drop-ins, sockets).
+- **Global system paths**: `/opt/`, `/usr/bin/`, `/var/lib/`, etc. (using package manager purge options).
+- **Environment & Shell files**: any exports, aliases, or paths added to configuration files (`.zshrc`, `.bashrc`, `.kshrc`).
+
+### Post-Purge Verification (MANDATORY — plocate)
+🔴 **AFTER ANY PURGE, ALWAYS RUN `plocate` for the purged name/path — even when you believe everything is removed.** A purge is never "done" on assumption: verify with `plocate <name>` (and targeted `ls`/`test` where needed) covering `~`, `~/.local`, `~/.config`, `~/.cache`, `/opt`, `/usr/bin`, systemd units and `.desktop` files. Catch residual debris that `apt purge` / `npm uninstall` / `rm -rf` miss. Only when `plocate` returns no relevant hit is the purge complete. Log the `plocate` command + output in the trace. This rule lives in `rules/skill-governance.md` → Post-Purge Verification and `AGENTS.md` → Skills.
+
+### Debris Scan — Where & How to Dig (MANDATORY — learned 2026-08-14)
+🔴 **A purge is complete only when the `share`/`config`/`bin` debris of the dead app is gone too.** Beyond the package/binary, sweep these user-level dirs for leftovers of apps no longer installed:
+
+| # | Dir | What to hunt | Example finds (2026-08-14) |
+|---|-----|--------------|----------------------------|
+| 0 | `~/` root level (**incl. hidden `.*`**) | dotdirs/dotfiles of dead apps, stale backups (`*~`) | `.zoom`, `.windsurf`, `.cline`, `.sui`, `.codeium`, `.qwen`, `.roo`, `.securecoder`, `.mistralcode`, `.n8n`, `.dotnet`, `.grip`, `.deno` — all purged 2026-08-14 |
+| 1 | `~/.local/bin/` | stale binaries + **broken symlinks** | `k-desktop-mcp.py`, `bw-admin`, `bw-mcp` (symlinks → absent `/opt/bw-mcp`) |
+| 2 | `~/.config/` | config dirs of uninstalled apps | `asciinema`, `BraveSoftware`, `Slack`, `Termius`, `Wave`, `Windsurf`, `browseruse`, `chromium`, `devin`, `vibe`, `kaggle`, `obs-studio`, `onedrive`, `opera`, `vivaldi`, `viperx`, `xarchiver`, `jupyterlab-desktop`, `google-chrome-{beta,unstable,for-testing}`, `microsoft-edge-{beta,dev}`, `eog`, `gogcli`, `ggs`, `vercel-plugin`, `zoom.conf`, `zoomus.conf` |
+| 3 | `~/.local/share/` | data dirs of uninstalled apps | `devin`, `qalculate`, `totem`, `vlc`, `hyprland`, `opentui`, `rhythmbox`, `meld`, `tirith`, `nemo`, `nemo-python`, `onedriver` |
+| 4 | `~/.cache/` | caches of purged apps | any `*zoom*`, `*signal*`, `*wine*`, `*asciinema*` |
+| 5 | `/opt/` | heavy-client dirs | `/opt/Signal`, `/opt/zoom` |
+| 6 | `/etc/apparmor.d/` | AppArmor profiles (root) | `opt.bw-mcp.bin.bw-mcp` (needs tmux sudo) |
+| 7 | `apt sources` + `/usr/share/applications/*.desktop` | stale `*.sources` + launchers | `signal-desktop.sources`, `Zoom.desktop` |
+| 8 | **Skills** (`~/.agents/skills/`) | doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-cloud-tools`, `k-final`, `kpihx`, `deactive/*` |
+
+> **🔴 Always check `~` root level AND `~/.cache` when cleaning local configs or purging anything** (added 2026-08-14): many tools leave top-level dotdirs (`~/.zoom`, `~/.windsurf`, `~/.cline`, …) and caches (`~/.cache/*`) that `apt purge` / `npm uninstall` never touch. Sweep them with the same debris check below.
+
+**How to confirm a config dir is debris (never delete live-app config):**
+```bash
+# candidate dir name = D
+command -v D        # empty = no binary (use command -v, NOT which which echoes "not found")
+dpkg -l | grep -E "^ii\s+D"
+snap list | grep -w D
+uv tool list | grep -w D
+npm ls -g --depth=0 | grep -w D
+ls /usr/share/applications/*.desktop | grep -i D
+# all empty → debris → remove (trash-safe rm), then plocate <name> to confirm no residual
+```
+This methodology lives in `rules/skill-governance.md` → Full Debris Scan Methodology.
 
 ---
 
@@ -140,7 +187,7 @@ _(To be documented per optimization pass.)_
 - For each broken symlink: identify the canonical asset in `.agents/skills/<skill>/assets/` and re-symlink
 - Log all fixes to `k-context/references/issues.md`
 - **Zero-tolerance:** no broken `.agents/` symlinks in systemd should remain after an optimization pass
-- **Automated check:** `make check-systemd` (`scripts/check-systemd.sh`, joined into the `check:` chain) verifies every deployed `.agents`-owned unit (system + user) with `systemd-analyze verify` on the DEPLOYED path (drop-in-aware), and lists not-linked unit-file assets under activated skills (`*/assets/*` scope) — informational, with a VERIFY warning if any was supposed to be linked for this infra
+- **Automated check:** `make check-systemd` (`scripts/check_systemd.sh`, joined into the `check:` chain) verifies every deployed `.agents`-owned unit (system + user) with `systemd-analyze verify` on the DEPLOYED path (drop-in-aware), and lists not-linked unit-file assets under activated skills (`*/assets/*` scope) — informational, with a VERIFY warning if any was supposed to be linked for this infra. Symlinks (non-systemd) are verified by `make check-links` (`scripts/links/check_links.sh`, using `scripts/links/links.sh` as the single source of truth) — see below.
 
 ### Actions
 
@@ -150,6 +197,9 @@ _(To be documented per optimization pass.)_
 4. Update `k-context/SKILL.md` session log if needed
 5. Check for orphaned references in `skills/` and `references/`
 6. **Clean `tmp/`**: remove all files in `$HOME/.agents/tmp/` (merged-away originals, old backups) — these are safe to delete during optimization
+7. **Empty `~/KpihX-Labs/tmp/`**: remove all contents of `$HOME/KpihX-Labs/tmp/` (temporary working area — safe to empty during optimization; keep the directory itself)
+8. **Check + run correct script permissions**: after any purge/optimization, verify and normalize execute bits on all kernel scripts with `make chmod` (default 755; stricter 744/700 via `scripts/chmod.sh <XYZ>`) — always check that installed scripts/entry points remain executable.
+9. **Broken-link sweep (`~` whole home + `/etc`)**: dig the ENTIRE `$HOME` (`find ~ -type l` — recursive, ALL of `~`, not just `~/.local/bin`, `~/.config`, `~/.local/share`; those are examples, not a limit) and the whole system config `/etc` (covers `/etc/systemd/system` and everything else). For each broken link whose canonical asset exists in `.agents` (`~/.agents/skills/<skill>/assets|scripts/...`), **re-create the symlink** to that source of truth (`ln -sf`; elevation via tmux for `/etc`). If the source of truth is NOT localizable (asset missing/uninstalled), **signal/report it** (do not silently leave it) and log to `k-context/references/issues.md`. Zero-tolerance: no broken `.agents`-related symlink should remain after an optimization pass. Fast detection (whole home + `/etc`): `find ~ /etc -type l ! -exec test -e {} \; -print 2>/dev/null`. **Speed note (PRUNE_DIRS — never scan into these noise dirs):** when sweeping the whole home, prune `Trash`, `.venv`, `node_modules`, and `models` (large model stores) — they are noise / not `.agents`-owned symlinks. Mirror of `scripts/links/check_links.sh` `PRUNE_DIRS`.
 
 ---
 
@@ -163,6 +213,6 @@ _(To be documented per optimization pass.)_
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-03 | [OPENCODE] | v3.1.0 — **check-systemd automation referenced**: `make check-systemd` (`.agents/scripts/check-systemd.sh`) verifies deployed `.agents`-owned systemd units (drop-in-aware) + not-linked unit assets under activated skills (informational VERIFY warning). |
-| 2026-07-22 | [OPENCODE] | v3.0.0 — Rewritten as generic optimization framework. Ubuntu cleanup content (apt, snap, GNOME, ext4, services, scripts) extracted to references/ubuntu.md. Homelab scope stays as cross-infra reference. |
-| [SUMMARY] | — | v2.x: full Ubuntu runbook with ext4 recovery, service audit, script maps. Full details now in references/ubuntu.md. |
+| 2026-08-15 | [COLAB] | v3.10.0 — **Broken-link sweep (Meta Scope Actions step 9)**: check ALL broken/dangling symlinks in `$HOME` (whole home: `find ~ -type l` — recursive, not just `~/.local/bin`, `~/.config`, `~/.local/share`) and systemd dirs (`/etc/systemd/system`, `~/.config/systemd/user`); re-create each from its `.agents` source of truth when localizable (`ln -sf`; tmux for `/etc`), else **signal/report** it (log to `k-context/references/issues.md`). Zero-tolerance: no broken `.agents`-related symlink after a pass. |
+| 2026-08-14 | [COLAB] | v3.9.0 — **`clean-system`→`clean` + JSONC infra refs**: `references/ubuntu.md` updated to `/var/log/clean/workspace_scan.log` (service renamed to `clean` per the services-key restructure). Cross-refs: `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`), `scripts/services/{check_services,reload_services}.sh` (use `unit` param; reload_services also reloads user+system daemons). |
+| [SUMMARY] | — | v3.8.0 chmod guidance (→ `references/log.md`) · v3.7.0 link infrastructure · v3.6.0 `~`/`~/.cache` debris sweep · v3.5.0 read-first · v3.4.0 debris scan methodology · v3.3.0 tmp emptying · v3.2.0 purge discipline (→ `references/log.md`) · v3.1.0 and older moved to `references/log.md` |

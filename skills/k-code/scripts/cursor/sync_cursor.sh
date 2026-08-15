@@ -14,14 +14,17 @@ mkdir -p "$FORK_CONFIG_DIR/User/globalStorage"
 find "$FORK_CONFIG_DIR/User" -maxdepth 2 -type l -delete || true
 
 cd "$FORK_CONFIG_DIR/User"
-rm -f settings.json keybindings.json
-ln -s ../../Code/User/settings.json settings.json
-ln -s ../../Code/User/keybindings.json keybindings.json
-rm -rf profiles
-ln -s ../../Code/User/profiles profiles
+rm -f settings.json keybindings.json mcp.json chatLanguageModels.json
+ln -s "$HOME/.agents/skills/k-code/assets/settings.json" settings.json
+ln -s "$HOME/.agents/skills/k-code/assets/keybindings.json" keybindings.json
+ln -s "$HOME/.agents/skills/k-code/assets/mcp.json" mcp.json
+ln -s "$HOME/.agents/skills/k-code/assets/chatLanguageModels.json" chatLanguageModels.json
+rm -rf profiles snippets
+ln -s "$HOME/.config/Code/User/profiles" profiles
+ln -s "$HOME/.agents/skills/k-code/assets/snippets" snippets
 cd globalStorage
 rm -f storage.json
-ln -s ../../../Code/User/globalStorage/storage.json storage.json
+ln -s "$HOME/.config/Code/User/globalStorage/storage.json" storage.json
 
 mkdir -p "$FORK_EXT_BASE"
 ln -sfT "$HOME/.vscode/extensions" "$FORK_EXT_BASE/extensions"

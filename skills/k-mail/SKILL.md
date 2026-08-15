@@ -1,13 +1,13 @@
 ---
 name: k-mail
 description: >
-  Unified mail — Zimbra (mail-mcp, poly) and Hotmail (m365). Cloud hub channel; M365 in k-microsoft.
+  Unified mail — Zimbra (mail-proxy, ex-mail-mcp purgé 2026-08-14, poly) and Hotmail (m365). Cloud hub channel; M365 in k-microsoft.
   Load before any mail workflow or What's up mail slice.
 license: private
 metadata:
   author: KpihX
-  version: "2.2.4"
-allowed-tools: mcp__mail-mcp__*, mcp__mail-mcp--stdio__*
+  version: "2.2.5"
+allowed-tools: Bash(*), *
 ---
 
 # KπX — Mail (Zimbra + Microsoft 365)
@@ -247,6 +247,6 @@ Interpretation note: `m365 status` may show `connectedAs` as empty even when Gra
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v2.2.5 — **MCP purge annotation**: `mail-mcp`/`k-mail-mcp` purged (2026-08-14), only `*-proxy` CLIs kept → skill description + allowed-tools updated to `mail-proxy`; `references/mcp.md` annotated. See `k-uv/references/purged.md`. |
 | 2026-05-25 | [CURSOR] | v2.2.4 — E2E archive + outbound COMPLETE; inbound LIVE pointers. |
-| 2026-05-25 | [CURSOR] | v2.2.0 — M365 session + `@kpihx-labs.com` inbound map. |
-| [SUMMARY] | — | v2.2.1–v2.2.3 anti-spam/Worker; v2.1.x cloud-hub; older → `references/log.md` |
+| [SUMMARY] | — | v2.2.0–v2.2.3 anti-spam/Worker; v2.1.x cloud-hub; older → `references/log.md` |

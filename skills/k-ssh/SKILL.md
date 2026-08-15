@@ -156,7 +156,7 @@ When a new infra is added, `~/.kshrc` (shell hub) follows the same centralizatio
 
 - **Source of truth:** `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`, `k-25/assets/kshrc`)
 - **`~/.kshrc`** is a **symlink** to that file
-- If the infra skill does not exist, create it following `k-agents` before proceeding
+- If the infra skill does not exist, create it following `k-ai` (AI hub + runtime registry) before proceeding
 
 See `k-infras` → New Infra Setup Checklist → step 1b.
 

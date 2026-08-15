@@ -1,6 +1,6 @@
 # Vault token gate (all cloud / API CLIs)
 
-> **Hub rule:** `k-cloud-tools/SKILL.md` → **Vault token gate (mandatory)**. Secrets detail → **`k-bw`**. Interactive shell → **`k-tmux`**.
+> **Hub rule:** `k-cloud-tools/SKILL.md` → **Vault token gate (mandatory)**. Secrets detail → local config / env (no longer injected via `k-bw` — purged 2026-08-14). Interactive shell → **`k-tmux`**.
 
 ## Scope
 

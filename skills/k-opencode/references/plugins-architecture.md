@@ -1,12 +1,13 @@
-# Plugins — Three Systems
+# Plugins — Four Systems
 
-OpenCode has **three separate extension systems**, configured differently:
+OpenCode has **four separate extension systems**, configured or injected differently:
 
-| System | Config file | Mechanism | Purpose |
+| System | Config file / Injection | Mechanism | Purpose |
 |--------|------------|-----------|---------|
 | **Lifecycle plugins** | `opencode.jsonc` → `"plugin"` array | npm or `file://` JS modules | `event` hooks, `messages.transform`, tool definitions |
 | **TUI plugins** | `tui.json` → `"plugin"` array | npm modules | UI extensions (voice STT/TTS, visual) |
 | **Slash commands** | `.opencode/commands/*.md` | Markdown files auto-discovered | Custom `/command` shortcuts in TUI |
+| **Web UI plugins** | Injected via `opencode-lens` proxy | Client-side JS script | Web browser interface extensions (e.g. voice mic and language selector) |
 
 ## Lifecycle plugins — 3 installation types
 
@@ -93,6 +94,15 @@ Custom `/command` shortcuts are auto-discovered from markdown files in `.opencod
 The `/context` command shows a detailed token-usage breakdown by component (system prompt, tools, user messages, etc.) using `js-tiktoken` for estimation. Installed globally for all projects.
 
 Resulting message order: `[0] raw context (k-context + device infra)`, `[1...N] user messages`, `[N+1] format reminder`, `[N+2] prompt enforcement`.
+
+## Web UI plugins (injected via `opencode-lens` proxy)
+
+These plugins do not run within the OpenCode core process, but are injected into the DOM of the OpenCode Web UI via the `opencode-lens` reverse proxy.
+
+*   **Example — `opencode-web-voice-plugin`:**
+    *   **Rôle :** Ajoute un bouton microphone et un sélecteur de langue (EN/FR/Auto) à l'interface web pour le Speech-to-Text utilisant la Web Speech API du navigateur.
+    *   **Emplacement :** Les fichiers d'injection se trouvent sous `.agents/skills/k-opencode/scripts/plugins/web/`.
+    *   **Installation :** Chargé dynamiquement par le proxy Node.js `opencode-lens` qui intercepte le trafic web (exposé sur le port Tailscale `2443` via `tailscale serve`), désactive le Content-Security-Policy (CSP) et injecte le script JS.
 
 **Device auto-detection pipeline:**
 ```

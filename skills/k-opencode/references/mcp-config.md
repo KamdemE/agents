@@ -7,15 +7,17 @@ Local (stdio-equivalent) server:
 ```json
 {
   "mcp": {
-    "mail_fallback": {
+    "browser": {
       "type": "local",
-      "command": ["mail-mcp", "serve"],
+      "command": ["browser-mcp"],
       "enabled": true,
       "timeout": 60000
     }
   }
 }
 ```
+
+> **Note (2026-08-14):** the former `mail_fallback` / `mail-mcp` example was removed with the MCP purge. `*-proxy` CLIs (mail-proxy, tick-proxy, tg-proxy, ts-proxy, bw-proxy, whats-proxy) are real CLIs and are configured here as `local` servers if a proxy exposes an MCP endpoint; otherwise they are invoked directly. See `k-uv/references/purged.md` and `k-node/references/purged.md`.
 
 Remote HTTP server:
 

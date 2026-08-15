@@ -9,7 +9,7 @@
 - Same operations via **CLI** (`do …`) and future **HTTP/MCP**
 - **HITL** on destructive API calls (DNS delete, tunnel delete, Access policy change)
 - **JSON-first** output for agents (`--json`, stable schemas)
-- **0 hardcode** — account/zone IDs from config or env, secrets from **`k-bw`**
+- **0 hardcode** — account/zone IDs from config or env, secrets from local config/env (no longer injected via `k-bw` — purged 2026-08-14)
 
 ## Scope (target)
 

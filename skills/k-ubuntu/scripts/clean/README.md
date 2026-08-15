@@ -26,8 +26,8 @@ Runs every 2 days at 21:30 (`OnCalendar=*-*-1/2 21:30:00`), `Persistent=true`.
 ## Logs
 
 ```bash
-journalctl -u clean-system -n 50        # service logs
-cat /var/log/clean-system/workspace_scan.log  # last workspace scan
+journalctl -u clean -n 50        # service logs
+cat /var/log/clean/workspace_scan.log  # last workspace scan
 ```
 
 ## Secrets

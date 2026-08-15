@@ -1,0 +1,256 @@
+{
+  // ============================================================================
+  // services.jsonc — the single source of truth for .agents-owned systemd units
+  // ============================================================================
+  // WHY JSONC: comments allowed → self-documenting. JSONC is the KπX standard
+  // for config files (see kpihx-labs → Config Standard). .env holds secrets.
+  //
+  // WHO USES IT:
+  //   - scripts/services/check_services.sh    (verify each service, max verbosity)
+  //   - scripts/services/reload_services.sh   (reload the current infra's services)
+  //   - scripts/links/lib.sh                  (shared JSONC loader via libs/)
+  //
+  // APPROACH (2026-08-14): DIRECT list grouped by owning skill (each block is a
+  // `// --- <skill> ---` comment). No common-*/optional grouping.
+  //
+  // KEY = APPELLATION (NOT the unit file name):
+  //   - default  : <name>-<type>        e.g. "clean-service"  (type = service|timer|socket|...)
+  //   - infra    : append -<infra> ONLY IF the owning skill IS the infra skill
+  //                (i.e. k-ubuntu→-ubuntu, k-pve→-pve, k-dockerhost→-dockerhost).
+  //                Generic/tool skills (k-opencode, k-hermes, k-dxo, k-rclone, k-ollama)
+  //                do NOT get an infra suffix — their services are shared.
+  //   - example  : clean.service on ubuntu → key "clean-service-ubuntu"
+  //
+  // "unit" PARAM = the REAL systemd unit filename used on the machine
+  //   (e.g. "clean.service"). It is a PARAM, not the key, because the same logical
+  //   service may be deployed under different unit names per infra in the future
+  //   (e.g. a future clean-service-pve). The machine still calls it by "unit".
+  //
+  // FIELDS per service:
+  //   unit         : REAL systemd unit filename (e.g. "clean.service")  ← the actual name
+  //   type         : "user" or "system" (systemd scope)
+  //   path         : canonical location in $HOME/.agents (source of truth)
+  //   skill        : owning k-* skill
+  //   infras       : array of infra names that need this service, or ["*"]
+  //                  ("*" = ALL infra = the new MANDATORY)
+  //   expect-active: true → the service must be ACTIVE (not just present) + healthy
+  //
+  // A service not in the current infra's list is simply skipped. The current infra
+  // comes from tailscale (see infras_skills.jsonc). Tailscale is the backbone.
+  // ============================================================================
+
+  "services": {
+
+    // --- k-tailscale -----------------------------------------------------------
+    // skill k-tailscale = generic tool skill (NOT infra) → no infra suffix
+    "tailscaled-service": {
+      "unit": "tailscaled.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-tailscale/assets/tailscaled.service",
+      "skill": "k-tailscale",
+      "infras": ["*"],
+      "expect-active": true,
+      "note": "MANDATORY everywhere — the mesh backbone of every KπX device."
+    },
+
+    // --- k-ubuntu (infra skill for kpihx-ubuntu) --------------------------------
+    // owning skill IS infra skill → -ubuntu suffix; required only on kpihx-ubuntu
+    "clean-service-ubuntu": {
+      "unit": "clean.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/clean/clean.service",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": false
+    },
+    "clean-timer-ubuntu": {
+      "unit": "clean.timer",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/clean/clean.timer",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+    "backup-restore-service-ubuntu": {
+      "unit": "backup-restore.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore/backup-restore.service",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": false
+    },
+    "backup-restore-timer-ubuntu": {
+      "unit": "backup-restore.timer",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore/backup-restore.timer",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+    "pve-backup-service-ubuntu": {
+      "unit": "pve-backup.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore_pve/pve-backup.service",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": false
+    },
+    "pve-backup-timer-ubuntu": {
+      "unit": "pve-backup.timer",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore_pve/pve-backup.timer",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+    "tg-bot-service-ubuntu": {
+      "unit": "tg-bot.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-ubuntu/assets/tg-bot.service",
+      "skill": "k-ubuntu",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+
+    // --- k-ollama (generic tool skill, NOT infra) → no suffix, shared -----------
+    "ollama-service": {
+      "unit": "ollama.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-ollama/assets/ollama.service",
+      "skill": "k-ollama",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+
+    // --- k-hermes (generic, NOT infra) → no suffix ------------------------------
+    "hermes-gateway-service": {
+      "unit": "hermes-gateway.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-hermes/assets/hermes-gateway.service",
+      "skill": "k-hermes",
+      "infras": ["*"],
+      "expect-active": true
+    },
+
+    // --- k-openclaw (generic, NOT infra) → no suffix -----------------------------
+    "openclaw-gateway-service": {
+      "unit": "openclaw-gateway.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-openclaw/assets/openclaw-gateway.service",
+      "skill": "k-openclaw",
+      "infras": ["*"],
+      "expect-active": true
+    },
+
+    // --- k-opencode (generic, NOT infra) → no suffix ----------------------------
+    "opencode-web-service": {
+      "unit": "opencode-web.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-opencode/assets/opencode-web.service",
+      "skill": "k-opencode",
+      "infras": ["*"],
+      "expect-active": true
+    },
+    "opencode-lens-service": {
+      "unit": "opencode-lens.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-opencode/assets/opencode-lens.service",
+      "skill": "k-opencode",
+      "infras": ["*"],
+      "expect-active": true
+    },
+
+    // --- k-rclone (generic, NOT infra) → no suffix ------------------------------
+    "rclone-gdrive-service": {
+      "unit": "rclone-gdrive.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service",
+      "skill": "k-rclone",
+      "infras": ["*"],
+      "expect-active": false
+    },
+    "rclone-gdrive-x-service": {
+      "unit": "rclone-gdrive-x.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive-x.service",
+      "skill": "k-rclone",
+      "infras": ["*"],
+      "expect-active": false
+    },
+
+    // --- k-dxo (client-side tunnels/mounts TO deep-pc6) ----------------------
+    // These run on the CLIENT machines (kpihx-ubuntu, blglaptop139) that need to
+    // reach deep-pc6. deep-pc6 itself is already on the DxO VPN — it does NOT
+    // run these. key = appellation (k-dxo is a tool skill, not the deep-pc6
+    // infra skill → NO -<infra> suffix).
+    "vpn-dxo-service": {
+      "unit": "vpn-dxo.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-dxo/assets/vpn-dxo.service",
+      "skill": "k-dxo",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": false,
+      "note": "GlobalProtect VPN to DxO — needed only on kpihx-ubuntu to reach deep-pc6; deep-pc6 is already on the DxO VPN. NOT mandatory (only when working at a distance)."
+    },
+    "ollama6-tunnel-service": {
+      "unit": "ollama6-tunnel.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-dxo/assets/ollama6-tunnel.service",
+      "skill": "k-dxo",
+      "infras": ["kpihx-ubuntu", "blglaptop139"],
+      "expect-active": true
+    },
+    "rclone-deep-pc6-service": {
+      "unit": "rclone-deep-pc6.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-dxo/assets/rclone-deep-pc6.service",
+      "skill": "k-dxo",
+      "infras": ["kpihx-ubuntu", "blglaptop139"],
+      "expect-active": false
+    },
+
+    // --- k-pve (infra skill for kpihx-pve) → -pve suffix --------------------------
+    "boot-notify-service-pve": {
+      "unit": "boot-notify.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-pve/assets/network/boot-notify.service",
+      "skill": "k-pve",
+      "infras": ["kpihx-pve"],
+      "expect-active": true
+    },
+    "watchdog-service-pve": {
+      "unit": "watchdog.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-pve/assets/network/watchdog.service",
+      "skill": "k-pve",
+      "infras": ["kpihx-pve"],
+      "expect-active": true
+    },
+    "watchdog-timer-pve": {
+      "unit": "watchdog.timer",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-pve/assets/network/watchdog.timer",
+      "skill": "k-pve",
+      "infras": ["kpihx-pve"],
+      "expect-active": true
+    },
+
+    // --- k-dockerhost (infra skill for kpihx-dockerhost) → -dockerhost suffix -----
+    "vault-backup-service-dockerhost": {
+      "unit": "vault-backup.service",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-dockerhost/scripts/vault/systemd/vault-backup.service",
+      "skill": "k-dockerhost",
+      "infras": ["kpihx-dockerhost"],
+      "expect-active": true
+    },
+    "vault-backup-timer-dockerhost": {
+      "unit": "vault-backup.timer",
+      "type": "system",
+      "path": "$HOME/.agents/skills/k-dockerhost/scripts/vault/systemd/vault-backup.timer",
+      "skill": "k-dockerhost",
+      "infras": ["kpihx-dockerhost"],
+      "expect-active": true
+    }
+  }
+}

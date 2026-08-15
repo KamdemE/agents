@@ -53,7 +53,7 @@ Ubuntu workstation optimization — local storage, project artifacts, caches, ho
 
 | Task | Frequency | Script | Log Path |
 | :--- | :--- | :--- | :--- |
-| System Cleanup | Every 2 days (starting Sun) | `.agents/skills/k-ubuntu/scripts/clean/auto_clean.sh` | `/var/log/clean-system/workspace_scan.log` |
+| System Cleanup | Every 2 days (starting Sun) | `.agents/skills/k-ubuntu/scripts/clean/auto_clean.sh` | `/var/log/clean/workspace_scan.log` |
 | Workstation Backup | Every 2 days (starting Sun) | `.agents/skills/k-ubuntu/scripts/backup_restore/backup_workstation.sh` | (systemd journal) |
 
 ---

@@ -7,7 +7,7 @@ description: >
   management, bun usage, or JS/TS environment debugging.
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.1"
   scope: operations
 ---
 
@@ -104,9 +104,6 @@ All installed in `~/.npm-global/lib/node_modules/`. Binaires in `~/.npm-global/b
 
 | Package | Version | Binaries | Purpose |
 |---------|---------|----------|---------|
-| `@openai/codex` | `0.144.6` | `codex` | Codex CLI — sandboxed agent runtime |
-| `@github/copilot` | `1.0.73` | `copilot` | GitHub Copilot CLI |
-| `@google/gemini-cli` | `0.51.0` | `gemini` | Gemini CLI — Google agent runtime |
 | `cline` | `3.0.46` | `cline` | Cline CLI — VS Code agent headless |
 
 ### MCP Servers
@@ -116,7 +113,8 @@ All installed in `~/.npm-global/lib/node_modules/`. Binaires in `~/.npm-global/b
 | `@agent360/browser-mcp` | `1.21.0` | `browser-mcp` | Browser automation MCP |
 | `chrome-agent-mcp` | `1.0.0` | `chrome-agent-mcp` | Chrome DevTools MCP |
 | `@playwright/mcp` | `0.0.75` | `playwright-mcp` | Playwright MCP server |
-| `whats-mcp` | `0.2.0` | `whats-mcp`, `whats-admin` | WhatsApp MCP (linked: `~/Work/AI/MCPs/whats_mcp`) |
+
+> **Purged tools** (`@openai/codex`, `@github/copilot`, `@google/gemini-cli`, `whats-mcp`): see `references/purged.md` (kept for the record, never deleted).
 
 ### Cloud & Productivity
 
@@ -253,6 +251,6 @@ du -sh ~/.bun             # bun
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.1.1 — **Purged npm-global agent/MCP tools moved to `references/purged.md`**: removed `@openai/codex`, `@github/copilot`, `@google/gemini-cli` (agent runtimes) and `whats-mcp` rows from the SKILL.md tables; archived them in `references/purged.md` (never deleted); kept only `*-proxy` CLIs. |
 | 2026-07-25 | [OPENCODE] | v1.1.0 — **CORRECTION :** fnm est actif, nvm est legacy inactif. La V1 disait à tort "nvm v22.22.1 currently active" car testée dans un shell agent sans `.kshrc`. Fixé : table runtimes rewritée, section Node Versions corrigée, PATH resolution corrigé. Aussi : `.npmrc` `prefix=` décommenté (était commenté "for nvm compatibility" mais nvm n'est plus sourcé). Insights.md mis à jour. |
-| 2026-07-25 | [OPENCODE] | v1.0.0 — Created k-node skill. Comprehensive inventory of Node versions (fnm + nvm), npm global packages (13), bun runtime, and JS/TS project configs. Documents PATH resolution order, prefix governance, and migration status nvm→fnm. |
 | [SUMMARY] | — | v1.0.0 — Created on 2026-07-25. |

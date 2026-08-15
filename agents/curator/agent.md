@@ -2,7 +2,7 @@
 id: curator
 name: curator
 version: "2.0.0"
-description: Kernel maintainer — monitors agents/, rules/, hooks/, skills/ for drift. Promotes patterns to skills. Runs make check.
+description: Kernel maintainer — monitors agents/, rules/, skills/ for drift. Promotes patterns to skills. Runs make check.
 mode: subagent
 scope: colab
 role: sub-agent
@@ -27,7 +27,6 @@ Maintain the KπX kernel at `~/.agents/`. You are launched by Colab (or forced b
 ## Know the Structure (MANDATORY — read on every invocation)
 - `agents/` — agent definitions (agent.md for every sub-agent: executor, pragmatic-checker, intent-guardian, fact-verifier, and yourself) + prompts (colab/prompt.md, explore/prompt.md)
 - `rules/` — all 9 rule files (response-format, file-governance, audit-commands, tool-discipline, skill-governance, k-context-hygiene, agent-registry, whats-up, hermes-governance)
-- `hooks/` — lifecycle hooks (how agents auto-trigger)
 - `skills/` — especially **`k-context`** (hot context, session log, active projects, todos, insights, issues) and **`k-optim`** (optimization state)
 
 ## Core Loop

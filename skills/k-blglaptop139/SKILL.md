@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -20,6 +20,28 @@ allowed-tools: Bash, Read, Write, Edit
 
 > **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-ubuntu` (SSH client — RDP from this machine)
 > **SSH config source of truth:** `$HOME/.ssh/config`
+
+---
+
+## Setup (WSL — once)
+
+> **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
+
+```bash
+# 1. Clone .agents repo (inside WSL distro)
+git clone git@github.com:KpihX/agents.git ~/.agents
+
+# 2. kshrc — symlink ($HOME item), source of truth is k-blglaptop139/assets/kshrc
+ln -sf ~/.agents/skills/k-blglaptop139/assets/kshrc ~/.kshrc
+
+# 3. SSH config — Include canonical
+echo "Include ~/.agents/skills/k-ssh/assets/ssh.conf" > ~/.ssh/config
+
+# 4. Secrets
+cp ~/.agents/.env.example ~/.agents/.env
+```
+
+> **Windows Terminal** → zsh by default. Requires `chsh -s $(which zsh)` inside WSL (see `k-zsh`).
 
 ---
 
@@ -71,6 +93,6 @@ ssh kapoivha@blglaptop139
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.2.0 — **Setup rule added (per KπX infra setup standard)**: added Setup (WSL) section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-blglaptop139/assets/kshrc` (created from `kshrc.base`); registered `kshrc-blglaptop139` in `assets/links.jsonc`. |
 | 2026-07-22 | [OPENCODE] | v1.1.0 — Renamed from k-alienware to k-blglaptop139. Updated metadata to match hostname-based naming. |
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created as k-alienware. Windows+WSL internship PC. Tailscale identity, RDP access. |
-| [SUMMARY] | — | — |
+| [SUMMARY] | — | v1.0.0 created as k-alienware (→ `references/log.md`) |

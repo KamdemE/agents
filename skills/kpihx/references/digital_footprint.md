@@ -43,7 +43,7 @@
 ### Agentic AI / MCP / sovereignty stack
 
 - `k-ai`
-- `bw-mcp`
+- `bw-proxy` (bw-mcp/bw-admin purged 2026-08-14)
 - `desk-mcp`
 - `mail-mcp`
 - `tick-mcp`

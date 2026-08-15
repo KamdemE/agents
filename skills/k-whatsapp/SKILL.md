@@ -1,13 +1,13 @@
 ---
 name: k-whatsapp
 description: >
-  WhatsApp via whats-mcp — groups, JIDs, What's up whats slice. Cloud hub productivity
-  channel. Load before any whats-mcp call.
+  WhatsApp via whats-proxy (ex-whats-mcp purgé 2026-08-14) — groups, JIDs, What's up whats slice. Cloud hub productivity
+  channel. Load before any whats-proxy call.
 license: private
 metadata:
   author: KpihX
-  version: "2.2.2"
-allowed-tools: mcp__whats-mcp__*, mcp__whats-mcp-http__*, mcp__whats-mcp--stdio__*
+  version: "2.2.3"
+allowed-tools: Bash(*), *
 ---
 
 # KπX — WhatsApp (whats-mcp)
@@ -164,28 +164,16 @@ CORRECT:
 
 ## Audio transcription helper (local)
 
-- For voice notes/audio files downloaded from WhatsApp, use local Whisper CLI first (fast and no cloud dependency): `whisper-ctranslate2`.
-- Current installed baseline in this workspace: `whisper-ctranslate2` (`0.5.7`) + `ffmpeg`.
-- Intel Arc note: this tool currently exposes `cpu`/`cuda`; use the optimized CPU profile below unless an Arc-specific backend (e.g. OpenVINO path) is explicitly set up.
+- For voice notes/audio files downloaded from WhatsApp, use the sovereign **`k-whisper`** CLI tool (Vulkan GPU accelerated, managed via the **`k-ai`** skill).
 - **Command pattern (recommended):**
 ```bash
-whisper-ctranslate2 "audio.m4a" \
-  --model distil-large-v3 \
-  --device cpu \
-  --compute_type int8 \
-  --vad_filter true \
-  --output_format txt \
-  --output_dir .
+# Uses the Vulkan GPU optimized wrapper with index 1 (large-v3-turbo)
+k-whisper 1 -p "audio.m4a"
+# The transcript is automatically generated next to the source audio file as "audio.txt".
 ```
-- **Model quick picks (speed vs quality):**
+- **Model quick picks (speed vs quality):** use `k-whisper ls` to see installed models, then `k-whisper <numéro|nom> -p "audio.m4a"`.
 
-| Profile | Model | Typical use |
-|---------|-------|-------------|
-| Fastest practical | `distil-small.en` | English voice notes and quick triage |
-| Balanced default | `small` | Mixed-language voice notes |
-| Best quality (still efficient) | `distil-large-v3` | Important or long audio notes |
-
-- **Intel Arc acceleration path (advanced):** for true Arc GPU acceleration, use an Intel-specific backend (typically `whisper.cpp` + OpenVINO). Keep `whisper-ctranslate2` CPU profile as baseline until that path is set up and benchmarked.
+- **Intel Arc acceleration:** `k-whisper` uses the native Whisper.cpp Vulkan GPU build — the Intel Arc iGPU is used automatically (see `k-ai`).
 
 ## Open Threads (operational memory)
 
@@ -204,6 +192,6 @@ whisper-ctranslate2 "audio.m4a" \
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v2.2.3 — **MCP purge annotation**: `whats-mcp` purged (2026-08-14), only `*-proxy` CLIs kept → skill description + allowed-tools updated to `whats-proxy`; `references/mcp.md` annotated. See `k-node/references/purged.md`. |
 | 2026-05-25 | [CURSOR] | v2.2.2 — Graph creds → **`k-meta`**; WA chat stays here (whats-mcp). |
-| 2026-05-25 | [CURSOR] | v2.2.1 — Cloud-hub routing block. |
-| [SUMMARY] | — | v2.2.0 auth blocks; What's up slices; group index; HTTP transport; older → `references/log.md` |
+| [SUMMARY] | — | v2.2.1 and older copied to `references/log.md` |

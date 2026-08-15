@@ -21,6 +21,11 @@ plugins/*
 !plugins/kpihx-orchestra
 !plugins/kpihx-orchestra/*
 
+# Submodule build/runtime artifacts (never versioned — reinstallable)
+skills/k-opencode/scripts/plugins/**/vendor/
+skills/k-opencode/scripts/plugins/**/node_modules/
+skills/k-opencode/scripts/plugins/**/dist/
+
 # Ephemeral Data Cloud skill manifest
 skills/.datacloud_skills_manifest
 hermes/

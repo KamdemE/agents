@@ -2,7 +2,7 @@
 name: "k-claude"
 description: >
   Claude Code runtime — MCP config ($HOME/.claude.json), hooks ($HOME/.claude/settings.json),
-  skills/memory architecture, bw-mcp zenity auth, session model.
+  skills/memory architecture, bw-mcp zenity auth (bw-mcp/bw-admin purged 2026-08-14 → bw-proxy), session model.
   Legacy reference kept under `skills/deactive/`; load only for archival Claude-specific runtime work.
 license: "private"
 metadata:
@@ -66,6 +66,7 @@ Never attempt raw `sudo` autonomously — Claude runs as the user and legacy `su
 
 ## bw-mcp Auth
 
+- **State (2026-08-14):** `bw-mcp`/`bw-admin` purged → use `bw-proxy` (`k-bw`). Historical note kept below.
 - Uses `bw` CLI **directly** — independent from `Vaultwarden`
 - Launches `zenity` GUI on-demand — no login shell wrapper needed
 
@@ -75,8 +76,8 @@ Never attempt raw `sudo` autonomously — Claude runs as the user and legacy `su
 
 - live wrappers: `session_start.py`, `user_prompt_submit.py`, `pre_tool_use.py`, `post_tool_use.py`, `stop.py`, `session_end.py`
 - edit `$HOME/.claude/settings.json`, not `$HOME/.claude.json`, when changing hooks or permissions
-- exact event mapping and examples live in `$HOME/.agents/hooks/README.md`
-- **`make audit`** (`$HOME/.agents/hooks/audit.py`) does **not** validate this file anymore — decoupled from local Claude install; re-enable in `audit.py` if you want automated hook-matrix checks again.
+- event mapping and examples: hooks were removed with the `k-hook` purge (2026-08-09) — the kernel moved to an OpenCode-only hook architecture (see `k-opencode/references/hooks-standard.md`)
+- **`make audit`** (now `make check-skills` → `scripts/check_skills/`) does **not** validate this file anymore — decoupled from local Claude install.
 
 ## k-* SKILL.md Edit Protocol
 

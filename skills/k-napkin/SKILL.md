@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.4"
+  version: "1.1.5"
   scope: tool-integration
   api-version: v0.10.5
 allowed-tools: Bash
@@ -189,6 +189,6 @@ $HOME/Pictures/Napkin/
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.1.5 — **assets/examples/list.svg updated**: removed `bw-mcp` (purged 2026-08-14); text now reads "bw-proxy for Bitwarden access (bw-mcp purged)". |
 | 2026-04-13 | [CODEX] | v1.1.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-04 | [CODEX] | v1.1.3 — scrubbed retired-runtime references from bundled scripts/examples; skill stays runtime-agnostic |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v1.1.3 scrubbed retired-runtime references (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |

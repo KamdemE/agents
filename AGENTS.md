@@ -49,7 +49,7 @@ metadata:
 | `rules/whats-up.md` | Status digest protocol: one domain per turn. Sequence: context/mail/whatsapp/tick/tg. Full exploration mandate. |
 | `rules/hermes-governance.md` | Hermes = memory/daemon only, not primary executor. Cron profile disables bash. External memory isolation. |
 | `k-opencode/references/hooks-standard.md` | OpenCode-exclusive lifecycle hooks: `scripts/hooks/*.js` (mandatory `TARGET_AGENTS`), prompts in `assets/hooks/*.txt` (name-matched to their hook), ordering rule (hooks inspecting `messages.at(-1)` must run before unconditional appenders). |
-| `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). |
+| `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). **Semantic/know-how questions (ecosystem, history, past passes, no exact keywords) → `qmd query` (MANDATORY, see `k-qmd`)** — never guess or answer from memory alone. |
 
 ### ⚠️ Explore & sub-agents exception
 
@@ -61,7 +61,8 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 ## Skills
 
 → `skills/` — domain-specific procedural knowledge. Load on need. Deactivated skills in `skills/deactive/` are archived — do not load unless explicitly requested.
-→ `rules/skill-governance.md` — how to create/edit skills.
+→ `rules/skill-governance.md` — how to create/edit skills. 🔴 **SKILLS ARE NEVER DELETED. NEVER.** When the application/tool/service a skill is linked to is removed from the system, the skill is MOVED to `skills/deactivate/`. See `rules/skill-governance.md` → Deactivation.
+→ 🔴 **POST-PURGE VERIFICATION (MANDATORY):** after any purge, ALWAYS run `plocate` for the purged name/path — even when you believe everything is removed — to catch residual debris (`~`, `~/.local`, `~/.config`, `~/.cache`, `/opt`, `/usr/bin`, systemd, `.desktop`). See `rules/skill-governance.md` → Post-Purge Verification.
 
 ### Kernel
 
@@ -74,7 +75,9 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 
 ### Top (kernel-wide)
 
-`kpihx-labs` (architecture, conventions, governance) · `k-agents` (runtime registry) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (optimization) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
+`kpihx-labs` (architecture, conventions, governance) · `k-ai` (AI hub + runtime registry) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (🧹 cleanup / purge / optimiser — read FIRST on any nettoyer/purge/clean request) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
+
+> 🔴 **MANDATORY `k-ai` CHECK — before any non-native AI task:** when an agent needs a task it does NOT have natively — reading/interpreting an image, voice/image/text transcription, OCR, STT/TTS, or translation (any language direction) — it MUST check `k-ai` FIRST to see if the right local tool exists (whisper-cli/k-whisper, piper/k-piper, k-translate, k-com, tesseract) and **USE it**. Never assume such a tool is absent; always consult `k-ai` and its references before attempting or skipping these tasks.
 
 ### Identity
 
@@ -86,7 +89,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-gemini` · `k-codex` · `k-vibe` · `k-copilot` · `k-cline` · `k-zed` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-ai`.
+Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -135,7 +138,6 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 ├── openclaw/                 # OpenClaw runtime (HEARTBEAT, IDENTITY, SOUL, USER)
 │
 ├── rules/                    # Mandatory rules (13 rules, loaded every turn)
-├── hooks/                    # Lifecycle hooks (per-agent: opencode, gemini, codex, …)
 ├── agents/                   # Agent definitions (Colab, Explore, executor, curator, …)
 │
 ├── skills/                   # Domain skills (63 k-* skills)
@@ -151,8 +153,20 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 │   └── pve_finder.log        #   PVE IP discovery logs
 │
 ├── tmp/                      # Merged-away originals, old backups (cleanable)
-├── assets/                   # Global shared assets (infras.json)
-├── scripts/                  # Global utility scripts (git/)
+├── assets/                   # Global shared JSONC config assets
+│   ├── infras_skills.jsonc   #   flat infra → k-* skill map (device auto-detect)
+│   ├── services.jsonc        #   .agents-owned systemd services (direct list, infras:[...] or *)
+│   └── links.jsonc           #   .agents-owned symlinks (direct list, infras:[...] or *)
+├── libs/                     # Shared script libraries (no duplication)
+│   ├── jsonc_lib.sh          #   strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches
+│   ├── jsonc_lib.py          #   strip_jsonc / load_jsonc / load_jsonc_obj (Python twin of jsonc_lib.sh)
+│   └── jsonc_lib.js          #   stripJsonc / loadJsonc / loadJsoncObj (ESM twin, used by k-opencode hooks)
+├── scripts/                  # Global utility scripts
+│   ├── services/             #   check_services.sh, reload_services.sh, lib.sh
+│   ├── links/                #   set_links.sh, check_links.sh, lib.sh
+│   ├── check_tailscale.sh    #   Tailscale backbone check (up --accept-dns --accept-routes)
+│   ├── chmod.sh              #   normalize script permissions
+│   └── git/                  #   git hooks
 ```
 
 > **Auto-maintenance contract:** Every agent that modifies the kernel structure (renames a skill, moves a directory, creates a new top-level directory, promotes tmp/ to permanent) MUST update this map to reflect the change. The map is the canonical orientation point for all agents — if the structure evolves and this map is not updated, it is a bug.
@@ -178,6 +192,9 @@ Example — systemd drop-in for OpenClaw Gateway:
 ```
 
 **Verification:** Every agent that creates or modifies a config file MUST check whether it should live in `.agents/` with a local symlink. If yes, create the source first, then symlink.
+
+> **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` AND MUST BE REGISTERED:**
+> Any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) always be centralized via `~/.agents` (never a standalone copy — the file stays in `.agents/skills/<skill>/` as source of truth), and (2) **be registered in `assets/links.jsonc`** (direct list grouped by owning skill; each entry `{source,target,skill,infras:[...] or *}`) so BOTH `make link`/`make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. When you create a new `.agents` symlink, add it to `assets/links.jsonc` under its owning skill — that is the only registration point. Similarly, `.agents` systemd services live in `assets/services.jsonc`. Shared JSONC helpers in `libs/jsonc_lib.sh`. See `kpihx-labs` → Config & Assets and `rules/skill-governance.md` → Full Debris Scan Methodology / Config Standard (JSONC).
 
 ## Security
 

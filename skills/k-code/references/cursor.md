@@ -37,7 +37,7 @@ rm -rf ~/Applications/cursor-app ~/Applications/cursor.AppImage
 
 The Cursor-specific script in `$HOME/.agents/skills/k-code/scripts/cursor/`:
 
-- `sync_cursor.sh`: Modifies the `.config/Cursor` and `.cursor` directories to use relative symlinks pointing back to `$HOME/.config/Code` and `$HOME/.vscode/extensions`.
+- `sync_cursor.sh`: Modifies the `.config/Cursor` and `.cursor` directories to use direct symlinks pointing back to `$HOME/.agents/skills/k-code/assets/` (for settings, keybindings, mcp, chatLanguageModels, and snippets templates), `$HOME/.config/Code/User/profiles` (for shared profiles), and `$HOME/.vscode/extensions` (for shared extensions).
 
 ## Purging Caches
 

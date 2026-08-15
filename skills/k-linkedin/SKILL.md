@@ -1,13 +1,13 @@
 ---
 name: k-linkedin
 description: >
-  LinkedIn via linkedin-mcp — profile, posts, OAuth limits. Cloud hub social channel.
+  LinkedIn via linkedin-mcp (PURGED 2026-08-14 — MCP purge, use remote HTTP endpoint or k-x/meta CLIs) — profile, posts, OAuth limits. Cloud hub social channel.
   Load before any linkedin-mcp call.
 license: private
 metadata:
   author: KpihX
-  version: "2.0.8"
-allowed-tools: mcp__linkedin-mcp__*, mcp__linkedin-mcp--stdio__*
+  version: "2.0.9"
+allowed-tools: Bash(*), *
 ---
 
 # KπX — LinkedIn (linkedin-mcp)
@@ -66,5 +66,6 @@ Inspect live token state before posting — do not rely on stale expiry dates in
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v2.0.9 — **MCP purge annotation**: `linkedin-mcp` purged (2026-08-14), only `*-proxy` CLIs kept (no linkedin proxy — use remote HTTP endpoint or k-x/meta CLIs) → skill description + allowed-tools updated; `references/mcp.md` annotated. See `k-node/references/purged.md`. |
 | 2026-05-25 | [CURSOR] | v2.0.8 — Cloud-hub block; compact layout; removed stale hardcoded token date from operational truth. |
 | [SUMMARY] | — | v2.0.7 insights discipline; API limits table; MCP naming; publishing style. |

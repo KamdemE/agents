@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.0"
+  version: "2.11.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -19,7 +19,7 @@ allowed-tools: Bash(*), "*"
 
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site) · `k-node` (Node/bun runtime versions, npm global tools, fnm management)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** check `$HOME/Work/techskills/templates/` (pyproject.toml, config.py are symlinks here) — browse via `ls` or `k-qmd`.
+> **Concrete examples:** `assets/pyproject.toml` + `assets/config.py` in this skill are the source of truth. External repos that referenced them via local symlinks (techskills/𝛱/TechSkills `templates/`) were **unplugged 2026-08-15** — they now reference the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. Browse via `ls` or `k-qmd`.
 
 ## Naming Conventions
 
@@ -131,6 +131,7 @@ Content: KπX mantras · project purpose · architecture rules · evolution rule
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
 - **No hardcoding** — runtime values in `config.yaml`; secrets in `.env`
+- **Config Standard (2026-08-14)** — KπX config-file standard is **JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). For **code projects**, prefer a plain `config.py` / `config.ts` (simpler — no import needed) over a config loader; secrets always in `.env` (never committed). JSONC is the standard for kernel/asset config (see `assets/*.jsonc` in `.agents`); `config.py`/`config.ts` for project code; `.env` for secrets.
 - **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.yaml` / `config.ts` payloads to avoid desync.
 - **Contract-first by default** — `CONTRACT.md` is mandatory at init; define operation surface/types/error model/transport mapping in English before scaling implementation.
 - **OO** — encapsulation; internals prefixed `_`; public API explicit
@@ -292,5 +293,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-31 | [OPENCODE] | v2.9.0 — **Daemon-based CLI patterns**: new `references/daemon-pattern.md` (O_EXCL single-owner lock — Unix sockets empirically cannot arbitrate races; socket-first bind ordering; dispatch readiness wait; idle-exit must exclude ping; env-scoped test process discovery). Verified in whats-proxy v0.2.0. |
-| [SUMMARY] | — | v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |
+| 2026-08-15 | [COLAB] | v2.11.0 — **Template → gitlab URL unification**: updated `## Templates` — `assets/pyproject.toml` + `assets/config.py` are the source of truth; external repos (techskills/𝛱/TechSkills `templates/`) that referenced them via local symlinks were unplugged 2026-08-15 and now use the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. |
+| 2026-08-14 | [COLAB] | v2.10.0 — **Config Standard (JSONC)**: KπX config-file standard is now **JSONC** (JSON + comments) for `.agents/` config assets and non-code config; `config.py`/`config.ts` (plain, no import) for code projects; `.env` for secrets. Documented in Architecture Philosophy. |
+| [SUMMARY] | — | v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |

@@ -4,7 +4,7 @@ description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP
 license: "private"
 metadata:
   author: "KpihX"
-  version: "4.3.8"
+  version: "4.5.1"
 allowed-tools: "Bash(*), *"
 ---
 
@@ -16,14 +16,15 @@ allowed-tools: "Bash(*), *"
 
 ## Key Paths
 
-| Resource | Path |
-|----------|------|
-| VSCode user root | `$HOME/.config/Code/User/` |
-| Base settings | `$HOME/.config/Code/User/settings.json` |
-| Base keybindings | `$HOME/.config/Code/User/keybindings.json` |
-| Base MCP config | `$HOME/.config/Code/User/mcp.json` |
-| Base chat model config | `$HOME/.config/Code/User/chatLanguageModels.json` |
-| Profile registry | `$HOME/.config/Code/User/globalStorage/storage.json` |
+| Resource | Path | Source of Truth |
+|----------|------|-----------------|
+| VSCode user root | `$HOME/.config/Code/User/` | |
+| Base settings | `$HOME/.config/Code/User/settings.json` | `$HOME/.agents/skills/k-code/assets/settings.json` |
+| Base keybindings | `$HOME/.config/Code/User/keybindings.json` | `$HOME/.agents/skills/k-code/assets/keybindings.json` |
+| Base MCP config | `$HOME/.config/Code/User/mcp.json` | `$HOME/.agents/skills/k-code/assets/mcp.json` |
+| Base chat model config | `$HOME/.config/Code/User/chatLanguageModels.json` | `$HOME/.agents/skills/k-code/assets/chatLanguageModels.json` |
+| Base snippets folder | `$HOME/.config/Code/User/snippets/` | `$HOME/.agents/skills/k-code/assets/snippets/` |
+| Profile registry | `$HOME/.config/Code/User/globalStorage/storage.json` | *Transient Local State* |
 | Per-workspace storage (folder name = hash of workspace URI) | `$HOME/.config/Code/User/workspaceStorage/<hash>/` |
 | GitHub Copilot Chat sessions (one JSONL file per chat) | `$HOME/.config/Code/User/workspaceStorage/<hash>/chatSessions/*.jsonl` |
 | Copilot Chat tool/attachment artifacts | `$HOME/.config/Code/User/workspaceStorage/<hash>/GitHub.copilot-chat/chat-session-resources/<session-id>/` |
@@ -62,8 +63,9 @@ allowed-tools: "Bash(*), *"
 
 | Need | Source of truth |
 |------|-----------------|
-| Base editor behavior | `$HOME/.config/Code/User/settings.json` |
-| Base terminal/editor shortcuts | `$HOME/.config/Code/User/keybindings.json` |
+| Base editor behavior | `$HOME/.agents/skills/k-code/assets/settings.json` |
+| Base terminal/editor shortcuts | `$HOME/.agents/skills/k-code/assets/keybindings.json` |
+| Base snippets templates | `$HOME/.agents/skills/k-code/assets/snippets/` |
 | Which profile owns each workspace | `$HOME/.config/Code/User/globalStorage/storage.json` |
 | Which custom profiles exist | `$HOME/.config/Code/User/globalStorage/storage.json` → `userDataProfiles` |
 | Which extensions a profile enables | `$HOME/.config/Code/User/profiles/<hash>/extensions.json` |
@@ -76,7 +78,7 @@ allowed-tools: "Bash(*), *"
 
 ## Runtime Model
 
-- Base `settings.json` applies globally
+- Base settings/keybindings/snippets apply globally and are stored inside `.agents` (linked directly to both VS Code and Cursor)
 - A profile-specific `settings.json` only exists if that profile overrides the base
 - Base `keybindings.json` is shared unless a profile defines its own
 - Workspace-to-profile mapping lives in `storage.json`
@@ -98,12 +100,8 @@ Located in `scripts/profiles/`:
 Located in `scripts/cursor/` and `scripts/agy/`:
 - **Cursor install:** official `.deb` on Ubuntu (`/usr/bin/cursor`); see `references/cursor.md`. No AppImage wrapper.
 - `cursor/sync_cursor.sh`: Hard-links `cursor`'s internal storage parameters directly back to `k-code`.
-- **Antigravity ecosystem (2026):** Hub + IDE + CLI + SDK — `agy` / `agy-ide` / `agy-hub`; see `references/agy.md`.
-- `agy/install_agy_components.sh`: Extract Hub/IDE from `$HOME/Downloads/`, curl CLI, pip SDK, icons, desktops, sync, optional `apt remove antigravity`.
-- `agy/install_agy_icons.sh`: Menu icons from Hub asar + IDE `astro.png` → `$HOME/.local/share/icons/kpihx/`.
-- `agy/wire_short_launchers.sh`: **`agy-ide`**, **`agy-hub`** short commands (pattern A, like `code`/`cursor`); `antigravity-*` compat aliases.
-- `agy/sync_agy.sh`: Symlinks `Antigravity` + `Antigravity IDE` user dirs and extensions to VS Code hub.
-- `agy/bootstrap_open_cloud.sh`: **`agy-ide`** + Continue bootstrap (AGENTS rules, `~/.continue/.env`, optional desktop). See `references/agy.md`.
+- **Antigravity ecosystem (PURGED 2026-08-14):** Hub + IDE + CLI + SDK — `agy` / `agy-ide` / `agy-hub` — fully purged (bins, dirs, caches, launchers). Scripts in `scripts/agy/` kept as historical reference only; do not re-run.
+- **Zed (Purged / Historical 2026-08-14)**: An AI-native editor based on the centralized Agent Client Protocol (ACP) standard (previously bridged via the `k-zed` skill, now moved to `skills/deactivate/`). Fully purged from the workstation, but kept as a reference for centralized ACP integrations.
 
 ## References
 
@@ -129,10 +127,11 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 - **Close VSCode before editing `storage.json`** — the running app rewrites it from memory
 - Never handcraft profile `extensions.json` from scratch; derive it from `$HOME/.vscode/extensions/extensions.json`
 - Prefer changing profile ownership through the helper script instead of ad hoc edits
-- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/profiles/`; live `$HOME/.config/Code/User/profiles/*.code-profile` should symlink back to them
+- keep exported `.code-profile` snapshots owned by `$HOME/.agents/skills/k-code/references/profiles/`; live `$HOME/.config/Code/User/profiles/*.code-profile` should symlink back to them (using absolute, canonical `$HOME/.agents` paths)
+- Keep base settings, keybindings, mcp.json, chatLanguageModels.json, and snippets folder stored centrally under `$HOME/.agents/skills/k-code/assets/`, symlinked back to active editor user folders
 - When documenting VSCode state here, avoid enumerating volatile inventories; point to the file that holds the truth
 - Keep the custom main profile named `General` to avoid confusion with VSCode's built-in `__default__profile__`
-- MCP profile safety rule: if a workspace is attached to a profile, MCP servers must be configured in that profile or linked from it (for example, symlink `profiles/<hash>/mcp.json` to `$HOME/.config/Code/User/mcp.json`)
+- MCP profile safety rule: if a workspace is attached to a profile, MCP servers must be configured in that profile or linked from it (for example, symlink `profiles/<hash>/mcp.json` to `$HOME/.agents/skills/k-code/assets/mcp.json`)
 
 ## Current Conformity Notes
 
@@ -151,6 +150,6 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-22 | [CURSOR] | v4.3.8 — `references/insights.md`: archived Cursor purge map (`isArchived` index + `cursorDiskKV` blobs, backup + `VACUUM` outside txn). |
-| 2026-05-22 | [CURSOR] | v4.3.7 — `agy-hub.sh` wrapper (`--no-sandbox`, X11 on Wayland); `wire_short_launchers` no longer symlinks Hub to raw ELF. |
-| [SUMMARY] | — | v4.3.6 launch/refresh AGY scripts; v4.2.5 Continue bootstrap; v4.3.0–v4.3.1 Hub/IDE; v4.2.x Cursor transcripts; older → file history |
+| 2026-08-14 | [COLAB] | v4.5.1 — **User Snippets Integration**: Unified user snippets by moving the template directory to assets/snippets/ and symlinking both active editors directly to it. |
+| 2026-08-14 | [COLAB] | v4.5.0 — **Sovereign Configurations Integration**: Moved base settings, keybindings, mcp, and chatLanguageModels JSONs to assets/ and symlinked both VS Code and Cursor directly to them. Corrected double-symlink profile paths. |
+| [SUMMARY] | — | v4.4.0 moved to references/log.md; older → file history |

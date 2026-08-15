@@ -29,10 +29,3 @@ Run `make check` and fix errors BEFORE proposing commit + push.
 3. k-context updated: session log, active projects
 5. Touched skills: version bumped, changelog updated
 6. `make push` to all remotes
-
-## MCP Protocol
-- Source: `$HOME/Work/AI/MCPs/`
-- Transport: prefer HTTP (shared homelab). stdio fallback (mail-mcp)
-- Load `k-*` skill BEFORE any MCP tool call
-- After meaningful MCP outcome → update matching skill
-- JS/TS MCPs → Bun; Python → uv; npm-global → third-party CLIs only

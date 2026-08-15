@@ -1,5 +1,5 @@
 #!/bin/bash
-# install.sh — Symlink clean-system systemd units and enable the timer.
+# install.sh — Symlink clean systemd units and enable the timer.
 # Source of truth stays in .agents/skills/k-ubuntu/assets/clean/.
 # Run once as root (or with sudo) on a new machine.
 
@@ -17,18 +17,18 @@ fi
 echo "   ✓ Running as root"
 
 echo "→ [install] Creating symlinks..."
-ln -sf "$ASSETS_DIR/clean-system.service" "$SYSTEMD_DIR/clean-system.service"
-ln -sf "$ASSETS_DIR/clean-system.timer"   "$SYSTEMD_DIR/clean-system.timer"
-mkdir -p /var/log/clean-system
+ln -sf "$ASSETS_DIR/clean.service" "$SYSTEMD_DIR/clean.service"
+ln -sf "$ASSETS_DIR/clean.timer"   "$SYSTEMD_DIR/clean.timer"
+mkdir -p /var/log/clean
 
-echo "   ✓ Symlinks: $SYSTEMD_DIR/clean-system.{service,timer}"
-echo "   ✓ Log dir:  /var/log/clean-system/"
+echo "   ✓ Symlinks: $SYSTEMD_DIR/clean.{service,timer}"
+echo "   ✓ Log dir:  /var/log/clean/"
 
 echo "→ [install] Reloading systemd and enabling timer..."
 systemctl daemon-reload
-systemctl enable --now clean-system.timer
+systemctl enable --now clean.timer
 
 echo ""
-echo "✅ clean-system installed (symlinks) and timer enabled."
-echo "   Timer:   $(systemctl list-timers clean-system.timer --no-pager 2>/dev/null | tail -1)"
-echo "   Logs:    journalctl -u clean-system -f"
+echo "✅ clean installed (symlinks) and timer enabled."
+echo "   Timer:   $(systemctl list-timers clean.timer --no-pager 2>/dev/null | tail -1)"
+echo "   Logs:    journalctl -u clean -f"

@@ -1,0 +1,12 @@
+[submodule "k-opencode/plugins/opencode-lens"]
+	path = skills/k-opencode/scripts/plugins/web/opencode-lens
+	url = git@github.com:kpihx-labs/opencode-lens.git
+	branch = main
+[submodule "k-opencode/plugins/opencode-web-voice-plugin"]
+	path = skills/k-opencode/scripts/plugins/web/opencode-web-voice-plugin
+	url = git@github.com:kpihx-labs/opencode-web-voice-plugin.git
+	branch = main
+[submodule "k-opencode/plugins/context"]
+	path = skills/k-opencode/scripts/plugins/context
+	url = git@github.com:kpihx-labs/Opencode-Context-Analysis-Plugin.git
+	branch = main

@@ -63,17 +63,17 @@ Two systemd services run autonomously. They monitor and repair the PVE network.
 
 | Asset | Target (on PVE) | Role |
 |-------|-----------------|------|
-| `assets/network/pve-watchdog.service` | `/etc/systemd/system/pve-watchdog.service` | Oneshot: runs `network_watchdog.sh` |
-| `assets/network/pve-watchdog.timer` | `/etc/systemd/system/pve-watchdog.timer` | Every 5 min: `OnCalendar=*:0/5` |
-| `assets/network/pve-boot-notify.service` | `/etc/systemd/system/pve-boot-notify.service` | Oneshot: runs `boot_notify.sh` at boot |
+| `assets/network/watchdog.service` | `/etc/systemd/system/watchdog.service` | Oneshot: runs `network_watchdog.sh` |
+| `assets/network/watchdog.timer` | `/etc/systemd/system/watchdog.timer` | Every 5 min: `OnCalendar=*:0/5` |
+| `assets/network/boot-notify.service` | `/etc/systemd/system/boot-notify.service` | Oneshot: runs `boot_notify.sh` at boot |
 
 ### Phase 2-A: Deploy the service files (one-time)
 
 ```bash
 # Copy unit files from .agents/ (not symlinks — PVE critical)
-sudo cp ~/.agents/skills/k-pve/assets/network/pve-watchdog.service  /etc/systemd/system/
-sudo cp ~/.agents/skills/k-pve/assets/network/pve-watchdog.timer   /etc/systemd/system/
-sudo cp ~/.agents/skills/k-pve/assets/network/pve-boot-notify.service /etc/systemd/system/
+sudo cp ~/.agents/skills/k-pve/assets/network/watchdog.service  /etc/systemd/system/
+sudo cp ~/.agents/skills/k-pve/assets/network/watchdog.timer   /etc/systemd/system/
+sudo cp ~/.agents/skills/k-pve/assets/network/boot-notify.service /etc/systemd/system/
 
 # Make scripts executable
 sudo chmod +x ~/.agents/skills/k-pve/scripts/network/*.sh
@@ -81,7 +81,7 @@ sudo chmod +x ~/.agents/skills/k-pve/scripts/notifier.sh
 
 # Enable services
 sudo systemctl daemon-reload
-sudo systemctl enable --now pve-watchdog.timer pve-boot-notify.service
+sudo systemctl enable --now watchdog.timer boot-notify.service
 ```
 
 > **Important:** If you modify any `.service` or `.timer` file in `.agents/`, you must `sudo cp` it again to `/etc/systemd/system/` and `sudo systemctl daemon-reload`. The source of truth is `.agents/` — the system copy is a deployment artefact.
@@ -90,7 +90,7 @@ sudo systemctl enable --now pve-watchdog.timer pve-boot-notify.service
 
 ```bash
 # Check timer status
-systemctl status pve-watchdog.timer
+systemctl status watchdog.timer
 # → loaded active running; next: Fri 2026-07-25 XX:XX:XX
 
 # Test watchdog manually
@@ -106,11 +106,11 @@ sudo bash ~/.agents/skills/k-pve/scripts/network/boot_notify.sh
 
 ## Part 3 — Runtime: What happens automatically
 
-### Every 5 minutes: Network Watchdog (`pve-watchdog.timer`)
+### Every 5 minutes: Network Watchdog (`watchdog.timer`)
 
 ```
-pve-watchdog.timer (every 5 min)
-  → pve-watchdog.service
+watchdog.timer (every 5 min)
+  → watchdog.service
     → network_watchdog.sh
       │
       ├─ Auto-detect WIRED or WIFI (reads /etc/network/interfaces)
@@ -138,11 +138,11 @@ pve-watchdog.timer (every 5 min)
           └─ Telegram SUCCESS or ERROR
 ```
 
-### On every boot: Boot Notification (`pve-boot-notify.service`)
+### On every boot: Boot Notification (`boot-notify.service`)
 
 ```
 System boot
-  → pve-boot-notify.service (After=network.target)
+  → boot-notify.service (After=network.target)
     → boot_notify.sh
       │
       ├─ Wait for network (max 5 min, ping google.com every 5s)
@@ -179,14 +179,14 @@ sudo bash ~/.agents/skills/k-pve/scripts/network/network_switch.sh wifi
 
 | File in `.agents/` | Type | Deploy via | Frequency |
 |--------------------|------|------------|-----------|
-| `scripts/network/network_watchdog.sh` | Script | `cp` (auto via pve-watchdog.service) | Once |
-| `scripts/network/boot_notify.sh` | Script | `cp` (auto via pve-boot-notify.service) | Once |
+| `scripts/network/network_watchdog.sh` | Script | `cp` (auto via watchdog.service) | Once |
+| `scripts/network/boot_notify.sh` | Script | `cp` (auto via boot-notify.service) | Once |
 | `scripts/network/network_switch.sh` | Script | Manual use | Per location change |
 | `scripts/network/setup_eduroam.sh` | Script | Manual use | Once per location |
 | `scripts/notifier.sh` | Lib | — (loaded by scripts via `source`) | Once |
-| `assets/network/pve-watchdog.service` | Systemd unit | `sudo cp → /etc/systemd/system/` | Once |
-| `assets/network/pve-watchdog.timer` | Systemd timer | `sudo cp → /etc/systemd/system/` | Once |
-| `assets/network/pve-boot-notify.service` | Systemd unit | `sudo cp → /etc/systemd/system/` | Once |
+| `assets/network/watchdog.service` | Systemd unit | `sudo cp → /etc/systemd/system/` | Once |
+| `assets/network/watchdog.timer` | Systemd timer | `sudo cp → /etc/systemd/system/` | Once |
+| `assets/network/boot-notify.service` | Systemd unit | `sudo cp → /etc/systemd/system/` | Once |
 | `assets/network/interfaces.wired` | Config | `cp` via `network_switch.sh wired` | Per switch |
 | `assets/network/interfaces.wifi` | Config | `cp` via `network_switch.sh wifi` | Per switch |
 | `assets/network/network.conf.d/` | Configs | `sudo cp` to `/etc/wpa_supplicant/` | Once |

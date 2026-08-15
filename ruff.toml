@@ -31,3 +31,12 @@ lint.ignore = [
 
 # Exclude virtual environments and generated files
 exclude = [".venv", "__pycache__", ".git", "*.egg-info", "**/.venv/**"]
+
+# ── Per-file ignores ──
+# E402 (module-import-not-at-top-of-file): legitimate for scripts that must
+# manipulate sys.path BEFORE importing local sibling modules (libs/, guards).
+# Centralized here (single source of truth) instead of scattered # noqa: E402
+# inline comments (moved 2026-08-15, per Option A).
+[lint.per-file-ignores]
+"scripts/check_skills/*.py" = ["E402"]
+"libs/*.py" = ["E402"]

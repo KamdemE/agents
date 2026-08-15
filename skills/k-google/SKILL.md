@@ -63,7 +63,7 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 | **Google Fluid KpihX-Labs** | `kpihx-labs` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
 | **Google Fluid KpihX** | `kpihx-489121` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
 
-- **Agents:** load **`k-bw`** before reading secrets; use `bw-proxy` / `bw-mcp` — never print values in chat.
+- **Agents:** secrets are no longer injected via `bw`/`k-bw` (purged 2026-08-14) — read credentials from local OAuth/client config only; never print secret values in chat.
 - **Runtime copy for `gws`:** `$HOME/.config/gws/<profile>/client_secret.json` (mode `600`). Refresh from Vault after Console rotation; OAuth client must match project (`287665785458-*` = KpihX, `747851806672-*` = Labs).
 - **Console test users:** both projects — add every account used in `gws auth login` (see `$HOME/.config/gws/FINALIZE.md`).
 - **Labs API quota IAM:** after first `gws-labs` login, grant `roles/serviceusage.serviceUsageConsumer` on project `kpihx-labs` to `user:kpihx.labs@gmail.com` if APIs return 403 `serviceusage.services.use` (fixed 2026-05-25 via `gcloud`).
@@ -82,7 +82,7 @@ gws-labs drive files list --params '{"pageSize":10}'
 
 | Account | Tool | Skill |
 |---------|------|-------|
-| Poly Zimbra | mail-mcp | **`k-mail`** (canonical) |
+| Poly Zimbra | mail-proxy (ex-`mail-mcp`) | **`k-mail`** (canonical) |
 | Gmail (`kapoivha`, Labs) | `gws-kpihx` / `gws-labs` | **`k-mail`** + inbound E2E → **`k-cloudflare/references/inbound-email-e2e.md`** · kapoivha hygiene → **`references/kapoivha-gmail-hygiene.md`** + **`scripts/gws_gmail_deep_cleanup.py`** |
 
 **GWS agent shells:** use profile wrappers or `$HOME/.npm-global/bin/gws` with `GOOGLE_WORKSPACE_*` env; strip `Using keyring…` line before `jq` (`awk '/^\{/{p=1} p'`). Send: `--params '{"userId":"me"}'` + `--json '{"raw":…}'`.

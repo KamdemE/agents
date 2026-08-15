@@ -1,5 +1,7 @@
 # MCP Setup — k-linkedin
 
+> **⚠️ 2026-08-14:** `linkedin-mcp` was **purged** (MCP purge — only `*-proxy` real CLIs are kept; no linkedin proxy exists, use the remote HTTP endpoint or the k-x/meta CLIs). The original `linkedin-mcp` content below is kept for the record (never deleted). See `k-node/references/purged.md`.
+
 Generic MCP setup reference for `linkedin-mcp`.
 
 ## Install (required before STDIO)

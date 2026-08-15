@@ -56,7 +56,7 @@ ksh clean-admin purge        # remove symlinks (sudo)
 
 **Permissions:** scripts must be executable (`chmod +x *.sh` in each module dir) or services fail silently with `exit-code`/`203/EXEC`.
 
-**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean-system.service` (root, oneshot) · `clean-system.timer` (every 2d @21:30, Persistent)
+**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean.service` (root, oneshot) · `clean.timer` (every 2d @21:30, Persistent)
 
 ## Backup & Restore — Phoenix Protocol
 

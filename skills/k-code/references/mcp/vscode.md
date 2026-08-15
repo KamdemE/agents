@@ -4,7 +4,7 @@ This note defines a generic setup for MCP servers in VS Code.
 
 ## Config Files
 
-- Global user config: `$HOME/.config/Code/User/mcp.json`
+- Global user config: `$HOME/.config/Code/User/mcp.json` (symlinked to `$HOME/.agents/skills/k-code/assets/mcp.json`)
 - Profile-specific config: `$HOME/.config/Code/User/profiles/<profile-hash>/mcp.json`
 
 If the active workspace is attached to a profile, VS Code reads that profile config. A server present only in the global file may not appear in the profile UI.
@@ -13,7 +13,7 @@ If the active workspace is attached to a profile, VS Code reads that profile con
 
 Use one source of truth:
 
-1. Keep the canonical config in `$HOME/.config/Code/User/mcp.json`.
+1. Keep the canonical config in `$HOME/.agents/skills/k-code/assets/mcp.json` (symlinked to `$HOME/.config/Code/User/mcp.json`).
 2. For profiles that must share exactly the same servers, make profile `mcp.json` a symlink to the global file.
 3. If a profile needs custom servers, keep a dedicated profile file and document why.
 

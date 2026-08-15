@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.9.0
+  version: 1.16.0
   scope: operations
 ---
 
@@ -23,19 +23,15 @@ metadata:
 
 ## Agent Runtime CLIs
 
-> Each runtime also registers in **`k-agents`** (master agent runtime registry: configs, symlinks, MCP wiring, ACP bridges).
+> Each runtime also registers in **`k-ai`** (master agent runtime registry: configs, symlinks, MCP wiring, ACP bridges).
 
 | CLI | Skill | Also in | Notes |
 |-----|-------|---------|-------|
-| `opencode` | **`k-opencode`** | **`k-agents`** | OpenCode — MCP, providers, auth, permissions |
-| `codex` | **`k-codex`** | **`k-agents`** | Codex — config.toml, sandbox, MCP TOML format |
-| `cline` | **`k-cline`** | **`k-agents`** | Cline — install/update, MCP settings |
-| `gemini` | **`k-gemini`** | **`k-agents`** | Gemini — extensions, MCP install, settings.json |
-| `vibe` | **`k-vibe`** | **`k-agents`** | VIBE — config.toml, TOML MCP, tool permissions |
-| `copilot` | **`k-copilot`** | **`k-agents`** | GitHub Copilot — mcp-config, instructions |
-| `hermes` / `hermes-agent` | **`k-hermes`** | **`k-agents`** | Persistent memory daemon — cron-driven, headless |
-| `zed` | **`k-zed`** | **`k-agents`** | Zed agent hub — profiles, MCP, ACP bridges |
-| `cursor` / `cursor-agent` | **`k-code`** | **`k-agents`** | Cursor — VS Code fork, antigravity sync |
+| `opencode` | **`k-opencode`** | **`k-ai`** | OpenCode — MCP, providers, auth, permissions |
+| `hermes` / `hermes-agent` | **`k-hermes`** | **`k-ai`** | Persistent memory daemon — cron-driven, headless |
+| `cursor` (IDE) | **`k-code`** | **`k-ai`** | Cursor — VS Code fork (IDE conservé, dpkg `cursor`). |
+
+> **Purged CLIs** (`cursor-agent`, `codex`, `cline`, `gemini`, `vibe`, `copilot`, `zed`): see `references/purged.md` (kept for the record, never deleted).
 
 ## Cloud & Infrastructure
 
@@ -58,14 +54,19 @@ metadata:
 | CLI | Skill | Notes |
 |-----|-------|-------|
 | `qmd` / `qmdr` | **`k-qmd`** | BM25+vector hybrid search on knowledge bases |
-| `bw` / `bw-proxy` / `bw-mcp` | **`k-bw`** | Bitwarden — self-hosted Vaultwarden |
+| `bw` / `bw-proxy` | **`k-bw`** | Bitwarden — self-hosted Vaultwarden (bw-mcp/bw-admin purged 2026-08-14) |
 | `rclone` | **`k-rclone`** | Cloud storage FUSE mounts (Google Drive) |
 | `tg` | **`k-tg`** | Telegram — Telethon, BotFather, infra-bot |
 | `x_cli.py` | **`k-x`** | X (Twitter) API v2 — OAuth 1.0a |
 | `meta_cli.py` | **`k-meta`** | Meta Graph API — OAuth smoke tests |
 | `powerpoint` (MCP) | **`k-pptx`** | PPTX generation from markdown |
 | `broot` | _(this skill)_ | Interactive file explorer — `apt` |
-| `whisper-ctranslate2` | _(this skill)_ | Local speech-to-text — Whisper |
+| `whisper-cli` | **`k-ai`** | Local speech-to-text — Vulkan/C++ Whisper build (ggml 0.19.0, user-local ~/.local/bin + ~/.local/lib, GPU Arc MTL) |
+| `k-whisper` | **`k-ai`** | Sovereign wrapper around whisper-cli — ls/pull/rm + transcription |
+| `piper` | **`k-ai`** | Local text-to-speech — ONNX/C++ Piper build (v1.2.0, user-local ~/.local/bin + libs) |
+| `k-piper` | **`k-ai`** | Sovereign wrapper around piper — ls/pull/rm + synthesis |
+| `k-translate` | **`k-ai`** | Sovereign wrapper for text translation (CTranslate2/NLLB-200) |
+| `k-com` | **`k-ai`** | Universal communication hub (STT, TTS, Translate, Dubbing) |
 | `ksh` | _(this skill)_ | Universal Dispatcher |
 | `youtube_cli.py` | **`k-media`** + **`k-google`** | YouTube upload |
 | `adb` | **`k-25`** | Android phone wireless debugging |
@@ -106,7 +107,22 @@ metadata:
 | CLI | Skill | Notes |
 |-----|-------|-------|
 | `magick` (ImageMagick) | _(this skill)_ | Image manipulation Swiss-army knife — crop, resize, convert from CLI |
-| `asciinema` | _(this skill)_ | Terminal recording — shareable asciicast files |
+| `gext` / `gnome-extensions-cli` | **`k-ubuntu`** | GNOME extension management (uv tool v0.11.0) — list/enable/disable extensions; feeds the GNOME extensions audit in `k-ubuntu/references/gnome-extensions.md` |
+| `litellm` / `litellm-proxy` | **`k-ai`** | LLM gateway / proxy — route requests across local (Ollama) and remote providers |
+| `ruff` | **`k-uv`** | Python linter/formatter — ultra-fast, drop-in for flake8/isort/black |
+| `pyright` / `basedpyright` | **`k-uv`** | Python static type checkers (+ LSP servers) |
+| `jupytext` / `jupyter-nbconvert` | **`k-uv`** | Jupyter notebook conversion/manipulation CLI |
+| `oxlint` | **`k-node`** | JS/TS linter — ultra-fast, Rust-based |
+| `pnpm` | **`k-node`** | Fast, disk-efficient package manager (npm global) |
+| `tree-sitter` | **`k-nvim`** | Incremental parsing tool + CLI — powers nvim LSP/treesitter queries |
+| `loom` / `loom-mcp` | **`k-loom`** | Persistent cross-session code index + MCP server |
+| `msedge-cdp` | **`k-browser`** | Edge automation via CDP (headless/connected) |
+| `k-vpn` | **`k-ai`** | Sovereign VPN wrapper/launcher |
+| `mail-proxy` | **`k-mail`** | Mail CLI proxy (tick-proxy ADN, 24 `do` actions) |
+| `tick-proxy` | **`k-tick`** | TickTick CLI proxy (tasks/habits/projects) |
+| `tg-proxy` | **`k-tg`** | Telegram CLI proxy (admin/raw access) |
+| `gopls` | **`k-node`** | Go language server (LSP) — from `~/go/bin` |
+| `srt` / `srt-*` | _(this skill)_ | Subtitle toolkit (dedup, shift, mux, normalize, play) |
 
 ## Social / Media / API
 
@@ -166,6 +182,6 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-25 | [OPENCODE] | v1.9.0 — `bun`/`fnm`/`node`/`npm` routing: `k-project` → `k-node` (dual for bun). New `k-node` skill created for comprehensive Node/JS/TS ecosystem inventory. |
-| 2026-07-24 | [OPENCODE] | v1.8.0 — `uv` routing: `k-project` → `k-uv` · `k-project` (dual). New `k-uv` skill created for comprehensive UV/Python ecosystem inventory. |
-| [SUMMARY] | — | v1.7.0 rm bypass patterns; v1.6.0 CLI additions (bat/rg/fd/magick); v1.4.0 plocate; v1.3.0 rm wrapper; v1.2.0 shell subgroup; v1.1.0 nvim/zsh/micro; v1.0.0 merged k-cloud-tools. |
+| 2026-08-14 | [COLAB] | v1.16.0 — **Launched CLI registry expansion (recheck after purges)**: added launchable-by-me CLIs missing from the registry — `gext`/`gnome-extensions-cli`, `litellm`, `ruff`, `pyright`/`basedpyright`, `jupytext`/`jupyter-nbconvert`, `oxlint`, `pnpm`, `tree-sitter`, `loom`/`loom-mcp`, `msedge-cdp`, `k-vpn`, `mail-proxy`, `tick-proxy`, `tg-proxy`, `gopls`, `srt`/`srt-*`. Removed `openclaw` (already documented in `k-ai`). Archived purged `asciinema` in `references/purged.md` (GRAVÉ). |
+| 2026-08-14 | [COLAB] | v1.15.0 — **Purged agent CLIs moved to `references/purged.md`**: removed `codex`, `cline`, `gemini`, `vibe`, `copilot`, `zed` rows from the CLI registry (purged 2026-08-14); archived in `references/purged.md` (never deleted); kept only active CLIs + `*-proxy`. |
+| [SUMMARY] | — | v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |

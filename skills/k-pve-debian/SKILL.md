@@ -10,7 +10,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.0"
+  version: "1.1.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -22,6 +22,26 @@ allowed-tools: Bash, Read, Write, Edit
 > **Related skills:** `k-pve` (hypervisor — parent infra) · `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-docker` (generic Docker patterns) · `k-tailscale` (mesh VPN) · `k-optim` (maintenance/cleanup)
 > **Source:** Content migrated from `kpihx-labs` v1.x (Docker/deployment sections) and `k-docker` (Ubuntu-specific deployment notes)
 > **SSH config source of truth:** `$HOME/.ssh/config`
+
+---
+
+## Setup (once per machine)
+
+> **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
+
+```bash
+# 1. Clone .agents repo
+git clone git@github.com:KpihX/agents.git ~/.agents
+
+# 2. kshrc — symlink ($HOME item), source of truth is k-pve-debian/assets/kshrc
+ln -sf ~/.agents/skills/k-pve-debian/assets/kshrc ~/.kshrc
+
+# 3. SSH config — Include canonical
+echo "Include ~/.agents/skills/k-ssh/assets/ssh.conf" > ~/.ssh/config
+
+# 4. Secrets
+cp ~/.agents/.env.example ~/.agents/.env
+```
 
 ---
 
@@ -93,5 +113,6 @@ GitLab CI pipelines deploy containers and manage infrastructure. Related configu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.1.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-pve-debian/assets/kshrc` (created from `kshrc.base`); registered `kshrc-pve-debian` in `assets/links.jsonc`. |
 | 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-pve-debian from kpihx-labs Docker/deployment content. SSH access, Docker deployment patterns, Traefik/Portainer/Vaultwarden services, GitLab CI reference. |
 | [SUMMARY] | — | — |

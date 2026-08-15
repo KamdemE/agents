@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,6 +18,29 @@ allowed-tools: Bash, Read, Write, Edit
 
 > **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-ubuntu` (SSH client — VPN access required first)
 > **SSH config source of truth:** `$HOME/.ssh/config`
+
+---
+
+## Setup (once per machine)
+
+> **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
+
+```bash
+# 1. Directory standard — 1st op: create ~/KpihX-Labs (if absent), clone agents
+#    into ~/KpihX-Labs/.agents (if absent), then symlink ~/.agents -> ~/KpihX-Labs/.agents
+mkdir -p ~/KpihX-Labs
+[ -d ~/KpihX-Labs/.agents ] || git clone git@github.com:KpihX/agents.git ~/KpihX-Labs/.agents
+[ -e ~/.agents ] || ln -sf ~/KpihX-Labs/.agents ~/.agents
+
+# 2. kshrc — symlink ($HOME item), source of truth is k-deep-pc6/assets/kshrc
+ln -sf ~/.agents/skills/k-deep-pc6/assets/kshrc ~/.kshrc
+
+# 3. SSH config — Include canonical
+echo "Include ~/.agents/skills/k-ssh/assets/ssh.conf" > ~/.ssh/config
+
+# 4. Secrets
+cp ~/.agents/.env.example ~/.agents/.env
+```
 
 ---
 
@@ -57,6 +80,6 @@ Deep-PC6 is a Linux development/server machine at the DxO internship. Its exact 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.2.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-deep-pc6/assets/kshrc` (created from `kshrc.base`); registered `kshrc-deep-pc6` in `assets/links.jsonc`. |
 | 2026-08-03 | [OPENCODE] | v1.1.0 — Updated VPN prerequisite reference: `vpn-dxo` CLI removed (k-dxo v1.4.0), now `sudo systemctl start vpn-dxo`. |
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-deep-pc6. Linux server at DxO internship. SSH config, VPN prerequisite. Purpose TBD as discovered. |
-| [SUMMARY] | — | — |
+| [SUMMARY] | — | v1.0.0 created k-deep-pc6 (→ `references/log.md`) |

@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.2.0"
   scope: ai-engine
 ---
 
@@ -17,7 +17,7 @@ metadata:
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **OS references:** `references/ubuntu.md` (systemd service, apt install) · `references/windows.md` (WSL setup, native Windows)
+> **OS references:** `references/ubuntu.md` (systemd service, apt install) · `references/windows.md` (WSL setup, native Windows) · `references/directory-structure.md` (`~/.ollama` & `~/.ollama-ipex` layout + history hygiene + safe clean)
 > **Hardware-specific tuning:** See the relevant infra skill — e.g., `k-ubuntu` for Intel Core Ultra 7 155H with Arc Graphics iGPU on this workstation.
 
 ---
@@ -164,5 +164,6 @@ ollama run <model> --verbose  # Check "GPU" line in output
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as generic core. Hardware-specific config (Intel Arc GPU, performance tuning, control plane) extracted to k-ubuntu. Added OS references. |
-| [SUMMARY] | — | v1.x: Intel Arc GPU setup, IPEX-LLM control plane, specific performance tuning. Full details in k-ubuntu. |
+| 2026-08-14 | [COLAB] | v2.2.0 — **Added `references/directory-structure.md`**: documents `~/.ollama` & `~/.ollama-ipex` layout (config/history/id keys/models), history hygiene (`truncate -s 0`), and safe-clean rules. History emptied per KπX directive. |
+| 2026-08-13 | [COLAB] | v2.1.0 — Added documentation for the ollama-ipex / ipex wrapper CLI and data storage in references/ubuntu.md. |
+| [SUMMARY] | — | v2.0.0 rewritten generic core (→ `references/log.md`) · v1.x: Intel Arc GPU setup, IPEX-LLM control plane, specific performance tuning. Full details in k-ubuntu. |

@@ -206,28 +206,23 @@ Edge is patched to always start with `--remote-debugging-port=9222`:
 
 ### Permanent CDP Setup (survives Edge updates)
 
-The wrapper at `/opt/microsoft/msedge/microsoft-edge` gets overwritten on each Edge update. Use a user-local wrapper instead:
+The binary at `/opt/microsoft/msedge/msedge` persists; only the wrapper location changes. Use a user-local wrapper instead:
 
-**Source of truth:** `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`  
-**CDP helper:** `~/.agents/skills/k-browser/assets/msedge-cdp.sh` — lightweight variant (no wrapper, runs `/opt/microsoft/msedge/msedge --remote-debugging-port=9222` directly)
+**Source of truth:** `~/.agents/skills/k-browser/assets/msedge-cdp.sh` — lightweight CDP wrapper, runs `/opt/microsoft/msedge/msedge --remote-debugging-port=9222 --class=msedge-cdp --user-data-dir=$HOME/.config/msedge-cdp` directly.
 ```bash
 #!/bin/bash
 exec /opt/microsoft/msedge/msedge --remote-debugging-port=9222 "$@"
 ```
 
-**Symlink:** `~/.local/bin/msedge` → `~/.agents/skills/k-browser/assets/msedge-wrapper.sh`
+**Symlink:** `~/.local/bin/msedge-cdp` → `~/.agents/skills/k-browser/assets/msedge-cdp.sh`
 This works because `~/.local/bin/` is in your `$PATH` before `/opt/microsoft/msedge/`.
 
-**Desktop entry:** `~/.local/share/applications/msedge.desktop` → `~/.agents/skills/k-browser/assets/msedge.desktop`
-With `Exec=msedge --remote-debugging-port=9222 %U`. Local `.desktop` files take priority over system ones, so clicking the Edge icon launches with CDP enabled.
-
-**Why this survives updates:** Both the wrapper script and the `.desktop` file are stored in `.agents/` and only symlinked to their system locations. Edge updates only touch `/opt/microsoft/msedge/` and `/usr/share/applications/`, never `~/.local/` or `~/.agents/`.
+**Why this survives updates:** The wrapper script is stored in `.agents/` and only symlinked to `~/.local/bin/`. Edge updates only touch `/opt/microsoft/msedge/` and `/usr/share/applications/`, never `~/.local/` or `~/.agents/`.
 
 **Reinstall steps (after fresh Edge install):**
 ```bash
-chmod +x ~/.agents/skills/k-browser/assets/msedge-wrapper.sh
-ln -sf ~/.agents/skills/k-browser/assets/msedge-wrapper.sh ~/.local/bin/msedge
-ln -sf ~/.agents/skills/k-browser/assets/msedge.desktop ~/.local/share/applications/msedge.desktop
+chmod +x ~/.agents/skills/k-browser/assets/msedge-cdp.sh
+ln -sf ~/.agents/skills/k-browser/assets/msedge-cdp.sh ~/.local/bin/msedge-cdp
 
 ## MCP Configuration
 

@@ -12,7 +12,7 @@ assistant responses, tool outputs, reasoning traces) for the current session.
 - **Dependencies:**
   - `js-tiktoken` — official OpenAI tokenizer (GPT models)
   - `@huggingface/transformers` — Hugging Face tokenizers (Claude, Llama, Mistral, …)
-  - `@opencode-ai/plugin` — provided by the OpenCode runtime at load time
+  - `@opencode-ai/plugin` — the OpenCode plugin SDK (`tool`, `Plugin` types). **Not** provided at load time from `.agents`; vendored via symlink into the plugin's `node_modules/` (ANCESTOR of `context-usage.ts` — see install below).
 
 ## What it does
 
@@ -46,25 +46,37 @@ cd ~/.config/opencode/.opencode/plugin && npm install \
 Per KπX governance, the plugin source lives in `.agents` (versioned) and is
 symlinked into the runtime discovery paths.
 
-**Source of truth:** `skills/k-opencode/scripts/plugins/context-plugin/`
+**Source of truth:** `skills/k-opencode/scripts/plugins/context/`
 
 ```
-context-plugin/
-├── command/context.md          ← the /context slash command
-└── plugin/
-    ├── context-usage.ts        ← registers the context_usage tool
-    ├── tokenizer-registry.mjs / .d.ts
-    ├── tokenizer-aliases.json
-    └── vendor/node_modules/    ← js-tiktoken + @huggingface/transformers
+context/
+├── index.ts              ← package entry (re-exports ContextUsagePlugin as default)
+├── context-usage.ts      ← registers the context_usage tool
+├── tokenizer-registry.mjs / .d.ts
+├── tokenizer-aliases.json
+├── node_modules/@opencode-ai/plugin  ← ANCESTOR symlink → ~/.config/opencode/node_modules/@opencode-ai/plugin
+└── vendor/node_modules/  ← js-tiktoken + @huggingface/transformers
 ```
 
 **Runtime symlinks** (the paths OpenCode actually scans — verified against the
-official OpenCode docs, updated 2026-08-07):
+official OpenCode docs, updated 2026-08-15):
 
 | Runtime path | → points to | Purpose |
 |---|---|---|
-| `~/.config/opencode/commands/context.md` | `.agents/.../context-plugin/command/context.md` | slash command discovery |
-| `~/.config/opencode/plugins/` | `.agents/.../context-plugin/plugin` | plugin (tool) discovery |
+| `~/.config/opencode/commands/context.md` | `.agents/.../assets/plugins/context/context.md` | slash command discovery |
+| (None) | (Loaded via `opencode.jsonc` `"plugin"` array) | The plugin `context-usage.ts` is explicitly loaded via `file://` URL |
+
+> **`@opencode-ai/plugin` resolution (2026-08-15, corrected):** the plugin imports
+> `@opencode-ai/plugin` (`tool`, `Plugin`). OpenCode does **not** make it resolvable
+> from `.agents` (the runtime install lives at `~/.config/opencode/node_modules/`).
+> Fix: symlink at **`context/node_modules/@opencode-ai/plugin`** (an ANCESTOR of
+> `context-usage.ts`) → `~/.config/opencode/node_modules/@opencode-ai/plugin`.
+> Node/Bun resolve bare imports by walking UP the directory tree, so the symlink
+> MUST sit in `node_modules/` at or above the plugin file — `vendor/node_modules/`
+> is a *sibling*, NOT an ancestor, and is invisible to resolution. Registered in
+> `assets/links.jsonc` as `opencode-context-plugin-deps` (node_modules is
+> gitignored, so the link entry is what makes the fix durable). Without it, the
+> plugin fails to import and the `context_usage` tool is never registered.
 
 > **Note on discovery paths:** official OpenCode docs say local plugins are
 > auto-loaded from `.opencode/plugins/` (project) and `~/.config/opencode/plugins/`
@@ -96,7 +108,10 @@ git -C /tmp/opencode/opencode-context-plugin pull   # refresh upstream clone
 ## Troubleshooting
 
 - `/context` only echoes "call the `context_usage` tool" → `context-usage.ts` is not
-  loaded. Check `~/.config/opencode/plugins/` exists and contains `context-usage.ts`.
+  loaded. Check `~/.config/opencode/plugins/` → `scripts/plugins/` (parent), that
+  `context/index.ts` exists, and that `context/node_modules/@opencode-ai/plugin`
+  symlink resolves (see install note above). Restart OpenCode after changes (plugins
+  load at startup, not hot-reloaded).
 - `Context usage dependencies missing. Run ./install.sh ...` → `vendor/node_modules`
   not installed. Run the npm install above.
 - Command not found → check `~/.config/opencode/commands/context.md` symlink.

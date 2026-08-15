@@ -14,10 +14,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+# make libs/jsonc_lib.py + sibling guards importable
+sys.path.insert(0, str(ROOT / "libs"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from settings import HOME, SKILLS_DIR
 from skill_content_guard import validate_skill_content
+from skill_infras_guard import check_infra_skills
 from skill_structure_guard import validate_skill_structure
 
 
@@ -97,6 +100,7 @@ def run_audit() -> list[str]:
     findings.extend(_collect_skill_findings())
     findings.extend(_parse_python(_collect_python_paths()))
     findings.extend(_check_rules())
+    findings.extend(check_infra_skills())
     yaml_paths = [ROOT / "AGENTS.md"]
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
     findings.extend(_parse_yaml_frontmatters(yaml_paths))

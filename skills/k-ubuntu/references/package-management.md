@@ -23,16 +23,20 @@ npm global prefix: `$HOME/.npmrc → prefix=$HOME/.npm-global` (no EACCES, no su
 |-----|---------|---------|
 | `asciinema` | `uv tool install asciinema` | Terminal session recorder |
 
-**Speech-to-text (whisper-ctranslate2):**
-- Installed CLI: `whisper-ctranslate2` (0.5.7)
-- Intel Arc note: exposes `cpu`/`cuda`; no Arc backend flag yet — use optimized CPU settings
-- Default model: `distil-large-v3` with `--device cpu --compute_type int8 --vad_filter true`
+**Voice & Audio (k-whisper / k-piper):**
+- Referenced in: **`k-ai`** (central AI inventory skill).
+- Execution commands: `k-whisper` (Whisper.cpp Vulkan) and `k-piper` (Piper TTS C++).
+- Reference guides: `references/whisper.md` and `references/piper.md` under `k-ai`.
 
 Full CLI registry with routing to dedicated k-* skills: **`k-clis`**
 
-## WaveTerm widgets
+## Alternative AI Shells (Purged / Historical)
 
-Config: `$HOME/.config/waveterm/widgets.json` — all widgets load their own environment.
+In the past, alternative AI-native terminals were evaluated:
+- **WaveTerm**: Evaluated and completely purged in August 2026. Configuration was originally at `$HOME/.config/waveterm/` with custom widgets.
+- **Warp Terminal**: Evaluated as an alternative AI shell.
+
+**Current Status**: Purged. KπX no longer uses these dedicated AI shells because the combination of **`tmux` + `opencode` + `nvim`** is much more flexible, lightweight, and offers superior developer control.
 
 ## npm-global prefix
 

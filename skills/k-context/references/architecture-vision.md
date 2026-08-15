@@ -106,7 +106,7 @@ Good for: auth, infra, KB            Good for: workflows, API wraps
 
 | Layer | Contents | Examples |
 |-------|----------|----------|
-| **0 — Primitives** (MCPs, never replaceable) | shell-mcp, code-executor, bw-mcp, qmd | Complex auth, sandbox, embedding |
+| **0 — Primitives** (MCPs, never replaceable) | shell-mcp, code-executor, qmd | Complex auth, sandbox, embedding |
 | **1 — Remote Gateways** (HTTP MCPs) | mail-mcp, homelab-http | OAuth, private network services |
 | **2 — Hot Capabilities** (git-versioned skills) | k-whatsapp, k-ticktick, k-linkedin, k-napkin | curl-to-API, zero-deploy scripts |
 
@@ -120,7 +120,7 @@ Unjustified if: just curl to REST API, API changes often, missing functions bloc
 
 | MCP | Verdict | Rationale |
 |-----|---------|-----------|
-| `bw-mcp` | ✅ Keep | Non-scriptable security primitive |
+| `bw-mcp` | ✅ Purged 2026-08-14 → `bw-proxy` | Non-scriptable security primitive (superseded) |
 | `qmd` | ✅ Keep | Indexing/embedding too complex |
 | `shell-mcp` | ✅ Create | Fundamental compute primitive |
 | `code-executor-mcp` | ✅ Create | Isolated Python sandbox |

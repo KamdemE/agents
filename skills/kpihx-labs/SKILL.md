@@ -4,7 +4,7 @@ description: >
   KπX kernel top reference — the central entry point for understanding the
   KπX sovereign kernel ecosystem. References k-context (HOT context),
   k-infras (master infrastructure map → per-infra skills), k-clis (CLI
-  registry), k-agents (agent runtime registry), k-opencode (OpenCode-exclusive
+  registry), k-ai (AI hub + agent runtime registry), k-opencode (OpenCode-exclusive
   hook architecture), and all top skills. Also documents the cross-infra project directory
   ($HOME/Work/KpihX-Labs/Homelab/) and the presentation knowledge base.
   Load for kernel orientation, architecture overview, or project registry.
@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.8.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -41,7 +41,7 @@ kpihx-labs (this skill — kernel top reference)
 │   │   └── k-pve-dockerhost (Docker host VM)
 │   └── k-25          (Android phones)
 │
-├── k-agents     (agent runtime registry — Colab, Explore, runtime configs)
+├── k-ai         (AI hub + agent runtime registry — Colab, Explore, runtime configs)
 ├── k-opencode   (OpenCode-exclusive hook architecture — scripts/hooks/, hooks-standard.md)
 ├── k-clis       (CLI registry — routes to all k-* CLI skills)
 ├── k-final      (post-work closure checklist)
@@ -49,16 +49,16 @@ kpihx-labs (this skill — kernel top reference)
 ├── k-skill-creator (skill creation & governance)
 │
 ├── [top skills with OS-specific refs]
-│   ├── k-tmux / k-optim / k-browser / k-code / k-codex / k-copilot
-│   ├── k-gemini / k-hermes / k-nvim / k-docker
+│   ├── k-tmux / k-optim / k-browser / k-code
+│   ├── k-hermes / k-nvim / k-docker
 │   └── … (see references/ for full list)
 │
 ├── [generic top skills]
-│   ├── k-bw / k-classification / k-cloudflare / k-cloud-tools
+│   ├── k-ai / k-classification / k-cloudflare / k-cloud-tools
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
 │   ├── k-openclaw / k-opencode / k-pptx / k-qmd / k-rclone / k-tailscale
-│   ├── k-tg / k-tick / k-vibe / k-whatsapp / k-x / k-zed
+│   ├── k-tg / k-tick / k-whatsapp / k-x
 │   └── kpihx (identity hub)
 │
 └── k-context/references/refactor.md (skills refactoring plan)
@@ -164,6 +164,27 @@ For content that is not code or infrastructure, use the standard XDG directories
 | Docker base | Python → `python:3.12-slim` · JS/TS → `oven/bun:1-slim` |
 | GitLab MCPs | All MCPs in `kpihx-labs` GitLab group namespace |
 | PyPI name ≠ module | Use `[tool.uv.build-backend] module-name = "<import_name>"` to decouple |
+| **Config standard (JSONC)** | KπX config files are **JSONC** (JSON + `//` comments) for `.agents/` assets and non-code config (self-documenting, single source of truth). **Code projects** prefer plain `config.py`/`config.ts` (no import needed). **Secrets** always in `.env` (never committed). See `k-project` → Config Standard. Kernel assets: `assets/infras_skills.jsonc`, `assets/services.jsonc`, `assets/links.jsonc`. |
+
+---
+
+## Config & Assets (JSONC)
+
+All kernel-level config and registries live as **JSONC** under `~/.agents/assets/` (comments allowed — self-documenting, single source of truth). The current infra is resolved from tailscale via `infras_skills.jsonc`.
+
+| Asset | Purpose | Consumed by |
+|-------|---------|-------------|
+| `assets/infras_skills.jsonc` | flat infra → k-* skill map | `startup-context.js` hook, `libs/jsonc_lib.sh` `current_infra` |
+| `assets/services.jsonc` | `.agents`-owned systemd services (direct list, `infras:[...]` or `*`) | `scripts/services/check_services.sh`, `reload_services.sh` |
+| `assets/links.jsonc` | `.agents`-owned symlinks (direct list, `infras:[...]` or `*`) | `scripts/links/set_links.sh`, `check_links.sh` |
+
+Shared JSONC helpers: `~/.agents/libs/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches) with Python (`jsonc_lib.py` — strip_jsonc / load_jsonc / load_jsonc_obj) and JS (`jsonc_lib.js` — stripJsonc / loadJsonc / loadJsoncObj) twins. Python/JS callers import from `libs/` instead of re-implementing comment-stripping (single source of truth; added 2026-08-15).
+
+> **Lint/type config single source of truth (2026-08-15):** `ruff.toml` centralizes rule ignores + `[lint.per-file-ignores]` (e.g. `E402` for scripts that `sys.path.insert` before importing local libs — no scattered `# noqa: E402` inline); `pyrightconfig.json` declares `extraPaths = ["libs", "scripts/check_skills"]` so pyright resolves shared sibling imports (no `reportMissingImports`). Both live at `.agents/` root — update there, never inline.
+
+> **Update mandate (MANDATORY):** whenever you create or change a `.agents` service or symlink, **update the corresponding JSONC asset** (`services.jsonc` / `links.jsonc`) so `make check-services` / `make check-links` stay accurate. The `.agents/` asset is the source of truth; local paths are symlinks back to it.
+>
+> **External repo references convention (2026-08-15):** references to `.agents` files **from external repos** (techskills, 𝛱/TechSkills, Homelab, presentation, tutorials) use the **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/<path>`), **not a local template symlink**. `.agents` stays the single source of truth; no duplicate local symlinks into `.agents` from external repos.
 
 ---
 
@@ -212,7 +233,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 ## Maintenance Reflex
 
 - For homelab optimization posture, weekly maintenance state, backup rotation, and cross-cutting cleanup guidance, load `k-optim`
-- For agent kernel governance, load `k-agents` + `k-opencode` (hook architecture)
+- For agent kernel governance, load `k-ai` (AI hub + runtime registry) + `k-opencode` (hook architecture)
 - For infrastructure-specific maintenance, load the relevant infra skill from `k-infras`
 
 ---
@@ -227,8 +248,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v2.2.0 — Added Workspace Conventions (XDG routing + Engineering Standards ported from k-workspace). |
-| 2026-07-22 | [OPENCODE] | v2.3.0 — Added Infrastructure Directory Standard: every machine must have ~/.agents/ (kernel clone), ~/KpihX-Labs/ (work dir), symlink, and per-infra AGENTS.md. Current machine compliance table. |
-| 2026-07-22 | [OPENCODE] | v2.1.0 — Added OS-Specific References Governance section. Rules: refs/ are always OS-oriented (ubuntu.md, windows.md, debian.md, pve.md). WSL under windows.md. Main SKILL.md stays generic. |
-| 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as kernel top reference. Full kernel structure tree, project registry, knowledge base, OS refs governance. |
-| [SUMMARY] | — | v1.x: PVE content (CT-vs-VM DNS, network topology, prefix nomenclature) migrated to k-pve. Full history in git. |
+| 2026-08-15 | [COLAB] | v2.8.0 — **External repo references convention**: `## Config & Assets (JSONC)` now states that references to `.agents` files **from external repos** (techskills, 𝛱/TechSkills, Homelab, presentation, tutorials) use the **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/<path>`), **not a local template symlink**. `.agents` stays the single source of truth. |
+| 2026-08-15 | [COLAB] | v2.7.0 — **Shared JSONC libs + lint/type config single source of truth**: `## Config & Assets (JSONC)` now documents the three JSONC helper twins `libs/jsonc_lib.{sh,py,js}` (Python/JS import from `libs/` — added 2026-08-15) + a note that `ruff.toml` (rule ignores + `[lint.per-file-ignores]` for `E402`) and `pyrightconfig.json` (`extraPaths = ["libs", "scripts/check_skills"]`) live at `.agents/` root as the single source of truth — never scattered inline. |
+| [SUMMARY] | — | v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) · v2.2.0 and earlier copied to `references/log.md` |

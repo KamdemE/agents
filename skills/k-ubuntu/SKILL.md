@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.12.0"
+  version: "1.17.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -17,9 +17,14 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-mcp & bw-proxy) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-proxy) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 > **Tailscale live state:** `tailscale status --json`
+
+> **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
+> For `kpihx-ubuntu`, `k-ubuntu/assets/kshrc` is the source of truth for `~/.kshrc`.
+>
+> **Directory standard (1st op):** if absent, create `~/KpihX-Labs`; clone `git@github.com:KpihX/agents.git` → `~/KpihX-Labs/.agents`; create `~/.agents` as a **symlink** → `~/KpihX-Labs/.agents`. See `k-infras` → New Infra Setup Checklist → Step 0.
 
 ---
 
@@ -164,6 +169,8 @@ This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama is t
 
 **Never:** `pip install` globally · `npm install -g <local-path>` · hatchling/poetry/setuptools
 
+**Purge Obligation**: When performing a purge or uninstallation, you MUST exhaustively clean all debris across the system (configs/data in `~`, `~/.local/`, `~/.config/`, `~/.local/share/`, `~/.cache/`, snap packages/cache, system/user systemd units, `/opt/` files, and env vars). No leftovers are tolerated.
+
 Machine-installed system CLIs (fd, asciinema, k-whisper / k-piper via k-ai), WaveTerm widgets config, and npm-global prefix detail → **`references/package-management.md`**. Full CLI registry with routing to dedicated k-* skills: **`k-clis`**.
 
 ---
@@ -229,6 +236,8 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 | `references/package-management.md` | System CLIs, WaveTerm widgets, npm-global detail |
 | `references/scripts-modules.md` | `ksh` dispatcher usage, Clean/Backup/PVE-backup modules, tg-bot listener setup |
 | `references/dell-battery-health.md` | Dell CCTK installation, battery charging threshold enforcement, and QWERTY/AZERTY trap |
+| `references/apps.md` | Complete registry of all Ubuntu desktop applications (system `.desktop`, user `.desktop`, `/opt` heavy clients, GUI snaps, recently purged) |
+| `references/gnome-extensions.md` | GNOME Shell extensions catalog, roles, and uv tool-based installation automation |
 | `assets/command-configure_5.1.0-6.ubuntu24_amd64.tar.gz` | Preserved Dell Command Configure installer used by the battery-health runbook |
 | `assets/mimeapps.list` | Centralized desktop file MIME type associations (symlinked to `~/.config/mimeapps.list`) |
 | `scripts/notifier.sh` | Telegram notification wrapper — uses TELEGRAM_PVE_TOKEN from .env |
@@ -246,6 +255,6 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-14 | [COLAB] | v1.12.0 — **MIME Associations Centralization**: Centralized `mimeapps.list` in `k-ubuntu/assets/`, symlinked it to `~/.config/mimeapps.list`, and cleaned up obsolete associations (Brave, Slack, VLC, Rhythmbox, OnlyOffice, Thunderbird). |
-| 2026-08-09 | [COLAB] | v1.11.0 — **SKILL.md size reduction (300-line rule)**: Extracted System Services inventory, Ollama iGPU tuning, Package Management CLI details, and the ksh/Clean/Backup/PVE-backup/tg-bot module docs into 4 new `references/*.md` files. **Fixed a pre-existing duplication**: consolidated into a single copy in `references/scripts-modules.md`. |
-| [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
+| 2026-08-14 | [COLAB] | v1.17.0 — **`clean-system` renamed to `clean`** (services key restructure, per KπX): asset units `clean-system.{service,timer}` → `clean.{service,timer}`; all references updated (`install.sh`, `purge.sh`, `Makefile`, `auto_clean.sh`, `README.md`, `references/system-services.md`, `references/scripts-modules.md`); log dir `/var/log/clean-system` → `/var/log/clean`; journald unit `clean`. Matches `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`). |
+| 2026-08-14 | [COLAB] | v1.16.0 — **apps.md updated with config-debris purge record**: appended asciinema purge + full config/share debris cleanup (BraveSoftware, Slack, Termius, Wave, Windsurf, browseruse, chromium, devin, vibe, kaggle, obs-studio, onedrive, opera, vivaldi, xarchiver, etc.) + `k-desktop-mcp.py` + `bw-admin`/`bw-mcp` removal. |
+| [SUMMARY] | — | v1.15.0 desktop apps registry · v1.14.0 GNOME extensions · v1.13.0 purge obligation (→ `references/log.md`) · Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |

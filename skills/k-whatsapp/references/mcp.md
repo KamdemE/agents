@@ -1,5 +1,7 @@
 # MCP Setup — k-whatsapp
 
+> **⚠️ 2026-08-14:** `whats-mcp` was **purged** (MCP purge — only `*-proxy` real CLIs are kept). Use **`whats-proxy`** instead. The original `whats-mcp` content below is kept for the record (never deleted). See `k-node/references/purged.md`.
+
 Generic MCP setup reference for `whats-mcp`.
 
 ## Preferred: HTTP

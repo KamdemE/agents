@@ -72,23 +72,26 @@
     "k-gemini": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-gemini/SKILL.md",
+      "skillPath": "skills/deactive/k-gemini/SKILL.md",
       "installedAt": "2026-03-25T02:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-codex": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-codex/SKILL.md",
+      "skillPath": "skills/deactive/k-codex/SKILL.md",
       "installedAt": "2026-03-25T02:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-cline": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-cline/SKILL.md",
+      "skillPath": "skills/deactive/k-cline/SKILL.md",
       "installedAt": "2026-05-26T00:00:00.000Z",
-      "updatedAt": "2026-05-26T00:00:00.000Z"
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-opencode": {
       "source": "local",
@@ -100,16 +103,18 @@
     "k-vibe": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-vibe/SKILL.md",
+      "skillPath": "skills/deactive/k-vibe/SKILL.md",
       "installedAt": "2026-03-25T02:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-copilot": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-copilot/SKILL.md",
+      "skillPath": "skills/deactive/k-copilot/SKILL.md",
       "installedAt": "2026-03-25T03:00:00.000Z",
-      "updatedAt": "2026-03-28T18:50:00.000Z"
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-openclaw": {
       "source": "local",
@@ -289,9 +294,10 @@
     "k-zed": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-zed/SKILL.md",
-      "installedAt": "2026-05-20T00:00:00.000Z",
-      "updatedAt": "2026-05-20T00:00:00.000Z"
+      "skillPath": "skills/deactive/k-zed/SKILL.md",
+      "installedAt": "2026-03-25T02:00:00.000Z",
+      "updatedAt": "2026-08-14T00:00:00.000Z",
+      "deactivated": true
     },
     "k-google": {
       "source": "local",
@@ -334,13 +340,6 @@
       "skillPath": "skills/k-nvim/SKILL.md",
       "installedAt": "2026-05-28T00:00:00.000Z",
       "updatedAt": "2026-05-28T00:00:00.000Z"
-    },
-    "k-agents": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/k-agents/SKILL.md",
-      "installedAt": "2026-06-05T00:00:00.000Z",
-      "updatedAt": "2026-06-05T00:00:00.000Z"
     },
     "k-clis": {
       "source": "local",

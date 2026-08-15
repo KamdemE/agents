@@ -1,11 +1,11 @@
 ---
 name: k-bw
-description: "BW-Proxy & BW-MCP operational memory - KpihX Bitwarden Sovereign Management: self-hosted Vaultwarden (@docker-host) and AI-blind vault proxy. Load before any bw-proxy or bw-mcp work."
+description: "BW-Proxy operational memory - KpihX Bitwarden Sovereign Management: self-hosted Vaultwarden (@docker-host) and AI-blind vault proxy. Load before any bw-proxy work. (bw-mcp/bw-admin purged 2026-08-14 — see references/purged.md)."
 license: private
 metadata:
   author: KpihX
-  version: "3.0.0"
-  allowed-tools: mcp__bw-mcp__*, Bash(tmux:*)
+  version: "3.1.0"
+  allowed-tools: Bash(tmux:*)
 ---
 
 # KπX Sovereign Management — Bitwarden (Proxy & MCP)
@@ -38,12 +38,11 @@ metadata:
     - `bw-proxy do propose-vault-transaction`: Batch ACID operations (Atomic).
 - **Output Redirection:** Use `-o` or `--output-file` to save large JSON results (like vault maps) to a file.
 
-### 2. `bw-mcp` (MCP Server)
+### 2. `bw-mcp` (MCP Server) — PURGED 2026-08-14
 
-- **Nature:** Bitwarden MCP server for AI agents.
-- **Location:** `/opt/bw-mcp/bin/bw-mcp` (symlinked to `~/.local/bin/bw-mcp`).
-- **Usage:** Configured in agent MCP settings (OpenCode, Gemini, etc.) to provide secure vault access.
-- **Binaries:** `bw-mcp`, `bw-admin` — both symlinked to `~/.local/bin/`.
+- **State:** removed. Binaries `bw-mcp` + `bw-admin` were purged from `~/.local/bin` (broken symlinks to absent `/opt/bw-mcp`), apparmor profile removed, config gone.
+- **Archive:** full historical `bw-mcp` reference preserved in `references/purged.md` (never deleted, GRAVÉ).
+- **Active tool:** `bw-proxy` remains the sovereign vault proxy (see section 1 above).
 
 ## Operational Map
 
@@ -120,14 +119,14 @@ Sur Windows, Bitwarden utilise un **named pipe** (`\\.\pipe\openssh-ssh-agent`),
 
 ## References
 
-- `references/mcp.md`
+- `references/purged.md` (bw-mcp/bw-admin archive)
 - `references/insights.md`
 - `references/log.md`
 
 ## Changelog
 
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-14 | [COLAB] | v3.1.0 — **Purged `bw-mcp` + `bw-admin`** (broken symlinks to absent `/opt/bw-mcp`); archived full reference in `references/purged.md` (GRAVÉ); kept `bw-proxy` as the sovereign vault proxy. |
 | 2026-07-23 | [OPENCODE] | v3.0.0 — **MAJOR SIMPLIFICATION**. Focus: bw-mcp + bw-proxy MCP tools + Bitwarden Desktop SSH Agent. |
-| 2026-07-22 | [OPENCODE] | v2.7.0 — Restructured SSH Agent section per skill-infra-scope rule. |
-| 2026-04-28 | [ANTIGRAVITY] | v2.4.0 - Added Fast Interface documentation. |
-| 2026-04-24 | [GEMINI] | v2.3.0 - Implemented Agnostic Web Approval UI. |
-| [SUMMARY] | — | v2.2.x distribution hardening; v2.1.2 naming; v2.1.0 anatomy; v2.0.0 initial dual-utility architecture; older → git history. |
+| [SUMMARY] | — | v2.7.0 SSH Agent restructure · v2.4.0 Fast Interface · v2.3.0 Agnostic Web Approval UI (→ `references/log.md`) · v2.2.x distribution hardening; v2.1.2 naming; v2.1.0 anatomy; v2.0.0 initial dual-utility architecture; older → git history. |

@@ -5,6 +5,7 @@ import { execSync } from "node:child_process";
 import { currentAgentIs } from "./libs/agent-scope.js";
 import { messageText } from "./libs/message-utils.js";
 import { loadPrompt } from "./libs/prompt-loader.js";
+import { stripJsonc } from "../../../../libs/jsonc_lib.js";
 
 const TARGET_AGENTS = ["Colab", "Agent", "Auto", "Build", "Plan"];
 
@@ -17,10 +18,11 @@ function readFileSafe(filePath) {
 }
 function detectDevice() {
   const agentsDirectory = path.join(process.env.HOME, ".agents");
-  const map =
-    JSON.parse(
-      readFileSafe(path.join(agentsDirectory, "assets", "infras.json")) || "{}",
-    ).infras || {};
+  const raw =
+    readFileSafe(path.join(agentsDirectory, "assets", "infras_skills.jsonc")) ||
+    "{}";
+  // infras_skills.jsonc is the FLAT infra→skill map (no "infras" wrapper).
+  const map = JSON.parse(stripJsonc(raw)) || {};
   let hostname = null;
   try {
     hostname = (

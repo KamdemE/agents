@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.3"
+  version: "1.3.4"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -47,6 +47,8 @@ my-site/
 |------|-------------|
 | `assets/github-pages-index.html` | Docsify + VS Code dark theme, search, sidebar, inline code color fix |
 | `assets/_sidebar.md` | Generic Docsify sidebar with `.nojekyll` reminder |
+
+> **Template → gitlab URL unification (2026-08-15):** the techskills / 𝛱/TechSkills repo `templates/` files that pointed at these assets were **local symlinks**, now **unplugged**. External repos must reference these templates by their **gitlab URL** of the real `.agents` file, not a local symlink: `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-git-pages/assets/<file>`. Source of truth stays in `.agents`.
 
 ### Placeholders in `index.html`
 
@@ -115,6 +117,6 @@ Example from techskills:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | v1.3.4 — **Template → gitlab URL unification**: `## Templates` now notes that external repos (techskills / 𝛱/TechSkills) must reference these assets by their **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/skills/k-git-pages/assets/<file>`), not a local symlink. Source of truth stays in `.agents`. |
 | 2026-04-13 | [CODEX] | v1.3.3 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-03 | [CODEX] | v1.3.2 — normalized the concrete example paths to `$HOME` and pointed discovery to `k-qmd` |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v1.3.2 normalized paths (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |

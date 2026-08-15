@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.0.1"
+  version: "1.0.2"
   scope: operations
 allowed-tools: Bash(*)
 ---
@@ -20,7 +20,7 @@ allowed-tools: Bash(*)
 | Need | Where |
 |------|--------|
 | JSON creds + Graph smoke | `references/meta-dev-setup.md` · `scripts/meta_cli.py` |
-| WhatsApp send/receive | **`k-whatsapp`** (whats-mcp) |
+| WhatsApp send/receive | **`k-whatsapp`** (whats-proxy, ex-`whats-mcp` purgé 2026-08-14) |
 | Registry | **`k-clis`** · **`k-media`** hub |
 
 **Creds file:** `$HOME/.config/kpihx/meta/credentials.json`
@@ -46,5 +46,6 @@ allowed-tools: Bash(*)
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.0.2 — **MCP purge annotation**: `whats-mcp` purged (2026-08-14) → WhatsApp row updated to `whats-proxy` (ex-`whats-mcp`). See `k-node/references/purged.md`. |
 | 2026-05-25 | [CURSOR] | v1.0.1 — Tiered smoke; JSON filled; core LIVE; System User optional keys. |
 | [SUMMARY] | — | v1.0.0 bootstrap → `references/smoke-status.md` |

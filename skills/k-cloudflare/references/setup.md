@@ -1,6 +1,6 @@
 # Cloudflare CLI setup (KπX)
 
-> **Skill:** `k-cloudflare/SKILL.md` · **Secrets:** `k-bw` + Vaultwarden `GLOBAL_ENV_VARS`.
+> **Skill:** `k-cloudflare/SKILL.md` · **Secrets:** local config / env (no longer injected via `k-bw` — purged 2026-08-14).
 
 ## 1 — `flarectl` (API / DNS)
 

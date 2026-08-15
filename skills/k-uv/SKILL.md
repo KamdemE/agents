@@ -7,7 +7,7 @@ description: >
   audit, or Python environment debugging.
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.6.0"
   scope: operations
 ---
 
@@ -104,21 +104,18 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 
 | Tool | Version | Binaries | Purpose |
 |------|---------|----------|---------|
-| `bw-proxy` | v3.2.0 | `bw-proxy` | Bitwarden Vaultwarden proxy — AI-blind auth proxy |
-| `desk-mcp` | v0.2.1 | `desk-mcp` | Desktop environment MCP server |
 | `hermes-agent` | v0.15.2 | `hermes`, `hermes-acp`, `hermes-agent` | Persistent memory daemon, cron-driven |
-| `k-mail-mcp` | v0.2.4 | `mail-admin`, `mail-mcp` | Mail MCP server (Zimbra) — KpihX-owned |
 | `k-vpn` | v1.0.0 | `k-vpn` | VPN MCP server — KpihX-owned |
-| `mail-mcp` | v0.2.0 | `mail-admin`, `mail-mcp` | Mail MCP server (older, keep for compatibility) |
-| `mistral-vibe` | v2.21.0 | `vibe`, `vibe-acp` | VIBE agent runtime — Mistral model |
-| `tick-mcp` | v0.2.0 | `tick-admin`, `tick-mcp` | TickTick MCP server |
 | `ts-proxy` | v1.1.0 | `ts-proxy` | Tailscale API + HITL proxy |
+
+> **Purged tools** (`desk-mcp`, `k-mail-mcp`, `mail-mcp`, `mistral-vibe`, `tick-mcp`): see `references/purged.md` (kept for the record, never deleted).
 
 ### Language & Dev Tools
 
 | Tool | Version | Binaries | Purpose |
 |------|---------|----------|---------|
 | `basedpyright` | v1.39.9 | `basedpyright`, `basedpyright-langserver` | Python type checker (fork of pyright) |
+| `gnome-extensions-cli` | v0.11.0 | `gext`, `gnome-extensions-cli` | GNOME extensions manager CLI |
 | `jupytext` | v1.19.3 | `jupytext`, `jupytext-config` | Jupyter notebook ↔ Markdown converter |
 | `nbconvert` | v7.16.6 | `jupyter-dejavu`, `jupyter-nbconvert` | Jupyter nbconvert (notebook → PDF/HTML/slides) |
 | `litellm` | v1.82.1 | `litellm`, `litellm-proxy` | Unified LLM proxy (100+ providers) |
@@ -129,19 +126,8 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 |------|---------|----------|---------|
 | `asciinema` | v2.4.0 | `asciinema` | Terminal session recorder (text-based `.cast`) |
 | `ollama-ipex` | v0.2.2 | `ipex`, `ollama-ipex` | Ollama Intel Arc GPU extension |
-| `piper-tts` | v1.4.2 | `piper` | Local neural text-to-speech (TTS) |
 | `tg` (deprecated) | v0.2.0 | `tg` | **Replaced by `tg-proxy`** — see `k-tg` skill. Deprecated, project directory removed. |
-| `whisper-ctranslate2` | v0.5.7 | `whisper-ctranslate2` | Local speech-to-text (Whisper + CTranslate2) |
 | `yt-dlp` | v2026.7.4 | `yt-dlp` | YouTube/video downloader |
-
-### Previously removed
-
-| Tool | Reason | Date |
-|------|--------|------|
-| `colab` | KpihX-owned project, installed editable from `~/KpihX-Labs/colab/` | 2026-07-24 |
-| `k-flow` | KpihX-owned project, source at `~/Work/AI/flow/` | 2026-07-24 |
-| `powerpoint` | MCP server for PPTX generation | 2026-07-24 |
-| `grip`, `huggingface-hub`, `ipynb-pdf`, `kpihx-ai`, `kpihx-todo`, `viperx`, `wayland-mcp` | Purged in k-optim pass | 2026-05-31 |
 
 ---
 
@@ -254,5 +240,6 @@ Python packages inside the KpihX-Labs workspace are published using `uv publish`
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-26 | [OPENCODE] | v1.2.0 — **make check target + ruff/pyright infra**: Added ruff (v0.16.0) and pyright (v1.1.411) to tool inventory. |
-| [SUMMARY] | — | v1.0.0–v1.1.0 — PyPI Publication guide + Comprehensive inventory of uv tools (19), managed Pythons (2), project venvs (5), dedicated venvs (2). Documents uv-first philosophy, migration history, and key commands. |
+| 2026-08-14 | [COLAB] | v1.6.0 — **MCP Servers table cleanup**: removed `bw-proxy` row (bw-mcp/bw-admin purged 2026-08-14; secrets no longer injected via bw). |
+| 2026-08-14 | [COLAB] | v1.5.0 — Added `gnome-extensions-cli` (v0.11.0) to UV Tools inventory. |
+| [SUMMARY] | — | v1.4.0 purged MCP tools · v1.3.0 legacy table removal (→ `references/log.md`) · v1.2.0 and older copied to `references/log.md` |

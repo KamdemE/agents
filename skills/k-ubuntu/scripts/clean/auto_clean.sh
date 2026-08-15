@@ -2,7 +2,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 source "$SCRIPT_DIR/../notifier.sh"
 # auto_clean.sh — Automated weekly cleanup: run all modules, analyze, notify via Telegram.
-# Runs as root via systemd (clean-system.service).
+# Runs as root via systemd (clean.service).
 # Machine config hardcoded below. Secrets sourced from ~/.agents/.env.
 
 set -euo pipefail
@@ -12,7 +12,7 @@ USER_BACKUP="kpihx"
 PC_NAME="KpihX-Ubuntu"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-LOG_DIR="/var/log/clean-system"
+LOG_DIR="/var/log/clean"
 USER_HOME="/home/$USER_BACKUP"
 export HOME="$USER_HOME" # Export for child scripts
 mkdir -p "$LOG_DIR"
