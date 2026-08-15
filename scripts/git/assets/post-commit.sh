@@ -58,11 +58,11 @@ echo "--- [Skills Sync] Syncing ~/.agents/skills/ → per-agent dirs ---"
 for d in "$HOME/.agents/skills/"/*/; do
     name=$(basename "$d")
     for target_dir in $SYNC_TARGETS; do
-        [ -n "$target_dir" ] && [ ! -e "$target_dir/$name" ] && \
+        [ -n "$target_dir" ] && [ -d "$target_dir" ] && [ ! -e "$target_dir/$name" ] && \
             ln -sf "$d" "$target_dir/$name" && echo "  +$name (link) → $target_dir"
     done
     for target_dir in $COPY_TARGETS; do
-        [ -n "$target_dir" ] && \
+        [ -n "$target_dir" ] && [ -d "$target_dir" ] && \
             rsync -a --delete "$d" "$target_dir/$name/" 2>/dev/null && echo "  ~$name (copy) → $target_dir"
     done
 done
