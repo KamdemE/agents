@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.30.0
+  version: 2.31.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -212,8 +212,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-15 | [COLAB] | v2.31.0 — **3 plugins as git submodules (org kpihx-labs, github+gitlab)**: `context`, `web/opencode-lens`, `web/opencode-web-voice-plugin` now point to forks on org `kpihx-labs` (each carries `github` + `gitlab` remotes for sync) instead of local copies. `.gitmodules` + `git submodule init` registered. `.gitignore` excludes submodule `vendor/`/`node_modules/`/`dist/`. Makefile: `submodule-init`/`submodule-update` targets. `README.md` (`.agents`) documents the remotes, submodules and install. |
 | 2026-08-15 | [COLAB] | v2.30.0 — **`/context` plugin load fix (WORKING)**: the plugin now loads and `context_usage` executes. Root cause: `@opencode-ai/plugin` was not resolvable from the plugin file. Fix: symlinked it into `context/node_modules/@opencode-ai/plugin` (an ANCESTOR of `context-usage.ts` — Node/Bun resolve bare imports up the tree; `vendor/node_modules` is NOT an ancestor, so the earlier fix there was wrong). Kept `export default ContextUsagePlugin` (function, matching the working `opencode-ast` npm plugin). Added deepseek-v4/-flash/-flash-free tokenizer aliases to `tokenizer-aliases.json` (model was unresolved). `assets/opencode.jsonc` loads it via explicit `file://`. Removed `opencode-context-plugin` from `links.jsonc` + unlinked `~/.config/opencode/plugins`. Verified: `bun import('./context-usage.ts')` → `MODULE LOADED`, tokenizer resolves, `/context` runs end-to-end in TUI. Updated `references/context-plugin.md`. |
-| 2026-08-15 | [COLAB] | v2.29.0 — **GO.md → go.md rename + G0.md symlink unplugged**: `references/GO.md` renamed to `references/go.md` (lowercase); workspace `~/KpihX-Labs/G0.md` symlink removed + `kpihx-labs-G0-md` links.jsonc entry dropped (no local symlink — reference the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-opencode/references/go.md`). Updated SKILL.md `## References` + the file's self-header. |
-| [SUMMARY] | — | v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v2.29.0 GO.md rename (→ `references/log.md`) · v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`) · `assets/opencode-lens.service` (symlink target for `~/.config/systemd/user/`)
