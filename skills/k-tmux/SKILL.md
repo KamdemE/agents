@@ -127,27 +127,30 @@ tmux source-file $HOME/.tmux.conf
 
 ## Stateful Integration (agent → tmux → agent notifications)
 
-tmux can **notify** an agent (e.g. an OpenCode plugin) when a pane's process
-finishes — instead of the agent polling `capture-pane`. Three pieces cooperate:
+tmux can **notify** an agent (e.g. an OpenCode plugin) when a **persistent pane**
+returns to its shell prompt (a command the agent launched finished) — instead of
+the agent polling `capture-pane`. Panes PERSIST: nothing is killed or detached,
+no `remain-on-exit` needed. Two pieces cooperate:
 
-1. **`remain-on-exit on`** (global, in `assets/tmux.conf`): a pane whose process
-   exits STAYS visible with its output readable via `capture-pane`, instead of
-   being destroyed. This is required for reliable detection (see #2).
-2. **Global `pane-died` hook** → `scripts/hooks/tmux-pane-done.sh` (in
-   `k-opencode/scripts/hooks/`): appends `{"pane","exit","ts"}` as one JSON line
-   to `/tmp/tmux-pane-done.log`.
+1. **`monitor-silence`** (global window option, in `assets/tmux.conf`): a window
+   with no output for N seconds fires `alert-silence` — a persistent pane back at
+   the prompt is silent. Default `2` seconds (0 disables). Works on EXISTING
+   panes and commands sent via `send-keys`.
+2. **Global `alert-silence` hook** → `scripts/hooks/tmux-pane-done.sh` (in
+   `k-opencode/scripts/hooks/`): appends `{"event","session","window","pane","ts"}`
+   as one JSON line to `/tmp/tmux-pane-done.log`.
    ```tmux
-   set-hook -g pane-died 'run-shell "$HOME/.agents/skills/k-opencode/scripts/hooks/tmux-pane-done.sh #{pane_id} #{pane_dead_status}"'
+   set-window-option -g monitor-silence 2
+   set-hook -g alert-silence 'run-shell "$HOME/.agents/skills/k-opencode/scripts/hooks/tmux-pane-done.sh #{session_name} #{window_index} #{window_name} #{pane_id}"'
    ```
-   ⚠️ Must be **GLOBAL**: per-pane `pane-exited`/`pane-died` is broken upstream
-   (tmux issues #2882/#3736) — by the time the hook fires, the pane is destroyed
-   and `#{pane_id}`/`#{pane_dead_status}` resolve to garbage.
 3. **`k-opencode` `tmux-notify.js` hook** polls that log and injects a
    `<tmux-notify>` message into the OpenCode session (`client.session.prompt`),
    bringing the agent back to work. Full mechanics in `k-opencode` changelog.
 
-Because `remain-on-exit` leaves dead panes visible, `Ctrl-a K` (`bind K
-kill-pane`) closes a dead/selected pane cleanly.
+⚠️ `alert-silence` is a heuristic (silence = back at prompt). For commands that
+produce output then stop (sudo, builds, tests) it is reliable; a command that
+is silent but still running (e.g. `sleep 60` without output) may be reported as
+done early.
 
 Apply after edits: `tmux source-file $HOME/.tmux.conf`.
 

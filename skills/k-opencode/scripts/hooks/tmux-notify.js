@@ -1,20 +1,19 @@
-// tmux-notify.js — notify the OpenCode agent when a tmux pane becomes free.
+// tmux-notify.js — notify the OpenCode agent when a tmux pane returns to its
+// shell prompt (a command it launched finished).
 //
-// Problem solved: the agent wants to fire several commands into several tmux
-// panes WITHOUT tracking/waiting/polling, and be notified + brought back to
-// work the moment any pane frees up (its command finished).
+// Problem solved: the agent wants to fire several long commands (sudo, builds,
+// tests) into persistent tmux panes WITHOUT tracking/waiting/polling, and be
+// notified + brought back to work when each pane finishes and returns to the
+// prompt. Panes PERSIST (nothing is killed or detached).
 //
 // Mechanism:
-//   tmux does the tracking. A GLOBAL `pane-died` hook (reliable; the per-pane
-//   variant is broken upstream, tmux issues #2882/#3736 — by the time a
-//   per-pane hook fires the pane is already destroyed and `#{pane_id}`/
-//   `#{pane_dead_status}` resolve to garbage) invokes
-//   `tmux-pane-done.sh #{pane_id} #{pane_dead_status}`, which appends one JSON
-//   line to a log. The panes must keep `remain-on-exit on` so a dead pane stays
-//   visible (its output stays readable via capture-pane) and its context stays
-//   resolvable. This plugin polls that log (recursive setTimeout, see
-//   startWatcher) and, on each line, queues a notification and delivers it to
-//   the agent.
+//   tmux does the tracking. `monitor-silence` (k-tmux/assets/tmux.conf) fires
+//   the GLOBAL `alert-silence` hook when a window has no output for the
+//   silence period — a persistent pane back at the prompt is silent. The hook
+//   invokes `tmux-pane-done.sh #{session_name} #{window_index} #{window_name}
+//   #{pane_id}`, which appends one JSON line per event to a log. This plugin
+//   polls that log (recursive setTimeout, see startWatcher) and, on each line,
+//   queues a notification and delivers it to the agent.
 //
 // Delivery (two complementary paths, same pattern as stop-enforcer.js + the
 // non-interrupting queue from oh-my-opencode):
@@ -48,15 +47,18 @@ function debug(message) {
 }
 
 // Build the notification text injected into the agent conversation.
-function notificationFor(paneId, exitCode) {
+// ev: parsed JSON line from the log — { event:"silence", session, window, pane, ts }.
+function notificationFor(ev) {
+  const where =
+    (ev.session && ev.session !== "unknown" ? ev.session + ":" : "") +
+    (ev.window && ev.window !== "unknown" ? ev.window + "." : "") +
+    (ev.pane || "");
   return (
     "<tmux-notify> tmux pane " +
-    paneId +
-    " is now free (exit " +
-    exitCode +
-    "). " +
-    "A command you launched finished. Read the pane output (capture-pane / " +
-    "list-panes) and continue the current task with this new result. " +
+    (where || ev.pane || "?") +
+    " has returned to its prompt (command finished). " +
+    "Read the pane output (capture-pane / list-panes) and continue the current " +
+    "task with this new result. " +
     "</tmux-notify>"
   );
 }
@@ -167,10 +169,10 @@ export default async function ({ client }) {
           if (!trimmed) continue;
           try {
             const ev = JSON.parse(trimmed);
-            if (ev.pane) {
-              const note = notificationFor(ev.pane, ev.exit ?? "?");
+            if (ev.event === "silence" && ev.pane) {
+              const note = notificationFor(ev);
               pending.push(note);
-              debug(`queued pane=${ev.pane} exit=${ev.exit}`);
+              debug(`queued silence pane=${ev.pane} window=${ev.window} session=${ev.session}`);
               // If we already know an active session, flush immediately; the
               // session.prompt call itself is safe when the session is idle.
               if (activeSessionID) flushToSession(activeSessionID);

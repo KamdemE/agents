@@ -16,6 +16,37 @@ function readFileSafe(filePath) {
     return null;
   }
 }
+// tmuxContext() — always reports the full tmux tree (every session/window/pane)
+// so the agent can address any pane by ID, whether or not it was launched inside
+// tmux. When launched FROM a tmux pane (TMUX_PANE env set), it also states the
+// agent's own session:window.pane position.
+function tmuxContext() {
+  const lines = ["<tmux-context>"];
+  const run = (cmd) => {
+    try {
+      return execSync(cmd, { timeout: 5000, encoding: "utf8" }).trim();
+    } catch {
+      return null;
+    }
+  };
+  const inTmux = Boolean(process.env.TMUX_PANE);
+  lines.push(`Agent launched from tmux: ${inTmux ? "YES" : "NO"}`);
+  if (inTmux) {
+    const position = run(
+      "tmux display-message -p '#{session_name}:#{window_index}.#{pane_index} (#{pane_id}) #{pane_current_command}'",
+    );
+    lines.push(
+      `Agent tmux position: ${position || "(unknown)"}`,
+    );
+  }
+  lines.push("", "Full tmux tree (session:window.pane | pane_id | current command):");
+  const tree = run(
+    "tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} | #{pane_id} | #{pane_current_command}'",
+  );
+  lines.push(tree || "(no tmux server reachable / none running)");
+  lines.push("</tmux-context>");
+  return lines.join("\n");
+}
 function detectDevice() {
   const agentsDirectory = path.join(process.env.HOME, ".agents");
   const raw =
@@ -57,6 +88,8 @@ export function buildContext() {
       : "(no known infra skill)",
   );
   lines.push("--- /DEVICE ---", "</device-context>");
+  const tmux = tmuxContext();
+  if (tmux) lines.push("", tmux);
   return lines.join("\n");
 }
 
