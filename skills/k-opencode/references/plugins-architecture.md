@@ -32,6 +32,7 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/tmux-notify.js",           // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/suggestions-check.js"       // Type 3: file:// — KπX format reminder (MUST run last)
 ]
@@ -48,6 +49,7 @@ These are the **KπX sovereign hooks** — self-contained `.js` files in `skills
 | `prompt-enforcer-lite.js` | `messages.transform` (backward scan, after real user msg) | `["Agent"]` | Injects the enforcement block as `role: "user"` ONLY after a real user message (never during tool cycles) |
 | `prompt-enforcer-strict.js` | `messages.transform` (every turn) | `["Colab", "Auto"]` | Pushes raw first-person enforcement block as `role: "user"` at end of prompt |
 | `stop-enforcer.js` | `session.idle` | `["Agent"]` | Reads `/session/{id}/message` through `client.session.messages()`; after real tool activity, injects first-person STOP CHECK (re-read request, completion check, verification rules, renewable-sleep mandate), forces summary + pending answers |
+| `tmux-notify.js` | `event` (`session.created`/`session.idle`) + `chat.message` | `["Colab", "Agent"]` | Polls `/tmp/tmux-pane-done.log` (written by `tmux-pane-done.sh` via a GLOBAL tmux `pane-died` hook); on each `{pane,exit,ts}` line queues a `<tmux-notify>` and delivers via `client.session.prompt({agent, synthetic:true})` on idle or prepends to the next `chat.message` (non-interrupting). Scopes on the agent resolved from the target session (`currentAgent`), since `event` hooks lack a `messages` input. NOT a `messages.transform` hook → exempt from the ordering rule below. See `k-tmux` → Stateful Integration. |
 | `math-enforcer.js` | `messages.transform` (every turn) | `["Explore"]` | Injects LaTeX/math formatting rules for the Explore agent |
 | `suggestions-check.js` | `messages.transform` (every turn, MUST run last) | `["*"]` | Injects system message: ≥3 Suggestions required |
 
