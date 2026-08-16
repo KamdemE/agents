@@ -5,7 +5,14 @@ set -euo pipefail
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/backup_pve.sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# systemd services do NOT export $HOME by default → under `set -u` a bare
+# `$HOME` reference below would abort with "HOME: unbound variable". Set it
+# explicitly to the agent user home (where .agents / rclone.conf live) before
+# sourcing notifier.sh. ${HOME:-default} is safe under `set -u`.
+export HOME="${HOME:-/home/kpihx}"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
 if [[ $# -gt 0 ]]; then
     case "$1" in
@@ -79,6 +86,14 @@ echo "$CLOUD_FILES" | grep -vF "$NAME" | while read -r f; do
   echo "  🗑️ Purging old from Drive: $f"
   rclone deletefile "$RCLONE_DEST/$f" --config "$RCLONE_CONF" --drive-use-trash=false || true
 done || true
+
+# --- 4. Empty Drive trash ---
+# KπX directive: when pushing a new backup, empty the Drive trash so old
+# trashed backups (from any rotation) do not accumulate against the quota.
+# Google empties the trash in the background (can take minutes→days), the
+# command returns quickly. Idempotent — safe to run every time.
+echo "  🗑️ Emptying Drive trash..."
+rclone cleanup gdrive-x: --config "$RCLONE_CONF" 2>/dev/null || true
 
 SIZE=$(du -sh "$LATEST" | cut -f1)
 notify_telegram "SUCCESS" "Backup complete!%0ASize: $SIZE ($NAME)" "PVE BACKUP"

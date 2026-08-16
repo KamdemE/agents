@@ -26,12 +26,17 @@
   //   3. All service/timer unit assets under any skill MUST be registered here
   //      (as symlinks) under their owning skill block — nothing forgotten.
   //
-  // FIELDS per link:
-  //   source : the OS-location symlink (e.g. $HOME/.config/opencode/...)
-  //   target : the canonical $HOME/.agents/... source of truth
-  //            (ALWAYS in $HOME/.agents/... format — never $HOME/KpihX-Labs/...)
-  //   skill  : owning k-* skill
-  //   infras : array of infra names that need this link, or ["*"]
+//   FIELDS per link:
+//   source : the OS-location symlink (e.g. $HOME/.config/opencode/...)
+//   target : the canonical $HOME/.agents/... source of truth
+//            (ALWAYS in $HOME/.agents/... format — never $HOME/KpihX-Labs/...)
+//   skill  : owning k-* skill
+//   infras : array of infra names that need this link, or ["*"]
+//   allow-reversed : OPTIONAL boolean (default false). When TRUE, the link's
+//            resolved target is allowed to live OUTSIDE $HOME/.agents (e.g. a
+//            vendored dependency pointing to the runtime install). The REVERSED
+//            check still REPORTS it in the logs, but does NOT count it as a
+//            failure. Only set to true for links that are deliberately outward.
   //
   // NOTE: systemd unit symlinks are listed UNDER their owning skill block here
   // (they are links too); their SERVICE functionality is checked separately via
@@ -78,7 +83,8 @@
       "source": "$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-context/node_modules/@opencode-ai/plugin",
       "target": "$HOME/.config/opencode/node_modules/@opencode-ai/plugin",
       "skill": "k-opencode",
-      "infras": ["*"]
+      "infras": ["*"],
+      "allow-reversed": true
     },
     // opencode-context-plugin removed per Suggestion 2 (loaded via explicit file:// in opencode.jsonc to support 1.18.x non-recursive glob)
     "opencode-web-service": {

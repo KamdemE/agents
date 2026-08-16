@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.32.0
+  version: 2.34.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -104,7 +104,7 @@ opencode models
 ## Plugins & Hooks — Four Systems
 
 OpenCode and its environment are extended via four distinct systems:
-1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 11 active plugins (5 npm, 6 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 12 active plugins (5 npm, 7 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, npm modules) for console interface features (voice STT/TTS via `@renjfk/opencode-voice`). See **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice` using the Web Speech API). See **`references/voice.md`**.
@@ -212,8 +212,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-15 | [COLAB] | v2.32.0 — **Fork rename + standardization (org kpihx-labs, subgroup `opencode`)**: renamed the 2 non-conforming forks to `opencode-*` standard: `opencode-web-voice-plugin` → `opencode-web-voice`, `Opencode-Context-Analysis-Plugin` → `opencode-context` (both github + gitlab). Moved the 3 GitLab repos into the subgroup `kpihx-labs/opencode/`. Renamed local submodule dirs `context/` → `opencode-context/`, `web/opencode-web-voice-plugin/` → `web/opencode-web-voice/`; updated `.gitmodules`, local remotes (github+gitlab→subgroup, +upstream Flickwire/IgorWarzocha), `opencode.jsonc` `file://` path, `context-plugin.md` Source of truth, `README .agents` table, Makefile comment + `submodule-upstream` target. Added GitHub topic `opencode` on the 3 repos. |
-| 2026-08-15 | [COLAB] | v2.31.0 — **3 plugins as git submodules (org kpihx-labs, github+gitlab)**: `context`, `web/opencode-lens`, `web/opencode-web-voice-plugin` now point to forks on org `kpihx-labs` (each carries `github` + `gitlab` remotes for sync) instead of local copies. `.gitmodules` + `git submodule init` registered. `.gitignore` excludes submodule `vendor/`/`node_modules/`/`dist/`. Makefile: `submodule-init`/`submodule-update` targets. `README.md` (`.agents`) documents the remotes, submodules and install. |
-| [SUMMARY] | — | v2.30.0 `/context` load fix (→ `references/log.md`) · v2.29.0 GO.md rename (→ `references/log.md`) · v2.28.0 JSONC lib (→ `references/log.md`) · v2.27.0 voice deps (→ `references/log.md`) · v2.26.0 plugin systems (→ `references/log.md`) · v2.25.0 and earlier copied to `references/log.md` |
+| 2026-08-16 | [COLAB] | v2.34.0 — **`tmux-notify.js` hook (stateful tmux→agent notification)**: agent fires commands into dedicated tmux panes WITHOUT tracking, and is notified + brought back to work when a pane frees up. Mechanics: tmux GLOBAL `pane-died` hook (reliable; per-pane `pane-exited`/`pane-died` is broken upstream #2882/#3736) → `scripts/hooks/tmux-pane-done.sh` appends a JSON line (`{pane,exit,ts}`) to `/tmp/tmux-pane-done.log` → the plugin polls the log with a RECURSIVE `setTimeout().unref()` (NOT `tail -F` — its stdout stream hangs `opencode run`; NOT `setInterval().unref()` — it re-refs on every fire) → queues a `<tmux-notify>` message → delivers via `client.session.prompt({agent, parts:[{synthetic:true}]})` (resolves agent from session messages, same as stop-enforcer.js) on idle, and via a non-interrupting `chat.message` prepend as a fallback. `activeSessionID` tracked from `session.created`. `remain-on-exit on` global in `assets/tmux.conf` (panes stay visible for capture-pane) + `bind K kill-pane`. Registered in `assets/opencode.jsonc` `"plugin"` array (before math/suggestions). **E2E validated LIVE** in a fresh opencode TUI (tmux `ubuntu:2.2`): a throwaway pane's `pane-died` triggered the notification, and the remote agent relaunched, listed panes and read the plugin source autonomously. Unit test `/tmp/tmux-notify-e2e/unit-test.mjs` (PROMPTS_SENT=1, chat injection=1). |
+| [SUMMARY] | — | v2.33.0 make-check-guard hook + hooks tests (→ `references/log.md`) · v2.32.0 fork rename (→ `references/log.md`) · v2.31.0 plugins submodules (→ `references/log.md`) · plus ancien → `references/log.md`. |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`) · `assets/opencode-lens.service` (symlink target for `~/.config/systemd/user/`)

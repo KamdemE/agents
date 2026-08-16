@@ -174,11 +174,15 @@ All kernel-level config and registries live as **JSONC** under `~/.agents/assets
 
 | Asset | Purpose | Consumed by |
 |-------|---------|-------------|
-| `assets/infras_skills.jsonc` | flat infra → k-* skill map | `startup-context.js` hook, `libs/jsonc_lib.sh` `current_infra` |
+| `assets/infras_skills.jsonc` | flat infra → k-* skill map | `startup-context.js` hook, `libs/jsonc/jsonc_lib.sh` `current_infra` |
 | `assets/services.jsonc` | `.agents`-owned systemd services (direct list, `infras:[...]` or `*`) | `scripts/services/check_services.sh`, `reload_services.sh` |
 | `assets/links.jsonc` | `.agents`-owned symlinks (direct list, `infras:[...]` or `*`) | `scripts/links/set_links.sh`, `check_links.sh` |
 
-Shared JSONC helpers: `~/.agents/libs/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches) with Python (`jsonc_lib.py` — strip_jsonc / load_jsonc / load_jsonc_obj) and JS (`jsonc_lib.js` — stripJsonc / loadJsonc / loadJsoncObj) twins. Python/JS callers import from `libs/` instead of re-implementing comment-stripping (single source of truth; added 2026-08-15).
+Shared libs (single source of truth, each has sh/py/js twins — see `libs/AGENTS.md`):
+- JSONC helpers: `~/.agents/libs/jsonc/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches) with Python (`jsonc_lib.py` — strip_jsonc / load_jsonc / load_jsonc_obj) and JS (`jsonc_lib.js` — stripJsonc / loadJsonc / loadJsoncObj). Python/JS callers import from `libs/jsonc/` instead of re-implementing comment-stripping (single source of truth; added 2026-08-15).
+- Env helpers: `~/.agents/libs/env/env_lib.sh` (env_keys / env_has_value / env_validate_format / env_keys_not_in_example / env_load) with Python (`env_lib.py`) and JS (`env_lib.js`) twins. `.env` handling is centralized here — never re-implement `set -a; source` inline in a script. Secrets zero-touch: these helpers only expose key NAMES and present/empty status, never VALUES.
+
+> **Libs-first reflex (MANDATORY):** before creating any helper/parser/loader inside `.agents`, **check `libs/` first** (especially `libs/jsonc/` and `libs/env/` for infra-skill scripts). If a fitting library exists, USE it; if not, add a new twin set there and expose it via a check in `scripts/`. Never duplicate logic inline.
 
 > **Lint/type config single source of truth (2026-08-15):** `ruff.toml` centralizes rule ignores + `[lint.per-file-ignores]` (e.g. `E402` for scripts that `sys.path.insert` before importing local libs — no scattered `# noqa: E402` inline); `pyrightconfig.json` declares `extraPaths = ["libs", "scripts/check_skills"]` so pyright resolves shared sibling imports (no `reportMissingImports`). Both live at `.agents/` root — update there, never inline.
 

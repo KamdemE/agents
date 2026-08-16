@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.5.0"
+  version: "1.6.1"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -170,10 +170,24 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 - Update `$HOME/.agents/skills/k-infras/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
+## Shared Libs Reflex (MANDATORY)
+
+When writing or editing **any infra-skill script** (check, service, link, notifier, config) — **check `$HOME/.agents/libs/` first** before creating a local helper:
+
+- `.env` handling → source `libs/env/env_lib.sh`
+- JSONC config parsing → source `libs/jsonc/jsonc_lib.sh`
+- Notifications (Telegram/system) → source `libs/notif/notifier.sh` (define `NOTIFY_TG_TOKEN` in the skill's `.env`)
+
+Never inline a private copy of these helpers in an infra skill. If a concern is missing from `libs/`, add the twin set there and expose it via a check in `scripts/`. See `libs/AGENTS.md` → Reflex for the full rule.
+
+**Full function index + guard mapping:** see `references/libs.md` — the single
+orientation point for the three shared libs (`env`/`jsonc`/`notif`), their
+functions, and the checks/guards that consume them.
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-09 | [COLAB] | v1.5.0 — **New Infra Setup: Step 0 Infrastructure Directory Standard added (MANDATORY, first)**: every new infra must first create `~/KpihX-Labs/` if absent, clone the kernel to `~/KpihX-Labs/.agents/` (real repo — single canonical copy), and symlink `~/.agents` → `~/KpihX-Labs/.agents`. Everything lives 100% inside `~/KpihX-Labs/` by default; only `/tmp`-scoped debris may live outside. Verification command (`readlink ~/.agents`) documented. |
-| 2026-07-26 | [OPENCODE] | v1.4.0 — **k-infra merged into k-infras**. ntfs-shrink-dual-boot.md + insights.md moved here. k-infra purged. Low-level hardware now covered by k-infras. |
-| [SUMMARY] | — | v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |
+| 2026-08-16 | [COLAB] | v1.6.1 — **`references/libs.md` added (single orientation point)**: full index of the three shared libs (`libs/env`, `libs/jsonc`, `libs/notif`) — function signatures + purposes — plus the guards/checks that consume them and a "adding a new shared concern" workflow. Linked from the Shared Libs Reflex section. |
+| 2026-08-16 | [COLAB] | v1.6.0 — **Shared Libs Reflex (MANDATORY)**: added section directing all infra-skill scripts to source `libs/env/env_lib.sh`, `libs/jsonc/jsonc_lib.sh`, `libs/notif/notifier.sh` from `$HOME/.agents/libs/` instead of inlining private helpers (env/jsonc/notifier centralization). |
+| [SUMMARY] | — | v1.5.0 New Infra Setup: Step 0 Infrastructure Directory Standard (`~/KpihX-Labs/.agents/` real clone + `~/.agents` symlink; everything 100% inside `~/KpihX-Labs/`); v1.4.0 k-infra merged into k-infras (ntfs-shrink-dual-boot.md + insights.md moved; k-infra purged); v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |

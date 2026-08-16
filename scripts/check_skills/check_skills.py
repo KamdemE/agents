@@ -14,8 +14,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-# make libs/jsonc_lib.py + sibling guards importable
+# make libs/jsonc/jsonc_lib.py + sibling guards importable
 sys.path.insert(0, str(ROOT / "libs"))
+sys.path.insert(0, str(ROOT / "libs" / "jsonc"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from settings import HOME, SKILLS_DIR

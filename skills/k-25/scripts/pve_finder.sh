@@ -8,13 +8,11 @@
 
 set -euo pipefail
 
-# --- Config: import secrets from .env ---
+# --- Config: import secrets from .env (centralized via env_lib.sh) ---
+# shellcheck source=/home/kpihx/.agents/libs/env/env_lib.sh
+source "$HOME/.agents/libs/env/env_lib.sh"
 ENV_FILE="${HOME}/.agents/.env"
-if [[ -f "$ENV_FILE" ]]; then
-    set -a
-    source "$ENV_FILE"
-    set +a
-fi
+env_load "$ENV_FILE"
 
 # SSH
 SSH_PORT=2222

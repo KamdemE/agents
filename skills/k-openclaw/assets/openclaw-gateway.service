@@ -6,7 +6,7 @@ StartLimitBurst=5
 StartLimitIntervalSec=60
 
 [Service]
-ExecStart=/home/linuxbrew/.linuxbrew/opt/node@24/bin/node /home/kpihx/.local/share/pnpm/global/5/node_modules/openclaw/dist/index.js gateway --port 18789
+ExecStart=/home/kpihx/.local/bin/openclaw gateway --port 18789
 Restart=always
 RestartSec=5
 RestartPreventExitStatus=78

@@ -18,7 +18,9 @@ PREVIEW=0
 
 # ── Load libs ──────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
 # ── Arg parsing ───────────────────────────────────────────────────────────────
 while [[ $# -gt 0 ]]; do

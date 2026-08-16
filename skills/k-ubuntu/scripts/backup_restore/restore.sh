@@ -12,9 +12,11 @@ set -euo pipefail
 USER_BACKUP="kpihx"
 
 # ── Load secrets from kernel .env (optional — restore works without Telegram) ─
-AGENTS_ENV="$HOME/.agents/.env"
+# Centralized via env_lib.sh (see libs/env/AGENTS.md) — never inline `source`.
 # shellcheck source=/dev/null
-[[ -f "$AGENTS_ENV" ]] && source "$AGENTS_ENV" || true
+source "$HOME/.agents/libs/env/env_lib.sh"
+AGENTS_ENV="$HOME/.agents/.env"
+env_load "$AGENTS_ENV"
 
 # ── Arguments ─────────────────────────────────────────────────────────────────
 ARCHIVE_PATH="${1:-}"

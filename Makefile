@@ -11,7 +11,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec reload-services set-links chmod install-hooks link help submodule-init submodule-update
+.PHONY: push push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services set-links chmod install-hooks link help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -62,7 +62,15 @@ check-exec: ## Verify script executability (shebang entrypoints executable, libr
 	@echo "🔧 Checking script executability (shebang entrypoints vs library modules)..."
 	@bash $(HOME)/.agents/scripts/exec/check_exec.sh
 
-check: check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills ## Run all validations (Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills Audit)
+check-env: ## Verify .env/.env.example governance (one each, perms 600, format, mirror, filled)
+	@echo "🔍 Checking .env/.env.example governance..."
+	@bash $(HOME)/.agents/scripts/env/check_env.sh
+
+check-jsonc: ## Verify .agents JSONC config assets parse cleanly (via libs/jsonc)
+	@echo "🔍 Checking JSONC config assets (assets/*.jsonc)..."
+	@bash $(HOME)/.agents/scripts/jsonc/check_jsonc.sh
+
+check: check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)
 
 tools: ## Required global tools: ruff (uv tool install ruff), pyright (uv tool install pyright), oxlint (npm install -g oxlint)
 

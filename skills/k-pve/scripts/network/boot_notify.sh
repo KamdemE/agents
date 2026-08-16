@@ -1,12 +1,14 @@
 #!/bin/bash
 
-# Secrets from kernel ~/.agents/.env (loaded by notifier.sh)
+# Secrets from kernel ~/.agents/.env (chargés par le notifier centralisé libs/notif)
 
 # ==============================================================================
 # 1. CONFIGURATION & AUTO-DÉTECTION
 # ==============================================================================
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_PVE_TOKEN:-}"
 
 LOG_FILE="/var/log/boot_notify.log"
 

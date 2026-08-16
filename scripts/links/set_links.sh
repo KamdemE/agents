@@ -3,7 +3,7 @@
 # set_links.sh — create/recreate .agents-owned symlinks from links.jsonc
 # ============================================================
 # Reads assets/links.jsonc (DIRECT list grouped by skill). For the CURRENT
-# infra (from tailscale, see libs/jsonc_lib.sh), creates every symlink whose
+# infra (from tailscale, see libs/jsonc/jsonc_lib.sh), creates every symlink whose
 # "infras" array applies ("*" = ALL infra, or contains the current infra).
 #
 # All sources/targets are in $HOME/.agents/... format (single source of truth).

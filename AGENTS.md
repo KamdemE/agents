@@ -51,6 +51,14 @@ metadata:
 | `k-opencode/references/hooks-standard.md` | OpenCode-exclusive lifecycle hooks: `scripts/hooks/*.js` (mandatory `TARGET_AGENTS`), prompts in `assets/hooks/*.txt` (name-matched to their hook), ordering rule (hooks inspecting `messages.at(-1)` must run before unconditional appenders). |
 | `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). **Semantic/know-how questions (ecosystem, history, past passes, no exact keywords) → `qmd query` (MANDATORY, see `k-qmd`)** — never guess or answer from memory alone. |
 
+### 🔴 ABSOLUTE RULE — `make check` (GRAVÉ, MANDATORY)
+
+**RUN `make check` EXACTLY AS `make check` — ONLY THESE 2 TOKENS, NOTHING AROUND. NEVER REDIRECT, NEVER PIPE, NEVER `tail`, NEVER `grep`, NEVER FILTER, NEVER `2>/dev/null`, NEVER TRUNCATE, NEVER ALTER THE OUTPUT.**
+
+**INVESTIGATE EVERYTHING: DO NOT JUST DECODE THE ERRORS — READ ALL LOGS AND ALL THE OUTPUT, AND DETECT THE SMALLEST PROBLEM TO REPORT, EVEN A SIMPLE `WARNING`, A SUSPICIOUS LINE, AN INCONSISTENCY, OR AN ABNORMAL DETAIL.**
+
+**NEVER FILTER OR ALTER A `make check` OUTPUT. ONLY `make check` (2 TOKENS). ALL THE OUTPUT MUST BE EXAMINED. EVERY `WARNING` / `ERROR` / UNEXPECTED LINE MUST BE REPORTED AND FIXED.**
+
 ### ⚠️ Explore & sub-agents exception
 
 The **Web Research First** rule and workspace auto-exploration do **NOT** apply to **Explore** mode and its sub-agents (`main-teacher`, `style-guardian`, `fact-verifier`, `scout`). They:
@@ -158,18 +166,24 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 │   ├── services.jsonc        #   .agents-owned systemd services (direct list, infras:[...] or *)
 │   └── links.jsonc           #   .agents-owned symlinks (direct list, infras:[...] or *)
 ├── libs/                     # Shared script libraries (no duplication)
-│   ├── jsonc_lib.sh          #   strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches
-│   ├── jsonc_lib.py          #   strip_jsonc / load_jsonc / load_jsonc_obj (Python twin of jsonc_lib.sh)
-│   └── jsonc_lib.js          #   stripJsonc / loadJsonc / loadJsoncObj (ESM twin, used by k-opencode hooks)
+│   ├── env/                  #   env_lib.sh / env_lib.py / env_lib.js — .env helpers (secrets, key-names+presence only)
+│   ├── jsonc/                #   jsonc_lib.sh / jsonc_lib.py / jsonc_lib.js — strip_jsonc / load_jsonc / infra helpers
+│   ├── notif/                #   notifier.sh (sh only) — Telegram/system notifications + homelab lock
+│   └── AGENTS.md             #   rule: sh/py/js twins must stay identical (language apart) — see libs/AGENTS.md
 ├── scripts/                  # Global utility scripts
+│   ├── env/                  #   check_env.sh, env_inspect.sh, lib.sh — .env governance checks
+│   ├── jsonc/                #   check_jsonc.sh — JSONC governance check
 │   ├── services/             #   check_services.sh, reload_services.sh, lib.sh
 │   ├── links/                #   set_links.sh, check_links.sh, lib.sh
 │   ├── check_tailscale.sh    #   Tailscale backbone check (up --accept-dns --accept-routes)
 │   ├── chmod.sh              #   normalize script permissions
+│   ├── AGENTS.md             #   philosophy + uniform structure of all checks (see scripts/AGENTS.md)
 │   └── git/                  #   git hooks
 ```
 
 > **Auto-maintenance contract:** Every agent that modifies the kernel structure (renames a skill, moves a directory, creates a new top-level directory, promotes tmp/ to permanent) MUST update this map to reflect the change. The map is the canonical orientation point for all agents — if the structure evolves and this map is not updated, it is a bug.
+>
+> **Libs-first reflex (MANDATORY):** Before writing/editing any `.agents` script that handles `.env`, JSONC configs, or notifications — **check `libs/` first** (`libs/env/env_lib.*`, `libs/jsonc/jsonc_lib.*`, `libs/notif/notifier.sh`). Source the shared twin, never inline a private copy. If a concern is missing, add a twin set in `libs/` and expose it via a check in `scripts/`. Full rule: `libs/AGENTS.md` → Reflex and `k-infras` → Shared Libs Reflex.
 
 ## Config Management Standard (Source of Truth)
 
@@ -194,7 +208,7 @@ Example — systemd drop-in for OpenClaw Gateway:
 **Verification:** Every agent that creates or modifies a config file MUST check whether it should live in `.agents/` with a local symlink. If yes, create the source first, then symlink.
 
 > **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` AND MUST BE REGISTERED:**
-> Any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) always be centralized via `~/.agents` (never a standalone copy — the file stays in `.agents/skills/<skill>/` as source of truth), and (2) **be registered in `assets/links.jsonc`** (direct list grouped by owning skill; each entry `{source,target,skill,infras:[...] or *}`) so BOTH `make link`/`make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. When you create a new `.agents` symlink, add it to `assets/links.jsonc` under its owning skill — that is the only registration point. Similarly, `.agents` systemd services live in `assets/services.jsonc`. Shared JSONC helpers in `libs/jsonc_lib.sh`. See `kpihx-labs` → Config & Assets and `rules/skill-governance.md` → Full Debris Scan Methodology / Config Standard (JSONC).
+> Any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) always be centralized via `~/.agents` (never a standalone copy — the file stays in `.agents/skills/<skill>/` as source of truth), and (2) **be registered in `assets/links.jsonc`** (direct list grouped by owning skill; each entry `{source,target,skill,infras:[...] or *}`) so BOTH `make link`/`make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. When you create a new `.agents` symlink, add it to `assets/links.jsonc` under its owning skill — that is the only registration point. Similarly, `.agents` systemd services live in `assets/services.jsonc`. Shared JSONC helpers in `libs/jsonc/jsonc_lib.sh`. See `kpihx-labs` → Config & Assets and `rules/skill-governance.md` → Full Debris Scan Methodology / Config Standard (JSONC).
 
 ## Security
 

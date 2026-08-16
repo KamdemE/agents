@@ -2,9 +2,11 @@
 # backup_docker_host_server.sh - Manual Push for Hypervisor guests to Cloud.
 # Description: Triggers a cloud sync of the latest backup on the PVE host.
 
-# Source the Homelab universal library
+# Source the Homelab universal library (centralized notifier in libs/)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_PVE_TOKEN:-}"
 
 set -e
 
@@ -48,7 +50,13 @@ if /usr/bin/rclone --config /root/.config/rclone/rclone.conf copy "$LATEST_ARCHI
             /usr/bin/rclone --config /root/.config/rclone/rclone.conf deletefile "$RCLONE_REMOTE/$FILE_TO_DELETE" --drive-use-trash=false >> "$LOG_FILE" 2>&1
         fi
     done
-    
+
+    # Empty Drive trash (KπX directive): old trashed backups accumulate against
+    # the Drive quota otherwise. Google empties it in the background; the
+    # command returns quickly and is idempotent.
+    log "🗑️ Emptying Drive trash..."
+    /usr/bin/rclone --config /root/.config/rclone/rclone.conf cleanup "$RCLONE_REMOTE" >> "$LOG_FILE" 2>&1
+
     SIZE=$(du -sh "$LATEST_ARCHIVE" | cut -f1)
     log "✅ Backup complete. Size: $SIZE"
     notify_telegram "SUCCESS" "Manual Cloud Sync Complete!%0ASize: $SIZE ($ARCHIVE_NAME)" "PVE BACKUP"

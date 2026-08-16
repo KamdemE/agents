@@ -89,10 +89,15 @@ except Exception: print("")' 2>/dev/null)"
 
 # --- Does a service/link apply to the current infra? ---
 # infra_matches <current_infra> <infras-json-string-or-*>  → true if applies
-# infras may be the literal "*" (all) or a JSON array string like ["kpihx-ubuntu"].
+# infras may be the literal "*" (all), a JSON array string like ["kpihx-ubuntu"],
+# or a JSON array containing "*" like ["*"] (also ALL).
 infra_matches() {
   local current="$1" infras="$2"
-  [ "$infras" = "*" ] && return 0
+  # bare "*" OR JSON array containing "*" (e.g. ["*"]) → matches ALL infra.
+  # Pattern: *'"*"'* = anything + the literal `"*"` + anything (single-quoted).
+  case "$infras" in
+    *'"*"'*) return 0 ;;
+  esac
   if printf '%s' "$infras" | grep -q "\"$current\""; then
     return 0
   fi

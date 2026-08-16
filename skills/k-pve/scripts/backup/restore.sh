@@ -2,9 +2,11 @@
 # restore_docker_host.sh - Disaster Recovery for Proxmox Guests
 # Description: Pulls the latest backup from Google Drive back to Proxmox local storage.
 
-# Source the Homelab universal library
+# Source the Homelab universal library (centralized notifier in libs/)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_PVE_TOKEN:-}"
 
 set -e
 

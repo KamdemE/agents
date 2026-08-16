@@ -1,6 +1,8 @@
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 # auto_clean.sh — Automated weekly cleanup: run all modules, analyze, notify via Telegram.
 # Runs as root via systemd (clean.service).
 # Machine config hardcoded below. Secrets sourced from ~/.agents/.env.
@@ -47,6 +49,15 @@ fi
 echo "--- Running clean_all.sh ---"
 "$SCRIPT_DIR/clean_all.sh" -s --system -y
 
+# ── 3b. Reporting tail is best-effort ──────────────────────────────────────────
+# The cleanup modules above are the REAL work and must fail the oneshot service
+# if they fail (set -e active above). From here on everything is REPORTING
+# (governance audit, QMD check, df/du analysis, Telegram notification) — a
+# non-zero from any of these (e.g. `grep -v` returning 1 on an empty log, or a
+# df/du pipeline) must NOT mark the service as failed. So we disable errexit
+# now, before the audit.
+set +e
+
 # ── 4. Governance Audit ────────────────────────────────────────────────────────
 echo "--- Running .agents governance audit ---"
 AUDIT_STATUS="✅ OK"
@@ -67,6 +78,11 @@ if ! su - "$USER_BACKUP" -c "$USER_HOME/.agents/skills/k-qmd/scripts/check_colle
 fi
 
 # ── 5. Post-cleanup analysis ──────────────────────────────────────────────────
+# The cleanup modules above already ran and succeeded (set -e would have aborted
+# on a real failure). From here on it is best-effort REPORTING only — a failed
+# df/du pipeline must not mark the whole oneshot service as `failed`. So we
+# disable errexit for the reporting tail.
+set +e
 echo "--- Post-Cleanup Analysis ---"
 FINAL_SPACE_ROOT=$(df / | tail -1 | awk '{print $3}')
 FINAL_SPACE_HOME=$(du -s -x "$USER_HOME" "$(_build_excludes)" 2>/dev/null | awk '{print $1}' || echo 0)
@@ -131,3 +147,8 @@ ${WORKSPACE_SCAN_OUTPUT}
     notify_telegram "CLEAN" "$MESSAGE" "NETTOYAGE"
     echo "✅ [$(date)] Cleanup & Audit Finished and Notification Sent."
 fi
+
+# ── 7. Explicit success exit ───────────────────────────────────────────────────
+# The cleanup did its job; the oneshot service must report SUCCESS even if the
+# best-effort reporting/notification tail was skipped or hit a non-fatal error.
+exit 0

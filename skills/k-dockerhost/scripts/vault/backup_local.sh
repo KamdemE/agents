@@ -5,7 +5,9 @@
 # The encryption key is NEVER stored on disk — derived live and erased from memory.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_DOCKERHOST_TOKEN:-}"
 
 set -e
 
@@ -50,7 +52,7 @@ unset MASTER_PASS  # Wipe the master password from memory immediately
 # 1. Create temp workspace
 mkdir -p "$TEMP_DIR/data"
 
-homelab_notify "INFO" "Local manual backup initiated. Pulling from $DOCKER_HOST..." "VAULT BACKUP"
+notify_telegram "INFO" "Local manual backup initiated. Pulling from $DOCKER_HOST..." "VAULT BACKUP"
 
 # 2. Remote SQLite backup via SSH (Atomic)
 echo "📦 Taking atomic backup from $DOCKER_HOST..."
@@ -106,9 +108,9 @@ if rclone copy "$TEMP_DIR/$ARCHIVE_NAME.gpg" "$RCLONE_REMOTE" \
             rclone deletefile "$RCLONE_REMOTE/$FILE_TO_DELETE"
         done
 
-    homelab_notify "SUCCESS" "Manual Vault Backup completed! HDD + Cloud synced." "VAULT BACKUP"
+    notify_telegram "SUCCESS" "Manual Vault Backup completed! HDD + Cloud synced." "VAULT BACKUP"
 else
-    homelab_notify "ERROR" "Failed to Rclone upload manual vault backup." "VAULT BACKUP"
+    notify_telegram "ERROR" "Failed to Rclone upload manual vault backup." "VAULT BACKUP"
 fi
 
 # 8. Cleanup (no key files remain on disk)

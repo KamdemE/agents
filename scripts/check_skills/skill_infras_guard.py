@@ -15,8 +15,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-# make the shared libs importable (libs/jsonc_lib.py)
+# make the shared libs importable (libs/jsonc/jsonc_lib.py)
 sys.path.insert(0, str(ROOT / "libs"))
+sys.path.insert(0, str(ROOT / "libs" / "jsonc"))
 sys.path.insert(0, str(ROOT / "scripts" / "check_skills"))
 
 from jsonc_lib import load_jsonc_obj

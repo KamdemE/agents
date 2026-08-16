@@ -3,9 +3,11 @@
 # Location: Runs inside docker-host (LXC 100) via cron
 # Schedule: Every Sunday at 02:00
 
-# Source the Homelab universal library dynamically
+# Source the Homelab universal library dynamically (centralized notifier in libs/)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-source "$SCRIPT_DIR/../lib/notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_DOCKERHOST_TOKEN:-}"
 
 set -e
 
@@ -27,13 +29,13 @@ log() {
 # 0. Check Secret
 if [ ! -f "$SECRET_FILE" ]; then
     log "❌ Error: Secret file $SECRET_FILE missing. Run gen_encrypt_key.sh to initialise the vault secret."
-    homelab_notify "ERROR" "Secret file $SECRET_FILE missing on docker-host. Run gen_encrypt_key.sh!" "VAULT BACKUP"
+    notify_telegram "ERROR" "Secret file $SECRET_FILE missing on docker-host. Run gen_encrypt_key.sh!" "VAULT BACKUP"
     exit 1
 fi
 GPG_PASS=$(cat "$SECRET_FILE")
 
 log "🚀 Starting Automated Vault Backup..."
-homelab_notify "LOCK" "Sovereign GPG encryption started for Vaultwarden." "VAULT BACKUP"
+notify_telegram "LOCK" "Sovereign GPG encryption started for Vaultwarden." "VAULT BACKUP"
 
 # 1. Create temp workspace
 mkdir -p "$BACKUP_TEMP_DIR"
@@ -83,10 +85,10 @@ if rclone --config "$RCLONE_CONFIG" copy "/tmp/$ARCHIVE_NAME.gpg" "$RCLONE_REMOT
 
     SIZE=$(du -sh "/tmp/$ARCHIVE_NAME.gpg" | cut -f1)
     log "✅ Vault Backup complete. Size: $SIZE"
-    homelab_notify "SUCCESS" "Vault Backup Secured & Uploaded! Size: $SIZE" "VAULT BACKUP"
+    notify_telegram "SUCCESS" "Vault Backup Secured & Uploaded! Size: $SIZE" "VAULT BACKUP"
 else
     log "❌ Cloud upload failed."
-    homelab_notify "ERROR" "Vault Cloud Sync FAILED." "VAULT BACKUP"
+    notify_telegram "ERROR" "Vault Cloud Sync FAILED." "VAULT BACKUP"
     # Cleanup even on failure
     rm -rf "$BACKUP_TEMP_DIR" "/tmp/$ARCHIVE_NAME" "/tmp/$ARCHIVE_NAME.gpg" 2>/dev/null || true
     exit 1

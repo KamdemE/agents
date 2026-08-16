@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.13.0
+  version: 1.14.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -125,6 +125,32 @@ Apply after edits:
 tmux source-file $HOME/.tmux.conf
 ```
 
+## Stateful Integration (agent → tmux → agent notifications)
+
+tmux can **notify** an agent (e.g. an OpenCode plugin) when a pane's process
+finishes — instead of the agent polling `capture-pane`. Three pieces cooperate:
+
+1. **`remain-on-exit on`** (global, in `assets/tmux.conf`): a pane whose process
+   exits STAYS visible with its output readable via `capture-pane`, instead of
+   being destroyed. This is required for reliable detection (see #2).
+2. **Global `pane-died` hook** → `scripts/hooks/tmux-pane-done.sh` (in
+   `k-opencode/scripts/hooks/`): appends `{"pane","exit","ts"}` as one JSON line
+   to `/tmp/tmux-pane-done.log`.
+   ```tmux
+   set-hook -g pane-died 'run-shell "$HOME/.agents/skills/k-opencode/scripts/hooks/tmux-pane-done.sh #{pane_id} #{pane_dead_status}"'
+   ```
+   ⚠️ Must be **GLOBAL**: per-pane `pane-exited`/`pane-died` is broken upstream
+   (tmux issues #2882/#3736) — by the time the hook fires, the pane is destroyed
+   and `#{pane_id}`/`#{pane_dead_status}` resolve to garbage.
+3. **`k-opencode` `tmux-notify.js` hook** polls that log and injects a
+   `<tmux-notify>` message into the OpenCode session (`client.session.prompt`),
+   bringing the agent back to work. Full mechanics in `k-opencode` changelog.
+
+Because `remain-on-exit` leaves dead panes visible, `Ctrl-a K` (`bind K
+kill-pane`) closes a dead/selected pane cleanly.
+
+Apply after edits: `tmux source-file $HOME/.tmux.conf`.
+
 ## Sessions, Windows & Panes — CLI + Keys
 
 Full CLI/keybind tables for creating/entering/switching/deleting **sessions**, tabs (**windows**), and split/move/resize/kill (**panes**) → **`references/cli-reference.md`**.
@@ -194,6 +220,5 @@ This shows every pane across all sessions with the running command — no guessi
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-09 | [COLAB] | v1.13.0 — **SKILL.md size reduction (300-line rule)**: Extracted session layout diagram, TPM plugins, boot-recovery workflow, full CLI/keybind reference (sessions/windows/panes), copy-mode/mouse details, and config/troubleshooting into 6 new `references/*.md` files. Main SKILL.md now keeps the mandatory shared interactive gate, mental model, and critical send-keys safety checklist. |
-| 2026-07-24 | [OPENCODE] | v1.12.0 — **Symlink direction reversed**: `assets/tmux.conf` is now the source of truth, `$HOME/.tmux.conf` symlinks to it (same pattern as kshrc). Updated all references: canonical config, layout table, edit instruction, troubleshooting. |
-| [SUMMARY] | — | v1.11.0 phone exception; v1.9.0 SUDO GATE; v1.8.0 ubuntu session + sudo pane; v1.6.0 focus-events; v1.3.x–v1.5.0 plugins, mouse, continuum |
+| 2026-08-16 | [COLAB] | v1.14.0 — **Stateful Integration (agent→tmux→agent) + `remain-on-exit`**: `assets/tmux.conf` now sets `remain-on-exit on` (dead panes stay visible/readable via capture-pane) + a GLOBAL `pane-died` hook relaying to `k-opencode/scripts/hooks/tmux-pane-done.sh` (JSON line to `/tmp/tmux-pane-done.log`) + `bind K kill-pane` to close dead panes. Added `## Stateful Integration` section documenting the 3-piece mechanism (remain-on-exit + global pane-died hook + `k-opencode` tmux-notify.js). E2E validated live (see k-opencode v2.34.0). |
+| [SUMMARY] | — | v1.13.0 SKILL size reduction (→ `references/log.md`) · v1.12.0 symlink direction reversed (→ `references/log.md`) · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

@@ -5,7 +5,9 @@ set -euo pipefail
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/restore_pve.sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-source "$SCRIPT_DIR/../notifier.sh"
+# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+source "$HOME/.agents/libs/notif/notifier.sh"
+NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
 if [[ $# -gt 0 ]]; then
     case "$1" in

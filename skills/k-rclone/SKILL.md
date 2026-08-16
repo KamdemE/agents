@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.4.0"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -14,7 +14,7 @@ allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **OS references:** `references/ubuntu.md` (FUSE mounts, systemd services) · `references/windows.md` (WSL and native Windows rclone)
+> **OS references:** `references/ubuntu.md` (FUSE mounts, systemd services) · `references/windows.md` (WSL and native Windows rclone) · **`references/gdrive.md`** (Google Drive trash & manipulation — find/empty trash, `--drive-trashed-only`, `rclone cleanup`, quota-vs-trash)
 
 ## Cloud hub
 
@@ -178,6 +178,5 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-25 | [OPENCODE] | v1.3.0 — Gdrive services centralized: `assets/rclone-gdrive.service` + `assets/rclone-gdrive-x.service` as USER services (source of truth). Symlinked from `~/.config/systemd/user/`. Legacy loose files removed. `assets/rclone.conf` added as canonical config. |
-| 2026-05-25 | [CURSOR] | v1.2.2 — Cloud-hub routing block; YAML description aligned with k-google stack. |
-| [SUMMARY] | — | v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API when FUSE stalls; insights discipline. |
+| 2026-08-16 | [COLAB] | v1.4.0 — **`references/gdrive.md` added (Drive trash & manipulation)**: how to find the Drive trash (`rclone about` → `Trashed` field, which counts against quota), list it (`--drive-trashed-only`, NOT `--trashed-only`), empty it (`rclone cleanup`), and delete permanently (`--drive-use-trash=false`). Documented the `storageQuotaExceeded`-caused-by-full-trash pattern and the backup-script anti-quota rule (permanent delete + cleanup after push). Also captured gotchas: glob-vs-sudo on remote hosts, shared client_id NOTICE. |
+| [SUMMARY] | — | v1.3.0 Gdrive services centralized (→ `references/log.md`) · v1.2.2 cloud-hub routing block · v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API; insights discipline. |

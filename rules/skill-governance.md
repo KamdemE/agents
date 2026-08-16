@@ -52,7 +52,7 @@ This is the single source of truth for `.agents`-owned symlinks; see `k-optim` �
 🔴 **Update mandate — whenever you create or change a `.agents` service or symlink, ALWAYS update the corresponding JSONC asset** so the checks stay accurate:
 - `.agents` service → update `assets/services.jsonc` (direct list grouped by skill; each entry `infras:[...]` or `*` = new MANDATORY).
 - `.agents` symlink → update `assets/links.jsonc` (direct list grouped by skill; each entry `{source,target,skill,infras:[...] or *}`, all sources in `$HOME/.agents/...`).
-Shared JSONC helpers live in `libs/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches). Consumers: `scripts/services/{check_services,reload_services}.sh`, `scripts/links/{set_links,check_links}.sh`. Verify with `make check-services` / `make check-links` / `make check-tailscale`.
+Shared JSONC helpers live in `libs/jsonc/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches). Consumers: `scripts/services/{check_services,reload_services}.sh`, `scripts/links/{set_links,check_links}.sh`. Verify with `make check-services` / `make check-links` / `make check-tailscale`.
 
 ## Deactivation
 When the linked application/tool/service is removed from the system, move the skill directory to `skills/deactivate/<skill>/`. Never delete it. Update `.skill-lock.json` accordingly. A deactivated skill stays fully loadable on explicit request.

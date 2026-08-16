@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.5.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -78,6 +78,7 @@ For every KπX skill:
 - **`scripts/`** for executable files (`.sh`, `.py`, binaries) — these are deployed or symlinked from `~/.local/bin/`
 - **`assets/`** for non-executable support files (configs, templates, `.json`, `.service`, `.conf`)
 - **`references/`** for documentation (`.md` files, OS-specific notes, insights)
+- **`tests/`** for test files (e.g. `tests/hooks/<hook>.test.mjs`, `tests/<script>.test.py`) — mirroring the structure of the `scripts/` or `assets/` they validate. Create a `tests/` dir when a hook/script/guard has runnable checks: it is the durable source of truth for non-regression proof. See `k-opencode/tests/hooks/make-check-guard.test.mjs` as the reference example. Tests are NOT deployed/symlinked (unlike `scripts/`).
 
 ## Insights Discipline Template
 
@@ -166,6 +167,5 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-22 | [OPENCODE] | v2.4.0 — Added Infrastructure Scope section: cross-infrastructure first design, OS-specific details go in `references/<os>.md`. References `rules/skill-infra-scope.md`. |
-| 2026-04-13 | [CODEX] | v2.3.2 — Added explicit skill-creation contract for `references/insights.md` and mandatory `## Insights Discipline` usage in downstream skills. |
-| [SUMMARY] | — | v2.3.1–v1.0.0: standardized insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, and earlier historical rows condensed for table limits. |
+| 2026-08-16 | [COLAB] | v2.5.0 — **`tests/` dir added to Structural Contract**: skills may ship a `tests/` folder (e.g. `tests/hooks/<hook>.test.mjs`) mirroring the structure of the `scripts/`/`assets/` they validate — durable source of truth for non-regression proof. Reference example: `k-opencode/tests/hooks/make-check-guard.test.mjs`. Tests are NOT deployed/symlinked (unlike `scripts/`). |
+| [SUMMARY] | — | v2.4.0 Infrastructure Scope section (→ `references/log.md`) · v2.3.2 insights contract · v2.3.1–v1.0.0: insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, earlier historical rows condensed. |

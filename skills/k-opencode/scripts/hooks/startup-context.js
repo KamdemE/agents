@@ -5,7 +5,7 @@ import { execSync } from "node:child_process";
 import { currentAgentIs } from "./libs/agent-scope.js";
 import { messageText } from "./libs/message-utils.js";
 import { loadPrompt } from "./libs/prompt-loader.js";
-import { stripJsonc } from "../../../../libs/jsonc_lib.js";
+import { stripJsonc } from "../../../../libs/jsonc/jsonc_lib.js";
 
 const TARGET_AGENTS = ["Colab", "Agent", "Auto", "Build", "Plan"];
 
