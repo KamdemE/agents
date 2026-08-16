@@ -136,12 +136,12 @@ no `remain-on-exit` needed. Two pieces cooperate:
    with no output for N seconds fires `alert-silence` — a persistent pane back at
    the prompt is silent. Default `2` seconds (0 disables). Works on EXISTING
    panes and commands sent via `send-keys`.
-2. **Global `alert-silence` hook** → `scripts/hooks/tmux-pane-done.sh` (in
-   `k-opencode/scripts/hooks/`): appends `{"event","session","window","pane","ts"}`
+2. **Global `alert-silence` hook** → `scripts/plugins/tmux/tmux-pane-done.sh` (in
+   `k-opencode/scripts/plugins/tmux/`): appends `{"event","session","window","pane","ts"}`
    as one JSON line to `/tmp/tmux-pane-done.log`.
    ```tmux
    set-window-option -g monitor-silence 2
-   set-hook -g alert-silence 'run-shell "$HOME/.agents/skills/k-opencode/scripts/hooks/tmux-pane-done.sh #{session_name} #{window_index} #{window_name} #{pane_id}"'
+   set-hook -g alert-silence 'run-shell "$HOME/.agents/skills/k-opencode/scripts/plugins/tmux/tmux-pane-done.sh #{session_name} #{window_index} #{window_name} #{pane_id}"'
    ```
 3. **`k-opencode` `tmux-notify.js` hook** polls that log and injects a
    `<tmux-notify>` message into the OpenCode session (`client.session.prompt`),

@@ -1,7 +1,7 @@
 import { appendFileSync } from "node:fs";
-import { currentAgent, currentAgentIs } from "./libs/agent-scope.js";
-import { hasToolPart, messageRole, messageText, missionContext } from "./libs/message-utils.js";
-import { promptMarker, renderPrompt } from "./libs/prompt-loader.js";
+import { currentAgent, currentAgentIs } from "../libs/agent-scope.js";
+import { hasToolPart, messageRole, messageText, missionContext } from "../libs/message-utils.js";
+import { promptMarker, renderPrompt } from "../libs/prompt-loader.js";
 
 const TARGET_AGENTS = ["Agent"];
 const STOP_MARKER = promptMarker("stop-enforcer");

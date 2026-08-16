@@ -6,7 +6,7 @@
   // the KπX standard for config files (see kpihx-labs → Config Standard).
   //
   // WHO USES IT:
-  //   - skills/k-opencode/scripts/hooks/startup-context.js  (device auto-detect:
+  //   - skills/k-opencode/scripts/plugins/hooks/startup-context.js  (device auto-detect:
   //     tailscale DNSName → infra skill → inject <device-context>).
   //   - scripts/ (check_tailscale.sh, services/*, links/*) resolve the current
   //     infra by reading this map.

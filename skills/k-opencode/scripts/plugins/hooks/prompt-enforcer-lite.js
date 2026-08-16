@@ -1,12 +1,12 @@
 import { appendFileSync } from "node:fs";
-import { currentAgent, currentAgentIs } from "./libs/agent-scope.js";
+import { currentAgent, currentAgentIs } from "../libs/agent-scope.js";
 import {
   hasToolPart,
   messageRole,
   messageText,
   appendMessage,
-} from "./libs/message-utils.js";
-import { loadPrompt } from "./libs/prompt-loader.js";
+} from "../libs/message-utils.js";
+import { loadPrompt } from "../libs/prompt-loader.js";
 
 const TARGET_AGENTS = ["Agent"];
 

@@ -482,16 +482,17 @@
     "opencode-ast",
     "opencode-antigravity-auth@latest",
     // Runtime hooks — re-enabled 2026-08-09 (KπX directive). Order matters (see k-opencode/SKILL.md).
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/startup-context.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-lite.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-strict.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/stop-enforcer.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/make-check-guard.js",
-    // tmux-notify — relays tmux pane-exited events to the agent (event + chat.message, not messages.transform).
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/tmux-notify.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/math-enforcer.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/suggestions-check.js",
-    // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as hooks).
+    // 2026-08-16: hooks moved scripts/hooks → scripts/plugins/hooks (KπX restructure); tmux in scripts/plugins/tmux/.
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
+    // tmux-notify — relays tmux alert-silence events (monitor-silence) to the agent (event + chat.message, not messages.transform).
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux/tmux-notify.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
+    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
+    // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).
     "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"
   ],
 

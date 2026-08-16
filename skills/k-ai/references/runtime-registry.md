@@ -60,7 +60,7 @@
 | **k-ai** (hub + registry) | k-context, kpihx-labs, k-opencode, k-hermes, k-clis, k-optim, k-final | k-context, AGENTS.md, every agent |
 | **k-context** | k-ai, kpihx-labs, k-opencode | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-infras** | k-ai, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
-| **k-opencode** | k-ai, `scripts/hooks/` | AGENTS.md (mandatory rules) |
+| **k-opencode** | k-ai, `scripts/plugins/hooks/` | AGENTS.md (mandatory rules) |
 | **k-hermes** | k-ai, k-opencode | Hermes config, k-context |
 | **k-clis** | k-ai, all runtime skills | k-ubuntu |
 | **k-optim** | k-ai, k-context | k-context |

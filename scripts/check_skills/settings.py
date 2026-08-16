@@ -20,7 +20,7 @@ AGENTS_MD = "$HOME/.agents/AGENTS.md"
 # Only flags actually read by skill_edit_guard.py. All other flags historically
 # present here (startup/context/response-validation/session-guard families)
 # were dead code left over from the deleted core/ hook architecture (OpenCode
-# now owns all runtime hook logic in JS — see k-opencode/scripts/hooks/) and
+# now owns all runtime hook logic in JS — see k-opencode/scripts/plugins/hooks/) and
 # were purged 2026-08-09 (zero importers confirmed via grep before removal).
 
 HOOK_FEATURES = {

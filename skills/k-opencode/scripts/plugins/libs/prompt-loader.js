@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const promptsDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "assets", "hooks");
+const promptsDirectory = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "assets", "plugins", "hooks");
 const cache = new Map();
 
 export function loadPrompt(name) {

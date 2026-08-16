@@ -10,7 +10,7 @@
 # `tmux-notify.js` plugin polls.
 #
 # Usage (from a tmux hook, see k-tmux/assets/tmux.conf):
-#   set-hook -g alert-silence 'run-shell "$HOME/.agents/skills/k-opencode/scripts/hooks/tmux-pane-done.sh #{session_name} #{window_index} #{window_name} #{pane_id}"'
+#   set-hook -g alert-silence 'run-shell "$HOME/.agents/skills/k-opencode/scripts/plugins/tmux/tmux-pane-done.sh #{session_name} #{window_index} #{window_name} #{pane_id}"'
 #
 # Args:
 #   $1 — session name where the pane lives (e.g. "ubuntu").

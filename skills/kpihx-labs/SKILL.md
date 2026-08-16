@@ -42,7 +42,7 @@ kpihx-labs (this skill — kernel top reference)
 │   └── k-25          (Android phones)
 │
 ├── k-ai         (AI hub + agent runtime registry — Colab, Explore, runtime configs)
-├── k-opencode   (OpenCode-exclusive hook architecture — scripts/hooks/, hooks-standard.md)
+├── k-opencode   (OpenCode-exclusive hook architecture — scripts/plugins/hooks/, hooks-standard.md)
 ├── k-clis       (CLI registry — routes to all k-* CLI skills)
 ├── k-final      (post-work closure checklist)
 ├── k-project    (project init templates)

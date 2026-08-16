@@ -4,10 +4,10 @@
 // Run from the repo root: node skills/k-opencode/tests/hooks/make-check-guard.test.mjs
 import { fileURLToPath } from "node:url";
 
-// Hook lives in scripts/hooks/ — this test lives in tests/hooks/, so resolve
-// relative to THIS file (../../scripts/hooks/), no hardcoded absolute path.
+// Hook lives in scripts/plugins/hooks/ — this test lives in tests/hooks/, so resolve
+// relative to THIS file (../../scripts/plugins/hooks/), no hardcoded absolute path.
 const hookPath = fileURLToPath(
-  new URL("../../scripts/hooks/make-check-guard.js", import.meta.url),
+  new URL("../../scripts/plugins/hooks/make-check-guard.js", import.meta.url),
 );
 const hook = await import(hookPath);
 const plugin = await hook.default();

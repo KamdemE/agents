@@ -15,7 +15,7 @@ OpenCode has **four separate extension systems**, configured or injected differe
 |------|--------|---------|-------------|
 | **npm package** | `"package-name"` | `"opencode-dir"` | Official or published npm plugins (auto-installed by OpenCode) |
 | **npm with version** | `"package-name@version"` | `"opencode-antigravity-auth@latest"` | Pin a specific version or track `@latest` |
-| **Local file** | `"file:///absolute/path.js"` | `"file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
+| **Local file** | `"file:///absolute/path.js"` | `"file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
 
 ## Current KπX lifecycle plugins (11)
 
@@ -28,19 +28,19 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
   "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
   "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
   "opencode-claude-auth@latest",             // Type 2: npm@version — Claude Code credentials reuse (no separate login)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/tmux-notify.js",           // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/hooks/suggestions-check.js"       // Type 3: file:// — KπX format reminder (MUST run last)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux/tmux-notify.js",           // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js"       // Type 3: file:// — KπX format reminder (MUST run last)
 ]
 ```
 
-## KπX Managed — `scripts/hooks/` (file://)
+## KπX Managed — `scripts/plugins/hooks/` (file://)
 
-These are the **KπX sovereign hooks** — self-contained `.js` files in `skills/k-opencode/scripts/hooks/` (helper libs in `scripts/hooks/libs/`). Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed. Full standard: `references/hooks-standard.md`.
+These are the **KπX sovereign hooks** — self-contained `.js` files in `skills/k-opencode/scripts/plugins/hooks/` (helper libs in `scripts/plugins/libs/`). Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed. Full standard: `references/hooks-standard.md`.
 
 | File | Event | Agent filter (`TARGET_AGENTS`) | Behavior |
 |------|-------|-------------|----------|
@@ -112,4 +112,4 @@ tailscale status --json → Self.DNSName → assets/infras.json lookup → skill
 Fallback: os.hostname() if tailscale unavailable
 ```
 
-**Source files:** `skills/k-opencode/scripts/hooks/` — tracked in `.agents` git repo, auto-deployed on push.
+**Source files:** `skills/k-opencode/scripts/plugins/hooks/` — tracked in `.agents` git repo, auto-deployed on push.

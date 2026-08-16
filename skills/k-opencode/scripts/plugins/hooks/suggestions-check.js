@@ -1,6 +1,6 @@
-import { currentAgentIs } from "./libs/agent-scope.js";
-import { appendMessage } from "./libs/message-utils.js";
-import { loadPrompt } from "./libs/prompt-loader.js";
+import { currentAgentIs } from "../libs/agent-scope.js";
+import { appendMessage } from "../libs/message-utils.js";
+import { loadPrompt } from "../libs/prompt-loader.js";
 
 const TARGET_AGENTS = ["*"];
 

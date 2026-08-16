@@ -6,9 +6,9 @@ Canonical text assets shared by OpenCode JavaScript hooks and Python core hooks.
 
 - Prompt prose belongs here, never in a hook source file.
 - `{{UPPER_SNAKE_CASE}}` placeholders are rendered by the shared loaders.
-- JavaScript consumers use `scripts/hooks/libs/prompt-loader.js`.
+- JavaScript consumers use `scripts/plugins/libs/prompt-loader.js`.
 - Hook code owns only lifecycle timing, agent scope, and dynamic data.
-- **Naming rule (mandatory, see `references/hooks-standard.md`):** each `.txt` prompt file here MUST have exactly the same name (minus extension) as the hook `.js` file in `scripts/hooks/` that loads it via `loadPrompt("<name>")`.
+- **Naming rule (mandatory, see `references/hooks-standard.md`):** each `.txt` prompt file here MUST have exactly the same name (minus extension) as the hook `.js` file in `scripts/plugins/hooks/` that loads it via `loadPrompt("<name>")`.
 - **Injected `synthetic:true` rule (mandatory, see `references/hooks-standard.md` §6):** any message injected by a hook (`appendMessage` / `unshift` / `push`) MUST mark each part `synthetic: true`. OpenCode's title-gen gate (`SessionPrompt.ensureTitle`) only fires when history contains **exactly ONE non-synthetic user message**; an injected `role:"user"` part without the flag breaks session title auto-renaming silently.
 
 ## Assets

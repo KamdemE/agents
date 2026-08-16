@@ -4,26 +4,26 @@ This document defines the standards and guidelines for creating, modifying, and 
 
 ## 1. File Structure
 
-All hook and plugin scripts must be stored in the skill's scripts folder:
-`skills/k-opencode/scripts/hooks/`
+All hook and plugin scripts must be stored in the skill's scripts/plugins/hooks folder:
+`skills/k-opencode/scripts/plugins/hooks/`
 
 Shared helper libraries (logic helpers that do not subscribe directly to events) must be isolated in the `libs` sub-folder:
-`skills/k-opencode/scripts/hooks/libs/`
+`skills/k-opencode/scripts/plugins/libs/`
 
-The associated hook prompts must be stored directly in the skill's assets folder:
-`skills/k-opencode/assets/hooks/`
+The associated hook prompts must be stored directly in the skill's assets/plugins/hooks folder:
+`skills/k-opencode/assets/plugins/hooks/`
 
 ## 2. Mandatory Targeting Rule: `TARGET_AGENTS`
 
-Every JS hook/plugin script located in `scripts/hooks/` must declare a global constant named `TARGET_AGENTS` at the top of the file to make explicit the agents concerned.
+Every JS hook/plugin script located in `scripts/plugins/hooks/` must declare a global constant named `TARGET_AGENTS` at the top of the file to make explicit the agents concerned.
 
 - **Format:** `const TARGET_AGENTS = [...];`
 - **Default behavior:** If no specific instruction is provided when creating or updating a hook, the default value of `TARGET_AGENTS` must be `["*"]` (all agents).
-- **Filtering:** The hook callback must use `currentAgentIs(messages, TARGET_AGENTS)` imported from `./libs/agent-scope.js` to decide whether to execute.
+- **Filtering:** The hook callback must use `currentAgentIs(messages, TARGET_AGENTS)` imported from `../libs/agent-scope.js` to decide whether to execute.
 
 Example:
 ```javascript
-import { currentAgentIs } from "./libs/agent-scope.js";
+import { currentAgentIs } from "../libs/agent-scope.js";
 
 const TARGET_AGENTS = ["Colab", "Agent"];
 
@@ -41,16 +41,16 @@ export default async function() {
 
 ## 3. Prompt Name Matching
 
-To maintain total flexibility and perfect correspondence, each prompt file under `assets/hooks/` must carry **exactly the same name** as the corresponding hook JS file under `scripts/hooks/` (with the `.txt` extension instead of `.js`).
+To maintain total flexibility and perfect correspondence, each prompt file under `assets/plugins/hooks/` must carry **exactly the same name** as the corresponding hook JS file under `scripts/plugins/hooks/` (with the `.txt` extension instead of `.js`).
 
 | Hook JS Path | Prompt Path | Name in `loadPrompt()` |
 |---|---|---|
-| `scripts/hooks/suggestions-check.js` | `assets/hooks/suggestions-check.txt` | `"suggestions-check"` |
-| `scripts/hooks/prompt-enforcer-strict.js` | `assets/hooks/prompt-enforcer-strict.txt` | `"prompt-enforcer-strict"` |
-| `scripts/hooks/prompt-enforcer-lite.js` | `assets/hooks/prompt-enforcer-lite.txt` | `"prompt-enforcer-lite"` |
-| `scripts/hooks/math-enforcer.js` | `assets/hooks/math-enforcer.txt` | `"math-enforcer"` |
-| `scripts/hooks/stop-enforcer.js` | `assets/hooks/stop-enforcer.txt` | `"stop-enforcer"` |
-| `scripts/hooks/startup-context.js` | `assets/hooks/startup-context.txt` | `"startup-context"` |
+| `scripts/plugins/hooks/suggestions-check.js` | `assets/plugins/hooks/suggestions-check.txt` | `"suggestions-check"` |
+| `scripts/plugins/hooks/prompt-enforcer-strict.js` | `assets/plugins/hooks/prompt-enforcer-strict.txt` | `"prompt-enforcer-strict"` |
+| `scripts/plugins/hooks/prompt-enforcer-lite.js` | `assets/plugins/hooks/prompt-enforcer-lite.txt` | `"prompt-enforcer-lite"` |
+| `scripts/plugins/hooks/math-enforcer.js` | `assets/plugins/hooks/math-enforcer.txt` | `"math-enforcer"` |
+| `scripts/plugins/hooks/stop-enforcer.js` | `assets/plugins/hooks/stop-enforcer.txt` | `"stop-enforcer"` |
+| `scripts/plugins/hooks/startup-context.js` | `assets/plugins/hooks/startup-context.txt` | `"startup-context"` |
 
 There must no longer be disparate or generic names that hide the concerned agent or break homogeneity.
 

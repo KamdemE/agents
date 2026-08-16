@@ -29,7 +29,7 @@
 // Requires the `client` (OpenCode server client) and a tmux server.
 
 import * as fs from "node:fs";
-import { currentAgent } from "./libs/agent-scope.js";
+import { currentAgent } from "../../libs/agent-scope.js";
 
 const TARGET_AGENTS = ["Colab", "Agent"];
 

@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.35.0
+  version: 2.36.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -53,7 +53,7 @@ OpenCode does **not** ship Android-compatible binaries (non-PIE glibc ARM64 bina
   - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
   - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
 - **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink needed.
-- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package via `index.ts`.
+- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/plugins/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package via `index.ts`.
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
 
@@ -177,7 +177,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink necessary. See [docs](https://opencode.ai/docs/skills).
 
-**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package (via `index.ts`).
+**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/plugins/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package (via `index.ts`).
 
 **Config source of truth:** `assets/opencode.jsonc` — symlinked to `~/.config/opencode/opencode.jsonc`. Edit the asset, never the runtime directly. **All changes are tracked in git via the `.agents` repo.**
 
@@ -212,6 +212,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-16 | [COLAB] | v2.36.0 — **Directory restructure: `scripts/hooks/` → `scripts/plugins/` (KπX directive)**. Per KπX, the hooks are plugins; restructured `k-opencode` so hooks live in `scripts/plugins/hooks/`, the 2 tmux files (js+sh) in `scripts/plugins/tmux/`, the shared libs (`agent-scope.js`, `message-utils.js`, `prompt-loader.js`) in `scripts/plugins/libs/`, and prompt assets in `assets/plugins/hooks/` (from `assets/hooks/`). **All 7 hook imports** updated `./libs/` → `../libs/`; `tmux-notify.js` → `../../libs/agent-scope.js`; `prompt-loader.js` path → `../../../assets/plugins/hooks`; `startup-context.js` jsonc import adjusted for depth. **All references updated**: `assets/opencode.jsonc` plugin array (`scripts/plugins/hooks/*.js`, `scripts/plugins/tmux/tmux-notify.js`), `k-tmux/assets/tmux.conf` (hook → `scripts/plugins/tmux/tmux-pane-done.sh`), `scripts/git/assets/post-commit.sh` (diff check → `scripts/plugins/hooks/` + `scripts/plugins/tmux/`), `assets/infras_skills.jsonc`, `scripts/check_skills/settings.py`, root `AGENTS.md`, `k-opencode/SKILL.md`, `references/plugins-architecture.md`, `references/insights.md`, `references/hooks-standard.md`, `tests/hooks/make-check-guard.test.mjs`, both `AGENTS.md` (scripts + assets), `k-ai/runtime-registry.md`, `k-tmux/SKILL.md` (Stateful Integration), `kpihx-labs/SKILL.md`. **Verified**: `make-check-guard.test.mjs` 17 passed / 0 failed (loads from `scripts/plugins/hooks/`); `prompt-loader` resolves `assets/plugins/hooks/`. Old dirs `scripts/hooks/` + `assets/hooks/` removed. Historical changelog/session-log entries referencing `scripts/hooks` left untouched (append-only Zero-Deletion). |
 | 2026-08-16 | [COLAB] | v2.35.0 — **`tmux-notify` refactor: PERSISTENT panes via `monitor-silence` (replaces pane-died/throwaway-pane mechanism)**. Per KπX: panes always persist (no `remain-on-exit`, no `bind K kill-pane`, no `pane-died`). Detection now via `alert-silence` GLOBAL hook fired by `monitor-silence 2` when a window has no output for 2s = a persistent pane RETURNED TO ITS PROMPT. `scripts/hooks/tmux-pane-done.sh` rewritten: args `#{session_name} #{window_index} #{window_name} #{pane_id}` → JSON `{"event":"silence","session","window","pane","ts"}` to `/tmp/tmux-pane-done.log`. `tmux-notify.js`: header/`notificationFor()`/parsing updated for the `silence` event (message "pane X returned to its prompt (command finished)"), still recursive `setTimeout().unref()` watcher + `client.session.prompt({agent, synthetic:true})` idle + `chat.message` fallback. **`startup-context.js`**: new `tmuxContext()` block — reports `Agent launched from tmux: YES/NO`, when YES the agent's `session:window.pane (#{pane_id})`, and ALWAYS the full tmux tree (`tmux list-panes -a -F`), whether launched in tmux or not. **E2E validated LIVE** (persistent pane `%20`, zsh alive `dead=0`): `sleep 4; echo DONE` returned to prompt → `alert-silence` wrote `{"event":"silence",...,"pane":"%20"}` → opencode agent in `ubuntu:2.2` relaunched and read the log line itself. tmuxContext tested both from-tmux (YES+position) and non-tmux (NO+full tree). k-tmux Stateful Integration section rewritten. |
 | [SUMMARY] | — | v2.34.0 tmux-notify pane-died throwaway-pane (superseded by v2.35.0 monitor-silence, → `references/log.md`) · v2.33.0 make-check-guard hook + hooks tests (→ `references/log.md`) · v2.32.0 fork rename (→ `references/log.md`) · v2.31.0 plugins submodules (→ `references/log.md`) · plus ancien → `references/log.md`. |
 
