@@ -19,7 +19,7 @@
   // KEY RULES (2026-08-14, per KπX):
   //   1. systemd unit symlinks use "-service"/"-timer" (NOT ".service"/".timer")
   //      as the key suffix. e.g. clean.service → "clean-service".
-  //   2. links owned by an INFRA skill (k-ubuntu, k-pve, k-dockerhost, k-25, …)
+  //   2. links owned by an INFRA skill (k-ubuntu, k-pve, k-dockerhost, k-phones, …)
   //      get the infra suffix appended to the WHOLE key: e.g. "clean-service-ubuntu",
   //      "kshrc-ubuntu", "ksh-dockerhost". Tool skills (k-opencode, k-hermes, …)
   //      do NOT get an infra suffix (their links are shared → "*").
@@ -93,6 +93,16 @@
       "skill": "k-opencode",
       "infras": ["*"]
     },
+    // opencode-web-shim: fixes upstream #5844 (WebSocket URL malformed when
+    // reached via a non-localhost hostname, e.g. Tailscale) — sits between
+    // Tailscale Serve and opencode-web itself, 302-redirects the first page
+    // load to append ?url=<origin>, transparently proxies everything else.
+    "opencode-web-shim-service": {
+      "source": "$HOME/.config/systemd/user/opencode-web-shim.service",
+      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-web-shim.service",
+      "skill": "k-opencode",
+      "infras": ["*"]
+    },
     "opencode-lens-service": {
       "source": "$HOME/.config/systemd/user/opencode-lens.service",
       "target": "$HOME/.agents/skills/k-opencode/assets/opencode-lens.service",
@@ -130,11 +140,8 @@
     "agents-pre-commit":  { "source": "$HOME/.agents/.git/hooks/pre-commit",  "target": "$HOME/.agents/scripts/git/assets/pre-commit.sh",  "skill": "k-git", "infras": ["*"] },
     "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/assets/post-commit.sh", "skill": "k-git", "infras": ["*"] },
 
-    // --- k-25 (phones — infra skill → -s25 suffix) -----------------------------
-    "kshrc-s25":    { "source": "$HOME/.kshrc",           "target": "$HOME/.agents/skills/k-25/assets/kshrc",           "skill": "k-25", "infras": ["kpihx-s25"] },
-    "adb-s25":      { "source": "$HOME/.local/bin/adb-s25",      "target": "$HOME/.agents/skills/k-25/scripts/adb-s25",      "skill": "k-25", "infras": ["kpihx-s25"] },
-    "adb-s25-pair": { "source": "$HOME/.local/bin/adb-s25-pair", "target": "$HOME/.agents/skills/k-25/scripts/adb-s25-pair", "skill": "k-25", "infras": ["kpihx-s25"] },
-    "pve-finder":   { "source": "$PREFIX/bin/pve_finder",         "target": "$HOME/.agents/skills/k-25/scripts/pve_finder.sh", "skill": "k-25", "infras": ["kpihx-s25"] },
+    // --- k-phones (phones — infra skill → -s25 suffix) -------------------------
+    "kshrc-phones": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-phones/assets/kshrc", "skill": "k-phones", "infras": ["kpihx-s25"] },
 
     // --- k-dockerhost (infra skill → -dockerhost suffix) -----------------------
     "kshrc-dockerhost": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-dockerhost/assets/kshrc", "skill": "k-dockerhost", "infras": ["kpihx-dockerhost"] },

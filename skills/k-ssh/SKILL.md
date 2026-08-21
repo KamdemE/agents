@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.2.2"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
@@ -154,7 +154,7 @@ ssh-keygen -p -f ~/.ssh/id_ed25519_<target>
 
 When a new infra is added, `~/.kshrc` (shell hub) follows the same centralization pattern as SSH:
 
-- **Source of truth:** `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`, `k-25/assets/kshrc`)
+- **Source of truth:** `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`, `k-phones/assets/kshrc`)
 - **`~/.kshrc`** is a **symlink** to that file
 - If the infra skill does not exist, create it following `k-ai` (AI hub + runtime registry) before proceeding
 
@@ -181,12 +181,13 @@ When a new infrastructure is added:
 - `assets/ssh.conf` — canonical SSH Host fragment (the actual config)
 - `references/insights.md` — durable runtime lessons
 - `k-bw` — Bitwarden desktop SSH agent setup + WSL bridge
-- `k-25` — phone-specific SSH details (Termux sshd, autostart)
+- `k-phones` — phone-specific SSH details (Termux sshd, autostart)
 - `k-git` — Git authentication via SSH
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-24 | [OPENCODE] | v1.2.0 — Added **kshrc Setup** section: `~/.kshrc` symlink pattern (source of truth = infra skill `assets/kshrc`). Cross-ref to k-infras step 1b. |
+| 2026-08-20 | [COLAB] | v1.2.2 — Corrected the generic phone shell source path to `k-phones/assets/kshrc`. |
+| 2026-08-20 | [COLAB] | v1.2.1 — Updated the Android cross-references for the `k-phones` rename and S25-specific shell asset. |
 | [SUMMARY] | — | v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |

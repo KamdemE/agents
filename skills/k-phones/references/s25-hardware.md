@@ -103,10 +103,10 @@ Long compute sessions on battery → expect **fast drain** and thermal throttlin
 | Channel | Endpoint | Role |
 |---------|----------|------|
 | **SSH** | `ssh s25` → Termux `:8022` | Full Linux userland (Python, git, tmux, scripts) |
-| **ADB** | `adb-s25` → `100.125.54.1:<debug_port>` | Apps, `/sdcard`, logcat, maintenance — **not** Termux home |
+| **ADB** | `adb connect 100.125.54.1:<DEBUG_PORT>` | Apps, `/sdcard`, logcat, maintenance — **not** Termux home |
 | **Tailscale** | Android app `com.tailscale.ipn` | Mesh IP; Termux has **no** `tailscale` CLI package |
 
-Runbooks: `s25-adb-wireless.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `termux-tmux.md`, `phone-to-ubuntu.md`.
+Runbooks: `adb.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `termux-tmux.md`, `phone-to-ubuntu.md`.
 
 ---
 
@@ -134,7 +134,7 @@ Runbooks: `s25-adb-wireless.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `ter
 | tmux sessions (local) | ✅ Yes | `ssh s25` → `tmux` |
 | Shell / Python automation | ✅ Yes | Termux; keep jobs **&lt; ~30 min** |
 | Sync, bots, capture relays | ✅ Yes | `k-tg`, Termux, Tailscale |
-| ADB file pull/push | ✅ Yes | `adb-s25` |
+| ADB file pull/push | ✅ Yes | raw `adb push` / `adb pull` |
 | Numeric / data crunch (medium) | ⚠️ Limited | 4 threads, swap, thermals |
 | **LLM inference (comfortable)** | 🔴 No | **KpihX-Ubuntu** Ollama IPEX (`127.0.0.1:11434`) or homelab |
 | **LLM inference (experimental)** | ⚠️ Tiny only | llama.cpp + **1–3B** Q4 GGUF; high latency |
@@ -173,10 +173,10 @@ curl -s http://100.82.95.70:11434/api/tags   # example; verify IP + firewall
 Re-run inventory from workstation when hardware or Termux stack changes:
 
 ```bash
-adb-s25 status
-adb -s 100.125.54.1:46281 shell getprop ro.product.model ro.soc.model ro.build.version.release
-adb -s 100.125.54.1:46281 shell "nproc; cat /proc/meminfo | head -3; cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"
+adb devices -l
+adb -s 100.125.54.1:<DEBUG_PORT> shell getprop ro.product.model ro.soc.model ro.build.version.release
+adb -s 100.125.54.1:<DEBUG_PORT> shell "nproc; cat /proc/meminfo | head -3; cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq"
 ssh s25 'uname -m; nproc; free -h; tmux -V; pkg list-installed | wc -l'
 ```
 
-Update **Last inventory** date and bump `k-25` `SKILL.md` changelog if facts changed.
+Update **Last inventory** date and bump `k-phones` `SKILL.md` changelog if facts changed.

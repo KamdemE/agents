@@ -4,7 +4,7 @@
 # ============================================================
 # Central place for every notification concern used across KπX skills
 # (system desktop notification, Telegram, or mixed). All skills that notify
-# (k-pve, k-ubuntu, k-dockerhost, k-25, …) source THIS file instead of shipping
+# (k-pve, k-ubuntu, k-dockerhost, k-phones, …) source THIS file instead of shipping
 # their own private notifier.sh — single source of truth, one uniform style.
 #
 # Provided here:

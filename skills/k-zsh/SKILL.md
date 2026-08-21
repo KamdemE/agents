@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.4.3"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -17,7 +17,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-tmux` (setup BEFORE zsh — kshrc.base has auto-tmux at end) · `k-infras` (master map, checklist step 1b) · `k-skill-creator` (create infra skill if absent) · `k-ubuntu` / `k-pve` / `k-25` (infra skills with their own `assets/kshrc`)
+> **Related skills:** `k-tmux` (setup BEFORE zsh — kshrc.base has auto-tmux at end) · `k-infras` (master map, checklist step 1b) · `k-skill-creator` (create infra skill if absent) · `k-ubuntu` / `k-pve` / `k-phones` (infra skills with their own shell assets)
 >
 > **Asset files:**
 > - `assets/kshrc.base` → **infrastructure template** — seed for new infra skill's `assets/kshrc` (🔴 NEVER MODIFY base, edit infra copy)
@@ -32,7 +32,7 @@ allowed-tools: Bash, Read, Write, Edit
 > - `bashrc` → **bash interactive** — symlinked from `~/.bashrc` (🔴 NEVER MODIFY)
 > - `profile` → **sh/bash login** — symlinked from `~/.profile` (🔴 NEVER MODIFY)
 >
-> The startup files are **per-infra** (k-ubuntu, k-25, etc.) because each may differ slightly
+> The startup files are **per-infra** (k-ubuntu, k-phones, etc.) because each may differ slightly
 > (tmux session name, machine-specific completions). They are NEVER edited in place —
 > always through the infra skill's asset.
 
@@ -64,8 +64,8 @@ New machine setup:
      ln -sf ~/.agents/skills/k-zsh/assets/zprofile ~/.zprofile
      ln -sf ~/.agents/skills/k-zsh/assets/bashrc   ~/.bashrc
      ln -sf ~/.agents/skills/k-zsh/assets/profile  ~/.profile
-  2. Check if infra skill has assets/kshrc (e.g. k-ubuntu, k-pve, k-25)
-     ├─ YES → ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
+   2. Check if infra skill has a shell asset (e.g. k-ubuntu, k-pve, k-phones)
+      ├─ YES → link its documented shell asset to ~/.kshrc
      └─ NO  → cp k-zsh/assets/kshrc.base → <infra-skill>/assets/kshrc
                replace <INFRA_SESSION> with infra short name
                add machine-specific lines, then symlink
@@ -81,7 +81,7 @@ The 5 shared files (`.zshrc`, `.zshenv`, `.zprofile`, `.bashrc`, `.profile`) sou
 One central hub (`.kshrc`) sourced by every shell. No duplicated env vars, no PATH drift.
 
 ```
-.kshrc         ← THE hub — infra-specific (k-ubuntu, k-25, etc.) — symlink from infra skill
+.kshrc         ← THE hub — infra-specific (k-ubuntu, k-phones, etc.) — symlink from infra skill
 .zshrc         ← sources .kshrc → interactive zsh — symlink from k-zsh/assets/
 .zshenv        ← sources .kshrc → ALL zsh (scripts too) — symlink from k-zsh/assets/
 .zprofile      ← login-only actions — symlink from k-zsh/assets/
@@ -197,7 +197,17 @@ WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal → zsh
 See `k-pve-debian` → Shell. Same symlink pattern.
 
 ### S25 Phone (Termux)
-See `k-25` → Setup. `~/.kshrc` → `k-25/assets/kshrc`.
+See `k-phones` → S25. `~/.kshrc` → `k-phones/assets/kshrc`.
+
+---
+
+## ⚠️ Known Gotchas — full write-ups moved to `references/gotchas.md` (300-line body limit)
+
+Two documented gotchas, full detail preserved verbatim in `references/gotchas.md`:
+1. **`source ~/.kshrc` is a NO-OP for already-loaded shells (2026-08-16)** — two idempotency guards (`__KSHRC_LOADED`, `__KSHRC_INTERACTIVE_LOADED`) silently skip re-sourcing in a shell process that already loaded it once. Fix: `unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED; source ~/.kshrc`, or restart the shell.
+2. **opencode web's embedded terminal hijacked into the shared tmux session (2026-08-16)** — opencode web's terminal panel spawns an isolated PTY with `OPENCODE_TERMINAL=1` set unconditionally; without an exception the Auto-tmux block attached it into the shared desktop tmux session (resize glitches, input cross-contamination, leaked idle shells). Fix: `[ -z "$OPENCODE_TERMINAL" ]` added to the Auto-tmux guard in `kshrc.base` + all 7 infra copies.
+
+Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
 ---
 
@@ -210,6 +220,6 @@ See `k-25` → Setup. `~/.kshrc` → `k-25/assets/kshrc`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-26 | [OPENCODE] | v2.2.0 — **with-env helper added**: Added the `with-env` function to `kshrc.base` and `k-ubuntu/assets/kshrc` to allow secure command execution with isolated `.env` loading. |
-| 2026-07-24 | [OPENCODE] | v2.1.0 — **kshrc pattern redesigned**: `~/.kshrc` is now a symlink to infra skill `assets/kshrc` (not a direct copy). If infra skill absent, create it (k-skill-creator), seed with kshrc.base, customize. Setup order: tmux first, then zsh. OS notes updated for all infra types. |
-| [SUMMARY] | — | v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| 2026-08-20 | [COLAB] | v2.4.3 — Corrected the generic S25 shell source path to `k-phones/assets/kshrc`. |
+| 2026-08-20 | [COLAB] | v2.4.2 — Updated the Android infrastructure cross-references for `k-phones` and the explicit S25 shell asset. |
+| [SUMMARY] | — | v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

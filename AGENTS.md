@@ -38,7 +38,7 @@ metadata:
 | `rules/web-research-first.md` | **WEB RESEARCH FIRST** — If you don't know something, are unsure, or hesitate about any fact/technology/concept: **STOP and search the web**. Do NOT guess, do NOT assume, do NOT fabricate. Use `websearch` or `google_search` before any workspace exploration. |
 | `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
 | `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. Contextual language matching. |
-| `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. Poll ≥30s on auth. Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
+| `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. **Never manually poll the pane or `capture-pane`** — arm with `TMUX_TIMEOUT`/`TMUX_LINES`, wait for the automatic `<tmux-notify>`/`<tmux-armed>` message (fixed 2026-08-16: this line used to say "Poll ≥30s on auth" — a live agent cited it, alongside a matching line in `k-context/SKILL.md`, as its justification for a manual `capture-pane` right after receiving the `<tmux-armed>` reminder telling it not to; this ROOT `AGENTS.md` summary line is injected into EVERY session and was never touched during 3 prior tmux-notify fix passes). Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
 | `rules/audit-commands.md` | `uv` not `pip`. `make check` after any `.agents/` change. `make push` not raw git push. Post-work checklist: check, docs, version, sync, finalize. |
 | `rules/uv-first.md` | **UV-FIRST** — All Python operations MUST use `uv` (`uv tool install`, `uv pip install`, `uv run`, `uv venv`). **Never** touch system Python (`/usr/bin/python3`). **Never** use `pip`. **Never** install `python3-*` apt packages. System Python is read-only. Exceptions only if explicitly authorized by KπX. |
 | `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. **SKILL.md length max 300 lines (overflow goes to references/)** |
@@ -83,7 +83,7 @@ The **Web Research First** rule and workspace auto-exploration do **NOT** apply 
 
 ### Top (kernel-wide)
 
-`kpihx-labs` (architecture, conventions, governance) · `k-ai` (AI hub + runtime registry) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (🧹 cleanup / purge / optimiser — read FIRST on any nettoyer/purge/clean request) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator`
+`kpihx-labs` (architecture, conventions, governance) · `k-ai` (AI hub + runtime registry) · `k-final` (project closure) · `k-git` · `k-docker` · `k-optim` (🧹 cleanup / purge / optimiser — read FIRST on any nettoyer/purge/clean request) · `k-project` · `k-uv` (uv/python ecosystem) · `k-clis` · `k-classification` · `k-qmd` (knowledge base search) · `k-skill-creator` · `k-zsh` (cross-platform `.kshrc` shell hub — ⚠️ MANDATORY READ before any CLI install, PATH change, or env var addition; also documents a real gotcha: `source ~/.kshrc` is a NO-OP for the interactive section in a shell that already loaded it once — `unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED` first, or restart the shell)
 
 > 🔴 **MANDATORY `k-ai` CHECK — before any non-native AI task:** when an agent needs a task it does NOT have natively — reading/interpreting an image, voice/image/text transcription, OCR, STT/TTS, or translation (any language direction) — it MUST check `k-ai` FIRST to see if the right local tool exists (whisper-cli/k-whisper, piper/k-piper, k-translate, k-com, tesseract) and **USE it**. Never assume such a tool is absent; always consult `k-ai` and its references before attempting or skipping these tasks.
 
@@ -97,7 +97,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-25`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
+Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -151,14 +151,13 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 ├── skills/                   # Domain skills (63 k-* skills)
 │   ├── k-ubuntu/             #   workstation
 │   ├── k-pve/                #   Proxmox hypervisor
-│   ├── k-25/                 #   Android phones (S25)
+│   ├── k-phones/             #   Android phones (S25)
 │   ├── k-opencode/           #   OpenCode runtime
 │   ├── k-uv/                 #   UV/Python ecosystem
 │   ├── ...                   #   ~57 more k-* skills
 │   └── deactive/             #   Archived skills (do not load)
 │
-├── logs/                     # Centralized runtime logs
-│   └── pve_finder.log        #   PVE IP discovery logs
+├── logs/                     # Centralized runtime logs (historical records only)
 │
 ├── tmp/                      # Merged-away originals, old backups (cleanable)
 ├── assets/                   # Global shared JSONC config assets

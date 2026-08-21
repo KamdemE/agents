@@ -125,6 +125,18 @@ fi
 
 case $- in *i*) ;; *) return ;; esac
 
+# ⚠️ GOTCHA (found 2026-08-16, real tmux-notify incident — see `k-zsh/SKILL.md`
+# → "Known Gotcha" and `k-tmux/references/insights.md` same date): this guard
+# makes `source ~/.kshrc` a NO-OP for this whole INTERACTIVE section in any
+# shell that already loaded it once (e.g. an old pane opened before a new
+# feature — like the tmux-notify `precmd` hook below — was added to this
+# file). Manually re-sourcing `~/.kshrc` in an ALREADY-RUNNING shell will NOT
+# pick up new code added inside this guarded block — it silently does
+# nothing, no error. To actually refresh an existing shell, you MUST first
+# clear both guards:
+#   unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED; source ~/.kshrc
+# or simply start a fresh shell (`exec zsh` / new pane), which never carries
+# a stale guard.
 if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   __KSHRC_INTERACTIVE_LOADED=1
   # NOTE: NOT exported — each new interactive shell sets its own.
@@ -189,6 +201,20 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
     # Zsh options
     setopt HIST_IGNORE_SPACE
 
+    # Precmd — return-to-prompt signal for the tmux-notify agent plugin.
+    # Every time zsh is about to redraw its prompt, the previous command has
+    # finished and this pane has RETURNED TO ITS SHELL. That is the reliable,
+    # deterministic trigger (vs monitor-silence, which cannot tell a completed
+    # command apart from a silent wait such as a `sudo` password prompt).
+    # It writes one JSON line per prompt to the log the tmux-notify plugin
+    # polls, but ONLY when running inside a tmux pane ($TMUX_PANE is set).
+    precmd() {
+      if [ -n "$TMUX_PANE" ] && [ "$TMUX_PANE" != "unknown" ]; then
+        printf '{"event":"prompt","pane":"%s","ts":"%s"}\n' \
+          "$TMUX_PANE" "$(date +%s%N)" >> /tmp/tmux-pane-done.log 2>/dev/null
+      fi
+    }
+
     # fnm auto-switch (per-directory node version)
     if [ -d "$FNM_PATH" ] && command -v fnm >/dev/null 2>&1; then
       eval "$(fnm env --use-on-cd --shell zsh 2>/dev/null)"
@@ -208,6 +234,20 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
 
   # ── BASH-SPECIFIC interactive ────────────────────────────────
   if [ -n "$BASH_VERSION" ]; then
+    # PROMPT_COMMAND — return-to-prompt signal for the tmux-notify agent plugin.
+    # Bash equivalent of the zsh `precmd` (see the ZSH section): run just
+    # before each prompt redraw, i.e. when the previous command finished and
+    # this pane RETURNED TO ITS SHELL. Writes one JSON line per prompt to the
+    # tmux-notify poll log, ONLY when inside a tmux pane ($TMUX_PANE set).
+    _kshrc_tmux_prompt_done() {
+      if [ -n "$TMUX_PANE" ] && [ "$TMUX_PANE" != "unknown" ]; then
+        printf '{"event":"prompt","pane":"%s","ts":"%s"}\n' \
+          "$TMUX_PANE" "$(date +%s%N)" >> /tmp/tmux-pane-done.log 2>/dev/null
+      fi
+    }
+    # Append to any existing PROMPT_COMMAND (never overwrite it).
+    PROMPT_COMMAND="_kshrc_tmux_prompt_done${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+
     # ══ >>> ADD BASH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ══
     # If it only works in bash (shopt, PROMPT_COMMAND, etc.),
     # guard it with [ -n "$BASH_VERSION" ] and put it here.
@@ -251,3 +291,10 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   # and runs EVERY TIME .kshrc is sourced interactively.
   # ══════════════════════════════════════════════════════════════
 fi
+
+# ── kshrc reload ───────────────────────────────────────────────
+# Reload both guarded sections after a configuration change.
+kr() {
+  unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED
+  . "$HOME/.kshrc"
+}

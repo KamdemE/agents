@@ -17,7 +17,7 @@ OpenCode has **four separate extension systems**, configured or injected differe
 | **npm with version** | `"package-name@version"` | `"opencode-antigravity-auth@latest"` | Pin a specific version or track `@latest` |
 | **Local file** | `"file:///absolute/path.js"` | `"file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
 
-## Current KπX lifecycle plugins (11)
+## Current KπX lifecycle plugins (13)
 
 These are loaded from `opencode.jsonc` → `"plugin"` array:
 
@@ -27,12 +27,12 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
   "opencode-ssh-session",                   // Type 1: npm — persistent SSH sessions
   "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
   "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
-  "opencode-claude-auth@latest",             // Type 2: npm@version — Claude Code credentials reuse (no separate login)
+  "opencode-claude-auth",                   // Type 1: npm — Claude Code credentials reuse (reads ~/.claude/.credentials.json, syncs to auth.json)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux/tmux-notify.js",           // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
+  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",                 // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
   "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js"       // Type 3: file:// — KπX format reminder (MUST run last)
 ]
@@ -49,7 +49,7 @@ These are the **KπX sovereign hooks** — self-contained `.js` files in `skills
 | `prompt-enforcer-lite.js` | `messages.transform` (backward scan, after real user msg) | `["Agent"]` | Injects the enforcement block as `role: "user"` ONLY after a real user message (never during tool cycles) |
 | `prompt-enforcer-strict.js` | `messages.transform` (every turn) | `["Colab", "Auto"]` | Pushes raw first-person enforcement block as `role: "user"` at end of prompt |
 | `stop-enforcer.js` | `session.idle` | `["Agent"]` | Reads `/session/{id}/message` through `client.session.messages()`; after real tool activity, injects first-person STOP CHECK (re-read request, completion check, verification rules, renewable-sleep mandate), forces summary + pending answers |
-| `tmux-notify.js` | `event` (`session.created`/`session.idle`) + `chat.message` | `["Colab", "Agent"]` | Polls `/tmp/tmux-pane-done.log` (written by `tmux-pane-done.sh` via a GLOBAL tmux `alert-silence` hook + `monitor-silence`); on each `{event:"silence",session,window,pane,ts}` line (a persistent pane returned to its prompt) queues a `<tmux-notify>` and delivers via `client.session.prompt({agent, synthetic:true})` on idle or prepends to the next `chat.message` (non-interrupting). Scopes on the agent resolved from the target session (`currentAgent`), since `event` hooks lack a `messages` input. NOT a `messages.transform` hook → exempt from the ordering rule below. See `k-tmux` → Stateful Integration. |
+| `tmux-notify.js` | `event` (`session.created`/`session.idle`) + `chat.message` | `["Colab", "Agent"]` | Polls `/tmp/tmux-pane-done.log` (written directly by `.kshrc` `precmd`/`PROMPT_COMMAND` return-to-prompt signal); on each `{"event":"prompt","pane","ts"}` line (a persistent pane returned to its shell prompt) queues a `<tmux-notify>` and delivers via `client.session.prompt({agent, synthetic:true})` on idle or prepends to the next `chat.message` (non-interrupting). Scopes on the agent resolved from the target session (`currentAgent`), since `event` hooks lack a `messages` input. NOT a `messages.transform` hook → exempt from the ordering rule below. See `k-tmux` → Stateful Integration. |
 | `math-enforcer.js` | `messages.transform` (every turn) | `["Explore"]` | Injects LaTeX/math formatting rules for the Explore agent |
 | `suggestions-check.js` | `messages.transform` (every turn, MUST run last) | `["*"]` | Injects system message: ≥3 Suggestions required |
 

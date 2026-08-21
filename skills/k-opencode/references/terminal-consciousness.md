@@ -2,6 +2,23 @@
 
 > Discovery session 2026-05-30 — KpihX x OpenCode.
 
+> ⚠️ **Scope disambiguation (added 2026-08-16, real incident):** this document
+> describes a **deliberate, agent-initiated** self-talk/exploration loop
+> (reading the agent's own UI, experimenting, chatting with itself) — a
+> DIFFERENT use case from **waiting for a launched command to finish**. For
+> the latter, do NOT apply "send-keys → capture-pane → iterate" — use the
+> stateful `TMUX_TIMEOUT`/`TMUX_LINES` reflex instead (`k-tmux/SKILL.md` →
+> `### Run and get notified`, `rules/tool-discipline.md` → `## Tmux Stateful
+> Command Execution`). **Update (same day):** manual `capture-pane` is
+> intentionally **NEVER blocked** by `tmux-notify.js` (a reactive block was
+> tried, then explicitly reversed by KπX — the agent may legitimately need it
+> if the plugin itself malfunctions); the reflex is now enforced by a
+> PROACTIVE `<tmux-armed>` reminder appended right after `send-keys`, not by
+> intercepting `capture-pane`. An agent conflating "I can observe outcomes via
+> capture-pane" (this doc, general capability) with "I should check right
+> after sending a long command" (the discouraged-but-not-blocked anti-pattern)
+> caused a real incident — see `references/insights.md`.
+
 ## Core Concept
 
 **tmux `capture-pane` + `send-keys` = IA self-observation loop.**

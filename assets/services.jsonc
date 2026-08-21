@@ -143,6 +143,15 @@
     },
 
     // --- k-opencode (generic, NOT infra) → no suffix ----------------------------
+    "opencode-web-shim-service": {
+      "unit": "opencode-web-shim.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-opencode/assets/opencode-web-shim.service",
+      "skill": "k-opencode",
+      "infras": ["*"],
+      "expect-active": true
+    },
+
     "opencode-web-service": {
       "unit": "opencode-web.service",
       "type": "user",

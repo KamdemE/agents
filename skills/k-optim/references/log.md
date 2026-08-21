@@ -2,6 +2,8 @@
 
 > **Purpose:** Append-only record of significant system optimization operations and changelog archives.
 
+| 2026-08-20 | [COLAB] | Full interface purge: inspected `k-25` assets/registries and all active references; renamed the skill to `k-phones`; moved S25 shell assets to `kshrc-s25` and `k_phones_sshd_autostart.sh`; rewrote wireless ADB documentation for raw `adb`; removed the two host wrapper symlinks, saved `s25-adb-port` state, stale Neovim swap, three obsolete source scripts, and their link-registry entries; retained `logs/pve_finder.log` as historical material. Planned verification: `plocate` and targeted `rg`, JSON parse, shell syntax checks. |
+
 ---
 
 ## Archived changelog rows from `k-optim/SKILL.md` (2026-08-14 rotation)

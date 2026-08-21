@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenCode Web Terminal URL Shim — dual-port (fixes upstream #5844)
+After=network.target opencode-web.service
+Requires=opencode-web.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+ExecStart=/home/kpihx/.bun/bin/bun run %h/.agents/skills/k-opencode/scripts/terminal-url-shim.js
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

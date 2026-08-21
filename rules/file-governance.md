@@ -143,7 +143,7 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 | Shell config | `.zshrc`, `.bashrc` (frozen) | `k-zsh` |
 | Systemd service | drop-in, unit files | `k-ubuntu`, `k-tailscale` |
 | Firewall ruleset | `nftables.conf` → `/etc/nftables.conf` | `k-nftables` |
-| Tool scripts | phones.ksh, gws-profiles.zsh | `k-25`, `k-google` |
+| Tool scripts | `k_phones_sshd_autostart.sh`, gws-profiles.zsh | `k-phones`, `k-google` |
 
 ### What does NOT go in `.agents/`
 

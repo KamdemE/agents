@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.1"
+  version: "1.6.2"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-25` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-phones` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
 > **Scope also covers:** low-level hardware (disk partitioning, BIOS/UEFI, filesystem recovery, dual-boot, interrupted ntfsresize recovery) — see `references/ntfs-shrink-dual-boot.md`. Firewall: `k-nftables`. Mesh VPN: `k-tailscale`.
 > **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
@@ -38,8 +38,8 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 | `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
 | `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
 | `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-dockerhost`** | Docker host VM on PVE. |
-| `kpihx-s25` | `s25` | `100.125.54.1` | Android | offline | **`k-25`** | Samsung S25 phone. |
-| `kpihx-tablet` | — | `100.89.79.87` | Android | offline | **`k-25`** | Tablet (not configured). |
+| `kpihx-s25` | `s25` | `100.125.54.1` | Android | offline | **`k-phones`** | Samsung S25 phone. |
+| `kpihx-tablet` | — | `100.89.79.87` | Android | offline | **`k-phones`** | Tablet (not configured). |
 
 ---
 
@@ -77,7 +77,7 @@ Then continue with the ordered checklist below.
 | 6 | **`k-nvim`** | Neovim config (when applicable — skip if Termux/headless). |
 | 7 | **`k-opencode`** | OpenCode runtime (when applicable — does not run on Termux). |
 
-**Exception:** Termux/Android phones (`k-25`) skip `k-nvim` and `k-opencode` — they do not run on Termux.
+**Exception:** Termux/Android phones (`k-phones`) skip `k-nvim` and `k-opencode` — they do not run on Termux.
 
 ### Tmux session name — short name convention
 
@@ -110,7 +110,7 @@ kpihx-labs (kernel top reference)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-dockerhost (Docker host VM)
-│   └── k-25          (Android phones)
+│   └── k-phones      (Android phones)
 │
 ├── k-clis       (CLI registry — routes to all skills)
 └── [all other top skills]
@@ -133,7 +133,7 @@ Source of truth: `$HOME/.ssh/config`. Each infra skill documents its own SSH spe
 | `pve-debian` | `10.10.10.101` via `pve` | LAN jump | `k-pve-debian` |
 | `kpihx-pve-debian` | `10.10.10.101` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
 | `deep-pc6` | `172.16.150.163` | Direct (DxO VPN) | `k-deep-pc6` |
-| `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-25` |
+| `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-phones` |
 
 ---
 
@@ -188,6 +188,7 @@ functions, and the checks/guards that consume them.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-20 | [COLAB] | v1.6.2 — Renamed the Android infrastructure skill to `k-phones`; updated the S25/tablet inventory, Termux exception, hierarchy, and SSH access map. |
 | 2026-08-16 | [COLAB] | v1.6.1 — **`references/libs.md` added (single orientation point)**: full index of the three shared libs (`libs/env`, `libs/jsonc`, `libs/notif`) — function signatures + purposes — plus the guards/checks that consume them and a "adding a new shared concern" workflow. Linked from the Shared Libs Reflex section. |
 | 2026-08-16 | [COLAB] | v1.6.0 — **Shared Libs Reflex (MANDATORY)**: added section directing all infra-skill scripts to source `libs/env/env_lib.sh`, `libs/jsonc/jsonc_lib.sh`, `libs/notif/notifier.sh` from `$HOME/.agents/libs/` instead of inlining private helpers (env/jsonc/notifier centralization). |
 | [SUMMARY] | — | v1.5.0 New Infra Setup: Step 0 Infrastructure Directory Standard (`~/KpihX-Labs/.agents/` real clone + `~/.agents` symlink; everything 100% inside `~/KpihX-Labs/`); v1.4.0 k-infra merged into k-infras (ntfs-shrink-dual-boot.md + insights.md moved; k-infra purged); v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |

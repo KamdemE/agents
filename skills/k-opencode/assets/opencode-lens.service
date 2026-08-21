@@ -1,15 +1,22 @@
 [Unit]
 Description=OpenCode Web Lens Reverse Proxy
+# ⚠️ KπX directive (2026-08-17): opencode-lens is a reverse proxy to
+# opencode-web — ANY change to opencode-web (port, binary, version, config)
+# MUST be mirrored here (OPENCODE_TARGET, version, or any port change) and
+# vice versa. Update BOTH services together, never one alone.
 After=network.target opencode-web.service
 Requires=opencode-web.service
+# PORT: lens-proxy.mjs defaults to 3000 via process.env.PORT || "3000" —
+# must match the internal port (30001) since the shim now occupies 3000.
 
 [Service]
 Type=simple
 WorkingDirectory=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-lens
-Environment="OPENCODE_TARGET=http://127.0.0.1:4097"
+Environment="PORT=30001"
+Environment="OPENCODE_TARGET=http://127.0.0.1:40977"
 Environment="OPENCODE_WEB_PLUGINS=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-web-voice/lens.plugin.json"
 ExecStart=/home/kpihx/.local/share/fnm/node-versions/v24.18.0/installation/bin/node scripts/lens-proxy.mjs
-ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf -o /dev/null http://127.0.0.1:3000/ && exit 0; sleep 1; done; exit 1'
+ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf -o /dev/null http://127.0.0.1:30001/ && exit 0; sleep 1; done; exit 1'
 Restart=on-failure
 RestartSec=5
 

@@ -1,5 +1,10 @@
 [Unit]
 Description=OpenCode Web Server
+# ⚠️ KπX directive (2026-08-17): opencode-web and opencode-lens are tightly
+# coupled — opencode-lens is a reverse proxy to opencode-web. ANY change to
+# opencode-web (port, binary, version, config) MUST be mirrored to
+# opencode-lens (its OPENCODE_TARGET, version, or any port change) and vice
+# versa. Update BOTH services together, never one alone.
 After=network.target
 
 [Service]
@@ -8,8 +13,8 @@ WorkingDirectory=%h
 # EnvironmentFile=%h/.config/opencode/web.env  # TODO: re-enable OPENCODE_SERVER_PASSWORD once UI auth flow is stable
 # NODE_NO_WARNINGS=1 suppresses Node.js MaxListenersExceededWarning (cosmetic, OpenCode internals)
 Environment="NODE_NO_WARNINGS=1"
-ExecStart=/home/kpihx/.opencode/bin/opencode serve --port 4097 --hostname 127.0.0.1
-ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf http://127.0.0.1:4097/ && exit 0; sleep 1; done; exit 1'
+ExecStart=/home/kpihx/.opencode/bin/opencode serve --port 40977 --hostname 127.0.0.1
+ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf http://127.0.0.1:40977/ && exit 0; sleep 1; done; exit 1'
 # ExecStartPost=/bin/sh -c 'sleep 5 && /usr/bin/tailscale serve --bg --yes --https 8443 http://127.0.0.1:4097'
 Restart=on-failure
 RestartSec=5

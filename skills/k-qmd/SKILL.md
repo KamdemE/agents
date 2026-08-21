@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.17.0"
+  version: "2.18.0"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -33,6 +33,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | Embedded-folder `.gitignore` pattern | `references/gitignore-embedded-folder.template` |
 | Auto-refresh hook example | `references/post-commit-hook.sh` |
 | Fresh-search wrapper | `scripts/qmdr` |
+| Centralized collection updater | `scripts/update_collections.sh` (used by git hooks to auto-update QMD) |
 | Collection health gate | `scripts/check_collections.sh` (`ksh status`, `auto_clean`, k-optim Meta) |
 | Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
 | Declarative config | `$HOME/.config/qmd/index.yml` |
@@ -72,6 +73,24 @@ Total ~2.1 GB in `~/.cache/qmd/models/`. The vector half of QMD's BM25+vector hy
 - always scope searches to the relevant collections when possible
 - do not hardcode live collection inventories in other skills; point back here or to qmd itself
 - when a repo collection name matches the repo root name, prefer symlinking `.git/hooks/post-commit` directly to the shared hook template instead of copying it
+
+## Centralized Git Auto-Update Pattern
+
+To automatically update a QMD collection whenever a commit is made in any repository, create or modify the `.git/hooks/post-commit` file in that repository to delegate to the centralized updater script:
+
+```bash
+#!/bin/sh
+# Centralized QMD collection auto-update hook
+UPDATER="$HOME/.agents/skills/k-qmd/scripts/update_collections.sh"
+
+if [ -f "$UPDATER" ]; then
+    # Syntax: bash "$UPDATER" "<collection_name>" "[extensions]"
+    # e.g., to update 'my-collection' for markdown and yaml changes:
+    bash "$UPDATER" "my-collection" "md,yml,yaml"
+fi
+exit 0
+```
+Make sure the hook is executable: `chmod +x .git/hooks/post-commit`.
 
 ## Querying
 
@@ -125,6 +144,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-17 | [COLAB] | v2.18.0 — Added `update_collections.sh` to script registry and documented the general auto-update integration pattern for external repos. |
 | 2026-08-15 | [COLAB] | v2.17.0 — **Template → gitlab URL unification note**: repo `.git/hooks/post-commit` symlinks (Homelab/presentation, techskills, k_ai) → `references/post-commit-hook.sh` are **functional git hooks — kept as registered symlinks** in `assets/links.jsonc` (RED RULE), NOT converted to gitlab URL. Only non-functional template text files were unplugged to gitlab URLs. |
 | 2026-08-14 | [COLAB] | v2.16.0 — Documented local GGUF embeddings (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b) in new "Local Embedding Models" section — 100% local, no Ollama dependency. |
 | [SUMMARY] | — | v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

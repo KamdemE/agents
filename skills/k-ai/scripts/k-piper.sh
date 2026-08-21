@@ -18,7 +18,7 @@ DEFAULT_SPEED="1" # --length_scale passed to piper (lower = faster speech)
 PIPER_VOICES_DIR="${PIPER_VOICES_DIR:-$HOME/.local/share/piper-voices}"
 PIPER_BIN="${PIPER_BIN:-$HOME/.local/bin/piper}"
 
-# ── Shared libraries for the user-local piper binary ─────────
+# ── Shared lib raries for the user-local piper binary ─────────
 # The standalone C++ build lives in ~/.local/lib (no sudo, no global ldconfig).
 export LD_LIBRARY_PATH="$HOME/.local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 

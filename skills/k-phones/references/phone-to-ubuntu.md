@@ -42,7 +42,7 @@ Host ubuntu
 
 Uses `~/.ssh/id_ed25519_ubuntu` (same key as in PC `authorized_keys`).
 
-**Deployed on S25:** `~/.k25-remote.zsh` (alias) + `~/.zshrc` sources it — see `references/termux-tmux.md`.
+**Deployed on S25:** `assets/kshrc` is the shell source of truth and sources the SSHD autostart script — see `references/termux-tmux.md`.
 
 ```bash
 alias ubuntu='ssh ubuntu -t tmux attach -t default'

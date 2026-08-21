@@ -9,7 +9,7 @@
 | `references/s25-termux-sshd.md` | **No** | Runbook for **you** and **agents** — steps to run on the phone |
 | Termux `~/.ssh/config` | **Yes** (on phone) | `Host ubuntu` → PC; unrelated to `ssh s25` |
 
-**Ubuntu never “imports” Markdown.** Agents follow `k-25` and execute the commands here; only files under `~/.ssh/` affect `ssh` on the workstation.
+**Ubuntu never “imports” Markdown.** Agents follow `k-phones` and execute the commands here; only files under `~/.ssh/` affect `ssh` on the workstation.
 
 ## One-time (already done on device)
 
@@ -35,7 +35,7 @@ Fix = **start `sshd` again** or automate it (below).
 
 | When | Mechanism | Source |
 |------|-----------|--------|
-| **Every Termux shell** (app reopen) | `k-25/assets/k25-remote.sh` sourced via `kshrc` | See setup in SKILL.md |
+| **Every Termux shell** (app reopen) | `k-phones/scripts/k_phones_sshd_autostart.sh` sourced via `kshrc` | See setup in SKILL.md |
 | **Android boot** | Termux:Boot | `assets/termux-boot-sshd` → `~/.termux/boot/sshd` |
 
 ### A — Autostart on shell open (simplified)
@@ -43,45 +43,19 @@ Fix = **start `sshd` again** or automate it (below).
 Setup in one command (run on S25):
 
 ```bash
-ln -sf ~/.agents/skills/k-25/assets/kshrc ~/.kshrc
+ln -sf ~/.agents/skills/k-phones/assets/kshrc ~/.kshrc
 ```
 
-The `kshrc` sources `~/.agents/skills/k-25/assets/k25-remote.sh` directly, which contains the sshd autostart function. No deploy scripts, no zshrc hooks, no manual file creation.
+The shell asset sources `~/.agents/skills/k-phones/scripts/k_phones_sshd_autostart.sh` directly, which contains the sshd autostart function. No deploy scripts, no zshrc hooks, no manual file creation.
 
 **Test:** close Termux completely → reopen → one shell opens → from PC: `ssh s25` (no manual `sshd`).
 
 ### B — Autostart on Android boot (optional)
 
-**Termux:Boot** is a separate **F-Droid app** (`com.termux.boot`) — not an `apt` package. Install it, **open the app once**, then:
-
-```bash
-mkdir -p ~/.termux/boot
-```
-
-`~/.termux/boot/sshd`:
-
-```bash
-#!/data/data/com.termux/files/usr/bin/sh
-sshd
-```
-
-```bash
-chmod +x ~/.termux/boot/sshd
-```
-
-**Android:** Settings → Apps → **Termux:Boot** → allow **Run at startup** (wording varies by OEM).
-
-Boot scripts run only after boot; they do **not** replace (A) when you only reopen Termux without rebooting.
-
-## Install Termux:Boot (F-Droid plugin)
-
-| Method | Command |
-|--------|---------|
-| **Automated (ADB up)** | `adb-s25 <PORT>` then `zsh "$HOME/.agents/skills/k-25/scripts/termux-install-boot.sh"` |
-| **SSH + one tap** | Script stages APK → opens installer → tap **Install** on phone → re-run script |
-| **Manual** | F-Droid → Termux:Boot → open once |
-
-APK staged by script: `/sdcard/Download/termux-boot.apk` (F-Droid `com.termux.boot` v0.8.1).
+Follow `references/termux-boot.md` for the complete literal procedure: F-Droid
+or raw-ADB installation, the kernel-owned boot payload copy, permissions, and
+reboot verification. Boot scripts run only after boot; they do **not** replace
+(A) when you only reopen Termux without rebooting.
 
 ## Manual start (debug)
 

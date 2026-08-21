@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.0"
+  version: "2.8.1"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -39,7 +39,7 @@ kpihx-labs (this skill — kernel top reference)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-pve-dockerhost (Docker host VM)
-│   └── k-25          (Android phones)
+│   └── k-phones      (Android phones)
 │
 ├── k-ai         (AI hub + agent runtime registry — Colab, Explore, runtime configs)
 ├── k-opencode   (OpenCode-exclusive hook architecture — scripts/plugins/hooks/, hooks-standard.md)
@@ -252,6 +252,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-20 | [COLAB] | v2.8.1 — Updated the kernel hierarchy to the renamed `k-phones` Android infrastructure skill. |
 | 2026-08-15 | [COLAB] | v2.8.0 — **External repo references convention**: `## Config & Assets (JSONC)` now states that references to `.agents` files **from external repos** (techskills, 𝛱/TechSkills, Homelab, presentation, tutorials) use the **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/<path>`), **not a local template symlink**. `.agents` stays the single source of truth. |
 | 2026-08-15 | [COLAB] | v2.7.0 — **Shared JSONC libs + lint/type config single source of truth**: `## Config & Assets (JSONC)` now documents the three JSONC helper twins `libs/jsonc_lib.{sh,py,js}` (Python/JS import from `libs/` — added 2026-08-15) + a note that `ruff.toml` (rule ignores + `[lint.per-file-ignores]` for `E402`) and `pyrightconfig.json` (`extraPaths = ["libs", "scripts/check_skills"]`) live at `.agents/` root as the single source of truth — never scattered inline. |
 | [SUMMARY] | — | v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) · v2.2.0 and earlier copied to `references/log.md` |

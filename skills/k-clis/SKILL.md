@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.0
+  version: 1.16.1
   scope: operations
 ---
 
@@ -69,9 +69,9 @@ metadata:
 | `k-com` | **`k-ai`** | Universal communication hub (STT, TTS, Translate, Dubbing) |
 | `ksh` | _(this skill)_ | Universal Dispatcher |
 | `youtube_cli.py` | **`k-media`** + **`k-google`** | YouTube upload |
-| `adb` | **`k-25`** | Android phone wireless debugging |
+| `adb` | **`k-phones`** | Android phone wireless debugging (raw interface) |
 | `ssh` / `ssh-keygen` | **`k-ssh`** | Centralized SSH config, key management, passphrase ops |
-| `scrcpy` | **`k-25`** | Android screen mirroring/control via ADB |
+| `scrcpy` | **`k-phones`** | Android screen mirroring/control via ADB |
 | `yt-dlp` | _(this skill)_ | YouTube/video downloader — CLI for youtube-dl fork |
 
 ## Dev & Tools
@@ -182,6 +182,7 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-20 | [COLAB] | v1.16.1 — Routed raw `adb` and `scrcpy` to `k-phones` after the Android skill rename and ADB-wrapper purge. |
 | 2026-08-14 | [COLAB] | v1.16.0 — **Launched CLI registry expansion (recheck after purges)**: added launchable-by-me CLIs missing from the registry — `gext`/`gnome-extensions-cli`, `litellm`, `ruff`, `pyright`/`basedpyright`, `jupytext`/`jupyter-nbconvert`, `oxlint`, `pnpm`, `tree-sitter`, `loom`/`loom-mcp`, `msedge-cdp`, `k-vpn`, `mail-proxy`, `tick-proxy`, `tg-proxy`, `gopls`, `srt`/`srt-*`. Removed `openclaw` (already documented in `k-ai`). Archived purged `asciinema` in `references/purged.md` (GRAVÉ). |
 | 2026-08-14 | [COLAB] | v1.15.0 — **Purged agent CLIs moved to `references/purged.md`**: removed `codex`, `cline`, `gemini`, `vibe`, `copilot`, `zed` rows from the CLI registry (purged 2026-08-14); archived in `references/purged.md` (never deleted); kept only active CLIs + `*-proxy`. |
 | [SUMMARY] | — | v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |

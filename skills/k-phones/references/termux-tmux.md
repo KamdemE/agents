@@ -24,7 +24,7 @@ Typical layout (KπX): windows such as `default`, `agents`, `remote`, `browser` 
 
 ## Config (aligned with Ubuntu)
 
-Canonical: `assets/termux-tmux.conf` → deploy to `~/.tmux.conf`.
+Canonical: `k-tmux/assets/tmux.conf` → deploy to `~/.tmux.conf`.
 
 | Setting | Value |
 |---------|--------|
@@ -39,20 +39,14 @@ Canonical: `assets/termux-tmux.conf` → deploy to `~/.tmux.conf`.
 Copy bindings pipe to **`termux-clipboard-set`** (from **`termux-api`**).
 
 ```bash
-pkg install termux-api   # included in termux-deploy-tmux.sh
+pkg install tmux termux-api
 ```
 
 Grant **Termux:API** permission in Android settings if clipboard stays empty.
 
 ## Deploy / redeploy
 
-From **Ubuntu** (PC → phone SSH must work):
-
-```bash
-$HOME/.agents/skills/k-25/scripts/termux-deploy-tmux.sh
-```
-
-Installs: `tmux`, `termux-api`, TPM plugins, `~/.tmux.conf`, `~/.k25-remote.zsh`, idempotent `~/.zshrc` hook.
+On the phone, install `tmux` and `termux-api`, then follow `k-tmux` for the canonical config and plugins. The S25 shell configuration is `assets/kshrc`; no Termux tmux deployment wrapper exists.
 
 ## First use
 

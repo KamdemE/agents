@@ -63,7 +63,7 @@ Source of truth: `$HOME/.agents/libs/jsonc/jsonc_lib.sh`.
 ## 3. `libs/notif/notifier.sh` — notifications (sh only)
 
 Single source for all notifications (desktop system notification, Telegram, or
-mixed). Every skill that notifies (k-pve, k-ubuntu, k-dockerhost, k-25, …)
+mixed). Every skill that notifies (k-pve, k-ubuntu, k-dockerhost, k-phones, …)
 sources THIS file. It depends on `libs/env/env_lib.sh` (`env_load`) to resolve
 the token.
 

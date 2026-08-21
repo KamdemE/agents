@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.0"
+  version: "2.5.1"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -41,7 +41,7 @@ All skills must be designed **cross-infrastructure first**. Follow `rules/skill-
 
 ### Infra Skill Checklist
 
-When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubuntu`, `k-25`, `k-pve`, etc.), the agent MUST:
+When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubuntu`, `k-phones`, `k-pve`, etc.), the agent MUST:
 
 1. **Read `k-infras` first** — load it before any infra work. It contains:
    - The **New Infra Setup Checklist** — 7 init skills in order (k-zsh → k-tailscale → k-tmux → k-ssh → k-clis → k-nvim → k-opencode)
@@ -51,7 +51,7 @@ When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubun
 3. **Ensure the infra skill mentions `k-zsh`** and **`k-ssh`** in its `> **Related skills:**` header.
 4. **Ensure the infra skill references `k-infras`** for the full setup checklist.
 5. **Ensure the infra skill has a `## Host Identity` table** with both the Tailscale name and the short name.
-6. **For Termux/Android skills** (`k-25`): skip `k-nvim` and `k-opencode` from the checklist (they do not run on Termux).
+6. **For Termux/Android skills** (`k-phones`): skip `k-nvim` and `k-opencode` from the checklist (they do not run on Termux).
 
 - The main `SKILL.md` describes the **general case** (cross-Linux, cross-platform).
 - **OS-specific details** go in `references/<os>.md` (e.g., `ubuntu.md`, `windows.md`, `pve.md`).
@@ -167,5 +167,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-20 | [COLAB] | v2.5.1 — Updated the Android infra-skill example and Termux exception to `k-phones`. |
 | 2026-08-16 | [COLAB] | v2.5.0 — **`tests/` dir added to Structural Contract**: skills may ship a `tests/` folder (e.g. `tests/hooks/<hook>.test.mjs`) mirroring the structure of the `scripts/`/`assets/` they validate — durable source of truth for non-regression proof. Reference example: `k-opencode/tests/hooks/make-check-guard.test.mjs`. Tests are NOT deployed/symlinked (unlike `scripts/`). |
 | [SUMMARY] | — | v2.4.0 Infrastructure Scope section (→ `references/log.md`) · v2.3.2 insights contract · v2.3.1–v1.0.0: insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, earlier historical rows condensed. |

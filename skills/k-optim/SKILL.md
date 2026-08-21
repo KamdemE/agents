@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.10.0"
+  version: "3.11.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -213,6 +213,7 @@ _(To be documented per optimization pass.)_
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-20 | [COLAB] | v3.11.0 — Recorded the complete `k-phones` interface purge and the reusable wrapper/state/registry cleanup lesson. |
 | 2026-08-15 | [COLAB] | v3.10.0 — **Broken-link sweep (Meta Scope Actions step 9)**: check ALL broken/dangling symlinks in `$HOME` (whole home: `find ~ -type l` — recursive, not just `~/.local/bin`, `~/.config`, `~/.local/share`) and systemd dirs (`/etc/systemd/system`, `~/.config/systemd/user`); re-create each from its `.agents` source of truth when localizable (`ln -sf`; tmux for `/etc`), else **signal/report** it (log to `k-context/references/issues.md`). Zero-tolerance: no broken `.agents`-related symlink after a pass. |
 | 2026-08-14 | [COLAB] | v3.9.0 — **`clean-system`→`clean` + JSONC infra refs**: `references/ubuntu.md` updated to `/var/log/clean/workspace_scan.log` (service renamed to `clean` per the services-key restructure). Cross-refs: `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`), `scripts/services/{check_services,reload_services}.sh` (use `unit` param; reload_services also reloads user+system daemons). |
 | [SUMMARY] | — | v3.8.0 chmod guidance (→ `references/log.md`) · v3.7.0 link infrastructure · v3.6.0 `~`/`~/.cache` debris sweep · v3.5.0 read-first · v3.4.0 debris scan methodology · v3.3.0 tmp emptying · v3.2.0 purge discipline (→ `references/log.md`) · v3.1.0 and older moved to `references/log.md` |
