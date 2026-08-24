@@ -39,10 +39,10 @@ if [ -n "$gd" ]; then
   repo_hook="$gd/hooks/$hook_name"
 fi
 
-# 1. Repo-local post-commit chain-in (recursion guard via readlink -f)
+# 1. Repo-local post-commit chain-in (recursion guard via readlink -f, now visible)
 if [ -n "$repo_hook" ] && [ -x "$repo_hook" ] \
    && [ "$(readlink -f "$repo_hook" 2>/dev/null)" != "$(readlink -f "$0" 2>/dev/null)" ]; then
-  "$repo_hook" "$@" >/dev/null 2>&1 || true
+  "$repo_hook" "$@" || true
 fi
 
 command -v loom >/dev/null 2>&1 || exit 0
