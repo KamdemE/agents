@@ -1,10 +1,10 @@
 ---
 name: "k-loom"
-description: "Loom — lightweight persistent code index MCP for cross-session code search and context retrieval"
+description: "Loom — persistent code index CLI for cross-session code search and context retrieval (CLI ONLY, no MCP)"
 license: "private"
 metadata:
   author: "KpihX"
-  version: "1.6.1"
+  version: "1.7.0"
   scope: "code-tooling"
 ---
 
@@ -18,20 +18,17 @@ metadata:
 
 ---
 
-## Installation & MCP
+## Installation (CLI ONLY)
 
 ```bash
-uv tool install loom-tool                     # one time → `loom` + `loom-mcp` in PATH
+uv tool install loom-tool                     # one time → `loom` in PATH
 cd ~/KpihX-Labs/proxies/tg-proxy && loom analyze .    # build index (~10-60s)
 cd ~/KpihX-Labs/proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
 ```
 
 The git hook runs `loom sync --old-sha HEAD~1 --new-sha HEAD` after every commit (~2-5s, incremental).
 
-MCP config in `opencode.jsonc` (already set):
-```jsonc
-"loom": { "type": "local", "command": ["loom-mcp"], "enabled": true, "timeout": 60000 }
-```
+🔴 **NO LOOM MCP (KπX directive 2026-08-24):** `loom-mcp` was REMOVED from `opencode.jsonc` — the stdio model spawned 1 process per AI session (16 instances ≈ 790M RAM). Agents MUST use the `loom` CLI binary ONLY (~0 resident RAM). Never re-add the MCP, never mention it in rules/agents. Full MCP→CLI equivalence table: `references/mcp.md`.
 
 ---
 
@@ -50,8 +47,8 @@ MCP config in `opencode.jsonc` (already set):
 | `loom context` | Print compressed codebase overview (~200 tokens) for agent session start |
 | `loom dead-code` | Mark functions with no incoming CALLS as dead code |
 | `loom export [output.html]` | Export graph as self-contained interactive HTML file |
-| `loom install` | Install git post-commit hook and auto-configure MCP |
-| `loom serve` | Start the MCP stdio server |
+| `loom install` | Install git post-commit hook (ignore any MCP auto-config it proposes — NOT used) |
+| `loom serve` | ⚠️ MCP stdio server — DO NOT USE (MCP removed 2026-08-24) |
 | `loom savings` | Show token savings from Loom cache hits |
 | `loom summaries` | Show nodes with agent-written summaries |
 
@@ -86,10 +83,10 @@ loom export /tmp/graph.html --open
 
 🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` a non-git directory.** On any git project containing code, agents MUST use Loom as the structural layer — not just grep/read.
 
-1. **Session start on an indexed project:** call MCP `get_status` (or CLI `loom stats`) → check freshness. If `last_analyzed_ago` is stale (> a few days) or the index is missing → run `loom sync`, then re-check; if still no index → propose (or run if authorized) `loom analyze .`.
-2. **Resume work:** call MCP `get_delta` (with the previous session id when known) to see ONLY what changed since last time — never re-read unchanged functions.
-3. **Callgraph questions = Loom first:** "who calls X", "what breaks if I change X", blast-radius before refactors, dead-code sweeps → `callers` / `callees` / `blast-radius` / `dead-code` (MCP tools or CLI equivalents). Grep only confirms afterwards.
-4. **End of meaningful passes:** store agent understanding via `store_understanding` (summary of hot functions) so future sessions skip re-reads.
+1. **Session start on ANY git project (ALWAYS check before querying):** `[ -f ~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db ] || loom analyze .` → then `loom stats` + DB mtime → if stale → `loom sync`, re-check.
+2. **Resume work:** `git diff --name-only HEAD~1 HEAD` + `loom query` on changed symbols — see ONLY what changed since last time; never re-read unchanged functions.
+3. **Callgraph questions = Loom first:** "who calls X", "what breaks if I change X", blast-radius before refactors, dead-code sweeps → `loom callers` / `loom callees` / `loom blast-radius` / `loom dead-code`. Grep only confirms afterwards.
+4. **End of meaningful passes:** no MCP persistence (removed) — document key findings in the relevant skill/context docs instead.
 5. **Freshness caveat:** AST/grep stay the source of truth for uncommitted edits — after heavy un-committed edits, run `loom sync` before trusting the graph.
 
 Layering reflex: **plocate** = syntactic file search · **opencode-ast** = fresh structure of ONE file · **Loom** = persistent cross-file/cross-session relations · **qmd** = semantic/know-how (md, past sessions).
@@ -158,6 +155,5 @@ Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered b
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | **v1.6.1 — Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | **v1.6.0 — Prop A hook ownership cleanup**: generic `git-hook-passthrough.sh` MOVED to `k-git/assets/` (k-git owns ALL hook plumbing); redundant dedicated `git-pre-commit.sh` DELETED per explicit KπX order (generic pass-through covers pre-commit via its own symlink); `~/.config/git/hooks/pre-commit` + 8 other type-symlinks retargeted to `k-git/assets/git-hook-passthrough.sh`; links.jsonc: 9 pass-through entries re-tagged under k-git block, only `git-hooks-post-commit` remains under k-loom. This skill now owns exactly ONE hook asset: `git-post-commit.sh`. |
-| [SUMMARY] | — | v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore · v1.3.0 Loom activation · v1.2.0 proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |
+| 2026-08-24 | [COLAB] | **v1.7.0 — LOOM MCP REMOVED (KπX directive)**: `loom-mcp` deleted from `opencode.jsonc` (live = symlinked asset, 16 stdio instances ≈ 790M RAM); ALL rules/agents/skills now reference the `loom` CLI ONLY (`rules/search-governance.md`, `AGENTS.md`, `agents/Colab/prompt.txt`, `agents/Agent/prompt.txt`, `k-clis`, `k-optim`, `k-uv`); full MCP→CLI equivalence table + RAM history archived in `references/mcp.md` (NON-RECOMMENDED registry). |
+| [SUMMARY] | — | v1.6.1 check-skills audit (→ `references/log.md`) · v1.6.0 hook ownership cleanup (→ `references/log.md`) · v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore (→ `references/log.md`) · v1.3.0 Loom activation (→ `references/log.md`) · v1.2.0 proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |

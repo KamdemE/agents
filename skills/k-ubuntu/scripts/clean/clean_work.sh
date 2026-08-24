@@ -71,8 +71,10 @@ ${BLUE}>>> STEP: SAFE WORK CLEANUP (Optimization)${NC}"
     fi
 
     if confirm "Remove Python/Build temp files (__pycache__, .pytest_cache, etc.)"; then
-        find $HOME/Work -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".ruff_cache" -o -name ".ipynb_checkpoints" \) -exec rm -rf {} + 2>/dev/null || true
-        echo -e "${GREEN}[SUCCESS]${NC} Temp files removed."
+        local tmp_count
+        tmp_count=$(find $HOME/Work -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".ruff_cache" -o -name ".ipynb_checkpoints" \) -prune | wc -l)
+        find $HOME/Work -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".ruff_cache" -o -name ".ipynb_checkpoints" \) -exec rm -rf {} +
+        echo -e "${GREEN}[SUCCESS]${NC} Temp files removed (${tmp_count} dirs)."
     fi
 
     local artifacts

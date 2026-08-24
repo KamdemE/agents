@@ -91,7 +91,7 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 
 | Tool | Version | Binaries | Purpose |
 |------|---------|----------|---------|
-| `loom-tool` | v0.7.1 | `loom`, `loom-mcp` | Persistent code graph index — cross-session code search |
+| `loom-tool` | v0.7.1 | `loom` (CLI only — `loom-mcp` binary exists but NOT used, no MCP since 2026-08-24) | Persistent code graph index — cross-session code search |
 
 ### Linting & Type Checking
 

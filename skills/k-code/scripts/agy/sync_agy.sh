@@ -16,7 +16,7 @@ sync_one() {
 
   echo "🔄 Synchronizing $FORK_NAME to use VS Code configurations..."
   mkdir -p "$FORK_CONFIG_DIR/User/globalStorage"
-  find "$FORK_CONFIG_DIR/User" -maxdepth 1 -type l -delete 2>/dev/null || true
+  find "$FORK_CONFIG_DIR/User" -maxdepth 1 -type l -delete
 
   cd "$FORK_CONFIG_DIR/User"
   rm -f settings.json keybindings.json

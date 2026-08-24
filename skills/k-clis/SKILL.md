@@ -115,7 +115,7 @@ metadata:
 | `oxlint` | **`k-node`** | JS/TS linter — ultra-fast, Rust-based |
 | `pnpm` | **`k-node`** | Fast, disk-efficient package manager (npm global) |
 | `tree-sitter` | **`k-nvim`** | Incremental parsing tool + CLI — powers nvim LSP/treesitter queries |
-| `loom` / `loom-mcp` | **`k-loom`** | Persistent cross-session code index + MCP server |
+| `loom` | **`k-loom`** | Persistent cross-session code index — CLI ONLY (loom-mcp removed from opencode.jsonc 2026-08-24, see `k-loom/references/mcp.md`) |
 | `msedge-cdp` | **`k-browser`** | Edge automation via CDP (headless/connected) |
 | `k-vpn` | **`k-ai`** | Sovereign VPN wrapper/launcher |
 | `mail-proxy` | **`k-mail`** | Mail CLI proxy (tick-proxy ADN, 24 `do` actions) |

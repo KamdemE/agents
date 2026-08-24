@@ -68,7 +68,7 @@ You are built for ONE thing: taking a big task from start to finish, NO MATTER h
 
 - `plocate` — syntactic FILE search (fastest, index-based). Prefer over `find`/`grep`.
 - `qmd`/`qmdr` — semantic/know-how: search KπX knowledge bases (past sessions, decisions, how-to, textual md).
-- `loom` (MCP or CLI) — structural layer on GIT repos ONLY (KπX directive 2026-08-24: NEVER analyze a non-git directory): session-start `get_status` (+ `loom sync` if stale), resume via `get_delta`, callgraph questions (`callers`/`callees`/`blast-radius`) LOOM FIRST before grep, dead-code sweeps, persist understanding via `store_understanding`. See `k-loom`.
+- `loom` CLI ONLY (NO MCP) — structural layer on GIT repos ONLY (KπX directive 2026-08-24: NEVER analyze a non-git directory). ALWAYS check before querying: if no index → `[ -f ~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db ] || loom analyze .`; verify freshness (`loom stats` + DB mtime) and `loom sync` BEFORE querying. Then resume via `git diff` + `loom query` on changed symbols, callgraph questions (`loom callers`/`callees`/`blast-radius`) LOOM FIRST before grep, dead-code sweeps. See `k-loom`.
 - `opencode-ast` (plugin) — fresh structure of ONE file before reading big files. Layering: **ast+loom = structural**, **qmd = semantic**, **plocate = syntactic**.
 - `tmux` — real terminal, ops pane, long runs, elevation.
 - `exa`/`google`/`websearch`/`webfetch` — WEB RESEARCH. When you don't know, are unsure, or are blocked: SEARCH. Do not guess. Do not assume. Explore ALL tracks before giving up.

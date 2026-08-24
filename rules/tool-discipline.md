@@ -41,6 +41,23 @@
 ## Shell Security
 - API keys/TOKENS: `env | grep -E "API\|TOKEN" | cut -d= -f1` — NEVER output values
 
+## `/dev/null` Redirection Policy (GRAVÉ — 100% Transparency Mantra, KπX 2026-08-24)
+- 🔴 **Use `/dev/null` redirections (`> /dev/null`, `2>/dev/null`, `&>/dev/null`) ONLY when STRICTLY necessary.** Every silenced output is information lost — the mantra is **0 Magic · 100% Transparency**.
+- ✅ **AUTHORIZED (strictly necessary only):**
+  1. **Exit-code probes** where ONLY the status is consumed: `command -v X >/dev/null 2>&1`, `pgrep/has-session/dpkg -s … >/dev/null 2>&1`.
+  2. **Physical-noise probes**: connectivity waits (`ping -c1 >/dev/null 2>&1`), health checks (`curl -sf -o /dev/null`).
+  3. **Interactive shell rc idioms** (`.kshrc`): a login shell must not spew stderr (fnm env, compdef guards, has-session).
+  4. **Idempotent purge/cleanup of possibly-absent state**: `systemctl stop <absent-unit> … || true`.
+  5. **Background GUI relaunch**: `nohup <gui-app> >/dev/null 2>&1 &` (app logs to its own files).
+- ❌ **FORBIDDEN — transparency violations:**
+  1. Diagnostics/check scripts silencing the very signal they exist to show (`dig … 2>/dev/null`, `systemctl status … 2>/dev/null` in a `status` target).
+  2. Installers/bootstrap hiding sub-step failures (`bash install.sh 2>/dev/null || true`).
+  3. Backup/restore best-effort collection whose failure silently degrades restore fidelity (`dconf dump … 2>/dev/null || true`).
+  4. API responses discarded without failure surfacing (`curl api… > /dev/null` WITHOUT `-f` + explicit warning on error).
+  5. Deletions with hidden errors + fake success message (`find … -exec rm -rf {} + 2>/dev/null; echo SUCCESS`).
+- 📐 **Pattern when discarding stdout is legitimate but failure must surface:** `cmd > /dev/null || echo "⚠️ cmd failed" >&2`.
+- Reference audit: 2026-08-24 full sweep of `.agents` (~390 occurrences → ~215 necessary, ~120 gray, ~55 violations fixed/flagged).
+
 ## Zero-Deletion Policy (MANDATORY)
 - NEVER delete logs/historical entries from `k-context/SKILL.md` or any skill
 - If a section reaches its limit → rotate to dedicated archive BEFORE compaction

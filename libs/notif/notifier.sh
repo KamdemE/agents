@@ -34,7 +34,7 @@
 # --- Load .env (optional) for token/chat-id resolution ----------------------
 # shellcheck source=../env/env_lib.sh
 source "$(dirname "${BASH_SOURCE[0]}")/../env/env_lib.sh"
-env_load "$HOME/.agents/.env" 2>/dev/null || true
+env_load "$HOME/.agents/.env" || true
 
 # --- Resolve the Telegram token (first non-empty wins) ----------------------
 notify_tg_token() {
@@ -78,10 +78,11 @@ notify_telegram() {
   chat="${TELEGRAM_CHAT_ID:-}"
   icon="$(notify_emoji "$level")"
   if [ -n "$token" ] && [ -n "$chat" ]; then
-    curl -s --max-time 10 -X POST "https://api.telegram.org/bot${token}/sendMessage" \
+    curl -sf --max-time 10 -X POST "https://api.telegram.org/bot${token}/sendMessage" \
       -d "chat_id=$chat" \
       -d "text=${icon} **${title}** [$level]%0A%0A${message}" \
-      -d parse_mode="Markdown" > /dev/null
+      -d parse_mode="Markdown" > /dev/null \
+      || echo "$(date '+%Y-%m-%d %H:%M:%S') - [WARN] - Telegram send failed (check token/chat_id/connectivity)" >&2
   fi
   echo "$(date '+%Y-%m-%d %H:%M:%S') - [$level] - $title - $message"
 }

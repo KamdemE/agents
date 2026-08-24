@@ -65,11 +65,10 @@ Pragmatic Checker — verifies quality, fixes minor errors, stops critical ones
 ```
 1. plocate → find files (fastest, index-based, syntactic)
 2. opencode-ast_outline/<symbol>/<definitions>/<references> → fresh structure of ONE file (plugin)
-3. loom (MCP or CLI) → persistent cross-file/cross-session relations on git/code projects
-   - Session start on an indexed repo: get_status → loom sync if stale
-   - Resume work: get_delta (only what changed since last session)
+3. loom CLI ONLY (NO MCP) → persistent cross-file/cross-session relations on git/code projects
+   - ALWAYS check before querying: if no index → `[ -f ~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db ] || loom analyze .`; verify freshness (`loom stats` + DB mtime) and `loom sync` BEFORE querying
+   - Resume work: `git diff` + `loom query` on changed symbols (only what changed)
    - Callgraph questions ("who calls X", blast-radius, dead-code): LOOM FIRST, grep confirms after
-   - End of pass: store_understanding on hot functions
 4. qmdr → KπX know-how + semantic/textual content (past sessions/decisions/md, see k-qmd)
 ```
 

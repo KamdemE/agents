@@ -448,14 +448,8 @@
       "timeout": 60000
     },
 
-    // Loom MCP → persistent code index for cross-session search
-    // Use `uv tool install loom-tool` first (loom-mcp binary in PATH)
-    "loom": {
-      "type": "local",
-      "command": ["loom-mcp"],
-      "enabled": true,
-      "timeout": 60000
-    },
+    // Loom → CLI binary only (`loom` in PATH), no MCP
+    // See k-loom/SKILL.md for CLI usage; opencode uses bash `loom` commands directly
 
     // Exa Search MCP → web search via Exa API
     "exa": {

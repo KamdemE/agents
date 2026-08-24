@@ -12,13 +12,16 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services chmod install-hooks link help submodule-init submodule-update
+.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services chmod install-hooks link help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 push: ## Push to all configured remotes
 	git push github $(BRANCH) && git push gitlab $(BRANCH)
+
+push-sub: ## Commit (if dirty) + push EVERY submodule to ALL its remotes (rebase on remote-ahead, loud failures)
+	@bash $(HOME)/.agents/scripts/git/push-submodules.sh
 
 check-skills: ## Run .agents structural skills audit
 	@echo "🔍 [check-skills] Structural skill audit"

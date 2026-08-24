@@ -40,17 +40,28 @@ In addition to `plocate` for file search, agents MUST use the following code ana
 | **opencode-ast_get_symbol** | Find a specific symbol (function, class, variable) definition | Plugin |
 | **opencode-ast_get_definitions** | Get definitions of all symbols at a location | Plugin |
 | **opencode-ast_references** | Find references to a symbol in the same file | Plugin |
-| **loom** | Cross-session code references on GIT repos ONLY (never non-git dirs): callgraph ("who calls X"), blast-radius before refactors, dead-code sweeps, cross-session delta | MCP tools or CLI (see `k-loom`; needs `loom analyze .` first) |
+| **loom** | Cross-session code references on GIT repos ONLY (never non-git dirs): callgraph ("who calls X"), blast-radius before refactors, dead-code sweeps | CLI ONLY (`loom query/callers/callees/blast-radius/dead-code` — see `k-loom`; needs `loom analyze .` first). NO MCP — loom-mcp removed 2026-08-24 (RAM cost), see `k-loom/references/mcp.md` |
 | **qmd** / **qmdr** | Search KπX knowledge base (past sessions, skills, configs) + semantic/textual md content | CLI (see `k-qmd` skill) |
 
 ## Loom reflex on git projects (MANDATORY)
 
-🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` or query a non-git directory.** On any GIT project containing code, agents MUST use the Loom layer (MCP tools or `loom` CLI) — not just grep/read.
+🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` or query a non-git directory.** On any GIT project containing code, agents MUST use the Loom layer via the **`loom` CLI ONLY** — not just grep/read. 🔴 **NO loom MCP** (removed from opencode.jsonc 2026-08-24 — 16 stdio instances ≈ 790M RAM; CLI = 0 resident RAM). MCP→CLI equivalents: `k-loom/references/mcp.md`.
 
-1. **Session start on an indexed project:** MCP `get_status` → if stale or missing index → `loom sync`, re-check; propose/run `loom analyze .` if still unindexed.
-2. **Resume work:** MCP `get_delta` — see ONLY what changed since the last session; never re-read unchanged functions.
-3. **Callgraph questions = Loom FIRST:** "who calls X", "what breaks if I change X" (`callers`/`callees`/`blast-radius`), dead-code sweeps (`dead-code`). Grep only confirms afterwards.
-4. **End of meaningful passes:** persist understanding via MCP `store_understanding` so future sessions skip re-reads.
+🔴 **ALWAYS CHECK BEFORE QUERYING (KπX directive 2026-08-24): in EVERY git project, before ANY loom query/callers/blast-radius, check index existence + freshness and update first — quitte à lancer l'indexation si absente.** Sequence obligatoire :
+
+```bash
+DB=~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db
+[ -f "$DB" ] || loom analyze .          # no index → full init (~10-60s)
+stat -c %Y "$DB"                        # mtime = last_indexed
+# stale (> a few days) OR dirty worktree → incremental update:
+loom sync                               # ~2-5s ; uncommitted edits need this too
+# still no index after sync → loom analyze .
+```
+
+1. **Session start on an indexed project:** `[ -f "$DB" ] || loom analyze .` → `loom stats` + DB mtime → if stale → `loom sync`, re-check.
+2. **Resume work:** `git diff --name-only HEAD~1 HEAD` + `loom query <changed-symbol>` — see ONLY what changed since the last session; never re-read unchanged functions.
+3. **Callgraph questions = Loom FIRST:** "who calls X", "what breaks if I change X" (`loom callers`/`loom callees`/`loom blast-radius`), dead-code sweeps (`loom dead-code`). Grep only confirms afterwards.
+4. **End of meaningful passes:** no MCP persistence — document key findings in the relevant skill/context instead.
 5. **Layering:** `plocate` = syntactic FILE search · `opencode-ast` = fresh structure of ONE file · **Loom** = persistent cross-file/cross-session relations · `qmd` = semantic/know-how (md, past sessions).
 6. Freshness caveat: after heavy un-committed edits run `loom sync` before trusting the graph; AST/grep stay the source of truth for un-synced edits.
 
