@@ -5,8 +5,8 @@
   // v1.19.0 — .env protection (edit + bash deny, .env.example allow)
   "autoupdate": "notify",
   "shell": "zsh",
-  "model": "opencode/deepseek-v4-flash-free",
-  "small_model": "opencode-go/deepseek-v4-flash",
+  "model": "opencode/x-preview-f-free",
+  "small_model": "opencode/x-preview-f-free",
   "default_agent": "Colab",
 
   // ──── GLOBAL permission — single source of truth ────
@@ -277,7 +277,7 @@
 
     // Lite: minimal agent with Ollama — inherits global, denies skills + MCPs
     "Lite": {
-      "model": "ollama/qwen2.5-ctx12k",
+      "model": "ollama/phi4-mini",
       "description": "Minimal tool-execution agent. bash + read/write + websearch. No rules, no skills overhead.",
       "prompt": "You are in LITE mode. Strict rules: 1) Use `bash ls` to list directory contents (never use `read` on directories). 2) English only.",
       "mode": "primary",
@@ -296,7 +296,7 @@
     // ALL *rm* commands are blocked by wildcard, then `rm` (trash wrapper) is explicitly re-allowed.
     // This means ANY variant (/usr/bin/rm, /bin/rm, rm -rf, etc.) is blocked — only bare `rm` works.
     "Auto": {
-      "model": "opencode/deepseek-v4-flash-free",
+      "model": "opencode/x-preview-f-free",
       "description": "Auto agent — full permissions, all tools allowed, all sub-agents callable, future-proof",
       "mode": "primary",
       "color": "#F44336",
@@ -347,7 +347,7 @@
     // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Explore can launch.
     "Explore": {
-      "model": "google/gemini-3-flash-preview",
+      "model": "opencode/x-preview-f-free",
       "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",

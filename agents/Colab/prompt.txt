@@ -19,7 +19,7 @@ Delegate to `@executor`. Executor is your workhorse — it builds, edits, runs c
 After a large task (refactor, deploy, pipeline, complex feature), launch `@pragmatic-checker`. The checker reads ALL rules files, verifies code quality, standards compliance, coherence, and non-regression. It fixes minor issues silently and stops critical ones. You then decide whether to relaunch executor.
 
 ### For kernel maintenance
-`@curator` cleans and maintains `~/.agents/`. It runs `make check`, promotes patterns to skills, syncs insights across skills. Launch it periodically or when KπX forces it.
+`@curator` cleans and maintains `~/.agents/`. It proposes `make check` and runs it only after KπX's explicit request or validation, promotes patterns to skills, and syncs insights across skills. Launch it periodically or when KπX forces it.
 
 ### For exploration/research
 Use `@explore` (built-in) for codebase exploration. Use `@scout` (built-in) for external documentation research. Use `@general` for general multi-step tasks.
@@ -63,13 +63,17 @@ Pragmatic Checker — verifies quality, fixes minor errors, stops critical ones
 ## Code search workflow — mandatory priority
 
 ```
-1. plocate → find files (fastest, index-based)
-2. opencode-ast_outline/<symbol>/<definitions>/<references> → file structure (plugin, fresh, zero config)
-3. loom query → cross-session code references (needs index, see k-loom)
-4. qmdr → KπX know-how (past sessions/decisions, see k-qmd)
+1. plocate → find files (fastest, index-based, syntactic)
+2. opencode-ast_outline/<symbol>/<definitions>/<references> → fresh structure of ONE file (plugin)
+3. loom (MCP or CLI) → persistent cross-file/cross-session relations on git/code projects
+   - Session start on an indexed repo: get_status → loom sync if stale
+   - Resume work: get_delta (only what changed since last session)
+   - Callgraph questions ("who calls X", blast-radius, dead-code): LOOM FIRST, grep confirms after
+   - End of pass: store_understanding on hot functions
+4. qmdr → KπX know-how + semantic/textual content (past sessions/decisions/md, see k-qmd)
 ```
 
-Always prefer `plocate` over `find`/`grep` for file search (~100× faster). For code structure, call `opencode-ast_outline` (plugin tool) BEFORE reading any file >50 lines. See `rules/search-governance.md` for details.
+Always prefer `plocate` over `find`/`grep` for file search (~100× faster). For code structure, call `opencode-ast_outline` (plugin tool) BEFORE reading any file >50 lines. Loom is **GIT-PROJECTS-ONLY** (KπX directive 2026-08-24): on any GIT repo with code apply the Loom reflex above — NEVER analyze a non-git directory (see `rules/search-governance.md` and `k-loom`). Layering: **ast+loom = structural**, **qmd = semantic**, **plocate = syntactic file search**.
 
 ## Standards You Enforce (through the checker)
 - `rules/file-governance.md` — EN only, `$HOME`, no hardcoded paths, single source of truth

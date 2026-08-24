@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.18.0"
+  version: "2.19.0"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -72,7 +72,7 @@ Total ~2.1 GB in `~/.cache/qmd/models/`. The vector half of QMD's BM25+vector hy
 - when a runtime skill already gives the path to a history folder, prefer that path over indexing the raw history into QMD
 - always scope searches to the relevant collections when possible
 - do not hardcode live collection inventories in other skills; point back here or to qmd itself
-- when a repo collection name matches the repo root name, prefer symlinking `.git/hooks/post-commit` directly to the shared hook template instead of copying it
+- local repository post-commit hooks are standalone executable copies of the shared template; do not register them as `.agents` symlinks
 
 ## Centralized Git Auto-Update Pattern
 
@@ -144,7 +144,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v2.19.0 — Converted the three local QMD post-commit hooks (Homelab/presentation, techskills, k_ai) from registered `.agents` symlinks into executable standalone copies of `references/post-commit-hook.sh`; registry entries removed by KπX order. |
 | 2026-08-17 | [COLAB] | v2.18.0 — Added `update_collections.sh` to script registry and documented the general auto-update integration pattern for external repos. |
-| 2026-08-15 | [COLAB] | v2.17.0 — **Template → gitlab URL unification note**: repo `.git/hooks/post-commit` symlinks (Homelab/presentation, techskills, k_ai) → `references/post-commit-hook.sh` are **functional git hooks — kept as registered symlinks** in `assets/links.jsonc` (RED RULE), NOT converted to gitlab URL. Only non-functional template text files were unplugged to gitlab URLs. |
-| 2026-08-14 | [COLAB] | v2.16.0 — Documented local GGUF embeddings (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b) in new "Local Embedding Models" section — 100% local, no Ollama dependency. |
 | [SUMMARY] | — | v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

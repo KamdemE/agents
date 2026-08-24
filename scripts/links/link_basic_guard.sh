@@ -17,7 +17,7 @@
 source "$SCRIPT_DIR/lib.sh"
 
 # link_basic_guard <name> <source> <target> <allow_reversed>
-#   appends to $CHECKED / $OK / $BROKEN / $REVERSED / $DEAD counters
+#   appends to $CHECKED / $OK / $ALLOWED / $BROKEN / $REVERSED / $DEAD counters
 link_basic_guard() {
   local name="$1" source="$2" target="$3" allow_reversed="$4"
   local src tgt resolved
@@ -52,7 +52,7 @@ link_basic_guard() {
   fi
 
   # Resolved target must not be dangling
-  resolved="$(readlink -f "$src" 2>/dev/null || true)"
+  resolved="$(readlink -f "$src" || true)"
   if [ -z "$resolved" ] || [ ! -e "$resolved" ]; then
     echo "  ✗ BROKEN (dangling): $src -> $resolved"
     BROKEN=$((BROKEN + 1))
@@ -67,6 +67,7 @@ link_basic_guard() {
     *)
       if [ "$allow_reversed" = "true" ]; then
         echo "  ⚠ ALLOWED-REVERSED (allow-reversed=true): $src -> $resolved"
+        ALLOWED=$((ALLOWED + 1))
       else
         echo "  ✗ REVERSED/OUTSIDE: $src -> $resolved"
         REVERSED=$((REVERSED + 1))

@@ -4,7 +4,7 @@ description: OpenClaw runtime — install/config, Tailscale Serve access, and K�
 license: private
 metadata:
   author: KpihX
-  version: "3.12.0"
+  version: "3.12.1"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -27,7 +27,7 @@ allowed-tools: Bash, Read, Write, Edit
 - **OpenClaw config:** `$HOME/.openclaw/openclaw.json`
 - **OpenClaw agent state:** `$HOME/.openclaw/agents/`
 - **Gateway service:** `$HOME/.config/systemd/user/openclaw-gateway.service` (symlink → `assets/openclaw-gateway.service`)
-- **Gateway ExecStart override:** `~/.config/systemd/user/openclaw-gateway.service.d/exec-override.conf` (symlink → `assets/exec-override.conf`) — overrides `ExecStart` and `PATH` to use openclaw CLI + fnm node
+- **Gateway ExecStart override:** `~/.config/systemd/user/openclaw-gateway.service.d/openclaw-override.conf` (symlink → `assets/openclaw-override.conf`) — overrides `ExecStart` and `PATH` to use openclaw CLI + fnm node
 - **KπX global kernel (source + OpenClaw workspace):** `$HOME/.agents/` (= `$HOME/KpihX-Labs/.agents/` git root; `$HOME/.agents` → symlink)
 - **OpenClaw workspace:** `agents.defaults.workspace = ~/.agents` — injects **`$HOME/.agents/AGENTS.md`** directly (no copy, no desync)
 - **Legacy mirror (symlink only):** `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/KpihX-Labs/.agents/AGENTS.md` (not used by gateway)
@@ -81,7 +81,7 @@ openclaw config set agents.defaults.bootstrapTotalMaxChars 150000
 openclaw gateway restart
 ```
 
-Bootstrap persona files (`SOUL.md`, `TOOLS.md`, `IDENTITY.md`, `USER.md`, `HEARTBEAT.md`) vivent aussi sous `$HOME/.agents/` (copiés une fois depuis le template OpenClaw si absents).
+The native workspace `SOUL.md` and `USER.md` are registered links to `$HOME/.agents/AGENTS.md` and `skills/kpihx/SKILL.md`; no top-level OpenClaw asset directory is retained in the kernel.
 
 ### Symlinks AGENTS (une seule source, zéro duplicate)
 
@@ -113,7 +113,7 @@ Les sessions Telegram gardent d'anciennes limites bootstrap tant qu'elles ne son
 | Asset | Role |
 |-------|------|
 | `assets/openclaw-gateway.service` | Systemd service (symlink target for `~/.config/systemd/user/`) |
-| `assets/exec-override.conf` | Systemd drop-in — overrides ExecStart and PATH |
+| `assets/openclaw-override.conf` | Systemd drop-in — overrides ExecStart and PATH |
 | `assets/openclaw-opencode` | CLI script: sync OpenCode models into OpenClaw config. Symlinked as `~/.local/bin/openclaw-opencode`. |
 
 ### Ecosystem Tools
@@ -226,6 +226,6 @@ Current KπX runtime baseline (2026-05-27):
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v3.12.1 — Removed the top-level kernel OpenClaw folder, retained native workspace SOUL/USER links, and renamed the service override asset. |
 | 2026-07-29 | [OPENCODE] | v3.12.0 — Removed Venice, Mistral, k-ai and OpenRouter from active auth profiles list to reflect configuration purge. |
-| 2026-07-29 | [OPENCODE] | v3.11.0 — Documented systemd service name and path under Operational checks. |
-| [SUMMARY] | — | v3.10.0 env files docs; v3.9.0–v3.8.0 Assets & Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP, openclaw-opencode); v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |
+| [SUMMARY] | — | v3.11.0 systemd service documentation · v3.10.0 env files docs; v3.9.0–v3.8.0 Assets & Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP, openclaw-opencode); v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |

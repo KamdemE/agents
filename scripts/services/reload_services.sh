@@ -32,8 +32,8 @@ echo "🔁 reload-services — infra: ${CURRENT_INFRA:-<unknown>}"
 # Reload BOTH daemons (user + system) so systemd sees the latest unit files,
 # then the loop below enables + restarts each service that applies to this infra.
 echo "→ reloading systemd daemons (user + system)..."
-systemctl --user daemon-reload 2>/dev/null
-systemctl daemon-reload 2>/dev/null
+systemctl --user daemon-reload
+systemctl daemon-reload
 
 SERVICES_OBJ="$(strip_jsonc < "$SERVICES_FILE")"
 
@@ -42,13 +42,13 @@ skipped=0
 failed=0
 
 for name in $(printf '%s' "$SERVICES_OBJ" \
-  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("services",{}).keys()))' 2>/dev/null); do
-  read -r unit type infras expect_active <<< "$(
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("services",{}).keys()))'); do
+  IFS=$'\t' read -r unit type infras expect_active <<< "$(
     printf '%s' "$SERVICES_OBJ" | python3 -c "
 import sys,json
 d=json.load(sys.stdin).get('services',{}).get('$name',{})
-print(d.get('unit',''), d.get('type',''), json.dumps(d.get('infras','[]')), d.get('expect-active', True))
-" 2>/dev/null)"
+print('\t'.join((d.get('unit',''), d.get('type',''), json.dumps(d.get('infras','[]')), str(d.get('expect-active', True)).lower())))
+")"
 
   if ! infra_matches "$CURRENT_INFRA" "$infras"; then
     skipped=$((skipped + 1))
@@ -58,7 +58,7 @@ print(d.get('unit',''), d.get('type',''), json.dumps(d.get('infras','[]')), d.ge
   # Only reload expect-active services (daemons that should be running).
   # Oneshot units (expect-active:false, e.g. backup/clean run by a timer)
   # must NOT be restarted here — systemctl restart would run them immediately.
-  if [ "$expect_active" != "True" ]; then
+  if [ "$expect_active" != "true" ]; then
     skipped=$((skipped + 1))
     echo "  – skip (expect-active:false, oneshot/timer-driven): $name"
     continue
@@ -78,7 +78,7 @@ print(d.get('unit',''), d.get('type',''), json.dumps(d.get('infras','[]')), d.ge
 
   echo "  ↻ reloading: $name ($type) — unit $unit"
   systemctl $scope_flag daemon-reload
-  systemctl $scope_flag enable "$unit" 2>/dev/null
+  systemctl $scope_flag enable "$unit"
   if systemctl $scope_flag restart "$unit"; then
     reloaded=$((reloaded + 1))
   else

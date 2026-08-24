@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.6.5"
+  version: "2.9.1"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -55,6 +55,37 @@ push-docs:  ## Commit + push docs/ site
 
 `Makefile.uv` (Python/uv — check, build, publish to PyPI, release) and `Makefile.npm-bun` (JS/TS/bun — test, build, publish to npm, release) live in **`k-project/assets/`** alongside pyproject.toml, config.py/ts.
 Load `k-project` for project lifecycle philosophy + those templates.
+
+### `assets/gitignore` — global excludesFile (XDG)
+
+Canonical **global git excludesFile**: `$HOME/.agents/skills/k-git/assets/git-ignore-global`
+symlinked to `$HOME/.config/git/ignore` (git's default XDG location — honored
+automatically by ALL repos, no config needed).
+
+Purpose: secrets & junk must NEVER appear as untracked files nor be indexed by
+tools that honor git excludes (Loom indexes git repos via
+`git ls-files --exclude-standard`). Contains: `.env`, `.env.*` (negations keep
+`.env.example`/`.env.sample` indexable), keys/certs (`*.pem`, `*.key`,
+`id_rsa*`, `id_ed25519*`, `*.p12`, `.pfx`), credential dotfiles (`.netrc`,
+`.npmrc`, `.pypirc`) and generic stores (`secrets.json`, `credentials*.json`),
+plus `**/.claude/settings.local.json`.
+
+⚠️ Caveats: TRACKED files bypass ignores (`git ls-files -c` still lists them —
+untrack at source). Non-git directories do NOT honor this file (they need a
+tool-specific ignore, e.g. Loom `.loomignore` — see `k-loom`).
+
+### `assets/git-hook-passthrough.sh` — global hook plumbing (owner)
+
+**k-git owns ALL generic git hook plumbing.** One asset, N symlinks named after
+each hook type (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`,
+`pre-rebase`, `post-checkout`, `post-merge`, `post-rewrite`,
+`pre-applypatch`) in `$HOME/.config/git/hooks/` (activated via
+`core.hooksPath`). Each invocation re-chains the repo-local hook of the same
+name (resolved via `$GIT_DIR`/`--absolute-git-dir` + `/hooks/<name>` — NOT
+`rev-parse --git-path hooks`, which returns the GLOBAL dir once
+`core.hooksPath` is set) with a recursion guard, preserving semantics and
+exit codes. Zero added behavior — the ONLY hook that adds behavior is the
+post-commit Loom dispatcher owned by `k-loom`.
 
 ## SSH Troubleshooting Runbook
 
@@ -107,6 +138,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-04-13 | [CODEX] | v2.6.5 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-09 | [CURSOR] | v2.6.4 — **`k-final`** cross-link: mandatory on project closure; CI section defers full finalization sequence to `k-final` |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |
+| 2026-08-24 | [COLAB] | v2.9.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
+| 2026-08-24 | [COLAB] | v2.9.0 — **Hook plumbing ownership (Prop A)**: NEW `assets/git-hook-passthrough.sh` moved from k-loom — one generic asset + 9 symlinks (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`, `pre-rebase`, `post-checkout`, `post-merge`, `post-rewrite`, `pre-applypatch`) in `$HOME/.config/git/hooks/` re-chaining repo-local hooks under `core.hooksPath`. NEW section documenting ownership rule: **k-git owns ALL git hook plumbing; the ONLY behavior-adding hook is the post-commit Loom dispatcher owned by `k-loom`.** Redundant dedicated `k-loom/assets/git-pre-commit.sh` deleted per explicit KπX order. links.jsonc: 9 entries under k-git block. E2E verified: real commit chains local commit-msg + post-commit (`CM_RAN`,`CM_RAN`,`PC_RAN`). |
+| [SUMMARY] | — | v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |

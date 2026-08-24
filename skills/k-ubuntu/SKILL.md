@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.17.0"
+  version: "1.19.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -69,7 +69,7 @@ Hardware details (disk layout, BIOS/UEFI, dual-boot): **`k-infras`** (see `refer
 
 ## Firewall
 
-Ubuntu workstation firewall is managed via `k-nftables`. The canonical ruleset resides at `k-nftables/assets/nftables.conf` and is symlinked to `/etc/nftables.conf`.
+Ubuntu workstation firewall is managed via `k-nftables`. The canonical ruleset resides at `k-nftables/assets/nftables.conf`, is symlinked to `/etc/nftables.conf`, and is currently scoped in `links.jsonc` to `kpihx-ubuntu` + `kpihx-pve-debian` only.
 
 > **Sub-skill:** Load `k-nftables` for ruleset reference, interface inventory, service management, and troubleshooting.
 
@@ -119,8 +119,6 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 | `assets/cinema-mode.conf` | config | Centralized defaults for Gamescope cinema viewport geometry |
 | `scripts/gamescope-cinema.sh` | shell | Scale-compensated Wayland Gamescope launcher (AZERTY synced) |
 | `scripts/inject-cinema-actions.py` | python | Desktop Action Injector for "Launch in Cinema Mode" context menus |
-| `scripts/tg-bot.py` | python | Telegram bot daemon — listens for `/clean`, `/status`, `/backup` |
-| `assets/tg-bot.service` | systemd | User service for tg-bot.py (symlink target) |
 | `scripts/clean/` | dir | System cleanup suite (17 scripts, systemd timer) |
 | `scripts/backup_restore/` | dir | Workstation backup/restore (8 scripts, systemd timer) |
 | `scripts/backup_restore_pve/` | dir | PVE backup/restore (rsync + cloud, systemd timer) |
@@ -129,7 +127,16 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 
 > **Migration note:** Sources moved from `$HOME/Work/sh/` into `.agents/`. `ksh.sh` is symlinked from `$HOME/.local/bin/ksh`.
 
-Full `ksh` dispatcher usage, Clean/Backup/PVE-backup module commands, and the tg-bot Telegram listener setup/purge → **`references/scripts-modules.md`**.
+Full `ksh` dispatcher usage and Clean/Backup/PVE-backup module commands → **`references/scripts-modules.md`**.
+
+> **🔴 RULE — Scripts executed by systemd services that need `$HOME` resources (GRAVÉ):** system-level services do NOT export `$HOME` reliably — and units with an explicit `User=root` directive get `$HOME=/root` **preset by systemd**, so any bare `source "$HOME/.agents/..."` or path through `$HOME` silently misses the kernel (`/root/.agents` does not exist) or aborts under `set -u`. A `${HOME:-/home/kpihx}` fallback is NOT sufficient under `User=root` (the preset value is non-empty). **Every script that can be launched by a service must start with:**
+>
+> ```bash
+> export HOME="${HOME:-/home/kpihx}"
+> [ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
+> ```
+>
+> placed BEFORE any `source "$HOME/.agents/..."`. This is the validated pattern from `scripts/backup_restore_pve/backup_pve.sh` (2026-08-23 incident: `clean.service` ran fine but its Telegram notification was silently skipped for months because `/root/.agents/libs/notif/notifier.sh` did not exist; fixed in `auto_clean.sh` + `restore_pve.sh`, E2E delivery verified on @k_ubuntu_bot the same night). Note: `pve-backup.service` only ever worked because it has NO `User=` line — systemd then leaves `$HOME` unset, so its fallback fires. Secrets need no unit-level `EnvironmentFile`: `libs/notif/notifier.sh` self-loads `$HOME/.agents/.env` via `libs/env/env_lib.sh` (`env_load`) once `$HOME` is correct. Prefer loud ERROR logging over silent best-effort skips in service-run notification tails.
 
 ### Agent kernel
 
@@ -234,14 +241,13 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 | `references/system-services.md` | Full systemd services/timers/symlinks inventory |
 | `references/ollama-igpu.md` | Ollama Intel Arc iGPU tuning: IPEX/native backend, env vars, prerequisites |
 | `references/package-management.md` | System CLIs, WaveTerm widgets, npm-global detail |
-| `references/scripts-modules.md` | `ksh` dispatcher usage, Clean/Backup/PVE-backup modules, tg-bot listener setup |
+| `references/scripts-modules.md` | `ksh` dispatcher usage, Clean/Backup/PVE-backup modules |
 | `references/dell-battery-health.md` | Dell CCTK installation, battery charging threshold enforcement, and QWERTY/AZERTY trap |
 | `references/apps.md` | Complete registry of all Ubuntu desktop applications (system `.desktop`, user `.desktop`, `/opt` heavy clients, GUI snaps, recently purged) |
 | `references/gnome-extensions.md` | GNOME Shell extensions catalog, roles, and uv tool-based installation automation |
 | `assets/command-configure_5.1.0-6.ubuntu24_amd64.tar.gz` | Preserved Dell Command Configure installer used by the battery-health runbook |
 | `assets/mimeapps.list` | Centralized desktop file MIME type associations (symlinked to `~/.config/mimeapps.list`) |
 | `scripts/notifier.sh` | Telegram notification wrapper — uses TELEGRAM_PVE_TOKEN from .env |
-| `scripts/tg-bot.py` | Telegram bot bridge script |
 | `scripts/backup_restore` | Backup/restore automation script |
 | `scripts/clean` | System cleanup script |
 
@@ -255,6 +261,6 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-14 | [COLAB] | v1.17.0 — **`clean-system` renamed to `clean`** (services key restructure, per KπX): asset units `clean-system.{service,timer}` → `clean.{service,timer}`; all references updated (`install.sh`, `purge.sh`, `Makefile`, `auto_clean.sh`, `README.md`, `references/system-services.md`, `references/scripts-modules.md`); log dir `/var/log/clean-system` → `/var/log/clean`; journald unit `clean`. Matches `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`). |
-| 2026-08-14 | [COLAB] | v1.16.0 — **apps.md updated with config-debris purge record**: appended asciinema purge + full config/share debris cleanup (BraveSoftware, Slack, Termius, Wave, Windsurf, browseruse, chromium, devin, vibe, kaggle, obs-studio, onedrive, opera, vivaldi, xarchiver, etc.) + `k-desktop-mcp.py` + `bw-admin`/`bw-mcp` removal. |
-| [SUMMARY] | — | v1.15.0 desktop apps registry · v1.14.0 GNOME extensions · v1.13.0 purge obligation (→ `references/log.md`) · Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
+| 2026-08-24 | [COLAB] | v1.19.0 — **clean.timer rescheduled (KπX order)**: `assets/clean/clean.timer` changed from `OnCalendar=*-*-1/2 21:30:00` (odd days) to `OnCalendar=Sat *-*-* 04:00:00` (every Saturday at 04:00); `Persistent=true` kept (catch-up on boot if the PC was off/asleep at trigger time). Applied live via tmux sudo gate (`daemon-reload` + `restart clean.timer`) — verified: `list-timers` shows NEXT Sat 2026-08-29 04:00:00. Docs aligned: `references/system-services.md` row, `references/scripts-modules.md` ×2, `scripts/clean/README.md`. |
+| 2026-08-23 | [COLAB] | v1.18.0 — **Root-run `$HOME` rule + clean notification fix**: `clean.service` ran but its Telegram notification was silently skipped (`$HOME=/root` → `/root/.agents/libs/notif/notifier.sh` missing; confirmed via tg-proxy — zero clean notifications since 2026-04-04). Added the GRAVÉ rule "scripts executed by systemd services must `export HOME="${HOME:-/home/kpihx}"` before sourcing kernel paths" to Centralized Scripts section; patched `scripts/clean/auto_clean.sh` and `scripts/backup_restore_pve/restore_pve.sh` (same latent bug) with the validated `backup_pve.sh` pattern. |
+| [SUMMARY] | — | v1.17.0 clean-system rename (→ `references/log.md`) · v1.16.0 apps.md config-debris (→ `references/log.md`) · v1.15.0 and older in log.md |

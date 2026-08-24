@@ -65,15 +65,20 @@ adb install -r ~/.agents/skills/k-phones/assets/termux-boot.apk
 
 ## 4. Install the boot payload
 
-On the phone, copy the kernel-owned payload into Termux:Boot's required path:
+**Prerequisite:** `~/.agents/` is present on the phone — deployed files are
+symlinks into it (`ln`, never `cp`).
+
+On the phone, link the kernel-owned payload into Termux:Boot's required path:
 
 ```bash
 mkdir -p ~/.termux/boot
-cp ~/.agents/skills/k-phones/assets/termux-boot-sshd ~/.termux/boot/sshd
-chmod +x ~/.termux/boot/sshd
+ln -sf ~/.agents/skills/k-phones/assets/termux-boot-sshd ~/.termux/boot/sshd
+chmod +x ~/.agents/skills/k-phones/assets/termux-boot-sshd
 ```
 
-The payload acquires a Termux wake lock when available, then runs `sshd`.
+`chmod +x` targets the source through the symlink (one-time; the executable bit
+is preserved by git). The payload acquires a Termux wake lock when available,
+then runs `sshd`.
 
 ## 5. Verify
 

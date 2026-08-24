@@ -9,7 +9,7 @@ After ANY modification to Neovim config files (`init.lua`, `plugins.lua`, `lsp.l
 3. **Notify KπX** with a summary of what was fixed and what plugin-level noise was identified.
 4. **Update k-nvim SKILL.md** if config changed.
 
-> **Policy:** KπX only owns `k-nvim/config/`. Plugin healthcheck noise is ignored.
+> **Policy:** KπX only owns `k-nvim/assets/`. Plugin healthcheck noise is ignored.
 > Never modify files inside `~/.local/share/nvim/lazy/`.
 
 ## Agent autonomy (MANDATORY)

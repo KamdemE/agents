@@ -310,6 +310,7 @@ export default async function ({ client }) {
       // not by rejecting a later `capture-pane` call.
 
       const sendKeysRegex = /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
+
       const match = sendKeysRegex.exec(cmd);
       if (match) {
         const target = match[1];
@@ -433,9 +434,10 @@ export default async function ({ client }) {
       const reminder =
         `<tmux-armed>\n` +
         `Pane ${paneId} armed: TMUX_TIMEOUT=${entry.timeoutSecs}s, TMUX_LINES=${entry.maxLines}.\n` +
-        `Do NOT run tmux capture-pane on this pane. Continue a parallel task now if you ` +
-        `have one, or stop here — you will be automatically notified (completion, or a ` +
-        `'still running' update at the timeout boundary) without checking yourself.\n` +
+        `Do NOT run tmux capture-pane on this pane. Do NOT run sleep, wait, or any\n` +
+        `timeout/polling to wait for this pane. Either CONTINUE other parallel work you\n` +
+        `already have, OR stop your turn now — in BOTH cases you will be automatically\n` +
+        `notified (<tmux-notify>) when the command finishes.\n` +
         `</tmux-armed>`;
       debug(`reminder appended pane=${paneId}`);
       if (typeof output.output === "string" && output.output.length > 0) {

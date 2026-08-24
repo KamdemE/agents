@@ -6,13 +6,15 @@
 
 🔴 **NEVER lose information. NEVER delete. NEVER overwrite. Append-only is the only mode.**
 - Every edit to any `.md` file under `.agents/` must be **additive** — new entries, new lines, new sections.
-- When `## Session Log`, `## Changelog`, or `Active Projects` hit their limit: **copy the overflow to `references/log.md` BEFORE condensing**. The compacted `[SUMMARY]` row is a summary of what was moved, never a replacement.
-- Archive files (`references/log.md`, `references/issues.md`) are **immutable** — no edits, no deletions, no rearrangements. Corrections = new appended entries pointing to the fix.
-- Rotation = **copy, never cut**. The information must exist in TWO places before the original is condensed.
-- This applies to ALL k-* skills, not just k-context. Every `SKILL.md` changelog, every `references/` file, every agent definition.
+- For `k-context`: when `## Session Log`, `## Changelog`, or `Active Projects` hit their limit: **copy the overflow to `references/log.md` BEFORE condensing**. The compacted `[SUMMARY]` row is a summary of what was moved, never a replacement.
+- For all other skills (except `k-context`): when their changelog reaches its limit (max 2 explicit rows), the older rows are simply condensed and summarized inside the table's `[SUMMARY]` row itself. No separate `references/log.md` is created or maintained for them.
+- Archive files (`references/log.md` for `k-context`, `references/issues.md`) are **immutable** — no edits, no deletions, no rearrangements. Corrections = new appended entries pointing to the fix.
+- Rotation (for `k-context`) = **copy, never cut**. The information must exist in TWO places before the original is condensed.
+- This Zero Information Loss policy applies to all files under `.agents/`.
 
 ## Live Updates (agent-owned)
 At any significant advance (new project, status change, commit, issue fix, non-trivial evolution) → update BOTH `Active Projects` and `Session Log` in `k-context/SKILL.md` immediately, proactively, without asking. Don't wait for session end.
+
 
 ## Limits
 | Section | Max | Behavior when full |

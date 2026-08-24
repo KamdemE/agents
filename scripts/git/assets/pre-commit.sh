@@ -4,11 +4,13 @@
 # Install: scripts/git/install-hooks.sh
 
 echo "🔍 Running pre-commit check..."
-make -C "$(dirname "$0")/../../.." check 2>/dev/null || make -C "$HOME/.agents" check
-STATUS=$?
-if [ $STATUS -ne 0 ]; then
+REPO_ROOT="$(git rev-parse --show-toplevel)" || {
+    echo "❌ Cannot resolve the Git repository root."
+    exit 1
+}
+if ! make -C "$REPO_ROOT" check; then
     echo "❌ Validation failed. Please fix issues before committing."
-    exit $STATUS
+    exit 1
 fi
 echo "✅ Validation passed. Proceeding with commit."
 exit 0

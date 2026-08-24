@@ -2,4 +2,5 @@
 	email = kapoivha@gmail.com
 	name = KpihX
 [core]
-	excludesFile = /home/kpihx/.gitignore_global
+	excludesFile = /home/kpihx/.config/git/ignore
+	hooksPath = /home/kpihx/.config/git/hooks

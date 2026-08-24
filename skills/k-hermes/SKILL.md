@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.4.4"
   scope: external-agent
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -33,6 +33,28 @@ Hermes is used strictly as a **Memory Layer** and **Headless Daemon**, complemen
     └── cron/                         <-- Daemon profile (bash disabled, cron_mode approve)
 ```
 
+## Clean Runtime Reset (2026-08-24)
+
+Hermes mutable runtime state belongs **only** in `$HOME/.hermes/`, never under `$HOME/.agents/`. The prior duplicate homes were preserved temporarily before a clean reinstall.
+
+The complete rebuild procedure, canonical links, provider profiles, and smoke commands are in `references/setup.md`.
+
+- Canonical non-secret configuration: `assets/config.yaml` → `$HOME/.hermes/config.yaml`.
+- Kernel identity: `$HOME/.hermes/SOUL.md` → `$HOME/.agents/AGENTS.md`.
+- User memory bridge: `$HOME/.hermes/memories/USER.md` → `skills/kpihx/SKILL.md`.
+- Gateway service: canonical asset remains `assets/hermes-gateway.service`; stock Hermes defaults natively to `$HOME/.hermes`, so no `HERMES_HOME` override is set.
+
+### Supported provider profiles
+
+Only two provider profiles are configured:
+
+| Profile | Provider | Default model | Configuration asset |
+|---|---|---|---|
+| `ollama` | Local Ollama | `phi4-mini:latest` | `assets/profiles/ollama/config.yaml` |
+| `opencode-go` | OpenCode Go | `mimo-v2.5` | `assets/profiles/opencode-go/config.yaml` |
+
+The local Ollama inventory at reset time is `phi4-mini:latest`, `qwen3:latest`, and `qwen2.5:latest`. Use `hermes --profile ollama …` or `hermes --profile opencode-go …`; the latter requires the existing `OPENCODE_API_KEY` environment variable and is never stored in the kernel.
+
 ## The Auto-Skill Governance (0-Trust)
 
 Hermes has the ability to auto-generate skills based on successful interactions.
@@ -47,12 +69,11 @@ Hermes passively updates two crucial files in `memories/` using a Honcho-style r
 - `USER.md`: Discovered user preferences, constraints, hardware specifics, and implicit rules.
 - `MEMORY.md`: Key facts, ongoing background tasks, and session summaries.
 
-## Assets & Wrappers
+## Assets
 
-- `assets/hermes.sh` : The sovereign wrapper injecting `$HERMES_HOME`.
-  Symlinked to `~/.local/bin/hermes`.
 - `assets/hermes-gateway.service` : Systemd user service for the Hermes Gateway daemon.
   Symlinked to `~/.config/systemd/user/hermes-gateway.service`.
+- The stock UV-installed `$HOME/.local/bin/hermes` executable is intentionally not a `.agents` link or wrapper.
 
 ### Hermes Gateway — systemd user service
 
@@ -72,125 +93,58 @@ journalctl --user -u hermes-gateway.service -f
 - **Interactive Co-Pilot:** `hermes chat`
 - **Headless Daemon:** `hermes run "<prompt>" --profile cron`
 
-## Multi-Provider Configuration
+## Provider Configuration
 
-Hermes defaults to a single provider (`model.provider` in config.yaml). To unlock all AI providers available on the KπX workstation, configure additional providers under the `providers:` key. This section documents the discovery methodology and registration pattern.
+Hermes exposes only the local Ollama and OpenCode Go profiles above. The main configuration defaults to local `ollama` with `phi4-mini:latest`; select `opencode-go` explicitly when `mimo-v2.5` is required.
 
-### Provider Discovery — cross-agent reconnaissance
+### Provider selection
 
-To find every AI provider available before configuring Hermes:
+Use the profile explicitly:
 
-1. **Check OpenCode auth store** — the richest source of credentials:
-   ```
-   cat ~/.local/share/opencode/auth.json
-   ```
-   Lists every provider OpenCode has connected to (API key + OAuth).
-
-2. **Check OpenClaw config** — second richest source:
-   ```
-   cat ~/.openclaw/openclaw.json | jq '.models.providers | keys'
-   read -r sec <~/.openclaw/.env && echo "$sec"
-   cat ~/.openclaw/gateway.systemd.env
-   ```
-
-3. **Check per-agent .env files** (agents stash keys independently):
-   ```
-   find ~ -maxdepth 2 \( -name ".env" -o -name "*.env" \) | while read f; do echo "$f:"; head -3 "$f"; done
-   ```
-
-4. **Check shell environment** for key env vars:
-   ```
-   env | grep -iE '_KEY|_TOKEN|_SECRET|API_KEY'
-   ```
-
-5. **Check VIBE** `~/.vibe/config.toml` — has explicit `[[providers]]` + `api_key_env_var` entries.
-
-6. **Check Codex** `~/.codex/config.toml` — may reference `bearer_token_env_var` on MCPs.
-
-7. **Check Continue** `~/.continue/config.yaml` — IDE plugin with explicit model+provider+apiKey.
-
-### Known Provider Inventory (KπX workstation)
-
-| Provider | Auth type | Credential location(s) | Base URL |
-|----------|-----------|----------------------|----------|
-| **opencode-go** | API key | `auth.json`, shell `$OPENCODE_API_KEY` | `https://opencode.ai/zen/go/v1` |
-| **opencode** | API key | Same as opencode-go | `https://opencode.ai/zen/v1` |
-| **openrouter** | API key | `auth.json`, `~/.openclaw/.env` | `https://openrouter.ai/api/v1` |
-| **mistral** | API key | `auth.json`, `~/.vibe/.env`, `~/.continue/.env` | `https://api.mistral.ai/v1` |
-| **venice** | API key | `auth.json`, shell `$VENICE_API_KEY` | `https://api.venice.ai/api/v1` |
-| **openai** | API key | `auth.json` | `https://api.openai.com/v1` |
-| **google/gemini** | OAuth | `auth.json` (refresh + access tokens) | Gemini-native |
-| **github-copilot** | OAuth | `auth.json` (gho tokens) | GitHub ACP |
-| **ollama** | None (local) | auto — `http://localhost:11434/v1` | local |
-| **llamacpp** | None (local) | auto — `http://127.0.0.1:8080/v1` | local |
+```bash
+hermes --profile ollama chat
+hermes --profile opencode-go chat
+```
 
 ### Provider Registration (config.yaml)
 
-Add to `~/.hermes/config.yaml`:
+The canonical main configuration is `assets/config.yaml`, symlinked to `~/.hermes/config.yaml`:
 
 ```yaml
 providers:
-  mistral:
-    api_base: https://api.mistral.ai/v1
-    api_key_env: MISTRAL_API_KEY
-    api_mode: chat_completions
-  venice:
-    api_base: https://api.venice.ai/api/v1
-    api_key_env: VENICE_API_KEY
-    api_mode: chat_completions
-  openrouter:
-    api_base: https://openrouter.ai/api/v1
-    api_key_env: OPENROUTER_API_KEY
-    api_mode: chat_completions
   ollama:
     api_base: http://localhost:11434/v1
     api_key_env: ""
     api_mode: chat_completions
 ```
 
-Then switch the active model:
+The OpenCode Go profile switches the active model:
 
 ```yaml
 model:
-  provider: venice
-  name: deepseek-v3.2
-  base_url: https://api.venice.ai/api/v1
+  provider: opencode-go
+  name: mimo-v2.5
+  base_url: https://opencode.ai/zen/go/v1
 ```
 
-Or toggle via CLI: `hermes config set model.provider venice && hermes config set model.name deepseek-v3.2`
+Do not use CLI config edits against the symlinked canonical files; update the asset and the registered link instead.
 
 ### Profile-per-Provider pattern
 
-Create dedicated profiles so switching provider doesn't clobber config:
+The two dedicated profiles prevent switching from clobbering the default configuration:
 
 ```
 ~/.hermes/profiles/
 ├── default/config.yaml
-├── venice/config.yaml
-├── mistral/config.yaml
 ├── ollama/config.yaml
-└── openrouter/config.yaml
+└── opencode-go/config.yaml
 ```
 
-Each profile needs only its own `model:` + `providers:` block. Launch with:
-```
-hermes --profile venice chat
-hermes --profile ollama run "analyze this log"
-```
+Each profile has its own `model:` + `providers:` block and is a registered symlink to its `k-hermes/assets/profiles/` source.
 
 ### Credential injection
 
-Hermes reads API keys from environment variables. On KπX workstation:
-
-- `VENICE_API_KEY` — already in shell env
-- `MISTRAL_API_KEY` — needs export (stored in `~/.vibe/.env`)
-- `OPENROUTER_API_KEY` — needs export (stored in `~/.openclaw/.env`)
-- `EXA_API_KEY` — needed for web search MCP
-
-Source strategy:
-```bash
-eval $(grep -v '^#' ~/.openclaw/.env | xargs -d '\n')
-```
+Only OpenCode Go requires credentials: `OPENCODE_API_KEY` must already be present in the invoking environment. Agents never read, print, or source secret files.
 
 ## Web Dashboard (pip gap)
 
@@ -248,6 +202,6 @@ uv tool install --reinstall hermes-agent
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-06-05 | [OPENCODE] | v1.3.0 — Migrated HERMES_HOME from ~/.agents/hermes to ~/.hermes. Updated wrapper, all path references, and architecture map. |
-| 2026-06-04 | [OPENCODE] | v1.2.0 — Added Web Dashboard (pip gap) section: dashboard_auth manquant dans le wheel PyPI, workaround copie depuis le repo, dépendances web, erreur de downgrade. |
-| [SUMMARY] | | |
+| 2026-08-24 | [COLAB] | v1.4.4 — Removed the obsolete kernel-temporary archive location from the stock-native rebuild record. |
+| 2026-08-24 | [COLAB] | v1.4.3 — Removed a residual `HERMES_HOME` service override after the stock-native rebuild and made the local smoke assertion robust to model wording. |
+| [SUMMARY] | — | v1.4.2 stock-native rebuild · v1.4.1 setup runbook · v1.4.0 custom-wrapper rebuild superseded by stock-native default · v1.3.0 HERMES_HOME migration · v1.2.0 Web Dashboard pip gap; older history condensed. |

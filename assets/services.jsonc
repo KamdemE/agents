@@ -42,16 +42,9 @@
   "services": {
 
     // --- k-tailscale -----------------------------------------------------------
-    // skill k-tailscale = generic tool skill (NOT infra) → no infra suffix
-    "tailscaled-service": {
-      "unit": "tailscaled.service",
-      "type": "system",
-      "path": "$HOME/.agents/skills/k-tailscale/assets/tailscaled.service",
-      "skill": "k-tailscale",
-      "infras": ["*"],
-      "expect-active": true,
-      "note": "MANDATORY everywhere — the mesh backbone of every KπX device."
-    },
+    // 2026-08-24: tailscaled.service DE-LINKED from .agents per KπX order (stock
+    // Tailscale-managed unit, zero customization → /etc only, Tailscale governs it).
+    // Registry entry removed; service still expected active everywhere (mesh backbone).
 
     // --- k-ubuntu (infra skill for kpihx-ubuntu) --------------------------------
     // owning skill IS infra skill → -ubuntu suffix; required only on kpihx-ubuntu
@@ -103,14 +96,6 @@
       "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
-    "tg-bot-service-ubuntu": {
-      "unit": "tg-bot.service",
-      "type": "user",
-      "path": "$HOME/.agents/skills/k-ubuntu/assets/tg-bot.service",
-      "skill": "k-ubuntu",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": true
-    },
 
     // --- k-ollama (generic tool skill, NOT infra) → no suffix, shared -----------
     "ollama-service": {
@@ -128,7 +113,7 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-hermes/assets/hermes-gateway.service",
       "skill": "k-hermes",
-      "infras": ["*"],
+      "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
 
@@ -138,7 +123,7 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-openclaw/assets/openclaw-gateway.service",
       "skill": "k-openclaw",
-      "infras": ["*"],
+      "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
 
@@ -148,7 +133,7 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-opencode/assets/opencode-web-shim.service",
       "skill": "k-opencode",
-      "infras": ["*"],
+      "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
 
@@ -157,7 +142,7 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-opencode/assets/opencode-web.service",
       "skill": "k-opencode",
-      "infras": ["*"],
+      "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
     "opencode-lens-service": {
@@ -165,7 +150,7 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-opencode/assets/opencode-lens.service",
       "skill": "k-opencode",
-      "infras": ["*"],
+      "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
 
@@ -175,16 +160,16 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service",
       "skill": "k-rclone",
-      "infras": ["*"],
-      "expect-active": false
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
     },
     "rclone-gdrive-x-service": {
       "unit": "rclone-gdrive-x.service",
       "type": "user",
       "path": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive-x.service",
       "skill": "k-rclone",
-      "infras": ["*"],
-      "expect-active": false
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
     },
 
     // --- k-dxo (client-side tunnels/mounts TO deep-pc6) ----------------------
@@ -214,17 +199,19 @@
       "type": "user",
       "path": "$HOME/.agents/skills/k-dxo/assets/rclone-deep-pc6.service",
       "skill": "k-dxo",
-      "infras": ["kpihx-ubuntu", "blglaptop139"],
-      "expect-active": false
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
     },
 
     // --- k-pve (infra skill for kpihx-pve) → -pve suffix --------------------------
+    // Critical PVE units are deliberately copied into /etc, not symlinked.
     "boot-notify-service-pve": {
       "unit": "boot-notify.service",
       "type": "system",
       "path": "$HOME/.agents/skills/k-pve/assets/network/boot-notify.service",
       "skill": "k-pve",
       "infras": ["kpihx-pve"],
+      "deployment": "copy",
       "expect-active": true
     },
     "watchdog-service-pve": {
@@ -233,6 +220,7 @@
       "path": "$HOME/.agents/skills/k-pve/assets/network/watchdog.service",
       "skill": "k-pve",
       "infras": ["kpihx-pve"],
+      "deployment": "copy",
       "expect-active": true
     },
     "watchdog-timer-pve": {
@@ -241,6 +229,7 @@
       "path": "$HOME/.agents/skills/k-pve/assets/network/watchdog.timer",
       "skill": "k-pve",
       "infras": ["kpihx-pve"],
+      "deployment": "copy",
       "expect-active": true
     },
 

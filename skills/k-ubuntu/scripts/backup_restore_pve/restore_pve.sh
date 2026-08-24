@@ -5,6 +5,15 @@ set -euo pipefail
 # Source of truth: .agents/skills/k-ubuntu/scripts/backup_restore_pve/restore_pve.sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# systemd services do NOT export $HOME by default → under `set -u` a bare
+# `$HOME` reference below would abort, and as root $HOME=/root would miss the
+# kernel. Set it explicitly to the agent user home (where .agents lives) before
+# sourcing notifier.sh (same pattern as backup_pve.sh). ${HOME:-default} is
+# safe under `set -u`.
+export HOME="${HOME:-/home/kpihx}"
+# Same guard as auto_clean.sh: explicit `User=root` services preset
+# $HOME=/root which misses the kernel — force the agent user home if needed.
+[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
 # shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"

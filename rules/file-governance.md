@@ -101,6 +101,10 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 - **Exception:** if KπX explicitly requests a path, follow KπX
 - **Exception:** Vaultwarden exports follow their own rule (`/tmp/*.env` → import + delete)
 
+### Exception — Explore/lab (scientific scripts)
+
+Scripts that need scientific libraries (numpy, matplotlib, scipy, etc.) go to **`$HOME/KpihX-Labs/Explore/lab/scripts/`** — not `/tmp/`. This is a shared `uv` project pre-loaded with common scientific libs. Consult `pyproject.toml` before adding. New lib → `uv add <package>`. **100% uv in this lab — NEVER pip, NEVER python, NEVER `uv pip`.** Run with `uv run scripts/your_script.py`.
+
 ### What does NOT go in `/tmp/`
 
 - Business/project code, scripts that belong to a codebase → **in the repo**

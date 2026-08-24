@@ -42,7 +42,7 @@ Review work done by executor (or any agent). Verify everything aligns with KπX'
 - No reinventing the wheel? Using existing packages?
 - Not recreating what already exists in the codebase?
 - No superfluous code, no unnecessary abstractions?
-- Tests pass (`make check`, `uv run pytest`, etc.)?
+- Tests pass (`uv run pytest`, etc.)? For `make check`, first confirm that KπX explicitly requested or validated it in the current conversation; otherwise propose it and report that approval is pending.
 
 ### 2. Syntax & Imports
 - Fix silently: missing imports, syntax errors, typos, unused variables

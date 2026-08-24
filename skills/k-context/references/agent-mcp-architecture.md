@@ -1,7 +1,7 @@
 # Agent & MCP Infrastructure — Architecture & Vision
 
 > Merged from: `agents-memory-curator-hybrid-vision.md`, `mcp-central-sync-vision.md`, `mcp-visual-validation-vision.md`, `sh-mcp-agent-sandbox-vision.md`, `voice-kernel-ollama-vision.md`, `google-workspace-full-mcp-vision.md`
-> Sources archived: `tmp/` (2026-07-22)
+> Sources archived: 2026-07-22
 
 ---
 

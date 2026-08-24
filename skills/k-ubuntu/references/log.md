@@ -69,7 +69,15 @@ Details in `k-context/references/log.md`.
 | 2026-08-14 | [COLAB] | v1.15.0 — **Desktop Applications Registry**: Added `references/apps.md` — complete inventory of all Ubuntu desktop applications (system `.desktop`, user `.desktop`, `/opt` heavy clients, GUI snaps, recently purged Signal/Zoom/Wine). Registered in Bundled references. |
 | 2026-08-14 | [COLAB] | v1.14.0 — **GNOME Shell Extensions reference**: Added `references/gnome-extensions.md` (extension catalog + roles + `uv tool`-based automation via `gnome-extensions-cli`/`gext`). Kept `SKILL.md` clean with a single pointer row in Bundled references. |
 | 2026-08-14 | [COLAB] | v1.13.0 — **Purge Obligation & Cleanups**: Purged WaveTerm and Spotify client. Added system-wide purge obligation details (cleaning all configs/cache/services/snaps/opt). |
+| 2026-08-14 | [COLAB] | v1.16.0 — **apps.md updated with config-debris purge record**: appended asciinema purge + full config/share debris cleanup (BraveSoftware, Slack, Termius, Wave, Windsurf, browseruse, chromium, devin, vibe, kaggle, obs-studio, onedrive, opera, vivaldi, xarchiver, etc.) + `k-desktop-mcp.py` + `bw-admin`/`bw-mcp` removal. |
 
 ## Complete changelog rotation from `k-ubuntu/SKILL.md` (2026-08-04)
 
 | [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
+
+## Changelog Rotation — 2026-08-24 (check-skills cleanup)
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-14 | [COLAB] | v1.17.0 — **`clean-system` renamed to `clean`** (services key restructure, per KπX): asset units `clean-system.{service,timer}` → `clean.{service,timer}`; all references updated (`install.sh`, `purge.sh`, `Makefile`, `auto_clean.sh`, `README.md`, `references/system-services.md`, `references/scripts-modules.md`); log dir `/var/log/clean-system` → `/var/log/clean`; journald unit `clean`. Matches `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`). |
+| 2026-08-14 | [COLAB] | v1.16.0 — **apps.md updated with config-debris purge record**: appended asciinema purge + full config/share debris cleanup (BraveSoftware, Slack, Termius, Wave, Windsurf, browseruse, chromium, devin, vibe, kaggle, obs-studio, onedrive, opera, vivaldi, xarchiver, etc.) + `k-desktop-mcp.py` + `bw-admin`/`bw-mcp` removal. |

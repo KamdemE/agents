@@ -1,7 +1,7 @@
 # Architecture Vision — Sovereign Cloud, Personal OS & Agentic Foundation
 
 > Merged from: `KpihX-Labs.md`, `k-personal-os-learning-laboratory-vision.md`, `agentic-architecture-brainstorm.md`, `sovereign-email-universe-vision.md`
-> Sources archived: `tmp/` (2026-07-22)
+> Sources archived: 2026-07-22
 
 ---
 
@@ -108,7 +108,7 @@ Good for: auth, infra, KB            Good for: workflows, API wraps
 |-------|----------|----------|
 | **0 — Primitives** (MCPs, never replaceable) | shell-mcp, code-executor, qmd | Complex auth, sandbox, embedding |
 | **1 — Remote Gateways** (HTTP MCPs) | mail-mcp, homelab-http | OAuth, private network services |
-| **2 — Hot Capabilities** (git-versioned skills) | k-whatsapp, k-ticktick, k-linkedin, k-napkin | curl-to-API, zero-deploy scripts |
+| **2 — Hot Capabilities** (git-versioned skills) | k-whatsapp, k-tick, k-linkedin, k-napkin | curl-to-API, zero-deploy scripts |
 
 ### MCP Qualification Test
 

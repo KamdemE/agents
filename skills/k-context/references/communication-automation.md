@@ -1,7 +1,7 @@
 # Communication & Automation — Mail, WhatsApp, Edge, Tutorial Pipeline
 
 > Merged from: `mail-tooling-rewrite-brainstorm.md`, `whatsapp-wa-core-central-auth-mini.md`, `edge-agent-automation-vision.md`, `sovereign-tutorial-automation-vision.md`
-> Sources archived: `tmp/` (2026-07-22)
+> Sources archived: 2026-07-22
 
 ---
 

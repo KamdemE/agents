@@ -15,10 +15,10 @@ service_internal_paths_guard() {
   internal_paths_ok=1
 
   local unit_src workdir execstart env_paths
-  unit_src="$(readlink -f "$deployed" 2>/dev/null || echo "$deployed")"
-  workdir="$(sed -n 's/^[[:space:]]*WorkingDirectory=[[:space:]]*//p' "$unit_src" 2>/dev/null | head -1)"
-  execstart="$(sed -n 's/^[[:space:]]*ExecStart=[[:space:]]*//p' "$unit_src" 2>/dev/null | head -1)"
-  env_paths="$(sed -n 's/^[[:space:]]*Environment=[[:space:]]*//p' "$unit_src" 2>/dev/null | sed -n 's/^[^=]*=//p')"
+  unit_src="$(readlink -f "$deployed" || echo "$deployed")"
+  workdir="$(sed -n 's/^[[:space:]]*WorkingDirectory=[[:space:]]*//p' "$unit_src" | head -1)"
+  execstart="$(sed -n 's/^[[:space:]]*ExecStart=[[:space:]]*//p' "$unit_src" | head -1)"
+  env_paths="$(sed -n 's/^[[:space:]]*Environment=[[:space:]]*//p' "$unit_src" | sed -n 's/^[^=]*=//p')"
 
   if [ -n "$workdir" ]; then
     workdir="${workdir//\$HOME/$HOME}"

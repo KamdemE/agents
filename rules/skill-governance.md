@@ -41,11 +41,11 @@ ls /usr/share/applications/*.desktop | grep -i D  # desktop launcher present?
 > **Mutual reference (MANDATORY):** this Debris Scan Methodology is the **static rule** mirror of **`k-optim`** (the operational skill to READ FIRST on any "nettoyer / purge / clean / optimiser" request). `k-optim` → `### Debris Scan — Where & How to Dig` carries the same dir-by-dir table + confirm-debris-vs-live-app command. Update BOTH when the methodology changes — single source of truth across `rules/` and `skills/k-optim/`.
 
 ## Symlinks to Skills / Agents — Centralization + Registration (MANDATORY)
-🔴 **RED RULE — any symlink pointing to a skill asset/script or tied to the agents kernel MUST ALWAYS be centralized via `$HOME/.agents`, and MUST be registered in `scripts/links/links.sh`** so that BOTH `make link` (creates/recreates) and `make check-links` (verifies, joined into `make check`) cover it automatically. When you create a new `.agents` symlink:
+🔴 **RED RULE — any symlink pointing to a skill asset/script or tied to the agents kernel MUST ALWAYS be centralized via `$HOME/.agents`, and MUST be registered in `assets/links.jsonc`** so that BOTH `make link` (creates/recreates) and `make check-links` (verifies, joined into `make check`) cover it automatically. When you create a new `.agents` symlink:
 1. keep the canonical file in `.agents/skills/<skill>/` (source of truth) — never a standalone copy,
-2. add the `<link>|<target>` entry to `scripts/links/links.sh` grouped under its owning skill (that is the ONLY registration point),
+2. add its `{source,target,skill,infras}` entry to `assets/links.jsonc` under its owning skill (that is the ONLY registration point),
 3. run `make link` to create it and `make check-links` to verify it.
-This is the single source of truth for `.agents`-owned symlinks; see `k-optim` → link/check-links methodology.
+This JSONC registry is the single source of truth for `.agents`-owned symlinks; see `k-optim` → link/check-links methodology.
 
 ## Config Standard (JSONC) + Assets Update Mandate (MANDATORY)
 🔴 **KπX config standard is JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). Code projects prefer plain `config.py` / `config.ts` (no import needed); secrets always in `.env` (never committed). See `k-project` → Config Standard and `kpihx-labs` → Config & Assets.
@@ -69,7 +69,7 @@ When the linked application/tool/service is removed from the system, move the sk
 | No duplicates | Never recopy identity tables or path lists in a second skill |
 | No desync | Same fact = one source file; others POINT (relative link or `$HOME/.agents/skills/...` path) |
 | Location | New skill `k-<domain>/` under `$HOME/.agents/skills/` + entry in `.skill-lock.json` |
-| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; `make check` BEFORE commit |
+| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; **propose** `make check` before commit and run it only after KπX's explicit request or validation |
 
 ## Cross-References (MANDATORY)
 🔴 **When editing a skill, MENTION the related skills instead of repeating the same information.** Every time you touch a skill, identify the other `k-*` skills that cover the same domain/tool/domain-adjacent knowledge and add a short pointer line to them (e.g. "See **`k-ai`** for the runtime registry", "MCP details → `k-ai/references/runtime-registry.md`"). Never duplicate an existing table, list, or fact that already lives in another skill — POINT to it. This keeps each skill compact and the kernel free of duplication.
@@ -80,12 +80,14 @@ Every `k-*` skill: `SKILL.md` at root (YAML frontmatter, `⚠️ WHEN EDITING...
 ## Skill Size Limits (MANDATORY)
 To keep the documentation clean, scannable, and maintainable, `SKILL.md` files must never exceed **300 lines**.
 - When a `SKILL.md` file approaches or exceeds this limit, agents must proactively synthesize the content, extract detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and add a link in the main `SKILL.md`.
+- **Harmonious Skill Compaction Rule:** When compacting a skill, agents must do so intelligently by identifying the least frequently or potentially used elements to move to references (preferring existing reference files if they fit, and only creating new ones if none fits). The main `SKILL.md` must retain a clear, coherent summary/reference of what was moved so the skill remains harmonious and readable.
 - No information must be lost: the creation of these reference files is mandatory to preserve details.
 - This limit is strictly enforced by the audit pipeline.
 - **Exception — `k-context`:** this flat 300-line target does NOT apply to `k-context/SKILL.md`. `k-context` already has its own dedicated capacity-management mechanism (see `rules/k-context-hygiene.md`): `## Session Log` capped at 10 explicit rows, `## Changelog` capped at 2 explicit rows, both rolling overflow to `references/log.md` — while `## Active Projects` and `## Active TODOs` are allowed to grow (append-only, condensed into `[ARCHIVE]`/removed only per k-context's own rules, never by a blanket line-count cutoff). The audit pipeline explicitly skips the 300-line check for `k-context`.
 
 ## Changelog Rules
-- Newest-first. SKILL.md: max 2 real entries + `[SUMMARY]`.
+- Newest-first. For all skills (except `k-context`), the `SKILL.md` changelog must contain at most 2 explicit rows before `[SUMMARY]`. Older entries are simply compressed/summarized directly in the `[SUMMARY]` row of the table itself (which acts as a resume of past versions); no separate `references/log.md` file is used or created for them.
+- Only `k-context` uses a dedicated `references/log.md` file for changelog and session log rotation.
 - Summary rows stay short; never replace real entries before the limit.
 
 ## Agent-Owned Runtime Memory

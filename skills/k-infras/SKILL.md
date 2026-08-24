@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.2"
+  version: "1.6.3"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -188,7 +188,6 @@ functions, and the checks/guards that consume them.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v1.6.3 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
 | 2026-08-20 | [COLAB] | v1.6.2 — Renamed the Android infrastructure skill to `k-phones`; updated the S25/tablet inventory, Termux exception, hierarchy, and SSH access map. |
-| 2026-08-16 | [COLAB] | v1.6.1 — **`references/libs.md` added (single orientation point)**: full index of the three shared libs (`libs/env`, `libs/jsonc`, `libs/notif`) — function signatures + purposes — plus the guards/checks that consume them and a "adding a new shared concern" workflow. Linked from the Shared Libs Reflex section. |
-| 2026-08-16 | [COLAB] | v1.6.0 — **Shared Libs Reflex (MANDATORY)**: added section directing all infra-skill scripts to source `libs/env/env_lib.sh`, `libs/jsonc/jsonc_lib.sh`, `libs/notif/notifier.sh` from `$HOME/.agents/libs/` instead of inlining private helpers (env/jsonc/notifier centralization). |
-| [SUMMARY] | — | v1.5.0 New Infra Setup: Step 0 Infrastructure Directory Standard (`~/KpihX-Labs/.agents/` real clone + `~/.agents` symlink; everything 100% inside `~/KpihX-Labs/`); v1.4.0 k-infra merged into k-infras (ntfs-shrink-dual-boot.md + insights.md moved; k-infra purged); v1.1.0–v1.3.0 New Infra Setup Checklist + dockerhost rename + kshrc pattern; v1.0.1–v1.0.0 master map created. |
+| [SUMMARY] | — | v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex (→ `references/log.md`) · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |

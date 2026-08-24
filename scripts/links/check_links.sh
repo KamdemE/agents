@@ -40,18 +40,19 @@ LINKS_OBJ="$(strip_jsonc < "$LINKS_FILE")"
 SERVICES_OBJ="$(strip_jsonc < "$SERVICES_FILE")"
 
 # Global counters shared by the guards
-CHECKED=0; OK=0; BROKEN=0; REVERSED=0; SKIPPED=0; DEAD=0
+CHECKED=0; OK=0; ALLOWED=0; BROKEN=0; REVERSED=0; SKIPPED=0; DEAD=0
 CROSS=0; CROSS_MISSING=0; UNREG=0
 
 # ── Sub-check 1: per-link basic (existence/broken/reversed/dead) ──
+echo "  ├─ 🔗 1/3 Registered-link integrity"
 for name in $(printf '%s' "$LINKS_OBJ" \
-  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("links",{}).keys()))' 2>/dev/null); do
-  read -r source target infras allow_reversed <<< "$(
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("links",{}).keys()))'); do
+  IFS=$'\t' read -r source target infras allow_reversed <<< "$(
     printf '%s' "$LINKS_OBJ" | python3 -c "
 import sys,json
 d=json.load(sys.stdin).get('links',{}).get('$name',{})
-print(d.get('source',''), d.get('target',''), json.dumps(d.get('infras','[]')), str(d.get('allow-reversed', False)).lower())
-" 2>/dev/null)"
+print('\t'.join((d.get('source',''), d.get('target',''), json.dumps(d.get('infras','[]')), str(d.get('allow-reversed', False)).lower())))
+")"
 
   [ -n "$source" ] || continue
   if ! infra_matches "$CURRENT_INFRA" "$infras"; then
@@ -62,10 +63,12 @@ print(d.get('source',''), d.get('target',''), json.dumps(d.get('infras','[]')), 
 done
 
 # ── Sub-check 2: cross-ref links.jsonc ↔ services.jsonc (by unit) ──
+echo "  ├─ 🔄 2/3 Systemd registry contract"
 link_crossref_guard "$LINKS_OBJ" "$SERVICES_OBJ"
 
 # ── Sub-check 3: completeness (unregistered symlinks into .agents) ──
+echo "  ├─ 🔎 3/3 Incoming-link completeness"
 link_completeness_guard "$LINKS_OBJ"
 
-echo "check-links: $CHECKED checked for infra '$CURRENT_INFRA' ($OK ok, $BROKEN broken, $REVERSED reversed, $DEAD dead), $SKIPPED skipped (other infra)"
+echo "  └─ 📊 Summary: $CHECKED checked — $OK OK, $ALLOWED allowed-reversed, $BROKEN broken, $REVERSED reversed, $DEAD dead, $CROSS_MISSING contract violation(s), $UNREG unregistered, $SKIPPED skipped (other infra)"
 [ "$BROKEN" -eq 0 ] && [ "$REVERSED" -eq 0 ] && [ "$DEAD" -eq 0 ] && [ "$CROSS_MISSING" -eq 0 ] && [ "$UNREG" -eq 0 ]

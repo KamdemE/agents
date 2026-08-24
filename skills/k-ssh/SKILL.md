@@ -180,6 +180,7 @@ When a new infrastructure is added:
 
 - `assets/ssh.conf` — canonical SSH Host fragment (the actual config)
 - `references/insights.md` — durable runtime lessons
+- `references/log.md` — append-only historical operation log
 - `k-bw` — Bitwarden desktop SSH agent setup + WSL bridge
 - `k-phones` — phone-specific SSH details (Termux sshd, autostart)
 - `k-git` — Git authentication via SSH

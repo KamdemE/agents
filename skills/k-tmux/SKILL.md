@@ -137,7 +137,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | `assets/tmux-resurrect-save.sh` | Source of truth — `save.sh` in plugin dir symlinks to this |
 | `assets/tmux-resurrect-restore.sh` | Source of truth — `restore.sh` in plugin dir symlinks to this |
 | `assets/tmux-continuum-save.sh` | Source of truth — `continuum_save.sh` in plugin dir symlinks to this |
-| `assets/setup-session.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
+| `assets/tmux-init.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
 
 Current KπX settings: `mouse on`, `focus-events on`, wheel → copy-mode scroll, `history-limit 50000`, `tmux-resurrect`/`tmux-continuum` auto-save every 5 min + auto-restore on boot (`@continuum-boot on` generates the systemd unit). Full plugin behavior/scope → **`references/plugins.md`**. Reboot recovery workflow (mandatory, `@continuum-boot` is OFF) → **`references/boot-recovery.md`**.
 
@@ -149,89 +149,15 @@ tmux source-file $HOME/.tmux.conf
 
 ## Stateful Integration (agent → tmux → agent notifications)
 
-An agent (e.g. an OpenCode plugin) can be **notified** when a **persistent pane**
-returns to its shell prompt (a command the agent launched finished) — instead of
-the agent polling `capture-pane`. Panes PERSIST: nothing is killed or detached,
-no `remain-on-exit` needed, and no tmux-side silence heuristics are used. Three
-pieces cooperate:
+An agent (e.g. an OpenCode plugin) can be **notified** when a **persistent pane** returns to its shell prompt (a command the agent launched finished) — instead of the agent polling `capture-pane`. Panes PERSIST: nothing is killed or detached, no `remain-on-exit` needed, and no tmux-side silence heuristics are used.
 
-1. **Shell prompt hook** (in `.kshrc`, propagated to all infras): a `precmd` (zsh)
-   or `PROMPT_COMMAND` (bash) hook writes a JSON `{"event":"prompt","pane","ts"}`
-   line directly to `/tmp/tmux-pane-done.log` whenever the shell prompt redraws.
-   This avoids false positives during silent waits (e.g. `sudo` password prompts).
-2. **`k-opencode` `tmux-notify.js` — arming (`tool.execute.before`) + proactive
-   reminder (`tool.execute.after`):**
-   - `tool.execute.before` intercepts any `bash` tool call containing
-      `tmux send-keys -t <target> ...`, parses `TMUX_TIMEOUT=<seconds>` (SECONDS
-      — NOT milliseconds; default `300` = 5 min.) and `TMUX_LINES=<n>` /
-      `TMUX_MAX_LINES=<n>` (default `20`) from the
-     command string — applying these defaults EVEN IF the agent didn't add the
-     vars, so EVERY stateful send-keys gets armed — resolves `<target>` to a
-     pane id, and arms an in-memory registry entry with an unref'd `setTimeout`.
-   - `tool.execute.after` runs right after that SAME send-keys command has
-     actually executed, and appends a `<tmux-armed>` reminder DIRECTLY to the
-     tool call's own result text (no round-trip through the conversation):
-     "pane armed, do not capture-pane, continue a parallel task or stop, you
-     will be auto-notified." **This is the reflex enforcement mechanism** — it
-     replaces an earlier REACTIVE `throw`-based block on `capture-pane` itself,
-     which was explicitly REMOVED (KπX, 2026-08-16): `capture-pane` is NEVER
-     intercepted, because the agent may legitimately need it as a manual
-     fallback if this very plugin malfunctions (log not written, watcher
-     stuck, registry desync) — blocking the one diagnostic tool available in
-     that failure mode would be worse than the anti-pattern being prevented.
-   - The log watcher polls `/tmp/tmux-pane-done.log`; on a matching `prompt`
-     event it clears the timer, runs `tmux capture-pane`, slices the last
-     `TMUX_LINES` lines, and injects a `<tmux-notify>` message into the
-     OpenCode session (`client.session.prompt`) whose label states the EXACT
-     number of lines shown (e.g. `Last 20 output lines:`) — never a vague
-     placeholder. If `TMUX_TIMEOUT` elapses first, ONE "still running"
-     notification fires with a fresh capture, but the registry entry is kept
-     alive (only its timer is cleared) so the real completion notification
-     still fires automatically later.
-3. **Session isolation** (fixed 2026-08-16, real bug found): pending
-   notifications are queued in a `Map<sessionID, string[]>`, NEVER a flat
-   global array. Delivery via `chat.message`/`session.idle` ONLY ever drains
-   the bucket owned by the exact session receiving the event — a notification
-   armed by agent/session A can never leak into agent/session B's
-   conversation, even if A's immediate flush was delayed or failed.
-4. **Busy-pane block — TWO cascading layers** (layer 1 added 2026-08-16, KπX
-   directive — "on demande d'utiliser un autre pane vide si présent, ou en
-   créer un si tous occupés"; layer 2 added same day, KπX follow-up question
-   "tu check juste busy par un autre agent ou vrai busy ?"):
-   - **Layer 1 — tracked-busy**: `tool.execute.before` REJECTS a `tmux
-     send-keys` targeting a pane that already has an unresolved registry
-     entry (a previously armed command that hasn't returned to its prompt
-     yet). Before this layer existed, a second arm on the SAME pane silently
-     overwrote the first ("last-arm-wins") — the first session would never
-     be notified, with zero trace anywhere, even in debug logs (a real gap
-     found the same day via a direct KπX question about session isolation).
-   - **Layer 2 — untracked-busy**: layer 1 alone only catches panes WE
-     armed via our own `tmux send-keys` interception — a pane busy for any
-     OTHER reason (KπX typing directly in it, an agent bypassing our
-     interception, a leftover foreground process) was invisible to it. If
-     layer 1 finds nothing, `tool.execute.before` now ALSO queries `tmux
-     display-message -p -t <paneId> '#{pane_current_command}'` (pure
-     metadata, no `capture-pane`/content read needed) and blocks if the
-     result isn't one of `zsh`/`bash`/`sh`/`fish` — a real, independent
-     ground-truth signal that catches genuine busyness regardless of
-     whether our system ever tracked it.
-   - Either layer's `throw`d message tells the agent EXACTLY what to do:
-     **never send-keys into an occupied pane — use a different EMPTY pane
-     if one exists (`tmux list-panes -a`), or create a new pane/window if all
-     are occupied.** Same `throw`-to-block pattern as `make-check-guard.js`
-     (the only other hook in this kernel that blocks a tool call outright) —
-     this is a DIFFERENT scope from the `capture-pane` block that was removed
-     in point 2: blocking `send-keys` into a busy pane protects against input
-     cross-contamination; blocking `capture-pane` would have removed the
-     agent's only diagnostic fallback, which is why that one stays unblocked.
+Brief summary of the mechanism:
+- **Shell prompt hook** in `.kshrc` writes JSON prompt events to `/tmp/tmux-pane-done.log`.
+- **`k-opencode` `tmux-notify.js` plugin** handles arming (`tool.execute.before`) and proactive reminder (`tool.execute.after`).
+- **Session isolation** scopes notifications to the exact session that launched the command.
+- **Busy-pane block** enforces a two-layer guard to prevent typing into busy panes.
 
-Agents: the reminder is a **reflex**, not an opt-in — every `tmux send-keys`
-gets armed AND reminded, whether or not you added `TMUX_TIMEOUT`/`TMUX_LINES`
-(defaults apply). You never manually `capture-pane` in a loop to check
-progress — but `capture-pane` itself is always available to you as a
-diagnostic fallback if you suspect the plugin isn't working. Full usage
-pattern → `### Run and get notified` above and `AGENTS.md` →
-`rules/tool-discipline.md` → `## Tmux Stateful Command Execution`.
+For detailed architecture, cooperative pieces, and rules, see **`references/stateful-integration.md`**.
 
 Apply after edits: `tmux source-file $HOME/.tmux.conf`.
 
@@ -304,6 +230,7 @@ This shows every pane across all sessions with the running command — no guessi
 - `references/boot-recovery.md` — First-tmux-after-reboot mandatory workflow (continuum-boot off, manual restore steps)
 - `references/cli-reference.md` — Full CLI + keybind tables: sessions, windows, panes, layouts
 - `references/copy-mode-mouse.md` — Copy-mode keys, mouse-drag-to-copy, wheel bindings, synchronised panes
+- `references/stateful-integration.md` — Detailed stateful agent-notification mechanism, hooks, and busy-pane blocks
 - `references/config-and-troubleshooting.md` — Config essentials, useful one-liners, SSH+tmux pattern, troubleshooting table
 - `references/windows.md` — WSL tmux setup and limitations
 
@@ -318,6 +245,5 @@ This shows every pane across all sessions with the running command — no guessi
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-08-20 | [COLAB] | v1.20.1 — Updated the S25 session-layout cross-reference to `k-phones`. |
-| 2026-08-16 | [COLAB] | v1.19.0 — **Fixed 2 real bugs found via KπX diagnostic questions (Q1: dead pane stays visible on `exit`, no layout reflow; Q2: opencode web terminal hijacked into shared tmux session)**: (Q1) `tmux show-window-options -g` revealed the LIVE server still carried `remain-on-exit on` even though `assets/tmux.conf` has had no `remain-on-exit` line since the precmd/prompt-event redesign — a config-file-vs-live-server drift (sourcing a config never unsets an option removed from it) dating back to the v1.14.0 pass. Fixed live: `tmux set-window-option -g remain-on-exit off` + cleared `remain-on-exit-format`. (Q2) opencode web's embedded terminal (confirmed via its own source, `packages/opencode/src/pty/index.ts`) sets `OPENCODE_TERMINAL=1` unconditionally on every PTY it spawns for its terminal panel — the Auto-tmux block in `kshrc.base`/7 infra copies was hijacking that isolated PTY into the shared desktop tmux session (multi-client resize glitches, input cross-contamination, non-`exec`'d leaked idle shells). Fixed in `k-zsh` (see its changelog) by adding `[ -z "$OPENCODE_TERMINAL" ]` to the guard. Both findings documented in `references/insights.md` (config/runtime drift + PTY-hijack anti-repeat lessons). Changelog rotated: v1.16.0 and v1.14.0 moved to `references/log.md` (new file). |
 | 2026-08-16 | [COLAB] | v1.20.0 — **Busy-pane block extended to a 2nd layer (KπX follow-up question — "tu check juste busy par un autre agent ou vrai busy ?")**: layer 1 (v1.19.0-era `registry.get(paneId)` check) only catches panes armed by OUR OWN system — a pane busy for any other reason (KπX typing directly, an agent bypassing interception, a leftover foreground process) was invisible to it. Added layer 2 in `tmux-notify.js` `tool.execute.before`: if layer 1 finds nothing, queries `tmux display-message -p -t <paneId> '#{pane_current_command}'` (pure metadata, no `capture-pane`/content read) and blocks if the result isn't one of `zsh`/`bash`/`sh`/`fish` — a real, independent ground-truth signal, fails open on any tmux/pane error. `## Stateful Integration` point 4 rewritten to document both layers explicitly. `node --check` OK. Cross-ref: `k-opencode` v2.43.0. |
-| [SUMMARY] | — | v1.18.0 capture-pane block REMOVED + proactive reminder + session isolation fix (→ `references/log.md`) · v1.17.0 technical block on manual capture-pane, later reversed (→ `references/log.md`) · v1.16.0 TMUX_TIMEOUT/TMUX_LINES reflex generalized + exact line-count label (→ `references/log.md`) · v1.14.0 Stateful Integration + remain-on-exit (→ `references/log.md`) · v1.13.0 SKILL size reduction (→ `references/log.md`) · v1.12.0 symlink direction reversed (→ `references/log.md`) · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |
+| [SUMMARY] | — | v1.19.0 dead-pane & terminal hijack fixes (→ `references/log.md`) · v1.18.0 capture-pane block REMOVED + proactive reminder + session isolation fix (→ `references/log.md`) · v1.17.0 technical block on manual capture-pane, later reversed (→ `references/log.md`) · v1.16.0 TMUX_TIMEOUT/TMUX_LINES reflex generalized + exact line-count label (→ `references/log.md`) · v1.14.0 Stateful Integration + remain-on-exit (→ `references/log.md`) · v1.13.0 SKILL size reduction (→ `references/log.md`) · v1.12.0 symlink direction reversed (→ `references/log.md`) · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

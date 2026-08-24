@@ -36,12 +36,12 @@ metadata:
 | Rule | What it says |
 |------|-------------|
 | `rules/web-research-first.md` | **WEB RESEARCH FIRST** — If you don't know something, are unsure, or hesitate about any fact/technology/concept: **STOP and search the web**. Do NOT guess, do NOT assume, do NOT fabricate. Use `websearch` or `google_search` before any workspace exploration. |
-| `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. |
+| `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. **Explore/lab** — scientific scripts with preinstalled libs (numpy, matplotlib, scipy) for rapid prototyping. `$HOME/KpihX-Labs/Explore/lab/scripts/` + `uv run`. |
 | `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. Contextual language matching. |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. **Never manually poll the pane or `capture-pane`** — arm with `TMUX_TIMEOUT`/`TMUX_LINES`, wait for the automatic `<tmux-notify>`/`<tmux-armed>` message (fixed 2026-08-16: this line used to say "Poll ≥30s on auth" — a live agent cited it, alongside a matching line in `k-context/SKILL.md`, as its justification for a manual `capture-pane` right after receiving the `<tmux-armed>` reminder telling it not to; this ROOT `AGENTS.md` summary line is injected into EVERY session and was never touched during 3 prior tmux-notify fix passes). Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. |
-| `rules/audit-commands.md` | `uv` not `pip`. `make check` after any `.agents/` change. `make push` not raw git push. Post-work checklist: check, docs, version, sync, finalize. |
+| `rules/audit-commands.md` | `uv` not `pip`. **For `.agents` only**, after a relevant change, propose `make check`; never run the kernel check without KπX's explicit request or validation. Project checks follow their own project workflow. `make push` not raw git push. |
 | `rules/uv-first.md` | **UV-FIRST** — All Python operations MUST use `uv` (`uv tool install`, `uv pip install`, `uv run`, `uv venv`). **Never** touch system Python (`/usr/bin/python3`). **Never** use `pip`. **Never** install `python3-*` apt packages. System Python is read-only. Exceptions only if explicitly authorized by KπX. |
-| `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. **SKILL.md length max 300 lines (overflow goes to references/)** |
+| `rules/skill-governance.md` | Before edit: inspect tree, find owning k-* skill, extend it. Version + changelog on every edit. No duplication. Insights governance. Agent ownership. **SKILL.md length max 300 lines (overflow goes to references/; keep the skill harmonious)** |
 | `rules/skill-infra-scope.md` | Cross-infrastructure skill design: general case in `SKILL.md`, OS-specific details in `references/<os>.md`. |
 | `rules/k-context-hygiene.md` | Session log + active projects updated proactively. Zero-deletion (append-only). Overflow → `references/log.md`. Issues → `references/issues.md`. |
 | `k-context/SKILL.md` → Issues rules | **Issues Pre-check:** search `issues.md` before creating new issue — no duplicates. **Issues Proactive Update:** update `issues.md` row immediately on solve/defer/status change, following exact table structure. **Issues Transparency:** append all commands/outputs to issue row. |
@@ -49,11 +49,11 @@ metadata:
 | `rules/whats-up.md` | Status digest protocol: one domain per turn. Sequence: context/mail/whatsapp/tick/tg. Full exploration mandate. |
 | `rules/hermes-governance.md` | Hermes = memory/daemon only, not primary executor. Cron profile disables bash. External memory isolation. |
 | `k-opencode/references/hooks-standard.md` | OpenCode-exclusive lifecycle hooks: `scripts/plugins/hooks/*.js` (mandatory `TARGET_AGENTS`), prompts in `assets/plugins/hooks/*.txt` (name-matched to their hook), ordering rule (hooks inspecting `messages.at(-1)` must run before unconditional appenders). |
-| `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). **Semantic/know-how questions (ecosystem, history, past passes, no exact keywords) → `qmd query` (MANDATORY, see `k-qmd`)** — never guess or answer from memory alone. |
+| `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). **Semantic/know-how questions (ecosystem, history, past passes, no exact keywords) → `qmd query` (MANDATORY, see `k-qmd`)** — never guess or answer from memory alone. **On any GIT project (GIT REPOS ONLY — never non-git directories) → LOOM reflex MANDATORY (see `k-loom`)**: session-start `get_status` (+ `loom sync` if stale), resume via `get_delta`, callgraph questions (`callers`/`blast-radius`) Loom-first before grep, persist understanding via `store_understanding`; layering: plocate = file search · opencode-ast = fresh structure of ONE file · Loom = persistent cross-file/cross-session relations · qmd = semantic/know-how. |
 
-### 🔴 ABSOLUTE RULE — `make check` (GRAVÉ, MANDATORY)
+### 🔴 ABSOLUTE RULE — `make check` (GRAVÉ, EXPLICIT APPROVAL REQUIRED)
 
-**RUN `make check` EXACTLY AS `make check` — ONLY THESE 2 TOKENS, NOTHING AROUND. NEVER REDIRECT, NEVER PIPE, NEVER `tail`, NEVER `grep`, NEVER FILTER, NEVER `2>/dev/null`, NEVER TRUNCATE, NEVER ALTER THE OUTPUT.**
+**THIS APPROVAL GATE APPLIES ONLY TO THE `$HOME/.agents` KERNEL CHECK.** After relevant `.agents` work, ALWAYS PROPOSE `make check`; NEVER run that kernel check unless KπX has explicitly requested it or explicitly validated its execution in the current conversation. Project repositories follow their own validation workflow. Once the kernel check is approved, run it EXACTLY AS `make check` — ONLY THESE 2 TOKENS, NOTHING AROUND. NEVER REDIRECT, NEVER PIPE, NEVER `tail`, NEVER `grep`, NEVER FILTER, NEVER `2>/dev/null`, NEVER TRUNCATE, NEVER ALTER THE OUTPUT.
 
 **INVESTIGATE EVERYTHING: DO NOT JUST DECODE THE ERRORS — READ ALL LOGS AND ALL THE OUTPUT, AND DETECT THE SMALLEST PROBLEM TO REPORT, EVEN A SIMPLE `WARNING`, A SUSPICIOUS LINE, AN INCONSISTENCY, OR AN ABNORMAL DETAIL.**
 
@@ -105,15 +105,11 @@ Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` �
 
 🔴 **NEVER DELETE, NEVER OVERWRITE, NEVER LOSE INFORMATION. Append-only is ABSOLUTE.**
 - All `.md` files, logs, changelogs, session entries, references, issues, insights — **add only, never remove**.
-- When a section reaches its limit: **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut.
+- For `k-context`: when a section reaches its limit, **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut. For all other skills, condense/summarize their changelog directly into their `[SUMMARY]` table row, without creating/maintaining a separate `references/log.md` file.
 - No in-place edits of log entries. No deletion of historical records. No truncation.
 - Corrections = new append-only entries. Archives = copy-then-condense, never truncate.
 - This applies to ALL `.agents/` files — every skill, every reference, every log, every agent definition.
 - **Any agent that edits, moves, or deletes information instead of appending is in VIOLATION of kernel sovereignty.**
-
-## Tmp (tmp/)
-
-**`tmp/`** is temporary storage for merged-away originals and old backups. Files here may be cleaned during `.agents/` optimization (see `k-optim` Meta scope).
 
 ## Infrastructure Directory Standard
 
@@ -143,8 +139,6 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 ├── .skill-lock.json          # Skill registry
 │
 ├── hermes/                   # Hermes agent daemon (SOUL, db, memories, cron, skills)
-├── openclaw/                 # OpenClaw runtime (HEARTBEAT, IDENTITY, SOUL, USER)
-│
 ├── rules/                    # Mandatory rules (13 rules, loaded every turn)
 ├── agents/                   # Agent definitions (Colab, Explore, executor, curator, …)
 │
@@ -157,9 +151,6 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 │   ├── ...                   #   ~57 more k-* skills
 │   └── deactive/             #   Archived skills (do not load)
 │
-├── logs/                     # Centralized runtime logs (historical records only)
-│
-├── tmp/                      # Merged-away originals, old backups (cleanable)
 ├── assets/                   # Global shared JSONC config assets
 │   ├── infras_skills.jsonc   #   flat infra → k-* skill map (device auto-detect)
 │   ├── services.jsonc        #   .agents-owned systemd services (direct list, infras:[...] or *)
@@ -198,9 +189,9 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 
 Example — systemd drop-in for OpenClaw Gateway:
 ```
-.agents/skills/k-openclaw/assets/exec-override.conf    # source of truth (edit here)
+.agents/skills/k-openclaw/assets/openclaw-override.conf # source of truth (edit here)
 ~/.config/systemd/user/openclaw-gateway.service.d/     # OS location (symlink)
-    ├── exec-override.conf → .agents/.../exec-override.conf
+    ├── openclaw-override.conf → .agents/.../openclaw-override.conf
     └── env.conf            # also belongs in .agents/ if possible
 ```
 

@@ -7,7 +7,8 @@
 - Docker Swarm ports 4789/8472/10442 must ALL be open for overlay networks to work across hosts.
 - `policy drop` on INPUT without a catch-all allow for established/related traffic WILL lock you out — rule #2 (`ct state established,related accept`) is essential.
 - The tailscale_nets set (100.64.0.0/10) covers all Tailscale IPs. Individual Tailscale IPs are allocated from this CGNAT range.
-- nftables.conf is maintained in `$HOME/.config/opencode/skills/k-nftables/assets/` and symlinked from `/etc/`. Always edit the asset and let the symlink propagate.
+- nftables.conf is maintained in `$HOME/.agents/skills/k-nftables/assets/` and symlinked from `/etc/`. Always edit the asset and let the symlink propagate.
+- Current `.agents` deployment scope for `nftables-conf` is `kpihx-ubuntu` + `kpihx-pve-debian` only; other infras should not receive this symlink unless the ruleset is explicitly validated there.
 - systemd `ProtectHome=true` in nftables.service blocks symlink resolution into `/home/`. Fixed via drop-in `/etc/systemd/system/nftables.service.d/protect-home.conf` setting `ProtectHome=read-only`.
 - Use `sudo nft -f /etc/nftables.conf` for live reload (no service restart needed).
 - After editing the asset with the Write tool, the inode changes but the symlink still resolves correctly since it points to the path, not the inode.

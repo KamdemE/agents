@@ -8,7 +8,7 @@ description: >
   Load before any tailscale serve, funnel, accept-routes, peer, or port
   management task.
 metadata:
-  version: 2.1.0
+  version: 2.2.0
   author: KpihX
   scope: network
 ---
@@ -19,7 +19,7 @@ metadata:
 
 > **OS references:** `references/ubuntu.md` (systemd service paths, apt install) · `references/windows.md` (WSL setup, native Windows Tailscale)
 > **Machine identity:** See `k-ubuntu` (this workstation) or the relevant infra skill for hostname, IPs, DNS, serve config, and peer state.
-> **Canonical assets:** `assets/tailscaled.service` (systemd override), `assets/tailscaled-config` — symlinked from system paths on Ubuntu.
+> **Canonical assets:** NONE in `.agents` since 2026-08-24 — `tailscaled.service` + `/etc/default/tailscaled` are stock Tailscale-managed files with zero KπX customization: they live directly in `/etc` (real files, no symlinks) and Tailscale governs them (de-link per KπX order).
 
 ---
 
@@ -202,6 +202,6 @@ journalctl -u tailscaled -f  # Linux (systemd)
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v2.2.0 — De-linked `tailscaled.service` + `/etc/default/tailscaled` from `.agents` per KπX order: stock Tailscale-managed files with zero KπX customization now live directly in `/etc` as real root-owned files (Tailscale governs them); skill assets purged from `assets/`; registry entries removed from `links.jsonc` + `services.jsonc` (explanatory comments kept); `references/ubuntu.md` service-paths table + Assets section rewritten to document the de-link; "Canonical assets" header note replaced by de-link notice. Backups of the exact live content preserved at `/tmp/opencode/tailscaled*.bak`. Service verified active after daemon-reload. |
 | 2026-07-22 | [OPENCODE] | v2.1.0 — Added SUDO GATE warning to `tailscale up`: must be launched via tmux ops pane. |
-| 2026-07-22 | [OPENCODE] | v2.0.0 — Rewritten as generic core. Machine-specific identity (hostname, IPs, DNS, serve config, peers) extracted to k-ubuntu. Added OS references for Ubuntu and Windows. |
-| [SUMMARY] | — | v1.2.0 assets symlinks; v1.1.0 full rewrite; v1.0.0 creation. |
+| [SUMMARY] | — | v2.0.0 generic core (→ `references/log.md`) · v1.2.0 assets symlinks · v1.1.0 full rewrite · v1.0.0 creation |

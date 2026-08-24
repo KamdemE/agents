@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.1
+  version: 1.16.2
   scope: operations
 ---
 
@@ -182,7 +182,6 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v1.16.2 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
 | 2026-08-20 | [COLAB] | v1.16.1 — Routed raw `adb` and `scrcpy` to `k-phones` after the Android skill rename and ADB-wrapper purge. |
-| 2026-08-14 | [COLAB] | v1.16.0 — **Launched CLI registry expansion (recheck after purges)**: added launchable-by-me CLIs missing from the registry — `gext`/`gnome-extensions-cli`, `litellm`, `ruff`, `pyright`/`basedpyright`, `jupytext`/`jupyter-nbconvert`, `oxlint`, `pnpm`, `tree-sitter`, `loom`/`loom-mcp`, `msedge-cdp`, `k-vpn`, `mail-proxy`, `tick-proxy`, `tg-proxy`, `gopls`, `srt`/`srt-*`. Removed `openclaw` (already documented in `k-ai`). Archived purged `asciinema` in `references/purged.md` (GRAVÉ). |
-| 2026-08-14 | [COLAB] | v1.15.0 — **Purged agent CLIs moved to `references/purged.md`**: removed `codex`, `cline`, `gemini`, `vibe`, `copilot`, `zed` rows from the CLI registry (purged 2026-08-14); archived in `references/purged.md` (never deleted); kept only active CLIs + `*-proxy`. |
-| [SUMMARY] | — | v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |

@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.44.0
+  version: 2.47.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -151,7 +151,7 @@ OpenCode Web runs as a persistent systemd user service. A reverse proxy (Lens) s
 | `opencode-lens` | `3000` (localhost only) | `2443` | `https://kpihx-ubuntu.tail2527bd.ts.net:2443/` | Lens Proxy + Injected Voice UI (Interactive Mode) |
 | `openclaw-gateway` | `18789` (localhost only) | `443` (root) | `https://kpihx-ubuntu.tail2527bd.ts.net/` | OpenClaw Gateway — tailnet root route (not opencode; see `k-openclaw`) |
 
-Systemd units tracked as `assets/opencode-web.service` (native) and `assets/opencode-lens.service` (lens proxy — plugins at `scripts/plugins/web/`).
+Systemd units tracked as `assets/opencode-web.service` (native), `assets/opencode-web-shim.service` (terminal URL shim), and `assets/opencode-lens.service` (lens proxy — plugins at `scripts/plugins/web/`).
 
 ```bash
 systemctl --user status opencode-web     # status native
@@ -187,6 +187,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 |--------|------|
 | `scripts/opencode-ollama.sh` | Ollama zsh wrapper + auto-sync models into `opencode.jsonc`. Sourced from `.kshrc`. Surgical sub-block replacement (preserves the other providers, e.g. `ollama6`). |
 | `k-dxo/scripts/opencode-ollama6.sh` | Ollama6 zsh wrapper + auto-sync deep-pc6 (ollama6) models into `opencode.jsonc`. Sourced from `.kshrc` — exact equivalent of `opencode-ollama.sh` for the `ollama6` provider (11436 tunnel). Wraps `ollama6 pull`/`rm`/`delete`; full model names as keys. `ollama6` stays core-only (k-dxo). |
+| `scripts/terminal-url-shim.js` | Terminal URL and SSE proxy shim to handle stream buffering, token injection, and origin matching. |
 
 ## References
 
@@ -199,7 +200,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - `references/providers.md` — Ollama & Ollama6 provider config examples
 - `references/android-termux.md` — Android/Termux incompatibility: root cause, workarounds tested, and build-from-source guide for ARM64 devices
 - `references/voice.md` — STT/TTS via @renjfk/opencode-voice and Web Voice Plugin: model install, Web Speech configuration, and browser integrations
-- `references/go.md` — OpenCode GO system reference (Go-based MCP servers and tooling) — renamed from GO.md 2026-08-15 (workspace G0.md symlink removed)
+- OpenCode Go Models — Always check the official site [opencode.ai/go](https://opencode.ai/go) and live catalog [opencode.ai/zen/go/v1/models](https://opencode.ai/zen/go/v1/models) (references/go.md removed as obsolete)
 - `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
 
 ## Insights Discipline (mandatory)
@@ -212,8 +213,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-17 | [COLAB] | v2.44.0 — **OpenCode Web & Lens terminal connection fix (err 403 on /connect-token + SSE connection leak)**: resolved a PTY terminal connection failure (stuck loading indefinitely). (1) In `terminal-url-shim.js`, passed `text/event-stream` responses directly through (streaming) without buffering, resolving a critical connection leak (SSE stream on `/event` never terminates → unconditional buffering kept connections pinned → Bun's fetch pool starved after ~25h uptime, causing a complete shim hang). (2) Injected `x-opencode-ticket: 1` header on `connect-token` requests because the upstream frontend fails to send it on non-standard (Tailscale) hostnames. (3) Stopped overriding the `Host` header to `127.0.0.1:40977` in both `terminal-url-shim.js` and `lens-proxy.mjs`, preserving the client Host header so the backend same-origin Origin/Host CSRF validation passes. Re-verified zsh shell prompt renders successfully on both interfaces. |
-| 2026-08-16 | [COLAB] | v2.43.0 — **`tmux-notify.js` busy-pane block extended to a 2nd layer (KπX follow-up question — "tu check juste busy par un autre agent ou vrai busy ?")**: layer 1 (v2.42.0-era `registry.get(paneId)` check) only catches panes armed by OUR OWN system — a pane busy for any other reason (KπX typing directly, an agent bypassing interception, a leftover foreground process) was invisible to it. Added layer 2 in `tool.execute.before`: if layer 1 finds nothing, queries `tmux display-message -p -t <paneId> '#{pane_current_command}'` (pure metadata, no `capture-pane`/content read) and blocks if the result isn't one of `zsh`/`bash`/`sh`/`fish` — a real, independent ground-truth signal, fails open on any tmux/pane error so a lookup failure never blocks arming. `scripts/plugins/AGENTS.md` tmux-notify.js inventory row (5) rewritten to document both layers. `node --check` OK. Cross-ref: `k-tmux` v1.20.0. |
-| [SUMMARY] | — | v2.41.0 tmux-notify.js reversal + proactive reminder + session isolation (→ `references/log.md`) · v2.38.0 opencode-claude-auth plugin restored (→ `references/log.md`) · v2.39.0 tmux-notify.js line-count label + full TMUX_TIMEOUT doc (→ `references/log.md`) · v2.37.0 tmux-notify prompt event refactor (→ `references/log.md`) · v2.36.0 scripts/hooks→scripts/plugins restructure (→ `references/log.md`) · v2.35.0 tmux-notify monitor-silence (→ `references/log.md`) · v2.34.0 tmux-notify pane-died throwaway-pane (→ `references/log.md`) · v2.33.0 make-check-guard hook + hooks tests (→ `references/log.md`) · v2.32.0 fork rename (→ `references/log.md`) · v2.31.0 plugins submodules (→ `references/log.md`) · plus ancien → `references/log.md`. |
+| 2026-08-24 | [COLAB] | v2.47.0 — **Option A anti-wait block PURGED + `<tmux-armed>` enriched (KπX order)**: per explicit KπX directive, REMOVED from `tmux-notify.js` everything added earlier the same day — the `sendKeysClauseRegex` compound-stripping helper and the whole "OPTION A anti-wait block" (`throw` on `sleep N`/`wait` while a registry-armed pane runs). Rationale (KπX): blocking sleep is absurd when the pane may never return to a prompt (e.g. chatting with another agent living in a tmux pane/TUI) — instruct beats blocking. The `<tmux-armed>` reminder (`tool.execute.after`) now says exactly that instead: "Do NOT run sleep, wait, or any timeout/polling to wait for this pane. Either CONTINUE other parallel work you already have, OR stop your turn now — in BOTH cases you will be automatically notified." Docs aligned: `rules/tool-discipline.md` bullet removed, `k-tmux/SKILL.md` event row + Stateful Integration quote, `plugins/AGENTS.md` back to 5 pieces with updated piece-(2) quote. Functional residue verified zero (`node --check` OK, grep clean); historical changelog entries kept (append-only). |
+| 2026-08-24 | [COLAB] | v2.46.0 — **`tmux-notify.js` Option A anti-wait block (KπX directive)**: new guard in `tool.execute.before` — if a NON-send-keys bash command matches `sleep N` / standalone `wait` AND any pane armed by THIS session is still running → `throw`s with the mandated reflex: "STOP your turn now, OR CONTINUE other parallel work you already have — nothing else" (sleeping defeats the stateful mechanism: the `<tmux-notify>` would wait for the end of the agent's own sleep instead of arriving instantly at pane completion; blocking lets `session.idle` fire immediately so the notification relaunches the agent). Send-keys commands excluded from the check (an agent may legitimately send a string containing "sleep ..." INTO a pane). Verified: `node --check` OK + regex truth-table test (6/6). Cross-ref: `k-tmux` v1.21.0 event-table row, `rules/tool-discipline.md`. *(Superseded same day by v2.47.0 purge — see above.)* |
+| [SUMMARY] | — | v2.45.0 go.md cleanup (→ `references/log.md`) · v2.44.0 terminal leak fix (→ `references/log.md`) · v2.43.0 busy-pane layer 2 (→ `references/log.md`) · v2.41.0 and older in log.md |
 
-Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service` (symlink target for `~/.config/systemd/user/`) · `assets/opencode-lens.service` (symlink target for `~/.config/systemd/user/`)
+Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service`, `assets/opencode-web-shim.service`, and `assets/opencode-lens.service` (symlink targets for `~/.config/systemd/user/`)

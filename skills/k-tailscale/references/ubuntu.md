@@ -16,8 +16,8 @@ curl -fsSL https://tailscale.com/install.sh | sh
 | File | Path | Purpose |
 |------|------|---------|
 | System service file | `/lib/systemd/system/tailscaled.service` | Default unit (from package) |
-| Override | `/etc/systemd/system/tailscaled.service` | Local override (symlink to skill asset) |
-| Config | `/etc/default/tailscaled` | Daemon flags (symlink to skill asset) |
+| Override | `/etc/systemd/system/tailscaled.service` | Local override — REAL FILE since 2026-08-24 (stock Tailscale-managed, de-linked from skill per KπX order) |
+| Config | `/etc/default/tailscaled` | Daemon flags — REAL FILE since 2026-08-24 (de-linked from skill per KπX order) |
 | State | `/var/lib/tailscale/tailscaled.state` | Persistent state |
 | Socket | `/run/tailscale/tailscaled.sock` | Local API socket |
 
@@ -42,11 +42,7 @@ This enables:
 
 ## Assets
 
-The canonical service override and config live in the skill's `assets/` directory:
-- `assets/tailscaled.service` → `/etc/systemd/system/tailscaled.service`
-- `assets/tailscaled-config` → `/etc/default/tailscaled`
-
-Edit the assets, then:
+NONE in `.agents` since 2026-08-24 (de-link per KπX order): `tailscaled.service` and `/etc/default/tailscaled` are stock Tailscale-managed files with zero KπX customization — they live directly in `/etc` as real files and Tailscale governs them. To customize, edit the `/etc` files directly, then:
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart tailscaled

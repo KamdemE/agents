@@ -3,9 +3,9 @@ name: k-nftables
 description: >
   KpihX nftables firewall — ruleset reference, interface inventory, service
   management, and troubleshooting. Load before any nftables, firewall, or
-  network security task on the Ubuntu workstation.
+  network security task on kpihx-ubuntu or kpihx-pve-debian.
 metadata:
-  version: 1.1.0
+  version: 1.2.1
   author: KpihX
   scope: system-firewall
 ---
@@ -15,6 +15,7 @@ metadata:
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > **Canonical ruleset:** `assets/nftables.conf` — system `/etc/nftables.conf` is a symlink to it.
+> **Scoped deployment:** `links.jsonc` scopes `nftables-conf` to `kpihx-ubuntu` and `kpihx-pve-debian` only.
 
 ---
 
@@ -24,7 +25,7 @@ metadata:
 
 ```
 /etc/nftables.conf                          # symlink → skill asset
-  └─> $HOME/.config/opencode/skills/k-nftables/assets/nftables.conf  # SINGLE SOURCE OF TRUTH
+  └─> $HOME/.agents/skills/k-nftables/assets/nftables.conf  # SINGLE SOURCE OF TRUTH
 
 /etc/systemd/system/nftables.service.d/
   └─ protect-home.conf                      # systemd drop-in override
@@ -42,7 +43,7 @@ nftables.service ships with `ProtectHome=true` (its ExecStart cannot read any fi
 
 ```bash
 # 1. Edit the asset directly
-#    (path is inside $HOME/.config/opencode/skills/k-nftables/assets/nftables.conf)
+#    (path is inside $HOME/.agents/skills/k-nftables/assets/nftables.conf)
 
 # 2. Test syntax
 sudo nft -c -f /etc/nftables.conf           # resolves through symlink
@@ -208,6 +209,6 @@ sudo journalctl -k -f -g "NFT DROP"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-07-21 | [OPENCODE] | v1.1.0 — Added Architecture section (symlink + systemd drop-in), edit workflow, systemd drop-in documentation. Updated insights. |
-| 2026-07-21 | [OPENCODE] | v1.0.0 — Created skill: ruleset reference, interface map, commands, background. Asset `assets/nftables.conf` is canonical; `/etc/nftables.conf` symlinked to it. |
-| [SUMMARY] | — | All entries listed above |
+| 2026-08-24 | [COLAB] | v1.2.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
+| 2026-08-24 | [COLAB] | v1.2.0 — Scoped the canonical `nftables-conf` link to `kpihx-ubuntu` + `kpihx-pve-debian` only, documented that deployment scope in the skill, and corrected stale canonical asset paths from `$HOME/.config/opencode/...` to `$HOME/.agents/...`. Audit result: no `services.jsonc` entry is needed because `nftables.service` remains a stock system service while only the config file is .agents-owned. |
+| [SUMMARY] | — | v1.1.0 Architecture & drop-ins · v1.0.0 created (→ `references/log.md`) |

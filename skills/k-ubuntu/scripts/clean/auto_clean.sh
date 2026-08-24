@@ -1,5 +1,14 @@
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+# systemd services do NOT export $HOME by default → under `set -u` a bare
+# `$HOME` reference below would abort, and as root $HOME=/root would miss the
+# kernel. Set it explicitly to the agent user home (where .agents lives) before
+# sourcing notifier.sh. ${HOME:-default} is safe under `set -u`.
+export HOME="${HOME:-/home/kpihx}"
+# systemd services with explicit `User=root` preset $HOME=/root, which misses
+# the kernel (/root/.agents does not exist) — force the agent user home whenever
+# .agents is not reachable from the current value.
+[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
 # shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
@@ -62,7 +71,7 @@ set +e
 echo "--- Running .agents governance audit ---"
 AUDIT_STATUS="✅ OK"
 AUDIT_DETAILS=""
-if ! su - "$USER_BACKUP" -c "make -C $USER_HOME/.agents audit" > "$LOG_DIR/audit.log" 2>&1; then
+if ! su - "$USER_BACKUP" -c "make -C $USER_HOME/.agents check-skills" > "$LOG_DIR/audit.log" 2>&1; then
     AUDIT_STATUS="❌ FAILED"
     AUDIT_DETAILS=$(cat "$LOG_DIR/audit.log" | grep -v "make: ")
 fi

@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.11.0"
+  version: "3.13.4"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -187,7 +187,7 @@ _(To be documented per optimization pass.)_
 - For each broken symlink: identify the canonical asset in `.agents/skills/<skill>/assets/` and re-symlink
 - Log all fixes to `k-context/references/issues.md`
 - **Zero-tolerance:** no broken `.agents/` symlinks in systemd should remain after an optimization pass
-- **Automated check:** `make check-systemd` (`scripts/check_systemd.sh`, joined into the `check:` chain) verifies every deployed `.agents`-owned unit (system + user) with `systemd-analyze verify` on the DEPLOYED path (drop-in-aware), and lists not-linked unit-file assets under activated skills (`*/assets/*` scope) — informational, with a VERIFY warning if any was supposed to be linked for this infra. Symlinks (non-systemd) are verified by `make check-links` (`scripts/links/check_links.sh`, using `scripts/links/links.sh` as the single source of truth) — see below.
+- **Automated checks:** `make check-services` (`scripts/services/check_services.sh`, joined into the `check:` chain) verifies every applicable `.agents`-owned unit's canonical asset, deployment, selected internal paths, and expected active state. Symlinks (non-systemd) are verified by `make check-links` (`scripts/links/check_links.sh`, using `assets/links.jsonc` as the single source of truth) — see below.
 
 ### Actions
 
@@ -196,10 +196,9 @@ _(To be documented per optimization pass.)_
 3. Verify skill alignment: `make check-skills` (or `python3 $HOME/.agents/scripts/check_skills/check_skills.py`)
 4. Update `k-context/SKILL.md` session log if needed
 5. Check for orphaned references in `skills/` and `references/`
-6. **Clean `tmp/`**: remove all files in `$HOME/.agents/tmp/` (merged-away originals, old backups) — these are safe to delete during optimization
-7. **Empty `~/KpihX-Labs/tmp/`**: remove all contents of `$HOME/KpihX-Labs/tmp/` (temporary working area — safe to empty during optimization; keep the directory itself)
-8. **Check + run correct script permissions**: after any purge/optimization, verify and normalize execute bits on all kernel scripts with `make chmod` (default 755; stricter 744/700 via `scripts/chmod.sh <XYZ>`) — always check that installed scripts/entry points remain executable.
-9. **Broken-link sweep (`~` whole home + `/etc`)**: dig the ENTIRE `$HOME` (`find ~ -type l` — recursive, ALL of `~`, not just `~/.local/bin`, `~/.config`, `~/.local/share`; those are examples, not a limit) and the whole system config `/etc` (covers `/etc/systemd/system` and everything else). For each broken link whose canonical asset exists in `.agents` (`~/.agents/skills/<skill>/assets|scripts/...`), **re-create the symlink** to that source of truth (`ln -sf`; elevation via tmux for `/etc`). If the source of truth is NOT localizable (asset missing/uninstalled), **signal/report it** (do not silently leave it) and log to `k-context/references/issues.md`. Zero-tolerance: no broken `.agents`-related symlink should remain after an optimization pass. Fast detection (whole home + `/etc`): `find ~ /etc -type l ! -exec test -e {} \; -print 2>/dev/null`. **Speed note (PRUNE_DIRS — never scan into these noise dirs):** when sweeping the whole home, prune `Trash`, `.venv`, `node_modules`, and `models` (large model stores) — they are noise / not `.agents`-owned symlinks. Mirror of `scripts/links/check_links.sh` `PRUNE_DIRS`.
+6. **Check + run correct script permissions**: after any purge/optimization, verify and normalize execute bits on all kernel scripts with `make chmod` (default 755; stricter 744/700 via `scripts/chmod.sh <XYZ>`) — always check that installed scripts/entry points remain executable.
+7. **Broken-link sweep (`~` whole home + `/etc`)**: dig the ENTIRE `$HOME` (`find ~ -type l` — recursive, ALL of `~`, not just `~/.local/bin`, `~/.config`, `~/.local/share`; those are examples, not a limit) and the whole system config `/etc` (covers `/etc/systemd/system` and everything else). For each broken link whose canonical asset exists in `.agents` (`~/.agents/skills/<skill>/assets|scripts/...`), **re-create the symlink** to that source of truth (`ln -sf`; elevation via tmux for `/etc`). If the source of truth is NOT localizable (asset missing/uninstalled), **signal/report it** (do not silently leave it) and log to `k-context/references/issues.md`. Zero-tolerance: no broken `.agents`-related symlink should remain after an optimization pass. Fast detection (whole home + `/etc`): `find ~ /etc -type l ! -exec test -e {} \; -print 2>/dev/null`. **Speed note (PRUNE_DIRS — never scan into these noise dirs):** when sweeping the whole home, prune `Trash`, `.venv`, `node_modules`, and `models` (large model stores) — they are noise / not `.agents`-owned symlinks. Mirror of `scripts/links/check_links.sh` `PRUNE_DIRS`.
+8. **`.loom` index debris analysis (MANDATORY during any optimization pass)**: analyze `$HOME/.loom/projects/*.db` and clean Loom debris — (a) **stub DBs**: 0-node DBs created lazily by `loom-mcp` whenever an agent merely started a session in a folder (only `meta`/FTS tables) → purge; (b) **rename ghosts**: DBs whose project directory was renamed/no longer exists (e.g. `tg_proxy.db` vs `tg-proxy.db`, cleaned 2026-08-24) → purge after confirming the new-name index exists or re-indexing; (c) **stale real indexes**: check freshness via MCP `get_status` / `last_analyzed_ago` on ACTIVE projects → flag for `loom sync`/`loom analyze .`, do not delete. Detection: `uv run --no-project python` sqlite read-only count over `nodes` per DB (`sqlite3` CLI may be absent); cross-check each DB name against existing directories under `$HOME/KpihX-Labs/`, `$HOME/Work/`, etc. Use trash-safe `rm`. Methodology details: `k-loom/SKILL.md` → `.loom` Hygiene.
 
 ---
 
@@ -213,7 +212,6 @@ _(To be documented per optimization pass.)_
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-20 | [COLAB] | v3.11.0 — Recorded the complete `k-phones` interface purge and the reusable wrapper/state/registry cleanup lesson. |
-| 2026-08-15 | [COLAB] | v3.10.0 — **Broken-link sweep (Meta Scope Actions step 9)**: check ALL broken/dangling symlinks in `$HOME` (whole home: `find ~ -type l` — recursive, not just `~/.local/bin`, `~/.config`, `~/.local/share`) and systemd dirs (`/etc/systemd/system`, `~/.config/systemd/user`); re-create each from its `.agents` source of truth when localizable (`ln -sf`; tmux for `/etc`), else **signal/report** it (log to `k-context/references/issues.md`). Zero-tolerance: no broken `.agents`-related symlink after a pass. |
-| 2026-08-14 | [COLAB] | v3.9.0 — **`clean-system`→`clean` + JSONC infra refs**: `references/ubuntu.md` updated to `/var/log/clean/workspace_scan.log` (service renamed to `clean` per the services-key restructure). Cross-refs: `assets/services.jsonc` (key `clean-service-ubuntu`, unit `clean.service`), `scripts/services/{check_services,reload_services}.sh` (use `unit` param; reload_services also reloads user+system daemons). |
-| [SUMMARY] | — | v3.8.0 chmod guidance (→ `references/log.md`) · v3.7.0 link infrastructure · v3.6.0 `~`/`~/.cache` debris sweep · v3.5.0 read-first · v3.4.0 debris scan methodology · v3.3.0 tmp emptying · v3.2.0 purge discipline (→ `references/log.md`) · v3.1.0 and older moved to `references/log.md` |
+| 2026-08-24 | [COLAB] | v3.13.4 — Removed kernel and workspace temporary-directory purge instructions after their explicit removal. |
+| 2026-08-24 | [COLAB] | v3.13.3 — Restored the optimization validation step: run `make check` and fix every warning. |
+| [SUMMARY] | — | v3.13.2 superseded approval-policy wording · v3.13.1 check-skills audit · v3.13.0 systemd/link audit · v3.12.0 .loom index debris · v3.11.0 interface purge (→ `references/log.md`) · v3.10.0 broken-link sweep (→ `references/log.md`) · v3.9.0 clean-system rename (→ `references/log.md`) · v3.8.0 chmod and older (→ `references/log.md`) |

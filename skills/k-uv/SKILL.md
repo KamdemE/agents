@@ -7,7 +7,7 @@ description: >
   audit, or Python environment debugging.
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.6.2"
   scope: operations
 ---
 
@@ -17,7 +17,7 @@ metadata:
 
 > **Rules that enforce uv-first:**
 > - `rules/uv-first.md` — All Python operations MUST use uv. Never pip. Never system Python.
-> - `rules/audit-commands.md` — `uv` not `pip`. `make check` after `.agents/` changes.
+> - `rules/audit-commands.md` — `uv` not `pip`. For standalone `.agents` work, propose `make check`; never run that kernel check without KπX's explicit request or validation. Project checks follow their own workflow.
 > - `rules/file-governance.md` — Single source of truth, `.agents/` centralization.
 
 > **Related skills:** `k-project` (project init with uv) · `k-ubuntu` (uv tool table per machine) · `k-nvim` (uv-nvim Python provider venv) · `k-clis` (CLI registry routing) · `k-hermes` (uv tool hermes-agent extra deps) · `k-final` (`uv tool install --editable .` in closure)
@@ -240,6 +240,6 @@ Python packages inside the KpihX-Labs workspace are published using `uv publish`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v1.6.2 — Scoped the explicit-approval policy to standalone `.agents` kernel work; project checks retain their own workflow. |
 | 2026-08-14 | [COLAB] | v1.6.0 — **MCP Servers table cleanup**: removed `bw-proxy` row (bw-mcp/bw-admin purged 2026-08-14; secrets no longer injected via bw). |
-| 2026-08-14 | [COLAB] | v1.5.0 — Added `gnome-extensions-cli` (v0.11.0) to UV Tools inventory. |
-| [SUMMARY] | — | v1.4.0 purged MCP tools · v1.3.0 legacy table removal (→ `references/log.md`) · v1.2.0 and older copied to `references/log.md` |
+| [SUMMARY] | — | v1.6.1 superseded broad approval-policy wording · v1.5.0 gnome-extensions-cli · v1.4.0 purged MCP tools · v1.3.0 legacy table removal (→ `references/log.md`) · v1.2.0 and older copied to `references/log.md` |

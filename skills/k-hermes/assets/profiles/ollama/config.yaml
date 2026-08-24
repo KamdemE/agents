@@ -1,0 +1,11 @@
+# Hermes local-only profile — default local model is phi4-mini:latest.
+model:
+  provider: ollama
+  name: phi4-mini:latest
+  base_url: http://localhost:11434/v1
+
+providers:
+  ollama:
+    api_base: http://localhost:11434/v1
+    api_key_env: ""
+    api_mode: chat_completions

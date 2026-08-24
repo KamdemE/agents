@@ -4,8 +4,8 @@
 # ============================================================
 # All the common JSONC load/strip/validate/infra helpers now live in the
 # central shared library $HOME/.agents/libs/jsonc/jsonc_lib.sh (single source
-# of truth — no duplication). This file sources it and exposes the link asset
-# paths, so scripts/links/* can stay focused on their logic.
+# of truth — no duplication). This file sources it so scripts/links/* can use
+# the shared configuration and infrastructure-resolution helpers.
 #
 # WHY JSONC: comments allowed → self-documenting. JSONC is the KπX config
 # standard (see kpihx-labs / k-project → Config Standard). .env holds secrets.

@@ -1,0 +1,17 @@
+# Hermes runtime configuration — canonical .agents source, symlinked to $HOME/.hermes/config.yaml.
+# Local Ollama models currently available: phi4-mini:latest (default), qwen3:latest, qwen2.5:latest.
+# Secrets belong in $HOME/.hermes/.env and are never stored in this repository.
+model:
+  provider: ollama
+  name: phi4-mini:latest
+  base_url: http://localhost:11434/v1
+
+providers:
+  ollama:
+    api_base: http://localhost:11434/v1
+    api_key_env: ""
+    api_mode: chat_completions
+  opencode-go:
+    api_base: https://opencode.ai/zen/go/v1
+    api_key_env: OPENCODE_API_KEY
+    api_mode: chat_completions

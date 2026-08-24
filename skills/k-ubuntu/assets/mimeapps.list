@@ -61,6 +61,7 @@ image/webp=org.gnome.Loupe.desktop
 image/svg+xml=org.gnome.Loupe.desktop
 x-scheme-handler/about=com.microsoft.Edge.desktop
 x-scheme-handler/unknown=com.microsoft.Edge.desktop
+x-scheme-handler/claude=com.anthropic.Claude.desktop
 
 [Added Associations]
 application/vnd.debian.binary-package=snap-store_snap-store.desktop;

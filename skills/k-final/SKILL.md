@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.6.3"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -144,7 +144,7 @@ For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 
    - The `install` target MUST recursively `chown` the data directory to `REAL_USER`.
 4. **Audit & Verification**:
    - The `Makefile` MUST include an `audit` target (see templates) verifying root ownership, directory permissions (700 for data), and AppArmor enforcement.
-   - Run `make check` after every install; success is mandatory.
+    - Run `make check` after every install; success is mandatory.
 
 ## Phase J — Build & publish
 
@@ -188,5 +188,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [COLAB] | v1.6.3 — Restored the mandatory project-finalization `make check` gates; the explicit approval rule applies only to standalone kernel work in `$HOME/.agents`. |
 | 2026-07-26 | [OPENCODE] | v1.6.0 — **make check target**: Updated references from make audit to make check across the skill, in line with the new unified validation process. |
-| [SUMMARY] | — | v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |
+| [SUMMARY] | — | v1.6.2–v1.6.1 superseded approval-policy wording · v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |

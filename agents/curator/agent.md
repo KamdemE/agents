@@ -1,7 +1,7 @@
 ---
 id: curator
 name: curator
-version: "2.0.0"
+version: "2.0.2"
 description: Kernel maintainer — monitors agents/, rules/, skills/ for drift. Promotes patterns to skills. Runs make check.
 mode: subagent
 scope: colab
@@ -91,10 +91,9 @@ After each run, write summary to `k-context/SKILL.md` → `## Session Log`:
 ## Standards
 - **Zero Information Loss (GRAVÉ)** — NEVER delete, NEVER overwrite, NEVER lose information. Append-only is ABSOLUTE.
 - All `.md` files, logs, changelogs, session entries, references, issues, insights — **add only, never remove**.
-- When a section reaches its limit: **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut.
+- For `k-context`: when a section reaches its limit, **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut. For other skills, condense/summarize their changelog directly into their `[SUMMARY]` table row, without creating/maintaining a separate `references/log.md` file.
 - No in-place edits of log entries. No deletion of historical records. No truncation.
 - Corrections = new append-only entries. Archives = copy-then-condense, never truncate.
-- Overflow from any skill's changelog, session log, or table → `references/log.md` inside that skill.
 - Read before Edit — never modify a file you haven't read fully
 - Leave the kernel cleaner than you found it
 - If unsure about a change → skip and flag for review

@@ -1,9 +1,15 @@
 #!/bin/bash
 # KπX — Standard tmux session per equipment
-# Usage: ./setup-session.sh [session-name]
-#   If session-name omitted, auto-detects equipment via Tailscale.
-#   Creates standard 3-window session: agents, default, tmp.
+# Usage: tmux-init.sh [session-name]
+#   If session-name omitted, ALWAYS auto-detects equipment via Tailscale.
+#   Creates standard 3-window session: agents (split), default, tmp (unsplit).
 #
+# Window 0 "agents" layout:
+#   ┌─────────┬────┐
+#   │         │0.1 │   0.0 = left half  (opencode)
+#   │   0.0   ├────┤   0.1 = right-top quarter (nvim)
+#   │         │0.2 │   0.2 = right-bottom quarter (ops/sudo)
+#   └─────────┴────┘
 # Auto-detection:
 #   1. tailscale status --json → hostname (stripped of kpihx- prefix)
 #   2. fallback: hostname -s

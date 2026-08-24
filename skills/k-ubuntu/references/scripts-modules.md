@@ -1,4 +1,4 @@
-# Centralized Scripts Modules — ksh, Clean, Backup, PVE Backup, tg-bot
+# Centralized Scripts Modules — ksh, Clean, Backup, PVE Backup
 
 ## ksh — Universal Dispatcher
 
@@ -39,7 +39,7 @@ ksh status                # clean + backup + QMD health
 
 ## Clean — Automated System Cleanup
 
-Modular cleanup suite with systemd timer (every 2 days at 21:30).
+Modular cleanup suite with systemd timer (every Saturday at 04:00).
 
 **Via ksh:**
 ```bash
@@ -56,7 +56,7 @@ ksh clean-admin purge        # remove symlinks (sudo)
 
 **Permissions:** scripts must be executable (`chmod +x *.sh` in each module dir) or services fail silently with `exit-code`/`203/EXEC`.
 
-**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean.service` (root, oneshot) · `clean.timer` (every 2d @21:30, Persistent)
+**Systemd units** in `.agents/skills/k-ubuntu/assets/clean/` (symlinked to `/etc/systemd/system/`): `clean.service` (root, oneshot) · `clean.timer` (Sat @04:00, Persistent)
 
 ## Backup & Restore — Phoenix Protocol
 
@@ -93,37 +93,3 @@ ksh backup-pve-admin purge      # remove symlinks (sudo)
 **Paths:** HDD `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Backups/PVE/` (keep 1)
 
 **Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore_pve/`
-
-## tg-bot — Telegram Ubuntu Bot
-
-User systemd service. Polls Telegram, dispatches commands via `ksh`.
-
-| Command | Action |
-|---------|--------|
-| `/clean [flags]` | Run cleaner (safe mode default) |
-| `/backup` | Preview backup |
-| `/status` | Global system audit |
-| `/help` | List commands |
-
-**Setup (symlink from `.agents`):**
-```bash
-systemctl --user stop tg-ubuntu.service    # stop old if exists
-rm -f ~/.config/systemd/user/tg-ubuntu.service
-ln -sf ~/.agents/skills/k-ubuntu/assets/tg-bot.service ~/.config/systemd/user/tg-bot.service
-systemctl --user daemon-reload
-systemctl --user enable --now tg-bot.service
-```
-
-**Source of truth:** `k-ubuntu/scripts/tg-bot.py` + `k-ubuntu/assets/tg-bot.service` in `.agents/`.
-
-**Purge:**
-```bash
-systemctl --user stop tg-bot.service
-systemctl --user disable tg-bot.service
-rm -f ~/.config/systemd/user/tg-bot.service
-systemctl --user daemon-reload
-```
-
-**Secrets:** sourced from `~/.agents/.env` — needs `TELEGRAM_UBUNTU_TOKEN` + `TELEGRAM_CHAT_ID`.
-
-**Logs:** `journalctl --user -u tg-bot.service -f`

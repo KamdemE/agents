@@ -6,7 +6,7 @@
 #   - every registered JSONC asset (assets/*.jsonc) parses as valid JSON after
 #     comment-stripping (via libs/jsonc/jsonc_lib.sh jsonc_valid — the central
 #     logic, never re-implemented here)
-#   - every JSONC asset referenced by the infra/skills guards is well formed
+#   - the mandatory infra registers are included in that same asset sweep
 #
 # This check is deliberately THIN: it only calls the shared jsonc_lib helpers.
 # It does NOT contain parsing logic itself (single source of truth in libs/).
@@ -26,7 +26,7 @@ ASSETS_DIR="$AGENTS_DIR/assets"
 failed=0
 checked=0
 
-echo "🔍 check-jsonc — JSONC assets ($ASSETS_DIR)"
+echo "  ├─ 🧾 1/2 Parse every top-level JSONC asset"
 
 # --- 1. Every asset/*.jsonc must be valid (central jsonc_valid) ------------
 if [ -d "$ASSETS_DIR" ]; then
@@ -38,22 +38,18 @@ if [ -d "$ASSETS_DIR" ]; then
       echo "  ✗ INVALID JSONC: $f"
       failed=$((failed + 1))
     fi
-  done < <(find "$ASSETS_DIR" -maxdepth 1 -name '*.jsonc' -print0 2>/dev/null || true)
+  done < <(find "$ASSETS_DIR" -maxdepth 1 -name '*.jsonc' -print0)
 fi
 
-# --- 2. The three infra registers must parse (infras/services/links) --------
+echo "  ├─ 🧭 2/2 Required registry presence"
+# --- 2. The three infra registers must exist (already parsed above) ----------
 for name in infras_skills services links; do
   file="$ASSETS_DIR/$name.jsonc"
-  if [ -f "$file" ]; then
-    checked=$((checked + 1))
-    if jsonc_valid "$file"; then
-      echo "  ✓ $file"
-    else
-      echo "  ✗ INVALID JSONC: $file"
-      failed=$((failed + 1))
-    fi
+  if [ ! -f "$file" ]; then
+    echo "  ✗ MISSING required JSONC register: $file"
+    failed=$((failed + 1))
   fi
 done
 
-echo "check-jsonc: $checked JSONC asset(s) checked ($failed failure(s))."
+echo "  └─ 📊 Summary: $checked JSONC asset(s), $failed failure(s)"
 [ "$failed" -eq 0 ]

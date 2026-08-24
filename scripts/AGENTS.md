@@ -35,8 +35,10 @@ kernel (`make check`, `make link`, `make reload-services`, …). It follows the
    aggregates its `*_guard.py` modules).
 2. **No duplication.** Any parsing/validation/loading must come from the shared
    `libs/` twins (`jsonc_lib.*`, `env_lib.*`, …). Never inline a local copy.
-3. **`make check` runs every check and MUST be 100% clean** before commit/push
-   (see AGENTS.md → ABSOLUTE RULE — `make check`).
+3. **For the `.agents` kernel only**, always propose `make check` before
+   commit/push; **never run the kernel check without KπX's explicit request or
+   validation in the current conversation**. Once approved, it runs every
+   check and MUST be 100% clean (see AGENTS.md → ABSOLUTE RULE — `make check`).
 4. **Every script uses `set -uo pipefail`** unless there's a reason not to, and
    is written with `$HOME`/`$USER` (never hardcoded absolute paths).
 5. **English** for all new files/comments. Existing files keep their language.
@@ -52,4 +54,5 @@ kernel (`make check`, `make link`, `make reload-services`, …). It follows the
 2. Add the `make check-<thing>` target in `Makefile` and include it in the
    `check:` aggregate.
 3. Document it here (structure) and in the owning `k-*` skill if relevant.
-4. Run `make check` and ensure it passes 100%.
+4. For a new kernel check, propose `make check`; run it and ensure it passes
+   100% only after KπX's explicit approval.

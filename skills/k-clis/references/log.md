@@ -18,3 +18,4 @@ Append-only archive for durable skill history. One single `##` section — rows 
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-08-13 | [COLAB] | v1.14.0 — whisper-cli row updated: Vulkan build (ggml 0.19.0) user-local ~/.local/bin + ~/.local/lib, GPU Arc MTL detected. | |
+| 2026-08-14 | [COLAB] | v1.15.0 — **Purged agent CLIs moved to `references/purged.md`**: removed `codex`, `cline`, `gemini`, `vibe`, `copilot`, `zed` rows from the CLI registry (purged 2026-08-14); archived in `references/purged.md` (never deleted); kept only active CLIs + `*-proxy`. |

@@ -1,6 +1,6 @@
 #!/bin/bash
-# chmod.sh — Apply a permission mask to all executable script paths
-# listed in .gitattributes. Takes a single 3-digit octal permission.
+# chmod.sh — Apply a permission mask to executable script paths discovered
+# across scripts/, libs/, and skill scripts. Takes a single 3-digit octal permission.
 #
 # Usage:
 #   scripts/chmod.sh 755    # apply 755 (default: user rwx, group rx, other rx)
@@ -30,14 +30,14 @@ declare -i COUNT=0
 # set to 644 instead. Only files starting with a #! shebang get PERM (755 default).
 apply() {
     while IFS= read -r -d '' f; do
-        if head -c 2 "$f" 2>/dev/null | grep -q '#!'; then
+        if head -c 2 "$f" | grep -q '#!'; then
             chmod "$PERM" "$f"
             COUNT+=1
         else
             chmod 644 "$f"
             COUNT+=1
         fi
-    done < <(find "$@" -print0 2>/dev/null || true)
+    done < <(find "$@" -print0)
 }
 
 # ── scripts/ (this script excluded so find doesn't chmod itself slightly oddly — actually it's fine) ──

@@ -6,20 +6,20 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-ExecStart=/home/kpihx/.local/share/uv/tools/hermes-agent/bin/python -m hermes_cli.main gateway run --replace
-WorkingDirectory=/home/kpihx/.local/share/uv/tools/hermes-agent/lib/python3.12/site-packages
+ExecStart=/home/kpihx/.local/share/uv/tools/hermes-agent/bin/python -m hermes_cli.main gateway run
+WorkingDirectory=/home/kpihx/.hermes
 Environment="PATH=/home/kpihx/.local/share/uv/tools/hermes-agent/bin:/usr/bin:/home/kpihx/.local/bin:/home/kpihx/.cargo/bin:/home/kpihx/go/bin:/home/kpihx/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Environment="VIRTUAL_ENV=/home/kpihx/.local/share/uv/tools/hermes-agent"
-Environment="HERMES_HOME=/home/kpihx/KpihX-Labs/.agents/hermes"
+Environment="HERMES_HOME=/home/kpihx/.hermes"
 Restart=always
 RestartSec=5
-RestartMaxDelaySec=300
-RestartSteps=5
 RestartForceExitStatus=75
+RestartPreventExitStatus=78
 KillMode=mixed
 KillSignal=SIGTERM
 ExecReload=/bin/kill -USR1 $MAINPID
-TimeoutStopSec=210
+ExecStopPost=-/home/kpihx/.local/share/uv/tools/hermes-agent/bin/python -m gateway.cgroup_cleanup
+TimeoutStopSec=60
 StandardOutput=journal
 StandardError=journal
 

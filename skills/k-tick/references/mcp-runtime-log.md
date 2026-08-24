@@ -1,4 +1,4 @@
-# k-ticktick Runtime Log
+# k-tick Runtime Log
 
 Purpose: detailed runtime execution log for TickTick operations (different from `SKILL.md` changelog).
 

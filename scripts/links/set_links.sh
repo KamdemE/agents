@@ -35,13 +35,13 @@ failed=0
 skipped=0
 
 for name in $(printf '%s' "$LINKS_OBJ" \
-  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("links",{}).keys()))' 2>/dev/null); do
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("links",{}).keys()))'); do
   read -r source target infras <<< "$(
     printf '%s' "$LINKS_OBJ" | python3 -c "
 import sys,json
 d=json.load(sys.stdin).get('links',{}).get('$name',{})
 print(d.get('source',''), d.get('target',''), json.dumps(d.get('infras','[]')))
-" 2>/dev/null)"
+")"
 
   [ -n "$source" ] && [ -n "$target" ] || { echo "  ✗ $name: missing source/target"; failed=$((failed + 1)); continue; }
 

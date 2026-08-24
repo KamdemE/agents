@@ -40,8 +40,19 @@ In addition to `plocate` for file search, agents MUST use the following code ana
 | **opencode-ast_get_symbol** | Find a specific symbol (function, class, variable) definition | Plugin |
 | **opencode-ast_get_definitions** | Get definitions of all symbols at a location | Plugin |
 | **opencode-ast_references** | Find references to a symbol in the same file | Plugin |
-| **loom query** | Cross-session code search — find symbols across indexed projects | MCP (needs `loom analyze .` first) |
-| **qmd** / **qmdr** | Search KπX knowledge base (past sessions, skills, configs) | CLI (see `k-qmd` skill) |
+| **loom** | Cross-session code references on GIT repos ONLY (never non-git dirs): callgraph ("who calls X"), blast-radius before refactors, dead-code sweeps, cross-session delta | MCP tools or CLI (see `k-loom`; needs `loom analyze .` first) |
+| **qmd** / **qmdr** | Search KπX knowledge base (past sessions, skills, configs) + semantic/textual md content | CLI (see `k-qmd` skill) |
+
+## Loom reflex on git projects (MANDATORY)
+
+🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` or query a non-git directory.** On any GIT project containing code, agents MUST use the Loom layer (MCP tools or `loom` CLI) — not just grep/read.
+
+1. **Session start on an indexed project:** MCP `get_status` → if stale or missing index → `loom sync`, re-check; propose/run `loom analyze .` if still unindexed.
+2. **Resume work:** MCP `get_delta` — see ONLY what changed since the last session; never re-read unchanged functions.
+3. **Callgraph questions = Loom FIRST:** "who calls X", "what breaks if I change X" (`callers`/`callees`/`blast-radius`), dead-code sweeps (`dead-code`). Grep only confirms afterwards.
+4. **End of meaningful passes:** persist understanding via MCP `store_understanding` so future sessions skip re-reads.
+5. **Layering:** `plocate` = syntactic FILE search · `opencode-ast` = fresh structure of ONE file · **Loom** = persistent cross-file/cross-session relations · `qmd` = semantic/know-how (md, past sessions).
+6. Freshness caveat: after heavy un-committed edits run `loom sync` before trusting the graph; AST/grep stay the source of truth for un-synced edits.
 
 ## Semantic / Know-how questions → `qmd query` (MANDATORY)
 

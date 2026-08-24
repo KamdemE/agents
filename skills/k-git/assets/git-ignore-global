@@ -1,0 +1,205 @@
+# ============================================================================
+# KπX global git excludes — secrets & universally-ignored artifacts
+# ----------------------------------------------------------------------------
+# Source of truth : $HOME/.agents/skills/k-git/assets/git-ignore-global
+# Deployed as     : $HOME/.config/git/ignore (symlink)
+#                   (git's default XDG excludesFile — auto-honored by ALL git
+#                    repos without any config change)
+#
+# WHY: Loom discovers files in git repos via `git ls-files -co
+# --exclude-standard`, which honors THIS file. Keeping real secrets and
+# generated junk out of here keeps them out of every Loom index AND out of
+# `git status` everywhere.
+#
+# ⚠️ CAVEAT: tracked files are still listed by `git ls-files -c` even when
+# ignored. A `.env` COMMITTED to a repo stays visible to git AND Loom — fix
+# at the source (untrack it) or add it to that repo's `.loomignore`.
+# Non-git directories do NOT honor this file.
+#
+# ORDERING: 1. Secrets  ·  2. OS junk  ·  3. Editors/IDE  ·  4. Logs/temp
+#           5. Python   ·  6. Node/JS   ·  7. JVM          ·  8. C/C++/Go/Rust
+#           9. Test reports & coverage
+# ============================================================================
+
+
+# ============================================================================
+# 1. SECRETS — never listed, never indexed (templates stay visible)
+# ============================================================================
+
+# Pre-existing entry (merged 2026-08-24, was the file's only original line)
+**/.claude/settings.local.json
+
+# --- Env files (.env.example / .env.sample templates stay visible) ----------
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# --- Keys & certificates -----------------------------------------------------
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+*.p12
+*.pfx
+
+# --- Well-known credential dotfiles ------------------------------------------
+.netrc
+.npmrc
+.pypirc
+
+# --- Generic credential stores ------------------------------------------------
+secrets.json
+credentials*.json
+
+
+# ============================================================================
+# 2. OS JUNK
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+
+# ============================================================================
+# 3. EDITORS / IDE
+# ============================================================================
+
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.spyderproject
+.ropeproject
+.vim/
+nvim/
+
+
+# ============================================================================
+# 4. LOGS & TEMP FILES
+# ============================================================================
+
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.swp
+*.swo
+.~lock.*
+.tmp/
+
+
+# ============================================================================
+# 5. PYTHON
+# ============================================================================
+
+# Byte-code & caches
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging & build
+dist/
+build/
+*.egg-info/
+.eggs/
+eggs/
+*.egg
+pip-wheel-metadata/
+
+# Tool caches
+.tox/
+.nox/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+
+# ============================================================================
+# 6. NODE / JS / TS
+# ============================================================================
+
+node_modules/
+bower_components/
+.npm/
+.parcel-cache/
+.cache/
+.next/
+.nuxt/
+dist/
+.storybook-out/
+
+
+# ============================================================================
+# 7. JVM (JAVA / KOTLIN)
+# ============================================================================
+
+target/
+build/
+out/
+*.class
+.gradle/
+.settings/
+.classpath
+.project
+bin/
+
+
+# ============================================================================
+# 8. C / C++ / GO / RUST
+# ============================================================================
+
+# Compiled objects & binaries
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.a
+
+# Rust
+**/*.rs.bk
+
+# Go
+*.test
+*.prof
+
+
+# ============================================================================
+# 9. TEST REPORTS & COVERAGE ARTIFACTS
+# ============================================================================
+
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+*.lcov

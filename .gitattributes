@@ -1,38 +1,37 @@
 # ###########################################################################
-# KπX .gitattributes — Script Permissions
+# KπX .gitattributes — Line endings (executability via index modes, not attrs)
 # ###########################################################################
 #
-# All scripts in hooks/, scripts/, and skills/**/scripts/ must be executable.
-# Permission: 755 = user:rwx, group:rx, other:rx (executable by all)
-#
-# Supported extensions (.py .sh .zsh .ksh .js .ts) are defined per directory
-# below. To change permissions globally, update the "755" value on each line.
+# Line endings are normalized to LF for portability.
+# Executability is managed by scripts/exec/chmod.sh + scripts/exec/check_exec.sh
+# (shebang => executable, no shebang => 644 to avoid Ruff EXE002).
+# Do not force 755 here — index modes are the source of truth.
 # ###########################################################################
 
-# ── hooks/ (runtime hooks — must be executable for agent lifecycle) ─────────
-hooks/**/*.py    text eol=lf 755
-hooks/**/*.sh    text eol=lf 755
-hooks/**/*.zsh   text eol=lf 755
-hooks/**/*.ksh   text eol=lf 755
-hooks/**/*.js    text eol=lf 755
-hooks/**/*.ts    text eol=lf 755
+# ── scripts/ (global utilities) ───────────────────────
+scripts/**/*.py    text eol=lf
+scripts/**/*.sh    text eol=lf
+scripts/**/*.zsh   text eol=lf
+scripts/**/*.ksh   text eol=lf
+scripts/**/*.js    text eol=lf
+scripts/**/*.ts    text eol=lf
 
-# ── scripts/ (git hooks installer, global utilities) ───────────────────────
-scripts/**/*.py    text eol=lf 755
-scripts/**/*.sh    text eol=lf 755
-scripts/**/*.zsh   text eol=lf 755
-scripts/**/*.ksh   text eol=lf 755
-scripts/**/*.js    text eol=lf 755
-scripts/**/*.ts    text eol=lf 755
+# ── libs/ (shared libraries) ───────────────────────
+libs/**/*.py    text eol=lf
+libs/**/*.sh    text eol=lf
+libs/**/*.zsh   text eol=lf
+libs/**/*.ksh   text eol=lf
+libs/**/*.js    text eol=lf
+libs/**/*.ts    text eol=lf
 
 # ── skills/**/scripts/ (per-skill scripts — developer entry points) ────────
-skills/**/scripts/*.py    text eol=lf 755
-skills/**/scripts/*.sh    text eol=lf 755
-skills/**/scripts/*.zsh   text eol=lf 755
-skills/**/scripts/*.ksh   text eol=lf 755
-skills/**/scripts/*.js    text eol=lf 755
-skills/**/scripts/*.ts    text eol=lf 755
+skills/**/scripts/**/*.py    text eol=lf
+skills/**/scripts/**/*.sh    text eol=lf
+skills/**/scripts/**/*.zsh   text eol=lf
+skills/**/scripts/**/*.ksh   text eol=lf
+skills/**/scripts/**/*.js    text eol=lf
+skills/**/scripts/**/*.ts    text eol=lf
 
 # ── skills/assets/ (installation scripts, templates) ───────────────────────
-skills/**/assets/install.sh    text eol=lf 755
-skills/**/assets/purge.sh      text eol=lf 755
+skills/**/assets/install.sh    text eol=lf
+skills/**/assets/purge.sh      text eol=lf

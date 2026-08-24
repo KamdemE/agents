@@ -35,7 +35,7 @@ fi
 
 # --- Resolve current infra ---
 CURRENT_INFRA="$(current_infra)"
-echo "🔍 check-services — infra: ${CURRENT_INFRA:-<unknown>}"
+echo "  ├─ 🧭 Infra: ${CURRENT_INFRA:-<unknown>}"
 
 # Load services.jsonc object (strip comments). We parse per-service with python3.
 SERVICES_OBJ="$(strip_jsonc < "$SERVICES_FILE")"
@@ -44,16 +44,17 @@ checked=0
 failed=0
 skipped=0
 
+echo "  ├─ 📦 Per-service integrity"
 # Extract each service entry name from the "services" map.
 for name in $(printf '%s' "$SERVICES_OBJ" \
-  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("services",{}).keys()))' 2>/dev/null); do
+  | python3 -c 'import sys,json; d=json.load(sys.stdin); print("\n".join(d.get("services",{}).keys()))'); do
   # Read the service's fields (key = appellation; unit = REAL systemd unit name)
-  read -r unit type path skill infras expect_active <<< "$(
+  IFS=$'\t' read -r unit type path skill infras expect_active <<< "$(
     printf '%s' "$SERVICES_OBJ" | python3 -c "
 import sys,json
 d=json.load(sys.stdin).get('services',{}).get('$name',{})
-print(d.get('unit',''), d.get('type',''), d.get('path',''), d.get('skill',''), json.dumps(d.get('infras','[]')), str(d.get('expect-active',False)).lower())
-" 2>/dev/null)"
+print('\t'.join((d.get('unit',''), d.get('type',''), d.get('path',''), d.get('skill',''), json.dumps(d.get('infras','[]')), str(d.get('expect-active',False)).lower())))
+")"
 
   [ -n "$name" ] || continue
 
@@ -72,6 +73,7 @@ print(d.get('unit',''), d.get('type',''), d.get('path',''), d.get('skill',''), j
   [ "$asset_ok" = "1" ] || failed=$((failed + 1))
   [ "$deployed_ok" = "1" ] || failed=$((failed + 1))
 
+  echo "  │  ├─ 📁 Internal paths"
   # Sub-check 2: internal unit paths exist (only if the unit is deployed)
   if [ "$deployed_ok" = "1" ]; then
     unit_dir="$HOME/.config/systemd/user"
@@ -80,6 +82,7 @@ print(d.get('unit',''), d.get('type',''), d.get('path',''), d.get('skill',''), j
     [ "$internal_paths_ok" = "1" ] || failed=$((failed + 1))
   fi
 
+  echo "  │  └─ ⚡ Expected runtime state"
   # Sub-check 3: functional? (expect-active) — by REAL unit name
   if [ "$expect_active" = "true" ]; then
     service_active_guard "$unit" "$type"
@@ -90,5 +93,5 @@ print(d.get('unit',''), d.get('type',''), d.get('path',''), d.get('skill',''), j
   echo ""
 done
 
-echo "services: $checked checked for infra '$CURRENT_INFRA', $failed failure(s), $skipped skipped (other infra)"
+echo "  └─ 📊 Summary: $checked checked, $failed failure(s), $skipped skipped (other infra)"
 [ "$failed" -eq 0 ]

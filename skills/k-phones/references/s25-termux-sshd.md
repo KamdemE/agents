@@ -36,7 +36,7 @@ Fix = **start `sshd` again** or automate it (below).
 | When | Mechanism | Source |
 |------|-----------|--------|
 | **Every Termux shell** (app reopen) | `k-phones/scripts/k_phones_sshd_autostart.sh` sourced via `kshrc` | See setup in SKILL.md |
-| **Android boot** | Termux:Boot | `assets/termux-boot-sshd` → `~/.termux/boot/sshd` |
+| **Android boot** | Termux:Boot | `assets/termux-boot-sshd` symlinked to `~/.termux/boot/sshd` |
 
 ### A — Autostart on shell open (simplified)
 
@@ -51,10 +51,10 @@ The shell asset sources `~/.agents/skills/k-phones/scripts/k_phones_sshd_autosta
 **Test:** close Termux completely → reopen → one shell opens → from PC: `ssh s25` (no manual `sshd`).
 
 ### B — Autostart on Android boot (optional)
-
 Follow `references/termux-boot.md` for the complete literal procedure: F-Droid
-or raw-ADB installation, the kernel-owned boot payload copy, permissions, and
-reboot verification. Boot scripts run only after boot; they do **not** replace
+or raw-ADB installation, the kernel-owned boot payload symlink, permissions,
+and reboot verification. Boot scripts run only after boot; they do **not**
+replace
 (A) when you only reopen Termux without rebooting.
 
 ## Manual start (debug)

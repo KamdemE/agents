@@ -21,6 +21,7 @@ service_asset_guard() {
   if [ ! -f "$target" ]; then
     echo "  ✗ canonical asset MISSING: $target"
     asset_ok=0
+    deployed_ok=0
     return
   fi
   echo "  ✓ canonical: $target"
@@ -34,7 +35,7 @@ service_asset_guard() {
   fi
   local deployed="$unit_dir/$unit"
   if [ -L "$deployed" ]; then
-    echo "  ✓ deployed (symlink): $deployed -> $(readlink -f "$deployed" 2>/dev/null)"
+    echo "  ✓ deployed (symlink): $deployed -> $(readlink -f "$deployed")"
   elif [ -f "$deployed" ]; then
     echo "  ✓ deployed (copy):    $deployed"
   else

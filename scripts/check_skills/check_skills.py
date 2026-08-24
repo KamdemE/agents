@@ -98,9 +98,13 @@ def _check_rules() -> list[str]:
 
 def run_audit() -> list[str]:
     findings: list[str] = []
+    print("  ├─ 🧩 1/4 Skill structure and bundled-content coverage")
     findings.extend(_collect_skill_findings())
+    print("  ├─ 🐍 2/4 Python audit-source syntax")
     findings.extend(_parse_python(_collect_python_paths()))
+    print("  ├─ 📜 3/4 Root rule references")
     findings.extend(_check_rules())
+    print("  ├─ 🏗️ 4/4 Infrastructure wiring and YAML frontmatter")
     findings.extend(check_infra_skills())
     yaml_paths = [ROOT / "AGENTS.md"]
     yaml_paths.extend(sorted(Path(SKILLS_DIR).glob("**/SKILL.md")))
@@ -114,7 +118,7 @@ def main() -> int:
         for item in findings:
             print(item)
         return 1
-    print("ALL_OK")
+    print("  └─ 📊 Summary: all skill-audit subchecks passed")
     return 0
 
 

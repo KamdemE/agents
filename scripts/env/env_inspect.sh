@@ -3,9 +3,8 @@
 # env_inspect.sh — ultra-secure key viewer for ANY *env* file
 # ============================================================
 # Takes an arbitrary path (even outside .agents) of kind `*.env`, `.env*`, or a
-# directory containing a `.env`, and prints, for each NON-COMMENTED KEY:
-#   key  →  [filled]  or  [empty]
-# It NEVER prints or reads the VALUE (secrets zero-touch). It uses env_lib.sh
+# directory containing a `.env`. By default it prints filled non-commented keys;
+# `-n` also prints empty keys. It NEVER prints VALUES (secrets zero-touch). It uses env_lib.sh
 # so it shares the exact same parsing logic as every other env consumer.
 #
 # Usage:
@@ -27,7 +26,7 @@ SHOW_EMPTY=0
 [ "${1:-}" = "-n" ] && { SHOW_EMPTY=1; shift; }
 TARGET="${1:-}"
 
-if [ -z "$TARGET" ]; then
+if [ -z "$TARGET" ] || [ "$#" -ne 1 ]; then
   echo "usage: env_inspect.sh [-n] <path-to-env-or-dir>" >&2
   exit 2
 fi
@@ -40,20 +39,25 @@ if [ -d "$TARGET" ]; then
   done
 fi
 
+if [ -f "$FILE" ]; then
+  case "$(basename "$FILE")" in
+    .env|.env*|*.env) ;;
+    *) echo "✗ env_inspect: '$FILE' is not an env file" >&2; exit 2 ;;
+  esac
+fi
+
 if [ ! -f "$FILE" ]; then
   echo "✗ env_inspect: no env file found at '$TARGET'" >&2
   exit 1
 fi
 
-echo "env_inspect: $(realpath "$FILE") — non-commented keys (values NEVER shown):"
+echo "env_inspect: $(realpath "$FILE") — filled non-commented keys (values NEVER shown):"
 for k in $(env_keys "$FILE"); do
   if env_has_value "$FILE" "$k"; then
     printf '  %-40s → [filled]\n' "$k"
   else
     if [ "$SHOW_EMPTY" -eq 1 ]; then
       printf '  %-40s → [empty]\n' "$k"
-    else
-      printf '  %-40s → [empty]  (use -n to list empty keys)\n' "$k"
     fi
   fi
 done

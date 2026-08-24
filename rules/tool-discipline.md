@@ -53,6 +53,9 @@ When KπX gives a permanent directive ("from now on", "always", "never again", "
 3. **Never just acknowledge** — "ok I'll remember" without writing = violation.
 4. **Uncertain? Ask.** Propose the location, wait for confirmation.
 
+### KπX code-suppression consent (2026-08-24)
+- Never add an in-code lint, type, or static-analysis suppression (for example `# noqa`) without KπX's explicit request for that exact suppression.
+
 ## Proactive Skill Update (MANDATORY)
 After discovering a new pattern, fixing a bug, learning a configuration quirk, or gaining any durable knowledge:
 1. **Identify the owning skill** — find the relevant `k-*` skill in `~/.agents/skills/`.

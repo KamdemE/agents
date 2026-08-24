@@ -19,7 +19,7 @@ chmod +x *.sh
 
 ## Systemd timer
 
-Runs every 2 days at 21:30 (`OnCalendar=*-*-1/2 21:30:00`), `Persistent=true`.
+Runs every Saturday at 04:00 (`OnCalendar=Sat *-*-* 04:00:00`), `Persistent=true`.
 
 **Install:** `sudo bash install.sh` · **Purge:** `sudo bash purge.sh`
 

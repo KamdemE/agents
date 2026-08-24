@@ -15,7 +15,7 @@
 | 2026-04-25 | [ANTIGRAVITY] | BotFather `/deletebot` + `/setname` | Deleted `@kflow_ubuntu_bot` and renamed `@kflow_homelab_bot` to **Flow**. |
 | 2026-04-25 | [ANTIGRAVITY] | BotFather `/newbot` | Created **Docker-Host** bot (`@docker_host_kpihx_bot`) id **8036146758**; token stored in `/tmp/a.txt`. |
 | 2026-04-18 | [GEMINI] | `tg user send me` | Sent the "Piano & Logic" bio snippet to Saved Messages (msg_id 7025). |
-| 2026-04-09 | [CURSOR] | `.agents` session finalization | **`k-context` v2.74.55** + **`k-tg` v3.1.0** bundle committed; `k-tg/references/` triage log rows normalized; **`k-ticktick/references/log.md`** LEN_43314_EP row fixed; Session Log overflow → **`k-context/references/log.md`**; `make audit` + `make push`. |
+| 2026-04-09 | [CURSOR] | `.agents` session finalization | **`k-context` v2.74.55** + **`k-tg` v3.1.0** bundle committed; `k-tg/references/` triage log rows normalized; **`k-tick/references/log.md`** LEN_43314_EP row fixed; Session Log overflow → **`k-context/references/log.md`**; `make audit` + `make push`. |
 | 2026-04-09 | [CURSOR] | BotFather `/token` batch + skill sync | Wrote **six** `TELEGRAM_*.env` files under `/tmp/tokens` (General, Issues, Tick/Whats/LinkedIn/Mail homelab); **`k-tg` v3.0.3** BotFather compact map + bridge @handles; Openclaw Ubuntu absent from `/mybots` (treated as removed). |
 | 2026-04-09 | [CURSOR] | `.agents` session finalization | Skill folder + `AGENTS` ladder + `.skill-lock` committed; **`k-tg` v3.0.2** (implementation gate) on record. |
 | 2026-04-09 | [CURSOR] | BotFather `/setname` ×2 | Display names set to **General** (`@kpihx_general_capture_bot`) and **Issues** (`@kpihx_issues_capture_bot`). |

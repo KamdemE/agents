@@ -15,7 +15,7 @@
 # is-active check (ollama stays expect-active:true in services.jsonc — we handle
 # the exclusion here in code, not in the registry, for security/simplicity).
 ipex_active() {
-  docker ps --format '{{.Names}}' 2>/dev/null | grep -qx 'ipex-llm'
+  docker ps --format '{{.Names}}' | grep -qx 'ipex-llm'
 }
 
 # service_active_guard <unit> <type>  → sets active_ok
@@ -31,7 +31,7 @@ service_active_guard() {
   fi
 
   local active
-  active="$(systemctl $scope_flag is-active "$unit" 2>/dev/null | tr -d '\n')"
+  active="$(systemctl $scope_flag is-active "$unit" | tr -d '\n')"
   if [ "$active" = "active" ]; then
     echo "  ✓ is-active: active"
   else
@@ -39,5 +39,5 @@ service_active_guard() {
     active_ok=0
   fi
   echo "  ── recent journal ($unit):"
-  journalctl $scope_flag -u "$unit" -n 8 --no-pager 2>/dev/null | sed 's/^/     /' | tail -8
+  journalctl $scope_flag -u "$unit" -n 8 --no-pager | sed 's/^/     /' | tail -8
 }

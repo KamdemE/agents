@@ -1,1 +1,0 @@
-/home/kpihx/.agents/AGENTS.md

@@ -1,0 +1,11 @@
+# Hermes OpenCode Go profile — default model is mimo-v2.5.
+model:
+  provider: opencode-go
+  name: mimo-v2.5
+  base_url: https://opencode.ai/zen/go/v1
+
+providers:
+  opencode-go:
+    api_base: https://opencode.ai/zen/go/v1
+    api_key_env: OPENCODE_API_KEY
+    api_mode: chat_completions

@@ -3,11 +3,11 @@ name: k-nvim
 description: KπX Neovim hub — config, plugins, LSP, and daily workflow map.
 agent: [OPCODE]
 created: "2026-05-28"
-updated: "2026-08-09"
+updated: "2026-08-24"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.6.0
+  version: 3.7.1
 ---
 
 # KπX — Neovim
@@ -27,11 +27,11 @@ metadata:
 
 ## Architecture — Centralized Config
 
-The canonical source for all KπX Neovim config is `k-nvim/config/`.
+The canonical source for all KπX Neovim config is `k-nvim/assets/`.
 `~/.config/nvim/` is a **symlink tree** pointing into it — edit either path, the file is the same.
 
 ```
-k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
+k-nvim/assets/                        ← SOURCE OF TRUTH (edit here)
 ├── init.lua                          ← Entrypoint — Lazy.nvim bootstrap
 ├── lazy-lock.json                    ← Lazy plugin lockfile (versioned)
 └── lua/kpihx/
@@ -41,14 +41,14 @@ k-nvim/config/                        ← SOURCE OF TRUTH (edit here)
     ├── tmux-navigator.lua            ← Seamless Ctrl+h/j/k/l nvim ↔ tmux
     └── trash.lua                     ← FreeDesktop trash for dd/D/cc/C
 
-k-nvim/assets/                        ← Non-code assets (venv configs, service overrides)
-└── uv-nvim/
+k-nvim/assets/                        ← Config + supporting assets (edit here)
+├── uv-nvim/
     └── pyproject.toml                ← Python host venv definition (see Python Provider reference)
 
 ~/.config/nvim/                       ← SYMLINKS (read by nvim)
-├── init.lua           → k-nvim/config/init.lua
-├── lazy-lock.json     → k-nvim/config/lazy-lock.json
-└── lua/kpihx/         → k-nvim/config/lua/kpihx/
+├── init.lua           → k-nvim/assets/init.lua
+├── lazy-lock.json     → k-nvim/assets/lazy-lock.json
+└── lua/kpihx/         → k-nvim/assets/lua/kpihx/
 
 ~/.local/share/nvim/uv-nvim/          ← RUNTIME (venv created by uv)
 ├── pyproject.toml    → k-nvim/assets/uv-nvim/pyproject.toml  (symlink)
@@ -59,7 +59,7 @@ k-nvim/assets/                        ← Non-code assets (venv configs, service
 
 | Layer | Path |
 |-------|------|
-| Neovim config (canonical) | `$HOME/.agents/skills/k-nvim/config/` |
+| Neovim config (canonical) | `$HOME/.agents/skills/k-nvim/assets/` |
 | Neovim config (runtime) | `$HOME/.config/nvim/` (symlinks to canonical) |
 | Vim config | `$HOME/.vimrc` |
 | Vim autoload | `$HOME/.vim/autoload/plug.vim` (vim-plug) |
@@ -69,7 +69,7 @@ k-nvim/assets/                        ← Non-code assets (venv configs, service
 
 > **Rule:** `~/.local/share/nvim/lazy/` contains plugin code managed by Lazy.nvim.
 > Do NOT modify files there — all changes get wiped on `:Lazy update`.
-> KπX only owns `k-nvim/config/` and `k-nvim/assets/`. Plugin healthcheck false positives are ignored.
+> KπX only owns `k-nvim/assets/`. Plugin healthcheck false positives are ignored.
 
 ## Installed Plugins
 
@@ -209,6 +209,6 @@ Verify: `echo $EDITOR` → `nvim`.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-09 | [COLAB] | v3.6.0 — **SKILL.md size reduction (300-line rule)**: Extracted Python Provider (UV-Nvim Venv), Healthcheck Governance/Protocol, and Trash System sections into 3 new `references/*.md` files. Merged the Telescope Exclusion Map (previously duplicated in the main file) into the existing `references/telescope.md` (no info lost, single source of truth restored). |
-| 2026-07-24 | [OPENCODE] | v3.5.0 — Python provider migrated to dedicated uv venv (`k-nvim/assets/uv-nvim/pyproject.toml`). Zero system Python, zero pip. Added "Python Provider — UV-Nvim Venv" section. Cleaned up `uv tool jupyter-client` (merged into venv). Trash section fully in English. SKILL.md fully rewritten in English. |
-| [SUMMARY] | — | v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix; v3.2.0 added healthcheck section; v3.1.0 basedpyright via uv; v3.0.0 FreeDesktop Trash; v2.1.0 Post-Install Shell Wiring; v2.0.0 centralized config; v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB). |
+| 2026-08-24 | [COLAB] | v3.7.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
+| 2026-08-24 | [COLAB] | v3.7.0 — **Canonical Neovim config moved from `config/` to `assets/`** per KπX order: `init.lua`, `lazy-lock.json`, and `lua/kpihx/` relocated into `assets/`; `~/.config/nvim/` symlinks retargeted to the new asset paths; obsolete `config/` directory removed once empty; docs updated to reflect the new source of truth. Safety backups preserved under `/tmp/opencode/knvim-restructure/*.bak`. |
+| [SUMMARY] | — | v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |

@@ -6,9 +6,8 @@
 #   1. tailscaled is running (tailscale status works)
 #   2. the current user is a Tailscale operator (no sudo needed to run `tailscale`)
 #   3. the up flags are correct: --accept-dns --accept-routes
-# If NOT up/correct → bring it up with the correct flags.
-# If the current user is NOT a Tailscale operator → BLOCK and ask KπX to grant
-# operator rights with sudo first (this is the ONLY case needing elevation).
+# This checker is read-only: it never changes Tailscale state. When it detects
+# drift, it reports the exact remediation command appropriate to that state.
 #
 # Tailscale is the capital backbone for EVERY KπX device — a broken tailscale
 # breaks everything (SSH, mesh, drive mounts, services). This check is wired
@@ -20,9 +19,7 @@
 
 set -uo pipefail
 
-AGENTS_DIR="$HOME/.agents"
-
-echo "🔍 Tailscale health check..."
+echo "  ├─ 🧩 1/4 Binary availability"
 
 # --- 0. Is tailscaled present / status reachable? ---
 if ! command -v tailscale >/dev/null 2>&1; then
@@ -31,40 +28,44 @@ if ! command -v tailscale >/dev/null 2>&1; then
   exit 1
 fi
 
+echo "  ├─ 🔌 2/4 Daemon connection"
 # --- 1. tailscale status works (daemon up)? ---
 if ! ts_status="$(tailscale status 2>&1)"; then
   echo "  ⚠️  tailscale status failed — daemon may be down or not logged in."
-  echo "    → Attempting: tailscale up --accept-dns --accept-routes"
-  echo "      (KπX: if this needs your approval/interactive login, run it in the tmux ops pane.)"
-  if ! tailscale up --accept-dns --accept-routes 2>&1 | head -20; then
-    echo "  ✗ ERROR: 'tailscale up' did not complete. Please run it interactively (k-tmux)."
-    exit 1
-  fi
-  echo "  ✓ Tailscale brought up with --accept-dns --accept-routes."
-fi
-
-# --- 2. Current user is a Tailscale operator (no sudo needed)? ---
-# `tailscale set --operator=$USER` grants the current user operator rights so
-# they can run `tailscale up`/`status` WITHOUT sudo. Try to self-apply it; if the
-# user lacks permission, report the elevation command to run in the tmux ops pane.
-if ! tailscale set --operator="$USER" >/dev/null 2>&1; then
-  echo "  ✗ ERROR: current user '$USER' is not a Tailscale operator."
-  echo "    → FIX REQUIRED (needs elevation, run in the tmux ops pane):"
-  echo "        sudo tailscale set --operator=$USER"
-  echo "    → KπX: please run that with sudo first (k-tmux ops pane), then re-run make check-tailscale."
+  echo "    → Run in the tmux ops pane: tailscale up --accept-dns --accept-routes"
   exit 1
-else
-  echo "  ✓ user '$USER' is a Tailscale operator (no sudo needed)."
 fi
 
-# --- 3. Verify up flags (--accept-dns --accept-routes) ---
-if ! tailscale status --json 2>/dev/null | grep -q '"AcceptRoutes"'; then
-  # Try to read the prefs; if flags not set, re-apply them.
-  echo "  ⚠️  Could not confirm accept-routes/accept-dns prefs — re-applying."
-  tailscale up --accept-dns --accept-routes >/dev/null 2>&1
+echo "  ├─ 👤 3/4 Operator access"
+# --- 2. Read current preferences without mutating the daemon. ---
+if ! prefs="$(tailscale debug prefs 2>&1)"; then
+  echo "  ⚠️  Could not read Tailscale preferences."
+  echo "    → Run in the tmux ops pane: sudo tailscale set --operator=$USER"
+  echo "    → Then re-run make check-tailscale."
+  exit 1
 fi
+
+operator_user="$(printf '%s\n' "$prefs" | jq -r '.OperatorUser // empty')"
+if [ "$operator_user" = "$USER" ]; then
+  echo "  ✓ user '$USER' is the Tailscale operator (no sudo needed)."
+else
+  echo "  ⚠️  Tailscale operator is '${operator_user:-unset}', not '$USER'."
+  echo "    → Run in the tmux ops pane: sudo tailscale set --operator=$USER"
+  exit 1
+fi
+
+echo "  ├─ 🌐 4/4 DNS and route acceptance"
+# --- 3. Verify up flags (--accept-dns --accept-routes) from preferences. ---
+accept_dns="$(printf '%s\n' "$prefs" | jq -r '.CorpDNS // false')"
+accept_routes="$(printf '%s\n' "$prefs" | jq -r '.RouteAll // false')"
+if [ "$accept_dns" != "true" ] || [ "$accept_routes" != "true" ]; then
+  echo "  ⚠️  DNS acceptance=$accept_dns; route acceptance=$accept_routes."
+  echo "    → Run in the tmux ops pane: tailscale up --accept-dns --accept-routes"
+  exit 1
+fi
+echo "  ✓ DNS and route acceptance are enabled."
 
 # --- 4. Final: status summary ---
 echo "  ✓ Tailscale up. Current status:"
-tailscale status 2>&1 | head -5
-echo "tailscale: OK (up, operator access, accept-dns+accept-routes applied)"
+printf '%s\n' "$ts_status" | head -5
+echo "  └─ 📊 Summary: Tailscale is healthy; operator access, DNS, and routes are enabled."
