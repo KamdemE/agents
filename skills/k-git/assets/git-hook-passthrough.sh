@@ -74,19 +74,23 @@ $st"
   done
 }
 
-# --- GLOBAL GATE 2: pre-push — every submodule pushed to ALL its remotes ----
+# --- GLOBAL GATE 2: pre-push — every submodule pushed to ALL its PUSH remotes
+# (KPIX-owned mirrors only — NOT read-only upstreams like Flickwire/IgorWarzocha)
 submodule_push_report() {
   report=""
   for p in $(sm_paths); do
     [ -e "$p/.git" ] || continue
-    branch="$(git -C "$p" rev-parse --abbrev-ref HEAD 2>/dev/null)"
-    sha="$(git -C "$p" rev-parse HEAD 2>/dev/null)"
+    branch="$(git -C "$p" rev-parse --abbrev-ref HEAD)"
+    sha="$(git -C "$p" rev-parse HEAD)"
     [ -n "$branch" ] && [ -n "$sha" ] || { report="$report
   🔴 $p (cannot resolve HEAD/branch)"; continue; }
-    remotes="$(git -C "$p" remote 2>/dev/null)"
+    remotes=""
+    for r in ${KPIHX_SUB_PUSH_REMOTES:-github gitlab}; do
+      git -C "$p" remote get-url "$r" >/dev/null 2>&1 && remotes="$remotes $r"
+    done
     if [ -z "$remotes" ]; then
       report="$report
-  🔴 $p (no remote configured — cannot verify push)"
+  🔴 $p (none of the kpix push remotes configured)"
       continue
     fi
     for r in $remotes; do
