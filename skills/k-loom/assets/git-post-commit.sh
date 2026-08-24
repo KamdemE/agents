@@ -49,11 +49,11 @@ command -v loom >/dev/null 2>&1 || exit 0
 
 db="$HOME/.loom/projects/$(basename "$(pwd)").db"
 if [ -f "$db" ]; then
-  # 2. Index exists → cheap incremental sync (backgrounded, never blocks)
-  (cd "$(pwd)" && loom sync >/dev/null 2>&1 &) &
+  # 2. Index exists → cheap incremental sync (backgrounded, now visible)
+  (cd "$(pwd)" && loom sync) &
 elif [ "${LOOM_AUTO_ANALYZE:-0}" = "1" ]; then
   # 3. Opt-in full index of an unindexed repo (slow — armed explicitly)
-  (cd "$(pwd)" && loom analyze . >/dev/null 2>&1 &) &
+  (cd "$(pwd)" && loom analyze .) &
 fi
 
 exit 0
