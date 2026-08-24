@@ -1,7 +1,7 @@
 #!/bin/sh
 # KπX post-commit hook — tracked source of truth.
 # Symlink target for .git/hooks/post-commit.
-# Install: scripts/git/install-hooks.sh.
+# Install: scripts/git/install-hooks.sh
 
 UPDATER="$HOME/.agents/skills/k-qmd/scripts/update_collections.sh"
 
