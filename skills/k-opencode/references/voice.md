@@ -1,19 +1,19 @@
-# Voice — STT/TTS via @renjfk/opencode-voice
+# Voice — STT/TTS via @kpihx/opencode-voice (sovereign fork)
 
 ## Overview
 
-Plugin `@renjfk/opencode-voice` enables **Speech-to-Text** (Whisper) and
-**Text-to-Speech** (Piper) directly in the TUI. All processing is local —
-no external API calls.
+Plugin `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice` `v0.4.1-kpihx.1`, fork de `renjfk/opencode-voice`) enables **Speech-to-Text** (Whisper) and
+**Text-to-Speech** (Piper) directement en TUI. All processing is local —
+no external API calls. Source: `skills/k-opencode/scripts/plugins/opencode-voice` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`).
 
 ## Configuration
 
-Defined in `~/.config/opencode/tui.json` (not `opencode.jsonc`):
+Defined in `~/.config/opencode/tui.json` (not `opencode.jsonc`, source `skills/k-opencode/assets/tui.json`):
 
 ```jsonc
 {
   "$schema": "https://opencode.ai/tui.json",
-  "plugin": [["@renjfk/opencode-voice", {}]]
+  "plugin": [["file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {}]]
 }
 ```
 
@@ -113,17 +113,16 @@ wget -P ~/.local/share/piper-voices/ \
 
 Press `/tts-voice` and select from the dialog.
 
-## Patches (re-apply after plugin update)
+## Sovereign patches (intégrés dans `kpihx-labs/opencode-voice` `v0.4.1-kpihx.1`)
 
-Located in the plugin's cache directory (under `node_modules` of the TUI).
-After `npm update` or plugin upgrade, these must be re-applied:
+Fork `kpihx-labs/opencode-voice` basé sur `renjfk/opencode-voice` `main` (`c7a3d2c`) + KπX patches (plus de `~/.cache` éphémère):
 
-- `stt.js` L385: `ctrl+r` → `<leader>r` (avoid TUI rename conflict)
-- `stt.js` L339: remove `toast("Normalizing...")` notification
-- `tts.js` L266: `llmResult.text || result.text` fallback
-- `tts.js` L298: same fallback for manual speak
-- `tts.js` L312: `<leader>s` keybind
-- `tts.js` TTS_VOICES: add `siwis` (FR) entry
+- `lib/stt.js` `keybind: "ctrl+r"` → `"<leader>r"` (avoid TUI rename conflict, `registerSTT` `stt.record`)
+- `lib/stt.js` remove `toast("Normalizing...")` pré-LLM
+- `lib/tts.js` `TTS_VOICES` `+ siwis: fr_FR-siwis-medium.onnx` + labels `Ryan (EN, high)` / `Bryce (EN, medium)`
+- `lib/tts.js` `normalizeForSpeech` fallback `const spokenText = llmResult.text || result.text` (auto + manual) — on parle le brut si LLM fail, on ne coupe pas le son
+
+Upstream sync: `git -C scripts/plugins/opencode-voice fetch upstream` → `git merge upstream/main` → bump `package.json` → `git push github+gitlab`.
 
 ## Commands
 
@@ -146,7 +145,7 @@ Instead of local `whisper-cli`, use an OpenAI-compatible endpoint:
 
 ```jsonc
 {
-  "plugin": [["@renjfk/opencode-voice", {
+  "plugin": [["file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {
     "sttEndpoint": "http://127.0.0.1:8000/v1",
     "sttModel": "whisper-large-v3-turbo",
     "sttApiKeyEnv": "MY_STT_API_KEY"

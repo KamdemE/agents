@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.47.0
+  version: 2.48.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -105,15 +105,15 @@ opencode models
 
 OpenCode and its environment are extended via four distinct systems:
 1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 13 active plugins (6 npm, 7 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
-2. **TUI plugins:** (`tui.json` → `"plugin"`, npm modules) for console interface features (voice STT/TTS via `@renjfk/opencode-voice`). See **`references/voice.md`**.
+2. **TUI plugins:** (`tui.json` → `"plugin"`, `file://` sovereign fork) for console interface features (voice STT/TTS via `@kpihx/opencode-voice` `v0.4.1-kpihx.1` fork de `renjfk`). See **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice` using the Web Speech API). See **`references/voice.md`**.
 
 **Device auto-detection pipeline:** `tailscale status --json → Self.DNSName → assets/infras.json lookup → skills/<k-*>/SKILL.md read` (fallback `os.hostname()`).
 
-### Voice (TUI — @renjfk/opencode-voice)
+### Voice (TUI — @kpihx/opencode-voice `v0.4.1-kpihx.1` sovereign)
 
-STT + TTS 100% local via `@renjfk/opencode-voice`. Config in `tui.json` (not `opencode.jsonc`), tracked as `assets/tui.json`. Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and plugin patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
+STT + TTS 100% local via `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice`, fork `renjfk`, `v0.4.1-kpihx.1`: siwis FR, `<leader>r`, LLM fallback). Config in `tui.json` (`file:///…/scripts/plugins/opencode-voice`, not `@renjfk` npm), tracked as `assets/tui.json` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`). Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and sovereign patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
 
 ### Providers: Ollama (local) & Ollama6 (deep-pc6)
 
@@ -213,8 +213,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [COLAB] | v2.48.0 — **Sovereign TUI voice fork `@kpihx/opencode-voice` `v0.4.1-kpihx.1` (Option A)**: fork `renjfk/opencode-voice` → `kpihx-labs/opencode-voice` (`github`+`gitlab`, submodule `k-opencode/plugins/opencode-voice` sous `skills/k-opencode/scripts/plugins/opencode-voice`, plus de `vendor/`), `assets/tui.json` basculé `@renjfk` npm → `file://` fork, patches intégrés (`<leader>r`, `siwis` FR, LLM fallback `|| result.text`), `references/voice.md` → fork doc + `package.json` `@kpihx` `0.4.1-kpihx.1` tag `v0.4.1-kpihx.1` poussé `github`+`gitlab`; structure `scripts/plugins` respectée (pas de `vendor`). |
 | 2026-08-24 | [COLAB] | v2.47.0 — **Option A anti-wait block PURGED + `<tmux-armed>` enriched (KπX order)**: per explicit KπX directive, REMOVED from `tmux-notify.js` everything added earlier the same day — the `sendKeysClauseRegex` compound-stripping helper and the whole "OPTION A anti-wait block" (`throw` on `sleep N`/`wait` while a registry-armed pane runs). Rationale (KπX): blocking sleep is absurd when the pane may never return to a prompt (e.g. chatting with another agent living in a tmux pane/TUI) — instruct beats blocking. The `<tmux-armed>` reminder (`tool.execute.after`) now says exactly that instead: "Do NOT run sleep, wait, or any timeout/polling to wait for this pane. Either CONTINUE other parallel work you already have, OR stop your turn now — in BOTH cases you will be automatically notified." Docs aligned: `rules/tool-discipline.md` bullet removed, `k-tmux/SKILL.md` event row + Stateful Integration quote, `plugins/AGENTS.md` back to 5 pieces with updated piece-(2) quote. Functional residue verified zero (`node --check` OK, grep clean); historical changelog entries kept (append-only). |
-| 2026-08-24 | [COLAB] | v2.46.0 — **`tmux-notify.js` Option A anti-wait block (KπX directive)**: new guard in `tool.execute.before` — if a NON-send-keys bash command matches `sleep N` / standalone `wait` AND any pane armed by THIS session is still running → `throw`s with the mandated reflex: "STOP your turn now, OR CONTINUE other parallel work you already have — nothing else" (sleeping defeats the stateful mechanism: the `<tmux-notify>` would wait for the end of the agent's own sleep instead of arriving instantly at pane completion; blocking lets `session.idle` fire immediately so the notification relaunches the agent). Send-keys commands excluded from the check (an agent may legitimately send a string containing "sleep ..." INTO a pane). Verified: `node --check` OK + regex truth-table test (6/6). Cross-ref: `k-tmux` v1.21.0 event-table row, `rules/tool-discipline.md`. *(Superseded same day by v2.47.0 purge — see above.)* |
-| [SUMMARY] | — | v2.45.0 go.md cleanup (→ `references/log.md`) · v2.44.0 terminal leak fix (→ `references/log.md`) · v2.43.0 busy-pane layer 2 (→ `references/log.md`) · v2.41.0 and older in log.md |
+| [SUMMARY] | — | v2.46.0 tmux-notify Option A block (→ log) · v2.45.0 go.md cleanup (→ `references/log.md`) · v2.44.0 terminal leak fix (→ `references/log.md`) · v2.43.0 busy-pane layer 2 (→ `references/log.md`) · v2.41.0 and older in log.md |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service`, `assets/opencode-web-shim.service`, and `assets/opencode-lens.service` (symlink targets for `~/.config/systemd/user/`)
