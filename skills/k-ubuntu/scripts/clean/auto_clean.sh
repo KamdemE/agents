@@ -73,7 +73,7 @@ AUDIT_STATUS="✅ OK"
 AUDIT_DETAILS=""
 if ! su - "$USER_BACKUP" -c "make -C $USER_HOME/.agents check-skills" > "$LOG_DIR/audit.log" 2>&1; then
     AUDIT_STATUS="❌ FAILED"
-    AUDIT_DETAILS=$(cat "$LOG_DIR/audit.log" | grep -v "make: ")
+    AUDIT_DETAILS=$(grep -v "make: " "$LOG_DIR/audit.log")
 fi
 
 # ── 4b. QMD collection health ───────────────────────────────────────────────────
