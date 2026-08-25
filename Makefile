@@ -12,7 +12,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services chmod install-hooks link help submodule-init submodule-update
+.PHONY: push push-sub push-tags log status check-skills check check-remotes set-remotes check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services chmod install-hooks link help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -83,7 +83,14 @@ check-jsonc: ## Verify .agents JSONC config assets parse cleanly (via libs/jsonc
 	@echo "🔍 [check-jsonc] JSONC configuration"
 	@bash $(HOME)/.agents/scripts/jsonc/check_jsonc.sh
 
-check: check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)
+check-remotes: ## Verify kernel git remotes contract (exactly github+gitlab → kpihx-labs/agents SSH URLs)
+	@echo "🔍 [check-remotes] Git remotes contract"
+	@bash $(HOME)/.agents/scripts/remotes/check_remotes.sh
+
+set-remotes: ## Enforce kernel git remotes contract (add/set github+gitlab exact URLs, remove e.g. origin)
+	@bash $(HOME)/.agents/scripts/remotes/set_remotes.sh
+
+check: check-remotes check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Remotes, Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)
 	@echo "✅ [make check] All grouped subchecks passed"
 
 install-hooks: ## Install git hooks from scripts/git/assets/

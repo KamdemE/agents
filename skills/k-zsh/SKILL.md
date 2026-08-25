@@ -224,5 +224,4 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 |------|-------|--------|
 | 2026-08-25 | [COLAB] | v2.4.4 — Added gotchas #3 (tmux default-shell cache) and #4 (SSSD default_shell override) from deep-pc6 incident. |
 | 2026-08-20 | [COLAB] | v2.4.3 — Corrected the generic S25 shell source path to `k-phones/assets/kshrc`. |
-| 2026-08-20 | [COLAB] | v2.4.2 — Updated the Android infrastructure cross-references for `k-phones` and the explicit S25 shell asset. |
-| [SUMMARY] | — | v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| [SUMMARY] | — | v2.4.2 Android infra cross-references update for `k-phones` + explicit S25 shell asset · v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.9.1"
+  version: "2.10.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -20,6 +20,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 - **Protocol:** SSH only. All remotes use `git@...` URLs — never HTTPS.
 - **Remote names:** `github` → GitHub (`KpihX` namespace) · `gitlab` → GitLab (see namespace rule below)
+- **Kernel `.agents` repo contract:** EXACTLY two remotes — `github` → `git@github.com:kpihx-labs/agents.git` · `gitlab` → `git@gitlab.com:kpihx-labs/agents.git`. Never `origin`. Enforced by `make check-remotes` (first gate of `make check`, values in `scripts/remotes/lib.sh`), auto-fixed by `make set-remotes`.
 - **GitLab namespace rule:**
   - Default → `kpihx` personal namespace
   - `kpihx-labs` group → homelab/server-related projects **or** projects deployed via GitLab CI (e.g. homelab infra, n8n workflows)
@@ -138,6 +139,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [COLAB] | v2.10.0 — **Kernel remotes contract + `check-remotes`/`set-remotes`**: NEW `scripts/remotes/` (`lib.sh` single source of truth for exact URLs, thin `check_remotes.sh`, idempotent fixer `set_remotes.sh` — prunes forbidden remotes like `origin`, repoints branch tracking, upserts `github`+`gitlab`). `check-remotes` added as FIRST gate of `make check`; new rule bullet codifying the contract: exactly 2 remotes `github`/`gitlab` → `kpihx-labs/agents.git` SSH URLs. Validated on `deep-pc6`: red on `origin` before, green after `make set-remotes`. |
 | 2026-08-24 | [COLAB] | v2.9.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | v2.9.0 — **Hook plumbing ownership (Prop A)**: NEW `assets/git-hook-passthrough.sh` moved from k-loom — one generic asset + 9 symlinks (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`, `pre-rebase`, `post-checkout`, `post-merge`, `post-rewrite`, `pre-applypatch`) in `$HOME/.config/git/hooks/` re-chaining repo-local hooks under `core.hooksPath`. NEW section documenting ownership rule: **k-git owns ALL git hook plumbing; the ONLY behavior-adding hook is the post-commit Loom dispatcher owned by `k-loom`.** Redundant dedicated `k-loom/assets/git-pre-commit.sh` deleted per explicit KπX order. links.jsonc: 9 entries under k-git block. E2E verified: real commit chains local commit-msg + post-commit (`CM_RAN`,`CM_RAN`,`PC_RAN`). |
-| [SUMMARY] | — | v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| [SUMMARY] | — | v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
