@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.9.1"
+  version: "2.10.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -84,8 +84,19 @@ each hook type (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`,
 name (resolved via `$GIT_DIR`/`--absolute-git-dir` + `/hooks/<name>` — NOT
 `rev-parse --git-path hooks`, which returns the GLOBAL dir once
 `core.hooksPath` is set) with a recursion guard, preserving semantics and
-exit codes. Zero added behavior — the ONLY hook that adds behavior is the
-post-commit Loom dispatcher owned by `k-loom`.
+exit codes. Four gates add real behavior on top of every repo, in this order
+(cheap → expensive, fail fast):
+
+| Hook | Gate | Behavior | Override (déconseillé) |
+|------|------|----------|------------------------|
+| `pre-commit` | 1 | Submodule hygiene (dirty/unpushed) | `KPIHX_ALLOW_DIRTY_SUBMODULES=1` |
+| `pre-commit` | 2 | `make check` (if `Makefile` has a `check:` target) blocks the commit on failure | `KPIHX_SKIP_MAKE_CHECK=1` |
+| `commit-msg` | — | Strips `co-authored-by:`/`signed-off-by:`/`author:` lines (AI-attribution) before any repo-local hook sees the message | `KPIHX_KEEP_AGENT_TRAILERS=1` |
+| `pre-push` | — | Every submodule must be pushed to all its remotes | `KPIHX_ALLOW_UNPUSHED_SUBMODULES=1` |
+
+The only OTHER hook that adds behavior is the post-commit Loom dispatcher owned by `k-loom`.
+
+> **🔴 Repos NEVER set their own `core.hooksPath` (2026-08-25).** Setting it locally silently opts that repo OUT of every global gate above (submodule hygiene, `make check`, trailer strip, Loom sync) — `core.hooksPath` makes git ignore repo-local hooks of all types, that's exactly why this passthrough exists. If a project needs an *extra* project-specific hook, drop it at `.git/hooks/<name>` (untracked, machine-local) — the passthrough re-chains to it automatically. No installer script, no repo-local `core.hooksPath`, ever.
 
 ## SSH Troubleshooting Runbook
 
@@ -138,6 +149,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v2.10.0 — **Generalized `make check` + commit-trailer-strip as GLOBAL hooks**: `assets/git-hook-passthrough.sh` gains 2 new gates (pre-commit: run `make check` if the repo has one, block on failure, `KPIHX_SKIP_MAKE_CHECK=1` override; commit-msg: strip `co-authored-by:`/`signed-off-by:`/`author:` lines, `KPIHX_KEEP_AGENT_TRAILERS=1` override) — generalized from a per-project pattern found in a mature pipeline project so no repo needs its own hook installer for these two anymore. NEW 🔴 rule: **repos never set their own `core.hooksPath`** — it would silently opt them out of every global gate; project-specific extra hooks go at `.git/hooks/<name>` instead (auto re-chained). `assets/git-ignore-global` gained a new §10 (`.agents/`, `AGENTS.md`, `DRAW.md` — KπX-wide personal-doc convention, safe to ignore in every repo; `ROADMAP.md` deliberately excluded — projects may want it tracked). The `.agents` kernel's own now-redundant local `pre-commit` hook (which only ran `make check`) was retired in favor of this global gate — see `k-project` → Pipeline R&D archetype for the discovery context. |
 | 2026-08-24 | [COLAB] | v2.9.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | v2.9.0 — **Hook plumbing ownership (Prop A)**: NEW `assets/git-hook-passthrough.sh` moved from k-loom — one generic asset + 9 symlinks (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`, `pre-rebase`, `post-checkout`, `post-merge`, `post-rewrite`, `pre-applypatch`) in `$HOME/.config/git/hooks/` re-chaining repo-local hooks under `core.hooksPath`. NEW section documenting ownership rule: **k-git owns ALL git hook plumbing; the ONLY behavior-adding hook is the post-commit Loom dispatcher owned by `k-loom`.** Redundant dedicated `k-loom/assets/git-pre-commit.sh` deleted per explicit KπX order. links.jsonc: 9 entries under k-git block. E2E verified: real commit chains local commit-msg + post-commit (`CM_RAN`,`CM_RAN`,`PC_RAN`). |
-| [SUMMARY] | — | v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| [SUMMARY] | — | v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |

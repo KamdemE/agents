@@ -1,0 +1,119 @@
+# ============================================================
+#  KpihX-Labs — MSYS2 zsh config
+# ============================================================
+
+# ── HOME override (avant tout, avant oh-my-zsh) ─────────────
+# Tmux herite HOME du parent; on force le home Windows pour que
+# ~ = /c/Users/ikamdem (nsswitch.conf le fait deja pour les
+# nouveaux login shells, mais tmux n'en beneficie pas).
+export HOME="$(cygpath -u "$USERPROFILE")"
+
+# ── Paths ────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
+
+export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"
+export EDITOR=micro
+
+# ── Oh-My-Zsh ────────────────────────────────────────────────
+export ZSH="$HOME/.oh-my-zsh"
+[ ! -d "$ZSH" ] && ZSH="/home/ikamdem/.oh-my-zsh"
+
+ZSH_THEME="xiong-chiamiov-plus"
+
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-history-substring-search
+    colored-man-pages
+    colorize
+    command-not-found
+    alias-finder
+)
+
+# Pas d'update check (evite de hang au demarrage)
+DISABLE_AUTO_UPDATE="true"
+DISABLE_UPDATE_PROMPT="true"
+
+source $ZSH/oh-my-zsh.sh
+
+# ── History ──────────────────────────────────────────────────
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+setopt HIST_IGNORE_SPACE
+
+# ── Colors ───────────────────────────────────────────────────
+if [ -x /usr/bin/dircolors ]; then
+  test -r "$HOME/.dircolors" && eval "$(dircolors -b "$HOME/.dircolors")" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# ── Aliases ──────────────────────────────────────────────────
+alias ll='ls -alF'
+alias la='ls -a'
+alias l='ls -CF'
+alias rm='trash-put'
+alias docker-clean="sudo aa-remove-unknown && docker system prune -f"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*\([0-9]\+\s*\)|[;&|]*\s*alert$//'\'')"'
+
+# Global aliases
+alias -g F=" | fzf"
+alias -g G=" | grep"
+# Suffix aliases
+alias -s pdf="evince "
+alias -s py="python3 "
+
+alias calc="noglob _calc"
+alias C="calc"
+_calc() {
+    echo "scale=10; $*" | bc -l
+}
+
+# ── tmux session launcher ────────────────────────────────────
+tx() {
+    local session="${1:-dxo}"
+    bash ~/.tmux/sessions.sh
+    tmux attach -t "$session"
+}
+
+# ── FZF history search (Ctrl+R) ─────────────────────────────
+fzf-history-widget() {
+  local selected=$(fc -rl 1 | awk '{sub("^[ ]*[^ ]+[ ]+","",$0);if(!seen[$0]++)print $0}' \
+    | fzf --height 40% --layout=reverse --border --query="$LBUFFER" --bind 'ctrl-c:abort')
+  if [ -n "$selected" ]; then
+    LBUFFER="${selected}"
+  fi
+  zle redisplay
+}
+zle -N fzf-history-widget
+bindkey '^R' fzf-history-widget
+
+# ── zstyle (omz alias-finder plugin config) ─────────────────
+zstyle ':omz:plugins:alias-finder' autoload yes
+zstyle ':omz:plugins:alias-finder' longer yes
+zstyle ':omz:plugins:alias-finder' exact yes
+zstyle ':omz:plugins:alias-finder' cheaper yes
+
+# Optional plugin extra
+[ -f "$HOME/.oh-my-zsh/plugins/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh" ] \
+  && source "$HOME/.oh-my-zsh/plugins/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh"
+
+# Cursor bar style
+print -n '\e[5 q'
+
+# native opencode (literal prepend, must win over Windows /mnt/c npm)
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# ── KpihX shared shell layer (cross-shell + MSYS2) ──────────
+[ -f "$HOME/.kshrc" ] && source "$HOME/.kshrc"
+
+# ── MSYS2-specific layer (absolute path — $HOME just got overridden) ──
+[ -f "/home/ikamdem/.msysrc" ] && source "/home/ikamdem/.msysrc"
+
+alias ssh="/c/Windows/System32/OpenSSH/ssh.exe"
+alias ollama6='OLLAMA_HOST=http://127.0.0.1:11435 ollama'

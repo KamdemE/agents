@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.3.0"
   scope: ai-engine
 ---
 
@@ -164,6 +164,6 @@ ollama run <model> --verbose  # Check "GPU" line in output
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v2.3.0 — **`references/windows.md` rewritten + new `scripts/install-wsl-client.sh`**: WSL now has two real options, not "conflict, pick one" — Option A (full `install.sh`, own server+GPU libs, auto-enables `ollama.service`) vs. **Option B (client-only, talks to the Windows-hosted server via `.wslconfig`'s `networkingMode=mirrored`, no tunnel needed)**, verified live on `blglaptop139-wsl` (`ollama list` returned the Windows host's 7 models). New idempotent script does the client-only install (latest releases only ship `.tar.zst`, decompressed via a throwaway `uv run --with zstandard` env — no sudo, no `zstd` system package — extracting only `bin/ollama`, skipping the multi-GB `lib/ollama/{cuda_v12,cuda_v13,rocm}` backend libs a pure client never needs) and never touches systemd. Two real bugs hit and fixed while writing/testing it, captured in `references/insights.md`: a `curl | grep -m1` pipe-breakage ("Failure writing output"), and a PATH-blind idempotency check that always re-downloaded because `~/.local/bin` wasn't on `$PATH` in a non-interactive shell. 🔴 rule restated: never `systemctl enable ollama` in WSL when Windows already hosts one on the same mirrored `localhost:11434`. |
 | 2026-08-14 | [COLAB] | v2.2.0 — **Added `references/directory-structure.md`**: documents `~/.ollama` & `~/.ollama-ipex` layout (config/history/id keys/models), history hygiene (`truncate -s 0`), and safe-clean rules. History emptied per KπX directive. |
-| 2026-08-13 | [COLAB] | v2.1.0 — Added documentation for the ollama-ipex / ipex wrapper CLI and data storage in references/ubuntu.md. |
-| [SUMMARY] | — | v2.0.0 rewritten generic core (→ `references/log.md`) · v1.x: Intel Arc GPU setup, IPEX-LLM control plane, specific performance tuning. Full details in k-ubuntu. |
+| [SUMMARY] | — | v2.1.0 ipex wrapper CLI docs (→ `references/log.md`) · v2.0.0 rewritten generic core (→ `references/log.md`) · v1.x: Intel Arc GPU setup, IPEX-LLM control plane, specific performance tuning. Full details in k-ubuntu. |

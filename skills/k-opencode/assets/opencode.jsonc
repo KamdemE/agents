@@ -433,21 +433,6 @@
   },
 
   "mcp": {
-    // Browser MCP — CAPTCHA/2FA/formulaires spéciaux
-    "browser": {
-      "type": "local",
-      "command": ["browser-mcp"],
-      "enabled": true,
-      "timeout": 60000
-    },
-    // Chrome Agent MCP → 90% (navigation, tabs, devtools, contenu)
-    "chrome-agent": {
-      "type": "local",
-      "command": ["chrome-agent-mcp"],
-      "enabled": true,
-      "timeout": 60000
-    },
-
     // Loom → CLI binary only (`loom` in PATH), no MCP
     // See k-loom/SKILL.md for CLI usage; opencode uses bash `loom` commands directly
 

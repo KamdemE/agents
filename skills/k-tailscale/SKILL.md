@@ -8,7 +8,7 @@ description: >
   Load before any tailscale serve, funnel, accept-routes, peer, or port
   management task.
 metadata:
-  version: 2.2.0
+  version: 2.3.0
   author: KpihX
   scope: network
 ---
@@ -202,6 +202,6 @@ journalctl -u tailscaled -f  # Linux (systemd)
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [CLAUDE] | v2.3.0 — Documented `-wsl` naming convention for dual Windows/WSL Tailscale identity in `references/windows.md` (a machine running Tailscale both natively on Windows and separately inside WSL gets two distinct tailnet nodes; suffix the WSL one `<host>-wsl`). Triggered by `blglaptop139-wsl` coming online as a fresh separate node during full WSL infra setup. |
 | 2026-08-24 | [COLAB] | v2.2.0 — De-linked `tailscaled.service` + `/etc/default/tailscaled` from `.agents` per KπX order: stock Tailscale-managed files with zero KπX customization now live directly in `/etc` as real root-owned files (Tailscale governs them); skill assets purged from `assets/`; registry entries removed from `links.jsonc` + `services.jsonc` (explanatory comments kept); `references/ubuntu.md` service-paths table + Assets section rewritten to document the de-link; "Canonical assets" header note replaced by de-link notice. Backups of the exact live content preserved at `/tmp/opencode/tailscaled*.bak`. Service verified active after daemon-reload. |
-| 2026-07-22 | [OPENCODE] | v2.1.0 — Added SUDO GATE warning to `tailscale up`: must be launched via tmux ops pane. |
-| [SUMMARY] | — | v2.0.0 generic core (→ `references/log.md`) · v1.2.0 assets symlinks · v1.1.0 full rewrite · v1.0.0 creation |
+| [SUMMARY] | — | v2.1.0 added SUDO GATE warning to `tailscale up` (tmux ops pane required) · v2.0.0 generic core (→ `references/log.md`) · v1.2.0 assets symlinks · v1.1.0 full rewrite · v1.0.0 creation |

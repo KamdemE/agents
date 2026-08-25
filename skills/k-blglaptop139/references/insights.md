@@ -1,0 +1,6 @@
+# k-blglaptop139 — Insights
+
+Durable, evolutionary lessons for this skill domain. Read before non-trivial work; append at task end.
+
+- **2026-08-25 — Dated hardware/optimization logs must NOT be silently "corrected" when re-migrating:** the Windows-side `SPECS.md`/`RECAP_OPTIMISATION_SYSTEME.md` this skill's `references/debloat-log.md` was migrated from still reference an old `C:\Users\ikamdem\Labs\...` path (the workspace was later renamed `Labs` → `KpihX-Labs`) — left deliberately un-migrated because these are dated, point-in-time logs (2026-07-02); rewriting them to the current path would falsify the historical record. Anti-repeat: a dated optimization/incident log is a snapshot of what was true *then* — fix forward-looking docs, never retroactively "correct" a dated log to match today's paths/state.
+- **2026-08-25 — GPU-idle-at-rest on a dual-GPU laptop is often a display-wiring problem, not a software one:** found on this machine (RTX 5070 Ti sitting at 61-89% utilization at idle) — the external monitor was wired to the dGPU, so the desktop compositor (`dwm.exe`) and any Electron app with GPU acceleration (`Cursor.exe`) render on it by default. Before chasing driver/power-plan settings, check which GPU each display is actually attached to.

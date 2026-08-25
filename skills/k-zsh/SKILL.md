@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.3"
+  version: "2.4.4"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -220,6 +220,6 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [CLAUDE] | v2.4.4 — **No net change to `kshrc.base`** (superseded within the same session — kept for the record). While setting up `blglaptop139-wsl`, added an SSH-agent fallback + `BUN_INSTALL` to `kshrc.base` on the (wrong) assumption both were universal; KπX corrected this: `kshrc.base` = COMMON only, and per the 🔴 RED RULE a `kshrc.base` edit must propagate to every infra `kshrc` copy (`k-ubuntu`, `k-pve`, `k-pve-debian`, `k-dockerhost`, `k-phones`, `k-deep-pc6`) or not be made at all. The SSH-agent need is WSL-specific (no `gcr-ssh-agent`/GNOME Keyring headless) — kept ONLY in `k-blglaptop139/assets/kshrc`, reverted everywhere else including `kshrc.base`. `BUN_INSTALL` was untested speculation (`bun --version` works fine without it, bun defaults to `~/.bun`) — dropped entirely per KπX's "test first" instruction. **Separate incident, fix stands:** the official `uv`/`bun` curl installers auto-appended `. "$HOME/.local/bin/env"` / a `BUN_INSTALL` block directly into `bashrc`/`zshrc`/`profile` (🔴 NEVER MODIFY, shared across every infra); reverted via `git checkout`. Anti-repeat #1: curl-pipe installers (`uv`, `bun`, `rustup`, `nvm`, …) commonly self-inject PATH lines into every rc file they find — `git diff`/`git status` `k-zsh/assets/` right after running one. Anti-repeat #2: a `kshrc.base` change is either genuinely universal (verified, not assumed) AND propagated to every infra copy in the same edit, or it belongs only in the one infra `kshrc` that needs it — never edit `kshrc.base` "in case it helps everyone" without both verifying and propagating. |
 | 2026-08-20 | [COLAB] | v2.4.3 — Corrected the generic S25 shell source path to `k-phones/assets/kshrc`. |
-| 2026-08-20 | [COLAB] | v2.4.2 — Updated the Android infrastructure cross-references for `k-phones` and the explicit S25 shell asset. |
-| [SUMMARY] | — | v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| [SUMMARY] | — | v2.4.2 Android/`k-phones` cross-references + S25 shell asset updated (→ `references/log.md`) · v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

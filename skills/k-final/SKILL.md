@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.3"
+  version: "1.8.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-project` (structure, Makefile, config pattern) · `k-git` (remotes, `make push`, CI hooks) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
+> **Related skills:** `k-project` (structure, Makefile, config pattern, Pipeline R&D archetype → `references/pipeline-archetype.md`) · `k-git` (remotes, `make push`, global hook gates) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
 > **Static rules:** `rules/audit-commands.md` (make check, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
 > **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase.
 
@@ -42,14 +42,15 @@ Mandatory **closing pass** after substantive work on a repo: you **must** execut
 ## Phase A — Tests
 
 1. Extend `tests/` (or project test command) for **new behavior** not yet covered.
-2. Run the full suite (`make test`, `make check`, `uv run pytest`, `bun test`, etc. — prefer **Makefile** targets).
+2. Run `make check` (lint + format-check + type-check + `smoke` + tests — prefer this over ad-hoc `uv run pytest`/`bun test` so nothing is skipped).
 3. Fix code until **all tests pass**. If a failure is ambiguous, **stop**, list hypotheses + options, wait for KπX validation before large rewrites.
 
 ## Phase B — Codebase hygiene
 
 1. Remove orphan files, stale scratch artifacts, and unused imports / dead branches (no drive-by unrelated refactors).
-2. Prefer **modular, extensible** layout; move magic values into **`config.yaml`** (or env + `.env.example`) — **de-hardcode**.
-3. Comments: **sparing** in code; **rich** in **`config.yaml`** — every production-relevant key should be understandable **without** an external tutorial site (options, defaults, constraints, examples in YAML comments where the format allows).
+2. Prefer **modular, extensible** layout; move magic values into **`config.py`/`config.ts`** constants (or `.env`/`.env.example` for secrets) — **de-hardcode**. No `config.yaml`, no `ConfigManager` (removed kernel-wide 2026-08-25 — see `k-project`).
+3. Comments: **sparing** in code; explanatory comments belong **next to the `config.py`/`config.ts` constant they document** — every production-relevant value should be understandable without an external tutorial site (purpose, constraints, examples in a comment above the constant).
+4. **Doc/Makefile drift check**: diff the Makefile targets documented in `README.md`/`AGENTS.md` against real `make help` output — a project's own docs can silently fall behind its Makefile (observed in a real project audit 2026-08-25); fix whichever side is stale.
 
 ## Phase C — Documentation (all tracked Markdown)
 
@@ -61,7 +62,7 @@ Refresh **every** present doc in scope:
 | `CHANGELOG.md` | Newest-first; semver entry for this release pass |
 | `TODO.md` | Remove **done** items; move substance to `CHANGELOG` (CHANGELOG may list work never in TODO) |
 | `docs/` or docs submodule | All `.md` pages + sidebar/index if Docsify |
-| `.agents/AGENTS.md` | Project agent context (local only — **never committed**; see `k-project`) |
+| `AGENTS.md` (repo root) | Project agent context (local only — **never committed**, gitignored by name via `k-git`'s global excludes; see `k-project`) |
 
 ## Phase D — Packaging & deploy artifacts
 
@@ -121,10 +122,9 @@ Keep a single coherent version across monorepo packages if the repo defines that
 
 ### 🏠 Standard Projects (Developer Link)
 Always prefer local linking for development to ensure the CLI uses the current codebase:
-- **Python (uv)**: `make link` (runs `uv tool install --editable .`)
-- **JS/TS (bun)**: `make link` (runs `bun link`)
+- **Python (uv)**: `make uv-link` (runs `uv tool install --editable .`); `make uv-uninstall` to clean up
+- **JS/TS (bun)**: `make bun-link` (runs `bun install && bun link`); `make bun-unlink` to clean up
 - **Other**: Use the project's standard link/dev-install command.
-- Use `make unlink` to clean up.
 
 ### 🛡️ Sovereign Security Projects (Critical/System)
 For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 2026-08-14), system-level installs, or core homelab automation, enforce **Root-Protection** and **Confinement**:
@@ -148,11 +148,11 @@ For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 
 
 ## Phase J — Build & publish
 
-1. **Remove old build output** before build: e.g. `rm -rf dist/` build dirs (or `make clean` if defined).
-2. `make build` then publish via Makefile (`make publish` / `make release` — see project Makefile).
-   - **Requirement**: `make publish` MUST use `$(ZSH_LOGIN)` (e.g. `$(ZSH_LOGIN) "uv publish"`) to load the login environment.
+1. `make uv-build` / `make bun-build` wipes `dist/` first (built into the target — no separate manual `rm -rf dist/` step needed).
+2. `make uv-publish` / `make bun-publish` (each depends on its own `*-build` target, so `make release` alone runs the whole chain: `check → push → publish → push-tags` — see project Makefile).
+   - **Requirement**: `UV_PUBLISH_TOKEN` / `NPM_TOKEN`/`BUN_AUTH_TOKEN` must already be in the environment before running `make` (via `with-env` in an interactive shell, or already exported) — no Makefile-level login-shell wrapper needed (2026-08-25: the `$(ZSH_LOGIN)` pattern was dropped — real deployed projects don't use it, they rely on the calling shell already having secrets loaded).
    - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
-3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `.kshrc` or `~/.agents/.env`). If missing or invalid → **stop**; tell KπX to export tokens; say **`continue`** to retry.
+3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `with-env` — see `AGENTS.md` kernel → Security — or `~/.agents/.env`). If missing or invalid → **stop**; tell KπX to export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
 
 ## Contract coherence gate (before closure decision)
@@ -188,6 +188,6 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.6.3 — Restored the mandatory project-finalization `make check` gates; the explicit approval rule applies only to standalone kernel work in `$HOME/.agents`. |
-| 2026-07-26 | [OPENCODE] | v1.6.0 — **make check target**: Updated references from make audit to make check across the skill, in line with the new unified validation process. |
-| [SUMMARY] | — | v1.6.2–v1.6.1 superseded approval-policy wording · v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |
+| 2026-08-25 | [CLAUDE] | v1.8.0 — **Makefile target names + root AGENTS.md aligned to real projects**: Phase I now says `make uv-link`/`make uv-uninstall` (Python) and `make bun-link`/`make bun-unlink` (JS/TS) — matches `k-project`'s rewritten templates. Phase J: dropped the `$(ZSH_LOGIN)` publish requirement (never actually defined anywhere, not used by real deployed projects — `uv-publish`/`bun-publish` now just require the token already in the environment via `with-env`); `dist/` wipe is now built into `uv-build`/`bun-build`, no separate manual step. Phase A now points at `make check` (includes the new `smoke` target) instead of ad-hoc `make test`. Docs table: `.agents/AGENTS.md` → root `AGENTS.md`. |
+| 2026-08-25 | [CLAUDE] | v1.7.0 — **config.yaml/ConfigManager purged from Phase B**: hygiene step now points at `config.py`/`config.ts` constants (no YAML, no ConfigManager — see `k-project`); comments belong next to the constant they document instead of in a YAML file. NEW Phase B step 4: doc/Makefile drift check — diff `README.md`/`AGENTS.md`-documented targets against real `make help` output (found stale in a real project audit 2026-08-25). Related-skills pointer to `k-project`'s new Pipeline R&D archetype. |
+| [SUMMARY] | — | v1.6.3 restored make check gates (→ `references/log.md`) · v1.6.0 make check target rename (→ `references/log.md`) · v1.6.2–v1.6.1 superseded approval-policy wording · v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |

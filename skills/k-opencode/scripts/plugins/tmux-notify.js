@@ -40,9 +40,9 @@
 
 import * as fs from "node:fs";
 import { execSync } from "node:child_process";
-import { currentAgent } from "../libs/agent-scope.js";
+import { currentAgent } from "./libs/agent-scope.js";
 
-const TARGET_AGENTS = ["Colab", "Agent"];
+const TARGET_AGENTS = ["Colab", "Agent", "Build"];
 
 const NOTIFY_LOG = process.env.TMUX_NOTIFY_LOG || "/tmp/tmux-pane-done.log";
 const DEBUG_LOG = "/tmp/tmux-notify-debug.log";
@@ -125,34 +125,47 @@ export default async function ({ client }) {
   // last-resort fallback — this NEVER mixes in another session's notes.
   async function flushToSession(sessionId) {
     if (!sessionId) return;
+    // No-op when nothing is queued (owned or unscoped) — avoids a pointless
+    // `session.messages` fetch below.
+    if (
+      !hasPending(sessionId) &&
+      !(sessionId !== UNSCOPED && hasPending(UNSCOPED))
+    ) {
+      return;
+    }
+    // Resolve the current agent and gate BEFORE draining anything.
+    // The old order (drain first, gate second) PERMANENTLY DESTROYED queued
+    // notifications whenever the resolved agent was outside TARGET_AGENTS
+    // (real case 2026-08-25 on blglaptop139: session running as `build`
+    // while TARGET_AGENTS was ["Colab","Agent"] — every tmux notification
+    // was silently eaten). A rejected gate now leaves everything queued for
+    // a later delivery point (session.idle / chat.message retry naturally).
+    let agent;
+    try {
+      const response = await client.session.messages({ path: { id: sessionId } });
+      const messages = Array.isArray(response) ? response : response.data || [];
+      agent = currentAgent(messages);
+    } catch {}
+    // Scope to TARGET_AGENTS. This hook uses `event`+`chat.message` (no
+    // `messages` in input), so the `currentAgentIs` helper cannot gate at
+    // the hook level — the check is done on the agent resolved from the
+    // target session's messages instead (same pattern as make-check-guard.js
+    // for tool-level hooks that lack messages).
+    if (
+      agent &&
+      !TARGET_AGENTS.includes("*") &&
+      !TARGET_AGENTS.some((t) => t.toLowerCase() === agent.toLowerCase())
+    ) {
+      debug(`flushToSession(${sessionId}) gated out agent=${agent}`);
+      return;
+    }
     const own = takePending(sessionId);
     const unscoped = sessionId !== UNSCOPED ? takePending(UNSCOPED) : [];
     const batch = own.concat(unscoped);
     if (batch.length === 0) return;
     const text = batch.join("\n\n");
-    debug(`flushToSession(${sessionId}) len=${batch.length}`);
+    debug(`flushToSession(${sessionId}) len=${batch.length} agent=${agent}`);
     try {
-      // Resolve the current agent so the injected prompt is routed to the
-      // right agent (same as stop-enforcer.js: `body.agent` is required —
-      // without it opencode may not know which agent should process it).
-      let agent;
-      try {
-        const response = await client.session.messages({ path: { id: sessionId } });
-        const messages = Array.isArray(response) ? response : response.data || [];
-        agent = currentAgent(messages);
-      } catch {}
-      // Scope to TARGET_AGENTS. This hook uses `event`+`chat.message` (no
-      // `messages` in input), so the `currentAgentIs` helper cannot gate at
-      // the hook level — the check is done on the agent resolved from the
-      // target session's messages instead (same pattern as make-check-guard.js
-      // for tool-level hooks that lack messages).
-      if (
-        agent &&
-        !TARGET_AGENTS.includes("*") &&
-        !TARGET_AGENTS.some((t) => t.toLowerCase() === agent.toLowerCase())
-      ) {
-        return;
-      }
       await client.session.prompt({
         path: { id: sessionId },
         body: {

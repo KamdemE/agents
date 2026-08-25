@@ -1,0 +1,81 @@
+#!/usr/bin/env sh
+# ============================================================
+# k-windows/assets/kshrc — Windows+WSL infra-type shell base
+# ============================================================
+#
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  BASE FOR "WINDOWS+WSL"-TYPE INFRAS — NOT deployed directly    ║
+# ║  - SOURCED from the per-machine kshrc (e.g. k-blglaptop139),   ║
+# ║    near the very top, before that files own Section 1 body    ║
+# ║  - Two mini-sections, OWN idempotency guards, independent      ║
+# ║    from the parent files __KSHRC_LOADED / __KSHRC_INTERACTIVE_ ║
+# ║  - Content here is generic to ANY Windows+WSL machine in the   ║
+# ║    fleet — never a machine name, tmux session, or DxO/         ║
+# ║    internship specifics (those stay in the per-machine skill   ║
+# ║    or in k-dxo)                                                ║
+# ║                                                                ║
+# ║  WHY THIS FILE IS SOURCED, NOT COPIED (unlike this skills      ║
+# ║  other assets/ templates): a per-machine infra skill like      ║
+# ║  k-blglaptop139 is scoped to one physical, company-issued      ║
+# ║  laptop and WILL BE PURGED at internship end. Content that     ║
+# ║  only lives as a COPY inside that skill is lost the day it is  ║
+# ║  purged. Sourcing this file instead means every Windows+WSL    ║
+# ║  machine always runs the CURRENT version automatically — a fix ║
+# ║  made here needs no re-copy step anywhere.                     ║
+# ╚══════════════════════════════════════════════════════════════╝
+#
+# ── Deploy (from the per-machine kshrc, e.g. k-blglaptop139) ────
+#   Near the very top of the file, before its own Section 1 opens:
+#     [ -f "$HOME/.agents/skills/k-windows/assets/kshrc" ] && \
+#       . "$HOME/.agents/skills/k-windows/assets/kshrc"
+# ============================================================
+
+# ════════════════════════════════════════════════════════════════
+# UNIVERSAL — safe for every shell (scripts, cron, make, SSH)
+# ════════════════════════════════════════════════════════════════
+if [ -z "$__KSHRC_WINDOWS_LOADED" ]; then
+  __KSHRC_WINDOWS_LOADED=1
+
+  # ── SSH agent (WSL: no gcr-ssh-agent — headless, no GNOME Keyring) ──
+  # Persistent plain ssh-agent via env file, reused across shells/panes.
+  # Keys are loaded manually with `ssh-add ~/.ssh/id_ed25519_<target>`
+  # (passphrase prompt) — not auto-loaded here (would require a TTY).
+  # Generic to ANY headless WSL machine — see SKILL.md -> "SSH agent".
+  _ssh_agent_env="$HOME/.ssh/agent.env"
+  [ -f "$_ssh_agent_env" ] && . "$_ssh_agent_env" >/dev/null 2>&1
+  ssh-add -l >/dev/null 2>&1
+  if [ $? -eq 2 ]; then
+    # exit 2 = no agent reachable (stale/missing socket); 0/1 = agent alive, leave it
+    (umask 077; ssh-agent -s > "$_ssh_agent_env")
+    . "$_ssh_agent_env" >/dev/null 2>&1
+  fi
+  unset _ssh_agent_env
+
+  # ── Windows interop ($HOMEW / $USERW) ──────────────────────────
+  # $HOME/$USER are the WSL (Linux) side on any Windows+WSL machine.
+  # $HOMEW/$USERW are the Windows-side equivalents, derived (never
+  # hardcoded) via cmd.exe interop so this works unchanged on ANY
+  # Windows+WSL machine in the fleet, whatever the Windows account.
+  if [ -z "$USERW" ] && command -v cmd.exe >/dev/null 2>&1; then
+    USERW="$(cmd.exe /c "echo %USERNAME%" 2>/dev/null | tr -d '\r\n')"
+  fi
+  [ -n "$USERW" ] && export USERW && export HOMEW="/mnt/c/Users/$USERW"
+fi
+
+# ════════════════════════════════════════════════════════════════
+# INTERACTIVE-ONLY — zsh-specific (bash has no named-directory hash -d)
+# ════════════════════════════════════════════════════════════════
+case $- in *i*) ;; *) return ;; esac
+
+if [ -z "$__KSHRC_WINDOWS_INTERACTIVE_LOADED" ]; then
+  __KSHRC_WINDOWS_INTERACTIVE_LOADED=1
+
+  if [ -n "$ZSH_VERSION" ]; then
+    # ── Named directory: ~w = Windows home ($HOMEW) ──────────────
+    # Mirrors the old MSYS2 "~m" pattern (references/msys2.md),
+    # reversed: there ~m was the Linux home despite HOME being
+    # Windows; here ~w is the Windows home despite HOME being
+    # Linux (WSL native).
+    [ -n "$HOMEW" ] && hash -d w="$HOMEW"
+  fi
+fi

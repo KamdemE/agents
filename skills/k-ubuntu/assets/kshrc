@@ -266,6 +266,7 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   # ── Shell-agnostic interactive (zsh AND bash) ────────────────
   # Tool aliases
   [ -x /usr/bin/batcat ] && alias bat=batcat
+  [ -x /usr/bin/fdfind ] && alias fd=fdfind
 
   # Google Workspace profiles
   [ -f "$HOME/.config/gws/gws-profiles.zsh" ] && source "$HOME/.config/gws/gws-profiles.zsh"

@@ -10,9 +10,10 @@
 #
 # USAGE:
 #   rm <file>...         Move files/dirs to trash (safe delete)
-#   rm list / rm ls      List trash contents
-#   rm empty             Empty trash (permanent!)
-#   rm restore           Restore files interactively
+#   rm list / rm ls      List trash contents (grouped by trash dir)
+#   rm stats             Show per-trash stats: size, count, 3 oldest/recent/heaviest + totals
+#   rm empty             Empty trash (per-trash confirmation)
+#   rm restore           Restore files interactively (grouped)
 #   rm rm <pattern>      Permanently delete from trash by pattern
 #   rm help / rm -h / rm -help / rm --help  Show this help
 #
@@ -28,14 +29,46 @@ set -e
 WRAPPER_NAME="rm"
 REAL_RM="/usr/bin/rm"
 
+# --- Helpers: aggregate all per-volume trash dirs (freedesktop + WSL 9p/NTFS) ---
+_has_trash_flag() {
+  for a in "$@"; do case "$a" in --trash-dir*|--all-users) return 0;; esac; done; return 1
+}
+_collect_trash_dirs() {
+  local d uid
+  uid=$(id -u)
+  # Home trash (always)
+  echo "$HOME/.local/share/Trash"
+  # Known dirs from trash-cli (covers /tmp/.Trash-1000 etc.)
+  /usr/bin/trash-list --trash-dirs 2>/dev/null || true
+  # WSL /mnt/* NTFS per-volume trashes (9p/virtiofs filtered by trash-cli)
+  for d in /mnt/*; do
+    [ -d "$d" ] || continue
+    [ -d "$d/.Trash-1000" ] && echo "$d/.Trash-1000"
+    [ -d "$d/.Trash/$uid" ] && echo "$d/.Trash/$uid"
+    [ -d "$d/.Trash-1000/files" ] && echo "$d/.Trash-1000"  # redundant but ensures
+  done
+  [ -d "/tmp/.Trash-1000" ] && echo "/tmp/.Trash-1000"
+  [ -d "/tmp/.Trash/$uid" ] && echo "/tmp/.Trash/$uid"
+}
+_dedup_existing_trash_dirs() {
+  # dedup + keep only existing dirs, one per line
+  _collect_trash_dirs | awk '!seen[$0]++' | while IFS= read -r d; do [ -d "$d" ] && echo "$d"; done
+}
+
+# --- Helpers: human-readable size + stats formatting ---
+_human() { numfmt --to=iec --suffix=B "$1" 2>/dev/null || echo "${1}B"; }
+_dir_size_bytes() { du -sb "$1" 2>/dev/null | cut -f1; }
+_dir_size_human() { du -sh "$1" 2>/dev/null | cut -f1; }
+
 # --- Help ---
 show_help() {
   cat <<EOF
 Usage: $WRAPPER_NAME [OPTION]... <file>...
-       $WRAPPER_NAME list|ls        List trash
-       $WRAPPER_NAME empty          Empty trash
-       $WRAPPER_NAME restore        Restore files from trash
-       $WRAPPER_NAME rm <pattern>   Permanently delete from trash
+       $WRAPPER_NAME list|ls        List trash (aggregated across all volumes)
+       $WRAPPER_NAME stats          Per-trash stats: count, size, 3 oldest/recent/heaviest + totals
+       $WRAPPER_NAME empty          Empty trash (per-trash confirmation)
+       $WRAPPER_NAME restore        Restore files interactively (aggregated)
+       $WRAPPER_NAME rm <pattern>   Permanently delete from trash (aggregated)
        $WRAPPER_NAME help|-h|-help|--help  Show this help
 
 Safe delete wrapper (trash-cli). Moves files to trash instead of
@@ -70,19 +103,145 @@ case "$FIRST_ARG" in
     ;;
   list|ls)
     shift
-    exec /usr/bin/trash-list "$@"
+    # If user explicitly targets a trash dir, respect it (no aggregation)
+    if _has_trash_flag "$@"; then exec /usr/bin/trash-list "$@"; fi
+    # Aggregate with visual grouping per trash dir
+    _found=0
+    while IFS= read -r _dir; do
+      _found=1
+      echo "── Trash: $_dir ──"
+      _out=$(/usr/bin/trash-list --trash-dir "$_dir" "$@" 2>&1 || true)
+      if [ -z "$_out" ]; then echo "  (empty)"; else echo "$_out"; fi
+      echo
+    done < <(_dedup_existing_trash_dirs)
+    [ "$_found" -eq 0 ] && /usr/bin/trash-list "$@"
+    exit 0
+    ;;
+  stats)
+    shift
+    # rm stats: per-trash human size, count, 3 oldest/recent/heaviest + totals
+    _total_count=0; _total_bytes=0
+    _found=0
+    while IFS= read -r _dir; do
+      _found=1
+      if [ ! -d "$_dir/files" ]; then
+        echo "── Trash: $_dir ── (no files dir)"
+        echo "  Count: 0  Size: 0B"
+        echo; continue
+      fi
+      _count=$(find "$_dir/files" -mindepth 1 -maxdepth 1 2>/dev/null | wc -l)
+      _bytes=$(_dir_size_bytes "$_dir" 2>/dev/null); [ -z "$_bytes" ] && _bytes=0
+      _human=$(_human "$_bytes")
+      # also human for files only (more useful)
+      _fbytes=$(du -sb "$_dir/files" 2>/dev/null | cut -f1); [ -z "$_fbytes" ] && _fbytes=0
+      _fhuman=$(_human "$_fbytes")
+      echo "── Trash: $_dir ──"
+      echo "  Count: $_count  Size: $_human (files: $_fhuman)"
+      _total_count=$((_total_count + _count))
+      _total_bytes=$((_total_bytes + _bytes))
+      if [ "$_count" -eq 0 ]; then echo "  (empty)"; echo; continue; fi
+      # 3 oldest (by mtime asc)
+      echo "  Oldest 3:"
+      find "$_dir/files" -mindepth 1 -maxdepth 1 -printf '%T@ %p\n' 2>/dev/null | sort -n | head -3 | while IFS= read -r _line; do
+        _path=$(echo "$_line" | cut -d' ' -f2-)
+        _sz=$(du -sh "$_path" 2>/dev/null | cut -f1); [ -z "$_sz" ] && _sz="?"
+        _name=$(basename "$_path")
+        echo "    $_sz  $_name"
+      done
+      # 3 most recent (by mtime desc)
+      echo "  Recent 3:"
+      find "$_dir/files" -mindepth 1 -maxdepth 1 -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -3 | while IFS= read -r _line; do
+        _path=$(echo "$_line" | cut -d' ' -f2-)
+        _sz=$(du -sh "$_path" 2>/dev/null | cut -f1); [ -z "$_sz" ] && _sz="?"
+        _name=$(basename "$_path")
+        echo "    $_sz  $_name"
+      done
+      # 3 heaviest (by size desc)
+      echo "  Heaviest 3:"
+      find "$_dir/files" -mindepth 1 -maxdepth 1 -exec du -sb {} + 2>/dev/null | sort -rn | head -3 | while IFS= read -r _line; do
+        _bs=$(echo "$_line" | cut -f1)
+        _path=$(echo "$_line" | cut -f2-)
+        _hs=$(_human "$_bs")
+        _name=$(basename "$_path")
+        echo "    $_hs  $_name"
+      done
+      echo
+    done < <(_dedup_existing_trash_dirs)
+    if [ "$_found" -eq 0 ]; then echo "(no trash dirs found)"; exit 0; fi
+    _total_human=$(_human "$_total_bytes")
+    echo "════════ Total: $_total_count file(s)  Size: $_total_human ════════"
+    exit 0
     ;;
   empty)
     shift
-    exec /usr/bin/trash-empty "$@"
+    if _has_trash_flag "$@"; then exec /usr/bin/trash-empty "$@"; fi
+    # Per-trash confirmation: always ask per dir unless -f/--force or -i handled explicitly
+    # If user passed -f => force without prompt; if -i => trash-cli will prompt per file
+    _has_f=0; _has_i=0
+    for a in "$@"; do case "$a" in -f|--force) _has_f=1;; -i|--interactive) _has_i=1;; esac; done
+    if [ "$_has_f" -eq 1 ]; then
+      while IFS= read -r _dir; do
+        echo "→ Emptying $_dir ... (forced)"
+        /usr/bin/trash-empty --trash-dir "$_dir" "$@" || true
+      done < <(_dedup_existing_trash_dirs)
+      /usr/bin/trash-empty "$@" || true
+      exit 0
+    fi
+    # Interactive per-trash validation (default)
+    while IFS= read -r _dir <&3; do
+      _out=$(/usr/bin/trash-list --trash-dir "$_dir" 2>&1 || true)
+      if [ -z "$_out" ]; then echo "── Trash: $_dir ── (empty, skipped)"; echo; continue; fi
+      _n=$(echo "$_out" | wc -l)
+      echo "── Trash: $_dir ── ($_n file(s))"
+      echo "$_out" | head -n 5 | sed 's/^/  /'
+      [ "$_n" -gt 5 ] && echo "  ... and $((_n-5)) more"
+      printf "  Empty this trash? [y/N/all/q] "
+      if [ -t 0 ]; then read -r _ans < /dev/tty; else read -r _ans; fi
+      case "$_ans" in
+        y|Y|yes|YES) echo "→ Emptying $_dir ..."; /usr/bin/trash-empty --trash-dir "$_dir" "$@" || true; echo "  ✓ emptied";;
+        a|A|all|ALL) echo "→ Emptying $_dir ... and all remaining (forced)"; /usr/bin/trash-empty --trash-dir "$_dir" "$@" || true
+                     while IFS= read -r _dir2 <&3; do
+                       _out2=$(/usr/bin/trash-list --trash-dir "$_dir2" 2>&1 || true)
+                       [ -z "$_out2" ] && continue
+                       echo "→ Emptying $_dir2 ... (all)"; /usr/bin/trash-empty --trash-dir "$_dir2" "$@" || true
+                     done
+                     /usr/bin/trash-empty "$@" 2>/dev/null || true
+                     exit 0;;
+        q|Q|quit|QUIT) echo "  ✗ cancelled (q)"; exit 0;;
+        *) echo "  ✗ kept";;
+      esac
+      echo
+    done 3< <(_dedup_existing_trash_dirs)
+    exit 0
     ;;
   restore)
     shift
-    exec /usr/bin/trash-restore "$@"
+    if _has_trash_flag "$@"; then exec /usr/bin/trash-restore "$@"; fi
+    # Aggregate restore: iterate dirs, let user pick per dir (visual grouping)
+    # Use fd 3 for dir list so stdin remains for interactive trash-restore
+    _any=0
+    while IFS= read -r _dir <&3; do
+      _out=$(/usr/bin/trash-list --trash-dir "$_dir" 2>&1 || true)
+      [ -z "$_out" ] && continue
+      _any=1
+      echo "── Restore from: $_dir ──"
+      # Pass --trash-dir with any user args (path, --overwrite, --sort)
+      /usr/bin/trash-restore --trash-dir "$_dir" "$@" || true
+      echo
+    done 3< <(_dedup_existing_trash_dirs)
+    [ "$_any" -eq 0 ] && echo "(no trashed files in any trash dir)"
+    exit 0
     ;;
   rm)
     shift
-    exec /usr/bin/trash-rm "$@"
+    if _has_trash_flag "$@"; then exec /usr/bin/trash-rm "$@"; fi
+    # trash-rm supports --trash-dir; aggregate
+    while IFS= read -r _dir; do
+      /usr/bin/trash-rm --trash-dir "$_dir" "$@" || true
+    done < <(_dedup_existing_trash_dirs)
+    # Also try plain (home) in case pattern matches there without --trash-dir
+    /usr/bin/trash-rm "$@" 2>/dev/null || true
+    exit 0
     ;;
   *)
     # Help check (only in default case, not before subcommand dispatch)

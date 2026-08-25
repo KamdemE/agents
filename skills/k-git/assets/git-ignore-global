@@ -18,7 +18,7 @@
 #
 # ORDERING: 1. Secrets  ·  2. OS junk  ·  3. Editors/IDE  ·  4. Logs/temp
 #           5. Python   ·  6. Node/JS   ·  7. JVM          ·  8. C/C++/Go/Rust
-#           9. Test reports & coverage
+#           9. Test reports & coverage  ·  10. KπX agent/local-only docs
 # ============================================================================
 
 
@@ -203,3 +203,13 @@ coverage/
 test-results/
 playwright-report/
 *.lcov
+
+
+# ============================================================================
+# 10. KπX AGENT / LOCAL-ONLY PROJECT DOCS — never shared via git, any project
+# ============================================================================
+
+# .agents/AGENTS.md convention (project-scoped agent knowledge, never shipped)
+.agents/
+AGENTS.md
+DRAW.md

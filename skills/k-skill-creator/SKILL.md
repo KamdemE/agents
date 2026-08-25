@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.5.1"
+  version: "2.6.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -52,6 +52,7 @@ When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubun
 4. **Ensure the infra skill references `k-infras`** for the full setup checklist.
 5. **Ensure the infra skill has a `## Host Identity` table** with both the Tailscale name and the short name.
 6. **For Termux/Android skills** (`k-phones`): skip `k-nvim` and `k-opencode` from the checklist (they do not run on Termux).
+7. **For Windows-type infra skills** (a Windows machine, with or without WSL — e.g. `k-blglaptop139`): **read `k-windows` first, before Step 0** — it's the seed/template for generic Windows/WSL/MSYS2 knowledge (WSL bootstrap, `.wslconfig`, NTFS link mechanics, MSYS2, SSH-mount-as-a-drive). Move anything genuinely generic into `k-windows` rather than writing it directly into the new infra skill (mirrors the `k-zsh/assets/kshrc.base` → per-infra `assets/kshrc` copy-then-personalize relationship). Add the new infra skill to `k-windows`'s "Child Windows-type infra skills" list once created, and mention `k-windows` in the new skill's own `> **Related skills:**` header.
 
 - The main `SKILL.md` describes the **general case** (cross-Linux, cross-platform).
 - **OS-specific details** go in `references/<os>.md` (e.g., `ubuntu.md`, `windows.md`, `pve.md`).
@@ -167,6 +168,6 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v2.6.0 — Added item 7 to the Infra Skill Checklist: for a Windows-type infra skill, read the new `k-windows` (generic Windows/WSL/MSYS2 platform hub) before Step 0, move generic content there instead of duplicating it, and register the new infra in `k-windows`'s "Child Windows-type infra skills" list. |
 | 2026-08-20 | [COLAB] | v2.5.1 — Updated the Android infra-skill example and Termux exception to `k-phones`. |
-| 2026-08-16 | [COLAB] | v2.5.0 — **`tests/` dir added to Structural Contract**: skills may ship a `tests/` folder (e.g. `tests/hooks/<hook>.test.mjs`) mirroring the structure of the `scripts/`/`assets/` they validate — durable source of truth for non-regression proof. Reference example: `k-opencode/tests/hooks/make-check-guard.test.mjs`. Tests are NOT deployed/symlinked (unlike `scripts/`). |
-| [SUMMARY] | — | v2.4.0 Infrastructure Scope section (→ `references/log.md`) · v2.3.2 insights contract · v2.3.1–v1.0.0: insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, earlier historical rows condensed. |
+| [SUMMARY] | — | v2.5.0 tests/ dir added to Structural Contract (→ `references/log.md`) · v2.4.0 Infrastructure Scope section (→ `references/log.md`) · v2.3.2 insights contract · v2.3.1–v1.0.0: insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, earlier historical rows condensed. |

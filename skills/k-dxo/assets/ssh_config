@@ -1,0 +1,10 @@
+#
+# SSH config — KπX (Windows side, BLGLAPTOP139)
+# Authentification par clé (id_ed25519_deep_pc6) en priorité,
+# mot de passe en fallback si la clé échoue.
+
+Host deep-pc6
+    HostName 172.16.150.163
+    User corp\ikamdem
+    PreferredAuthentications publickey,password
+    IdentityFile ~/.ssh/id_ed25519_deep_pc6

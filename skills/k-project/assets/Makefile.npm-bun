@@ -1,37 +1,44 @@
 .DEFAULT_GOAL := help
-BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
+SHELL := /bin/zsh
+
+PKG_NAME := PROJECT_NAME
+VERSION  := $(shell grep -m 1 '"version"' package.json | cut -d: -f2 | tr -d ' ",')
+
+.PHONY: help check smoke bun-link bun-unlink bun-build bun-publish push push-tags status log release
 
 help:  ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
 	  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
 
-# ── Dev ──────────────────────────────────────────────────────────────────────
+# ── Quality ──────────────────────────────────────────────────────────────────
 
-link:  ## Install dependencies and link (user)
-	@bun install && bun link
-
-unlink:  ## Unlink package
-	@bun unlink
-
-test:  ## Run tests (bun test or jest)
+check: smoke  ## Lint + tests (also run by the global pre-commit gate, see k-git)
+	@bun run lint
 	@bun test
 
-lint:  ## Run linter (adjust to eslint/biome/etc.)
-	@bun run lint
+smoke:  ## Smoke test — adjust to a real CLI/import check for this project
+	@bun run src/index.ts --help > /dev/null 2>&1 || (echo "❌ smoke test failed"; exit 1)
+	@echo "✅ smoke test passed"
 
-# ── Build & Publish ───────────────────────────────────────────────────────────
+# ── Install / Unlink (bun) ───────────────────────────────────────────────────
 
-build:  ## Bundle with bun build (adjust entry/outdir as needed)
-	@rm -rf dist && bun build src/index.ts --outdir dist --target node
+bun-link:  ## Install dependencies + link (dev) — CLI always uses the current checkout
+	@bun install && bun link
 
-publish: build  ## Publish to npm registry (requires NPM_TOKEN via Vaultwarden)
-	@$(ZSH_LOGIN) 'if ! env | grep -q "^NPM_TOKEN="; then \
-		echo "NPM_TOKEN missing — run Vaultwarden first"; exit 1; fi; \
-	bun publish'
-# Note: bun publish uses NPM_TOKEN from env, or BUN_AUTH_TOKEN if set.
+bun-unlink:  ## Unlink the package
+	@bun unlink
+
+# ── Build / Publish ──────────────────────────────────────────────────────────
+
+bun-build:  ## Bundle with bun build (adjust entry/outdir as needed)
+	@rm -rf dist
+	@echo "🏗️  Building $(PKG_NAME) v$(VERSION)..."
+	@bun build src/index.ts --outdir dist --target node
+
+bun-publish: bun-build  ## Publish to npm (requires NPM_TOKEN or BUN_AUTH_TOKEN already in the environment)
+	@echo "🚀 Publishing v$(VERSION) to npm..."
+	@bun publish
 # Ensure package.json has "publishConfig": { "access": "public" } for scoped packages.
-
-release: test build publish push  ## Full release: test → build → publish → push
 
 # ── Git ───────────────────────────────────────────────────────────────────────
 
@@ -50,3 +57,5 @@ status:  ## git status --short
 
 log:  ## Last 10 commits oneline
 	@git log --oneline -10
+
+release: check push bun-publish push-tags  ## Full release: check → push → publish → push tags

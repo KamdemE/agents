@@ -72,14 +72,32 @@ cp ~/.agents/.env.example ~/.agents/.env
 
 ## Purpose
 
-Deep-PC6 is a Linux development/server machine at the DxO internship. Its exact role, services, and configuration are to be documented as discovered.
+Deep-PC6 is DxO's GPU compute server — reference machine for the `framework-internship-culling` ML project (see `k-dxo`) and for running Ollama models too large/slow for local hardware (see `k-dxo` → Ollama via deep-pc6).
+
+**Hardware:**
+
+| Component | Value |
+|---|---|
+| CPU | AMD 3960X — 48 threads, 3.8 GHz, 128 MiB L3 |
+| RAM | 64 GB DDR4 (~60 GB typically free) |
+| GPU | 2× RTX 3090, 48 GB VRAM total, CUDA 8.6, driver 545 |
+| NVMe data | `/mnt/data-nvme`, ~12 GB/s read |
+| Bottleneck | PCIe Gen1×16 → CPU↔GPU transfer capped at ~3.9 GB/s |
+
+Access is entirely DxO-internship-gated (VPN, domain account, internal IP) — see `k-dxo` for VPN/SSH/RDP/rclone-mount details from both Ubuntu and Windows; this skill stays the Linux-server-facing view (SSH access, host identity).
 
 ---
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-deep-pc6/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-deep-pc6/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v1.3.0 — Filled in the "Purpose" stub (was TBD since creation): hardware specs (AMD 3960X, 64 GB RAM, 2× RTX 3090/48 GB VRAM, NVMe, PCIe Gen1×16 bottleneck) migrated from `framework-internship-culling`'s README §8.1 reference-machine table. Added Insights Discipline + `references/insights.md` (were missing). |
 | 2026-08-14 | [COLAB] | v1.2.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-deep-pc6/assets/kshrc` (created from `kshrc.base`); registered `kshrc-deep-pc6` in `assets/links.jsonc`. |
-| 2026-08-03 | [OPENCODE] | v1.1.0 — Updated VPN prerequisite reference: `vpn-dxo` CLI removed (k-dxo v1.4.0), now `sudo systemctl start vpn-dxo`. |
-| [SUMMARY] | — | v1.0.0 created k-deep-pc6 (→ `references/log.md`) |
+| [SUMMARY] | — | v1.1.0 VPN prerequisite reference updated (vpn-dxo CLI removed, now systemctl) · v1.0.0 created k-deep-pc6 (→ `references/log.md`) |

@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.3"
+  version: "1.6.6"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -34,7 +34,8 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 | Tailscale name | Short name | Tailscale IP | OS | Status | Skill | Notes |
 |---------------|-----------|-------------|----|--------|-------|-------|
 | `kpihx-ubuntu` | `ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. |
-| `blglaptop139` | `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble). |
+| `blglaptop139` | `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble), native Windows Tailscale. |
+| `blglaptop139-wsl` | `blglaptop139` | `100.118.76.46` | Linux (WSL) | online | **`k-blglaptop139`** | Same physical machine, separate WSL `tailscaled` node — see naming convention in `k-tailscale/references/windows.md`. |
 | `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
 | `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
 | `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-dockerhost`** | Docker host VM on PVE. |
@@ -46,6 +47,8 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 ## New Infra Setup Checklist
 
 When setting up a **new infrastructure** (any equipment running a shell), an agent MUST load and follow these steps **in order** before writing any config:
+
+> **⚠️ Windows machine? Read `k-windows` FIRST, before Step 0.** Any infra that's a Windows box (with or without WSL) has generic setup knowledge (WSL bootstrap, `.wslconfig`, NTFS link mechanics, MSYS2, SSH-mount-as-a-drive) already written up there — load it before creating the new infra skill, and put anything generic you'd otherwise be tempted to write directly into the new infra skill there instead. See `k-windows` → "Pattern for a new Windows+WSL machine" and → "Child Windows-type infra skills" (add the new infra to that list once created).
 
 ### Step 0 — Infrastructure Directory Standard (MANDATORY, first)
 
@@ -69,7 +72,7 @@ Then continue with the ordered checklist below.
 | Order | Skill | Purpose |
 |-------|-------|---------|
 | 1 | **`k-zsh`** | Shell setup: 5 shared files (zshrc, zshenv, zprofile, bashrc, profile) symlinked from `k-zsh/assets/`. PATH, env vars, hub pattern. |
-| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). Infra skills have ONLY `kshrc` — the 5 other files are shared from `k-zsh`. If infra skill has no `assets/kshrc`, copy `kshrc.base`, customize, then symlink. |
+| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). Infra skills have ONLY `kshrc` — the 5 other files are shared from `k-zsh`. If infra skill has no `assets/kshrc`, copy `kshrc.base`, customize, then symlink. **Windows+WSL infra:** additionally add a `source` line for `k-windows/assets/kshrc` near the very top of the new `assets/kshrc`, before its own Section 1 body — that file is SOURCED, never copied (SSH-agent + `$HOMEW`/`$USERW`/`~w`; see `k-windows/SKILL.md` → `` `assets/kshrc` ``). |
 | 2 | **`k-tailscale`** | Mesh VPN: install, authenticate, verify connectivity. |
 | 3 | **`k-tmux`** | Tmux session per equipment: standard 3-window layout (agents/default/tmp), shared interactive gate. |
 | 4 | **`k-ssh`** | SSH config: canonical `assets/ssh.conf`, key generation, Bitwarden agent, passphrase rules. |
@@ -188,6 +191,6 @@ functions, and the checks/guards that consume them.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.6.3 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-20 | [COLAB] | v1.6.2 — Renamed the Android infrastructure skill to `k-phones`; updated the S25/tablet inventory, Termux exception, hierarchy, and SSH access map. |
-| [SUMMARY] | — | v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex (→ `references/log.md`) · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |
+| 2026-08-25 | [CLAUDE] | v1.6.6 — Step 1b of the New Infra Setup Checklist gained an explicit Windows+WSL addendum: also `source` `k-windows/assets/kshrc` near the top of the new infra's own `assets/kshrc` (SSH-agent + `$HOMEW`/`$USERW`/`~w` — that file is sourced, never copied). Verified against the real `k-windows`/`k-blglaptop139` kshrc split done the same day. |
+| 2026-08-25 | [CLAUDE] | v1.6.5 — Added a Windows-infra callout to the New Infra Setup Checklist: read `k-windows` (generic Windows/WSL/MSYS2 bootstrap knowledge, newly created) before Step 0 for any Windows machine, and register the new infra in `k-windows`'s "Child Windows-type infra skills" list. |
+| [SUMMARY] | — | v1.6.4 `blglaptop139-wsl` equipment row · v1.6.3 check-skills audit, changelog rotated, no log.md · v1.6.2 renamed Android infra skill to `k-phones` (S25/tablet inventory, Termux exception, hierarchy, SSH map updated) · v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex (→ `references/log.md`) · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |

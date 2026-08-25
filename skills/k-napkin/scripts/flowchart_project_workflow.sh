@@ -7,7 +7,7 @@ cat > /tmp/napkin_content.md << 'EOF'
 2. Choose stack: Python or TypeScript?
 3. Python: uv init --package in $HOME/Work/
 4. TypeScript: bun init in $HOME/Work/
-5. Create .agents/AGENTS.md from template
+5. Create AGENTS.md (repo root) from template
 6. Initialize git repo with SSH remote
 7. Create GitLab and GitHub remotes
 8. Setup Makefile with make push target

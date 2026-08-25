@@ -31,6 +31,18 @@
 #   • pre-push — Submodule push gate: blocks if ANY submodule HEAD is not
 #     present on EVERY of its remotes (live `git ls-remote` check, no stale
 #     tracking refs). Override (déconseillé): KPIHX_ALLOW_UNPUSHED_SUBMODULES=1.
+#
+# ADDED BEHAVIOR (2026-08-25, KπX directive — generalized from a per-project
+# pattern found in a mature pipeline project; repos NEVER set their own
+# `core.hooksPath` anymore, these two gates now apply to every repo globally):
+#   • pre-commit — `make check` gate: if the repo has a Makefile with a
+#     `check:` target, runs it and blocks the commit on failure. Runs AFTER
+#     the (cheap) submodule gate, BEFORE any repo-local hook (fail fast).
+#     Override (déconseillé): KPIHX_SKIP_MAKE_CHECK=1.
+#   • commit-msg — AI-attribution trailer strip: removes any commit message
+#     line starting with `co-authored-by:`, `signed-off-by:`, or `author:`
+#     (case-insensitive) before the repo-local hook (if any) sees it.
+#     Override (déconseillé): KPIHX_KEEP_AGENT_TRAILERS=1.
 # ============================================================================
 hook="$(basename "$0")"
 gd="${GIT_DIR:-$(git rev-parse --absolute-git-dir 2>/dev/null)}"
@@ -108,6 +120,18 @@ submodule_push_report() {
   done
 }
 
+# --- GLOBAL GATE 3: pre-commit — `make check` (generalized 2026-08-25) -----
+# Returns 0 (nothing to block on) when there's no Makefile / no check target;
+# otherwise runs it live (no output capture) and returns its exit status.
+run_make_check() {
+  root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 0
+  mk="$root/Makefile"
+  [ -f "$mk" ] || return 0
+  grep -qE '^check:' "$mk" || return 0
+  echo "🔍 Running 'make check' (global pre-commit gate)..." >&2
+  make -C "$root" check
+}
+
 case "$hook" in
   pre-commit)
     # GLOBAL FIRST (KπX): block before running any local hook.
@@ -119,6 +143,21 @@ case "$hook" in
         echo "   Override (déconseillé): KPIHX_ALLOW_DIRTY_SUBMODULES=1 git commit ..." >&2
         exit 1
       fi
+    fi
+    if [ "${KPIHX_SKIP_MAKE_CHECK:-0}" != "1" ]; then
+      if ! run_make_check; then
+        echo "🔴 COMMIT BLOCKED — 'make check' failed. Fix the issues above." >&2
+        echo "   Override (déconseillé): KPIHX_SKIP_MAKE_CHECK=1 git commit ..." >&2
+        exit 1
+      fi
+    fi
+    ;;
+  commit-msg)
+    # GLOBAL FIRST (KπX): strip AI-agent attribution trailers before the
+    # repo-local hook (if any) sees the message. $1 = path to the message file.
+    if [ "${KPIHX_KEEP_AGENT_TRAILERS:-0}" != "1" ] && [ -n "${1:-}" ] && [ -f "$1" ]; then
+      tmp="$(mktemp)"
+      grep -viE '^(co-authored-by|signed-off-by|author):' "$1" > "$tmp" && mv "$tmp" "$1"
     fi
     ;;
   pre-push)

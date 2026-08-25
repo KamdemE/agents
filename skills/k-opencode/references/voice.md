@@ -39,6 +39,21 @@ Optional LLM endpoint for normalization (skipped if omitted → raw whisper text
 | `ffplay` / `mpv` | Audio playback |
 | `wget` / `curl` | Model download |
 
+## Per-Machine Deployment — Links Are Not Enough (GRAVÉ)
+
+> **Registering the plugin in `tui.json` (or symlinking it) only loads the JS glue into the TUI.** The plugin shells out to external binaries and model files that **MUST exist on each machine** that runs the voice stack. A missing binary gives the exact symptom seen 2026-08-25 on blglaptop139-wsl: the keybind fires and shows `Recording in progress`, but nothing is captured or transcribed (`rec`/`whisper-cli`/`piper` not found at spawn time).
+
+Run this checklist **on every machine** where `@renjfk/opencode-voice` is expected to work — not just the machine where `tui.json` was created:
+
+```bash
+which sox rec whisper-cli piper ffplay mpv        # all present → OK (see k-ai for install)
+ls ~/.local/share/whisper-cpp/*.bin               # at least one ggml-*.bin
+ls ~/.local/share/piper-voices/*.onnx             # at least one .onnx + .json
+pactl info 2>&1 | head                            # pulseaudio route (WSLg: /mnt/wslg/PulseServer)
+```
+
+Fix per machine: `apt` packages via tmux ops pane (sudo gate, see `k-tmux`); user-space binaries/models go to `~/.local/bin` + `~/.local/share/*` (sovereign wrappers `k-whisper`/`k-piper` in `k-ai`). WSL-specific audio routing → `k-blglaptop139`.
+
 ## Whisper Models — Install & Manage
 
 All models stored in `~/.local/share/whisper-cpp/`. The plugin discovers them

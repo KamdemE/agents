@@ -137,7 +137,8 @@
 
     // --- k-git ------------------------------------------------------------------
     "gitconfig":  { "source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"] },
-    "agents-pre-commit":  { "source": "$HOME/.agents/.git/hooks/pre-commit",  "target": "$HOME/.agents/scripts/git/assets/pre-commit.sh",  "skill": "k-git", "infras": ["*"] },
+    // agents-pre-commit retired 2026-08-25: `make check` is now a GLOBAL pre-commit
+    // gate in git-hook-passthrough.sh (see k-git) — the .agents-local hook duplicated it.
     "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/assets/post-commit.sh", "skill": "k-git", "infras": ["*"] },
     // Global git excludesFile (XDG default) — secrets (.env etc.) never indexed/listed
     "git-ignore-global": { "source": "$HOME/.config/git/ignore", "target": "$HOME/.agents/skills/k-git/assets/git-ignore-global", "skill": "k-git", "infras": ["*"] },
