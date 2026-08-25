@@ -7,7 +7,7 @@ description: >
   management, bun usage, or JS/TS environment debugging.
 metadata:
   author: KpihX
-  version: "1.1.1"
+  version: "1.1.2"
   scope: operations
 ---
 
@@ -58,8 +58,8 @@ Legacy nvm paths still on disk but NOT in PATH: `~/.nvm/versions/node/v22.22.1/`
 ### npm prefix
 
 ```bash
-# ~/.npmrc
-prefix=/home/kpihx/.npm-global
+# ~/.npmrc — MUST use $HOME, never hardcode /home/<user> (see rules/file-governance.md)
+prefix=$HOME/.npm-global
 
 # ~/.kshrc (belt-and-suspenders)
 export NPM_CONFIG_PREFIX="$HOME/.npm-global"
@@ -251,6 +251,6 @@ du -sh ~/.bun             # bun
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [OPENCODE] | v1.1.2 — **npm prefix hardcode fix**: `~/.npmrc` `prefix=` now `$HOME/.npm-global` (never `/home/kpihx`), per `rules/file-governance.md` $HOME rule. `NPM_CONFIG_PREFIX` + `PATH` already generic. Verified on `deep-pc6` (`/home/ikamdem@corp.dxo.com`). |
 | 2026-08-14 | [COLAB] | v1.1.1 — **Purged npm-global agent/MCP tools moved to `references/purged.md`**: removed `@openai/codex`, `@github/copilot`, `@google/gemini-cli` (agent runtimes) and `whats-mcp` rows from the SKILL.md tables; archived them in `references/purged.md` (never deleted); kept only `*-proxy` CLIs. |
-| 2026-07-25 | [OPENCODE] | v1.1.0 — **CORRECTION :** fnm est actif, nvm est legacy inactif. La V1 disait à tort "nvm v22.22.1 currently active" car testée dans un shell agent sans `.kshrc`. Fixé : table runtimes rewritée, section Node Versions corrigée, PATH resolution corrigé. Aussi : `.npmrc` `prefix=` décommenté (était commenté "for nvm compatibility" mais nvm n'est plus sourcé). Insights.md mis à jour. |
-| [SUMMARY] | — | v1.0.0 — Created on 2026-07-25. |
+| [SUMMARY] | — | v1.1.0 fnm/nvm correction · v1.0.0 Created |
