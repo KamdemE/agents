@@ -1,6 +1,9 @@
 {
   "$schema": "https://opencode.ai/tui.json",
   "plugin": [
-    ["@renjfk/opencode-voice", {}]
+    [
+      "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-voice",
+      {}
+    ]
   ]
 }
