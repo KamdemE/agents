@@ -21,6 +21,26 @@ set -uo pipefail
 
 echo "  ├─ 🧩 1/4 Binary availability"
 
+# --- 0. Infra exemption: deep-pc6 is DxO VPN-only, not on Tailscale (see k-deep-pc6) ---
+if [ -f "$HOME/.agents/libs/jsonc/jsonc_lib.sh" ]; then
+  # shellcheck disable=SC1091
+  source "$HOME/.agents/libs/jsonc/jsonc_lib.sh" 2>/dev/null || true
+  if command -v current_infra >/dev/null 2>&1; then
+    _infra_ci="$(current_infra 2>/dev/null || true)"
+    if [ "$_infra_ci" = "deep-pc6" ]; then
+      echo "  ⊘ skip — infra 'deep-pc6' is DxO VPN-only, not on Tailscale (k-deep-pc6). Binary/daemon checks waived."
+      echo "  └─ 📊 Summary: Tailscale check skipped for deep-pc6."
+      exit 0
+    fi
+  fi
+fi
+# Fallback hostname check (no libs)
+if [ "$(hostname 2>/dev/null | tr '[:upper:]' '[:lower:]')" = "deep-pc6" ]; then
+  echo "  ⊘ skip — hostname deep-pc6 is DxO VPN-only, not on Tailscale."
+  echo "  └─ 📊 Summary: Tailscale check skipped for deep-pc6."
+  exit 0
+fi
+
 # --- 0. Is tailscaled present / status reachable? ---
 if ! command -v tailscale >/dev/null 2>&1; then
   echo "  ✗ ERROR: 'tailscale' binary not found in PATH."
