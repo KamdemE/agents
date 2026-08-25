@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.1"
+  version: "2.9.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -113,17 +113,24 @@ Every KpihX infrastructure machine MUST have the following directory layout:
 
 ```bash
 # 1. Clone the kernel (private repo — SSH key required)
-git clone git@github.com:KpihX/agents.git ~/.agents
-
-# 2. Create the work directory
+#    Canonical path is ~/KpihX-Labs/.agents — never ~/.agents alone
 mkdir -p ~/KpihX-Labs
+git clone git@github.com:KpihX/agents.git ~/KpihX-Labs/.agents   # real repo
+ln -sfn ~/KpihX-Labs/.agents ~/.agents                            # symlink
 
-# 3. Symlink .agents/ into it
-ln -sf ~/.agents ~/KpihX-Labs/.agents
+# 2. Switch to your infra branch — NEVER work on main (see rules/git-branch-per-infra.md)
+cd ~/KpihX-Labs/.agents
+INFRA=$(hostname | tr '[:upper:]' '[:lower:]')   # or: source libs/jsonc/jsonc_lib.sh && INFRA=$(current_infra)
+if git show-ref --verify --quiet "refs/heads/$INFRA"; then git switch "$INFRA"
+elif git ls-remote --heads origin "$INFRA" | grep -q "$INFRA"; then git fetch origin "$INFRA" && git switch "$INFRA"
+else git switch -c "$INFRA" && git push -u origin "$INFRA"
+fi
 
-# 4. Create an (empty) per-infra AGENTS.md if needed
+# 3. Create an (empty) per-infra AGENTS.md if needed
 touch ~/KpihX-Labs/AGENTS.md
 ```
+
+> **Branch per infra (GRAVÉ):** every infra owns a branch named after itself (`deep-pc6`, `kpihx-ubuntu`, `blglaptop139`…). `main` is read-only — only PRs merge into it. After clone, always `git switch <infra>`. Before every `commit`/`push`, `git fetch origin` + check `git log HEAD..origin/main` and `git rebase origin/main` if `main` moved (other infras' PRs). Push only your infra branch (`make push`), then PR to `main`. See `rules/git-branch-per-infra.md` + `k-infras` → Git Branch per Infra.
 
 ### Current machines
 
@@ -252,7 +259,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [OPENCODE] | v2.9.0 — **Git branch per infra (GRAVÉ)**: `## Infrastructure Directory Standard` now clones to `~/KpihX-Labs/.agents` + `git switch <infra>` after symlink (detect via `hostname`/`current_infra`/`tailscale status`, branch = infra name from `assets/infras_skills.jsonc`), `main` read-only + `fetch`/`rebase origin/main` before every push/PR. Mirrors `rules/git-branch-per-infra.md` + `k-infras`. |
 | 2026-08-20 | [COLAB] | v2.8.1 — Updated the kernel hierarchy to the renamed `k-phones` Android infrastructure skill. |
-| 2026-08-15 | [COLAB] | v2.8.0 — **External repo references convention**: `## Config & Assets (JSONC)` now states that references to `.agents` files **from external repos** (techskills, 𝛱/TechSkills, Homelab, presentation, tutorials) use the **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/<path>`), **not a local template symlink**. `.agents` stays the single source of truth. |
-| 2026-08-15 | [COLAB] | v2.7.0 — **Shared JSONC libs + lint/type config single source of truth**: `## Config & Assets (JSONC)` now documents the three JSONC helper twins `libs/jsonc_lib.{sh,py,js}` (Python/JS import from `libs/` — added 2026-08-15) + a note that `ruff.toml` (rule ignores + `[lint.per-file-ignores]` for `E402`) and `pyrightconfig.json` (`extraPaths = ["libs", "scripts/check_skills"]`) live at `.agents/` root as the single source of truth — never scattered inline. |
-| [SUMMARY] | — | v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) · v2.2.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |
