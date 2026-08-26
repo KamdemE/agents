@@ -52,6 +52,13 @@ sm_paths() {
 # NOT @{upstream}, which points at read-only upstreams (Flickwire/IgorWarzocha).
 submodule_dirty_report() {
   report=""
+  # githooks(5): a hook that runs git in a foreign repo (here: each submodule)
+  # must clear the GIT_DIR/GIT_WORK_TREE/... git exports for hook processes,
+  # or `git -C <submodule>` inherits them and can hit
+  # "fatal: .git/index: index file open failed: Not a directory" (the
+  # submodule's own .git is a FILE, not a dir — see k-git/references/insights.md).
+  # shellcheck disable=SC2046 # word-splitting is the point: unset each var name
+  unset $(git rev-parse --local-env-vars) 2>/dev/null
   for p in $(sm_paths); do
     [ -e "$p/.git" ] || continue
     st="$(git -C "$p" status --porcelain | sed 's/^/      /')"
@@ -78,6 +85,10 @@ $st"
 # (KPIX-owned mirrors only — NOT read-only upstreams like Flickwire/IgorWarzocha)
 submodule_push_report() {
   report=""
+  # githooks(5): clear the git-exported env before running git in a foreign
+  # repo (each submodule) — see the matching comment in submodule_dirty_report.
+  # shellcheck disable=SC2046 # word-splitting is the point: unset each var name
+  unset $(git rev-parse --local-env-vars) 2>/dev/null
   for p in $(sm_paths); do
     [ -e "$p/.git" ] || continue
     branch="$(git -C "$p" rev-parse --abbrev-ref HEAD)"
