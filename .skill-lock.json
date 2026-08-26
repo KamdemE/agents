@@ -375,6 +375,13 @@
       "skillPath": "skills/k-nftables/SKILL.md",
       "installedAt": "2026-07-21T14:30:00.000Z",
       "updatedAt": "2026-07-21T14:30:00.000Z"
+    },
+    "k-confluence": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-confluence/SKILL.md",
+      "installedAt": "2026-07-12T12:41:17.000Z",
+      "updatedAt": "2026-08-26T09:19:39.000Z"
     }
   }
 }

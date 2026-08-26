@@ -1,9 +1,15 @@
 ---
 name: k-confluence
 description: Create, repair, enrich, and review high-quality Confluence documentation with a visual-first, evidence-first workflow. Use this skill when working on Confluence pages that require precise structure, strong narrative quality, rendered formulas, image-heavy R&D storytelling, attachment hygiene, safe incremental edits, or a mix of MCP and direct Atlassian API operations.
+metadata:
+  author: KpihX
+  version: "1.1.0"
+  scope: tool-integration
 ---
 
-# K Confluence
+# KπX — Confluence
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 This skill is for building or repairing Confluence pages with the same level of care as production code: cautious reads first, incremental updates, strong visuals, rendered math, attachment deduplication, and page-by-page coherence checks.
 
@@ -97,3 +103,16 @@ Read only what is needed:
 ## Output Standard
 
 A successful result is not just "page updated". It means the page is now robust, visually convincing, technically faithful, and aligned with the user's intent at the level of section logic, imagery, formulas, and commentary.
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-confluence/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-confluence/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
+
+## Changelog
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.1.0 — Restored after the `.agents` restructure wiped the skill (recovered verbatim from a Codex session log, 2026-07-12 creation, confirmed unchanged as of its last known use on 2026-08-21). Conformed to the KπX structural contract: `metadata.version`, edit reminder, Insights Discipline section, `references/insights.md`, this Changelog. Dropped `agents/openai.yaml` (Codex-only UI metadata, unreferenced anywhere and without a KπX equivalent). |
+| [SUMMARY] | — | v1.0.0 — Original creation: visual-first, evidence-first Confluence workflow (safe incremental edits, rendered formulas, attachment hygiene, MCP-first with API fallback) plus `references/page-surgery.md`, `references/visual-publishing.md`, `references/page-audit.md`. |
