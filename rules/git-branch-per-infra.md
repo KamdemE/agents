@@ -4,6 +4,8 @@
 > Each infrastructure works **exclusively** on its own branch named after the infra.
 > `master` is **read-only** — it only advances via merged PRs — with ONE exception:
 > **`kpihx-ubuntu` is the sole infra authorized to commit directly on `master`.**
+>
+> **Before handling any merge:** load `skills/k-git/references/merge-workflow.md` in full — it is the operational companion to this rule (inspection, elegant presentation, arbitrage, coherent MD rewriting, versioning, push/verify).
 
 ## 1. Rule — One Branch per Infra, Never `master` (Except Ubuntu)
 
@@ -158,6 +160,7 @@ If you skipped the check and `master` moved under you, your PR may show conflict
 
 ## 8. See Also
 
+- `k-git/references/merge-workflow.md` — **ABSOLUTE** operational companion: inspection, elegant presentation, arbitrage, coherent rewriting, versioning, push/verify
 - `k-infras` — master infra map + New Infra Setup Checklist (Step 0 now includes branch switch)
 - `k-git` — SSH-only, `make push` (`github`+`gitlab`, NEVER `origin`), conventional commits
 - `kpihx-labs` — Infrastructure Directory Standard (clone + symlink + infra branch)
