@@ -2,7 +2,7 @@
 # ============================================================
 # link_basic_guard.sh — sub-check: per-link existence/broken/reversed/dead
 # ============================================================
-# Part of check_links.sh (modular split). For ONE registered link (already
+# Part of check-links.sh (modular split). For ONE registered link (already
 # filtered by infra), verifies:
 #   - the registered target exists in .agents (dead check; skipped for
 #     allow-reversed links whose target is intentionally outside .agents)

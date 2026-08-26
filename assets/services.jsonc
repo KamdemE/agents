@@ -6,8 +6,8 @@
   // for config files (see kpihx-labs → Config Standard). .env holds secrets.
   //
   // WHO USES IT:
-  //   - scripts/services/check_services.sh    (verify each service, max verbosity)
-  //   - scripts/services/reload_services.sh   (reload the current infra's services)
+  //   - scripts/services/check-services.sh    (verify each service, max verbosity)
+  //   - scripts/services/reload-services.sh   (reload the current infra's services)
   //   - scripts/links/lib.sh                  (shared JSONC loader via libs/)
   //
   // APPROACH (2026-08-14): DIRECT list grouped by owning skill (each block is a

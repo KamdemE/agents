@@ -2,7 +2,7 @@
 # ============================================================
 # service_asset_guard.sh — sub-check: canonical asset + deployed presence
 # ============================================================
-# Part of check_services.sh (modular split). Verifies, for one service:
+# Part of check-services.sh (modular split). Verifies, for one service:
 #   1. canonical asset exists (path in $HOME/.agents/...)
 #   2. it is deployed in the right systemd dir (user/system) — symlink OR copy
 # Returns 0 on success; appends findings to a shared buffer (env var).

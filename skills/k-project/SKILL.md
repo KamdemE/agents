@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.12.0"
+  version: "2.13.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -25,9 +25,14 @@ allowed-tools: Bash(*), "*"
 
 | Scope | Style | Example |
 |-------|-------|---------|
-| Project / repo / CLI binary | `kebab-case` | `my-tool`, `k-agent` |
-| Module / folder / Python package | `snake_case` | `my_tool`, `k_ai` |
+| Project / repo / CLI binary | `kebab-case` `-` | `my-tool`, `k-agent` |
+| Module / folder / Python package | `snake_case` `_` | `my_tool`, `k_ai` |
 | PyPI / npm package name | `kebab-case` (same as repo) | `kpihx-ai` |
+| Script file — executable (shell) | `kebab-case` `-` | `scripts/install-hooks.sh` |
+| Script file — sourced lib/guard (shell) | `snake_case` `_` | `link_basic_guard.sh` |
+| Python module/package file (imported) | `snake_case` `_` — mandatory (`import foo-bar` = SyntaxError) | `config.py`, `check_skills/` |
+
+> Kernel-wide file-naming rule (executable vs sourced vs imported): `rules/file-governance.md` → Naming Convention. In-repo canonical examples: `.agents/scripts/check-links.sh` / `.agents/scripts/link_basic_guard.sh`.
 
 **Name conflict resolution** (PyPI / npm name taken — applies ONLY to KπX-owned projects):
 
@@ -199,9 +204,7 @@ Always prefer development linking to ensure the CLI uses the current codebase:
 ## Documentation Site
 
 To set up a Docsify GitHub Pages docs site for a project → **`references/docs-site.md`** (this skill dir).
-
-Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages `main/docs` config.
-Load `k-git-pages` for Docsify templates + link rules.
+Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages `main/docs` config. Load `k-git-pages` for Docsify templates + link rules.
 
 ## Project Init — Bash/Shell (no package manager)
 
@@ -229,9 +232,7 @@ For pure shell scripts, CLI wrappers, or systemd-managed tools with no `uv`/`npm
 
 Templates: `k-project/assets/install.sh` and `k-project/assets/purge.sh`.
 Both must be kept in sync with the project as it evolves.
-For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.
-
-**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
+For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
 
 **`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
 **`make run`** → run `<main-script>.sh` via **shared tmux** if it needs elevation; otherwise normal shell.
@@ -293,6 +294,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v2.13.0 — **File-level `_`/`-` naming rows added**: Naming Conventions table extended with executable shell script (`kebab -`), sourced lib/guard (`snake _`), imported Python module (`snake _`, mandatory) + cross-ref to `rules/file-governance.md` → Naming Convention (new kernel-wide rule created same day after the scripts/ guards `-` regression fix). |
 | 2026-08-15 | [COLAB] | v2.12.0 — **Proxy relocation reference updated**: `references/daemon-pattern.md` path updated (`~/KpihX-Labs/whats_proxy/` → `~/KpihX-Labs/proxies/whats-proxy/`) after the `*_proxy` family moved into `proxies/` and aligned to kebab-case naming. |
-| 2026-08-15 | [COLAB] | v2.11.0 — **Template → gitlab URL unification**: updated `## Templates` — `assets/pyproject.toml` + `assets/config.py` are the source of truth; external repos (techskills/𝛱/TechSkills `templates/`) that referenced them via local symlinks were unplugged 2026-08-15 and now use the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. |
-| [SUMMARY] | — | v2.10.0 Config Standard (JSONC) (→ `references/log.md`) · v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |
+| [SUMMARY] | — | v2.11.0 template→gitlab-URL unification (assets/pyproject.toml + config.py source of truth; techskills/𝛱 symlinks unplugged) · v2.10.0 Config Standard (JSONC) (→ `references/log.md`) · v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |

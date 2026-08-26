@@ -41,10 +41,10 @@ ls /usr/share/applications/*.desktop | grep -i D  # desktop launcher present?
 > **Mutual reference (MANDATORY):** this Debris Scan Methodology is the **static rule** mirror of **`k-optim`** (the operational skill to READ FIRST on any "nettoyer / purge / clean / optimiser" request). `k-optim` → `### Debris Scan — Where & How to Dig` carries the same dir-by-dir table + confirm-debris-vs-live-app command. Update BOTH when the methodology changes — single source of truth across `rules/` and `skills/k-optim/`.
 
 ## Symlinks to Skills / Agents — Centralization + Registration (MANDATORY)
-🔴 **RED RULE — any symlink pointing to a skill asset/script or tied to the agents kernel MUST ALWAYS be centralized via `$HOME/.agents`, and MUST be registered in `assets/links.jsonc`** so that BOTH `make link` (creates/recreates) and `make check-links` (verifies, joined into `make check`) cover it automatically. When you create a new `.agents` symlink:
+🔴 **RED RULE — any symlink pointing to a skill asset/script or tied to the agents kernel MUST ALWAYS be centralized via `$HOME/.agents`, and MUST be registered in `assets/links.jsonc`** so that BOTH `make set-links` (creates/recreates) and `make check-links` (verifies, joined into `make check`) cover it automatically. When you create a new `.agents` symlink:
 1. keep the canonical file in `.agents/skills/<skill>/` (source of truth) — never a standalone copy,
 2. add its `{source,target,skill,infras}` entry to `assets/links.jsonc` under its owning skill (that is the ONLY registration point),
-3. run `make link` to create it and `make check-links` to verify it.
+3. run `make set-links` to create it and `make check-links` to verify it.
 This JSONC registry is the single source of truth for `.agents`-owned symlinks; see `k-optim` → link/check-links methodology.
 
 ## Config Standard (JSONC) + Assets Update Mandate (MANDATORY)
@@ -52,7 +52,7 @@ This JSONC registry is the single source of truth for `.agents`-owned symlinks; 
 🔴 **Update mandate — whenever you create or change a `.agents` service or symlink, ALWAYS update the corresponding JSONC asset** so the checks stay accurate:
 - `.agents` service → update `assets/services.jsonc` (direct list grouped by skill; each entry `infras:[...]` or `*` = new MANDATORY).
 - `.agents` symlink → update `assets/links.jsonc` (direct list grouped by skill; each entry `{source,target,skill,infras:[...] or *}`, all sources in `$HOME/.agents/...`).
-Shared JSONC helpers live in `libs/jsonc/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches). Consumers: `scripts/services/{check_services,reload_services}.sh`, `scripts/links/{set_links,check_links}.sh`. Verify with `make check-services` / `make check-links` / `make check-tailscale`.
+Shared JSONC helpers live in `libs/jsonc/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches). Consumers: `scripts/services/{check-services,reload-services}.sh`, `scripts/links/{set-links,check-links}.sh`. Verify with `make check-services` / `make check-links` / `make check-tailscale`.
 
 ## Deactivation
 When the linked application/tool/service is removed from the system, move the skill directory to `skills/deactivate/<skill>/`. Never delete it. Update `.skill-lock.json` accordingly. A deactivated skill stays fully loadable on explicit request.

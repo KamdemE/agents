@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# check_services.sh — verify .agents-owned systemd services
+# check-services.sh — verify .agents-owned systemd services
 # ============================================================
 # THIN ORCHESTRATOR (see scripts/AGENTS.md). Reads assets/services.jsonc
 # (DIRECT list — no common*/optional grouping). For each service that applies
@@ -10,7 +10,7 @@
 #   service_active_guard.sh         is-active + recent journal
 # This file holds NO business logic — only aggregation and reporting.
 #
-# Source:  .agents/scripts/services/check_services.sh
+# Source:  .agents/scripts/services/check-services.sh
 # Caller:  make check-services   (renamed from check-systemd; joined into `make check`)
 # Depends: .agents/scripts/services/lib.sh (JSONC loader/validator + infra resolver)
 # ============================================================

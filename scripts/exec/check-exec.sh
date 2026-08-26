@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# check_exec.sh — verify script executability in .agents/
+# check-exec.sh — verify script executability in .agents/
 # ============================================================
 # Read-only check (does NOT modify permissions) complementing chmod.sh:
 #   - shebang-bearing files (entrypoints/scripts) MUST be executable

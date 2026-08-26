@@ -6,6 +6,14 @@ logic. There is exactly ONE implementation per concern, available as three
 **twins** (shell / Python / JavaScript) that MUST stay identical, language
 apart.
 
+## Naming (MANDATORY)
+
+Everything here is `source`d or `import`ed → **ALWAYS `snake_case` with `_`**
+(`env_lib.py`, `jsonc_lib.sh`, `notifier.sh`). NEVER kebab-case: a `-` name is
+invalid as a Python identifier (`import env-lib` = SyntaxError) and breaks the
+twin-name parity across the `.sh`/`.py`/`.js` triplets. Full kernel-wide rule:
+`rules/file-governance.md` → Naming Convention.
+
 ## Rules (MANDATORY)
 
 1. **Three twins per library, always in sync.** Every library lives in its own

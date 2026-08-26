@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# set_links.sh — create/recreate .agents-owned symlinks from links.jsonc
+# set-links.sh — create/recreate .agents-owned symlinks from links.jsonc
 # ============================================================
 # Reads assets/links.jsonc (DIRECT list grouped by skill). For the CURRENT
 # infra (from tailscale, see libs/jsonc/jsonc_lib.sh), creates every symlink whose
@@ -8,8 +8,8 @@
 #
 # All sources/targets are in $HOME/.agents/... format (single source of truth).
 #
-# Source:  .agents/scripts/links/set_links.sh
-# Caller:  make link
+# Source:  .agents/scripts/links/set-links.sh
+# Caller:  make set-links
 # Depends: .agents/scripts/links/lib.sh  →  libs/jsonc_lib.sh
 # ============================================================
 

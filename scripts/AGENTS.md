@@ -1,7 +1,7 @@
 # scripts/ — global utility scripts & uniform checks
 
 This directory holds every global utility / validation script used by the
-kernel (`make check`, `make link`, `make reload-services`, …). It follows the
+kernel (`make check`, `make set-links`, `make reload-services`, …). It follows the
 **uniform check philosophy** — the same modular style used by `skills/`
 (one entrypoint that only imports and launches, plus small focused guards).
 
@@ -9,14 +9,14 @@ kernel (`make check`, `make link`, `make reload-services`, …). It follows the
 
 - **One directory per domain**, each with its own `lib.sh` (thin wrapper that
   sources the shared `libs/` twin) and its checks:
-  - `scripts/env/`      → `.env` governance: `check_env.sh` (main), `env_inspect.sh` (debug viewer)
-  - `scripts/jsonc/`    → JSONC governance: `check_jsonc.sh` (main)
-  - `scripts/services/` → systemd services: `check_services.sh`, `reload_services.sh`, `lib.sh`
-  - `scripts/links/`    → symlink registry: `set_links.sh`, `check_links.sh`, `lib.sh`
+  - `scripts/env/`      → `.env` governance: `check-env.sh` (main), `env-inspect.sh` (debug viewer), `lib.sh`
+  - `scripts/jsonc/`    → JSONC governance: `check-jsonc.sh` (main)
+  - `scripts/services/` → systemd services: `check-services.sh`, `reload-services.sh`, `service_*_guard.sh`, `lib.sh`
+  - `scripts/links/`    → symlink registry: `set-links.sh`, `check-links.sh`, `link_*_guard.sh`, `lib.sh`
   - `scripts/check_skills/` → skills audit (Python, modular guards)
-  - `scripts/exec/`     → executability (`check_exec.sh`, `chmod.sh`)
-  - `scripts/git/`      → git hooks install
-  - top-level: `check_tailscale.sh` (backbone check)
+  - `scripts/exec/`     → executability (`check-exec.sh`, `chmod.sh`)
+  - `scripts/git/`      → git hooks (`hooks/post-commit.sh`, `hooks/pre-commit.sh`) + install/push scripts
+  - `scripts/tailscale/` → backbone check (`check-tailscale.sh`, `set-tailscale.sh`)
 
 - **Shared logic lives in `libs/`, NEVER re-implemented in a check.** JSONC →
   `libs/jsonc/`, `.env` → `libs/env/`. A check must be **thin**: it calls the
@@ -26,6 +26,24 @@ kernel (`make check`, `make link`, `make reload-services`, …). It follows the
   (`check-env`, `check-jsonc`, `check-services`, `check-links`, …) has NO
   business logic. It imports/sources the libs and launches the focused guards,
   then aggregates failures and returns non-zero on any problem.
+
+## Naming Convention — `_` vs `-` (MANDATORY)
+
+Two namespaces coexist; the name follows what the file IS (how it is consumed),
+never local majority or taste:
+
+| Kind | Style | Example | Why |
+|------|-------|---------|-----|
+| Shell **executable** (run via bash/make/hook) | `kebab-case` `-` | `check-links.sh`, `set-links.sh`, `reload-services.sh`, `env-inspect.sh` | Pathname namespace only — never parsed as an identifier |
+| Shell **sourced lib/guard** (`source`d, defines functions) | `snake_case` `_` | `lib.sh`, `link_basic_guard.sh`, `service_asset_guard.sh` | Function namespace — visually distinct from executables |
+| Python **package / module / guard** (`import`ed) | `snake_case` `_` — **language constraint** | `check_skills/`, `skill_content_guard.py` | `import foo-bar` is a SyntaxError (dash = subtraction operator) |
+
+- A directory holding only executables may be multi-word kebab (`tailscale/`);
+  a directory that is itself imported must be snake (`check_skills/`).
+- NEVER let both `foo-bar.sh` and `foo_bar.sh` exist in the same tree — one
+  file, one canonical name. A rename MUST update every `source`/`import`
+  reference in the same change.
+- Full kernel-wide rule: `rules/file-governance.md` → Naming Convention.
 
 ## Rules (MANDATORY)
 
@@ -49,8 +67,9 @@ kernel (`make check`, `make link`, `make reload-services`, …). It follows the
 
 ## Adding a new check
 
-1. Create `scripts/<domain>/check_<thing>.sh` (thin orchestrator) + the lib
-   helpers it needs in `libs/` (or reuse existing twins).
+1. Create `scripts/<domain>/check-<thing>.sh` (thin orchestrator, kebab) + the
+   snake_case lib/guard helpers it sources (`<thing>_guard.sh`) in the same
+   directory, and shared logic in `libs/` (or reuse existing twins).
 2. Add the `make check-<thing>` target in `Makefile` and include it in the
    `check:` aggregate.
 3. Document it here (structure) and in the owning `k-*` skill if relevant.

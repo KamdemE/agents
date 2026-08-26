@@ -2,7 +2,7 @@
 # ============================================================
 # service_internal_paths_guard.sh — sub-check: internal unit paths exist
 # ============================================================
-# Part of check_services.sh (modular split). Validates the paths referenced by
+# Part of check-services.sh (modular split). Validates the paths referenced by
 # a deployed unit file — WorkingDirectory / ExecStart / Environment=...=path —
 # and reports any missing file/dir. Catches renames/broken deps (e.g. a service
 # pointing to a renamed plugin dir) that would otherwise only fail at runtime.

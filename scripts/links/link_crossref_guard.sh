@@ -2,7 +2,7 @@
 # ============================================================
 # link_crossref_guard.sh — sub-check: links.jsonc ↔ services.jsonc (by unit)
 # ============================================================
-# Part of check_links.sh (modular split). Direct systemd unit links and service
+# Part of check-links.sh (modular split). Direct systemd unit links and service
 # registry entries form one bidirectional contract. For every pair sharing a
 # unit name, this guard validates canonical asset path, owning skill, expected
 # deployment source (derived from service type), and infra scope as unordered

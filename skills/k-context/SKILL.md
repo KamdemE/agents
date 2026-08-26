@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.29"
+  version: "3.66.30"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -34,7 +34,7 @@ allowed-tools: "Bash(*), *"
 > **KπX directive — `.agents` VCS (2026-04-10):** Autonomous `git commit`, `git push`, and `make push` on `$HOME/.agents/` are allowed by default **after** `make check` passes, unless KπX explicitly says not to finalize in the current session.
 > **Project finalization:** When finishing work on a **project repository** (explicit "finalize" / "clean" / "close", or you judge the slice done), **load `k-final`** and execute its full checklist — not a mental shortcut. See **AGENTS.md → Session & Memory** and `k-project` / `k-git` / `k-context` cross-links.
 > **Skills & kernel homogeneity (GRAVÉ):** Before creating or editing any skill, `AGENTS.md`, or hub `references/` file — inspect first (`tree $HOME/.agents/skills/`, `rg`), find the owning `k-*` skill, extend it; never duplicate identity paths or domain tables; create new files only when nothing covers the topic. Full rule: **AGENTS.md → Skills & kernel homogeneity — GRAVÉ**.
-> **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` + REGISTERED:** any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) be centralized via `~/.agents` (canonical file stays in `.agents/skills/<skill>/`), and (2) be registered in `scripts/links/links.sh` so BOTH `make link` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. New `.agents` symlink → add its entry to `scripts/links/links.sh` grouped under the owning skill (only registration point). See `rules/skill-governance.md` → Symlinks Centralization + Registration.
+> **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` + REGISTERED:** any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) be centralized via `~/.agents` (canonical file stays in `.agents/skills/<skill>/`), and (2) be registered in `assets/links.jsonc` so BOTH `make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. New `.agents` symlink → add its entry to `assets/links.jsonc` grouped under the owning skill (only registration point). See `rules/skill-governance.md` → Symlinks Centralization + Registration.
 > TODOs: only KπX adds; agents execute + remove.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
@@ -202,6 +202,5 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | v3.66.29 — Documented `k-ticktick` → `k-tick` refactoring and `k-ticktick` → `skills/deactive/k-ticktick` archival; updated Session Log (copy-then-condense) to reflect `tick-proxy` rebuild (52 actions, purge `tick_fallback` MCP, `.skill-lock.json` rename) and follow-up runtime discipline. |
-| 2026-08-24 | [COLAB] | v3.66.28 — Added the native OpenClaw + Hermes centralization TODO. |
-| [SUMMARY] | — | v3.66.27 retired kernel/workspace path purge (→ `references/log.md`) · v3.66.26 OpenCode Web Voice duplication fix · v3.66.25 explicit `make check` approval policy · v3.66.24 Edge-only browser-proxy release/service verification · v3.66.23 OpenCode Web/Lens ingress (→ `references/log.md`) · v3.66.22 k-phones raw ADB · v3.66.21 QMD update hook · v3.66.20 OpenCode terminal connection leak · v3.66.19 TMUX_TIMEOUT unit fix (→ `references/log.md`) · v3.66.18 and older moved to `references/log.md` |
+| 2026-08-26 | [COLAB] | v3.66.30 — RED RULE header note corrected: symlink registry is `assets/links.jsonc` (not the long-gone `scripts/links/links.sh`), `make link` → `make set-links`. Part of the scripts `_`→`-` rename ripple fix (Makefile, hooks dir, JSONC comments, docs). |
+| [SUMMARY] | — | v3.66.29 k-ticktick→k-tick refactor + archival doc · v3.66.28 native OpenClaw+Hermes centralization TODO (→ `references/log.md`) · v3.66.27 retired kernel/workspace path purge (→ `references/log.md`) · v3.66.26 OpenCode Web Voice duplication fix · v3.66.25 explicit `make check` approval policy · v3.66.24 Edge-only browser-proxy release/service verification · v3.66.23 OpenCode Web/Lens ingress (→ `references/log.md`) · v3.66.22 k-phones raw ADB · v3.66.21 QMD update hook · v3.66.20 OpenCode terminal connection leak · v3.66.19 TMUX_TIMEOUT unit fix (→ `references/log.md`) · v3.66.18 and older moved to `references/log.md` |

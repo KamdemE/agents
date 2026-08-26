@@ -12,7 +12,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services chmod install-hooks link help submodule-init submodule-update
+.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services set-tailscale chmod install-hooks set-links help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -57,40 +57,43 @@ check-js: ## Lint JS/TS files in hooks, scripts, libs, and skill scripts
 
 check-services: ## Verify .agents-owned systemd services (from assets/services.jsonc) — deployed + functional
 	@echo "🔍 [check-services] Systemd service contract"
-	@bash $(HOME)/.agents/scripts/services/check_services.sh
+	@bash $(HOME)/.agents/scripts/services/check-services.sh
 
-check-tailscale: ## Verify Tailscale is up (--accept-dns --accept-routes) + user is a Tailscale operator (no sudo)
+check-tailscale: ## Verify Tailscale is up (--accept-dns --accept-routes) + local node online + operator (no sudo)
 	@echo "🔍 [check-tailscale] Tailscale backbone"
-	@bash $(HOME)/.agents/scripts/check_tailscale.sh
+	@bash $(HOME)/.agents/scripts/tailscale/check-tailscale.sh
+
+set-tailscale: ## Converge Tailscale to desired state (--accept-dns --accept-routes --operator=$$USER) — use via tmux ops pane if sudo prompts
+	@bash $(HOME)/.agents/scripts/tailscale/set-tailscale.sh
 
 reload-services: ## Reload .agents-owned services of the current infra (from assets/services.jsonc)
 	@echo "🔁 Reloading .agents-owned services..."
-	@bash $(HOME)/.agents/scripts/services/reload_services.sh
+	@bash $(HOME)/.agents/scripts/services/reload-services.sh
 
 check-links: ## Verify .agents-owned symlinks (from assets/links.jsonc) are not broken/reversed
 	@echo "🔍 [check-links] Symlink registry contract"
-	@bash $(HOME)/.agents/scripts/links/check_links.sh
+	@bash $(HOME)/.agents/scripts/links/check-links.sh
 
 check-exec: ## Verify script executability (shebang entrypoints executable, library modules not)
 	@echo "🔍 [check-exec] Script executability"
-	@bash $(HOME)/.agents/scripts/exec/check_exec.sh
+	@bash $(HOME)/.agents/scripts/exec/check-exec.sh
 
 check-env: ## Verify .env/.env.example governance (one each, perms 600, format, mirror, filled)
 	@echo "🔍 [check-env] Environment-file governance"
-	@bash $(HOME)/.agents/scripts/env/check_env.sh
+	@bash $(HOME)/.agents/scripts/env/check-env.sh
 
 check-jsonc: ## Verify .agents JSONC config assets parse cleanly (via libs/jsonc)
 	@echo "🔍 [check-jsonc] JSONC configuration"
-	@bash $(HOME)/.agents/scripts/jsonc/check_jsonc.sh
+	@bash $(HOME)/.agents/scripts/jsonc/check-jsonc.sh
 
 check: check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)
 	@echo "✅ [make check] All grouped subchecks passed"
 
-install-hooks: ## Install git hooks from scripts/git/assets/
+install-hooks: ## Install git hooks from scripts/git/hooks/
 	bash $(HOME)/.agents/scripts/git/install-hooks.sh
 
-link: ## Create/recreate .agents-owned symlinks (uses scripts/links/set_links.sh + assets/links.jsonc)
-	@bash $(HOME)/.agents/scripts/links/set_links.sh
+set-links: ## Create/recreate .agents-owned symlinks (uses scripts/links/set-links.sh + assets/links.jsonc)
+	@bash $(HOME)/.agents/scripts/links/set-links.sh
 	@echo "✅ Symlinks updated for all agent runtimes."
 
 chmod: ## Normalize execute permissions on all kernel scripts (scripts/exec/chmod.sh, default 755)

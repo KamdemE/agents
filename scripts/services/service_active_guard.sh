@@ -2,7 +2,7 @@
 # ============================================================
 # service_active_guard.sh — sub-check: unit is-active + recent journal
 # ============================================================
-# Part of check_services.sh (modular split). For an expect-active service,
+# Part of check-services.sh (modular split). For an expect-active service,
 # verifies systemctl is-active and prints the recent journal. Handles the
 # IPEX-exclusive-switch exclusion (native ollama intentionally stopped when the
 # ipex-llm Docker backend is alive). Sets active_ok=1 on success, 0 on failure.

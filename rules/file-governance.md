@@ -15,6 +15,41 @@
 - NEVER hardcode `/home/<user>` or `~` in `.agents/` files
 - ALWAYS use `$HOME` and `$USER`
 
+## Naming Convention — `_` vs `-` (MANDATORY)
+
+The name follows **what the file IS** (how it is consumed), never local
+majority or taste:
+
+| Kind (consumption) | Style | Examples |
+|--------------------|-------|----------|
+| Executable shell script (bash / make / hook / cron) | `kebab-case` `-` | `check-links.sh`, `install-hooks.sh`, `post-commit.sh` |
+| Sourced shell lib/guard (`source`, defines functions) | `snake_case` `_` | `lib.sh`, `link_basic_guard.sh`, `service_asset_guard.sh` |
+| Python module/package (any `import`) | `snake_case` `_` — **language constraint** | `env_lib.py`, `check_skills/` |
+| JS/TS shared lib twin | keep the `_` base name of its sh/py twins | `env_lib.js` |
+| Project / repo / CLI binary name | `kebab-case` `-` | `tick-proxy` |
+| Importable package inside a project | `snake_case` `_` | `tick_proxy` |
+
+### Why the split
+
+Filesystem paths accept any character, but an importable name is parsed as a
+language identifier: `import foo-bar` parses as subtraction → Python
+`SyntaxError`. So anything ever `import`ed or `source`d MUST use `_`; pure
+executables live only in the pathname namespace and follow the Unix CLI
+convention `-`.
+
+### Rules
+
+1. **One canonical name per file.** NEVER both `foo-bar.sh` and `foo_bar.sh`
+   in the same tree.
+2. **Rename = atomic sweep.** A rename MUST update every `source` /
+   `shellcheck source=` / `import` reference in the same change.
+3. **Directories follow their content type:** executable groups may be kebab
+   (`scripts/tailscale/`); imported packages are snake (`scripts/check_skills/`);
+   single-word names (`env/`, `libs/`) are neutral.
+4. Canonical in-repo examples: `scripts/check-links.sh` (executable, `-`) vs
+   `scripts/link_basic_guard.sh` (sourced, `_`) vs `libs/env/env_lib.py`
+   (imported, `_`).
+
 ## Single Source of Truth
 - Never duplicate content across files. Every duplication = future desync.
 - No live-queryable lists — name the source to inspect instead

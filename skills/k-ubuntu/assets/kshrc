@@ -313,6 +313,8 @@ fi
 # ── kshrc reload ───────────────────────────────────────────────
 # Reload both guarded sections after a configuration change.
 kr() {
+  local d="$PWD"
   unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED
   . "$HOME/.kshrc"
+  cd "$d"
 }

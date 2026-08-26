@@ -2,7 +2,7 @@
 # ============================================================
 # link_completeness_guard.sh — sub-check: unregistered symlinks into .agents
 # ============================================================
-# Part of check_links.sh (modular split). Reads the declarative `audit.sources`
+# Part of check-links.sh (modular split). Reads the declarative `audit.sources`
 # and `audit.exclusions` policy from links.jsonc. Each source may declare a
 # max-depth; absent max-depth means recursive scanning. Every scan uses -xdev
 # and the shared exclusions to avoid crossing mounts or generated trees. It

@@ -1,6 +1,6 @@
 #!/bin/bash
 # KπX git hooks installer for the .agents repo.
-# Symlinks all hooks from scripts/git/assets/ into .git/hooks/.
+# Symlinks all hooks from scripts/git/hooks/ into .git/hooks/.
 #
 # Usage:
 #   scripts/git/install-hooks.sh              # install all hooks
@@ -10,7 +10,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-ASSETS_DIR="$REPO_ROOT/scripts/git/assets"
+ASSETS_DIR="$REPO_ROOT/scripts/git/hooks"
 HOOKS_DIR="$REPO_ROOT/.git/hooks"
 case "${1:-install}" in
     install) MODE="install" ;;

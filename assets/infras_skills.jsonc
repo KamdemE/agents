@@ -8,7 +8,7 @@
   // WHO USES IT:
   //   - skills/k-opencode/scripts/plugins/hooks/startup-context.js  (device auto-detect:
   //     tailscale DNSName → infra skill → inject <device-context>).
-  //   - scripts/ (check_tailscale.sh, services/*, links/*) resolve the current
+  //   - scripts/ (tailscale/check-tailscale.sh, services/*, links/*) resolve the current
   //     infra by reading this map.
   //
   // HOW: key = infra/device name (short Tailscale DNSName or hostname),

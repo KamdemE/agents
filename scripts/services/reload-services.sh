@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# reload_services.sh — reload/reload the current infra's services
+# reload-services.sh — reload/reload the current infra's services
 # ============================================================
 # Reads assets/services.jsonc (DIRECT list grouped by skill). Reloads every
 # service that applies to the current infra (infras:["*"] or contains the
@@ -8,9 +8,9 @@
 # (user or system). Reload = systemctl daemon-reload + enable + restart.
 #
 # The current infra comes from tailscale (see lib.sh current_infra).
-# Tailscale is the capital backbone — see check_tailscale.sh.
+# Tailscale is the capital backbone — see scripts/tailscale/check-tailscale.sh.
 #
-# Source:  .agents/scripts/services/reload_services.sh
+# Source:  .agents/scripts/services/reload-services.sh
 # Caller:  make reload-services
 # Depends: .agents/scripts/services/lib.sh (JSONC loader/validator + infra)
 # ============================================================

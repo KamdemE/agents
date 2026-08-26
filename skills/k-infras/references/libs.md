@@ -95,12 +95,13 @@ Source of truth: `$HOME/.agents/libs/notif/notifier.sh`.
 
 | Check | Path | Sources | Purpose |
 |-------|------|---------|---------|
-| `check-env` | `scripts/env/check_env.sh` | `libs/env/` (+ `scripts/env/lib.sh`) | Validate `.env` / `.env.example` key presence, format, missing keys. |
-| `env_inspect` | `scripts/env/env_inspect.sh` | `libs/env/` | Inspect `.env` key names (never values). |
-| `check-jsonc` | `scripts/jsonc/check_jsonc.sh` | `libs/jsonc/` | Validate every JSONC asset parses. |
-| `check-services` | `scripts/services/check_services.sh` | `libs/jsonc/` (via `scripts/services/lib.sh`) | Orchestrator: asset guard + active guard + internal-paths guard per service. |
-| `check-links` | `scripts/links/check_links.sh` | `libs/jsonc/` (via `scripts/links/lib.sh`) | Orchestrator: basic guard + crossref guard + completeness guard per link. |
-| `check-tailscale` | `scripts/check_tailscale.sh` | — | Tailscale backbone check (up `--accept-dns --accept-routes`). |
+| `check-env` | `scripts/env/check-env.sh` | `libs/env/` (+ `scripts/env/lib.sh`) | Validate `.env` / `.env.example` key presence, format, missing keys. |
+| `env-inspect` | `scripts/env/env-inspect.sh` | `libs/env/` | Inspect `.env` key names (never values). |
+| `check-jsonc` | `scripts/jsonc/check-jsonc.sh` | `libs/jsonc/` | Validate every JSONC asset parses. |
+| `check-services` | `scripts/services/check-services.sh` | `libs/jsonc/` (via `scripts/services/lib.sh`) | Orchestrator: asset guard + active guard + internal-paths guard per service. |
+| `check-links` | `scripts/links/check-links.sh` | `libs/jsonc/` (via `scripts/links/lib.sh`) | Orchestrator: basic guard + crossref guard + completeness guard per link. |
+| `check-tailscale` | `scripts/tailscale/check-tailscale.sh` | — | Tailscale backbone check (up `--accept-dns --accept-routes` + local node online + operator). |
+| `set-tailscale` | `scripts/tailscale/set-tailscale.sh` | — | Converge Tailscale to desired state (`sudo tailscale up --accept-dns --accept-routes --operator=$USER`) — remediation for `check-tailscale`; run via tmux ops pane. |
 
 Service/links guards (`scripts/services/service_*_guard.sh`,
 `scripts/links/link_*_guard.sh`) source the thin `lib.sh` of their orchestrator,

@@ -175,8 +175,8 @@ All kernel-level config and registries live as **JSONC** under `~/.agents/assets
 | Asset | Purpose | Consumed by |
 |-------|---------|-------------|
 | `assets/infras_skills.jsonc` | flat infra → k-* skill map | `startup-context.js` hook, `libs/jsonc/jsonc_lib.sh` `current_infra` |
-| `assets/services.jsonc` | `.agents`-owned systemd services (direct list, `infras:[...]` or `*`) | `scripts/services/check_services.sh`, `reload_services.sh` |
-| `assets/links.jsonc` | `.agents`-owned symlinks (direct list, `infras:[...]` or `*`) | `scripts/links/set_links.sh`, `check_links.sh` |
+| `assets/services.jsonc` | `.agents`-owned systemd services (direct list, `infras:[...]` or `*`) | `scripts/services/check-services.sh`, `reload-services.sh` |
+| `assets/links.jsonc` | `.agents`-owned symlinks (direct list, `infras:[...]` or `*`) | `scripts/links/set-links.sh`, `check-links.sh` |
 
 Shared libs (single source of truth, each has sh/py/js twins — see `libs/AGENTS.md`):
 - JSONC helpers: `~/.agents/libs/jsonc/jsonc_lib.sh` (strip_jsonc / jsonc_valid / load_jsonc / current_infra / infra_matches) with Python (`jsonc_lib.py` — strip_jsonc / load_jsonc / load_jsonc_obj) and JS (`jsonc_lib.js` — stripJsonc / loadJsonc / loadJsoncObj). Python/JS callers import from `libs/jsonc/` instead of re-implementing comment-stripping (single source of truth; added 2026-08-15).

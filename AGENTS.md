@@ -36,7 +36,7 @@ metadata:
 | Rule | What it says |
 |------|-------------|
 | `rules/web-research-first.md` | **WEB RESEARCH FIRST** — If you don't know something, are unsure, or hesitate about any fact/technology/concept: **STOP and search the web**. Do NOT guess, do NOT assume, do NOT fabricate. Use `websearch` or `google_search` before any workspace exploration. |
-| `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. **Explore/lab** — scientific scripts with preinstalled libs (numpy, matplotlib, scipy) for rapid prototyping. `$HOME/KpihX-Labs/Explore/lab/scripts/` + `uv run`. |
+| `rules/file-governance.md` | **Language rules** (contextual chat response, English default for files). `$HOME`/`$USER` not hardcoded. Single source of truth. **Binaries over aliases** (bin catches all contexts). **`.agents/` centralization** (configs, services, wrappers, assets belong in the relevant skill). **`.bak` in `/tmp/` only** — backups go to `/tmp/` with `.bak` extension, never next to original, never deleted. **Naming `_` vs `-`**: executable = kebab `-`, sourced/imported = snake `_` (never both names for one file; renames update every `source`/`import` in the same change). **Explore/lab** — scientific scripts with preinstalled libs (numpy, matplotlib, scipy) for rapid prototyping. `$HOME/KpihX-Labs/Explore/lab/scripts/` + `uv run`. |
 | `rules/response-format.md` | **Response format** — 💬 Comments/⚠️ Remarks/📋 TODOs/💡 Suggestions sections are pertinence-based (show when relevant). **🚨 ONLY 💡 SUGGESTIONS (≥3) IS MANDATORY EVERY TURN — NEVER OMIT. 🚨** Emojis encouraged but not enforced. Contextual language matching. |
 | `rules/tool-discipline.md` | **tmux sudo gate**: never raw sudo in agent shells. Identify pane before send-keys. **Never manually poll the pane or `capture-pane`** — arm with `TMUX_TIMEOUT`/`TMUX_LINES`, wait for the automatic `<tmux-notify>`/`<tmux-armed>` message (fixed 2026-08-16: this line used to say "Poll ≥30s on auth" — a live agent cited it, alongside a matching line in `k-context/SKILL.md`, as its justification for a manual `capture-pane` right after receiving the `<tmux-armed>` reminder telling it not to; this ROOT `AGENTS.md` summary line is injected into EVERY session and was never touched during 3 prior tmux-notify fix passes). Read before edit. No shell file ops. **Permanent Directive Capture**: persist operator's "always/never" instructions immediately to correct file — never just acknowledge. **Proactive Skill Update**: after learning a new pattern or fixing an issue, immediately update the relevant `k-*` skill — never keep knowledge only in conversation context. **🔴 `/dev/null` policy (100% Transparency mantra)**: use `/dev/null` redirections ONLY when STRICTLY necessary (exit-code probes, physical-noise probes, rc idioms, idempotent purge, GUI relaunch) — NEVER on diagnostics, installers, backups, API calls without failure surfacing, or deletions; when stdout must go, surface failure: `cmd > /dev/null \|\| echo "⚠️ failed" >&2`. Full rule: `rules/tool-discipline.md` → `/dev/null Redirection Policy`. |
 | `rules/audit-commands.md` | `uv` not `pip`. **For `.agents` only**, after a relevant change, propose `make check`; never run the kernel check without KπX's explicit request or validation. Project checks follow their own project workflow. `make push` not raw git push. |
@@ -161,14 +161,16 @@ See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup
 │   ├── notif/                #   notifier.sh (sh only) — Telegram/system notifications + homelab lock
 │   └── AGENTS.md             #   rule: sh/py/js twins must stay identical (language apart) — see libs/AGENTS.md
 ├── scripts/                  # Global utility scripts
-│   ├── env/                  #   check_env.sh, env_inspect.sh, lib.sh — .env governance checks
-│   ├── jsonc/                #   check_jsonc.sh — JSONC governance check
-│   ├── services/             #   check_services.sh, reload_services.sh, lib.sh
-│   ├── links/                #   set_links.sh, check_links.sh, lib.sh
-│   ├── check_tailscale.sh    #   Tailscale backbone check (up --accept-dns --accept-routes)
+│   ├── env/                  #   check-env.sh, env-inspect.sh, lib.sh — .env governance checks
+│   ├── jsonc/                #   check-jsonc.sh — JSONC governance check
+│   ├── services/             #   check-services.sh, reload-services.sh, *_guard.sh libs
+│   ├── links/                #   set-links.sh, check-links.sh, lib.sh + link_*_guard.sh libs
+│   ├── tailscale/            #   check-tailscale.sh (backbone check) + set-tailscale.sh (converge up --accept-dns --accept-routes --operator)
+│   ├── exec/                 #   check-exec.sh, chmod.sh — script executability
+│   ├── check_skills/         #   skills audit (Python: check_skills.py + guards)
+│   ├── git/                  #   hooks/ (pre-commit.sh, post-commit.sh) + install-hooks.sh, push-submodules.sh
 │   ├── chmod.sh              #   normalize script permissions
-│   ├── AGENTS.md             #   philosophy + uniform structure of all checks (see scripts/AGENTS.md)
-│   └── git/                  #   git hooks
+│   └── AGENTS.md             #   philosophy + uniform structure of all checks (see scripts/AGENTS.md)
 ```
 
 > **Auto-maintenance contract:** Every agent that modifies the kernel structure (renames a skill, moves a directory, creates a new top-level directory, promotes tmp/ to permanent) MUST update this map to reflect the change. The map is the canonical orientation point for all agents — if the structure evolves and this map is not updated, it is a bug.
@@ -198,7 +200,7 @@ Example — systemd drop-in for OpenClaw Gateway:
 **Verification:** Every agent that creates or modifies a config file MUST check whether it should live in `.agents/` with a local symlink. If yes, create the source first, then symlink.
 
 > **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` AND MUST BE REGISTERED:**
-> Any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) always be centralized via `~/.agents` (never a standalone copy — the file stays in `.agents/skills/<skill>/` as source of truth), and (2) **be registered in `assets/links.jsonc`** (direct list grouped by owning skill; each entry `{source,target,skill,infras:[...] or *}`) so BOTH `make link`/`make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. When you create a new `.agents` symlink, add it to `assets/links.jsonc` under its owning skill — that is the only registration point. Similarly, `.agents` systemd services live in `assets/services.jsonc`. Shared JSONC helpers in `libs/jsonc/jsonc_lib.sh`. See `kpihx-labs` → Config & Assets and `rules/skill-governance.md` → Full Debris Scan Methodology / Config Standard (JSONC).
+> Any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) always be centralized via `~/.agents` (never a standalone copy — the file stays in `.agents/skills/<skill>/` as source of truth), and (2) **be registered in `assets/links.jsonc`** (direct list grouped by owning skill; each entry `{source,target,skill,infras:[...] or *}`) so BOTH `make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. When you create a new `.agents` symlink, add it to `assets/links.jsonc` under its owning skill — that is the only registration point. Similarly, `.agents` systemd services live in `assets/services.jsonc`. Shared JSONC helpers in `libs/jsonc/jsonc_lib.sh`. See `kpihx-labs` → Config & Assets and `rules/skill-governance.md` → Full Debris Scan Methodology / Config Standard (JSONC).
 
 ## Security
 

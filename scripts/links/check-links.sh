@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# check_links.sh — verify .agents-owned symlinks from links.jsonc
+# check-links.sh — verify .agents-owned symlinks from links.jsonc
 # ============================================================
 # THIN ORCHESTRATOR (see scripts/AGENTS.md). Reads assets/links.jsonc (DIRECT
 # list grouped by skill) and, for the CURRENT infra (from tailscale, see
@@ -10,7 +10,7 @@
 #   link_completeness_guard.sh unregistered symlinks into .agents
 # This file holds NO business logic — only aggregation and reporting.
 #
-# Source:  .agents/scripts/links/check_links.sh
+# Source:  .agents/scripts/links/check-links.sh
 # Caller:  make check-links   (joined into `make check`)
 # Depends: .agents/scripts/links/lib.sh  →  libs/jsonc/jsonc_lib.sh
 # ============================================================

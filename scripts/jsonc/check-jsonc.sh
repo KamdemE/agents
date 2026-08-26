@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# check_jsonc.sh — verify .agents JSONC config assets parse cleanly
+# check-jsonc.sh — verify .agents JSONC config assets parse cleanly
 # ============================================================
 # Enforces the KπX JSONC standard (comments allowed, single source of truth):
 #   - every registered JSONC asset (assets/*.jsonc) parses as valid JSON after
@@ -11,7 +11,7 @@
 # This check is deliberately THIN: it only calls the shared jsonc_lib helpers.
 # It does NOT contain parsing logic itself (single source of truth in libs/).
 #
-# Source:  .agents/scripts/jsonc/check_jsonc.sh
+# Source:  .agents/scripts/jsonc/check-jsonc.sh
 # Caller:  make check-jsonc   (joined into `make check`)
 # Depends: .agents/libs/jsonc/jsonc_lib.sh  (jsonc_valid / strip_jsonc)
 # ============================================================

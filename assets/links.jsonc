@@ -7,8 +7,8 @@
   // secrets.
   //
   // WHO USES IT:
-  //   - scripts/links/set_links.sh   (create/recreate every registered symlink)
-  //   - scripts/links/check_links.sh (verify none is broken/reversed)
+  //   - scripts/links/set-links.sh   (create/recreate every registered symlink)
+  //   - scripts/links/check-links.sh (verify none is broken/reversed)
   //   - scripts/links/lib.sh         (shared JSONC loader + validator)
   //
   // APPROACH (2026-08-14): DIRECT list grouped by owning skill (each block is a
@@ -40,7 +40,7 @@
   //
   // NOTE: systemd unit symlinks are listed UNDER their owning skill block here
   // (they are links too); their SERVICE functionality is checked separately via
-  // assets/services.jsonc + scripts/services/check_services.sh.
+  // assets/services.jsonc + scripts/services/check-services.sh.
   // ============================================================================
 
   "links": {
@@ -137,8 +137,8 @@
 
     // --- k-git ------------------------------------------------------------------
     "gitconfig":  { "source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"] },
-    "agents-pre-commit":  { "source": "$HOME/.agents/.git/hooks/pre-commit",  "target": "$HOME/.agents/scripts/git/assets/pre-commit.sh",  "skill": "k-git", "infras": ["*"] },
-    "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/assets/post-commit.sh", "skill": "k-git", "infras": ["*"] },
+    "agents-pre-commit":  { "source": "$HOME/.agents/.git/hooks/pre-commit",  "target": "$HOME/.agents/scripts/git/hooks/pre-commit.sh",  "skill": "k-git", "infras": ["*"] },
+    "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/hooks/post-commit.sh", "skill": "k-git", "infras": ["*"] },
     // Global git excludesFile (XDG default) — secrets (.env etc.) never indexed/listed
     "git-ignore-global": { "source": "$HOME/.config/git/ignore", "target": "$HOME/.agents/skills/k-git/assets/git-ignore-global", "skill": "k-git", "infras": ["*"] },
     // Generic hook pass-throughs (one asset, N symlinks named after each hook type) —
