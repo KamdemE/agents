@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.3"
+  version: "2.6.1"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -203,9 +203,11 @@ See `k-phones` → S25. `~/.kshrc` → `k-phones/assets/kshrc`.
 
 ## ⚠️ Known Gotchas — full write-ups moved to `references/gotchas.md` (300-line body limit)
 
-Two documented gotchas, full detail preserved verbatim in `references/gotchas.md`:
+Four documented gotchas, full detail preserved verbatim in `references/gotchas.md`:
 1. **`source ~/.kshrc` is a NO-OP for already-loaded shells (2026-08-16)** — two idempotency guards (`__KSHRC_LOADED`, `__KSHRC_INTERACTIVE_LOADED`) silently skip re-sourcing in a shell process that already loaded it once. Fix: `unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED; source ~/.kshrc`, or restart the shell.
-2. **opencode web's embedded terminal hijacked into the shared tmux session (2026-08-16)** — opencode web's terminal panel spawns an isolated PTY with `OPENCODE_TERMINAL=1` set unconditionally; without an exception the Auto-tmux block attached it into the shared desktop tmux session (resize glitches, input cross-contamination, leaked idle shells). Fix: `[ -z "$OPENCODE_TERMINAL" ]` added to the Auto-tmux guard in `kshrc.base` + all 7 infra copies.
+2. **opencode web's embedded terminal hijacked into the shared tmux session (2026-08-16)** — opencode web's terminal panel spawns an isolated PTY with `OPENCODE_TERMINAL=1` set unconditionally; without an exception the Auto-tmux block attached it into the shared desktop tmux session (resize glitches, input cross-contamination, leaked idle shells). **Fix not required** — the `[ -z "$OPENCODE_TERMINAL" ]` guard in the Auto-tmux block (`kshrc.base` + 7 infra copies) is **not necessary**; it should only be added as a **last resort** if isolation issues reproducibly occur. Current fleet runs without it and `origin/master` is intentionally without the guard.
+3. **tmux default-shell stuck on /bin/bash (2026-08-25, deep-pc6)** — after an agent changed the SSSD `default_shell` to `/bin/bash`, new tmux panes kept spawning bash even after fixing SSSD. Root cause: tmux caches `default-shell` at server start. Fix: `tmux source-file ~/.tmux.conf` suffices to flush the cache. Adding `set -g default-shell /usr/bin/zsh` to `tmux.conf` is **not necessary** — only as a **last resort** if `chsh`/`getent passwd` is broken or SSSD still overrides the login shell; tmux otherwise inherits the login shell correctly.
+4. **SSSD `default_shell` override on corporate LDAP machines (2026-08-25, deep-pc6)** — `/etc/sssd/sssd.conf` can contain `default_shell = /bin/bash` which forces bash for ALL users regardless of LDAP shell attribute. Fix: `sudo sed -i 's|default_shell = /bin/bash|default_shell = /usr/bin/zsh|' /etc/sssd/sssd.conf && sudo systemctl restart sssd`. Verify with `getent passwd $USER | cut -d: -f7`.
 
 Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
@@ -220,6 +222,6 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-20 | [COLAB] | v2.4.3 — Corrected the generic S25 shell source path to `k-phones/assets/kshrc`. |
-| 2026-08-20 | [COLAB] | v2.4.2 — Updated the Android infrastructure cross-references for `k-phones` and the explicit S25 shell asset. |
-| [SUMMARY] | — | v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| 2026-08-26 | [COLAB] | v2.6.1 — **Section 1 SSH-agent block made non-destructive (PR #1 integration, KπX validated)**: the gpg-agent `SSH_AUTH_SOCK` export now fires ONLY when `SSH_AUTH_SOCK` is already unset — it yields to a session agent set by the environment (gcr on GNOME desktops like kpihx-ubuntu, Bitwarden). Headless/tty infra with no pre-set agent still get gpg-agent exactly as before. Guard comment updated; mirrored across all 7 per-infra kshrc copies per SYNC RULE. |
+| 2026-08-26 | [COLAB] | v2.6.0 — **gpg-agent pinentry TTY re-point in Section 2 (interactive)**: new guarded block right after `__KSHRC_INTERACTIVE_LOADED` — `command -v gpg-connect-agent … && gpg-connect-agent updatestartuptty /bye >/dev/null`. Root cause fixed: gpg-agent's SSH path prompts via pinentry on the **startup TTY recorded at agent start**, never the caller's TTY (`GPG_TTY` is ignored on that path) → on headless/tmux infra every `ssh-add` / cached-key signing failed with `agent refused operation` (deep-pc6 incident 2026-08-26, validated fix unix.SE #371901). Every fresh interactive pane now re-points pinentry to itself. Propagated to all 7 infra kshrc copies per SYNC RULE; stdout silenced ("OK" noise), stderr visible; no-op where binary absent. Companion of v2.5.0/da7f3cc (socket wiring, Section 1). |
+| [SUMMARY] | — | v2.5.0 persistent SSH agent Section 1 socket wiring (gpg-agent ssh-emulation, sliding 30-min/2h TTLs, mirrored ×7 infra kshrc) · v2.4.4 gotchas #3/#4 (tmux default-shell cache, SSSD default_shell override — deep-pc6 incident) · v2.4.3 corrected the generic S25 shell source path to `k-phones/assets/kshrc` · v2.4.2 Android infra cross-references update for `k-phones` + explicit S25 shell asset · v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

@@ -433,21 +433,6 @@
   },
 
   "mcp": {
-    // Browser MCP — CAPTCHA/2FA/formulaires spéciaux
-    "browser": {
-      "type": "local",
-      "command": ["browser-mcp"],
-      "enabled": true,
-      "timeout": 60000
-    },
-    // Chrome Agent MCP → 90% (navigation, tabs, devtools, contenu)
-    "chrome-agent": {
-      "type": "local",
-      "command": ["chrome-agent-mcp"],
-      "enabled": true,
-      "timeout": 60000
-    },
-
     // Loom → CLI binary only (`loom` in PATH), no MCP
     // See k-loom/SKILL.md for CLI usage; opencode uses bash `loom` commands directly
 
@@ -480,17 +465,17 @@
     // 2026-08-16: hooks moved scripts/hooks → scripts/plugins/hooks (KπX restructure); tmux-notify.js was
     // in scripts/plugins/tmux/, flattened directly into scripts/plugins/ same day (KπX: "plus besoin de
     // dossier tmux, mets ce plugin directement dans plugins") — no more tmux/ subfolder.
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
     // tmux-notify — relays tmux prompt events (precmd/PROMPT_COMMAND) to the agent (event + chat.message, not messages.transform).
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
     // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).
-    "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"
   ],
 
   "compaction": {

@@ -3,7 +3,7 @@ name: k-dockerhost
 description: Docker host (LXC 100) — Vaultwarden backup, Docker management, and automation scripts.
 metadata:
   author: KpihX
-  version: "2.1.0"
+  version: "2.2.0"
   scope: infrastructure
 ---
 
@@ -29,8 +29,11 @@ metadata:
 Source of truth is `.agents/`. On the Docker host:
 
 ```bash
-# 1. Clone .agents repo
-git clone git@github.com:KpihX/agents.git ~/.agents
+# 1. Clone .agents repo (canonical location; ~/.agents is only a symlink)
+mkdir -p ~/KpihX-Labs
+[ -d ~/KpihX-Labs/.agents ] || git clone git@github.com:kpihx-labs/agents.git ~/KpihX-Labs/.agents
+[ -e ~/.agents ] || ln -sfn ~/KpihX-Labs/.agents ~/.agents
+# 1b. Branch per infra: cd ~/KpihX-Labs/.agents && git switch <infra>  (ubuntu stays on master)
 
 # 2. kshrc — symlink ($HOME item), source of truth is k-dockerhost/assets/kshrc
 ln -sf ~/.agents/skills/k-dockerhost/assets/kshrc ~/.kshrc
@@ -96,7 +99,7 @@ All scripts live in `k-dockerhost/scripts/` (this skill).
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v2.2.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this LXC before relying on it (containers can lack a full systemd --user instance). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-14 | [COLAB] | v2.1.0 — **Service real-name simplification (per KπX services-key restructure)**: `dockerhost-vault-backup.service`/`.timer` → `vault-backup.service`/`.timer`. Assets renamed + `scripts/vault/{install.sh,purge.sh}` updated; `services.jsonc` keys simplified to `vault-backup-service-dockerhost` / `vault-backup-timer-dockerhost` with `unit` = new real names. Originals archived `/tmp/*.bak-20260814`. |
-| 2026-07-24 | [OPENCODE] | v2.0.0 — Renamed from k-pve-dockerhost, refactored with ksh dispatcher, scripts + assets from Homelab/sh/docker_host/ centralized here. Stop copies: source of truth in `.agents/`. |
-| [SUMMARY] | — | v1.x original k-pve-dockerhost skill. |
+| [SUMMARY] | — | v2.0.0 renamed from k-pve-dockerhost, ksh dispatcher refactor · v1.x original k-pve-dockerhost skill. |
 

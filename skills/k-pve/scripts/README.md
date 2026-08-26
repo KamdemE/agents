@@ -27,8 +27,10 @@ For cross-infra PVE backup operations (rsync from workstation), see `k-ubuntu/sc
 ```bash
 # 0. MANDATORY — read k-infras → New Infra Setup Checklist first (setup rule)
 
-# 1. On PVE: clone the kernel
-git clone git@github.com:KpihX/agents.git ~/.agents
+# 1. On PVE: clone the kernel (canonical location; ~/.agents is only a symlink)
+mkdir -p ~/KpihX-Labs
+[ -d ~/KpihX-Labs/.agents ] || git clone git@github.com:kpihx-labs/agents.git ~/KpihX-Labs/.agents
+[ -e ~/.agents ] || ln -sfn ~/KpihX-Labs/.agents ~/.agents
 
 # 2. Environment
 cp ~/.agents/.env.example ~/.agents/.env

@@ -10,7 +10,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.1.0"
+  version: "1.2.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -30,8 +30,11 @@ allowed-tools: Bash, Read, Write, Edit
 > **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
 
 ```bash
-# 1. Clone .agents repo
-git clone git@github.com:KpihX/agents.git ~/.agents
+# 1. Clone .agents repo (canonical location; ~/.agents is only a symlink)
+mkdir -p ~/KpihX-Labs
+[ -d ~/KpihX-Labs/.agents ] || git clone git@github.com:kpihx-labs/agents.git ~/KpihX-Labs/.agents
+[ -e ~/.agents ] || ln -sfn ~/KpihX-Labs/.agents ~/.agents
+# 1b. Branch per infra: cd ~/KpihX-Labs/.agents && git switch <infra>  (ubuntu stays on master)
 
 # 2. kshrc — symlink ($HOME item), source of truth is k-pve-debian/assets/kshrc
 ln -sf ~/.agents/skills/k-pve-debian/assets/kshrc ~/.kshrc
@@ -113,6 +116,6 @@ GitLab CI pipelines deploy containers and manage infrastructure. Related configu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.2.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this VM before relying on it. See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-14 | [COLAB] | v1.1.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-pve-debian/assets/kshrc` (created from `kshrc.base`); registered `kshrc-pve-debian` in `assets/links.jsonc`. |
-| 2026-07-22 | [OPENCODE] | v1.0.0 — Created k-pve-debian from kpihx-labs Docker/deployment content. SSH access, Docker deployment patterns, Traefik/Portainer/Vaultwarden services, GitLab CI reference. |
-| [SUMMARY] | — | — |
+| [SUMMARY] | — | v1.0.0 created k-pve-debian from kpihx-labs Docker/deployment content |

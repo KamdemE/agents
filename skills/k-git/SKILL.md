@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.9.1"
+  version: "2.11.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -20,6 +20,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 
 - **Protocol:** SSH only. All remotes use `git@...` URLs — never HTTPS.
 - **Remote names:** `github` → GitHub (`KpihX` namespace) · `gitlab` → GitLab (see namespace rule below)
+- **Kernel `.agents` repo contract:** EXACTLY two remotes — `github` → `git@github.com:kpihx-labs/agents.git` · `gitlab` → `git@gitlab.com:kpihx-labs/agents.git`. Never `origin`. Enforced by `make check-remotes` (first gate of `make check`, values in `scripts/remotes/lib.sh`), auto-fixed by `make set-remotes`.
 - **GitLab namespace rule:**
   - Default → `kpihx` personal namespace
   - `kpihx-labs` group → homelab/server-related projects **or** projects deployed via GitLab CI (e.g. homelab infra, n8n workflows)
@@ -138,6 +139,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | v2.9.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | v2.9.0 — **Hook plumbing ownership (Prop A)**: NEW `assets/git-hook-passthrough.sh` moved from k-loom — one generic asset + 9 symlinks (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`, `pre-rebase`, `post-checkout`, `post-merge`, `post-rewrite`, `pre-applypatch`) in `$HOME/.config/git/hooks/` re-chaining repo-local hooks under `core.hooksPath`. NEW section documenting ownership rule: **k-git owns ALL git hook plumbing; the ONLY behavior-adding hook is the post-commit Loom dispatcher owned by `k-loom`.** Redundant dedicated `k-loom/assets/git-pre-commit.sh` deleted per explicit KπX order. links.jsonc: 9 entries under k-git block. E2E verified: real commit chains local commit-msg + post-commit (`CM_RAN`,`CM_RAN`,`PC_RAN`). |
-| [SUMMARY] | — | v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| 2026-08-26 | [COLAB] | v2.11.0 — **pre-push gate: banner-proof remote SHA extraction**: `submodule_push_report()` fed `git ls-remote` stdout+stderr into `cut -f1`, so any multi-line server banner (GitLab `remote: INFO: Your SSH key expires soon`) polluted `remote_sha` → false-positive "not pushed" blocks on submodules that WERE pushed (3/4 blocked on deep-pc6, 2026-08-26), and connection errors were misreported as mismatches. Fix: extract only real ref lines (`awk -F'\t' '$1 ~ /^[0-9a-f]{40}$/'`), plus distinct report branches for UNREACHABLE vs branch-not-found vs true mismatch. |
+| 2026-08-26 | [CLAUDE] | v2.10.1 — **Fixed `fatal: .git/index: index file open failed: Not a directory` from the submodule hook gates**: `submodule_dirty_report()`/`submodule_push_report()` in `assets/git-hook-passthrough.sh` ran `git -C <submodule>` without clearing the git-exported hook environment (`GIT_DIR`, `GIT_WORK_TREE`, `GIT_INDEX_FILE`, ...) first — exactly the anti-pattern `git help githooks` warns about for invoking git in a foreign repository from inside a hook (a submodule's `.git` is a *file*, not a directory, so a leaked `GIT_DIR` can resolve `<leaked-dir>/index` onto it → `ENOTDIR`). Added `unset $(git rev-parse --local-env-vars)` at the top of both functions, the fix `git`'s own manual documents for this case. See `references/insights.md`. |
+| [SUMMARY] | — | v2.10.0 remotes contract + check-remotes/set-remotes (scripts/remotes/, origin pruning) · v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |

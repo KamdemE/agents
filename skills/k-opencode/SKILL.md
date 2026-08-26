@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.48.1
+  version: 2.48.2
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -53,7 +53,7 @@ OpenCode does **not** ship Android-compatible binaries (non-PIE glibc ARM64 bina
   - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
   - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
 - **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink needed.
-- **Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/plugins/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package via `index.ts`.
+- **Plugins discovery — explicit `file://{env:HOME}` for lifecycle hooks:** Lifecycle plugins loaded via `"plugin"` array in `opencode.jsonc` with `file://{env:HOME}/...` paths (the ONLY expansion mechanism — `$HOME`, `~` and hardcoded `/home/<user>` are NOT expanded and silently fail to load). Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package via `index.ts`.
 - **PATH source of truth:** `$HOME/.kshrc` (`export PATH="$HOME/.opencode/bin:$PATH"`)
 - **Registry:** **`k-clis`**
 
@@ -104,7 +104,7 @@ opencode models
 ## Plugins & Hooks — Four Systems
 
 OpenCode and its environment are extended via four distinct systems:
-1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://` JS modules). 13 active plugins (6 npm, 7 local hooks). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS modules). 14 active plugins (6 npm, 8 local: 7 hooks + 1 submodule tool). See **`references/plugins-architecture.md`** and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, `file://` sovereign fork) for console interface features (voice STT/TTS via `@kpihx/opencode-voice` `v0.4.1-kpihx.1` fork de `renjfk`). See **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (like `opencode-web-voice` using the Web Speech API). See **`references/voice.md`**.
@@ -177,7 +177,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 **Skills discovery — native:** OpenCode natively scans `$HOME/.agents/skills/` as a Global Compatibility path. No symlink necessary. See [docs](https://opencode.ai/docs/skills).
 
-**Plugins discovery — explicit `file://` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://` paths to `$HOME/.agents/skills/k-opencode/scripts/plugins/hooks/`. Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package (via `index.ts`).
+**Plugins discovery — explicit `file://{env:HOME}` for lifecycle hooks:** Lifecycle plugins are loaded via `"plugin"` array in `opencode.jsonc` with `file://{env:HOME}/...` paths to `$HOME/.agents/skills/k-opencode/scripts/plugins/hooks/`. `$HOME`, `~` and hardcoded `/home/<user>` paths are NOT expanded by OpenCode — only `{env:VAR}` is (see `references/plugins-architecture.md` → Path resolution). Slash-command plugin (`/context`) auto-discovered via `~/.config/opencode/plugins/` → `scripts/plugins/` (parent) → `opencode-context/` package (via `index.ts`).
 
 **Config source of truth:** `assets/opencode.jsonc` — symlinked to `~/.config/opencode/opencode.jsonc`. Edit the asset, never the runtime directly. **All changes are tracked in git via the `.agents` repo.**
 
@@ -199,7 +199,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - `references/sqlite-storage.md` — Session storage schema (SQLite) and query examples
 - `references/providers.md` — Ollama & Ollama6 provider config examples
 - `references/android-termux.md` — Android/Termux incompatibility: root cause, workarounds tested, and build-from-source guide for ARM64 devices
-- `references/voice.md` — STT/TTS via @renjfk/opencode-voice and Web Voice Plugin: model install, Web Speech configuration, and browser integrations
+- `references/voice.md` — STT/TTS via the sovereign `@kpihx/opencode-voice` fork and Web Voice Plugin: model install, Web Speech configuration, and browser integrations
 - OpenCode Go Models — Always check the official site [opencode.ai/go](https://opencode.ai/go) and live catalog [opencode.ai/zen/go/v1/models](https://opencode.ai/zen/go/v1/models) (references/go.md removed as obsolete)
 - `references/terminal-consciousness.md` — Terminal-as-Consciousness: self-observation via tmux send-keys + capture-pane (discovered 2026-05-30)
 
@@ -213,8 +213,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [COLAB] | v2.48.2 — **`{env:HOME}` plugin path migration + voice scope fix + context submodule restore (`deep-pc6`)**: (1) all 9 `file:///home/kpihx/...` lifecycle entries in `assets/opencode.jsonc` migrated to `file://{env:HOME}/...` — OpenCode does NOT expand `$HOME`/`~` in config paths (anomalyco/opencode#25390 open; `{env:VAR}` is the official mechanism, opencode.ai/docs/config → Env vars); hardcoded `/home/kpihx` silently stopped loading every KπX hook on `deep-pc6` after the `/home/kpihx` symlink removal — symptom: missing `<startup-context>` injection, NO error line. Validated by probe run returning `YES_TAG`. (2) `@renjfk/opencode-voice` removed from the lifecycle `"plugin"` array (auto-added by `opencode plugin install`; TUI-only plugin without `server()` export → logged `failed to load plugin` at every start); stays only in `tui.json`. (3) `opencode-context` submodule re-initialized (`git submodule update --init` after purging orphan `node_modules/` that blocked clone) → `context-usage.ts` restored, `/context` tool loads clean. Docs updated: `references/plugins-architecture.md` (Path resolution table + Lifecycle vs TUI warning + 14-plugin list + submodule note). *(Originally labeled v2.48.0 on `deep-pc6`, renumbered v2.48.1 at their rebase, finally v2.48.2 at merge — master shipped its own v2.48.1 voice.md docs in between.)* |
 | 2026-08-25 | [COLAB] | v2.48.1 — **`references/voice.md` → new `Plugin Install (fresh machine)` section**: plugin-only fresh-PC install steps (runtime binaries sox/whisper-cli/piper via k-ai wrappers, whisper + piper models incl. siwis FR, verification `opencode debug config` + TUI `<leader>r` / `/tts-voice`). Kernel-level wiring (clone, symlinks) deliberately NOT duplicated here — lives in `SKILL.md` → Init & Connectivity. Doc-only, no code change. |
-| 2026-08-25 | [COLAB] | v2.48.0 — **Sovereign TUI voice fork `@kpihx/opencode-voice` `v0.4.1-kpihx.1` (Option A)**: fork `renjfk/opencode-voice` → `kpihx-labs/opencode-voice` (`github`+`gitlab`, submodule `k-opencode/plugins/opencode-voice` sous `skills/k-opencode/scripts/plugins/opencode-voice`, plus de `vendor/`), `assets/tui.json` basculé `@renjfk` npm → `file://` fork, patches intégrés (`<leader>r`, `siwis` FR, LLM fallback `|| result.text`), `references/voice.md` → fork doc + `package.json` `@kpihx` `0.4.1-kpihx.1` tag `v0.4.1-kpihx.1` poussé `github`+`gitlab`; structure `scripts/plugins` respectée (pas de `vendor`). |
-| [SUMMARY] | — | v2.47.0 tmux-notify anti-wait purge (→ `references/log.md`) · v2.46.0 tmux-notify Option A block (→ log) · v2.45.0 go.md cleanup (→ `references/log.md`) · v2.44.0 terminal leak fix (→ `references/log.md`) · v2.43.0 busy-pane layer 2 (→ `references/log.md`) · v2.41.0 and older in log.md |
+| [SUMMARY] | — | v2.48.0 sovereign TUI voice fork @kpihx/opencode-voice v0.4.1-kpihx.1 (submodule scripts/plugins/opencode-voice, tui.json file:// fork, patches `<leader>r`/siwis/LLM-fallback) · v2.47.0 Option A anti-wait block purged + `<tmux-armed>` enriched (KπX order; instruct beats blocking → `references/log.md`) · v2.46.0 tmux-notify Option A anti-wait block (KπX directive; superseded same day by v2.47.0 purge) · v2.45.0 go.md cleanup (→ `references/log.md`) · v2.44.0 terminal leak fix (→ `references/log.md`) · v2.43.0 busy-pane layer 2 (→ `references/log.md`) · v2.41.0 and older in log.md |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-web.service`, `assets/opencode-web-shim.service`, and `assets/opencode-lens.service` (symlink targets for `~/.config/systemd/user/`)

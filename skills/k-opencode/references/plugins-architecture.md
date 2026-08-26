@@ -15,9 +15,25 @@ OpenCode has **four separate extension systems**, configured or injected differe
 |------|--------|---------|-------------|
 | **npm package** | `"package-name"` | `"opencode-dir"` | Official or published npm plugins (auto-installed by OpenCode) |
 | **npm with version** | `"package-name@version"` | `"opencode-antigravity-auth@latest"` | Pin a specific version or track `@latest` |
-| **Local file** | `"file:///absolute/path.js"` | `"file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
+| **Local file** | `"file://{env:HOME}/absolute/path.js"` | `"file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
 
-## Current KπX lifecycle plugins (13)
+### 🔴 Path resolution in config — `{env:VAR}` is the ONLY expansion mechanism
+
+OpenCode does **NOT** expand `$HOME` or `~` inside `opencode.jsonc` values (feature request anomalyco/opencode#25390 still open). The official mechanism documented at opencode.ai/docs/config → Env vars:
+
+| Syntax | Expanded? | Behavior |
+|--------|-----------|----------|
+| `/home/kpihx/...` | ❌ hardcoded | Breaks on any machine whose user is not `kpihx` (e.g. `deep-pc6` = `ikamdem@corp.dxo.com`) — NEVER use |
+| `~/...`, `$HOME/...`, `file://$HOME/...` | ❌ literal string | Plugin silently fails to load (no visible error) — NEVER use |
+| `file://{env:HOME}/...` | ✅ expanded | Official env-var substitution — portable across all infras — ALWAYS use |
+
+> **Incident 2026-08-25 (`deep-pc6`):** all 9 KπX hooks used `file:///home/kpihx/...`. After removing the `/home/kpihx` symlink, every hook silently stopped loading — no error line, only symptom was missing `<startup-context>` injection (`NO_TAG` on probe). Fixed by migrating to `file://{env:HOME}/...`; validated by probe returning `YES_TAG`. Same silent-failure applies to any wrong path — always validate hook loading with an explicit injection probe, never trust config alone.
+
+### ⚠️ Lifecycle vs TUI plugin scope
+
+`opencode plugin install <pkg>` may auto-add the package to the **lifecycle** `"plugin"` array even for TUI-only plugins. A TUI plugin (e.g. `@kpihx/opencode-voice`) has no lifecycle export and then logs `failed to load plugin ... must default export an object with server()` on every start. TUI plugins belong ONLY in `tui.json` → `"plugin"` array; remove them from `opencode.jsonc` if the installer added them there.
+
+## Current KπX lifecycle plugins (14)
 
 These are loaded from `opencode.jsonc` → `"plugin"` array:
 
@@ -28,15 +44,19 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
   "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
   "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
   "opencode-claude-auth",                   // Type 1: npm — Claude Code credentials reuse (reads ~/.claude/.credentials.json, syncs to auth.json)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",                 // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
-  "file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js"       // Type 3: file:// — KπX format reminder (MUST run last)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",       // Type 3: file:// — KπX make check gate
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",                 // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",      // Type 3: file:// — KπX format reminder (MUST run last)
+  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts" // Type 3: file:// — /context token usage tool (git submodule kpihx-labs/opencode-context)
 ]
 ```
+
+> **`opencode-context` is a git submodule** (`kpihx-labs/opencode-context`). After a fresh kernel clone run `make submodule-init` (or `git submodule update --init skills/k-opencode/scripts/plugins/opencode-context`) or the `context-usage.ts` path dangles. An orphan `node_modules/` directory in the path blocks submodule clone (`destination already exists`) — purge it first.
 
 ## KπX Managed — `scripts/plugins/hooks/` (file://)
 
@@ -73,11 +93,11 @@ These are the **KπX sovereign hooks** — self-contained `.js` files in `skills
 // ~/.config/opencode/tui.json (symlink → assets/tui.json)
 {
   "$schema": "https://opencode.ai/tui.json",
-  "plugin": [["@renjfk/opencode-voice", {}]]
+  "plugin": [["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {}]]
 }
 ```
 
-Config source: `assets/tui.json` — symlinked to `~/.config/opencode/tui.json`. Full voice setup, models, keybinds → `references/voice.md`.
+⚠️ The sovereign voice fork `@kpihx/opencode-voice` is **TUI-only** — it must NOT appear in the lifecycle `"plugin"` array of `opencode.jsonc` (see Lifecycle vs TUI scope above). Same `{env:HOME}` rule as lifecycle paths: `$HOME`, `~` and hardcoded `/home/<user>` are NOT expanded — only `{env:VAR}` is. Config source: `assets/tui.json` — symlinked to `~/.config/opencode/tui.json`. Full voice setup, models, keybinds → `references/voice.md`.
 
 ## Slash commands (`.opencode/commands/`)
 

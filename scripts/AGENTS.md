@@ -13,6 +13,7 @@ kernel (`make check`, `make set-links`, `make reload-services`, …). It follows
   - `scripts/jsonc/`    → JSONC governance: `check-jsonc.sh` (main)
   - `scripts/services/` → systemd services: `check-services.sh`, `reload-services.sh`, `service_*_guard.sh`, `lib.sh`
   - `scripts/links/`    → symlink registry: `set-links.sh`, `check-links.sh`, `link_*_guard.sh`, `lib.sh`
+  - `scripts/remotes/`  → kernel git remotes contract: `check-remotes.sh`, `set-remotes.sh`, `lib.sh`
   - `scripts/check_skills/` → skills audit (Python, modular guards)
   - `scripts/exec/`     → executability (`check-exec.sh`, `chmod.sh`)
   - `scripts/git/`      → git hooks (`hooks/post-commit.sh`, `hooks/pre-commit.sh`) + install/push scripts

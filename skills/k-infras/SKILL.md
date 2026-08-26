@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.6.3"
+  version: "1.7.1"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -53,8 +53,17 @@ When setting up a **new infrastructure** (any equipment running a shell), an age
 
 ```bash
 mkdir -p ~/KpihX-Labs
-git clone git@github.com:KpihX/agents.git ~/KpihX-Labs/.agents   # real repo lives HERE
+git clone git@github.com:kpihx-labs/agents.git ~/KpihX-Labs/.agents   # real repo lives HERE
 ln -sfn ~/KpihX-Labs/.agents ~/.agents                            # ~/.agents is a symlink, never a standalone clone
+# ── Branch per infra (MANDATORY — never work on master, see below; ubuntu excepted) ──
+cd ~/KpihX-Labs/.agents
+INFRA=$(hostname | tr '[:upper:]' '[:lower:]')   # or: source libs/jsonc/jsonc_lib.sh && INFRA=$(current_infra)
+# Windows machines in WSL mode append -wsl to the infra name (e.g. blglaptop139-wsl)
+if [ "$INFRA" = "kpihx-ubuntu" ]; then git switch master   # ubuntu = sole infra on master
+elif git show-ref --verify --quiet "refs/heads/$INFRA"; then git switch "$INFRA"
+elif git ls-remote --heads github "$INFRA" | grep -q "$INFRA"; then git fetch github "$INFRA" && git switch "$INFRA"
+else git switch -c "$INFRA" && git push -u github "$INFRA"
+fi
 ```
 
 Rules:
@@ -63,6 +72,7 @@ Rules:
 - All projects are created inside `~/KpihX-Labs/` (`~/KpihX-Labs/<project>/`), never outside it.
 - Only `/tmp`-scoped debris may live outside `~/KpihX-Labs/`.
 - **Verify before proceeding:** `readlink ~/.agents` must resolve to `~/KpihX-Labs/.agents`, and `git -C ~/.agents status` must work.
+- **Branch guard:** immediately after clone+symlink, switch to your infra branch (branch name = infra short name from `assets/infras_skills.jsonc`; Windows/WSL appends `-wsl`). Never stay on `master` — sole exception: `kpihx-ubuntu`, which works directly on `master`.
 
 Then continue with the ordered checklist below.
 
@@ -94,6 +104,14 @@ Every infra skill MUST document both the **Tailscale name** (e.g. `kpihx-ubuntu`
 | S25 phone | `kpihx-s25` | `s25` |
 
 When setting up `kshrc.base` → `~/.kshrc`, the agent reads the infra skill to find the **short name** and replaces `<INFRA_SESSION>` in the auto-tmux block with that value.
+
+---
+
+## Git Branch per Infra — Never on `master` (GRAVÉ)
+
+> Full rule: `rules/git-branch-per-infra.md` — authoritative. Summary here.
+
+**Branch = infra short name** (see `assets/infras_skills.jsonc` + inventory above); Windows machines in WSL mode append `-wsl` (e.g. `blglaptop139-wsl`). `master` is read-only for every infra EXCEPT `kpihx-ubuntu` — the sole infra authorized to commit on `master`. After clone+symlink (Step 0) immediately `git switch <infra>` (ubuntu: stay on `master`). Before every push/PR: `git fetch github` + `git rebase github/master` if `master` moved (other infras' PRs). Push only your branch (`make push` → `github`+`gitlab`, NEVER `origin`), PR to `master`. Detect infra via `hostname` / `current_infra` (`libs/jsonc/jsonc_lib.sh`) / `tailscale status`.
 
 ---
 
@@ -188,6 +206,6 @@ functions, and the checks/guards that consume them.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.6.3 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-20 | [COLAB] | v1.6.2 — Renamed the Android infrastructure skill to `k-phones`; updated the S25/tablet inventory, Termux exception, hierarchy, and SSH access map. |
-| [SUMMARY] | — | v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex (→ `references/log.md`) · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |
+| 2026-08-26 | [COLAB] | v1.7.1 — **Branch-per-infra integration corrections (PR #1 merge — KπX arbitrages)**: Step 0 + GRAVÉ section updated — `kpihx-ubuntu` = sole infra allowed on `master` (Step 0 keeps it there), Windows/WSL `-wsl` suffix documented (`blglaptop139-wsl`), remotes `github`/`gitlab` NEVER `origin`, clone URL corrected to `git@github.com:kpihx-labs/agents.git`. Mirrors the `rules/git-branch-per-infra.md` rewrite. |
+| 2026-08-25 | [OPENCODE] | v1.7.0 — **Git branch per infra (GRAVÉ)**: new `## Git Branch per Infra — Never on main` + Step 0 branch switch after clone/symlink (detect via `hostname`/`current_infra`/`tailscale status` + `assets/infras_skills.jsonc`), daily sync-before-push (`fetch` + `rebase origin/main`) + PR-only workflow. Rule authoritative in `rules/git-branch-per-infra.md`. |
+| [SUMMARY] | — | v1.6.3 check-skills audit rotation · v1.6.2 k-phones rename · v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |

@@ -42,7 +42,7 @@ import * as fs from "node:fs";
 import { execSync } from "node:child_process";
 import { currentAgent } from "../libs/agent-scope.js";
 
-const TARGET_AGENTS = ["Colab", "Agent"];
+const TARGET_AGENTS = ["Colab", "Agent", "Build"];
 
 const NOTIFY_LOG = process.env.TMUX_NOTIFY_LOG || "/tmp/tmux-pane-done.log";
 const DEBUG_LOG = "/tmp/tmux-notify-debug.log";
@@ -55,7 +55,10 @@ const registry = new Map();
 function debug(message) {
   if (process.env.TMUX_NOTIFY_DEBUG === "1") {
     try {
-      fs.appendFileSync(DEBUG_LOG, `[${new Date().toISOString()}] ${message}\n`);
+      fs.appendFileSync(
+        DEBUG_LOG,
+        `[${new Date().toISOString()}] ${message}\n`,
+      );
     } catch {}
   }
 }
@@ -137,8 +140,12 @@ export default async function ({ client }) {
       // without it opencode may not know which agent should process it).
       let agent;
       try {
-        const response = await client.session.messages({ path: { id: sessionId } });
-        const messages = Array.isArray(response) ? response : response.data || [];
+        const response = await client.session.messages({
+          path: { id: sessionId },
+        });
+        const messages = Array.isArray(response)
+          ? response
+          : response.data || [];
         agent = currentAgent(messages);
       } catch {}
       // Scope to TARGET_AGENTS. This hook uses `event`+`chat.message` (no
@@ -234,18 +241,26 @@ export default async function ({ client }) {
 
                 let output = "";
                 try {
-                  output = execSync(`tmux capture-pane -p -t ${ev.pane}`, { timeout: 3000, encoding: "utf8" });
+                  output = execSync(`tmux capture-pane -p -t ${ev.pane}`, {
+                    timeout: 3000,
+                    encoding: "utf8",
+                  });
                 } catch (e) {
                   output = `(failed to capture pane: ${e.message})`;
                 }
-                const sliced = output.split("\n").slice(-entry.maxLines).join("\n");
+                const sliced = output
+                  .split("\n")
+                  .slice(-entry.maxLines)
+                  .join("\n");
                 const note = notificationFor(ev.pane, sliced, false);
 
                 // Push under the OWNING session id (never a global queue —
                 // see header comment on session isolation) and flush right
                 // to that same session, never to "whichever is active".
                 pushPending(entry.sessionID, note);
-                debug(`queued prompt pane=${ev.pane} session=${entry.sessionID}`);
+                debug(
+                  `queued prompt pane=${ev.pane} session=${entry.sessionID}`,
+                );
                 flushToSession(entry.sessionID);
               }
             }
@@ -282,7 +297,10 @@ export default async function ({ client }) {
   function resolvePaneId(target) {
     if (target.startsWith("%")) return target;
     try {
-      return execSync(`tmux display-message -p -t '${target}' '#{pane_id}'`, { timeout: 2000, encoding: "utf8" }).trim();
+      return execSync(`tmux display-message -p -t '${target}' '#{pane_id}'`, {
+        timeout: 2000,
+        encoding: "utf8",
+      }).trim();
     } catch (e) {
       debug(`failed to resolve target ${target}: ${e.message}`);
       return null;
@@ -309,7 +327,8 @@ export default async function ({ client }) {
       // `send-keys` tool call's own result (see `tool.execute.after` below),
       // not by rejecting a later `capture-pane` call.
 
-      const sendKeysRegex = /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
+      const sendKeysRegex =
+        /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
 
       const match = sendKeysRegex.exec(cmd);
       if (match) {
@@ -320,7 +339,9 @@ export default async function ({ client }) {
         // Defaults apply whether or not the agent added the env vars — EVERY
         // stateful send-keys gets armed (and reminded), not just opt-ins.
         const timeout = timeoutMatch ? parseInt(timeoutMatch[1], 10) : 300;
-        const maxLines = linesMatch ? parseInt(linesMatch[1] || linesMatch[2], 10) : 20;
+        const maxLines = linesMatch
+          ? parseInt(linesMatch[1] || linesMatch[2], 10)
+          : 20;
 
         const paneId = resolvePaneId(target);
 
@@ -338,7 +359,9 @@ export default async function ({ client }) {
           // blocks a tool call outright).
           const existing = registry.get(paneId);
           if (existing) {
-            const elapsedSecs = Math.round((Date.now() - existing.armedAt) / 1000);
+            const elapsedSecs = Math.round(
+              (Date.now() - existing.armedAt) / 1000,
+            );
             throw new Error(
               `BLOCKED: pane ${paneId} is already busy — a command armed ` +
                 `${elapsedSecs}s ago (TMUX_TIMEOUT=${existing.timeoutSecs}s) has not ` +
@@ -357,10 +380,13 @@ export default async function ({ client }) {
           // it's not a known idle shell.
           let currentCmd = "";
           try {
-            currentCmd = execSync(`tmux display-message -p -t ${paneId} '#{pane_current_command}'`, {
-              timeout: 3000,
-              encoding: "utf8",
-            }).trim();
+            currentCmd = execSync(
+              `tmux display-message -p -t ${paneId} '#{pane_current_command}'`,
+              {
+                timeout: 3000,
+                encoding: "utf8",
+              },
+            ).trim();
           } catch {
             currentCmd = ""; // pane gone / tmux error — fail open, let arming proceed
           }
@@ -374,7 +400,9 @@ export default async function ({ client }) {
             );
           }
 
-          debug(`arming pane=${paneId} timeout=${timeout} maxLines=${maxLines}`);
+          debug(
+            `arming pane=${paneId} timeout=${timeout} maxLines=${maxLines}`,
+          );
           const agent = await resolveAgent(client, input.sessionID);
 
           const timeoutTimer = setTimeout(async () => {
@@ -385,12 +413,20 @@ export default async function ({ client }) {
 
             let out = "";
             try {
-              out = execSync(`tmux capture-pane -p -t ${paneId}`, { timeout: 3000, encoding: "utf8" });
+              out = execSync(`tmux capture-pane -p -t ${paneId}`, {
+                timeout: 3000,
+                encoding: "utf8",
+              });
             } catch (e) {
               out = `(failed to capture pane: ${e.message})`;
             }
             const sliced = out.split("\n").slice(-entry.maxLines).join("\n");
-            const note = notificationFor(paneId, sliced, true, entry.timeoutSecs);
+            const note = notificationFor(
+              paneId,
+              sliced,
+              true,
+              entry.timeoutSecs,
+            );
 
             // Push + flush under the OWNING session id (never a global
             // queue) — see header comment on session isolation.
@@ -424,7 +460,8 @@ export default async function ({ client }) {
     "tool.execute.after": async (input, output) => {
       if (input.tool !== "bash") return;
       const cmd = input.args?.command || "";
-      const sendKeysRegex = /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
+      const sendKeysRegex =
+        /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
       const match = sendKeysRegex.exec(cmd);
       if (!match) return;
       const paneId = resolvePaneId(match[1]);
@@ -476,7 +513,9 @@ export default async function ({ client }) {
             synthetic: true,
           });
         }
-        debug(`chat.message injected ${batch.length} notification(s) for session=${input.sessionID}`);
+        debug(
+          `chat.message injected ${batch.length} notification(s) for session=${input.sessionID}`,
+        );
       }
     },
 

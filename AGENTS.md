@@ -3,7 +3,7 @@ name: kpihx-agents
 description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink.
 metadata:
   author: KpihX
-  version: "3.5.0"
+  version: "3.7.0"
   scope: agent-kernel
 ---
 
@@ -49,6 +49,7 @@ metadata:
 | `rules/whats-up.md` | Status digest protocol: one domain per turn. Sequence: context/mail/whatsapp/tick/tg. Full exploration mandate. |
 | `rules/hermes-governance.md` | Hermes = memory/daemon only, not primary executor. Cron profile disables bash. External memory isolation. |
 | `k-opencode/references/hooks-standard.md` | OpenCode-exclusive lifecycle hooks: `scripts/plugins/hooks/*.js` (mandatory `TARGET_AGENTS`), prompts in `assets/plugins/hooks/*.txt` (name-matched to their hook), ordering rule (hooks inspecting `messages.at(-1)` must run before unconditional appenders). |
+| `rules/git-branch-per-infra.md` | **NEVER work on `master` directly** — ONE exception: `kpihx-ubuntu` is the sole infra authorized to commit on `master`. Every other infra owns a branch named after itself (`deep-pc6`, `blglaptop139`; Windows machines in WSL mode append `-wsl`, e.g. `blglaptop139-wsl`). After clone+symlink, immediately `git switch <infra>` (detect via `hostname`/`current_infra`/`tailscale status` + `assets/infras_skills.jsonc`). Before every push/PR: `git fetch github` + `git rebase github/master` if `master` moved. Push only your branch (`make push` → `github`+`gitlab`, NEVER `origin`), PR to `master`. |
 | `rules/search-governance.md` | **Agents MUST prefer `plocate` (never `locate` — plocate's DB is auto-updated daily, but remember to run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`) over `find`/`grep`/Glob for file search.** Drastic performance difference (~100×). See `skills/k-clis/references/plocate.md` for setup. Fall back to `find` only for real-time searches (files created since last `updatedb`). **Semantic/know-how questions (ecosystem, history, past passes, no exact keywords) → `qmd query` (MANDATORY, see `k-qmd`)** — never guess or answer from memory alone. **On any GIT project (GIT REPOS ONLY — never non-git directories) → LOOM reflex MANDATORY via the `loom` CLI ONLY — NEVER the loom MCP (removed from opencode.jsonc 2026-08-24, see `k-loom/references/mcp.md`)**. ALWAYS check before querying: in EVERY git repo, if no index → init it (`[ -f ~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db ] || loom analyze .`), always verify freshness (`loom stats` + DB mtime) and update (`loom sync`) BEFORE querying — quitte à indexer d'abord. Then: resume via `git diff` + `loom query` on changed symbols, callgraph questions (`loom callers`/`loom blast-radius`) Loom-first before grep; layering: plocate = file search · opencode-ast = fresh structure of ONE file · Loom CLI = persistent cross-file/cross-session relations · qmd = semantic/know-how. |
 
 ### 🔴 ABSOLUTE RULE — `make check` (GRAVÉ, EXPLICIT APPROVAL REQUIRED)
@@ -97,7 +98,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
+Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-confluence` · `k-tg` · `k-tick` · `k-whatsapp` · `k-linkedin` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -114,12 +115,13 @@ Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` �
 ## Infrastructure Directory Standard
 
 Every KpihX machine MUST have:
-- `~/.agents/` — clone of the private `git@github.com:KpihX/agents.git` repo (the kernel)
+- `~/.agents/` — symlink → `~/KpihX-Labs/.agents/` (never a standalone clone)
+- `~/KpihX-Labs/.agents/` — real `git clone git@github.com:kpihx-labs/agents.git` (single source of truth)
 - `~/KpihX-Labs/` — work directory for all projects
-- `~/KpihX-Labs/.agents/` — symlink → `~/.agents/`
 - `~/KpihX-Labs/AGENTS.md` — empty by default, per-infra overrides only
+- **Branch per infra (GRAVÉ):** never on `master` — sole exception: `kpihx-ubuntu` commits on `master` — see `rules/git-branch-per-infra.md` → `k-infras` (checklist + map) + `kpihx-labs` (directory standard).
 
-See `kpihx-labs` → **Infrastructure Directory Standard** for details and setup steps.
+See `k-infras` for full setup.
 
 ## Language
 
