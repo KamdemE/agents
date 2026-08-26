@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -80,6 +80,6 @@ Deep-PC6 is a Linux development/server machine at the DxO internship. Its exact 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.3.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verified live on this machine (`gpg-agent-ssh.socket` already active). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-14 | [COLAB] | v1.2.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-deep-pc6/assets/kshrc` (created from `kshrc.base`); registered `kshrc-deep-pc6` in `assets/links.jsonc`. |
-| 2026-08-03 | [OPENCODE] | v1.1.0 — Updated VPN prerequisite reference: `vpn-dxo` CLI removed (k-dxo v1.4.0), now `sudo systemctl start vpn-dxo`. |
-| [SUMMARY] | — | v1.0.0 created k-deep-pc6 (→ `references/log.md`) |
+| [SUMMARY] | — | v1.1.0 VPN prerequisite reference update (`vpn-dxo` CLI removed) · v1.0.0 created k-deep-pc6 (→ `references/log.md`) |

@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.2"
+  version: "1.3.0"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
@@ -103,7 +103,7 @@ web UI). The comment helps identify where the key came from.
 
 ## SSH Agent Strategy
 
-### Linux — gcr-ssh-agent (GNOME Keyring) [PREFERRED]
+### Linux, GUI session — gcr-ssh-agent (GNOME Keyring) [PREFERRED]
 
 Default GNOME agent at `/run/user/$(id -u)/gcr/ssh`. Load keys once per session:
 
@@ -113,13 +113,63 @@ ssh-add ~/.ssh/id_ed25519_<target>
 
 Passphrase asked once, then instant. No conflicts.
 
+**Gotcha (found 2026-08-26, deep-pc6):** `gcr-ssh-agent.service` is gated behind
+`graphical-session-pre.target`, which is only reached under an actual GNOME
+session. On a tty-only / headless box (`XDG_SESSION_TYPE=tty` — SSH+tmux, no
+desktop), that target never fires, the agent never starts, and every git-over-ssh
+op decrypts the key fresh with no caching. Confirm with `ssh-add --help` — if it
+prints "Could not open a connection to your authentication agent", this is why.
+Use the tty/headless strategy below on that class of machine instead.
+
+### Linux, tty/headless (no GUI session) — gpg-agent ssh-emulation [PREFERRED]
+
+`gpg-agent`'s SSH-agent emulation is socket-activated independently of any
+graphical target — confirmed running continuously for 54+ days across tmux
+reconnects on `deep-pc6` with zero manual intervention:
+
+```bash
+systemctl --user status gpg-agent-ssh.socket   # Active (listening), enabled
+```
+
+Wired automatically via `k-zsh/assets/kshrc.base` (mirrored into every
+per-infra kshrc — see `references/insights.md` if you need to re-verify one):
+
+```sh
+_gpg_ssh_sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh"
+[ -S "$_gpg_ssh_sock" ] && export SSH_AUTH_SOCK="$_gpg_ssh_sock"
+```
+
+Load keys once per boot (not per session — the socket survives reconnects):
+
+```bash
+ssh-add ~/.ssh/id_ed25519_<target>
+```
+
+**Cache behaviour, verified via `gpgconf --list-options gpg-agent`** (not assumed):
+a passphrase-protected key stays cached for `default-cache-ttl-ssh` seconds after
+*last use* (compiled-in default **1800s / 30 min**, sliding — resets on every use,
+same shape as `sudo`'s timestamp cache), up to a hard ceiling of
+`max-cache-ttl-ssh` (default **7200s / 2h**) regardless of activity. To change
+either, create `~/.gnupg/gpg-agent.conf` with `default-cache-ttl-ssh <N>` /
+`max-cache-ttl-ssh <N>`, then `gpg-connect-agent reloadagent /bye`.
+
+**Not universal:** `systemctl --user status gpg-agent-ssh.socket` must be checked
+per machine before relying on it — containers/LXCs (`k-dockerhost`) and some VMs
+may lack a full `systemd --user` instance; WSL only runs systemd if enabled in
+`/etc/wsl.conf`; Termux has no systemd at all. The kshrc wiring is a guarded
+no-op (`[ -S "$_gpg_ssh_sock" ]`) everywhere it doesn't apply, so it's safe to
+keep in every kshrc regardless.
+
+### Dual-agent conflicts (applies to both strategies above)
+
 **⚠️ Avoid dual-agent:** The Bitwarden desktop GUI has its own SSH agent. If both
-are active (`SSH_AUTH_SOCK` pointing to Bitwarden while gcr runs), SSH gets
-"agent refused operation" and falls back to slow key decryption (+1-3s delay).
+are active (`SSH_AUTH_SOCK` pointing to Bitwarden while gcr or gpg-agent runs),
+SSH gets "agent refused operation" and falls back to slow key decryption
+(+1-3s delay), or the wrong agent wins the race for `SSH_AUTH_SOCK`.
 
 **Fix:** Bitwarden → Settings → SSH Agent → **Disable** on all platforms.
-Passphrase + native agent (gcr/ssh-agent) is better than Bitwarden SSH agent
-everywhere — Linux, WSL, even Windows via OpenSSH agent.
+Passphrase + a native agent (gcr / gpg-agent / Windows OpenSSH agent) is better
+than Bitwarden SSH agent everywhere — Linux, WSL, even Windows.
 
 ## Passphrase Management
 
@@ -189,6 +239,6 @@ When a new infrastructure is added:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.3.0 — **tty/headless SSH agent strategy added**: `gcr-ssh-agent` is gated behind `graphical-session-pre.target` and never starts on a tty-only box (confirmed on `deep-pc6`, `ssh-add --help` → "Could not open a connection to your authentication agent") — every submodule-gate check in a git hook was decrypting the key fresh, prompting once per submodule per push. Documented `gpg-agent` ssh-emulation (`gpg-agent-ssh.socket`, socket-activated, no GUI needed) as the PREFERRED strategy for that class of machine, with its verified cache TTLs (`default-cache-ttl-ssh` 1800s sliding / `max-cache-ttl-ssh` 7200s hard ceiling, sudo-shaped). Wired in `k-zsh` v2.5.0 + mirrored across all 7 per-infra kshrc. |
 | 2026-08-20 | [COLAB] | v1.2.2 — Corrected the generic phone shell source path to `k-phones/assets/kshrc`. |
-| 2026-08-20 | [COLAB] | v1.2.1 — Updated the Android cross-references for the `k-phones` rename and S25-specific shell asset. |
-| [SUMMARY] | — | v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |
+| [SUMMARY] | — | v1.2.1 Android cross-references for `k-phones` rename + S25-specific shell asset · v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |

@@ -3,7 +3,7 @@ name: k-pve
 description: Proxmox VE hypervisor (kpihx-pve) — network, backup, maintenance, and automation scripts.
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.4.0"
   scope: infrastructure
 ---
 
@@ -136,7 +136,7 @@ Each sub-module README contains its OWN complete setup procedure — install, de
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v2.4.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this infra before relying on it (LXC/VM systemd --user availability not assumed). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-14 | [COLAB] | v2.3.0 — **Setup rule clarified (system units `sudo cp`, `$HOME`/`/root` items `ln`)** : `k-pve/SKILL.md` Setup + `scripts/README.md` updated — systemd units are deployed via `sudo cp` (PVE critical), but `$HOME`/`/root` items (`ksh`, `kshrc`) are symlinks (`ln -sf`). Added `assets/kshrc` (cp from `k-zsh/assets/kshrc.base`, INFRA_SESSION=pve) + registered `kshrc-pve` in `assets/links.jsonc`. Reads `k-infras` → New Infra Setup Checklist first. |
-| 2026-08-14 | [COLAB] | v2.2.0 — **Service real-name simplification (per KπX services-key restructure)**: `pve-watchdog.service`/`pve-watchdog.timer` → `watchdog.service`/`watchdog.timer`; `pve-boot-notify.service` → `boot-notify.service`. Assets renamed + refs updated (SKILL.md Assets table, `scripts/README.md`, `scripts/network/README.md`); `services.jsonc` keys simplified to `watchdog-service-pve` / `watchdog-timer-pve` / `boot-notify-service-pve` with `unit` = new real names. Originals archived `/tmp/*.bak-20260814`. |
-| [SUMMARY] | — | v2.1.0 sub-module READMEs · v2.0.0 ksh dispatcher refactor (→ `references/log.md`) · v1.x original PVE skill. |
+| [SUMMARY] | — | v2.2.0 service real-name simplification · v2.1.0 sub-module READMEs · v2.0.0 ksh dispatcher refactor (→ `references/log.md`) · v1.x original PVE skill. |
 

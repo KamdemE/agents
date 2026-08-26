@@ -126,6 +126,18 @@ if [ -z "$__KSHRC_LOADED" ]; then
   # ── Trash ────────────────────────────────────────────────────
   export TRASH="${XDG_DATA_HOME:-$HOME/.local/share}/Trash"
 
+  # ── SSH agent (gpg-agent ssh-emulation, socket-activated by systemd) ───
+  # Survives reboots/reconnects without a GUI session — unlike gcr-ssh-agent
+  # (graphical-session.target, never reached on tty-only/headless infra).
+  # Sliding cache (resets on each use) + hard ceiling, like sudo's timestamp
+  # cache: gpg-agent's compiled-in defaults are default-cache-ttl-ssh 1800
+  # (30 min) and max-cache-ttl-ssh 7200 (2h) — no gpg-agent.conf needed to
+  # get that behavior. Guarded: a no-op where the socket doesn't exist
+  # (Windows/WSL, Termux) — safe to keep unconditionally in every kshrc.
+  _gpg_ssh_sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh"
+  [ -S "$_gpg_ssh_sock" ] && export SSH_AUTH_SOCK="$_gpg_ssh_sock"
+  unset _gpg_ssh_sock
+
   # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
   # They will be available in ALL shells: scripts, cron, make,
   # SSH commands, terminals, tmux panes.

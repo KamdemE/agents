@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.19.0"
+  version: "1.20.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -261,6 +261,6 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.20.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1. See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-24 | [COLAB] | v1.19.0 — **clean.timer rescheduled (KπX order)**: `assets/clean/clean.timer` changed from `OnCalendar=*-*-1/2 21:30:00` (odd days) to `OnCalendar=Sat *-*-* 04:00:00` (every Saturday at 04:00); `Persistent=true` kept (catch-up on boot if the PC was off/asleep at trigger time). Applied live via tmux sudo gate (`daemon-reload` + `restart clean.timer`) — verified: `list-timers` shows NEXT Sat 2026-08-29 04:00:00. Docs aligned: `references/system-services.md` row, `references/scripts-modules.md` ×2, `scripts/clean/README.md`. |
-| 2026-08-23 | [COLAB] | v1.18.0 — **Root-run `$HOME` rule + clean notification fix**: `clean.service` ran but its Telegram notification was silently skipped (`$HOME=/root` → `/root/.agents/libs/notif/notifier.sh` missing; confirmed via tg-proxy — zero clean notifications since 2026-04-04). Added the GRAVÉ rule "scripts executed by systemd services must `export HOME="${HOME:-/home/kpihx}"` before sourcing kernel paths" to Centralized Scripts section; patched `scripts/clean/auto_clean.sh` and `scripts/backup_restore_pve/restore_pve.sh` (same latent bug) with the validated `backup_pve.sh` pattern. |
-| [SUMMARY] | — | v1.17.0 clean-system rename (→ `references/log.md`) · v1.16.0 apps.md config-debris (→ `references/log.md`) · v1.15.0 and older in log.md |
+| [SUMMARY] | — | v1.18.0 root-run `$HOME` rule + clean notification fix · v1.17.0 clean-system rename (→ `references/log.md`) · v1.16.0 apps.md config-debris (→ `references/log.md`) · v1.15.0 and older in log.md |

@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.4.3"
+  version: "2.5.0"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -222,6 +222,6 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v2.5.0 — **Persistent SSH agent via gpg-agent ssh-emulation**: Section 1 (at the `ADD NEW UNIVERSAL EXPORTS HERE` anchor) now points `SSH_AUTH_SOCK` at gpg-agent's socket-activated SSH emulation (`$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh`) when present — survives reboots/reconnects without a GUI session, unlike `gcr-ssh-agent` (needs `graphical-session.target`, never reached on tty-only infra). Sliding 30-min cache / 2h hard ceiling (gpg-agent's compiled-in `default-cache-ttl-ssh`/`max-cache-ttl-ssh` defaults), same shape as `sudo`'s timestamp cache. Guarded no-op where the socket doesn't exist (Windows/WSL, Termux). Mirrored into all 7 per-infra kshrc copies (`k-deep-pc6`, `k-ubuntu`, `k-pve`, `k-pve-debian`, `k-dockerhost`, `k-blglaptop139`, `k-phones`) per the SYNC RULE. |
 | 2026-08-25 | [COLAB] | v2.4.4 — Added gotchas #3 (tmux default-shell cache) and #4 (SSSD default_shell override) from deep-pc6 incident. |
-| 2026-08-20 | [COLAB] | v2.4.3 — Corrected the generic S25 shell source path to `k-phones/assets/kshrc`. |
-| [SUMMARY] | — | v2.4.2 Android infra cross-references update for `k-phones` + explicit S25 shell asset · v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| [SUMMARY] | — | v2.4.3 corrected the generic S25 shell source path to `k-phones/assets/kshrc` · v2.4.2 Android infra cross-references update for `k-phones` + explicit S25 shell asset · v2.4.1–v2.4.0 moved to `references/log.md` · v2.3.0 idempotency-guard gotcha documented (→ `references/log.md`) · v2.2.0 with-env helper added (→ `references/log.md`) · v2.1.0 kshrc pattern redesigned (→ `references/log.md`) · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

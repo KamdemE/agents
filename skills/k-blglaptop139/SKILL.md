@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.3.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -93,6 +93,6 @@ ssh kapoivha@blglaptop139
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [CLAUDE] | v1.3.0 — Persistent SSH agent block added to `assets/kshrc` Section 1 (gpg-agent ssh-emulation, guarded no-op) — WSL needs its own systemd verification (`systemctl --user status gpg-agent-ssh.socket`; WSL2 only runs systemd if enabled in `/etc/wsl.conf`) before this activates; native Windows-side git is unaffected (Windows has its own `ssh-agent` service, out of scope here). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | 2026-08-14 | [COLAB] | v1.2.0 — **Setup rule added (per KπX infra setup standard)**: added Setup (WSL) section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-blglaptop139/assets/kshrc` (created from `kshrc.base`); registered `kshrc-blglaptop139` in `assets/links.jsonc`. |
-| 2026-07-22 | [OPENCODE] | v1.1.0 — Renamed from k-alienware to k-blglaptop139. Updated metadata to match hostname-based naming. |
-| [SUMMARY] | — | v1.0.0 created as k-alienware (→ `references/log.md`) |
+| [SUMMARY] | — | v1.1.0 renamed from k-alienware to k-blglaptop139 · v1.0.0 created as k-alienware (→ `references/log.md`) |
