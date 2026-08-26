@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.2
+  version: 1.16.3
   scope: operations
 ---
 
@@ -89,6 +89,7 @@ metadata:
 | `bat` / `batcat` | _(this skill)_ | `cat` with syntax highlighting, git gutter, paging. `batcat` on Ubuntu (rename conflict). |
 | `rg` (ripgrep) | _(this skill)_ | Fast recursive text search — replaces `grep -r`. Skips .git, node_modules, binary files. Installed via cargo/apt. |
 | `fd` | _(this skill)_ | Fast file find — replaces `find` for everyday use. Installed via cargo/apt. |
+| `neofetch` | _(this skill)_ | System info summary in terminal — OS version, kernel, RAM, disk, CPU at a glance (`apt`). |
 
 ### Build & Project
 
@@ -182,6 +183,7 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.16.3 — Registered `neofetch` in Shell & Terminal (system info summary: OS, kernel, RAM, disk, CPU). |
 | 2026-08-24 | [COLAB] | v1.16.2 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
 | 2026-08-20 | [COLAB] | v1.16.1 — Routed raw `adb` and `scrcpy` to `k-phones` after the Android skill rename and ADB-wrapper purge. |
 | [SUMMARY] | — | v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |
