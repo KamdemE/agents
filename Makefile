@@ -12,7 +12,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc check-remotes set-remotes reload-services chmod install-hooks link help submodule-init submodule-update
+.PHONY: push push-sub push-tags log status check-skills check check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc check-remotes set-remotes pr reload-services chmod install-hooks link help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -29,6 +29,9 @@ check-remotes: ## Verify parent repo + EVERY submodule have EXACTLY github+gitla
 
 set-remotes: ## Create missing github+gitlab remotes on parent repo + EVERY submodule (kpihx-labs namespace)
 	@bash $(HOME)/.agents/scripts/git/set-remotes.sh
+
+pr: ## Open PR (github) + MR (gitlab) for the current branch against master [override: make pr BASE=dev]
+	@bash $(HOME)/.agents/scripts/git/create-pr.sh $(BASE)
 
 check-skills: ## Run .agents structural skills audit
 	@echo "🔍 [check-skills] Structural skill audit"

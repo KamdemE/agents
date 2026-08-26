@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.12.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -25,6 +25,7 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
   - `kpihx-labs` group → homelab/server-related projects **or** projects deployed via GitLab CI (e.g. homelab infra, n8n workflows)
   - Personal tools (e.g. HTTP MCPs) → `kpihx` even if they run on the homelab
 - **Push:** ALWAYS `make push` (all remotes simultaneously). Never push to one remote alone.
+- **PR/MR:** ALWAYS `make pr` after `make push` — opens PR (github via `gh`) + MR (gitlab via `glab`) for the current branch against `master` (`make pr BASE=dev` to override). Title/body come from the last commit; slugs parsed from the remote URLs. 🚨 LOUD gate: if `glab` is missing or unauthenticated, the script prints the install/auth commands + the pre-filled web-UI fallback URL — never silent (`scripts/git/create-pr.sh`).
 - **Commits:** Conventional Commits spec. Atomic. No `--no-verify`. No amending published commits.
 - **Visibility:** Default public. Challenge and propose private for sensitive/early-stage projects.
 
@@ -151,6 +152,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-26 | [COLAB] | v2.11.0 — **NO BYPASS + remote-pair contract (blglaptop139-wsl, KπX directive GRAVÉ after an agent used `KPIHX_ALLOW_DIRTY_SUBMODULES=1`)**: (1) ALL override env vars PURGED from `git-hook-passthrough.sh` (`KPIHX_ALLOW_DIRTY_SUBMODULES`, `KPIHX_SKIP_MAKE_CHECK`, `KPIHX_KEEP_AGENT_TRAILERS`, `KPIHX_ALLOW_UNPUSHED_SUBMODULES`) and `SUB_PUSH_REMOTES` from `push-submodules.sh` — remotes hardcoded `github gitlab`, no env can skip any gate, ever. (2) NEW `scripts/git/check-remotes.sh` + `set-remotes.sh` wired as `make check-remotes` / `make set-remotes`: verify/force EXACTLY the pair `github`+`gitlab` with exact `kpihx-labs/<name>.git` URLs on the parent repo AND every submodule (`.agents` dir → repo `agents`; extra remotes like `origin` purged; live `ls-remote` joinability check). |
-| 2026-08-25 | [CLAUDE] | v2.10.0 — **Generalized `make check` + commit-trailer-strip as GLOBAL hooks**: 2 new gates in `assets/git-hook-passthrough.sh`; repos never set their own `core.hooksPath` (→ `references/log.md`). *(v2.11.0 removed its override vars.)* |
-| [SUMMARY] | — | v2.9.1 check-skills audit · v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| 2026-08-26 | [COLAB] | v2.12.0 — **`make pr` (blglaptop139-wsl, KπX order)**: NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo). LOUD glab gate: missing/unauthenticated glab → install/auth commands + pre-filled web fallback URL, never silent. First live run created agents PR #2 + MR !1. `glab 1.53.0` installed on blglaptop139-wsl, OAuth-web login as kpihx. |
+| 2026-08-26 | [COLAB] | v2.11.0 — **NO BYPASS + remote-pair contract**: ALL override env vars purged (`KPIHX_ALLOW_DIRTY_SUBMODULES`, `KPIHX_SKIP_MAKE_CHECK`, `KPIHX_KEEP_AGENT_TRAILERS`, `KPIHX_ALLOW_UNPUSHED_SUBMODULES`, `SUB_PUSH_REMOTES`) — remotes hardcoded github+gitlab. NEW `make check-remotes`/`set-remotes`: exactly the kpihx remote pair, exact URLs, live joinability (→ `references/log.md`). |
+| [SUMMARY] | — | v2.10.0 generalized make-check + trailer-strip global gates · v2.9.1 check-skills audit · v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
