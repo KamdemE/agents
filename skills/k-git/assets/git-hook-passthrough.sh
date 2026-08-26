@@ -105,12 +105,20 @@ submodule_push_report() {
       continue
     fi
     for r in $remotes; do
-      remote_out="$(git -C "$p" ls-remote "$r" "refs/heads/$branch" 2>&1)"
-      remote_sha="$(printf '%s' "$remote_out" | cut -f1)"
-      if [ -z "$remote_sha" ]; then
+      remote_out="$(git -C "$p" ls-remote "$r" "refs/heads/$branch" 2>&1)" && ls_rc=0 || ls_rc=$?
+      # stderr (server banners like GitLab's "INFO: Your SSH key expires soon")
+      # is merged into remote_out on purpose for diagnostics — so extract ONLY
+      # real ref lines (<40-hex><TAB><ref>) for comparison; raw cut -f1 turned
+      # multi-line banners into bogus SHAs → false-positive mismatches
+      # (2026-08-26: 3 submodules blocked despite being pushed).
+      remote_sha="$(printf '%s\n' "$remote_out" | awk -F'\t' 'length($1)==40 && $1 !~ /[^0-9a-f]/ { print $1; exit }')"
+      if [ "$ls_rc" != "0" ] && [ -z "$remote_sha" ]; then
         report="$report
-  🔴 $p — branch '$branch' NOT found or unreachable on '$r'
-        cause: $(printf '%s' "$remote_out" | head -2 | tr '\n' ' ')"
+  🔴 $p — '$r' UNREACHABLE (ls-remote failed)
+        cause: $(printf '%s\n' "$remote_out" | head -2 | tr '\n' ' ')"
+      elif [ -z "$remote_sha" ]; then
+        report="$report
+  🔴 $p — branch '$branch' NOT found on '$r' → push it"
       elif [ "$remote_sha" != "$sha" ]; then
         report="$report
   🔴 $p — HEAD $sha not on '$r/$branch' (remote has $remote_sha) → push/reconcile"

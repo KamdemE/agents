@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.10.1"
+  version: "2.11.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -139,6 +139,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v2.11.0 — **pre-push gate: banner-proof remote SHA extraction**: `submodule_push_report()` fed `git ls-remote` stdout+stderr into `cut -f1`, so any multi-line server banner (GitLab `remote: INFO: Your SSH key expires soon`) polluted `remote_sha` → false-positive "not pushed" blocks on submodules that WERE pushed (3/4 blocked on deep-pc6, 2026-08-26), and connection errors were misreported as mismatches. Fix: extract only real ref lines (`awk -F'\t' '$1 ~ /^[0-9a-f]{40}$/'`), plus distinct report branches for UNREACHABLE vs branch-not-found vs true mismatch. |
 | 2026-08-26 | [CLAUDE] | v2.10.1 — **Fixed `fatal: .git/index: index file open failed: Not a directory` from the submodule hook gates**: `submodule_dirty_report()`/`submodule_push_report()` in `assets/git-hook-passthrough.sh` ran `git -C <submodule>` without clearing the git-exported hook environment (`GIT_DIR`, `GIT_WORK_TREE`, `GIT_INDEX_FILE`, ...) first — exactly the anti-pattern `git help githooks` warns about for invoking git in a foreign repository from inside a hook (a submodule's `.git` is a *file*, not a directory, so a leaked `GIT_DIR` can resolve `<leaked-dir>/index` onto it → `ENOTDIR`). Added `unset $(git rev-parse --local-env-vars)` at the top of both functions, the fix `git`'s own manual documents for this case. See `references/insights.md`. |
-| 2026-08-25 | [COLAB] | v2.10.0 — **Kernel remotes contract + `check-remotes`/`set-remotes`**: NEW `scripts/remotes/` (`lib.sh` single source of truth for exact URLs, thin `check_remotes.sh`, idempotent fixer `set_remotes.sh` — prunes forbidden remotes like `origin`, repoints branch tracking, upserts `github`+`gitlab`). `check-remotes` added as FIRST gate of `make check`; new rule bullet codifying the contract: exactly 2 remotes `github`/`gitlab` → `kpihx-labs/agents.git` SSH URLs. Validated on `deep-pc6`: red on `origin` before, green after `make set-remotes`. |
-| [SUMMARY] | — | v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| [SUMMARY] | — | v2.10.0 remotes contract + check-remotes/set-remotes (scripts/remotes/, origin pruning) · v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
