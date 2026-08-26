@@ -185,5 +185,4 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 |------|-------|--------|
 | 2026-08-26 | [COLAB] | v1.16.3 — Registered `neofetch` in Shell & Terminal (system info summary: OS, kernel, RAM, disk, CPU). |
 | 2026-08-24 | [COLAB] | v1.16.2 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-20 | [COLAB] | v1.16.1 — Routed raw `adb` and `scrcpy` to `k-phones` after the Android skill rename and ADB-wrapper purge. |
-| [SUMMARY] | — | v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |
