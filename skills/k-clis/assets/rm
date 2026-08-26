@@ -275,6 +275,41 @@ case "$FIRST_ARG" in
     done
 
     [ ${#rm_files[@]} -gt 0 ] && /usr/bin/rm "${flags[@]}" "${rm_files[@]}"
-    [ ${#trash_files[@]} -gt 0 ] && exec /usr/bin/trash-put "${flags[@]}" "${trash_files[@]}"
+
+    # GNU `rm -f` compat: silently skip nonexistent targets when -f/--force
+    # is present, matching real `rm -f` semantics ("ignore nonexistent files
+    # and arguments, never prompt"). `trash-put` does NOT do this on its
+    # own — it errors "cannot trash non existent '<path>'" (exit 74) even
+    # with -f, which is noisy for idempotent-cleanup callers (found
+    # 2026-08-26, deep-pc6: oh-my-zsh's oh-my-zsh.sh runs an unconditional
+    # `command rm -rf "$ZSH_COMPDUMP.zwc.old" "$ZSH_COMPDUMP.lock"` on every
+    # shell startup — the .zwc.old only exists after a rare zrecompile
+    # rotation, so this printed a spurious warning on nearly every new
+    # shell. See k-clis/references/insights.md for the full incident.)
+    if [ ${#trash_files[@]} -gt 0 ]; then
+      has_force=0
+      for f in "${flags[@]}"; do
+        case "$f" in
+          --force) has_force=1 ;;
+          --*) ;;
+          -*f*) has_force=1 ;;
+        esac
+      done
+      if [ "$has_force" -eq 1 ]; then
+        existing_trash_files=()
+        for f in "${trash_files[@]}"; do
+          if [ -e "$f" ] || [ -L "$f" ]; then
+            existing_trash_files+=("$f")
+          fi
+        done
+        trash_files=("${existing_trash_files[@]}")
+      fi
+      if [ ${#trash_files[@]} -gt 0 ]; then
+        exec /usr/bin/trash-put "${flags[@]}" "${trash_files[@]}"
+      else
+        # -f on nothing but already-missing targets: real `rm -f` exits 0.
+        exit 0
+      fi
+    fi
     ;;
 esac
