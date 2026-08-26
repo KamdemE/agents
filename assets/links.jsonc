@@ -135,6 +135,13 @@
     "tmux-resurrect-save":    { "source": "$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh",    "target": "$HOME/.agents/skills/k-tmux/assets/tmux-resurrect-save.sh",    "skill": "k-tmux", "infras": ["*"] },
     "tmux-continuum-save":    { "source": "$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-continuum-save.sh", "skill": "k-tmux", "infras": ["*"] },
 
+    // --- k-ssh --------------------------------------------------------------------
+    // gpg-agent.conf: relaxes min-passphrase-len to 0 so gpg-agent's ssh-emulation
+    // (tty/headless PREFERRED strategy) can import unencrypted OpenSSH keys without
+    // forcing an internal protection passphrase the key file never had. See
+    // k-ssh/assets/gpg-agent.conf header comment for the full incident (2026-08-26).
+    "gpg-agent-conf": { "source": "$HOME/.gnupg/gpg-agent.conf", "target": "$HOME/.agents/skills/k-ssh/assets/gpg-agent.conf", "skill": "k-ssh", "infras": ["*"] },
+
     // --- k-git ------------------------------------------------------------------
     "gitconfig":  { "source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"] },
     // agents-pre-commit retired 2026-08-25: `make check` is now a GLOBAL pre-commit

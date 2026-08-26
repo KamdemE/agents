@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.20.1
+  version: 1.20.2
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -244,6 +244,7 @@ This shows every pane across all sessions with the running command — no guessi
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.20.2 — **Documented `split-window -t WINDOW` (no `.pane` suffix) hazard**: broke the live `deep-pc6:0` `agents` window layout (opencode + nvim panes silently resized/relocated) by targeting a bare window instead of `WINDOW.PANE` when recreating a killed ops pane. Recovered without touching the live opencode/nvim processes via `kill-pane` (broken pane only) + `move-pane -h` (reposition nvim, process untouched) + `split-window -v -t <window>.<pane>` (correctly scoped). `references/insights.md` +2 entries (layout-surgery targeting discipline + a cross-referenced `pinentry` CPU-spin symptom that can look like a frozen tmux pane). No SKILL.md body change beyond this changelog row — the exact-targeting rule was already correctly documented in `references/session-layout.md`, just not re-read before acting. |
 | 2026-08-20 | [COLAB] | v1.20.1 — Updated the S25 session-layout cross-reference to `k-phones`. |
 | 2026-08-16 | [COLAB] | v1.20.0 — **Busy-pane block extended to a 2nd layer (KπX follow-up question — "tu check juste busy par un autre agent ou vrai busy ?")**: layer 1 (v1.19.0-era `registry.get(paneId)` check) only catches panes armed by OUR OWN system — a pane busy for any other reason (KπX typing directly, an agent bypassing interception, a leftover foreground process) was invisible to it. Added layer 2 in `tmux-notify.js` `tool.execute.before`: if layer 1 finds nothing, queries `tmux display-message -p -t <paneId> '#{pane_current_command}'` (pure metadata, no `capture-pane`/content read) and blocks if the result isn't one of `zsh`/`bash`/`sh`/`fish` — a real, independent ground-truth signal, fails open on any tmux/pane error. `## Stateful Integration` point 4 rewritten to document both layers explicitly. `node --check` OK. Cross-ref: `k-opencode` v2.43.0. |
 | [SUMMARY] | — | v1.19.0 dead-pane & terminal hijack fixes (→ `references/log.md`) · v1.18.0 capture-pane block REMOVED + proactive reminder + session isolation fix (→ `references/log.md`) · v1.17.0 technical block on manual capture-pane, later reversed (→ `references/log.md`) · v1.16.0 TMUX_TIMEOUT/TMUX_LINES reflex generalized + exact line-count label (→ `references/log.md`) · v1.14.0 Stateful Integration + remain-on-exit (→ `references/log.md`) · v1.13.0 SKILL size reduction (→ `references/log.md`) · v1.12.0 symlink direction reversed (→ `references/log.md`) · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

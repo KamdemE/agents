@@ -67,3 +67,53 @@
   updatestartuptty /bye` from `.kshrc`'s interactive section so every new tmux
   pane re-points pinentry automatically — would remove the manual step per
   boot/session entirely.
+
+### 2026-08-26 (ter) — `min-passphrase-len 8` silently blocks unencrypted keys + zombie `pinentry` + `ssh-add -d`/`-D` don't purge
+
+- **`min-passphrase-len 8` (GnuPG compiled-in default) rejects an empty
+  internal protection passphrase** at `ssh-add` time, even when the SOURCE
+  `~/.ssh/id_ed25519_*` key file is itself completely unencrypted (verify
+  with `ssh-keygen -y -f <key> -P ""` succeeding instantly, or decode the
+  OpenSSH-v1 header: `cipher: none, kdf: none`). The failure surfaces as
+  `Bad Passphrase (try N of 3)` in the pinentry dialog when leaving the field
+  empty, then downstream as the generic, misleading `agent refused
+  operation` on every `ssh`/`git` op for that key — nothing in that message
+  hints at a *length policy*, not a wrong/forgotten passphrase. Diagnose with
+  `gpgconf --list-options gpg-agent | grep min-passphrase-len`. Fix: canonical
+  `k-ssh/assets/gpg-agent.conf` (symlinked to `~/.gnupg/gpg-agent.conf`,
+  `min-passphrase-len 0`) now ships this permanently — see SKILL.md v1.4.0.
+- **Zombie `pinentry` holding the lock:** a freshly spawned `pinentry`
+  process can start spinning at 70-95% CPU (`ps aux | grep pinentry`)
+  instead of rendering its dialog, and hold gpg-agent's internal pinentry
+  lock — confirmed via `journalctl --user -u gpg-agent` showing repeating
+  `failed to acquire the pinentry lock: Timeout` / `failed to unprotect the
+  secret key: Timeout` / `ssh sign request failed: Timeout <GPG Agent>`
+  every ~1-3 minutes while it spins. Observed TWICE in the same session
+  (once per key, ~25 min apart) — not a one-off. Fix: `kill -9 <pid>` the
+  spinning `pinentry` process; the NEXT sign/add attempt spawns a fresh
+  `pinentry` that renders correctly and prompts as expected. No known
+  trigger identified yet (possibly a redraw race when the pane the dialog
+  targets isn't the one an interactive client is currently viewing) — if
+  this recurs, capture `strace -p <pinentry-pid>` before killing it next
+  time to find the actual root cause instead of just clearing the symptom.
+- **`ssh-add -d <key>` and `ssh-add -D` do NOT purge gpg-agent's persisted
+  ssh keystore** (`~/.gnupg/private-keys-v1.d/<keygrip>.key`) — they report
+  success ("Identity removed" / "All identities removed") and `ssh-add -l`
+  still lists the same keys immediately after, because gpg-agent treats
+  ssh-imported keys as permanently confirmed/protected entries, not
+  session-ephemeral ones. To truly force a clean re-import (e.g. after a
+  corrupted/partial import from a failed passphrase attempt), the specific
+  `.key` file must be deleted directly: identify it by file mtime
+  (correlate with the timestamp of the failed `ssh-add` attempt — the OTHER
+  working key's `.key` file will have an older, stable mtime) since there is
+  no simple CLI to map a keygrip back to which `~/.ssh/id_ed25519_*` file it
+  came from. Use the `rm` trash-safe wrapper (never raw `/bin/rm`), then
+  `gpgconf --reload gpg-agent` and re-run `ssh-add`.
+- **Split-brain `GPG_TTY` across shells:** running `ssh -T git@host` from a
+  DIFFERENT shell/tty than the one where `gpg-connect-agent updatestartuptty
+  /bye` was last run causes pinentry to try rendering in the WRONG pane (or
+  nowhere visibly), hanging the command with no visible prompt anywhere.
+  Always run the `updatestartuptty` call AND the ssh/git command that
+  follows it in the SAME tmux pane/shell, back-to-back in one `send-keys`
+  call — never split them across an agent's own non-interactive shell and a
+  tmux ops pane.

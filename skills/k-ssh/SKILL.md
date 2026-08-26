@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.0"
+  version: "1.4.0"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
@@ -153,6 +153,20 @@ same shape as `sudo`'s timestamp cache), up to a hard ceiling of
 either, create `~/.gnupg/gpg-agent.conf` with `default-cache-ttl-ssh <N>` /
 `max-cache-ttl-ssh <N>`, then `gpg-connect-agent reloadagent /bye`.
 
+**Canonical config asset:** `~/.gnupg/gpg-agent.conf` is a **symlink** to
+`k-ssh/assets/gpg-agent.conf` (registered `gpg-agent-conf` in
+`assets/links.jsonc`). It sets `default-cache-ttl-ssh`/`max-cache-ttl-ssh`
+explicitly and `min-passphrase-len 0` — **found 2026-08-26 (deep-pc6):**
+GnuPG's compiled-in default `min-passphrase-len 8` makes gpg-agent's ssh
+import REJECT an empty internal protection passphrase, even for a source
+`~/.ssh/id_ed25519_*` key file that is itself completely unencrypted
+(`cipher: none, kdf: none` — verify with
+`ssh-keygen -y -f <key> -P ""` succeeding instantly). This manifests as
+`agent refused operation` on every subsequent `ssh`/git operation for that
+key, with no indication the real cause is a *policy minimum*, not a
+forgotten passphrase. See `references/insights.md` for the full incident
+and the companion zombie-`pinentry` pattern.
+
 **Not universal:** `systemctl --user status gpg-agent-ssh.socket` must be checked
 per machine before relying on it — containers/LXCs (`k-dockerhost`) and some VMs
 may lack a full `systemd --user` instance; WSL only runs systemd if enabled in
@@ -239,6 +253,7 @@ When a new infrastructure is added:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.4.0 — **Canonical `gpg-agent.conf` asset created** (`assets/gpg-agent.conf`, symlinked at `~/.gnupg/gpg-agent.conf`, registered in `assets/links.jsonc` as `gpg-agent-conf`): sets `min-passphrase-len 0` after diagnosing a real incident on `deep-pc6` — `ssh-add` of the unencrypted `id_ed25519_github` key was silently rejected (`Bad Passphrase`) by GnuPG's compiled-in `min-passphrase-len 8` policy when the internal protection passphrase was left empty, producing a confusing downstream `agent refused operation` on every git push. Also made `default-cache-ttl-ssh`/`max-cache-ttl-ssh` explicit (previously only documented, not enforced by a real file). Companion **zombie-`pinentry` pattern** documented in `references/insights.md`: a freshly spawned `pinentry` process can spin at 70-95% CPU holding the agent's pinentry lock (`failed to acquire the pinentry lock: Timeout` in `journalctl --user -u gpg-agent`) instead of rendering its curses dialog — `kill -9 <pid>` immediately unblocks a clean, correctly rendering dialog on the next attempt. |
 | 2026-08-26 | [CLAUDE] | v1.3.0 — **tty/headless SSH agent strategy added**: `gcr-ssh-agent` is gated behind `graphical-session-pre.target` and never starts on a tty-only box (confirmed on `deep-pc6`, `ssh-add --help` → "Could not open a connection to your authentication agent") — every submodule-gate check in a git hook was decrypting the key fresh, prompting once per submodule per push. Documented `gpg-agent` ssh-emulation (`gpg-agent-ssh.socket`, socket-activated, no GUI needed) as the PREFERRED strategy for that class of machine, with its verified cache TTLs (`default-cache-ttl-ssh` 1800s sliding / `max-cache-ttl-ssh` 7200s hard ceiling, sudo-shaped). Wired in `k-zsh` v2.5.0 + mirrored across all 7 per-infra kshrc. |
 | 2026-08-20 | [COLAB] | v1.2.2 — Corrected the generic phone shell source path to `k-phones/assets/kshrc`. |
 | [SUMMARY] | — | v1.2.1 Android cross-references for `k-phones` rename + S25-specific shell asset · v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |
