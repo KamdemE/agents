@@ -4,7 +4,7 @@ description: KπX Android phones over Tailscale — Termux SSH, raw wireless ADB
 license: private
 metadata:
   author: KpihX
-  version: "3.1.0"
+  version: "3.1.1"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
@@ -67,6 +67,7 @@ boot payload deployment, and verification.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v3.1.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE; also a permanent no-op behavior-wise on Termux's shell, kept identical for consistency). |
 | 2026-08-26 | [CLAUDE] | v3.1.0 — Persistent SSH agent block mirrored into `assets/kshrc` Section 1 for consistency with the other 7 kshrc copies — Termux has no systemd, so the `[ -S "$_gpg_ssh_sock" ]` guard makes it a permanent no-op here; documented as such rather than excluded, so the block stays identical everywhere. See `k-zsh` v2.5.0 for the mechanism. |
-| 2026-08-24 | [COLAB] | v3.0.4 — Added the mandatory k-infras setup note and documented the existing Termux:Boot APK and Termux tmux reference to satisfy bundled-content provenance coverage. |
+| [SUMMARY] | — | v3.0.4 k-infras setup note + Termux:Boot/tmux provenance coverage · v3.0.3 symlink deployment rule (`ln -sf` for `~/.kshrc`/boot sshd) · v3.0.2 Termux:Boot manual setup (→ `references/log.md`) · v3.0.1 shell asset rename (→ `references/log.md`) · v1.3.0 and older in log.md |
 | [SUMMARY] | — | v3.0.3 symlink deployment rule (`ln -sf` for `~/.kshrc`/boot sshd) · v3.0.2 Termux:Boot manual setup (→ `references/log.md`) · v3.0.1 shell asset rename (→ `references/log.md`) · v1.3.0 and older in log.md |

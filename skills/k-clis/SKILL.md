@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.4
+  version: 1.16.5
   scope: operations
 ---
 
@@ -59,7 +59,6 @@ metadata:
 | `tg` | **`k-tg`** | Telegram — Telethon, BotFather, infra-bot |
 | `x_cli.py` | **`k-x`** | X (Twitter) API v2 — OAuth 1.0a |
 | `meta_cli.py` | **`k-meta`** | Meta Graph API — OAuth smoke tests |
-| `powerpoint` (MCP) | **`k-pptx`** | PPTX generation from markdown |
 | `broot` | _(this skill)_ | Interactive file explorer — `apt` |
 | `whisper-cli` | **`k-ai`** | Local speech-to-text — Vulkan/C++ Whisper build (ggml 0.19.0, user-local ~/.local/bin + ~/.local/lib, GPU Arc MTL) |
 | `k-whisper` | **`k-ai`** | Sovereign wrapper around whisper-cli — ls/pull/rm + transcription |
@@ -183,6 +182,6 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.16.5 — **`powerpoint` uv tool fully purged (KπX order)**: uninstalled (`uv tool uninstall powerpoint`), `~/.local/bin/powerpoint` symlink + `~/.local/share/uv/tools/powerpoint/` gone. Stale registry row removed (superseded by `k-pptx` v3.0.0's "decks as code" doctrine, `deckkit.py`/`figkit.py`). Historical record kept in `k-pptx/references/alternative-mcp-approach.md`. |
 | 2026-08-26 | [COLAB] | v1.16.4 — **fastfetch preferred, neofetch fallback** (KπX order at PR #1 integration): system-info entry now leads with the maintained fork; `neofetch` kept as fallback. |
-| 2026-08-26 | [COLAB] | v1.16.3 — Registered `neofetch` in Shell & Terminal (system info summary: OS, kernel, RAM, disk, CPU). |
-| [SUMMARY] | — | v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v1.16.3 neofetch registered in Shell & Terminal (system info summary) · v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |

@@ -10,7 +10,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.2.1"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -116,6 +116,7 @@ GitLab CI pipelines deploy containers and manage infrastructure. Related configu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.2.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE). |
 | 2026-08-26 | [CLAUDE] | v1.2.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this VM before relying on it. See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
-| 2026-08-14 | [COLAB] | v1.1.0 — **Setup rule added (per KπX infra setup standard)**: added Setup section (read `k-infras` → New Infra Setup Checklist first); `kshrc` symlink → `k-pve-debian/assets/kshrc` (created from `kshrc.base`); registered `kshrc-pve-debian` in `assets/links.jsonc`. |
+| [SUMMARY] | — | v1.1.0 setup rule added (kshrc symlink from kshrc.base, registered in assets/links.jsonc) · v1.0.0 created k-pve-debian from kpihx-labs Docker/deployment content |
 | [SUMMARY] | — | v1.0.0 created k-pve-debian from kpihx-labs Docker/deployment content |

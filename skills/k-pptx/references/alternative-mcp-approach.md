@@ -1,5 +1,12 @@
 # Alternative approach — the `powerpoint` MCP tool (retired, kept for the record)
 
+> **🔴 PURGED 2026-08-26:** the `powerpoint` uv tool (`~/.local/bin/powerpoint`,
+> `~/.local/share/uv/tools/powerpoint/`) has been fully uninstalled
+> (`uv tool uninstall powerpoint`) and its stale registry row removed from
+> `k-clis/SKILL.md`. It no longer exists on any KπX machine. This file remains
+> as the historical record only (zero-information-loss) — do not attempt to
+> reinstall without KπX's explicit request.
+
 Before this skill's "decks as code" doctrine (`deckkit.py` / `figkit.py` /
 `slides.py` / `render.py`) became the standard, an earlier lineage of this
 skill drove a third-party MCP server instead: `powerpoint`

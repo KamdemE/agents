@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.8.1"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -159,6 +159,6 @@ cross-referenced per script below.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.8.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE). |
 | 2026-08-26 | [CLAUDE] | v1.8.0 — Persistent SSH agent block added to `assets/kshrc` Section 1 (gpg-agent ssh-emulation, guarded no-op) — WSL needs its own systemd verification (`systemctl --user status gpg-agent-ssh.socket`; WSL2 only runs systemd if enabled in `/etc/wsl.conf`) before this activates; native Windows-side git is unaffected (Windows has its own `ssh-agent` service, out of scope here). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. *(Renumbered from v1.3.0 at PR merge — collided with this skill's own historical v1.3.0 "completed full WSL infra setup" entry.)* |
-| 2026-08-25 | [COLAB] | v1.7.0 — **WSLg Voice STT/TTS live (fix Ctrl+X R):** `sox`/`libsox-fmt-all`/`ffmpeg`/`pulseaudio-utils`/`alsa-utils` (apt via tmux ops) + `piper` + `whisper-cli` wrapper + `ggml-small.bin` + 2 voices; `PULSE_SERVER=unix:/mnt/wslg/PulseServer` `RDPSource`/`RDPSink`; smoke `parecord`, `play` pipeline, `whisper-cli` OK. See `k-opencode` → Config-link ≠ runtime-ready rule + `references/voice.md` deployment checklist. |
-| [SUMMARY] | — | v1.6.1 Ollama client installed WSL-side (client-only, verified vs Windows-hosted server) · v1.6.0 `assets/kshrc` sources `k-windows/assets/kshrc` + `$HOMEW`/`$USERW`/`~w` + Assets table (→ `references/log.md`) · v1.5.0 Hardware Specs + debloat-log + generic-technique extraction to k-windows (→ `references/log.md`) · v1.4.0 `references/gpu.md` (CUDA/WSL trap) (→ `references/log.md`) · v1.3.0 completed full WSL infra setup (zsh/neovim/tailscale/opencode natively in WSL, dual tailscaled identity) · v1.2.0 setup rule added · v1.1.0 renamed from k-alienware · v1.0.0 created as k-alienware — full detail in `references/log.md` |
+| [SUMMARY] | — | v1.7.0 WSLg Voice STT/TTS live (fix Ctrl+X R) — sox/piper/whisper-cli, PulseServer routing · v1.6.1 Ollama client installed WSL-side (client-only, verified vs Windows-hosted server) · v1.6.0 `assets/kshrc` sources `k-windows/assets/kshrc` + `$HOMEW`/`$USERW`/`~w` + Assets table (→ `references/log.md`) · v1.5.0 Hardware Specs + debloat-log + generic-technique extraction to k-windows (→ `references/log.md`) · v1.4.0 `references/gpu.md` (CUDA/WSL trap) (→ `references/log.md`) · v1.3.0 completed full WSL infra setup (zsh/neovim/tailscale/opencode natively in WSL, dual tailscaled identity) · v1.2.0 setup rule added · v1.1.0 renamed from k-alienware · v1.0.0 created as k-alienware — full detail in `references/log.md` |

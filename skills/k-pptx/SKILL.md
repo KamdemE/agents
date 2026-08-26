@@ -16,7 +16,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.0.0"
+  version: "3.0.1"
   scope: content-authoring
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -257,6 +257,6 @@ example decks live outside `assets/` — see **Example repositories** above.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v3.0.1 — **`powerpoint` uv tool fully purged (KπX order)**: uninstalled (`uv tool uninstall powerpoint`), `~/.local/bin/powerpoint` symlink + `~/.local/share/uv/tools/powerpoint/` gone from every machine. `references/alternative-mcp-approach.md` updated with an explicit purge note (historical record kept, zero-information-loss, but no longer reinstallable without KπX's explicit request). `k-clis` registry row removed. |
 | 2026-08-25 | [CLAUDE] | v3.0.0 — **Consolidation**: replaced the MCP-tool-based doctrine (`powerpoint`/`powerpoint-mcp`, tool-memory scope) with the "decks as code" stack (`deckkit.py`/`figkit.py`/`slides.py`/`render.py`/`preview.py`/`inspect_template.py`/`make_help_slides.py` + 8 reference files + 3 evidence assets) migrated from `framework-internship-culling/.agents/skills/k-pptx`, the independently-developed and materially more mature lineage. Ported the one surviving MCP-era capability — native editable charts — as `deckkit.chart()`; folded the `shape_type==14` picture-placeholder gotcha into `pitfalls.md`; added the fact-rigor pass to `ai-tools.md`. Retired workflow preserved in full in the new `references/alternative-mcp-approach.md`. Added `references/insights.md` (fresh, per Structural Contract — did not previously exist in either lineage) and the new **Example repositories** section (placeholder URLs, both source repos pending rename). Brought frontmatter, edit-reminder line and this footer changelog table into line with `k-skill-creator`'s Structural Contract (neither lineage had one before). |
-| 2026-08-03 | [AGENT] | v1.1.0 — (prior MCP-tool lineage, superseded above) First full k-pptx execution under the old doctrine — a 23-slide ResNet deck driving `PresentationManager`/`ChartManager` directly. Full record kept in `references/alternative-mcp-approach.md`. |
-| [SUMMARY] | — | v1.0.0 initial MCP-tool mapping (2026-04-07, → `alternative-mcp-approach.md`) · the independently-developed "decks as code" stack in `framework-internship-culling` (undated internal history, no prior changelog) — both folded into v3.0.0. |
+| [SUMMARY] | — | v1.1.0 first full k-pptx execution under the old MCP doctrine (23-slide ResNet deck, `PresentationManager`/`ChartManager`) · v1.0.0 initial MCP-tool mapping (2026-04-07, → `alternative-mcp-approach.md`) · the independently-developed "decks as code" stack in `framework-internship-culling` (undated internal history, no prior changelog) — both folded into v3.0.0. |

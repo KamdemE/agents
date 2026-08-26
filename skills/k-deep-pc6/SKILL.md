@@ -7,7 +7,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.4.1"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -98,6 +98,6 @@ Access is entirely DxO-internship-gated (VPN, domain account, internal IP) — s
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v1.4.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE). |
 | 2026-08-26 | [CLAUDE] | v1.4.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verified live on this machine (`gpg-agent-ssh.socket` already active). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. *(Renumbered from v1.3.0 at PR merge — collided with this skill's own v1.3.0 hardware-specs entry.)* |
-| 2026-08-25 | [CLAUDE] | v1.3.0 — Filled in the "Purpose" stub (was TBD since creation): hardware specs (AMD 3960X, 64 GB RAM, 2× RTX 3090/48 GB VRAM, NVMe, PCIe Gen1×16 bottleneck) migrated from `framework-internship-culling`'s README §8.1 reference-machine table. Added Insights Discipline + `references/insights.md` (were missing). |
-| [SUMMARY] | — | v1.2.0 setup rule added (kshrc symlink → k-deep-pc6/assets/kshrc, registered in assets/links.jsonc) · v1.1.0 VPN prerequisite reference updated (vpn-dxo CLI removed, now systemctl) · v1.0.0 created k-deep-pc6 (→ `references/log.md`) |
+| [SUMMARY] | — | v1.3.0 hardware specs filled in (AMD 3960X, 64GB RAM, 2×RTX 3090/48GB VRAM) + `references/insights.md` added · v1.2.0 setup rule added (kshrc symlink → k-deep-pc6/assets/kshrc, registered in assets/links.jsonc) · v1.1.0 VPN prerequisite reference updated (vpn-dxo CLI removed, now systemctl) · v1.0.0 created k-deep-pc6 (→ `references/log.md`) |

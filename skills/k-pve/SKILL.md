@@ -3,7 +3,7 @@ name: k-pve
 description: Proxmox VE hypervisor (kpihx-pve) — network, backup, maintenance, and automation scripts.
 metadata:
   author: KpihX
-  version: "2.4.0"
+  version: "2.4.1"
   scope: infrastructure
 ---
 
@@ -139,7 +139,8 @@ Each sub-module README contains its OWN complete setup procedure — install, de
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v2.4.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE). |
 | 2026-08-26 | [CLAUDE] | v2.4.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this infra before relying on it (LXC/VM systemd --user availability not assumed). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
-| 2026-08-14 | [COLAB] | v2.3.0 — **Setup rule clarified (system units `sudo cp`, `$HOME`/`/root` items `ln`)** : `k-pve/SKILL.md` Setup + `scripts/README.md` updated — systemd units are deployed via `sudo cp` (PVE critical), but `$HOME`/`/root` items (`ksh`, `kshrc`) are symlinks (`ln -sf`). Added `assets/kshrc` (cp from `k-zsh/assets/kshrc.base`, INFRA_SESSION=pve) + registered `kshrc-pve` in `assets/links.jsonc`. Reads `k-infras` → New Infra Setup Checklist first. |
+| [SUMMARY] | — | v2.3.0 setup rule clarified (sudo cp vs ln) · v2.2.0 service real-name simplification · v2.1.0 sub-module READMEs · v2.0.0 ksh dispatcher refactor (→ `references/log.md`) · v1.x original PVE skill. |
 | [SUMMARY] | — | v2.2.0 service real-name simplification · v2.1.0 sub-module READMEs · v2.0.0 ksh dispatcher refactor (→ `references/log.md`) · v1.x original PVE skill. |
 
