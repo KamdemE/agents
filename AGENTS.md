@@ -3,7 +3,7 @@ name: kpihx-agents
 description: KpihX global cross-agent kernel. Loaded by all agents at session start via agent-home symlink.
 metadata:
   author: KpihX
-  version: "3.5.0"
+  version: "3.6.0"
   scope: agent-kernel
 ---
 
@@ -105,9 +105,9 @@ Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` �
 
 🔴 **NEVER DELETE, NEVER OVERWRITE, NEVER LOSE INFORMATION. Append-only is ABSOLUTE.**
 - All `.md` files, logs, changelogs, session entries, references, issues, insights — **add only, never remove**.
-- For `k-context`: when a section reaches its limit, **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut. For all other skills, condense/summarize their changelog directly into their `[SUMMARY]` table row, without creating/maintaining a separate `references/log.md` file.
+- For `k-context` ONLY: when a section reaches its limit, **copy to `references/log.md` BEFORE condensing**. Rotation = copy, never cut. This rotation mechanism is EXCLUSIVE to `k-context` (see `rules/k-context-hygiene.md`). For ALL OTHER skills, compact/summarize their changelog directly into their `[SUMMARY]` table row — that direct compaction is the ONLY information-reduction mechanism authorized for non-`k-context` skills; never create or maintain a separate `references/log.md` for them.
 - No in-place edits of log entries. No deletion of historical records. No truncation.
-- Corrections = new append-only entries. Archives = copy-then-condense, never truncate.
+- Corrections = new append-only entries. Archives (`k-context` rotation only) = copy-then-condense, never truncate.
 - This applies to ALL `.agents/` files — every skill, every reference, every log, every agent definition.
 - **Any agent that edits, moves, or deletes information instead of appending is in VIOLATION of kernel sovereignty.**
 
