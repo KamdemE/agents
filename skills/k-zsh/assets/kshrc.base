@@ -175,6 +175,18 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   __KSHRC_INTERACTIVE_LOADED=1
   # NOTE: NOT exported — each new interactive shell sets its own.
 
+  # ── gpg-agent pinentry TTY re-point (SSH) ────────────────────
+  # gpg-agent's SSH path prompts via pinentry on the "startup TTY"
+  # recorded when the agent started — NOT the caller's TTY. On
+  # headless/tmux infra that recorded TTY is stale or absent, so
+  # ssh-add and cached-key signing fail with "agent refused operation".
+  # Re-pointing it to THIS pane on every new interactive shell makes
+  # every fresh pane a valid passphrase destination. Guarded no-op
+  # where gpg-connect-agent is missing (Windows/WSL, Termux).
+  # stdout silenced ("OK" noise at every shell open); stderr visible.
+  command -v gpg-connect-agent >/dev/null 2>&1 \
+    && gpg-connect-agent updatestartuptty /bye >/dev/null
+
   # ── Workspace entry ─────────────────────────────────────────
   # cd to KpihX-Labs; create it on first boot if missing.
   cd "$HOME/KpihX-Labs" 2>/dev/null || { mkdir -p "$HOME/KpihX-Labs" && cd "$HOME/KpihX-Labs"; }
