@@ -52,7 +52,13 @@ ls ~/.local/share/piper-voices/*.onnx             # at least one .onnx + .json
 pactl info 2>&1 | head                            # pulseaudio route (WSLg: /mnt/wslg/PulseServer)
 ```
 
-Fix per machine: `apt` packages via tmux ops pane (sudo gate, see `k-tmux`); user-space binaries/models go to `~/.local/bin` + `~/.local/share/*` (sovereign wrappers `k-whisper`/`k-piper` in `k-ai`). WSL-specific audio routing → `k-blglaptop139`.
+Fix per machine — apt packages via tmux ops pane (sudo gate, see `k-tmux`):
+
+```bash
+sudo apt install sox libsox-fmt-pulse pulseaudio-utils build-essential cmake ffmpeg mpv
+```
+
+User-space binaries/models go to `~/.local/bin` + `~/.local/share/*` (sovereign wrappers `k-whisper`/`k-piper` in `k-ai`). WSL-specific audio routing → `k-blglaptop139`. GPU backend for `whisper-cli` depends on the vendor present on the machine — Vulkan (Intel iGPU, see `k-ai/references/whisper.md`) or CUDA (NVIDIA discrete GPU — `nvidia-cuda-toolkit` via apt, does not touch the existing driver package; arch code from the GPU family table in the plugin's own `README.md` → Prerequisites → CUDA build).
 
 ## Plugin Install (fresh machine)
 

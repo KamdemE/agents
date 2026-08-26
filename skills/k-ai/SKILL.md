@@ -4,7 +4,7 @@ description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central invento
 license: private
 metadata:
   author: KpihX
-  version: 3.4.0
+  version: 3.5.0
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -88,7 +88,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 ## References
 
-- `references/whisper.md` — Whisper.cpp (whisper-cli) setup, usage, compilation, Vulkan optimization guide.
+- `references/whisper.md` — Whisper.cpp (whisper-cli) setup, usage, compilation, Vulkan (Intel iGPU) + CUDA (NVIDIA discrete GPU) optimization guides.
 - `references/piper.md` — Piper (TTS) setup, usage, deployment, ONNX Runtime optimization guide.
 - `references/tesseract.md` — Tesseract OCR setup, CLI usage, language packs, Text Extractor helper integration.
 - `references/purged.md` — Purged AI runtimes archive (AGY, Codex, Gemini, Copilot, VIBE, Cline, Zed, Cursor CLI, Continue, MCPs) — GRAVÉ, never deleted.
@@ -103,6 +103,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v3.5.0 — **CUDA build documented for `whisper-cli`** (`references/whisper.md`): full deep-pc6 install (2× RTX 3090, Ampere arch `86`), incl. the `nvcc`(11.5)/`g++`(11.4) parameter-pack incompatibility fix (install `gcc-10`/`g++-10`, pass `-DCMAKE_CUDA_HOST_COMPILER`), and confirmation that `nvidia-cuda-toolkit` via apt does not touch the existing driver package (verified with `apt-get install --simulate` before running for real on a shared GPU box). End-to-end voice stack (`sox`, `whisper-cli` CUDA, `piper`) installed and smoke-tested on deep-pc6 via a synth→transcribe round-trip (no physical mic on this headless server). |
 | 2026-08-14 | [COLAB] | v3.4.0 — **Added QMD** to Local AI Binaries: `qmd`/`qmdr` (npm @tobilu/qmd) — local knowledge search (BM25+vector hybrid), 100% local GGUF embeddings (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), independent of Ollama. Points to `k-qmd`. |
 | 2026-08-14 | [COLAB] | v3.3.0 — **Description reinforced (MANDATORY check)**: agents MUST check k-ai before any task they don't have natively (image reading, voice/image/text transcription, translation, STT/TTS, OCR, NMT) and USE the right local tool. Added tesseract/OCR to tool inventory in description. |
 | [SUMMARY] | — | v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |
