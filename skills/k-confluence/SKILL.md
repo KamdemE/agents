@@ -1,9 +1,9 @@
 ---
 name: k-confluence
-description: Create, repair, enrich, and review high-quality Confluence documentation with a visual-first, evidence-first workflow. Use this skill when working on Confluence pages that require precise structure, strong narrative quality, rendered formulas, image-heavy R&D storytelling, attachment hygiene, safe incremental edits, or a mix of MCP and direct Atlassian API operations.
+description: Create, repair, enrich, and review high-quality Confluence documentation with a visual-first, evidence-first workflow. Use this skill when working on Confluence pages that require precise structure, strong narrative quality, rendered formulas, image-heavy R&D storytelling, figures adapted from an existing source artefact, attachment hygiene, uniform page chrome and traceability across a tree, safe incremental edits, or a mix of MCP and direct Atlassian API operations.
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "2.0.0"
   scope: tool-integration
 ---
 
@@ -20,8 +20,10 @@ Use this skill when the task involves any of the following:
 - Creating or restructuring Confluence pages.
 - Repairing broken Confluence markup, images, attachments, or formulas.
 - Turning technical R&D material into rich visual documentation.
+- **Adapting an existing artefact** — a deck, a report, a paper — into a documentation tree.
 - Auditing multiple related pages for coherence, depth, and missing evidence.
 - Publishing local images or rendered formulas to Confluence safely.
+- **Unifying a whole tree**: header, footer, navigation, traceability metadata.
 - Mixing Atlassian MCP operations with direct API fallback when MCP is insufficient.
 
 ## Core Rules
@@ -33,9 +35,13 @@ Follow this sequence strictly because Confluence edits are fragile:
 3. Inspect what already exists before uploading anything: attachments, image links, formulas, tables, and sections.
 4. Prefer surgical updates over rewrites. Preserve validated content and enrich it.
 5. Never leave raw ASCII formulas when a rendered formula or stable image can be used.
-6. Prefer stable absolute attachment URLs over brittle relative HTML snippets.
+6. Prefer stable absolute attachment URLs over brittle relative HTML snippets, and **resolve every attachment id by name at patch time** — never carry one over from a previous run.
 7. Treat every visual as evidence: each image should support a claim, comparison, failure mode, or process explanation.
 8. **Write one continuous thread, never bolted-on chunks.** A page is an argument that runs from its first line to its last, not a container of independent sections.
+9. **One figure per argument, at the argument** — never a composite under a heading that wants one of its lanes, and never a figure the canonical source does not actually ship. See [references/figure-discipline.md](references/figure-discipline.md).
+10. **Adapt, never transcribe.** A page is a documentation form of the source, not a copy of it. Drop the source's own coordinates — step numbers, slide numbers, section letters — and name the argument or link the page instead. The reader does not have the source open.
+11. **A tree is a unit.** Every page in it gets the same header, the same footer, and the same traceability block, so any claim anywhere can be followed back to the ticket, the code and the artefacts. See [references/page-chrome.md](references/page-chrome.md).
+12. **Finish with a scripted sweep over every page**, and report what it found — including what it found and you did not fix. See [references/verification.md](references/verification.md).
 
 ## Narrative Continuity (mandatory)
 
@@ -67,6 +73,30 @@ Two rules that follow from this and are worth stating separately:
 When the project already has a voice — speaker notes, a README that argues
 well — reuse its phrasing rather than inventing a parallel register.
 
+## Adapting an existing artefact
+
+When the tree is the documentation form of something that already exists, the
+source is the authority on **three** things and on nothing else:
+
+| the source decides | you decide |
+|---|---|
+| which figures are legal | where each one is placed |
+| the order of the argument | how far each step is expanded |
+| the wording of a claim it already makes well | the page boundaries |
+
+Two failure modes, both of which look like fidelity:
+
+- **Transcription.** Copying the source's numbering, its section titles, its
+  slide-by-slide granularity. The result reads as a document with a missing
+  companion. Name things, link pages, drop the coordinates.
+- **Invention.** Building a figure the source does not have, because the section
+  needs one. That figure has never been reviewed by anyone. A section with no
+  legal figure gets no figure.
+
+**Split a long part into subpages** rather than letting one page carry six
+arguments. Page boundaries are a documentation decision; the source's section
+boundaries are a presentation decision, and they are not the same thing.
+
 ## Workflow
 
 ### 1. Read and classify
@@ -85,10 +115,13 @@ Look for these common failures:
 - Broken images or preview-only links.
 - Raw `<img src="/wiki/...">` HTML that depends on fragile paths.
 - ASCII formulas instead of rendered math.
+- **Captions with no figure above them**, and pointers into panels that are not on the page.
+- **Composite figures** dropped under a heading that needed one of their lanes.
 - Claims without figures, tables, or examples.
 - Dataset pages without representative samples.
 - Results pages without failure cases, per-class analysis, or narrative interpretation.
 - R&D pages that jump to conclusions without explaining the construction path.
+- **Hand-written navigation sections** and per-page "where this lives" tables that no two pages agree on.
 
 ### 3. Choose the transport
 
@@ -102,6 +135,7 @@ If direct API is needed:
 - Read credentials from the local environment only if the user explicitly authorized it.
 - Check whether the attachment is already online before uploading.
 - Reuse existing attachments when they already solve the need.
+- **Re-assert the parent on every write** — a content update must not be able to move a page.
 
 ### 4. Repair and enrich
 
@@ -113,6 +147,10 @@ Apply the minimum-risk transformation that fully fixes the issue:
 - Expand thin sections with narrative context, comparisons, and interpretation.
 - Keep the page visually dense but semantically organized.
 
+**Retire, never delete.** When a page is superseded, move it to an archive branch
+and prefix its title so nobody lands on it by search. The substance stays
+reachable; the live tree stops pointing at it.
+
 ### 5. Re-read after editing
 
 After each substantial page update, read the page again and verify:
@@ -123,17 +161,29 @@ After each substantial page update, read the page again and verify:
 - no regressions were introduced,
 - the page is richer, not noisier.
 
+### 6. Close the tree
+
+Once every content edit is done, and only then:
+
+1. Set the sibling order deliberately, so the sidebar reads in argument order.
+2. Apply header, provenance and footer to every page — **replacing** whatever
+   each page had of its own, never appending to it.
+3. Run the verification sweep, and report it.
+
 ## References
 
 Read only what is needed:
 
 - For the surgical page-edit sequence: [references/page-surgery.md](references/page-surgery.md)
 - For visual storytelling, formulas, and attachments: [references/visual-publishing.md](references/visual-publishing.md)
+- For figures adapted from another artefact: [references/figure-discipline.md](references/figure-discipline.md)
+- For header, footer, navigation and traceability across a tree: [references/page-chrome.md](references/page-chrome.md)
+- For the closing sweep and its traps: [references/verification.md](references/verification.md)
 - For cross-page audits and narrative consistency: [references/page-audit.md](references/page-audit.md)
 
 ## Output Standard
 
-A successful result is not just "page updated". It means the page is now robust, visually convincing, technically faithful, and aligned with the user's intent at the level of section logic, imagery, formulas, and commentary.
+A successful result is not just "page updated". It means the page is now robust, visually convincing, technically faithful, and aligned with the user's intent at the level of section logic, imagery, formulas, and commentary — and that a reader landing on it cold can see where they are, where to go next, and where every claim on it came from.
 
 ## Insights Discipline (mandatory)
 
@@ -145,6 +195,7 @@ A successful result is not just "page updated". It means the page is now robust,
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-26 | [CLAUDE] | v1.2.0 — **Narrative Continuity made a mandatory rule** (KπX directive, mid-task on the blur tree): a page is one continuous argument, never a container of independent sections. Adds core rule 8 and a section giving the five-beat movement every section must follow (problem → intuition → formal/measured → what it does not prove → hand-off), the "read the section before and after before inserting" check, and the two corollaries the operator stated directly: **never contract** (add or correct, never delete/summarise to make room) and **detail is the point** (a number always comes with its source and its precondition). Also: reuse the project's existing voice — speaker notes, a README that already argues well — rather than inventing a parallel register. |
+| 2026-08-26 | [CLAUDE] | v2.0.0 — **Generalised from a full tree rebuild**, on the operator's instruction to keep the lessons project-agnostic. Four new core rules: one figure per argument and only figures the canonical source ships (9), adapt rather than transcribe — drop the source's coordinates (10), a tree is a unit with uniform chrome and traceability (11), and finish with a scripted sweep that reports what it did *not* fix (12). Rule 6 extended: resolve attachment ids by name at patch time. New section **Adapting an existing artefact** — what the source decides against what you decide, transcription and invention as the two failure modes that look like fidelity, and split a long part into subpages. New workflow step **Close the tree**, plus «retire, never delete». Three new references: `figure-discipline.md`, `page-chrome.md`, `verification.md`. |
+| 2026-08-26 | [CLAUDE] | v1.2.0 — **Narrative Continuity made a mandatory rule** (KπX directive, mid-task): a page is one continuous argument, never a container of independent sections. Adds core rule 8 and a section giving the five-beat movement every section must follow (problem → intuition → formal/measured → what it does not prove → hand-off), the "read the section before and after before inserting" check, and the two corollaries the operator stated directly: **never contract** (add or correct, never delete/summarise to make room) and **detail is the point** (a number always comes with its source and its precondition). Also: reuse the project's existing voice — speaker notes, a README that already argues well — rather than inventing a parallel register. |
 | 2026-08-26 | [CLAUDE] | v1.1.0 — Restored after the `.agents` restructure wiped the skill (recovered verbatim from a Codex session log, 2026-07-12 creation, confirmed unchanged as of its last known use on 2026-08-21). Conformed to the KπX structural contract: `metadata.version`, edit reminder, Insights Discipline section, `references/insights.md`, this Changelog. Dropped `agents/openai.yaml` (Codex-only UI metadata, unreferenced anywhere and without a KπX equivalent). |
 | [SUMMARY] | — | v1.0.0 — Original creation: visual-first, evidence-first Confluence workflow (safe incremental edits, rendered formulas, attachment hygiene, MCP-first with API fallback) plus `references/page-surgery.md`, `references/visual-publishing.md`, `references/page-audit.md`. |
