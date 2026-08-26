@@ -47,3 +47,23 @@
   gpg-agent | grep cache-ttl` prints the actual compiled-in values
   (`default-cache-ttl-ssh`/`max-cache-ttl-ssh`), which turned out to already
   be sudo-shaped (1800s sliding / 7200s hard ceiling) with zero configuration.
+
+### 2026-08-26 (bis) — gpg-agent "agent refused operation" on ssh-add → updatestartuptty
+
+- Symptom on `deep-pc6`: `SSH_AUTH_SOCK` correctly points at gpg-agent's ssh
+  socket and `ssh-add -l` round-trips fine ("no identities"), but
+  `ssh-add ~/.ssh/id_ed25519_gitlab` fails with `agent refused operation`
+  AFTER the passphrase is accepted (the prompt comes from ssh-add decrypting
+  locally — the refusal is gpg-agent's own ADD_IDENTITY).
+- `export GPG_TTY=$(tty)` in the pane is NOT sufficient — gpg-agent pins
+  pinentry to the *startup TTY* recorded when the agent started, and the ssh
+  path uses that, not the caller's TTY. Classic on headless/tmux machines
+  where the agent started under another (or no) TTY.
+- Fix (validated live 2026-08-26): run FROM THE PANE that should receive the
+  prompt, then re-run ssh-add:
+  `gpg-connect-agent updatestartuptty /bye && ssh-add <key>`
+  → "Identity added". Refs: unix.SE #371901 (accepted answer).
+- Durable wiring idea (not yet applied): call `gpg-connect-agent
+  updatestartuptty /bye` from `.kshrc`'s interactive section so every new tmux
+  pane re-points pinentry automatically — would remove the manual step per
+  boot/session entirely.
