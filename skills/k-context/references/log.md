@@ -662,3 +662,9 @@ Entries rotated from k-context/SKILL.md (exceeded 10-row limit). Rotation MUST u
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-08-24 | [COLAB] | v3.66.26 — **OpenCode Web Voice duplication fix**: patched `onresult` callback to use prefix comparison to filter cumulative transcription results on mobile viewports. |
+
+## Changelog Rotation — 2026-08-26 (branch-per-infra directive capture)
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-26 | [COLAB] | v3.66.31 — Directive branch-per-infra capturée (jamais de travail direct sur main ; une branche par infra + PRs ; exception unique : ubuntu garde main) + TODO merge PRs #1 (deep-pc6) / #2 (blglaptop139-wsl) ajouté. |
