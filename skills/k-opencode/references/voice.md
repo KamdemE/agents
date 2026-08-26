@@ -39,6 +39,35 @@ Optional LLM endpoint for normalization (skipped if omitted → raw whisper text
 | `ffplay` / `mpv` | Audio playback |
 | `wget` / `curl` | Model download |
 
+## Plugin Install (fresh machine)
+
+The plugin code itself arrives via the `.agents` submodule — only runtime deps
++ models need manual install (kernel wiring → `SKILL.md` → Init & Connectivity):
+
+```bash
+# 1. Runtime binaries: sox, whisper-cli (Vulkan build), piper (~/.local/bin)
+#    → procedures in k-ai (k-whisper / k-piper wrappers)
+
+# 2. Models
+wget -P ~/.local/share/whisper-cpp/ \
+  https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin
+wget -P ~/.local/share/piper-voices/ \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/ryan/high/en_US-ryan-high.onnx
+wget -P ~/.local/share/piper-voices/ \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/ryan/high/en_US-ryan-high.onnx.json
+wget -P ~/.local/share/piper-voices/ \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx
+wget -P ~/.local/share/piper-voices/ \
+  https://huggingface.co/rhasspy/piper-voices/resolve/main/fr/fr_FR/siwis/medium/fr_FR-siwis-medium.onnx.json
+
+# 3. Verify
+opencode debug config   # config parses OK
+# TUI: <leader>r records; /tts-voice lists "Siwis (FR, medium)"
+```
+
+Note: `tui.json` uses an absolute `$HOME`-based `file://` path — valid on any
+machine since everything lives under `$HOME/.agents`.
+
 ## Whisper Models — Install & Manage
 
 All models stored in `~/.local/share/whisper-cpp/`. The plugin discovers them
