@@ -29,6 +29,43 @@ To run transcription in real-time on Intel GPUs (like the Intel Arc iGPU on Core
     *Measured on this machine (2026-08-13): 10s audio transcribed in ~4.7s with
     Vulkan GPU vs ~25s with the CPU build (~5x speedup).*
 
+## Installation & Compilation (CUDA GPU Acceleration — NVIDIA)
+
+On machines with a discrete NVIDIA GPU (e.g. `deep-pc6`, 2× RTX 3090), compile with CUDA instead of Vulkan — up to ~100× faster encode on `medium`/`large` models:
+
+1. **Toolkit (apt, sudo, via tmux ops pane):**
+   ```bash
+   sudo apt install build-essential cmake nvidia-cuda-toolkit
+   ```
+   Confirmed safe (2026-08-26): `nvidia-cuda-toolkit` on Ubuntu 22.04 pulls CUDA 11.5 userspace libs (+ Java for nsight tools, ignorable) — it does **NOT** touch or replace the existing NVIDIA driver package. Verify first with `apt-get install --simulate nvidia-cuda-toolkit | grep nvidia-driver` (must be empty) before running for real on a shared GPU box.
+2. **GCC/NVCC version mismatch (real incident, 2026-08-26):** Ubuntu 22.04's default `nvcc` (11.5) fails to compile against the default `g++` (11.4) — `parameter packs not expanded with '...'` errors in `<bits/std_function.h>`. Fix: install an older host compiler and point CUDA at it explicitly:
+   ```bash
+   sudo apt install gcc-10 g++-10   # via tmux ops pane
+   ```
+3. **Clone + configure + build** (arch code from the table below, RTX 30-series = Ampere = `86`):
+   ```bash
+   git clone --depth 1 https://github.com/ggml-org/whisper.cpp ~/opt/whisper.cpp
+   cmake -B ~/opt/whisper.cpp/build -S ~/opt/whisper.cpp \
+     -DCMAKE_BUILD_TYPE=Release -DGGML_CUDA=ON \
+     -DCMAKE_CUDA_ARCHITECTURES=86 \
+     -DCMAKE_CUDA_HOST_COMPILER=/usr/bin/g++-10 \
+     -DWHISPER_BUILD_TESTS=OFF
+   cmake --build ~/opt/whisper.cpp/build -j --target whisper-cli
+   ```
+   | GPU family | Arch | `CMAKE_CUDA_ARCHITECTURES` |
+   |---|---|---|
+   | RTX 20 / T4 | Turing | `75` |
+   | RTX 30 / A100 | Ampere | `86` |
+   | RTX 40 / L40 | Ada | `89` |
+   | H100 | Hopper | `90` |
+4. **Install user-local (same sovereign pattern as Vulkan):**
+   ```bash
+   cp ~/opt/whisper.cpp/build/bin/whisper-cli ~/.local/bin/whisper-cli
+   cp ~/opt/whisper.cpp/build/bin/libwhisper.so* ~/opt/whisper.cpp/build/bin/libggml*.so* ~/.local/lib/
+   ```
+   Verify: `LD_LIBRARY_PATH="$HOME/.local/lib" whisper-cli -m <model> -f <audio>` must print `ggml_cuda_init: found N CUDA devices` and `whisper_backend_init_gpu: using CUDA0 backend`. Measured on deep-pc6 (2026-08-26): `large-v3-turbo-q5_0` encode ≈ 911ms for a 4.8s clip on RTX 3090.
+   Never build both Vulkan and CUDA on the same machine unless intentional — whichever `whisper-cli` lands in `~/.local/bin` last wins (PATH precedence over `/usr/local/bin`).
+
 ## Wrapper CLI (`k-whisper`)
 
 The wrapper `k-whisper` (linked at `~/.local/bin/k-whisper` from `skills/k-ai/scripts/k-whisper.sh`) wraps `whisper-cli` and isolates the model management.
