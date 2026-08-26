@@ -137,22 +137,23 @@
 
     // --- k-git ------------------------------------------------------------------
     "gitconfig":  { "source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"] },
-    "agents-pre-commit":  { "source": "$HOME/.agents/.git/hooks/pre-commit",  "target": "$HOME/.agents/scripts/git/hooks/pre-commit.sh",  "skill": "k-git", "infras": ["*"] },
+    // agents-pre-commit retired 2026-08-25: `make check` is now a GLOBAL pre-commit
+    // gate in git-hook-passthrough.sh (see k-git) — the .agents-local hook duplicated it.
     "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/hooks/post-commit.sh", "skill": "k-git", "infras": ["*"] },
     // Global git excludesFile (XDG default) — secrets (.env etc.) never indexed/listed
     "git-ignore-global": { "source": "$HOME/.config/git/ignore", "target": "$HOME/.agents/skills/k-git/assets/git-ignore-global", "skill": "k-git", "infras": ["*"] },
     // Generic hook pass-throughs (one asset, N symlinks named after each hook type) —
     // k-git owns ALL git hook plumbing; re-chains repo-local hooks that
     // core.hooksPath would otherwise bypass. post-commit dispatcher stays in k-loom.
-    "git-hooks-pre-commit":         { "source": "$HOME/.config/git/hooks/pre-commit",         "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-commit-msg":         { "source": "$HOME/.config/git/hooks/commit-msg",         "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-prepare-commit-msg": { "source": "$HOME/.config/git/hooks/prepare-commit-msg", "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-push":           { "source": "$HOME/.config/git/hooks/pre-push",           "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-rebase":         { "source": "$HOME/.config/git/hooks/pre-rebase",         "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-checkout":      { "source": "$HOME/.config/git/hooks/post-checkout",      "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-merge":         { "source": "$HOME/.config/git/hooks/post-merge",         "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-rewrite":       { "source": "$HOME/.config/git/hooks/post-rewrite",       "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-applypatch":     { "source": "$HOME/.config/git/hooks/pre-applypatch",     "target": "$HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-pre-commit":         { "source": "$HOME/.config/git/hooks/pre-commit",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-commit-msg":         { "source": "$HOME/.config/git/hooks/commit-msg",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-prepare-commit-msg": { "source": "$HOME/.config/git/hooks/prepare-commit-msg", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-pre-push":           { "source": "$HOME/.config/git/hooks/pre-push",           "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-pre-rebase":         { "source": "$HOME/.config/git/hooks/pre-rebase",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-post-checkout":      { "source": "$HOME/.config/git/hooks/post-checkout",      "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-post-merge":         { "source": "$HOME/.config/git/hooks/post-merge",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-post-rewrite":       { "source": "$HOME/.config/git/hooks/post-rewrite",       "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
+    "git-hooks-pre-applypatch":     { "source": "$HOME/.config/git/hooks/pre-applypatch",     "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
 
     // --- k-loom (global git hooks → Loom auto-sync on every repo) ---------------
     // Activated via `git config --global core.hooksPath "$HOME/.config/git/hooks"`.

@@ -8,3 +8,4 @@
 | 2026-07-21 | [OPENCODE] | v2.15.0 — Removed purged collections (codex, gemini, copilot, vibe) from Collection Map and Collection Scope Reflex. |
 | 2026-08-14 | [COLAB] | v2.16.0 — Documented local GGUF embeddings (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b) in new "Local Embedding Models" section — 100% local, no Ollama dependency. Rotated from `SKILL.md` on 2026-08-24. |
 | 2026-08-15 | [COLAB] | v2.17.0 — Template → gitlab URL unification note: repo `.git/hooks/post-commit` symlinks (Homelab/presentation, techskills, k_ai) → `references/post-commit-hook.sh` were functional hooks registered in `assets/links.jsonc`. Superseded on 2026-08-24 by v2.19.0 standalone-copy policy; historical entry preserved. |
+| 2026-08-17 | [COLAB] | v2.18.0 — Added `update_collections.sh` to script registry and documented the general auto-update integration pattern for external repos. |

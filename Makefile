@@ -12,7 +12,7 @@
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)
 SHELL = /bin/zsh
 
-.PHONY: push push-sub push-tags log status check-skills check check-remotes set-remotes check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services set-tailscale chmod install-hooks set-links help submodule-init submodule-update
+.PHONY: push push-sub push-tags log status check-skills check check-remotes set-remotes pr check-py check-sh check-js check-services check-links check-tailscale check-exec check-env check-jsonc reload-services set-tailscale chmod install-hooks set-links help submodule-init submodule-update
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -22,6 +22,9 @@ push: ## Push to all configured remotes
 
 push-sub: ## Commit (if dirty) + push EVERY submodule to ALL its remotes (rebase on remote-ahead, loud failures)
 	@bash $(HOME)/.agents/scripts/git/push-submodules.sh
+
+pr: ## Open PR (github) + MR (gitlab) for the current branch against master [override: make pr BASE=dev]
+	@bash $(HOME)/.agents/scripts/git/create-pr.sh $(BASE)
 
 check-skills: ## Run .agents structural skills audit
 	@echo "🔍 [check-skills] Structural skill audit"
@@ -86,11 +89,11 @@ check-jsonc: ## Verify .agents JSONC config assets parse cleanly (via libs/jsonc
 	@echo "🔍 [check-jsonc] JSONC configuration"
 	@bash $(HOME)/.agents/scripts/jsonc/check-jsonc.sh
 
-check-remotes: ## Verify kernel git remotes contract (exactly github+gitlab → kpihx-labs/agents SSH URLs)
-	@echo "🔍 [check-remotes] Git remotes contract"
+check-remotes: ## Verify kernel repo + EVERY submodule have EXACTLY github+gitlab (exact URLs, live joinable, branch present)
+	@echo "🔍 [check-remotes] Git remotes contract (kernel + submodules)"
 	@bash $(HOME)/.agents/scripts/remotes/check-remotes.sh
 
-set-remotes: ## Enforce kernel git remotes contract (add/set github+gitlab exact URLs, remove e.g. origin)
+set-remotes: ## Enforce github+gitlab remotes on kernel repo + EVERY submodule (kpihx-labs namespace, remove e.g. origin)
 	@bash $(HOME)/.agents/scripts/remotes/set-remotes.sh
 
 check: check-remotes check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Remotes, Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)

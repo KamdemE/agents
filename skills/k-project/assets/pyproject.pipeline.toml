@@ -1,0 +1,88 @@
+# KpihX uv WORKSPACE template — Pipeline R&D archetype
+# ─────────────────────────────────────────────────────
+# Use this instead of assets/pyproject.toml when the project is a multi-stage
+# R&D/ML pipeline that will grow reusable domain code — don't let src/ become
+# a dumping ground. Reusable, business-agnostic code moves into its own
+# workspace member package under libs/ as soon as a second consumer appears.
+#
+# Usage:
+#   1. Copy to your project root, rename to pyproject.toml
+#   2. Replace placeholders: PROJECT_NAME, PACKAGE_NAME, VERSION, DESCRIPTION
+#   3. Create libs/<domain>/<member_name>/ as a real uv workspace member
+#      (its own pyproject.toml + src/ + tests/) — see references/pipeline-archetype.md
+#   4. Scaffold with: uv init --package PROJECT_NAME, then replace pyproject.toml
+#
+# Directory layout expected (see references/pipeline-archetype.md for the full archetype):
+#   src/PACKAGE_NAME/          ← thin CLI shell + decisional code, step_NN_ modules
+#   libs/<domain>/<member>/    ← reusable, zero-business-constant workspace members
+#   assets/{inputs,results,weights}/  ← gitignored, results/ numbered 00_/01_/... by stage
+#   tmp/                       ← scratch, fixed small root (see reference)
+#
+# No config.yaml anywhere — config.py holds plain constants/frozen dataclasses.
+
+
+[project]
+name        = "PROJECT_NAME"
+version     = "VERSION"
+description = "DESCRIPTION"
+authors     = [{ name = "KAMDEM Ivann", email = "kapoivha@gmail.com" }]
+readme      = "README.md"
+license     = { text = "MIT" }
+requires-python = ">=3.12"
+
+dependencies = [
+    # workspace members are plain names here, resolved via [tool.uv.sources] below
+    "typer",
+    "rich",
+    "python-dotenv",
+]
+
+# ── Console scripts — one block per pipeline stage, step order legend kept as a
+#    comment right above the section (module path, CLI alias, and this legend
+#    must always agree — a module can't start with a digit, hence `step_NN_`) ──
+# 00 — <first stage>
+# 01 — <second stage>
+# ...
+[project.scripts]
+PROJECT_NAME-step00 = "PACKAGE_NAME.step_00_<name>:app"
+PROJECT_NAME-step01 = "PACKAGE_NAME.step_01_<name>:app"
+
+[tool.uv]
+package = true
+conflicts = [
+    [
+        { group = "cpu" },
+        { group = "gpu" },
+    ],
+]
+
+[build-system]
+requires      = ["uv_build"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "PACKAGE_NAME"
+
+# ── uv workspace — add one path per libs/ member as it's created ───────────
+[tool.uv.workspace]
+members = [
+    ".",
+    "libs/*/*",
+]
+
+[tool.uv.sources]
+# libs_member_name = { workspace = true }
+
+# ── Optional mutually-exclusive hardware dependency groups ─────────────────
+[dependency-groups]
+dev = ["pytest", "pytest-cov", "ruff", "pyright"]
+cpu = ["onnxruntime"]
+gpu = ["onnxruntime-gpu"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "libs"]

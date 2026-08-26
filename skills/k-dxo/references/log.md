@@ -14,3 +14,8 @@ Append-only archive for durable skill history.
 ## Complete changelog rotation from `k-dxo/SKILL.md` (2026-08-04)
 
 | [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
+
+## Changelog rotation from `k-dxo/SKILL.md` (2026-08-25)
+
+| 2026-08-03 | [OPENCODE] | v1.5.0 — `ollama6` redone: tunnel is now a systemd USER service (`assets/ollama6-tunnel.service` → `~/.config/systemd/user/`), NO tmux; `ollama6` is core-only (pure ollama proxy to deep-pc6, no reserved subcommands) and on issue tells the user to start `vpn-dxo.service` / `ollama6-tunnel.service`. `tmux6` gained issue guidance (echoes what to do when VPN/SSH fails). |
+

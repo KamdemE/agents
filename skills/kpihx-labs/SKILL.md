@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.9.1"
+  version: "2.10.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -51,6 +51,7 @@ kpihx-labs (this skill — kernel top reference)
 ├── [top skills with OS-specific refs]
 │   ├── k-tmux / k-optim / k-browser / k-code
 │   ├── k-hermes / k-nvim / k-docker
+│   ├── k-windows (Windows/WSL/MSYS2 platform hub — child infra skills: k-blglaptop139)
 │   └── … (see references/ for full list)
 │
 ├── [generic top skills]
@@ -142,7 +143,7 @@ touch ~/KpihX-Labs/AGENTS.md
 | **kpihx-ubuntu** | ✅ | ✅ | ✅ | ✅ (compact synthesis) |
 | **kpihx-pve** | ✅ | ✅ | ❌ | ❌ |
 | **kpihx-pve-debian** | ✅ | ✅ | ❌ | ❌ |
-| **blglaptop139** | ✅ (WSL) | ✅ | ❌ | ❌ |
+| **blglaptop139** | ✅ (WSL) | ✅ | ✅ | ✅ |
 | **kpihx-s25** | ❌ (Termux) | ❌ | ❌ | ❌ |
 
 ---
@@ -262,7 +263,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v2.10.0 — **`k-windows` added to the kernel hierarchy** (new Windows/WSL/MSYS2 platform hub, migrated from an unversioned Windows-side `.agents`) under "top skills with OS-specific refs". *(Renumbered from v2.8.3 at PR merge.)* |
 | 2026-08-26 | [COLAB] | v2.9.1 — **Setup block corrected at PR #1 integration (KπX arbitrages)**: clone URL fixed to `git@github.com:kpihx-labs/agents.git`; Step 0 ubuntu exception (stays on `master`); Windows/WSL `-wsl` branch naming noted; sync/push wording switched to `github`/`master` (never `origin`) in the GRAVÉ note and kernel-hierarchy table. |
-| 2026-08-25 | [OPENCODE] | v2.9.0 — **Git branch per infra (GRAVÉ)**: `## Infrastructure Directory Standard` now clones to `~/KpihX-Labs/.agents` + `git switch <infra>` after symlink (detect via `hostname`/`current_infra`/`tailscale status`, branch = infra name from `assets/infras_skills.jsonc`), `main` read-only + `fetch`/`rebase origin/main` before every push/PR. Mirrors `rules/git-branch-per-infra.md` + `k-infras`. |
-| 2026-08-20 | [COLAB] | v2.8.1 — Updated the kernel hierarchy to the renamed `k-phones` Android infrastructure skill. |
-| [SUMMARY] | — | v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |
+| [SUMMARY] | — | v2.9.0 Git branch per infra (GRAVÉ) — Infrastructure Directory Standard clone+switch flow (mirrors `rules/git-branch-per-infra.md` + `k-infras`) · v2.8.2 `blglaptop139` full WSL infra setup completed (`~/KpihX-Labs/AGENTS.md` created, `blglaptop139-wsl` node added to `assets/infras_skills.jsonc`) · v2.8.1 kernel hierarchy updated to renamed `k-phones` · v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |

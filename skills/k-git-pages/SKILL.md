@@ -73,7 +73,7 @@ my-site/
 3. `touch .nojekyll` at repo root
 4. Copy `k-git/assets/Makefile.git` → repo root as `Makefile`
 5. Create `README.md` (site homepage), `CHANGELOG.md`, `TODO.md`
-6. Copy `k-project/assets/AGENTS.md` → `.agents/AGENTS.md` (add `.agents/` to `.gitignore`)
+6. Copy `k-project/assets/AGENTS.md` → `AGENTS.md` at repo root (gitignored by name via `k-git`'s global excludes)
 7. Push to GitHub
 8. GitHub repo → **Settings → Pages → Source: Deploy from branch → `main` / root**
 9. Wait ~1 min → live at `https://<username>.github.io/<repo>/`

@@ -35,3 +35,11 @@ skills/**/scripts/**/*.ts    text eol=lf
 # ── skills/assets/ (installation scripts, templates) ───────────────────────
 skills/**/assets/install.sh    text eol=lf
 skills/**/assets/purge.sh      text eol=lf
+
+# ── Binary assets (force binary treatment — never diffed/merged as text) ───
+*.pdf   binary
+*.pptx  binary
+*.docx  binary
+*.xlsx  binary
+*.onnx  binary
+*.bin   binary

@@ -35,6 +35,14 @@
 #   ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
 # ============================================================
 
+# ── Windows+WSL infra-type base (SOURCED, not copied) ──────────
+# Generic content shared by every Windows+WSL machine in the fleet
+# (SSH agent, $HOMEW/$USERW, ~w) lives in k-windows/assets/kshrc and
+# is sourced here so a fix made there needs no re-copy on this machine.
+# See k-windows/SKILL.md for what it contains and why.
+[ -f "$HOME/.agents/skills/k-windows/assets/kshrc" ] && \
+  . "$HOME/.agents/skills/k-windows/assets/kshrc"
+
 # ════════════════════════════════════════════════════════════════
 # SECTION 1: UNIVERSAL — runs ONCE per shell for EVERY process
 # ════════════════════════════════════════════════════════════════
@@ -282,6 +290,7 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   # ── Shell-agnostic interactive (zsh AND bash) ────────────────
   # Tool aliases
   [ -x /usr/bin/batcat ] && alias bat=batcat
+  [ -x /usr/bin/fdfind ] && alias fd=fdfind
 
   # Google Workspace profiles
   [ -f "$HOME/.config/gws/gws-profiles.zsh" ] && source "$HOME/.config/gws/gws-profiles.zsh"

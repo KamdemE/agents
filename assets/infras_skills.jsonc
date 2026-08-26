@@ -17,12 +17,16 @@
   //
   // NOTE: kpihx-tablet removed 2026-08-14 (not configured).
   // NOTE: kpihx-dockerhost maps to k-dockerhost (renamed from k-pve-dockerhost 2026-07-24).
+  // NOTE: blglaptop139-wsl added 2026-08-24 — WSL now runs its own tailscaled as a
+  // separate node from the native Windows one (DNSName "blglaptop139-wsl...."), so
+  // device auto-detect needs both keys mapped to the same infra skill.
 
   "kpihx-ubuntu": "k-ubuntu",
   "kpihx-pve": "k-pve",
   "kpihx-pve-debian": "k-pve-debian",
   "kpihx-dockerhost": "k-dockerhost",
   "blglaptop139": "k-blglaptop139",
+  "blglaptop139-wsl": "k-blglaptop139",
   "kpihx-s25": "k-phones",
   "deep-pc6": "k-deep-pc6"
 }

@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.19.0"
+  version: "2.20.0"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -37,6 +37,7 @@ allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 | Collection health gate | `scripts/check_collections.sh` (`ksh status`, `auto_clean`, k-optim Meta) |
 | Live qmd runtime state | `qmd status`, `qmd collection list`, `qmd context list` |
 | Declarative config | `$HOME/.config/qmd/index.yml` |
+| WSL GPU passthrough trap (CUDA driver present but runtime missing) | `references/wsl.md` |
 
 ## KπX Collection Map
 
@@ -122,6 +123,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 ## Troubleshooting
 
 - native module or install issues → reinstall via `npm`, not bun
+- `qmd embed` runs on CPU despite a real GPU being present (WSL) → `references/wsl.md` (driver passthrough ≠ CUDA runtime)
 - missing MCP results → check qmd config/runtime directly, then re-index
 - collection shows 0 files but docs exist on disk → run `scripts/check_collections.sh`; fix `$HOME/.config/qmd/index.yml` path typos, then `qmd update <collection>` + `qmd embed <collection>`
 - slow first query → expected if local models or reranking backends are cold
@@ -133,6 +135,7 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 - `references/gitignore-embedded-folder.template` — baseline whitelist-style `.gitignore` for embedded folders
 - `references/post-commit-hook.sh` — shared git hook template for repo-name-derived collections; safe by default (`update-only`, optional debounced embeddings)
 - `scripts/qmdr` — explicit wrapper that auto-runs the freshness gate before `query` or `vsearch`
+- `references/wsl.md` — WSL GPU passthrough trap: driver visible via `nvidia-smi` but CUDA runtime missing, `qmd embed` silently runs on CPU
 
 ## Insights Discipline (mandatory)
 
@@ -144,6 +147,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-24 | [CLAUDE] | v2.20.0 — Added `references/wsl.md`: WSL GPU passthrough trap found on `blglaptop139-wsl` — `nvidia-smi`/driver visible, but no CUDA runtime toolkit, so `qmd embed` silently ran 100% on CPU despite a real NVIDIA RTX 5070 present (Vulkan fallback unusable too — no NVIDIA Vulkan ICD registered in WSL, only Mesa software ICDs). Fix: NVIDIA's driver-less `wsl-ubuntu` CUDA Toolkit apt repo. Linked from Source Of Truth, References, and Troubleshooting. |
 | 2026-08-24 | [COLAB] | v2.19.0 — Converted the three local QMD post-commit hooks (Homelab/presentation, techskills, k_ai) from registered `.agents` symlinks into executable standalone copies of `references/post-commit-hook.sh`; registry entries removed by KπX order. |
-| 2026-08-17 | [COLAB] | v2.18.0 — Added `update_collections.sh` to script registry and documented the general auto-update integration pattern for external repos. |
-| [SUMMARY] | — | v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |
+| [SUMMARY] | — | v2.18.0 update_collections.sh + auto-update pattern (→ `references/log.md`) · v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

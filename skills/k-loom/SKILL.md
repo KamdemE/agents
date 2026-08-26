@@ -4,7 +4,7 @@ description: "Loom — persistent code index CLI for cross-session code search a
 license: "private"
 metadata:
   author: "KpihX"
-  version: "1.7.0"
+  version: "1.8.0"
   scope: "code-tooling"
 ---
 
@@ -104,7 +104,7 @@ On every commit, in EVERY repo:
 2. If `$HOME/.loom/projects/<dirname>.db` exists → backgrounded `loom sync` (~2-5s).
 3. Optional auto-index of brand-new repos: export `LOOM_AUTO_ANALYZE=1` to arm `loom analyze .` (slow, off by default).
 
-Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered by the GENERIC pass-through asset owned by **`k-git`** (`assets/git-hook-passthrough.sh`, one script + N symlinks named after each hook type) which simply re-chains repo-local hooks — zero behavior change.
+Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered by the GENERIC pass-through script owned by **`k-git`** (`scripts/git-hook-passthrough.sh`, one script + N symlinks named after each hook type) which simply re-chains repo-local hooks — zero behavior change.
 
 ## Ignore & Secrets Policy (GRAVÉ — .env NEVER indexed)
 
@@ -155,5 +155,6 @@ Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered b
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | **v1.8.0 — Passthrough path reference updated**: `k-git`'s generic hook passthrough relocated `assets/` → `scripts/` inside its skill (KπX order); § Hook Ownership cross-reference updated accordingly (`scripts/git-hook-passthrough.sh`). No functional change — Loom's post-commit dispatcher untouched. |
 | 2026-08-24 | [COLAB] | **v1.7.0 — LOOM MCP REMOVED (KπX directive)**: `loom-mcp` deleted from `opencode.jsonc` (live = symlinked asset, 16 stdio instances ≈ 790M RAM); ALL rules/agents/skills now reference the `loom` CLI ONLY (`rules/search-governance.md`, `AGENTS.md`, `agents/Colab/prompt.txt`, `agents/Agent/prompt.txt`, `k-clis`, `k-optim`, `k-uv`); full MCP→CLI equivalence table + RAM history archived in `references/mcp.md` (NON-RECOMMENDED registry). |
 | [SUMMARY] | — | v1.6.1 check-skills audit (→ `references/log.md`) · v1.6.0 hook ownership cleanup (→ `references/log.md`) · v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore (→ `references/log.md`) · v1.3.0 Loom activation (→ `references/log.md`) · v1.2.0 proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |

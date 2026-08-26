@@ -2,7 +2,7 @@
 # ============================================================================
 # KπX global git hook pass-through — GENERIC (any hook type via $0)
 # ----------------------------------------------------------------------------
-# Source of truth : $HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh
+# Source of truth : $HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh
 # Deployed as     : symlinks named after each hook type in
 #                   $HOME/.config/git/hooks/ (commit-msg, pre-push, ...)
 # Activated by    : git config --global core.hooksPath "$HOME/.config/git/hooks"
@@ -26,11 +26,25 @@
 #
 # ADDED BEHAVIOR (2026-08-24, KπX directive):
 #   • pre-commit — Submodule hygiene gate: blocks if ANY submodule has
-#     uncommitted changes OR unpushed commits. Override (déconseillé):
-#     KPIHX_ALLOW_DIRTY_SUBMODULES=1.
+#     uncommitted changes OR unpushed commits.
 #   • pre-push — Submodule push gate: blocks if ANY submodule HEAD is not
 #     present on EVERY of its remotes (live `git ls-remote` check, no stale
-#     tracking refs). Override (déconseillé): KPIHX_ALLOW_UNPUSHED_SUBMODULES=1.
+#     tracking refs).
+#
+# ADDED BEHAVIOR (2026-08-25, KπX directive — generalized from a per-project
+# pattern found in a mature pipeline project; repos NEVER set their own
+# `core.hooksPath` anymore, these two gates now apply to every repo globally):
+#   • pre-commit — `make check` gate: if the repo has a Makefile with a
+#     `check:` target, runs it and blocks the commit on failure. Runs AFTER
+#     the (cheap) submodule gate, BEFORE any repo-local hook (fail fast).
+#   • commit-msg — AI-attribution trailer strip: removes any commit message
+#     line starting with `co-authored-by:`, `signed-off-by:`, or `author:`
+#     (case-insensitive) before the repo-local hook (if any) sees it.
+#
+# 🔴🔴🔴 NO BYPASS, NO OVERRIDE VARIABLES (KπX directive 2026-08-25) — GRAVÉ
+# There is deliberately NO environment variable to skip ANY gate here
+# (no KPIHX_ALLOW_* / KPIHX_SKIP_* / KPIHX_KEEP_*). If a gate blocks you,
+# FIX THE UNDERLYING STATE — never bypass the check. The checks ARE the code.
 # ============================================================================
 hook="$(basename "$0")"
 gd="${GIT_DIR:-$(git rev-parse --absolute-git-dir 2>/dev/null)}"
@@ -65,7 +79,7 @@ submodule_dirty_report() {
     branch="$(git -C "$p" rev-parse --abbrev-ref HEAD)"
     sha="$(git -C "$p" rev-parse HEAD)"
     on_a_remote=0
-    for r in ${KPIHX_SUB_PUSH_REMOTES:-github gitlab}; do
+    for r in github gitlab; do
       git -C "$p" rev-parse --verify -q "$r/$branch" >/dev/null || continue
       if git -C "$p" merge-base --is-ancestor "$sha" "$r/$branch"; then
         on_a_remote=1
@@ -74,7 +88,7 @@ submodule_dirty_report() {
     done
     if [ -n "$st" ] || [ "$on_a_remote" != "1" ]; then
       report="$report
-  🔴 $p (committed work present on no kpix mirror: $sha)"
+  🔴 $p (committed work present on no kpihx mirror: $sha)"
       [ -n "$st" ] && report="$report
 $st"
     fi
@@ -96,12 +110,12 @@ submodule_push_report() {
     [ -n "$branch" ] && [ -n "$sha" ] || { report="$report
   🔴 $p (cannot resolve HEAD/branch)"; continue; }
     remotes=""
-    for r in ${KPIHX_SUB_PUSH_REMOTES:-github gitlab}; do
+    for r in github gitlab; do
       git -C "$p" remote get-url "$r" >/dev/null 2>&1 && remotes="$remotes $r"
     done
     if [ -z "$remotes" ]; then
       report="$report
-  🔴 $p (none of the kpix push remotes configured)"
+  🔴 $p (none of the kpihx push remotes github/gitlab configured)"
       continue
     fi
     for r in $remotes; do
@@ -127,28 +141,49 @@ submodule_push_report() {
   done
 }
 
+# --- GLOBAL GATE 3: pre-commit — `make check` (generalized 2026-08-25) -----
+# Returns 0 (nothing to block on) when there's no Makefile / no check target;
+# otherwise runs it live (no output capture) and returns its exit status.
+run_make_check() {
+  root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 0
+  mk="$root/Makefile"
+  [ -f "$mk" ] || return 0
+  grep -qE '^check:' "$mk" || return 0
+  echo "🔍 Running 'make check' (global pre-commit gate)..." >&2
+  make -C "$root" check
+}
+
 case "$hook" in
   pre-commit)
     # GLOBAL FIRST (KπX): block before running any local hook.
-    if [ "${KPIHX_ALLOW_DIRTY_SUBMODULES:-0}" != "1" ] && [ -f .gitmodules ]; then
+    if [ -f .gitmodules ]; then
       submodule_dirty_report
       if [ -n "$report" ]; then
         echo "🔴 COMMIT BLOCKED — dirty/unpushed submodules detected:$report" >&2
-        echo "   Fix each one first: cd <submodule> && git add -A && git commit && git push" >&2
-        echo "   Override (déconseillé): KPIHX_ALLOW_DIRTY_SUBMODULES=1 git commit ..." >&2
+        echo "   Fix each one first: cd <submodule> && git add -A && git commit && make push-sub" >&2
         exit 1
       fi
+    fi
+    if ! run_make_check; then
+      echo "🔴 COMMIT BLOCKED — 'make check' failed. Fix the issues above." >&2
+      exit 1
+    fi
+    ;;
+  commit-msg)
+    # GLOBAL FIRST (KπX): strip AI-agent attribution trailers before the
+    # repo-local hook (if any) sees the message. $1 = path to the message file.
+    if [ -n "${1:-}" ] && [ -f "$1" ]; then
+      tmp="$(mktemp)"
+      grep -viE '^(co-authored-by|signed-off-by|author):' "$1" > "$tmp" && mv "$tmp" "$1"
     fi
     ;;
   pre-push)
     # GLOBAL FIRST (KπX): every submodule must be on ALL its remotes.
-    if [ "${KPIHX_ALLOW_UNPUSHED_SUBMODULES:-0}" != "1" ] && [ -f .gitmodules ]; then
+    if [ -f .gitmodules ]; then
       submodule_push_report
       if [ -n "$report" ]; then
         echo "🔴 PUSH BLOCKED — submodule(s) not pushed to all their remotes:$report" >&2
-        echo "   Fix (if this repo has the target): make push-sub" >&2
-        echo "   Else, manually: cd <submodule> && git push <remote> <branch> (for EACH listed remote)" >&2
-        echo "   Override (déconseillé): KPIHX_ALLOW_UNPUSHED_SUBMODULES=1 git push ..." >&2
+        echo "   Fix: make push-sub" >&2
         exit 1
       fi
     fi

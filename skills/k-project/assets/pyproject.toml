@@ -17,13 +17,12 @@
 #   └── PACKAGE_NAME/
 #       ├── __init__.py
 #       ├── cli.py          ← Typer app, entry point
-#       ├── config.py       ← @lru_cache config loader
-#       ├── config.yaml     ← non-sensitive settings
+#       ├── config.py       ← plain constants/frozen dataclass, no YAML
 #       └── .env.example    ← required secret keys (no values)
 #
 # Metadata rule:
 #   - Keep package/app/contract metadata here in pyproject.toml.
-#   - Keep src/**/config.yaml strictly runtime-focused.
+#   - Keep src/**/config.py strictly runtime-focused.
 
 
 [project]
@@ -38,7 +37,6 @@ requires-python = ">=3.12"
 dependencies = [
     "typer",           # CLI framework
     "rich",            # terminal output
-    "pyyaml",          # config.yaml loader
     "python-dotenv",   # .env support
 ]
 

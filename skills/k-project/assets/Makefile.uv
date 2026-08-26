@@ -1,36 +1,59 @@
 .DEFAULT_GOAL := help
-BRANCH        := $(shell git rev-parse --abbrev-ref HEAD)
+SHELL := /bin/zsh
+
+PKG_NAME     := PROJECT_NAME
+PKG_DIR_NAME := PACKAGE_NAME
+PKG_DIR      := src/$(PKG_DIR_NAME)
+VERSION      := $(shell grep -m 1 version pyproject.toml | tr -s ' ' | tr -d '"' | tr -d "'" | cut -d= -f2 | xargs)
+
+UV     := $(shell command -v uv 2>/dev/null || echo uv)
+PYTHON := $(UV) run python
+
+PY_FILES := $(shell $(UV) run python -c 'from pathlib import Path; print(" ".join(map(str, Path("$(PKG_DIR)").rglob("*.py"))))')
+
+.PHONY: help check smoke uv-install uv-link uv-uninstall uv-build uv-publish push push-tags status log release
 
 help:  ## Show available targets
 	@grep -E '^[a-zA-Z_-]+:.*?##' $(MAKEFILE_LIST) | \
 	  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-15s %s\n", $$1, $$2}'
 
-# ── Dev ──────────────────────────────────────────────────────────────────────
+# ── Quality ──────────────────────────────────────────────────────────────────
 
-link:  ## Install package in editable mode (user)
-	@uv tool install --editable .
+check: smoke  ## Lint + format-check + type-check + tests (also run by the global pre-commit gate, see k-git)
+	@$(UV) run ruff check $(PKG_DIR)
+	@$(UV) run ruff format --check $(PKG_DIR)
+	@$(PYTHON) -m py_compile $(PY_FILES)
+	@$(UV) run pyright $(PKG_DIR)
+	@$(UV) run pytest -q
 
-unlink:  ## Uninstall tool
-	@uv tool uninstall $$(basename $$(pwd))
+smoke:  ## Smoke test — adjust to a real CLI/import check for this project
+	@$(PYTHON) -c "import $(PKG_DIR_NAME)" || (echo "❌ smoke test failed"; exit 1)
+	@echo "✅ smoke test passed"
 
-test:  ## Run pytest
-	@uv run pytest -q
+# ── Install / Uninstall (uv tool) ────────────────────────────────────────────
 
-check:  ## py_compile + pytest
-	@python3 -m py_compile $$(find src test -name '*.py' -print)
-	@uv run pytest -q
+uv-install:  ## Install via uv tool (non-editable)
+	@$(UV) tool install . --force
+	@echo "✅ $(PKG_NAME) installed"
 
-# ── Package ───────────────────────────────────────────────────────────────────
+uv-link:  ## Install editable (dev) — CLI always uses the current checkout
+	@$(UV) tool install --editable . --force
+	@echo "✅ $(PKG_NAME) linked (editable)"
 
-build:  ## Build package with uv
-	@rm -rf dist && uv build
+uv-uninstall:  ## Uninstall the uv tool
+	@$(UV) tool uninstall $(PKG_NAME) 2>/dev/null || true
+	@echo "✅ $(PKG_NAME) uninstalled"
 
-publish: build  ## Publish to PyPI (requires UV_PUBLISH_TOKEN via Vaultwarden)
-	@$(ZSH_LOGIN) 'if ! env | grep -q "^UV_PUBLISH_TOKEN="; then \
-		echo "UV_PUBLISH_TOKEN missing — run Vaultwarden first"; exit 1; fi; \
-	uv publish --check-url https://pypi.org/simple'
+# ── Build / Publish ──────────────────────────────────────────────────────────
 
-release: check build publish push  ## Full release: check → build → publish → push
+uv-build:  ## Build sdist + wheel
+	@rm -rf dist
+	@echo "🏗️  Building $(PKG_NAME) v$(VERSION)..."
+	@$(UV) build
+
+uv-publish: uv-build  ## Publish to PyPI (requires UV_PUBLISH_TOKEN already in the environment)
+	@echo "🚀 Publishing v$(VERSION) to PyPI..."
+	@$(UV) publish
 
 # ── Git ───────────────────────────────────────────────────────────────────────
 
@@ -49,3 +72,5 @@ status:  ## git status --short
 
 log:  ## Last 10 commits oneline
 	@git log --oneline -10
+
+release: check push uv-publish push-tags  ## Full release: check → push → publish → push tags

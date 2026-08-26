@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.5.0"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
@@ -146,6 +146,10 @@ systemctl --user enable --now rclone-<name>.service
 systemctl --user status rclone-<name>.service
 ```
 
+## Mount Sync (rsync/robocopy, non-cloud)
+
+Generic mount-to-mount sync — a network drive, an NVMe mirror, a Windows↔Linux boundary — plain `rsync`/`robocopy`, no rclone remote involved. Most common use: a project's heavy `assets/`, but either side can be any mounted path. → **`references/mnt-sync.md`** (topology, `dirs.txt` single-source-of-truth manifest, Makefile wiring). Templates: `assets/mnt-sync/`. `k-project` → Pipeline R&D archetype points here for any project needing this.
+
 ## Post-Setup Agent Checklist
 
 After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:` returns content):
@@ -178,5 +182,6 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v1.5.0 — **Mount Sync section added** (renamed `assets-sync` → `mnt-sync` same day — generic mount-to-mount sync, not tied to "assets"): new `references/mnt-sync.md` + `assets/mnt-sync/{dirs.txt.example,load_dirs.sh,sync-pull.sh,sync-push.sh,sync-pull.ps1,sync-push.ps1}` (env vars `MNT_SYNC_*`) — generic rsync/robocopy mount-mirroring pattern (`dirs.txt` single source of truth, one script per direction) distilled from a real project's tooling, form only. `k-project` → Pipeline R&D archetype points here for heavy project-asset sync. |
 | 2026-08-16 | [COLAB] | v1.4.0 — **`references/gdrive.md` added (Drive trash & manipulation)**: how to find the Drive trash (`rclone about` → `Trashed` field, which counts against quota), list it (`--drive-trashed-only`, NOT `--trashed-only`), empty it (`rclone cleanup`), and delete permanently (`--drive-use-trash=false`). Documented the `storageQuotaExceeded`-caused-by-full-trash pattern and the backup-script anti-quota rule (permanent delete + cleanup after push). Also captured gotchas: glob-vs-sudo on remote hosts, shared client_id NOTICE. |
 | [SUMMARY] | — | v1.3.0 Gdrive services centralized (→ `references/log.md`) · v1.2.2 cloud-hub routing block · v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API; insights discipline. |

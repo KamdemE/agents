@@ -3,15 +3,18 @@ name: k-dxo
 description: DxO internship infrastructure — VPN, RDP, accounts, and remote access procedures.
 metadata:
   author: KpihX
-  version: "1.6.0"
+  version: "1.7.0"
   scope: infrastructure
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # KπX — DxO Internship Infrastructure
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-blglaptop139` (Windows workstation at DxO) · `k-deep-pc6` (DxO Linux server) · `k-clis` (CLI registry)
+> **Related skills:** `k-ubuntu` (workstation) · `k-blglaptop139` (Windows workstation at DxO) · `k-deep-pc6` (DxO Linux server) · `k-windows` (generic Windows/MSYS2 mechanics — the `.cmd` launchers referenced below live there, since they carry no DxO-specific values themselves) · `k-clis` (CLI registry)
+>
+> **🔴 Scope discipline (why this skill exists as its own thing):** everything in this skill is DxO-internship-internal by design — accounts, VPN, RDP targets, deep-pc6 access. The goal is that **deleting this one skill at internship end leaves zero DxO-internal residue anywhere else** in the kernel. Never let a DxO-specific value (an internal hostname, IP, domain-qualified username, VPN portal) leak into a generic skill (`k-windows`, `k-blglaptop139`, `k-ollama`, …) — if it's DxO-specific, it belongs here, even if the *mechanism* around it is generic and documented elsewhere.
 
 ## Accounts
 
@@ -31,6 +34,8 @@ metadata:
 | `ollama6` | `k-dxo/scripts/ollama6` (symlink → `~/.local/bin/`) | Ollama CLI proxy to deep-pc6 (core only: on issue, tells you to start VPN/tunnel services) |
 
 ## VPN (GlobalProtect)
+
+> This is a specific instance of the generic **corporate SSL-VPN + RDP remote-access pattern** — see `k-windows/references/remote-desktop.md` for that pattern written up company-agnostically (and its native-RDP/Chrome-Remote-Desktop mechanism reference). Nothing DxO-specific belongs there; nothing generic belongs here.
 
 ### Ubuntu workstation (this machine)
 
@@ -83,6 +88,65 @@ Remmina profile (saved):
 
 RDP is only accessible when the DxO VPN is connected.
 
+## Access to deep-pc6 from Windows (BLGLAPTOP139) — mounted as `Z:`
+
+Mounted so deep-pc6's filesystem appears in Explorer like a local drive (same idea as WSL's `\\wsl.localhost\Ubuntu`).
+
+**Software:** WinFSP 2.1.25156, rclone 1.74.3 (chosen over SSHFS-Win — bypassed due to the `\` in the domain-qualified username breaking it), nssm 2.24 (Windows service wrapper).
+
+```powershell
+winget install --id WinFsp.WinFsp -e
+winget install --id Rclone.Rclone -e
+```
+
+**SSH config** (`%USERPROFILE%\.ssh\config`) — full block: `assets/ssh_config`.
+```
+Host deep-pc6
+    HostName 172.16.150.163
+    User corp\ikamdem
+    PreferredAuthentications publickey,password
+    IdentityFile ~/.ssh/id_ed25519_deep_pc6
+```
+Public key on file: `assets/id_ed25519_deep_pc6.pub` (comment `IKamdem`) — private key never stored in the kernel, lives only on disk on this laptop.
+
+**rclone config** (`%APPDATA%\rclone\rclone.conf`):
+```
+[deep-pc6]
+type = sftp
+host = 172.16.150.163
+user = corp\ikamdem
+key_file = C:\Users\ikamdem\.ssh\id_ed25519_deep_pc6
+key_use_agent = false
+```
+
+**Manual mount/unmount:**
+```powershell
+rclone mount deep-pc6: Z: --network-mode --volname "deep-pc6 (deep-pc6)" --vfs-cache-mode writes --dir-cache-time 10m
+net use Z: /delete
+taskkill /f /im rclone.exe
+```
+
+**Autostart** — nssm service `rclone-deep-pc6` (`LocalSystem`, `AppNoConsole=1`, auto-restart on crash, depends on `LanmanWorkstation`). Before 2026-07-16 this ran as a scheduled task + PowerShell wrapper, but the Windows Job Object killed rclone when the task closed — switched to a real nssm service. Scripts: `assets/mount-deep-pc6.bat` / `assets/unmount-deep-pc6.bat` — these are the DxO-specific fill-in of the **generic** rclone/WinFsp/nssm SSH-mount pattern documented in `k-windows/references/ssh-mount.md` (template: `k-windows/assets/ssh-mount/`).
+
+```powershell
+nssm install "rclone-deep-pc6" "<path-to-rclone.exe>" mount deep-pc6: Z: --network-mode ...
+nssm set "rclone-deep-pc6" AppNoConsole 1
+Start-Service -Name "rclone-deep-pc6"
+Get-Service -Name "rclone-deep-pc6"
+```
+
+**Troubleshooting:**
+- "No host key validation is being performed" → normal warning, no action.
+- Mount fails at boot → network not ready yet; the `.bat` script waits 15s + retries 3× (5s apart).
+- "Access denied" → test with `ssh deep-pc6 "echo OK"`.
+- "Connection reset by peer" → SFTP subsystem missing on deep-pc6; check `grep Subsystem /etc/ssh/sshd_config` there — must contain `Subsystem sftp /usr/lib/openssh/sftp-server`.
+
+**`tmux6`/`ollama6` on Windows** — same purpose as the Ubuntu `assets/tmux6` / `scripts/ollama6` below, implemented as `.cmd` launchers for MSYS2/cmd.exe. The launchers themselves live in **`k-windows/assets/msys2/tmux6.cmd`** and **`k-windows/assets/msys2/ollama6.cmd`** — they carry no DxO-specific values (the `deep-pc6` name only resolves via the SSH config Host block above), so the generic mechanism stays in `k-windows`; this skill just documents that it's the same DxO-internal target.
+
+## `framework-internship-culling` project
+
+Private DxO GitHub repo (`git@github.com:dxo-labs-rd/framework-internship-culling.git`) — the internship's ML codebase. Data syncs from DxO's internal network drive (`O:`, `\\00-dxo.corp.dxo.com\800-IMAGESDB`, domain `corp`). **Not migrated here** — it's DxO's code/data, stays in that repo, never copied into this personal kernel. The project has its own `.agents/skills/k-pptx` (deck-generation skill, more advanced than this kernel's current `k-pptx`) — a separate migration candidate, tracked outside this skill.
+
 ## Ollama via deep-pc6 (`ollama6`)
 
 **CLI:** `ollama6` (script in `k-dxo/scripts/ollama6`, symlinked to `~/.local/bin/`)
@@ -126,11 +190,21 @@ systemctl --user stop ollama6-tunnel.service         # stop the tunnel
 | `assets/rclone-deep-pc6.service` | systemd user service for rclone mount of DxO PC6 remote |
 | `scripts/ollama6` | Ollama CLI proxy to deep-pc6 (core only — on issue tells you to start VPN/tunnel services) |
 | `scripts/opencode-ollama6.sh` | Ollama6 wrapper + OpenCode model sync (sourced from `.kshrc`). |
+| `assets/ssh_config` | Windows-side `~/.ssh/config` `Host deep-pc6` block (IP, domain user, key path) |
+| `assets/id_ed25519_deep_pc6.pub` | Public key for deep-pc6 SSH/rclone auth (comment `IKamdem`) — private key never stored here |
+| `assets/mount-deep-pc6.bat` | Windows autostart mount script (retry/log logic) for the `Z:` rclone mount |
+| `assets/unmount-deep-pc6.bat` | Windows unmount script for the `Z:` rclone mount |
+
+## Insights Discipline (mandatory)
+
+- Read `$HOME/.agents/skills/k-dxo/references/insights.md` before non-trivial work in this skill domain.
+- Update `$HOME/.agents/skills/k-dxo/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
+- Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [CLAUDE] | v1.7.0 — Added `allowed-tools` frontmatter (was missing, unlike `k-deep-pc6`/`k-blglaptop139`). Merged in the Windows-side (BLGLAPTOP139) half of deep-pc6 access, migrated from an unversioned Windows-side `.agents` at real risk of loss: `Z:` rclone/nssm mount (SSH config, rclone config, mount/unmount, nssm service, troubleshooting — new assets `ssh_config`, `id_ed25519_deep_pc6.pub`, `mount-deep-pc6.bat`, `unmount-deep-pc6.bat`), plus a pointer section to `framework-internship-culling` (DxO's private repo — code/data never migrated, only acknowledged). The Windows `tmux6.cmd`/`ollama6.cmd` launchers themselves went to the new `k-windows` skill instead (no DxO-specific values inside them) — this skill just documents they're the same DxO-internal target. Added Insights Discipline + `references/insights.md` (were missing). Follow-up re-audit the same day (`k-blglaptop139` will also be abandoned at internship end since the laptop itself belongs to DxO, not just this skill) cross-referenced the VPN/RDP section to `k-windows/references/remote-desktop.md`'s new generic corporate-VPN+RDP pattern note. |
 | 2026-08-08 | [OPENCODE] | v1.6.0 — **`opencode-ollama6.sh` script integrated** : integrated the OpenCode Ollama6 wrapper into `k-dxo/scripts/opencode-ollama6.sh` (moved from `k-opencode`) and updated the assets documentation. |
-| 2026-08-03 | [OPENCODE] | v1.5.0 — `ollama6` redone: tunnel is now a systemd USER service (`assets/ollama6-tunnel.service` → `~/.config/systemd/user/`), NO tmux; `ollama6` is core-only (pure ollama proxy to deep-pc6, no reserved subcommands) and on issue tells the user to start `vpn-dxo.service` / `ollama6-tunnel.service`. `tmux6` gained issue guidance (echoes what to do when VPN/SSH fails). |
-| [SUMMARY] | — | Older changelog entries were copied to `references/log.md`; the live table keeps only the two newest entries. |
+| [SUMMARY] | — | v1.5.0 `ollama6` redone as systemd USER service, no tmux, core-only proxy; `tmux6` gained issue guidance (→ `references/log.md`) · older rows in `references/log.md`. |

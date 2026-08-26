@@ -1,0 +1,32 @@
+# KpihX Makefile template — Pipeline R&D archetype
+# Copy to project root as `Makefile`. SHELL := /bin/zsh keeps fnm/Node + uv on PATH.
+SHELL := /bin/zsh
+UV := uv
+
+.PHONY: help sync-cpu sync-gpu check smoke
+
+help: ## Show Makefile targets
+	@grep -E '^[a-zA-Z0-9_.-]+:.*##' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
+
+sync-cpu: ## Install with CPU dependency group + dev tools
+	@$(UV) sync --group cpu --group dev
+
+sync-gpu: ## Install with GPU dependency group + dev tools
+	@$(UV) sync --group gpu --group dev
+
+check: smoke ## Ruff + pyright + pytest — single quality gate (also run by the global pre-commit gate, see k-git)
+	@$(UV) run ruff check src libs tests
+	@$(UV) run ruff format --check src libs tests
+	@$(UV) run pyright
+	@$(UV) run pytest -q
+
+smoke: ## Smoke test — adjust to a real end-to-end run of step_00 on a tiny sample
+	@echo "❌ adjust the smoke target to this project's actual entry point" && exit 1
+
+# No git-hooks target needed: k-git's global core.hooksPath passthrough already
+# blocks commits on `make check` failure and strips AI-attribution commit
+# trailers for every repo. Never set `core.hooksPath` locally in this project.
+
+# Add one target per (source, destination) pair if this project needs heavy
+# asset sync (network drive, NVMe mirror, Windows↔Linux) — templates + doc in
+# k-rclone → assets/mnt-sync/ + references/mnt-sync.md.

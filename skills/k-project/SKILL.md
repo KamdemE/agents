@@ -3,13 +3,13 @@ name: k-project
 description: >
   KπX project initialization — naming conventions (kebab/snake), Python (uv init --package)
   and TypeScript (bun init) setup, pyproject.toml + config.py + config.ts templates,
-  .agents/AGENTS.md context file, architecture philosophy (non-monolithic, ConfigManager,
-  no hardcoding). Load when creating or initializing any project, setting up pyproject.toml,
+  AGENTS.md (repo root) context file, architecture philosophy (non-monolithic, plain config.py/ts,
+  no hardcoding), Service/Lib vs Pipeline R&D archetypes. Load when creating or initializing any project, setting up pyproject.toml,
   config.py/config.ts, or applying the KπX project structure.
 license: private
 metadata:
   author: KpihX
-  version: "2.13.0"
+  version: "2.15.0"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -20,6 +20,21 @@ allowed-tools: Bash(*), "*"
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site) · `k-node` (Node/bun runtime versions, npm global tools, fnm management)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** `assets/pyproject.toml` + `assets/config.py` in this skill are the source of truth. External repos that referenced them via local symlinks (techskills/𝛱/TechSkills `templates/`) were **unplugged 2026-08-15** — they now reference the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. Browse via `ls` or `k-qmd`.
+
+## Project Archetypes
+
+Two archetypes, same tooling backbone (`uv`, `Makefile`, `AGENTS.md`, `k-git` hooks) — pick one at init, don't blend:
+
+| | **Service / Lib** (default, this file) | **Pipeline R&D** (→ `references/pipeline-archetype.md`) |
+|---|---|---|
+| Shape | One package, CLI or long-running service | `src/` = thin CLI shell · `libs/` = domain-grouped reusable code, zero business constants |
+| Config | `config.py`/`config.ts`, plain constants/dataclass | Same, plus frozen dataclasses for run parameters |
+| Non-code assets | None by default, or ad-hoc | `assets/{inputs,results,weights}/` — see reference |
+| Multi-stage scripts | Not applicable | `step_NN_<name>` naming (module names can't start with a digit) |
+| Scratch area | `tmp/` if needed, no fixed shape | `tmp/` with a fixed small root — see reference |
+| Heavy asset sync (network drive, NVMe mirror, Windows↔Linux) | Not applicable | → `k-rclone` → `references/mnt-sync.md` |
+
+Load `references/pipeline-archetype.md` when the project is an R&D/ML pipeline (multi-stage, uv workspace with CPU/GPU variants, heavy local data). Everything else in this file (naming, Makefile, config, git hooks) applies to **both** archetypes unchanged.
 
 ## Naming Conventions
 
@@ -70,16 +85,17 @@ Initial structure:
   TODO.md
   LICENSE
   .gitignore
-  .agents/
-    AGENTS.md
+  AGENTS.md
 ```
 
 Next steps:
 1. Replace `pyproject.toml` → `assets/pyproject.toml` (adapt name + deps)
-2. Add `src/<pkg>/config.py` → `assets/config.py` + a `config.yaml` runtime defaults file alongside it
+2. Add `src/<pkg>/config.py` → `assets/config.py` (plain constants/frozen dataclass — no `config.yaml`, no `ConfigManager`)
 3. Add `CONTRACT.md` from `references/contract-template.md` (mandatory; source-of-truth for external behavior)
 4. Add `.env.example` (keys only, no values) — `.env` goes in `.gitignore`, also in `src/<pkg>/`
-Autonomous packages may each own their own `.env.example`, `.env`, `config.yaml`, and `config.py` when the boundary is real and intentional.
+
+> **🔴 No `config.yaml`, no `ConfigManager` (removed 2026-08-25):** `config.py`/`config.ts` hold plain constants or a frozen `dataclass`/object directly — no YAML loader, no layered-override singleton, no preload cost. Override at runtime only when actually needed (`dataclasses.replace()` in Python, a fresh object literal in TS) — never build a config-loading abstraction "just in case."
+Autonomous packages may each own their own `.env.example`, `.env`, and `config.py` when the boundary is real and intentional.
 
 ## Project Init — JS/TS
 
@@ -90,7 +106,7 @@ bun init -y / npm init -y
 ```
 
 - **TypeScript over JS** — always, no exceptions
-- Add `src/config.ts` → `templates/config.ts` + `config.yaml` defaults
+- Add `src/config.ts` → `assets/config.ts` (plain constants — no `config.yaml`)
 - Add `CONTRACT.md` from `references/contract-template.md` (mandatory before transport/API implementation)
 
 ## Standard Files at Init
@@ -99,8 +115,7 @@ bun init -y / npm init -y
 <project-name>/
 ├── src/<project_name>/
 │   ├── __init__.py
-│   ├── config.py          ← from assets/config.py
-│   └── config.yaml
+│   └── config.py          ← from assets/config.py (plain constants/dataclass, no YAML)
 ├── CONTRACT.md            ← from references/contract-template.md (mandatory)
 ├── tests/
 ├── Makefile               ← from assets/Makefile.uv or Makefile.npm-bun
@@ -110,40 +125,38 @@ bun init -y / npm init -y
 ├── TODO.md
 ├── LICENSE
 ├── .gitignore
-└── .agents/
-    └── AGENTS.md          ← from assets/AGENTS.md (NEVER committed)
+├── tmp/                   ← gitignored scratch — everything the agent produces before KπX validates it
+└── AGENTS.md              ← from assets/AGENTS.md (NEVER committed)
 ```
 
 | File | Notes |
 |------|-------|
 | `Makefile` | Seeded from `assets/Makefile.uv` or `assets/Makefile.npm-bun`. **MUST have `SHELL := /bin/zsh`** at top — ensures `.zshenv` → `.kshrc` → `fnm` → Node v24 is available inside make recipes. Without it, `make` uses `/bin/sh` which lacks fnm/Node PATH. |
-| `.gitignore` | `.venv/`, `dist/`, `node_modules/`, `.env`, `.agents/` ... |
+| `.gitignore` | `.venv/`, `dist/`, `node_modules/`, `.env` — `AGENTS.md`/`.agents/` don't need a per-project entry, `k-git`'s global excludesFile already ignores them everywhere |
 | `README.md` | Overview, install, usage |
 | `CHANGELOG.md` | Newest-first, semver entries |
 | `TODO.md` | Active development backlog |
-| `.agents/AGENTS.md` | Project context for AI agents — from `assets/AGENTS.md` |
+| `AGENTS.md` (repo root) | Project context for AI agents — from `assets/AGENTS.md` |
 | `LICENSE` | Must be created at init. Default: MIT or GNU. |
+| `tmp/` | Gitignored scratch. Until KπX validates something, that's where the agent's output lives — nothing goes straight into `src/`/`scripts/` unvalidated. |
 
-> **.agents/ is NEVER committed & NEVER mentionned in repo** — always in `.gitignore`.
+> **🔴 Standard is root `AGENTS.md`, not `.agents/AGENTS.md` (revised 2026-08-25).** One file, at the project root, gitignored by exact name (see `k-git`'s global excludesFile) — never committed, never mentioned in tracked files. No `.agents/` subdirectory for this.
 
-## .agents/AGENTS.md
+## AGENTS.md
 
-All AI agents auto-load `.agents/AGENTS.md` when present at a project root.
+All AI agents auto-load `AGENTS.md` when present at a project root.
 Content: KπX mantras · project purpose · architecture rules · evolution rules.
 → Template: `assets/AGENTS.md`
 
 ## Architecture Philosophy
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
-- **No hardcoding** — runtime values in `config.yaml`; secrets in `.env`
-- **Config Standard (2026-08-14)** — KπX config-file standard is **JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). For **code projects**, prefer a plain `config.py` / `config.ts` (simpler — no import needed) over a config loader; secrets always in `.env` (never committed). JSONC is the standard for kernel/asset config (see `assets/*.jsonc` in `.agents`); `config.py`/`config.ts` for project code; `.env` for secrets.
-- **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.yaml` / `config.ts` payloads to avoid desync.
+- **No hardcoding** — runtime values as plain constants or a frozen `dataclass`/object directly in `config.py`/`config.ts`; secrets in `.env`
+- **Config Standard (2026-08-14, revised 2026-08-25)** — KπX config-file standard is **JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). For **code projects**: `config.py` / `config.ts` hold the values directly — no `config.yaml`, no loader, no `ConfigManager` singleton (removed kernel-wide 2026-08-25 — layered YAML merging added preload cost and indirection nothing in KπX projects actually needed); secrets always in `.env` (never committed).
+- **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.py` / `config.ts` payloads to avoid desync.
 - **Contract-first by default** — `CONTRACT.md` is mandatory at init; define operation surface/types/error model/transport mapping in English before scaling implementation.
 - **OO** — encapsulation; internals prefixed `_`; public API explicit
-- **Config pattern** — `ConfigManager` per package (`assets/config.py` / `config.ts`):
-  - 3-layer override: defaults (`config.yaml`) → override file → inline kwargs
-  - `@lru_cache` on YAML loading (Python) / `Map` cache (TS)
-  - `debug: false` default in config.yaml; never `print()` / `console.log()` in prod
+- **Config pattern** — plain `config.py` / `config.ts` (`assets/config.py` / `config.ts`): constants or a frozen `dataclass` (Python) / plain object (TS) declared directly in the module. Override only when a real need appears (test isolation, CLI flag) via `dataclasses.replace()` (Python) or a fresh object literal (TS) — never a YAML file, never a cached layered-merge singleton.
 - **Python CLI** — `typer` (interface) + `rich` (output)
 - **TypeScript** — always over plain JS
 
@@ -155,9 +168,9 @@ Check available targets first: `make help`.
 | Common target | What it does |
 |---------------|-------------|
 | `make push` | Push to **all remotes** simultaneously (github + gitlab) |
-| `make build` | Build the package |
-| `make release` | Full release pipeline (bump + build + publish + push) |
-| `make check` | Lint + type-check |
+| `make uv-build` / `make bun-build` | Build the package |
+| `make release` | Full release pipeline: `check → push → publish → push-tags` |
+| `make check` | Lint + format-check + type-check + tests (also run by the global pre-commit gate, see `k-git`) |
 
 > Bypassing `make push` in favour of `git push origin` breaks the multi-remote invariant.
 
@@ -169,6 +182,7 @@ Stored in `assets/` — copy to project root as `Makefile` and adapt:
 |----------|----------|
 | `assets/Makefile.uv` | Python/uv — check, build, publish to PyPI, release pipeline |
 | `assets/Makefile.npm-bun` | JS/TS/bun — test, build, publish to npm, release pipeline |
+| `assets/Makefile.pipeline` + `assets/pyproject.pipeline.toml` | Pipeline R&D archetype — uv workspace (`libs/` members), CPU/GPU dependency groups, `step_NN_` console-script legend; see `references/pipeline-archetype.md` |
 
 For scripts/shell/misc projects with no package manager → use `k-git/assets/Makefile.git` (baseline git workflow only).
 See also **Project Init — Bash/Shell** below.
@@ -181,9 +195,8 @@ See also **Project Init — Bash/Shell** below.
 
 Always prefer development linking to ensure the CLI uses the current codebase:
 
-- **Python (uv)**: `make link` (user-level editable install)
-- **JS/TS (bun)**: `make link` (runs `bun link`)
-- Use `make unlink` to revert.
+- **Python (uv)**: `make uv-link` (user-level editable install); `make uv-uninstall` to revert
+- **JS/TS (bun)**: `make bun-link` (runs `bun install && bun link`); `make bun-unlink` to revert
 
 > **🛡️ Security Note**: For critical or sensitive projects (e.g. secret management, system tools), the development `link` is insufficient for production. In those cases, you MUST load **`k-final`** and follow the **Sovereign Security** workflow to perform a root-owned immutable install (`make install`) with AppArmor jailing.
 
@@ -208,44 +221,7 @@ Covers: `docs/` subdirectory pattern, Makefile `push-docs` target, GitHub Pages 
 
 ## Project Init — Bash/Shell (no package manager)
 
-For pure shell scripts, CLI wrappers, or systemd-managed tools with no `uv`/`npm`/`bun`:
-
-```
-<project-name>/
-├── <scripts>.sh         # Main scripts at root or in a flat structure
-├── systemd/             # Unit files (source of truth) — copied by install.sh
-│   ├── *.service
-│   └── *.timer
-├── scripts/
-│   ├── install.sh       # Install units, create dirs, enable timer/service
-│   └── purge.sh         # Disable + remove units (idempotent)
-├── .env.example         # Required env vars (keys only, no values)
-├── README.md
-├── CHANGELOG.md
-└── .agents/
-    └── AGENTS.md
-```
-
-**Mandatory scripts:**
-- `scripts/install.sh` — installs the project (systemd units, directories, symlinks, etc.)
-- `scripts/purge.sh` — fully removes the project (idempotent, no side effects)
-
-Templates: `k-project/assets/install.sh` and `k-project/assets/purge.sh`.
-Both must be kept in sync with the project as it evolves.
-For simple projects (no `systemd/`), scripts can live at project root instead of `scripts/`.**Makefile:** use `k-git/assets/Makefile.git` as base — includes `install`, `purge`, `log`, `status`, and `run` targets.
-
-**`make status`** → `systemctl status <project>.service <project>.timer` (NOT git status — use `git-status` for that).
-**`make run`** → run `<main-script>.sh` via **shared tmux** if it needs elevation; otherwise normal shell.
-**`make install`** → `make install` only — privilege stays in install targets; KπX approves `sudo` in tmux when needed (`k-tmux`). Never `sui` (deprecated). Running the whole Makefile as root pollutes `.git/` via `git rev-parse` in Makefile variables.
-
-**Machine-specific config** (excludes, paths) that varies per deployment must go in a gitignored conf file (e.g. `excludes.conf`) rather than being hardcoded in scripts. Ship an `.example` variant tracking the expected keys.
-
-**Logging:** use `StandardOutput=journal` in systemd units — do **not** create a custom `logs/` directory or `tee` pipeline. Log access via `journalctl -u <project>`. Expose this in the Makefile as a `log` target:
-```makefile
-log:  ## Show recent logs (journald)
-	@journalctl -u <project> -n 50 --no-pager
-```
-Document the `make log` / `journalctl` commands in the README — that is the only log admin needed.
+For pure shell scripts, CLI wrappers, or systemd-managed tools with no `uv`/`npm`/`bun` → **`references/bash-shell-init.md`** (layout, mandatory `install.sh`/`purge.sh`, Makefile base, logging via journald).
 
 ## Git Submodules
 
@@ -282,7 +258,10 @@ This creates/updates `.gitmodules`:
 - **Git workflow + Makefile templates** → `k-git`
 - **Server deployment** → `k-docker`
 - **Contract template** → `references/contract-template.md`
+- **Bash/Shell project init** → `references/bash-shell-init.md`
 - **Daemon-based CLI patterns** → `references/daemon-pattern.md` (O_EXCL lock, socket-first bind, readiness wait, idle-exit ping exclusion, env-scoped test isolation — verified in whats-proxy v0.2.0)
+- **Pipeline R&D archetype** → `references/pipeline-archetype.md` (src/libs split, assets convention, step_NN scripts, tmp/ scratch discipline, anti-patterns)
+- **Heavy asset sync (network drive/NVMe mirror/Windows↔Linux)** → `k-rclone` → `references/mnt-sync.md`
 
 ## Insights Discipline (mandatory)
 
@@ -294,6 +273,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-26 | [COLAB] | v2.13.0 — **File-level `_`/`-` naming rows added**: Naming Conventions table extended with executable shell script (`kebab -`), sourced lib/guard (`snake _`), imported Python module (`snake _`, mandatory) + cross-ref to `rules/file-governance.md` → Naming Convention (new kernel-wide rule created same day after the scripts/ guards `-` regression fix). |
-| 2026-08-15 | [COLAB] | v2.12.0 — **Proxy relocation reference updated**: `references/daemon-pattern.md` path updated (`~/KpihX-Labs/whats_proxy/` → `~/KpihX-Labs/proxies/whats-proxy/`) after the `*_proxy` family moved into `proxies/` and aligned to kebab-case naming. |
-| [SUMMARY] | — | v2.11.0 template→gitlab-URL unification (assets/pyproject.toml + config.py source of truth; techskills/𝛱 symlinks unplugged) · v2.10.0 Config Standard (JSONC) (→ `references/log.md`) · v2.9.0 daemon CLI patterns (→ `references/log.md`) · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |
+| 2026-08-26 | [CLAUDE] | v2.15.0 — **Root `AGENTS.md` (not `.agents/AGENTS.md`) + Makefile templates aligned to real deployed projects**: standard is now a single `AGENTS.md` at repo root (gitignored by name via `k-git`'s global excludes), not a `.agents/` subdirectory — fixed throughout (`Standard Files at Init`, `Project Init — Python`, `## AGENTS.md` section). Added `tmp/` to the standard file list + new `assets/AGENTS.md` section "Agent Output Before Validation": nothing the agent produces lands outside `tmp/` until KπX validates it. `references/pipeline-archetype.md` directory layout gained `scripts/` (human-owned **meta** tooling, unrelated to the project's own substance — e.g. mount-sync — distinct from `src/`/`libs/`). `assets/Makefile.uv` and `Makefile.npm-bun` rewritten against real evidence (this kernel's own `Makefile` + the deployed `kpihx-labs/tick-proxy` repo): `uv-install`/`uv-link`/`uv-uninstall`/`uv-build`/`uv-publish` (resp. `bun-*`) naming, a `smoke` target `check` now depends on, `PKG_NAME`/`PKG_DIR_NAME`/`VERSION` variables extracted from `pyproject.toml`/`package.json`. Dropped the never-actually-defined `$(ZSH_LOGIN)` publish wrapper — real deployed projects don't use it, they rely on `with-env`/an already-loaded shell. *(Renumbered from v2.14.0 at PR merge.)* |
+| 2026-08-26 | [CLAUDE] | v2.14.0 — **Pipeline R&D archetype + config.yaml/ConfigManager fully removed**: new `references/pipeline-archetype.md` (src/libs split, assets `{inputs,results,weights}` convention, `step_NN_` script naming, tmp/ scratch discipline, anti-patterns) distilled from a real, mature DxO R&D pipeline project (form only, zero business content). New "Project Archetypes" section + two new templates `assets/pyproject.pipeline.toml` / `assets/Makefile.pipeline` (uv workspace with `libs/` members, CPU/GPU dependency groups, `step_NN_` console-script legend). `assets/AGENTS.md` template enriched with a Reply Gate checklist, `scripts/` vs `tmp/` ownership table, Delivery & Structure Pass, and Docs Maintenance table — generalized from real per-project rules (not the `.cursor/rules/*.mdc` mirroring mechanism itself, which was deliberately not adopted). Purged `config.yaml`/`ConfigManager` doctrine kernel-wide from this skill: `assets/config.py`/`config.ts` now plain constants/frozen dataclass, no YAML loader, no layered-merge singleton; secrets stay `.env`-only. Pointer added to `k-rclone` → `references/mnt-sync.md` for heavy project-asset sync (network drive/NVMe/Windows↔Linux). *(Renumbered from v2.13.0 at PR merge — collided with this skill's own v2.13.0 naming-rows entry.)* |
+| [SUMMARY] | — | v2.13.0 file-level `_`/`-` naming rows added (executable kebab, sourced/imported snake) · v2.12.0 proxy relocation reference updated (`*_proxy` family → `proxies/`, kebab-case) · v2.11.0 template→gitlab-URL unification · v2.10.0 Config Standard (JSONC, superseded 2026-08-25) · v2.9.0 daemon CLI patterns · v2.8.0 zsh SHELL mandate; v2.7.x naming scope + dev install + sudo scoping — archived → `references/log.md` |

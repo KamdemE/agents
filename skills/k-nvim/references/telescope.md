@@ -60,9 +60,12 @@ Uses `file_ignore_patterns` (Lua post-filter) instead of `find_command` because 
 Before lazy-loading: 2.3 GB idle (Lua heap 2003 MB)
 After lazy-loading heavy plugins (VeryLazy) + harpoon (keys): **21 MB idle** (Lua heap 35 MB)
 
-## Dependency
+## Dependency (GRAVÉ — both backends mandatory)
 
-`fd` via `npm i -g fd-find` — way faster than vim's internal `find` on large trees.
+- `fd` for `find_files` (`<leader>ff`/`<leader>fF`): `find_command = {"fd", …}` in `plugins.lua:85`. On Debian/Ubuntu the `fd-find` apt package ships as `fdfind` → **symlink required**: `ln -sf $(which fdfind) ~/.local/bin/fd` (`~/.local/bin` in `$PATH` via `.kshrc`).
+- `rg` (`ripgrep`) for `live_grep` (`<leader>fg`): `sudo apt install ripgrep`.
+
+Install (blglaptop139-wsl, 2026-08-25, forgotten at initial setup → `ff` showed 0 results): `sudo apt install fd-find ripgrep && ln -sf $(which fdfind) ~/.local/bin/fd`. Verify: `which fd && which rg && fd --version && rg --version`. Without both, Telescope is silent (filed 2026-08-25).
 
 ## File
 

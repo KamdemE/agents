@@ -1,0 +1,6 @@
+# One synced folder name per line — single source of truth for every
+# sync-*.sh / sync-*.ps1 script below. Blank lines and lines starting with
+# # are ignored. Copy to dirs.txt in your project and adjust.
+inputs
+results
+weights

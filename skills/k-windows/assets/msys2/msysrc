@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+# ~/.msysrc — MSYS2-specific config (sourced by ~/.zshrc)
+#
+# Windows-user PATH est automatiquement prependu par
+# /etc/profile.d/windows-user-path.sh → git, make, curl, python, etc.
+# sont DEJA les versions Windows sans alias.
+#
+# Convention :
+#   commande        → Windows natif (via windows-user-path.sh)
+#   commandem       → version MSYS2 (explicite ci-dessous)
+#
+# Pourquoi : Windows natif = SMB direct 2400 MB/s, pas de fork() emule.
+
+# === ~m / HOMEM → MSYS2 home ===
+hash -d m=/home/ikamdem
+export HOMEM='/home/ikamdem'
+
+# === Alias MSYS2 (suffixe "m") — backup compatible Linux ===
+alias gitm='/usr/bin/git.exe'
+alias makem='/usr/bin/make.exe'
+alias grepm='/usr/bin/grep.exe'
+alias sedm='/usr/bin/sed.exe'
+alias awkm='/usr/bin/awk.exe'
+alias curlm='/usr/bin/curl.exe'
