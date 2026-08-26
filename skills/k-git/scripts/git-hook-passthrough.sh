@@ -2,7 +2,7 @@
 # ============================================================================
 # KπX global git hook pass-through — GENERIC (any hook type via $0)
 # ----------------------------------------------------------------------------
-# Source of truth : $HOME/.agents/skills/k-git/assets/git-hook-passthrough.sh
+# Source of truth : $HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh
 # Deployed as     : symlinks named after each hook type in
 #                   $HOME/.config/git/hooks/ (commit-msg, pre-push, ...)
 # Activated by    : git config --global core.hooksPath "$HOME/.config/git/hooks"

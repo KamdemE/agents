@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.12.0"
+  version: "2.13.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -75,7 +75,7 @@ plus `**/.claude/settings.local.json`.
 untrack at source). Non-git directories do NOT honor this file (they need a
 tool-specific ignore, e.g. Loom `.loomignore` — see `k-loom`).
 
-### `assets/git-hook-passthrough.sh` — global hook plumbing (owner)
+### `scripts/git-hook-passthrough.sh` — global hook plumbing (owner)
 
 **k-git owns ALL generic git hook plumbing.** One asset, N symlinks named after
 each hook type (`pre-commit`, `commit-msg`, `prepare-commit-msg`, `pre-push`,
@@ -152,6 +152,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-26 | [COLAB] | v2.13.0 — **Passthrough relocated to skill scripts (KπX order)**: `assets/git-hook-passthrough.sh` → `skills/k-git/scripts/git-hook-passthrough.sh`; 9 global-hook symlinks (`~/.config/git/hooks/*`) retargeted, `assets/links.jsonc` entries updated, this SKILL.md section header + `k-loom` cross-reference adjusted, script's own Source-of-truth comment updated. Live E2E: subsequent commits/pushes run through the moved script. |
 | 2026-08-26 | [COLAB] | v2.12.0 — **`make pr` (blglaptop139-wsl, KπX order)**: NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo). LOUD glab gate: missing/unauthenticated glab → install/auth commands + pre-filled web fallback URL, never silent. First live run created agents PR #2 + MR !1. `glab 1.53.0` installed on blglaptop139-wsl, OAuth-web login as kpihx. |
-| 2026-08-26 | [COLAB] | v2.11.0 — **NO BYPASS + remote-pair contract**: ALL override env vars purged (`KPIHX_ALLOW_DIRTY_SUBMODULES`, `KPIHX_SKIP_MAKE_CHECK`, `KPIHX_KEEP_AGENT_TRAILERS`, `KPIHX_ALLOW_UNPUSHED_SUBMODULES`, `SUB_PUSH_REMOTES`) — remotes hardcoded github+gitlab. NEW `make check-remotes`/`set-remotes`: exactly the kpihx remote pair, exact URLs, live joinability (→ `references/log.md`). |
-| [SUMMARY] | — | v2.10.0 generalized make-check + trailer-strip global gates · v2.9.1 check-skills audit · v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| [SUMMARY] | — | v2.11.0 NO BYPASS vars purge + remote-pair contract (`check/set-remotes`) · v2.10.0 generalized make-check + trailer-strip global gates · v2.9.1 check-skills audit · v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
