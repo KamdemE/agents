@@ -4,7 +4,7 @@ description: KπX Git workflow — SSH protocol, remote naming convention, Makef
 license: private
 metadata:
   author: KpihX
-  version: "2.10.0"
+  version: "2.11.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -87,12 +87,14 @@ name (resolved via `$GIT_DIR`/`--absolute-git-dir` + `/hooks/<name>` — NOT
 exit codes. Four gates add real behavior on top of every repo, in this order
 (cheap → expensive, fail fast):
 
-| Hook | Gate | Behavior | Override (déconseillé) |
-|------|------|----------|------------------------|
-| `pre-commit` | 1 | Submodule hygiene (dirty/unpushed) | `KPIHX_ALLOW_DIRTY_SUBMODULES=1` |
-| `pre-commit` | 2 | `make check` (if `Makefile` has a `check:` target) blocks the commit on failure | `KPIHX_SKIP_MAKE_CHECK=1` |
-| `commit-msg` | — | Strips `co-authored-by:`/`signed-off-by:`/`author:` lines (AI-attribution) before any repo-local hook sees the message | `KPIHX_KEEP_AGENT_TRAILERS=1` |
-| `pre-push` | — | Every submodule must be pushed to all its remotes | `KPIHX_ALLOW_UNPUSHED_SUBMODULES=1` |
+| Hook | Gate | Behavior |
+|------|------|----------|
+| `pre-commit` | 1 | Submodule hygiene (dirty/unpushed) — **no override** |
+| `pre-commit` | 2 | `make check` (if `Makefile` has a `check:` target) blocks the commit on failure — **no override** |
+| `commit-msg` | — | Strips `co-authored-by:`/`signed-off-by:`/`author:` lines (AI-attribution) before any repo-local hook sees the message — **no override** |
+| `pre-push` | — | Every submodule must be pushed to all its remotes — **no override** |
+
+> **🔴 NO BYPASS VARIABLES (KπX directive 2026-08-25, GRAVÉ).** There is deliberately NO env var to skip any gate (no `KPIHX_ALLOW_*`, no `KPIHX_SKIP_*`, no `KPIHX_KEEP_*`). If a gate blocks you, FIX THE UNDERLYING STATE — the checks ARE the code. Same rule in `scripts/git/push-submodules.sh` (`SUB_PUSH_REMOTES` purged — remotes are hardcoded `github gitlab`) and `apply-inbound-email-worker-rules.sh` (IDs inlined).
 
 The only OTHER hook that adds behavior is the post-commit Loom dispatcher owned by `k-loom`.
 
@@ -149,6 +151,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v2.10.0 — **Generalized `make check` + commit-trailer-strip as GLOBAL hooks**: `assets/git-hook-passthrough.sh` gains 2 new gates (pre-commit: run `make check` if the repo has one, block on failure, `KPIHX_SKIP_MAKE_CHECK=1` override; commit-msg: strip `co-authored-by:`/`signed-off-by:`/`author:` lines, `KPIHX_KEEP_AGENT_TRAILERS=1` override) — generalized from a per-project pattern found in a mature pipeline project so no repo needs its own hook installer for these two anymore. NEW 🔴 rule: **repos never set their own `core.hooksPath`** — it would silently opt them out of every global gate; project-specific extra hooks go at `.git/hooks/<name>` instead (auto re-chained). `assets/git-ignore-global` gained a new §10 (`.agents/`, `AGENTS.md`, `DRAW.md` — KπX-wide personal-doc convention, safe to ignore in every repo; `ROADMAP.md` deliberately excluded — projects may want it tracked). The `.agents` kernel's own now-redundant local `pre-commit` hook (which only ran `make check`) was retired in favor of this global gate — see `k-project` → Pipeline R&D archetype for the discovery context. |
-| 2026-08-24 | [COLAB] | v2.9.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| [SUMMARY] | — | v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| 2026-08-26 | [COLAB] | v2.11.0 — **NO BYPASS + remote-pair contract (blglaptop139-wsl, KπX directive GRAVÉ after an agent used `KPIHX_ALLOW_DIRTY_SUBMODULES=1`)**: (1) ALL override env vars PURGED from `git-hook-passthrough.sh` (`KPIHX_ALLOW_DIRTY_SUBMODULES`, `KPIHX_SKIP_MAKE_CHECK`, `KPIHX_KEEP_AGENT_TRAILERS`, `KPIHX_ALLOW_UNPUSHED_SUBMODULES`) and `SUB_PUSH_REMOTES` from `push-submodules.sh` — remotes hardcoded `github gitlab`, no env can skip any gate, ever. (2) NEW `scripts/git/check-remotes.sh` + `set-remotes.sh` wired as `make check-remotes` / `make set-remotes`: verify/force EXACTLY the pair `github`+`gitlab` with exact `kpihx-labs/<name>.git` URLs on the parent repo AND every submodule (`.agents` dir → repo `agents`; extra remotes like `origin` purged; live `ls-remote` joinability check). |
+| 2026-08-25 | [CLAUDE] | v2.10.0 — **Generalized `make check` + commit-trailer-strip as GLOBAL hooks**: 2 new gates in `assets/git-hook-passthrough.sh`; repos never set their own `core.hooksPath` (→ `references/log.md`). *(v2.11.0 removed its override vars.)* |
+| [SUMMARY] | — | v2.9.1 check-skills audit · v2.9.0 hook plumbing ownership (Prop A) (→ `references/log.md`) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |

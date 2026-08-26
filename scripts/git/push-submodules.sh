@@ -18,10 +18,13 @@
 set -u
 
 MSG="${1:-chore(sub): sync from kernel}"
-# Only PUSH to KπX-owned mirrors. Other remotes (origin/upstream pointing at
-# Flickwire-Agent / IgorWarzocha forks) are READ-ONLY upstreams — never push.
-# Override: SUB_PUSH_REMOTES="github gitlab" make push-sub
-PUSH_REMOTES="${SUB_PUSH_REMOTES:-github gitlab}"
+# Only PUSH to KπX-owned mirrors: github + gitlab (fixed by convention).
+# Other remotes (origin/upstream pointing at Flickwire-Agent / IgorWarzocha
+# forks) are READ-ONLY upstreams — never push.
+#
+# 🔴 NO BYPASS VARIABLE (KπX directive 2026-08-25) — GRAVÉ: the remote list
+# is hardcoded here, no env override. The checks ARE the code.
+PUSH_REMOTES="github gitlab"
 failures=0
 
 mapfile -t SUBS < <(git config -f .gitmodules --get-regexp '^submodule\..*\.path$' 2>/dev/null | cut -d' ' -f2)

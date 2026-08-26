@@ -7,7 +7,7 @@ updated: "2026-08-24"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.7.1
+  version: 3.8.0
 ---
 
 # KπX — Neovim
@@ -80,7 +80,7 @@ k-nvim/assets/                        ← Config + supporting assets (edit here)
 | **Core/UI** | catppuccin (mocha, transparent), lualine.nvim, which-key.nvim, indent-blankline.nvim |
 | **LSP** | nvim-lspconfig, mason.nvim, mason-lspconfig.nvim |
 | **Completion** | nvim-cmp, cmp-nvim-lsp, cmp-buffer, cmp-path, LuaSnip |
-| **Fuzzy/Search** | telescope.nvim (backend: fd), harpoon |
+| **Fuzzy/Search** | telescope.nvim (backends: `fd` for `find_files` + `rg` for `live_grep` — both mandatory, see `references/telescope.md` → Dependency), harpoon |
 | **Git** | neogit, gitsigns.nvim |
 | **Editing** | conform.nvim, Comment.nvim, vim-surround |
 | **AI** | ollama.nvim |
@@ -209,6 +209,6 @@ Verify: `echo $EDITOR` → `nvim`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-25 | [COLAB] | v3.8.0 — **Telescope backends fixed (blglaptop139-wsl, GRAVÉ):** `fd` (`0.1.8` `find_command = {"fd",…}`) shipped as `fdfind` on Debian/Ubuntu → `Space ff` showed 0 results; `rg` (`ripgrep`) missing → `Space fg` silent. Installed `ripgrep` + `ln -sf $(which fdfind) ~/.local/bin/fd`; documented both as mandatory in `references/telescope.md` → Dependency and `SKILL.md` table. |
 | 2026-08-24 | [COLAB] | v3.7.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | v3.7.0 — **Canonical Neovim config moved from `config/` to `assets/`** per KπX order: `init.lua`, `lazy-lock.json`, and `lua/kpihx/` relocated into `assets/`; `~/.config/nvim/` symlinks retargeted to the new asset paths; obsolete `config/` directory removed once empty; docs updated to reflect the new source of truth. Safety backups preserved under `/tmp/opencode/knvim-restructure/*.bak`. |
-| [SUMMARY] | — | v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
+| [SUMMARY] | — | v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
