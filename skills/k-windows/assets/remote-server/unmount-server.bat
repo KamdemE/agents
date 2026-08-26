@@ -1,5 +1,5 @@
 @echo off
-REM ssh-unmount.bat — generic template pair to ssh-mount.bat.
+REM unmount-server.bat — generic template pair to mount-server.bat.
 setlocal
 set DRIVE_LETTER=Z:
 net use %DRIVE_LETTER% /delete

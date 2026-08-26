@@ -1,0 +1,22 @@
+# Windows-side WSL2 global settings — target: %USERPROFILE%\.wslconfig
+# (asset named "wslconfig" without the leading dot, same convention as
+# assets/kshrc → ~/.kshrc — see k-windows SKILL.md "Pattern for a new
+# Windows+WSL machine": copy this file in, then personalize the numbers
+# below for the specific machine's RAM/CPU.)
+
+[wsl2]
+# RAM given to WSL2 — example below reserves ~7-8 GB to Windows itself
+# (Ollama GUI, VS Code/Cursor, browser) on a 32 GB machine. Adjust to
+# the actual machine's total RAM.
+memory=24GB
+processors=20
+# Mirrored networking: localhost is shared between Windows and WSL —
+# a native Windows-hosted service (e.g. Ollama on :11434) becomes
+# transparently reachable from WSL with zero port-forwarding.
+networkingMode=mirrored
+swap=8GB
+
+[experimental]
+hostAddressLoopback=true
+# Returns memory to the Windows host when WSL is idle.
+autoMemoryReclaim=gradual

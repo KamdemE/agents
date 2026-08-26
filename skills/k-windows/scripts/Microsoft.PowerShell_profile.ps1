@@ -1,7 +1,7 @@
 # Microsoft.PowerShell_profile.ps1 — GENERIC TEMPLATE (k-windows)
 #
 # Copy this into the owning machine's own infra skill (e.g. k-blglaptop139)
-# assets/, personalize the marked REPLACE_ME spots, then deploy at
+# scripts/, personalize the marked REPLACE_ME spots, then deploy at
 # Documents\PowerShell\Microsoft.PowerShell_profile.ps1 on that machine.
 # See k-windows/SKILL.md -> "Pattern for a new Windows+WSL machine".
 
@@ -22,7 +22,7 @@ Import-Module -Name Microsoft.WinGet.CommandNotFound
 # f45873b3-b655-43a6-b217-97c00aa0db58
 
 # tmux session launcher — REPLACE_ME: point at this machine's own
-# tmux-sessions.ps1 (copied+personalized from k-windows/assets/msys2/
+# tmux-sessions.ps1 (copied+personalized from k-windows/scripts/msys2/
 # tmux-sessions.ps1) and its session name, if it differs from the generic
 # "windows" default.
 function tx {

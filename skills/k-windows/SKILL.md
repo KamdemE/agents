@@ -12,7 +12,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.2.0"
+  version: "1.4.0"
   scope: windows-platform
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -31,6 +31,8 @@ allowed-tools: Bash, Read, Write, Edit
 
 ### `/etc/wsl.conf` (inside the WSL distro)
 
+Copyable template → **`assets/wsl.conf`** (drop at `/etc/wsl.conf` inside the distro, `sudo` required to write it):
+
 ```ini
 [boot]
 systemd=true
@@ -42,6 +44,8 @@ default=kpihx
 `systemd=true` is required for the systemd-unit patterns used throughout the kernel (tailscaled, vpn-dxo.service, ollama6-tunnel.service, etc. — see `k-infras`).
 
 ### `.wslconfig` (Windows side, `%USERPROFILE%\.wslconfig`)
+
+Copyable template → **`assets/wslconfig`** (copy to `%USERPROFILE%\.wslconfig` on the Windows side, then adjust `memory`/`processors` to the machine's actual specs):
 
 ```ini
 [wsl2]
@@ -97,11 +101,11 @@ Machine-specific infra skills that personalize content from this template — ch
 `k-windows` is a **seed/template**, exactly like `k-zsh/assets/kshrc.base` is for shell config — never used directly as a live config on a specific machine. When a new Windows+WSL machine joins the fleet:
 
 1. Create that machine's own infra skill (e.g. a future `k-<newmachine>`, following `k-blglaptop139`'s shape).
-2. If that machine needs a generic asset documented here (MSYS2 files in `assets/msys2/`, the PowerShell profile `assets/Microsoft.PowerShell_profile.ps1`, the SSH-mount templates in `assets/ssh-mount/`), **copy** it into the new infra skill's own `assets/` and personalize the copy there (machine-specific paths, tmux session name if it should differ from the generic `windows` example, etc.) — the same copy-then-customize relationship `kshrc.base` has with each infra's own `assets/kshrc`.
+2. If that machine needs a generic asset/script documented here (MSYS2 files in `assets/msys2/` + executable scripts in `scripts/msys2/`, the PowerShell profile `scripts/Microsoft.PowerShell_profile.ps1`, the remote-server-access family in `assets/remote-server/` + `scripts/remote-server/`), **copy** it into the new infra skill's own `assets/`/`scripts/` and personalize the copy there (machine-specific paths, tmux session name if it should differ from the generic `windows` example, etc.) — the same copy-then-customize relationship `kshrc.base` has with each infra's own `assets/kshrc`. **`assets/` vs `scripts/` split (fixed 2026-08-27):** executable code (`.sh`, `.ps1`) lives in `scripts/`; passive config/data (`.conf`, `.service`, `.cmd`/`.bat` launchers) stays in `assets/` — mirrors the root kernel's own `scripts/` vs `assets/` split (see root `AGENTS.md` → Kernel Structure Map).
 3. **Exception: `assets/kshrc` is sourced, never copied.** Add one `source` line near the top of the new machine's own `assets/kshrc` (see "`assets/kshrc` — the Windows+WSL shell base" above) — do not copy its content in.
 4. Everything genuinely generic (the NTFS mechanics, the WSL bootstrap flow, the MSYS2 *mechanism* itself) stays referenced from here, never duplicated into the new machine's skill — only the instance-specific, personalized copies move out.
 
-**🔴 Direction of fixes matters — always push generalizable improvements UP before personalizing DOWN.** If, while working on a *child* skill's personalized copy of an asset, you find a fix or improvement that's actually generic (not specific to that one machine), apply it to **this skill's template first**, then re-copy/re-personalize into the child — never leave the parent template stale while only the child copy gets the fix. Concretely: before editing a child skill's copy of e.g. `Microsoft.PowerShell_profile.ps1`, ask "is this change true for any Windows machine, or only this one?" — if the former, edit `k-windows/assets/Microsoft.PowerShell_profile.ps1` first.
+**🔴 Direction of fixes matters — always push generalizable improvements UP before personalizing DOWN.** If, while working on a *child* skill's personalized copy of an asset, you find a fix or improvement that's actually generic (not specific to that one machine), apply it to **this skill's template first**, then re-copy/re-personalize into the child — never leave the parent template stale while only the child copy gets the fix. Concretely: before editing a child skill's copy of e.g. `Microsoft.PowerShell_profile.ps1`, ask "is this change true for any Windows machine, or only this one?" — if the former, edit `k-windows/scripts/Microsoft.PowerShell_profile.ps1` first.
 
 ## NTFS Links (symlink / hardlink / junction)
 
@@ -109,20 +113,37 @@ Full mechanics, the Developer Mode incident, probe/conversion snippets → **`re
 
 ## PowerShell profile (generic template)
 
-`assets/Microsoft.PowerShell_profile.ps1` — PSReadLine history/prediction tuning, the PowerToys `CommandNotFound` module import, `h`/`hist` full-history-dump aliases, and landing every new shell in `~/KpihX-Labs`. Copy into the owning machine's infra skill and personalize (see "Pattern for a new Windows+WSL machine" below) — a filled-in example lives at `k-blglaptop139/assets/Microsoft.PowerShell_profile.ps1`.
+`scripts/Microsoft.PowerShell_profile.ps1` — PSReadLine history/prediction tuning, the PowerToys `CommandNotFound` module import, `h`/`hist` full-history-dump aliases, and landing every new shell in `~/KpihX-Labs`. Copy into the owning machine's infra skill and personalize (see "Pattern for a new Windows+WSL machine" below) — a filled-in example lives at `k-blglaptop139/assets/Microsoft.PowerShell_profile.ps1` (that child skill's own copy stays in its `assets/`, unaffected by this skill's `scripts/` split — see "Child Windows-type infra skills" note above about not modifying `k-blglaptop139` without a dedicated pass there).
 
 ## Windows service / software management techniques
 
 - **Force-disabling a stubborn service** (4-tier escalation: `Set-Service` → retry → `sc.exe` → direct registry + clear recovery actions) + the SCM `Start` value reference + the `.exe.DEAD` rename fallback → **`references/windows-services.md`**.
 - **Silently uninstalling software from a script** (by known MSI GUID, or by registry `DisplayName` pattern across all three Uninstall registry roots) → **`references/software-removal.md`**.
-- **Remote access services** — native RDP and Chrome Remote Desktop (`chromoting`) enable/disable, plus the generic corporate-VPN+RDP access pattern → **`references/remote-desktop.md`**.
+- **Remote access services** — native RDP and Chrome Remote Desktop (`chromoting`) enable/disable, the generic corporate-VPN+RDP access pattern, and the Ubuntu-side Remmina client fields → **`references/remote-desktop.md`**.
 - **Dual-GPU laptops** — diagnosing display-wiring-caused dGPU idle load, and the Windows/app-level mitigations → **`references/dual-gpu.md`**.
 
 All four generalized from a specific machine's de-bloat pass (`k-blglaptop139`) — exact service/app names, GUIDs, and hardware numbers stay there; the techniques here are company/machine-agnostic.
 
+## SSH Server (OpenSSH) — Windows side + Ubuntu client pairing
+
+Full mechanism, verified live on a real machine (`k-blglaptop139`): `Get-Service` vs `Get-WindowsCapability` install-state mismatch on corporate images, firewall rule display-name false-negatives, `administrators_authorized_keys` vs per-user `authorized_keys`, `DefaultShell` registry key + the `pwsh` (blocked by AppLocker) vs `powershell.exe` (works) asymmetry, and the `AutoRun` non-interactive-exec footgun (considered, rejected) → **`references/ssh-server-setup.md`**. Ubuntu-side key naming/config still follows `k-ssh` — not duplicated here.
+
 ## Mounting a remote SSH/SFTP host as a Windows drive
 
-Generic rclone+WinFsp+nssm pattern (why rclone over SSHFS-Win, SSH/rclone config shape, nssm-service-not-scheduled-task autostart, troubleshooting) → **`references/ssh-mount.md`**. Fill-in-the-blanks templates → **`assets/ssh-mount/`**. A concrete DxO-specific instance (mounting `deep-pc6` as `Z:`) lives in `k-dxo` — that's where the real IP/account/target belongs, not here.
+Generic rclone+WinFsp+nssm pattern (why rclone over SSHFS-Win, SSH/rclone config shape, nssm-service-not-scheduled-task autostart, troubleshooting) → **`references/ssh-mount.md`**. Fill-in-the-blanks templates → **`assets/remote-server/`** (moved from `assets/ssh-mount/` 2026-08-27 — now part of the wider remote-server-access family, see below). A concrete DxO-specific instance (mounting `deep-pc6` as `Z:`) lives in `k-dxo` — that's where the real IP/account/target belongs, not here.
+
+## Remote dev/GPU server access stack (generic template family)
+
+The full stack for reaching a remote dev/GPU server from a Windows/WSL (or Ubuntu) client machine — VPN → SSH tunnel → tmux launcher → CLI proxy → OpenCode auto-sync → filesystem mount — generalized from a real, working setup (`k-dxo`/`k-deep-pc6`, both disposable/purged at internship end) with **zero company-specific values**. Full mechanism, the "why one doc not scattered pieces" rationale, and the stack diagram → **`references/remote-server-access.md`**.
+
+| Piece | Config/data template (`assets/`) | Executable script (`scripts/`) |
+|---|---|---|
+| VPN | `assets/remote-server/vpn-intranet.service` | — |
+| SSH tunnel | `assets/remote-server/tunnel-server.service` | — |
+| Remote tmux launcher | `assets/msys2/tmux-server.cmd` (Windows) | `scripts/remote-server/tmux-server.sh` (bash/WSL) |
+| CLI proxy (Ollama example) | `assets/msys2/ollama-server.cmd` (Windows) | `scripts/remote-server/ollama-server.sh` (bash/WSL) |
+| OpenCode auto-sync | — | `scripts/remote-server/opencode-ollama-server.sh` |
+| Filesystem mount | `assets/remote-server/{mount,unmount}-server.bat` (Windows) · `assets/remote-server/rclone-serve.service` (Linux) | — |
 
 ---
 
@@ -243,6 +264,6 @@ git clone https://github.com/KpihX/ollama-cuda-windows-intel.git
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.2.0 — **GPU/Ollama section made self-contained**: explicitly names `k-ollama/scripts/install-wsl-client.sh` (idempotent WSL-client-only installer, reusing a Windows-hosted Ollama server via mirrored networking, never `systemctl enable ollama`) instead of only pointing at "generic guidance" — this must be findable from here alone, since the machine skill that originally surfaced it (`k-blglaptop139`) is disposable (company laptop, will be deleted at internship end per explicit KπX directive) and must never be the only place a generic fact lives. |
-| 2026-08-25 | [CLAUDE] | v1.1.0 — **`assets/kshrc` created — the Windows+WSL shell base, SOURCED (not copied) by every machine's own kshrc**, unlike this skill's other copy-then-personalize assets. Centralizes the SSH-agent snippet (moved out of `k-blglaptop139/assets/kshrc`, which now sources this file instead of duplicating it) and adds new content: `$HOMEW`/`$USERW`/`~w` Windows interop (derived via `cmd.exe`, never hardcoded). New "`assets/kshrc`" section replaces the old "SSH agent" section; "Pattern for a new Windows+WSL machine" gained the sourced-not-copied exception. Registered the missing `[SUMMARY]` row this changelog needed (structural audit finding). |
-| [SUMMARY] | — | v1.0.0 baseline — full detail in `references/log.md` |
+| 2026-08-27 | [COLAB] | v1.4.0 — **New "Remote dev/GPU server access stack" family + `references/remote-server-access.md` created**: generalized the full VPN→tunnel→tmux-launcher→CLI-proxy→OpenCode-sync→mount stack from a real working setup (`k-dxo`/`k-deep-pc6`/`k-blglaptop139`, all three disposable — purged at internship end), per explicit KπX directive to preserve the reusable ideas before that purge. New templates: `assets/remote-server/{vpn-intranet.service,tunnel-server.service,rclone-serve.service,mount-server.bat,unmount-server.bat}`, `scripts/remote-server/{tmux-server.sh,ollama-server.sh,opencode-ollama-server.sh}`, `assets/msys2/{tmux-server.cmd,ollama-server.cmd}` (renamed+truly-genericized from `tmux6.cmd`/`ollama6.cmd`, which hardcoded an alias/port with no env-var override despite being labeled "generic"). **`assets/` vs `scripts/` split corrected** (KπX caught this live, 3 separate corrections in one pass): all executable `.sh`/`.ps1` files moved out of `assets/` into a mirroring `scripts/` tree — `scripts/remote-server/*.sh` (was `assets/remote-server/`), `scripts/msys2/{windows-user-path.sh,tmux-sessions.ps1}` (was `assets/msys2/`), `scripts/Microsoft.PowerShell_profile.ps1` (was `assets/`) — `.service`/`.cmd`/`.bat`/`.conf` stayed in `assets/` since they're passive config, not executable code. Old `assets/ssh-mount/` folder retired (content moved into `assets/remote-server/{mount,unmount}-server.bat`, cross-refs fixed in `references/ssh-mount.md`). All cross-references fixed across `SKILL.md`, `references/{ssh-mount.md,msys2.md}`. Zero DxO-internal values verified via grep across every new/moved file before finalizing. |
+| 2026-08-26 | [COLAB] | v1.3.0 — **New "SSH Server (OpenSSH)" section + `references/ssh-server-setup.md` created** from live diagnosis on a real machine (`k-blglaptop139`, kept untouched — read-only source): `Get-Service` vs `Get-WindowsCapability` install-state mismatch on corporate images (service `Running` while Capability shows `NotPresent` — two independent tracking systems), firewall rule display-name false-negatives (`name=sshd` finds nothing when the real rule is `OpenSSH Server (sshd)`), `administrators_authorized_keys` vs per-user `authorized_keys` split (drives silent auth failures), `DefaultShell` registry key + the AppLocker `pwsh.exe` (blocked, `Access is denied` despite a High-integrity token) vs `powershell.exe` (works) asymmetry, and the `HKCU\...\AutoRun` per-user `.zshrc`-equivalent considered and rejected (fires on non-interactive `cmd /c`, hangs scripted one-off `ssh host "command"` calls). **`references/remote-desktop.md`** gained a generalized Ubuntu-client (Remmina) section (fields, saved-profile path pattern, VPN dependency note) — no company-specific values. **`assets/wsl.conf` + `assets/wslconfig` created** as actual copyable template files (previously only inline code snippets in this SKILL.md, per KπX audit finding — SKILL.md now points to them instead of only showing the snippet inline). 5 new insights appended to `references/insights.md`. All content verified against a live SSH session (native Windows + WSL retest) before being written — zero guessed values, zero DxO-internal specifics (no hostname/domain/account name anywhere in the new content). |
+| [SUMMARY] | — | v1.2.0 GPU/Ollama section made self-contained (explicitly names `k-ollama/scripts/install-wsl-client.sh` instead of only "generic guidance") · v1.1.0 `assets/kshrc` created — the Windows+WSL shell base, SOURCED (not copied) by every machine's own kshrc, centralizing the SSH-agent snippet + `$HOMEW`/`$USERW`/`~w` Windows interop · v1.0.0 baseline — full detail in `references/log.md` |

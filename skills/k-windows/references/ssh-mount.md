@@ -1,6 +1,6 @@
 # k-windows — Mounting a remote SSH/SFTP host as a Windows drive
 
-> Generalized from a concrete DxO-internship case (mounting `deep-pc6` as `Z:` — see `k-dxo` for that exact instance, account, and IP). This doc is the generic mechanism; templates → `assets/ssh-mount/`.
+> Generalized from a concrete DxO-internship case (mounting `deep-pc6` as `Z:` — see `k-dxo` for that exact instance, account, and IP). This doc is the generic mechanism; templates → `assets/remote-server/` (part of the wider "remote server access" template family documented in `references/remote-server-access.md` — VPN, tunnel, tmux launcher, CLI proxy, and this mount pattern together).
 
 ## Why rclone (not SSHFS-Win)
 
@@ -60,7 +60,7 @@ Start-Service -Name "<alias>-mount"
 - Depends on `LanmanWorkstation` (needs the network stack up).
 - Auto-restart on rclone crash.
 
-Templates implementing steps 4-5's retry/logging logic → `assets/ssh-mount/ssh-mount.bat` + `assets/ssh-mount/ssh-unmount.bat` (personalize `REMOTE_NAME`/`DRIVE_LETTER` per target — see `k-dxo/assets/mount-deep-pc6.bat` for a filled-in example).
+Templates implementing steps 4-5's retry/logging logic → `assets/remote-server/mount-server.bat` + `assets/remote-server/unmount-server.bat` (personalize `REMOTE_NAME`/`DRIVE_LETTER` per target — see `k-dxo/assets/mount-deep-pc6.bat` for a filled-in example).
 
 ## 6. Troubleshooting
 
@@ -80,4 +80,5 @@ Templates implementing steps 4-5's retry/logging logic → `assets/ssh-mount/ssh
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-27 | [COLAB] | v1.1.0 — **Templates relocated** `assets/ssh-mount/{ssh-mount.bat,ssh-unmount.bat}` → `assets/remote-server/{mount-server.bat,unmount-server.bat}`, joining the rest of the "remote server access" template family (VPN, tunnel, tmux launcher, CLI proxy) documented together in the new `references/remote-server-access.md`. Content unchanged, only the location/name — the old `assets/ssh-mount/` folder is now empty and was removed. |
 | 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Generalized from the DxO-specific `deep-pc6` → `Z:` mount (`k-dxo/references` / `assets/mount-deep-pc6.bat`) into a reusable, host-agnostic pattern + templates (`assets/ssh-mount/`). |

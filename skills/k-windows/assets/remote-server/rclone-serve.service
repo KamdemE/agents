@@ -1,0 +1,29 @@
+[Unit]
+# Generic Linux-side rclone mount template — mounts a remote server's
+# filesystem locally via SFTP (rclone remote type "sftp"), the Linux
+# counterpart to the Windows Z:-drive pattern in
+# k-windows/references/ssh-mount.md. Personalize <mount-name> and
+# <rclone-remote> below; the rclone remote itself (host/user/key) is
+# configured separately in ~/.config/rclone/rclone.conf, never inline here.
+Description=Rclone mount for a remote server at ~/<mount-name>
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/mkdir -p %h/<mount-name>
+ExecStart=%h/.local/bin/rclone mount <rclone-remote>: %h/<mount-name> \
+    --config=%h/.config/rclone/rclone.conf \
+    --vfs-cache-mode full \
+    --allow-other \
+    --dir-cache-time 30s \
+    --poll-interval 10s \
+    --vfs-read-ahead 128M \
+    --vfs-cache-max-age 5m \
+    --attr-timeout 30s
+ExecStop=/bin/fusermount -uz %h/<mount-name>
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

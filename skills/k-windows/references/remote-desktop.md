@@ -29,6 +29,21 @@ Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 ```
 (Stopping the two services alone is usually sufficient in practice; setting `fDenyTSConnections=1` and disabling the firewall rule group is the belt-and-suspenders version.)
 
+## Ubuntu client (Remmina) — RDP to a Windows+WSL machine
+
+Generalized from a real Remmina profile (`k-blglaptop139`, `k-dxo`, `k-ubuntu`) — the fields below are the mechanism; the actual hostname/domain/account belong in the company or machine skill that owns that connection.
+
+| Field | Value / guidance |
+|---|---|
+| Server | `<hostname-or-ip>` (FQDN if domain-joined, else the bare hostname/IP — e.g. Tailscale MagicDNS name) |
+| Username | `<username>` |
+| Domain | `<domain>` — leave blank if the account isn't domain-joined |
+| Resolution | "Use client resolution" |
+| Multi-monitor | Edit → Advanced → "Span screen over multiple monitors" (optional) |
+| Audio | `sound=local`, `microphone=local` |
+
+Saved profile lives at `~/.local/share/remmina/<profile-name>.remmina` on the Ubuntu client — Remmina names the file from the connection group/server when saved through the GUI, no manual editing needed for a first setup. If the target is behind a corporate VPN, RDP is only reachable once that VPN is connected (see "The generic corporate remote-access pattern" above).
+
 ## Chrome Remote Desktop ("chromoting")
 
 The Chrome Remote Desktop Host's Windows service is always named `chromoting`, regardless of machine or company.

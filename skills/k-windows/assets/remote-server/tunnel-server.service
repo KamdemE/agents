@@ -1,0 +1,22 @@
+[Unit]
+# Generic SSH local-port-forward tunnel template — personalize the ports and
+# SSH alias below. USER service (resolves <ssh-alias> via ~/.ssh/config —
+# no raw IP/account needed in this file). Managed ON-DEMAND: not enabled at
+# boot.
+Description=SSH tunnel to a remote server (local port-forward)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# -v = verbose: `journalctl --user -u tunnel-server.service -f` shows the
+# live tunnel logs (auth, forwarding listener, channel traffic).
+# ExitOnForwardFailure fails fast if the local port cannot bind (instead of
+# silently staying up with no actual forward).
+ExecStart=/usr/bin/ssh -N -v -o ExitOnForwardFailure=yes -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -L <local-port>:127.0.0.1:<remote-port> <ssh-alias>
+# Restart ONLY on failure (VPN drop, transient ssh error), not on manual stop.
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,31 @@
+[Unit]
+# Generic corporate/intranet VPN template — personalize ExecStart/ExecStop
+# below for the actual VPN client (GlobalProtect via gpclient, Cisco
+# AnyConnect via openconnect+vpnc-script, a plain OpenVPN/WireGuard unit,
+# etc.). Managed ON-DEMAND by default: not enabled at boot, zero RAM until
+# started — flip [Install] + `systemctl enable` if always-on is preferred.
+Description=Corporate/intranet VPN
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# Example (GlobalProtect via gpclient):
+#   ExecStart=/usr/bin/gpclient --ignore-tls-errors --fix-openssl connect <vpn-portal>
+#   ExecStop=/usr/bin/gpclient disconnect
+# Example (OpenConnect, generic SSL VPN):
+#   ExecStart=/usr/sbin/openconnect --protocol=<protocol> <vpn-portal> --background
+ExecStart=<vpn-client-connect-command>
+ExecStop=<vpn-client-disconnect-command>
+# Restart ONLY on abnormal termination (crash, signal), not on clean exit
+# (e.g. session/MFA expiry — don't loop-retry a stale auth).
+Restart=on-abnormal
+RestartSec=10
+# CRITICAL if the VPN client needs the desktop keyring (SAML/MFA cookie
+# reuse via libsecret): HOME must point at the real user directory, and
+# SUDO_USER/SUDO_UID/SUDO_GID must be set so the keyring request routes to
+# the right user session instead of failing as a rootless dbus call.
+Environment=HOME=/home/<user> SUDO_USER=<user> SUDO_UID=1000 SUDO_GID=1000
+
+[Install]
+WantedBy=multi-user.target

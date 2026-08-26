@@ -1,12 +1,13 @@
 @echo off
-REM ssh-mount.bat — generic template: mount a remote SSH/SFTP host as a
+REM mount-server.bat — generic template: mount a remote SSH/SFTP host as a
 REM local Windows drive letter via rclone, with boot-time retry + logging.
 REM See k-windows/references/ssh-mount.md for the full setup (SSH config,
-REM rclone.conf, nssm service).
+REM rclone.conf, nssm service). Part of the k-windows "remote server access"
+REM template family (assets/remote-server/) — see
+REM k-windows/references/remote-server-access.md for the whole family.
 REM
 REM Personalize the 3 variables below for the target host/drive, then
-REM deploy the personalized copy at %USERPROFILE%\.rclone\<name>-mount.bat
-REM (a DxO-specific example lives at k-dxo/assets/mount-deep-pc6.bat).
+REM deploy the personalized copy at %USERPROFILE%\.rclone\<name>-mount.bat.
 
 setlocal
 set REMOTE_NAME=REPLACE_ME

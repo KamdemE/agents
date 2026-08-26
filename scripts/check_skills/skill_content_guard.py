@@ -43,6 +43,16 @@ def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
         ):
             if file_path.name in _IGNORED_FILES:
                 continue
+            # references/log.md is the k-context-exclusive rotation archive
+            # (rules/k-context-hygiene.md) — every other skill's own log.md
+            # is an incidental historical artifact, not a mechanism KπX wants
+            # to force a mention of. Only k-context is required to surface it.
+            if (
+                directory_name == "references"
+                and file_path.name == "log.md"
+                and skill_dir.name != "k-context"
+            ):
+                continue
             rel_path = str(file_path.relative_to(skill_dir))
             if not _is_file_mentioned(skill_text, rel_path, file_path.name):
                 errors.append(

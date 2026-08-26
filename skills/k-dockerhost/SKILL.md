@@ -102,5 +102,4 @@ All scripts live in `k-dockerhost/scripts/` (this skill).
 | 2026-08-26 | [COLAB] | v2.2.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE). |
 | 2026-08-26 | [CLAUDE] | v2.2.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1 — verify `systemctl --user status gpg-agent-ssh.socket` on this LXC before relying on it (containers can lack a full systemd --user instance). See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
 | [SUMMARY] | — | v2.1.0 service real-name simplification (per KπX services-key restructure) · v2.0.0 renamed from k-pve-dockerhost, ksh dispatcher refactor · v1.x original k-pve-dockerhost skill. |
-| [SUMMARY] | — | v2.0.0 renamed from k-pve-dockerhost, ksh dispatcher refactor · v1.x original k-pve-dockerhost skill. |
 

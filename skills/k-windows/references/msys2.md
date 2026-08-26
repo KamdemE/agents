@@ -44,7 +44,7 @@ db_gecos: cygwin desc
 
 ## `windows-user-path.sh` → `/etc/profile.d/windows-user-path.sh`
 
-Full script → `assets/msys2/windows-user-path.sh`. Reads two registry keys via `reg.exe query`:
+Full script → `scripts/msys2/windows-user-path.sh` (moved from `assets/msys2/` 2026-08-27 — executable `.sh`/`.ps1` scripts live in `scripts/`, passive config stays in `assets/`, see SKILL.md → "Pattern for a new Windows+WSL machine"). Reads two registry keys via `reg.exe query`:
 - `HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment` (System PATH — high priority: git, curl, etc.)
 - `HKCU\Environment` (User PATH — medium priority: winget, pip, etc.)
 
@@ -85,16 +85,16 @@ Full content in the asset. The one setting that matters most for correctness: `s
 
 ## SSH tunnel + remote-tmux pattern (generic mechanism)
 
-Two independent, composable patterns for reaching a remote Linux box with GPU compute from Windows via MSYS2 — shown here as a **mechanism**, with the concrete deep-pc6 example values (host, IP, tunnel port) living in `k-dxo` since that specific target is DxO-internship-internal:
+Two independent, composable patterns for reaching a remote Linux box with GPU compute from Windows via MSYS2 — shown here as a **mechanism**, with the concrete deep-pc6 example values (host, IP, tunnel port) living in `k-dxo` since that specific target is DxO-internship-internal. **Full family (both the Windows `.cmd` side here and the bash/systemd side) documented together in `references/remote-server-access.md`.**
 
-1. **Local port-forward to a remote service** (e.g. a remote Ollama server): `ssh -L <local_port>:127.0.0.1:<remote_port> <ssh_alias> -N -v`, then set `OLLAMA_HOST=http://127.0.0.1:<local_port>` (or whichever env var the local CLI needs) before invoking it. `assets/msys2/ollama6.cmd` is the concrete `.cmd` wrapper implementing this pattern — it hardcodes only a *local* port, no remote host/IP, so it stays generic.
-2. **Direct remote tmux over SSH** (no local tunnel needed): `ssh -o BatchMode=yes -tt <ssh_alias> "tmux $*"` — `-tt` forces TTY allocation (required for `tmux attach` to work over SSH); `BatchMode=yes` disables the password fallback (fails hard instead of hanging on a prompt); all CLI args forward verbatim to the remote `tmux` binary. `assets/msys2/tmux6.cmd` implements this — it only ever references the SSH alias name, never a raw IP.
+1. **Local port-forward to a remote service** (e.g. a remote Ollama server): `ssh -L <local_port>:127.0.0.1:<remote_port> <ssh_alias> -N -v`, then set `OLLAMA_HOST=http://127.0.0.1:<local_port>` (or whichever env var the local CLI needs) before invoking it. `assets/msys2/ollama-server.cmd` is the concrete `.cmd` wrapper implementing this pattern — it hardcodes only a *local* port (via a `LOCAL_PORT` env var, defaulting to `11435`), no remote host/IP, so it stays generic.
+2. **Direct remote tmux over SSH** (no local tunnel needed): `ssh -o BatchMode=yes -tt <ssh_alias> "tmux $*"` — `-tt` forces TTY allocation (required for `tmux attach` to work over SSH); `BatchMode=yes` disables the password fallback (fails hard instead of hanging on a prompt); all CLI args forward verbatim to the remote `tmux` binary. `assets/msys2/tmux-server.cmd` implements this — it only ever references the SSH alias name (via a `SSH_ALIAS` env var), never a raw IP.
 
-Both `.cmd` files rely entirely on the target alias (e.g. `deep-pc6`) being resolved by `~/.ssh/config` — the actual `Host` block (real IP, real domain-qualified username) is DxO-internship-internal and lives in `k-dxo`, not here.
+Both `.cmd` files rely entirely on the target alias (e.g. `deep-pc6`) being resolved by `~/.ssh/config` — the actual `Host` block (real IP, real domain-qualified username) is DxO-internship-internal and lives in `k-dxo`, not here. **(Renamed 2026-08-27 from `tmux6.cmd`/`ollama6.cmd`** — those names, while carrying no raw IP, still baked in the DxO-flavored `6` numeral and a hardcoded alias/port with no override mechanism; the new versions read `SSH_ALIAS`/`LOCAL_PORT` from the environment, matching the bash equivalents in `scripts/remote-server/`.)
 
 ## Local tmux sessions on Windows (fixed, generic example)
 
-The original migration source had **three mutually-contradictory** session/window maps for this machine's local tmux layout (different window counts, a session named `dxo` that the PowerShell profile defaulted to but that no script actually created, a script's own comment calling a locally-running session "remote"). Rather than propagate that confusion into a generic skill, `assets/msys2/tmux-sessions.ps1` here is a corrected, minimal, machine-agnostic version: one session, literally named `windows`, with exactly the same 3-window equipment layout `k-tmux` uses on the WSL side (`agents` — split 3 ways, `default`, `tmp`) — see `k-tmux/assets/tmux-init.sh` for the Linux/bash original this mirrors.
+The original migration source had **three mutually-contradictory** session/window maps for this machine's local tmux layout (different window counts, a session named `dxo` that the PowerShell profile defaulted to but that no script actually created, a script's own comment calling a locally-running session "remote"). Rather than propagate that confusion into a generic skill, `scripts/msys2/tmux-sessions.ps1` here (moved from `assets/msys2/` 2026-08-27 — see "Pattern for a new Windows+WSL machine" in SKILL.md for the `assets/` vs `scripts/` split rule) is a corrected, minimal, machine-agnostic version: one session, literally named `windows`, with exactly the same 3-window equipment layout `k-tmux` uses on the WSL side (`agents` — split 3 ways, `default`, `tmp`) — see `k-tmux/assets/tmux-init.sh` for the Linux/bash original this mirrors.
 
 ```powershell
 powershell -File tmux-sessions.ps1          # create the "windows" session + any missing windows
