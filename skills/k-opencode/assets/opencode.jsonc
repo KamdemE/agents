@@ -529,6 +529,13 @@
     // opencode-notify — sovereign always-on system+Telegram notification (session.idle/session.error/permission.ask). NOT a hook (read-only/observational, never influences agent behavior — same category as tmux-notify.js/opencode-context/opencode-voice), lives in its own scripts/plugins/opencode-notify/ subdirectory. Replaces opencode-notifications.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-notify/opencode-notify.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
+    // opencode-advisor — advisor() tool + auto-escalation. KπX sovereign fork (StefanoBalocco). Non-hook plugin (event + tool, not messages.transform).
+    ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-advisor/dist/plugin.js", {
+      "model": "deepseek/deepseek-v4-pro",
+      "failureThreshold": 5
+    }],
+    // opencode-btw — /btw slash command. Raw .ts (no build). Creates ephemeral sub-session for side questions. Default model: opencode-go/mimo-v2.5.
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-btw/btw.ts",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
     // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"

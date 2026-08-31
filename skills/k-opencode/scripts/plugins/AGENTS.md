@@ -72,6 +72,12 @@ scripts/plugins/
 ├── opencode-voice/        # NON-HOOK plugin — TUI STT/TTS (voice, sovereign fork)
 ├── opencode-notify/       # NON-HOOK plugin — system+Telegram lifecycle notification
 │   ├── opencode-notify.js, opencode-notify.sh
+├── opencode-advisor/      # NON-HOOK plugin — advisor() tool + auto-escalation (git submodule)
+│   ├── dist/plugin.js (compiled)
+│   └── src/plugin.ts
+├── opencode-btw/          # NON-HOOK plugin — /btw slash command (git submodule, raw .ts)
+│   ├── btw.ts, index.ts
+│   └── assets/plugins/btw/btw.md (command definition, symlinked to ~/.config/opencode/commands/)
 └── web/                   # web plugins (opencode-lens, opencode-web-voice)
 
 assets/plugins/
@@ -135,6 +141,18 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 |------|------|
 | `opencode-notify.js` | **NOT a hook** (read-only/observational, see "Hooks vs Plugins" above). Fires KπX a notification (system + Telegram) the moment the agent finishes a turn (`event`/`session.idle`), hits an error (`event`/`session.error`), or is blocked waiting for an approval decision (`"permission.ask"` hook callback). Always fires, all agents, no focus-detection gate (replaces the purged third-party `opencode-notifications` npm plugin — see `references/plugin-watch.md` → Purged). Includes device hostname (`libs/device-info.js`), resolved agent (`libs/agent-scope.js`), and session title/directory (`client.session.get`) in every notification. |
 | `opencode-notify.sh` | Sibling shell wrapper — sources the shared `$HOME/.agents/libs/notif/notifier.sh` and calls `notify_mixed` (system `notify-send` + Telegram, one call). Invoked by `opencode-notify.js` via `execFile` (argv array, no shell string interpolation). Prefers the dedicated `TELEGRAM_OPENCODE_TOKEN` (see `.env.example`) over the shared notifier fallback chain. |
+
+### Advisor plugin (`scripts/plugins/opencode-advisor/`)
+
+| File | Role |
+|------|------|
+| `plugin.js` (compiled from `src/plugin.ts`) | **Advisor tool + auto-escalation.** Registers `advisor()` tool (model decides when to consult a stronger model) and monitors `message.part.updated` for consecutive tool errors — after `failureThreshold` (default 3, configured 5), aborts session, consults advisor, resumes with guidance. Hidden agent with read-only permissions. Non-hook plugin (event + tool, not messages.transform). |
+
+### /btw plugin (`scripts/plugins/opencode-btw/`)
+
+| File | Role |
+|------|------|
+| `btw.ts` (raw .ts, no build — opencode-context pattern) | **`/btw` command.** `command.execute.before` intercepts `/btw <query>`, creates ephemeral sub-session via SDK, appends answer as card. Default model: `opencode-go/mimo-v2.5`. Command definition in `assets/plugins/btw/btw.md` (symlinked to `~/.config/opencode/commands/btw.md`). |
 
 ### Shared libs (`scripts/plugins/libs/`)
 

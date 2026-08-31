@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.69.0
+  version: 2.70.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -105,7 +105,7 @@ opencode models
 ## Plugins & Hooks — Four Systems
 
 OpenCode and its environment are extended via four distinct systems:
-1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS modules). 17 active plugins (8 npm, 9 local: 8 hooks + 1 submodule tool). See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, and coding standards in **`references/hooks-standard.md`**.
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS/TS modules). 20 active plugins (8 npm, 12 local: 8 hooks + 1 submodule tool + 1 advisor + 1 btw + 1 context). See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, `file://` sovereign fork) for console interface features (voice STT/TTS via `@kpihx/opencode-voice` `v0.4.1-kpihx.1` fork de `renjfk`). ⚠️ **Config/link registration ≠ runtime readiness (GRAVÉ):** registering a plugin (config array, `tui.json` symlink, `file://` path) only loads its JS glue — every external binary, service, or model file the plugin invokes MUST ALSO be installed and verified **per machine** (e.g. voice: `sox`/`whisper-cli`/`piper`; hooks: `tmux` CLI; web voice: lens proxy). Run the owning skill's dependency checks before declaring the feature working. Per-machine deployment checklist → **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (e.g. `opencode-web-voice` Web Speech mic, `opencode-web-model-line` model-selector own-line fix). See **`### Web UI plugins (opencode-lens proxy)`** below.
@@ -115,6 +115,18 @@ OpenCode and its environment are extended via four distinct systems:
 ### Voice (TUI — @kpihx/opencode-voice `v0.4.1-kpihx.1` sovereign)
 
 STT + TTS 100% local via `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice`, fork `renjfk`, `v0.4.1-kpihx.1`: siwis FR, `<leader>r`, LLM fallback). Config in `tui.json` (`file:///…/scripts/plugins/opencode-voice`, not `@renjfk` npm), tracked as `assets/tui.json` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`). Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and sovereign patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
+
+### Advisor (non-hook plugin — `opencode-advisor/`)
+
+Advisor model + auto-escalation. Forked from `StefanoBalocco/opencode-advisor` v2.3.1. Source: `scripts/plugins/opencode-advisor/` (git submodule, `github`+`gitlab` `kpihx-labs/opencode-advisor`).
+
+- **`advisor()` tool**: model decides when to consult a stronger model for strategic guidance.
+- **Auto-escalation**: after `failureThreshold` (configured 5, code default 3) consecutive tool errors, plugin aborts the session, consults advisor, resumes with guidance. Opt-out per agent: `"tools": { "advisor": false }`.
+- **Config**: `"model"` (`provider/model`, default `deepseek/deepseek-v4-pro`), `"failureThreshold"`, `"temperature"`, `"prompt"`. Full docs → repo `AGENTS.md`.
+
+### /btw (non-hook plugin — `opencode-btw/`)
+
+Slash command `/btw <question>` — ephemeral sub-session answers a side question without interrupting the current agent. Source: `scripts/plugins/opencode-btw/` (git submodule, `github`+`gitlab` `kpihx-labs/opencode-btw`). Command definition: `assets/plugins/btw/btw.md` (symlinked to `~/.config/opencode/commands/btw.md`). Default model: `opencode-go/mimo-v2.5`.
 
 ### Providers: Ollama (local) & Ollama6 (deep-pc6)
 
@@ -236,6 +248,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-01 | [LIVE] | v2.70.0 — **`opencode-advisor` + `opencode-btw` plugins**: advisor (StefanoBalocco fork, advisor tool + auto-escalation, `deepseek/deepseek-v4-pro`, threshold 5) and /btw (ephemeral sub-session, `opencode-go/mimo-v2.5`) as two separate sovereign plugins. opencode-advisor: git submodule, compiled `.js`. opencode-btw: git submodule, raw `.ts` (opencode-context pattern), command in `assets/plugins/btw/btw.md`. Both repos `kpihx-labs` (github+gitlab). |
 | 2026-08-30 | [LIVE] | v2.69.0 — **`raw-exec-guard.js` duration threshold + false-positive fix (KπX: "ne bloque les sleep/timeout que si >20s et évite les faux positifs comme --wait-for-cdp")**: `sleep` and `timeout` are now only blocked when their duration exceeds `POLL_THRESHOLD_SECS` (20s) — short inline polls (`sleep 5`, `timeout 3 curl ...`) are allowed. `wait` (bash builtin) is always blocked (indeterminate, no duration). False-positive guard: `WAIT_PATTERN` uses `(?<![a-zA-Z-])\bwait\b` so flags like `--wait-for-cdp` or `--wait-for-something` are NOT blocked — only the bare `wait` bash builtin (preceded by space, quote, or start-of-string) triggers. Error messages now include the actual duration and the threshold for clarity. 29/29 tests green (8 new cases covering threshold boundaries, `--wait-for-cdp`, `--wait-for-something`). |
 | 2026-08-30 | [LIVE] | v2.68.0 — **`tmux-notify` capture depth 20→50 + automatic-result fallback (KπX request):** default `TMUX_LINES` is now 50. The proactive `<tmux-armed>` reminder now orders a one-shot larger `tmux capture-pane -p -t <pane> -S -100` diagnostic capture whenever the final automatic capture is empty, incomplete, or insufficient; it explicitly forbids turning that fallback into polling. `k-tmux` v1.30.0 + governing stateful-command docs aligned. |
 | 2026-08-29 | [LIVE] | v2.67.0 — **New hook `raw-exec-guard.js` — technically enforces 2 long-standing PROSE-ONLY rules (KπX: "il faut un hook qui intercepte les sudo hors tmux send keys et qui bloque... aussi les sleep wait timeout")**: blocks any raw bash command containing `sudo` or `sleep`/`wait`/`timeout`, UNLESS it is already a compliant `tmux send-keys -t <target> ...` call (quoted payload runs in the pane, never the agent's own shell). Same `throw`-only pattern as `make-check-guard.js` (mutating `output.args` doesn't propagate, upstream opencode #31680), no `TARGET_AGENTS` (global kernel rule, `tool.execute.before` has no `messages` to scope by). A 3rd idea proposed alongside this (detect any raw command running >30s, kill it, relaunch the agent) was explicitly REJECTED by KπX as out of scope — not achievable anyway (no PID access to the real subprocess, no reliable command rewriting) — kept the hook simple and fully verifiable instead. New shared lib `libs/tmux-patterns.js` (`SEND_KEYS_REGEX`) extracted from `tmux-notify.js`, which was refactored to import it (was duplicated twice internally, would have been a 3rd copy in the new hook). 17/17 tests green (`tests/hooks/raw-exec-guard.test.mjs`, imports the real module, same style as `make-check-guard.test.mjs`). Registered in `opencode.jsonc`. |
