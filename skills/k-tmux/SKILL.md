@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.24.0
+  version: 1.30.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -47,6 +47,17 @@ Use this gate when a command may require **KπX** interaction:
 
 **`sui` is deprecated** — do not invoke it. Agents **never** run raw `sudo` in non-interactive tool shells; elevation happens in the shared pane.
 
+🔴 **TECHNICALLY ENFORCED, not just documented (2026-08-29):** `k-opencode`'s
+`raw-exec-guard.js` hook `throw`s (blocks the tool call before it runs) on any
+raw `sudo` — and separately on raw `sleep`/`wait`/`timeout` (manual polling
+anti-pattern) — unless the command is already a compliant
+`tmux send-keys -t <target> '...' Enter` call. If you hit this block, do not
+retry the same raw command: send the exact same payload through
+`tmux send-keys` on the ops pane instead (see `### Run and get notified`
+below). Scope deliberately limited to these 2 static checks — no attempt to
+kill a command mid-execution past some duration (not achievable with the
+current OpenCode plugin API, and out of scope per KπX).
+
 ### Standard session per equipment
 
 Every KπX equipment gets a tmux session named after itself (`ubuntu`, `pve`, `pve-debian`, `dockerhost`, `blglaptop139`, `s25`, `deep-pc6`). Full equipment gets 3 windows (`agents` 3-pane layout, `default`, `tmp`); phones get 2 (`default`, `tmp`). Full layout diagram + setup commands → **`references/session-layout.md`**.
@@ -62,8 +73,8 @@ Every KπX equipment gets a tmux session named after itself (`ubuntu`, `pve`, `p
 ### Run and get notified (stateful — NEVER manually poll `capture-pane`)
 
 ```bash
-# Default long command — 300 seconds (NOT ms) timeout, 20 lines shown
-TMUX_TIMEOUT=300 TMUX_LINES=20 tmux send-keys -t SESSION:WIN.PANE 'your command here' Enter
+# Default long command — 30 seconds (NOT ms) timeout, 50 lines shown
+TMUX_TIMEOUT=30 TMUX_LINES=50 tmux send-keys -t SESSION:WIN.PANE 'your command here' Enter
 
 # Command that may need KπX action (sudo password, passphrase, 2FA) —
 # SHORT timeout so you catch the prompt fast instead of sitting idle
@@ -78,15 +89,30 @@ target pane the moment you `send-keys`, then delivers a synthetic
 
 | Event | What you get automatically |
 |-------|------------------------------|
-| Right after you `send-keys` (ALWAYS, even with no `TMUX_TIMEOUT`/`TMUX_LINES` added — defaults apply) | A `<tmux-armed>` reminder appended directly to that SAME tool call's own result: pane armed, do not `capture-pane`, continue a parallel task or stop, you'll be auto-notified. |
-| Pane returns to its prompt before `TMUX_TIMEOUT` | `<tmux-notify>` — `... has returned to its prompt.` + exact last-N captured lines. |
-| `TMUX_TIMEOUT` elapses, pane still busy | ONE `<tmux-notify>` — `... is still running after Xs.` + a fresh capture. The registry stays armed — the real completion notification still fires later, you don't need to re-send anything. |
+| Right after you `send-keys` (ALWAYS, even with no `TMUX_TIMEOUT`/`TMUX_LINES` added — defaults apply) | A `<tmux-armed>` reminder appended directly to that SAME tool call's own result: pane armed, continue a parallel task or stop, you'll be auto-notified. If its final capture is empty, incomplete, or insufficient, immediately run the one larger diagnostic capture it names (`tmux capture-pane -p -t <pane> -S -100`), never a polling loop. |
+| Pane returns to its prompt before `TMUX_TIMEOUT` | `<tmux-notify>` — command FINISHED, lease released, exact last-N captured lines. |
+| `TMUX_TIMEOUT` elapses, pane still not at shell | `<tmux-watchdog>` — explicit `STATUS:` (has NOT returned yet) + check counter + a lettered **decision tree**: **A** interactive → keep driving it or `C-c` when done; **B** normal-but-slow, expect much longer → `: TMUX_ADJUST` now; **C** normal, current interval fine → do nothing; **D** stuck/crashed/forgotten → `C-c` now or be woken forever. Checks ≥3 add an explicit push toward B/D. Recurring every `TMUX_TIMEOUT` until shell return. |
 
-**`capture-pane` is NEVER blocked (KπX, 2026-08-16, reversing an earlier reactive
-block):** an agent may legitimately need a manual `capture-pane` if this very
-plugin malfunctions (log not written, watcher stuck, registry desync). The
-reflex above is now enforced PROACTIVELY (the `<tmux-armed>` reminder right
-after `send-keys`), never by rejecting a later `capture-pane` call.
+**Adjust the timeout without ever touching the pane (2026-08-29):** if a watchdog fires and you judge the pane needs more (or less) time before the next check, run this — it is a pure no-op meta command, it is NEVER sent to the pane's actual input:
+
+```bash
+: TMUX_ADJUST SESSION:WIN.PANE 180   # or the pane id, e.g. %3
+```
+
+The lease's countdown restarts from the new value; you get a `<tmux-timeout-adjusted>`
+confirmation. Only the session that armed the pane may adjust it (another
+session's lease → refused, no lease at all → informational no-op, never an
+error). This is the ONLY sanctioned way to widen/narrow the check interval —
+never `send-keys` an env var into the pane itself (would pollute the stdin of
+whatever is actually running there).
+
+**`capture-pane` is NEVER blocked:** it remains a diagnostic fallback when the
+watcher is suspect, and an explicit snapshot is legitimate for an interactive
+TUI. For a normal command, never turn it into a polling loop: the shell-return
+notification is authoritative. The reflex is enforced PROACTIVELY — a reminder
+appended directly to the `send-keys` call's own result right after you send it
+(see `<tmux-armed>` above) — never by reactively rejecting a later
+`capture-pane` call.
 
 **KπX-approval flow (sudo/passphrase/2FA):** inspect the captured lines in the
 notification. If they show a password/passphrase/2FA prompt, message KπX
@@ -155,7 +181,8 @@ Brief summary of the mechanism:
 - **Shell prompt hook** in `.kshrc` writes JSON prompt events to `/tmp/tmux-pane-done.log`.
 - **`k-opencode` `tmux-notify.js` plugin** handles arming (`tool.execute.before`) and proactive reminder (`tool.execute.after`).
 - **Session isolation** scopes notifications to the exact session that launched the command.
-- **Busy-pane block** enforces a two-layer guard to prevent typing into busy panes.
+- **Pane leases** preserve exclusive cross-session ownership while letting the owner continue an interactive program.
+- **Timeout self-adjustment** (`: TMUX_ADJUST <pane> <seconds>`) lets the owning session widen/narrow its own watchdog interval at any time — a no-op meta command, never sent to the pane.
 
 For detailed architecture, cooperative pieces, and rules, see **`references/stateful-integration.md`**.
 
@@ -174,7 +201,7 @@ Copy-mode keys, KπX mouse-drag-to-copy behavior, wheel bindings, and synchronis
 ```bash
 # Send keys to a pane — DEFAULT pattern: always carry TMUX_TIMEOUT/TMUX_LINES
 # (see ### Run and get notified above) so completion is reported automatically.
-TMUX_TIMEOUT=300 TMUX_LINES=20 tmux send-keys -t SESSION:WIN.PANE 'ls -la' Enter
+TMUX_TIMEOUT=30 TMUX_LINES=20 tmux send-keys -t SESSION:WIN.PANE 'ls -la' Enter
 
 # Manual capture-pane — NEVER blocked (KπX, 2026-08-16: an earlier reactive
 # block was tried, then explicitly REMOVED — the agent may legitimately need
@@ -230,7 +257,7 @@ This shows every pane across all sessions with the running command — no guessi
 - `references/boot-recovery.md` — First-tmux-after-reboot mandatory workflow (continuum-boot off, manual restore steps)
 - `references/cli-reference.md` — Full CLI + keybind tables: sessions, windows, panes, layouts
 - `references/copy-mode-mouse.md` — Copy-mode keys, mouse-drag-to-copy, wheel bindings, synchronised panes
-- `references/stateful-integration.md` — Detailed stateful agent-notification mechanism, hooks, and busy-pane blocks
+- `references/stateful-integration.md` — Detailed stateful agent-notification mechanism, hooks, and pane leases
 - `references/config-and-troubleshooting.md` — Config essentials, useful one-liners, SSH+tmux pattern, troubleshooting table
 - `references/windows.md` — WSL tmux setup and limitations
 
@@ -244,6 +271,13 @@ This shows every pane across all sessions with the running command — no guessi
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-30 | [LIVE] | v1.30.0 — **Default `TMUX_LINES` raised 20→50 and empty-result fallback made explicit (KπX request):** `<tmux-armed>` now tells the agent to make one immediate `tmux capture-pane -p -t <pane> -S -100` diagnostic capture whenever the eventual automatic capture is empty, incomplete, or insufficient. It remains a one-shot diagnosis, never a polling loop. |
+| 2026-08-29 | [LIVE] | v1.29.0 — **`## tmux sudo Gate` and self-backgrounding rules now TECHNICALLY ENFORCED (KπX request)**: both were prose-only for 3+ days despite documented incidents. `k-opencode`'s new `raw-exec-guard.js` hook blocks raw `sudo`/`sleep`/`wait`/`timeout` unless the command is already a compliant `tmux send-keys` call. `## Shared interactive gate` and `## tmux sudo Gate` updated to state the block explicitly. Scope deliberately limited (KπX): no attempt at a runtime >30s kill-and-relaunch (not achievable with the current plugin API, rejected as out of scope). |
+| 2026-08-29 | [LIVE] | v1.28.1 — **Orphan sentence fragment fixed in `## Send Keys & Capture Output`** (KπX-flagged in a prior turn's Remarks, then explicitly requested "fix ceci aussi"): a dangling leftover fragment from a previous edit ("after `send-keys`), never by rejecting a later `capture-pane` call.") sat disconnected right after a complete sentence, with zero connecting context. Merged into one coherent sentence — preserves the original point (proactive reminder mechanism vs a reactive block) instead of just deleting it. |
+| 2026-08-29 | [LIVE] | v1.28.0 — **Watchdog/armed/control messages rewritten as an explicit A/B/C/D decision tree (KπX 2nd-pass correction — a real transcript showed an agent stuck looping acknowledgements, never deciding)**: every notification now states an unambiguous STATUS ("has NOT returned to its shell yet") + infinite-loop warning + 4 lettered options with exact commands: interactive→keep driving or `C-c`, slow-but-normal→`: TMUX_ADJUST`, normal-just-wait→do nothing, stuck/forgotten→`C-c` now. `## Run and get notified` table updated. |
+| 2026-08-29 | [LIVE] | v1.27.0 — **Timeout self-adjustment + escalating watchdog guidance (KπX: watchdog loop was unclear, and adjusting via `send-keys` risked polluting a running process's stdin)**: new no-op meta marker `: TMUX_ADJUST <pane> <seconds>` — never a `send-keys` call, never delivered to the pane — lets the owning session widen/narrow its own watchdog interval at any time; countdown restarts from the new value, ownership-gated (another session's lease → refused; no lease → informational no-op, never a hard error). Watchdog messages now carry an explicit check counter and escalate: checks 1–2 offer "continue in parallel, or adjust if you expect longer"; checks ≥3 read "genuinely long-running, not stuck" and push adjusting the interval or `Ctrl+C` to abort — every message states the exact adjust syntax. `## Run and get notified`, `## Stateful Integration`, `references/stateful-integration.md` updated (5 pieces, was 4). |
+| 2026-08-28 | [LIVE] | v1.26.0 — **Owner-aware tmux leases + interactive mode:** the session that armed a pane retains input control (follow-ups, corrections, `Ctrl+C`) without replacing its watch; another OpenCode session stays blocked. `TMUX_MODE=interactive` marks a persistent TUI: timeout becomes `<tmux-watchdog>` (open, no conclusion), while return to shell is the definitive `<tmux-notify>`. Prompt timestamps prevent an old completion event from finalizing a rapid relaunch. `capture-pane` is explicitly available for diagnosis or an interactive snapshot, never a headless polling loop. |
+| 2026-08-27 | [COLAB] | v1.25.0 — **Default `TMUX_TIMEOUT` reduced from 300s (5 min) to 30s** (KπX directive). Updated in `tmux-notify.js` (the actual default), `k-tmux/SKILL.md` (examples), `rules/tool-discipline.md` (doc), `k-tmux/references/stateful-integration.md` (doc), and `plugins/AGENTS.md` (inventory table). The old 5-minute default was too long for most agent workflows — 30s catches completion (or prompts) much faster while still allowing explicit override for genuinely long builds. |
 | 2026-08-26 | [COLAB] | v1.24.0 — **Copy-mode mouse bindings FULLY REVERTED to the historical pre-saga state (3rd pass, same day) — the real fix is Shift+drag, not a tmux-side config** (KπX: "enfin la solution était juste ce shift ! tout ce qui a été ajouté [...] revient juste à ce qui était depuis toujours"). Root cause of the v1.23.0 "stuck pane"/"tmux menu after selection" complaints: dropping `-and-cancel` (both v1.21.0 and v1.23.0 kept the pane in copy-mode after a copy) left the pane in the `copy-mode-vi` key table, where right-click falls through to tmux's own popup-menu bindings instead of the `root` table's intended `select-pane \; copy-mode`. Reverted `Enter`/`y`/`MouseDragEnd1Pane` to `copy-pipe-and-cancel "xclip -in -selection clipboard -quiet 2>/dev/null \|\| wl-copy -n 2>/dev/null \|\| true"` — byte-identical to the config from before the ENTIRE clipboard saga (v1.20.x and earlier) — auto-exits copy-mode immediately after copy, exactly as it always did. Removed the `@yank_action` override entirely (plugin default `copy-pipe-and-cancel` applies). **Live-reload gotcha hit AGAIN**: `tmux source-file` after removing `set -g @yank_action "copy-pipe"` from the file did NOT clear the option from the running server (same class of bug as the documented `remain-on-exit` incident) — required an explicit `tmux set-option -gu @yank_action` before tmux-yank's `yank.tmux` would regenerate the correct default binding. **Kept**: the `allow-passthrough` version-guard (legitimate deep-pc6-3.2a-vs-ubuntu-3.6 compatibility fix, harmless no-op either way) and the `tmux-copycat` plugin removal (unrelated, already KπX-validated, not implicated in the stuck-pane/menu symptoms). **Real, durable fix documented instead**: Shift+drag mouse selection bypasses tmux's mouse reporting entirely (standard xterm/VTE convention) — the TERMINAL does native selection + OS clipboard write, zero dependency on tmux/OSC52/copy-pipe/tmux-yank, and — critically — works for the deep-pc6 nested-SSH-tmux case too since the terminal only cares about on-screen character cells, not their origin; confirmed via research, documented as the PRIMARY method in this file's header comment, with the mouse-drag/`y`/`Enter` copy-mode path kept as SECONDARY (scrollback-only) fallback. Makes the `RemoteForward`-bridge-to-deep-pc6 idea (raised, deferred in v1.23.0) moot — no longer needed for clipboard. `references/insights.md` +1 entry. |
 | 2026-08-26 | [COLAB] | v1.23.0 — **Remote clipboard fix REVERTED (2nd pass, same day) — the v1.21.0 native-OSC52-only approach was wrong**: found live on kpihx-ubuntu right after merging PR #3, via KπX report "je peux pas faire de clic droit .. et c'est auto copié, actu quels sont tous les mécanismes liés au cp ?". Two compounding bugs: (1) GNOME Terminal/VTE (AND Ptyxis, Ubuntu 26.04's new default terminal — same VTE engine, purple icon) has ZERO OSC52 support by deliberate, still-current upstream policy (tracked since 2018) — `copy-selection` relying purely on `set-clipboard on` can never reach the OS clipboard on either terminal, local or over nested SSH/tmux; VS Code/Cursor (xterm.js) DO support OSC52 locally but are known-unreliable over the Remote-SSH extension specifically. (2) `tmux-yank`'s `yank.tmux` unconditionally appends the detected copy command as a trailing arg to `@yank_action` (`send-keys -X "$(yank_action)" "$copy_command"`), assuming a `copy-pipe*` family action — setting it to `"copy-selection"` (not a pipe variant) produced an invalid `copy-selection wl-copy` binding, confirmed live via `tmux list-keys`. Fix: `@yank_action "copy-pipe"` (NOT `-and-cancel` — keeps KπX's preferred "selection stays highlighted" UX) + explicit `Enter` binding restored to `copy-pipe "wl-copy 2>/dev/null \|\| xclip -selection clipboard 2>/dev/null \|\| true"` (byte-identical fallback chain to the pre-v1.21.0 working mechanism). `set-clipboard on` kept as a zero-cost OSC52 bonus for compatible terminals. Investigated (declined for now, KπX arbitrage): bridging deep-pc6's nested-tmux copy back to the local clipboard via the new `RemoteForward 2222` tunnel (G5, k-ssh v1.5.0) — tunnel confirmed LIVE and reachable, but requires provisioning an inbound SSH key FROM deep-pc6 TO kpihx-ubuntu (a real security trade-off, not just a config change) — deferred. `references/insights.md` +1 entry (VTE/Ptyxis OSC52 absence + tmux-yank pipe-arg assumption, cross-ref `k-ssh` RemoteForward). |
 | [SUMMARY] | — | v1.22.0 5th tmux-notify root cause (self-backgrounding nohup+sleep never covered) · v1.21.0 remote clipboard native-OSC52-only attempt, superseded same-day by v1.23.0/v1.24.0 · v1.20.2 split-window WINDOW-vs-PANE hazard doc · v1.20.1 S25→k-phones ref · v1.20.0 busy-pane block layer 2 (ground-truth `pane_current_command` check) · v1.19.0 dead-pane & terminal hijack fixes (→ `references/log.md`) · v1.18.0 capture-pane block REMOVED + proactive reminder + session isolation fix (→ `references/log.md`) · v1.17.0 technical block on manual capture-pane, later reversed (→ `references/log.md`) · v1.16.0 TMUX_TIMEOUT/TMUX_LINES reflex generalized + exact line-count label (→ `references/log.md`) · v1.14.0 Stateful Integration + remain-on-exit (→ `references/log.md`) · v1.13.0 SKILL size reduction (→ `references/log.md`) · v1.12.0 symlink direction reversed (→ `references/log.md`) · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

@@ -79,7 +79,7 @@ Every `k-*` skill: `SKILL.md` at root (YAML frontmatter, `⚠️ WHEN EDITING...
 
 ## Skill Size Limits (MANDATORY)
 To keep the documentation clean, scannable, and maintainable, `SKILL.md` files must never exceed **300 lines**.
-- When a `SKILL.md` file approaches or exceeds this limit, agents must proactively synthesize the content, extract detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and add a link in the main `SKILL.md`.
+- When a `SKILL.md` file approaches or exceeds this limit, agents must proactively **propose** synthesizing the content, extracting detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and wait for KπX's go-ahead before writing (exception: carte blanche/feu vert).
 - **Harmonious Skill Compaction Rule:** When compacting a skill, agents must do so intelligently by identifying the least frequently or potentially used elements to move to references (preferring existing reference files if they fit, and only creating new ones if none fits). The main `SKILL.md` must retain a clear, coherent summary/reference of what was moved so the skill remains harmonious and readable.
 - No information must be lost: the creation of these reference files is mandatory to preserve details.
 - This limit is strictly enforced by the audit pipeline.
@@ -91,10 +91,10 @@ To keep the documentation clean, scannable, and maintainable, `SKILL.md` files m
 - Summary rows stay short; never replace real entries before the limit.
 
 ## Agent-Owned Runtime Memory
-Each agent owns its `k-<agent>/SKILL.md`. When you learn a new runtime fact, workaround, or config rule — UPDATE the skill proactively in the same workstream, without asking.
+Each agent owns its `k-<agent>/SKILL.md`. When you learn a new runtime fact, workaround, or config rule — PROPOSE the update in the same workstream and wait for KπX's go-ahead before writing (exception: carte blanche/feu vert). See `rules/tool-discipline.md` → `## Propose ≠ Act`.
 
 ## k-* Proactive Freshness (MANDATORY)
-After using any `k-*` skill: confirm the owning `SKILL.md` still matches reality. If wrong/incomplete → patch it immediately (operational text + version bump + changelog).
+After using any `k-*` skill: confirm the owning `SKILL.md` still matches reality. If wrong/incomplete → propose the patch (operational text + version bump + changelog) and wait for go-ahead before writing.
 
 ## Insights Governance
 Every skill domain maintains `references/insights.md`. Agents manage these files autonomously (add/update/restructure). If missing → create it immediately. After creating → mention it in SKILL.md.

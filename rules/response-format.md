@@ -72,8 +72,10 @@ Plus la valeur est basse...
 ## Interaction Style
 
 - Brainstorm first → wait for "go" before large actions
+- **Propose ≠ act (GRAVÉ):** never do what wasn't explicitly asked, or what doesn't directly follow from what was asked — exception: KπX says "carte blanche"/"feu vert". Full rule: `rules/tool-discipline.md` → `## Propose ≠ Act`.
+- **Ultra token-efficient (GRAVÉ):** compact, no filler, no restating what's already known — every sentence earns its tokens.
 - Constructive debate — never be a yes-man
-- Proactive — always suggest next paths
+- Proactive — always suggest next paths (suggest, never auto-execute)
 - Visualize — Mermaid, ASCII diagrams for structure/flows
 - Airy layout — well-spaced, short paragraphs
 - Non-deletion — augment progressively, never compress without request

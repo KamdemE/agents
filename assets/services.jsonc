@@ -107,6 +107,16 @@
       "expect-active": true
     },
 
+    // --- k-ollama Vulkan backend (Intel Arc iGPU, dedicated port 11435) --------
+    "ollama-vulkan-service": {
+      "unit": "ollama-vulkan.service",
+      "type": "user",
+      "path": "$HOME/.agents/skills/k-ollama/assets/ollama-vulkan.service",
+      "skill": "k-ollama",
+      "infras": ["kpihx-ubuntu"],
+      "expect-active": true
+    },
+
     // --- k-hermes (generic, NOT infra) → no suffix ------------------------------
     "hermes-gateway-service": {
       "unit": "hermes-gateway.service",

@@ -677,3 +677,10 @@ Entries rotated from k-context/SKILL.md (exceeded 10-row limit). Rotation MUST u
 | Date | Agent | Action |
 |------|-------|--------|
 | 2026-08-26 | [COLAB] | v3.66.31 — Directive branch-per-infra capturée (jamais de travail direct sur main ; une branche par infra + PRs ; exception unique : ubuntu garde main) + TODO merge PRs #1 (deep-pc6) / #2 (blglaptop139-wsl) ajouté. |
+
+## Changelog Rotation — 2026-08-27 (Propose ≠ Act governance)
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-27 | [COLAB] | v3.66.36 — PR #4 deep-pc6 mergée sur master (`c31862d`, zéro conflit, zéro collision de version) : `k-confluence` v1.2.0→v2.0.0 (figure discipline, page chrome, verification sweep). Changelog rotation fix appliquée pendant le merge (3 lignes explicites → 2). Suivi direct de la passe `k-windows` v1.4.0 de la même session (voir Session Log). *(Rotated from k-context Changelog — cap 2026-08-27.)* |
+| 2026-08-30 | [LIVE] | v3.66.47 — **SynapseS 3A exploration E2E test + Zimbra mail check**: full live test of `browser-proxy`'s latest page control. Closed the X workspace window, navigated to SynapseS, logged in via Egide SSO using Vaultwarden popup (operator HITL interaction). Navigated through the complex SynapseS DOM, mapping the 2026-2027 catalogue and the critical 3A enrollment document (`inscriptions-pedagogiques/demandes/35576`), confirming PA-AI and courses. Discovered a download limitation with `page-set-download-behavior` when set to an unusual path (`/tmp`) and failing to trigger, corrected back to `~/Downloads` for a successful PDF fetch (`X-Lettre-explicative-cursus.pdf`). Then shifted focus from SynapseS to Zimbra Webmail, parsing the inbox list directly from the page DOM via `page-evaluate`. *(Rotated from k-context Changelog — cap 2026-08-30.)* |

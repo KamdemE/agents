@@ -14,7 +14,7 @@ STOP CHECK — Before you finalize — this is MY reminder:
    - Did you do smoke execution tests of what you built?
    - Are you 100% certain it works end-to-end — without asking me to test it myself?
 
-4. If a long process was involved (training, install, sync): is it FULLY finished? You never stop to wait — you poll with renewable sleeps until it is done. If you said 'waiting', you are NOT done.
+4. If a long process was involved (training, install, sync): is it FULLY finished? You never stop to wait — for tmux panes use the TMUX_TIMEOUT/TMUX_LINES armed reflex and wait for <tmux-notify>/<tmux-armed> (never manual poll/sleep), for non-tmux background work poll with renewable sleeps only if no tmux pane is available. If you said 'waiting', you are NOT done.
 
 5. If you stopped because you were blocked: did you explore EVERY track? plocate/qmd/loom/tmux — and the web search tools (exa/google/websearch/webfetch) when stuck? Only stop if totally finished, OR too many iterations with the same wall.
 

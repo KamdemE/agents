@@ -11,6 +11,8 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **2026-08-28 — A pane watch must be an owner lease, never a blanket input lock:** a registry entry originally prevented even its creator from correcting, cancelling, or conversing with a foreground TUI. The durable split is: (1) only the owning OpenCode session may send further keys while the lease is active; (2) that control input never replaces/re-arms the original completion watch; (3) other sessions remain blocked; (4) shell prompt events carry nanosecond timestamps and must be accepted only when newer than the lease, otherwise a late completion from command A can finalize a rapid command B relaunch. An interactive TUI may stay alive after a peer response, so its timeout is a `<tmux-watchdog>`, never a completion inference; only shell return is generic final completion. Per-turn readiness needs an application-specific, deterministic adapter — never screen-text or silence heuristics.
+
 - **2026-05-30 — Terminal-as-Consciousness:** Agent can observe and act upon itself using `tmux send-keys` (effector) + `capture-pane` (sensor). This enables a closed proprioceptive loop: write → capture → read → process → write. Full exploration documented in `references/terminal-consciousness.md`. Key practical finding: opencode requires double Enter (`Enter Enter`) via `send-keys` to submit queued text as a message.
 - Initial baseline created automatically from insights governance standard.
 - OpenCode install script can add PATH in `.zshrc`, but KπX runtime needs `.kshrc` as source of truth for cross-agent shell consistency.

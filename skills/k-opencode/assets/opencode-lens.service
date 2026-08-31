@@ -14,7 +14,7 @@ Type=simple
 WorkingDirectory=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-lens
 Environment="PORT=30001"
 Environment="OPENCODE_TARGET=http://127.0.0.1:40977"
-Environment="OPENCODE_WEB_PLUGINS=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-web-voice/lens.plugin.json"
+Environment="OPENCODE_WEB_PLUGINS=/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-web-voice/lens.plugin.json,/home/kpihx/.agents/skills/k-opencode/scripts/plugins/web/opencode-web-model-line/lens.plugin.json"
 ExecStart=/home/kpihx/.local/share/fnm/node-versions/v24.18.0/installation/bin/node scripts/lens-proxy.mjs
 ExecStartPost=/bin/sh -c 'for i in 1 2 3 4 5 6 7 8 9 10; do curl -sf -o /dev/null http://127.0.0.1:30001/ && exit 0; sleep 1; done; exit 1'
 Restart=on-failure

@@ -11,6 +11,8 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **2026-08-28 — Pane ownership and pane input are different rights (simplified 2026-08-28):** preserve cross-session protection with an exclusive *watch lease*, but let the lease owner keep sending keys to its own foreground TUI (follow-up, correction, `Ctrl+C`) without resetting the watch. A rapid relaunch needs prompt timestamps to reject the old command's delayed return-to-shell event. Every `TMUX_TIMEOUT` period while the pane has not returned to the shell emits a recurring `<tmux-watchdog>`; shell return remains the ONLY stop/completion event — no mode flag. Do not infer completion from silence or screen text.
+
 - Initial baseline created with skill v1.0.0.
 - KπX tmux config lives at `$HOME/.tmux.conf` (canonical). Skill asset `assets/tmux.conf` is a symlink — edit the real file, then `tmux source-file ~/.tmux.conf`.
 - Without explicit wheel bindings, mouse scroll at the shell prompt can reach zsh as ↑/↓ and browse command history instead of scrolling the tmux buffer. The bundled config forces copy-mode scroll on wheel up.

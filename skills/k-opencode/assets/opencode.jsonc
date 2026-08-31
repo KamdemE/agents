@@ -5,9 +5,9 @@
   // v1.19.0 — .env protection (edit + bash deny, .env.example allow)
   "autoupdate": "notify",
   "shell": "zsh",
-  "model": "opencode/x-preview-f-free",
-  "small_model": "opencode/x-preview-f-free",
-  "default_agent": "Colab",
+  "model": "opencode-go/mimo-v2.5",
+  "small_model": "opencode-go/mimo-v2.5",
+  "default_agent": "Live",
 
   // ──── GLOBAL permission — single source of truth ────
   // All agents inherit from here. Per-agent blocks define ONLY deltas.
@@ -275,20 +275,19 @@
     // Build: inherits everything from global — no delta needed
     // "Build": {},
 
-    // Lite: minimal agent with Ollama — inherits global, denies skills + MCPs
+    // Lite: minimal agent — prompt from agents/Lite/prompt.txt (standard, like Colab/Live/Explore/Agent). No general AGENTS.md injected (stripped by lite-instructions-swap.js).
     "Lite": {
-      "model": "ollama/phi4-mini",
-      "description": "Minimal tool-execution agent. bash + read/write + websearch. No rules, no skills overhead.",
-      "prompt": "You are in LITE mode. Strict rules: 1) Use `bash ls` to list directory contents (never use `read` on directories). 2) English only.",
+      "model": "opencode-go/mimo-v2.5",
+      "description": "Minimal tool-execution agent. bash + read/write + google search/fetch. No rules, no skills overhead.",
+      "prompt": "{file:~/.agents/agents/Lite/prompt.txt}",
       "mode": "primary",
       "color": "#FF9800",
       "permission": {
         "skill": "deny",
         "task": "deny",
-        "mail_fallback_*": "deny",
-        "tick_fallback_*": "deny",
-        "chrome-agent_*": "deny",
-        "linkedin_*": "deny"
+        "exa_web_search_exa": "deny",
+        "exa_web_fetch_exa": "deny",
+        "webfetch": "allow"
       }
     },
 
@@ -296,7 +295,7 @@
     // ALL *rm* commands are blocked by wildcard, then `rm` (trash wrapper) is explicitly re-allowed.
     // This means ANY variant (/usr/bin/rm, /bin/rm, rm -rf, etc.) is blocked — only bare `rm` works.
     "Auto": {
-      "model": "opencode/x-preview-f-free",
+      "model": "opencode-go/mimo-v2.5",
       "description": "Auto agent — full permissions, all tools allowed, all sub-agents callable, future-proof",
       "mode": "primary",
       "color": "#F44336",
@@ -344,10 +343,32 @@
       }
     },
 
+    // Live 🟩 — Colab variant. Same prompt.txt (symlink), same permission model.
+    // Delta: reminders injected LITE-style (only after a real new user message,
+    // via prompt-enforcer.js) instead of STRICT-style (every turn, prompt-enforcer-strict.js).
+    "Live": {
+      "description": "Colab variant — reminders injected only after your real message, not every turn.",
+      "mode": "primary",
+      "color": "#8BC34A",
+      "prompt": "{file:~/.agents/agents/Live/prompt.txt}",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "executor": "allow",
+          "intent-guardian": "allow",
+          "pragmatic-checker": "allow",
+          "curator": "allow",
+          "explore": "allow",
+          "general": "allow",
+          "scout": "allow"
+        }
+      }
+    },
+
     // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Explore can launch.
     "Explore": {
-      "model": "opencode/x-preview-f-free",
+      "model": "google/gemini-3-flash-preview",
       "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",
@@ -425,9 +446,31 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen2.5": { "name": "qwen2.5:latest (4.4 GB local)" },
-        "qwen3": { "name": "qwen3:latest (4.9 GB local)" },
-        "phi4-mini": { "name": "phi4-mini:latest (2.3 GB local)" }
+        "llama3.2:3b": { "name": "llama3.2:3b (1.9 GB local)" },
+        "llama3.2:1b": { "name": "llama3.2:1b (1.2 GB local)" },
+        "granite4:3b": { "name": "granite4:3b (2.0 GB local)" },
+        "granite4:1b": { "name": "granite4:1b (3.0 GB local)" },
+        "qwen3:0.6b": { "name": "qwen3:0.6b (0.5 GB local)" },
+        "qwen3:4b": { "name": "qwen3:4b (2.3 GB local)" },
+        "qwen3:1.7b": { "name": "qwen3:1.7b (1.3 GB local)" }
+      }
+    },
+    "openvino": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenVINO (local)",
+      "options": {
+        "baseURL": "http://localhost:11437/v1",
+        // "litellm" (not "bifrost") is the only format the installed
+        // opencode-models-discovery plugin actually maps to `reasoning` —
+        // verified by reading the plugin's real installed source
+        // (bifrost.ts never reads a reasoning field at all; litellm.ts does:
+        // `if (info.supports_reasoning === true) modelConfig.reasoning = true`).
+        // Endpoint defaults to /v1/model/info, served dynamically by our own
+        // serve.py — no per-model list, ever, in this config.
+        "modelsDiscovery": {
+          "enabled": true,
+          "modelInfoFormat": "litellm"
+        }
       }
     },
   },
@@ -461,17 +504,30 @@
     "opencode-ast",
     "opencode-antigravity-auth@latest",
     "opencode-claude-auth",
+    "opencode-models-discovery@latest",
+    // 2026-08-27 (KπX directive): ecosystem plugins — see references/plugin-watch.md for full research
+    // @kagan-sh/kagan purged 2026-08-27 (KπX directive) — see references/plugin-watch.md → Purged
+    // opencode-notifications purged 2026-08-27 (KπX directive) — replaced by the sovereign opencode-notify.js hook below (always-notify, system + Telegram)
+    "opencode-tasks", // Cron scheduler daemon (systemd --user, 60s tick) + /loop in-session loops
     // Runtime hooks — re-enabled 2026-08-09 (KπX directive). Order matters (see k-opencode/SKILL.md).
     // 2026-08-16: hooks moved scripts/hooks → scripts/plugins/hooks (KπX restructure); tmux-notify.js was
     // in scripts/plugins/tmux/, flattened directly into scripts/plugins/ same day (KπX: "plus besoin de
     // dossier tmux, mets ce plugin directement dans plugins") — no more tmux/ subfolder.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/lite-instructions-swap.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
+    // raw-exec-guard — technically enforces the tmux sudo Gate + no-manual-polling rules (2026-08-29, KπX):
+    // blocks raw `sudo`/`sleep`/`wait`/`timeout` outside a compliant `tmux send-keys` call. Same pattern as
+    // make-check-guard.js (throw-only, no TARGET_AGENTS — tool.execute.before has no messages to scope by).
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/raw-exec-guard.js",
     // tmux-notify — relays tmux prompt events (precmd/PROMPT_COMMAND) to the agent (event + chat.message, not messages.transform).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
+    // opencode-notify — sovereign always-on system+Telegram notification (session.idle/session.error/permission.ask). NOT a hook (read-only/observational, never influences agent behavior — same category as tmux-notify.js/opencode-context/opencode-voice), lives in its own scripts/plugins/opencode-notify/ subdirectory. Replaces opencode-notifications.
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-notify/opencode-notify.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
     // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).

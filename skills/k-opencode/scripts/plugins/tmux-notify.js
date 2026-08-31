@@ -29,6 +29,24 @@
 //      intercept `capture-pane`, the agent may legitimately need it if this
 //      very plugin malfunctions (log not written, watcher stuck, etc.).
 //
+// Timeout self-adjustment (KπX, 2026-08-29): a watchdog used to re-fire on
+// the SAME `timeoutSecs` forever with an identical, vague message ("Continue
+// your task directly with this result") — no guidance, no way for the agent
+// to say "this is a heavy process, check less often" without literally
+// sending keystrokes INTO the pane (risky: would pollute the stdin of
+// whatever is actually running there, e.g. a live `make -j8`). Fixed with a
+// pure META command that NEVER touches the pane: `: TMUX_ADJUST <pane> <secs>`
+// (`:` is the bash no-op builtin — always succeeds, zero side effects, never
+// "command not found"). `tool.execute.before` recognizes this exact anchored
+// pattern on the AGENT'S OWN bash command (not a send-keys call), updates the
+// matching lease's `timeoutSecs` in-memory, clears+re-arms its watchdog timer
+// (countdown restarts from the new value), and resets `watchdogCount`.
+// `tool.execute.after` appends a `<tmux-timeout-adjusted>` confirmation.
+// Ownership-gated like send-keys: only the lease's OWNING session may adjust
+// it. Watchdog messages also now carry an explicit check counter and
+// escalating, actionable guidance (continue in parallel / adjust / abort)
+// instead of one static sentence repeated forever — see `notificationFor()`.
+//
 // Session isolation (fixed 2026-08-16, real bug found): `pending` is a
 // `Map<sessionID, string[]>`, NEVER a flat/global queue. A notification armed
 // by session A is delivered ONLY to session A — `chat.message`/`session.idle`
@@ -41,13 +59,23 @@
 import * as fs from "node:fs";
 import { execSync } from "node:child_process";
 import { currentAgent } from "./libs/agent-scope.js";
+import { SEND_KEYS_REGEX } from "./libs/tmux-patterns.js";
 
-const TARGET_AGENTS = ["Colab", "Agent", "Build"];
+// "Live" added 2026-08-27 (found live while investigating the 6th root
+// cause below): the agent renamed/split from "Colab" but this gate was
+// never updated — every tmux notification to a "Live" session was silently
+// dropped by the flushToSession gate (agent resolved, not in the list ->
+// return without delivering). Same class of gap as the 2026-08-25
+// "Build" miss documented below.
+const TARGET_AGENTS = ["Colab", "Agent", "Build", "Live"];
 
 const NOTIFY_LOG = process.env.TMUX_NOTIFY_LOG || "/tmp/tmux-pane-done.log";
 const DEBUG_LOG = "/tmp/tmux-notify-debug.log";
 
-// registry: Map<paneId, { agent, sessionID, timeoutTimer, timeoutSecs, maxLines, cmd, armedAt }>
+// registry: Map<paneId, { agent, sessionID, timeoutTimer, timeoutSecs, maxLines,
+//                         cmd, armedAtNs }>
+// A lease owns WATCHING, not the pane's input: its owning OpenCode session may
+// continue an interactive program, while every other session remains blocked.
 const registry = new Map();
 
 // ---- helpers ---------------------------------------------------------------
@@ -67,20 +95,67 @@ function debug(message) {
 // The line-count in the label is the ACTUAL number of lines being shown
 // (never a vague "some lines" — it reflects `TMUX_LINES`/`TMUX_MAX_LINES`,
 // capped by however many lines the pane actually had).
-function notificationFor(paneId, lines, isTimeout, timeoutSecs) {
-  const status = isTimeout
-    ? `is still running after ${timeoutSecs} seconds.`
-    : `has returned to its prompt.`;
+//
+// `watchdogCount` (KπX, 2026-08-29 — REWRITTEN same day, 2nd pass: KπX caught
+// that even the escalating version above still left an agent unable to
+// decide, cycling on vague "Understood, I will follow these instructions"
+// acknowledgements instead of acting): every watchdog message MUST make the
+// agent's exact situation and full decision tree explicit, EVERY time, never
+// assuming context from an earlier `<tmux-armed>` message is still "in mind"
+// (a watchdog can fire long after, in a very different part of the
+// conversation). Structure enforced below: (1) an unambiguous STATUS line —
+// "what you launched has NOT returned to its shell yet" — (2) an explicit
+// warning that this WILL repeat forever unless the agent acts or the pane
+// naturally returns, (3) a lettered A/B/C/D decision tree covering every
+// real case (interactive program / normal-but-slow / just-wait / stuck or
+// forgotten), each with the EXACT command to run, never a vague suggestion.
+function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount) {
+  const isWatchdog = kind === "watchdog";
+  const tag = isWatchdog ? "tmux-watchdog" : "tmux-notify";
   const lineCount = lines === "" ? 0 : lines.split("\n").length;
-  return (
-    `<tmux-notify>\n` +
-    `tmux pane ${paneId} ${status}\n` +
+  const body =
     `Last ${lineCount} output line${lineCount === 1 ? "" : "s"}:\n` +
-    `===\n` +
-    `${lines}\n` +
-    `===\n` +
-    `Continue your task directly with this result.\n` +
-    `</tmux-notify>`
+    `===\n${lines}\n===\n`;
+
+  if (!isWatchdog) {
+    return (
+      `<${tag}>\n` +
+      `tmux pane ${paneId}: the command you launched has FINISHED (shell prompt returned). Lease released.\n` +
+      body +
+      `Use this result directly and continue your task. Nothing else to do for this pane.\n` +
+      `</${tag}>`
+    );
+  }
+
+  const count = watchdogCount || 1;
+  const heavy = count >= 3;
+  const elapsed = count * timeoutSecs;
+  const adjustCmd = `: TMUX_ADJUST ${paneId} <bigger_seconds>`;
+  const ctrlcCmd = `tmux send-keys -t ${paneId} C-c`;
+
+  return (
+    `<${tag}>\n` +
+    `STATUS: the command you launched in pane ${paneId} has NOT returned to its shell yet ` +
+    `(check #${count}, ~${elapsed}s elapsed since launch).\n` +
+    body +
+    `This is NOT a final result. You WILL keep receiving this notification in a loop, roughly every ` +
+    `${timeoutSecs}s, until EITHER the pane returns to its shell on its own (final <tmux-notify>) OR you ` +
+    `force it back yourself (option D below). Decide now, based on the output above:\n` +
+    `  A. INTERACTIVE program you are actively driving (a TUI/prompt waiting for your input) ` +
+    `-> send it more input via \`tmux send-keys\`, or if you are done with it, send \`${ctrlcCmd}\` to return to the shell.\n` +
+    `  B. Still working NORMALLY, just slow (build/install/long test) and you expect it to take MUCH longer than ${timeoutSecs}s ` +
+    `-> run \`${adjustCmd}\` now, estimating the real duration, so you stop being pinged this often (pure meta command, NEVER touches the pane).\n` +
+    `  C. Still working normally and the current interval is fine, you just need to wait a bit more ` +
+    `-> do NOTHING: CONTINUE other work in parallel or pause here, the next check arrives automatically.\n` +
+    `  D. STUCK, crashed, erroring, or you FORGOT about / no longer need this pane ` +
+    `-> send \`${ctrlcCmd}\` now to force it back to the shell — otherwise you will keep being woken up forever.\n` +
+    (heavy
+      ? `NOTE: this is check #${count} (~${elapsed}s total, not your first check) — this reads as a genuinely ` +
+        `long-running process, not a hang. Seriously consider B (adjust) or D (abort) now instead of letting ` +
+        `this repeat indefinitely.\n`
+      : ``) +
+    `Never sleep/poll this pane manually — one of A/B/C/D above is always the right move.\n` +
+    `</${tag}>`
   );
 }
 
@@ -103,6 +178,8 @@ export default async function ({ client }) {
   // session B's conversation via `chat.message`/`session.idle`.
   const UNSCOPED = "__unscoped__"; // rare fallback bucket: armed without a resolvable sessionID.
   const pending = new Map(); // sessionID -> string[]
+  const controlCalls = new Set(); // owner input sent while its lease remains active
+  const adjustResults = new Map(); // callID -> {paneId, old, newTimeout, status} for the `: TMUX_ADJUST` no-op marker (2026-08-29)
 
   function pushPending(sessionId, note) {
     const key = sessionId || UNSCOPED;
@@ -121,6 +198,75 @@ export default async function ({ client }) {
   function hasPending(sessionId) {
     const key = sessionId || UNSCOPED;
     return (pending.get(key) || []).length > 0;
+  }
+
+  function paneCurrentCommand(paneId) {
+    try {
+      return execSync(
+        `tmux display-message -p -t ${paneId} '#{pane_current_command}'`,
+        { timeout: 3000, encoding: "utf8" },
+      ).trim();
+    } catch {
+      return ""; // pane gone / tmux error: fail open
+    }
+  }
+
+  function capturePane(paneId) {
+    try {
+      return execSync(`tmux capture-pane -p -t ${paneId}`, {
+        timeout: 3000,
+        encoding: "utf8",
+      });
+    } catch (error) {
+      return `(failed to capture pane: ${error.message})`;
+    }
+  }
+
+  function eventBelongsToLease(event, entry) {
+    try {
+      return BigInt(event.ts) >= entry.armedAtNs;
+    } catch {
+      // Older/malformed shell events remain usable; only a valid older event
+      // is rejected. The normal prompt protocol always provides a nanosecond ts.
+      return true;
+    }
+  }
+
+  async function completeLease(paneId, entry) {
+    if (registry.get(paneId) !== entry) return;
+    if (entry.timeoutTimer) clearTimeout(entry.timeoutTimer);
+    registry.delete(paneId);
+    const output = capturePane(paneId);
+    const sliced = output.split("\n").slice(-entry.maxLines).join("\n");
+    pushPending(entry.sessionID, notificationFor(paneId, sliced, "complete"));
+    debug(`completed pane=${paneId} session=${entry.sessionID}`);
+    await flushToSession(entry.sessionID);
+  }
+
+  function armWatchdog(paneId, entry) {
+    entry.timeoutTimer = setTimeout(async () => {
+      debug(`timeout expired for pane ${paneId}`);
+      if (registry.get(paneId) !== entry) return;
+
+      entry.watchdogCount = (entry.watchdogCount || 0) + 1;
+      const out = capturePane(paneId);
+      const sliced = out.split("\n").slice(-entry.maxLines).join("\n");
+      const note = notificationFor(
+        paneId,
+        sliced,
+        "watchdog",
+        entry.timeoutSecs,
+        entry.watchdogCount,
+      );
+
+      // Push + flush under the OWNING session id (never a global queue) — see
+      // header comment on session isolation. Keep the lease alive and re-arm:
+      // only return to the shell stops the cycle.
+      pushPending(entry.sessionID, note);
+      await flushToSession(entry.sessionID);
+      if (registry.get(paneId) === entry) armWatchdog(paneId, entry);
+    }, entry.timeoutSecs * 1000);
+    entry.timeoutTimer.unref();
   }
 
   // Deliver all queued notifications OWNED BY `sessionId` into that session
@@ -242,35 +388,10 @@ export default async function ({ client }) {
             const ev = JSON.parse(trimmed);
             if (ev.event === "prompt" && ev.pane) {
               const entry = registry.get(ev.pane);
-              if (entry) {
-                if (entry.timeoutTimer) {
-                  clearTimeout(entry.timeoutTimer);
-                }
-                registry.delete(ev.pane);
-
-                let output = "";
-                try {
-                  output = execSync(`tmux capture-pane -p -t ${ev.pane}`, {
-                    timeout: 3000,
-                    encoding: "utf8",
-                  });
-                } catch (e) {
-                  output = `(failed to capture pane: ${e.message})`;
-                }
-                const sliced = output
-                  .split("\n")
-                  .slice(-entry.maxLines)
-                  .join("\n");
-                const note = notificationFor(ev.pane, sliced, false);
-
-                // Push under the OWNING session id (never a global queue —
-                // see header comment on session isolation) and flush right
-                // to that same session, never to "whichever is active".
-                pushPending(entry.sessionID, note);
-                debug(
-                  `queued prompt pane=${ev.pane} session=${entry.sessionID}`,
-                );
-                flushToSession(entry.sessionID);
+              if (entry && eventBelongsToLease(ev, entry)) {
+                void completeLease(ev.pane, entry);
+              } else if (entry) {
+                debug(`ignored stale prompt pane=${ev.pane}`);
               }
             }
           } catch (e) {
@@ -336,10 +457,52 @@ export default async function ({ client }) {
       // `send-keys` tool call's own result (see `tool.execute.after` below),
       // not by rejecting a later `capture-pane` call.
 
-      const sendKeysRegex =
-        /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
+      // Timeout self-adjustment (KπX, 2026-08-29): `: TMUX_ADJUST <pane> <secs>`
+      // is a pure META marker — `:` is the bash no-op builtin, it NEVER touches
+      // the target pane (no send-keys involved at all). Anchored on the WHOLE
+      // trimmed command so it can only ever be a deliberate, standalone call,
+      // never an accidental substring match inside a larger script/grep.
+      const adjustRegex = /^:\s+TMUX_ADJUST\s+([%$@\w.:-]+)\s+(\d+)\s*$/;
+      const adjustMatch = adjustRegex.exec(cmd.trim());
+      if (adjustMatch) {
+        const adjTarget = adjustMatch[1];
+        const newTimeout = parseInt(adjustMatch[2], 10);
+        const adjPaneId = resolvePaneId(adjTarget);
+        const adjEntry = adjPaneId ? registry.get(adjPaneId) : null;
 
-      const match = sendKeysRegex.exec(cmd);
+        if (adjEntry && adjEntry.sessionID === input.sessionID) {
+          const old = adjEntry.timeoutSecs;
+          adjEntry.timeoutSecs = newTimeout;
+          adjEntry.watchdogCount = 0; // urgency escalation restarts with the new interval
+          if (adjEntry.timeoutTimer) clearTimeout(adjEntry.timeoutTimer);
+          armWatchdog(adjPaneId, adjEntry);
+          adjustResults.set(input.callID, {
+            paneId: adjPaneId,
+            old,
+            newTimeout,
+            status: "ok",
+          });
+          debug(
+            `adjusted pane=${adjPaneId} ${old}s->${newTimeout}s session=${input.sessionID}`,
+          );
+        } else if (adjEntry) {
+          adjustResults.set(input.callID, { paneId: adjPaneId, status: "denied" });
+          debug(`adjust denied pane=${adjPaneId} (owned by another session)`);
+        } else {
+          adjustResults.set(input.callID, {
+            paneId: adjPaneId || adjTarget,
+            status: "noop",
+          });
+          debug(`adjust noop, no active lease on target=${adjTarget}`);
+        }
+        // Let `:` execute for real — inert, always succeeds, never blocking.
+        return input;
+      }
+
+      // SEND_KEYS_REGEX (imported) — single source of truth shared with
+      // `raw-exec-guard.js`, see `libs/tmux-patterns.js`.
+
+      const match = SEND_KEYS_REGEX.exec(cmd);
       if (match) {
         const target = match[1];
         const timeoutMatch = /TMUX_TIMEOUT=(\d+)/.exec(cmd);
@@ -347,37 +510,37 @@ export default async function ({ client }) {
 
         // Defaults apply whether or not the agent added the env vars — EVERY
         // stateful send-keys gets armed (and reminded), not just opt-ins.
-        const timeout = timeoutMatch ? parseInt(timeoutMatch[1], 10) : 300;
+        const timeout = timeoutMatch ? parseInt(timeoutMatch[1], 10) : 30;
         const maxLines = linesMatch
           ? parseInt(linesMatch[1] || linesMatch[2], 10)
-          : 20;
+          : 50;
 
         const paneId = resolvePaneId(target);
 
         if (paneId) {
-          // BLOCK a send-keys into an already-busy pane (KπX, 2026-08-16:
-          // "on demande d'utiliser un autre pane vide si présent, ou en
-          // créer un si tous occupés" — never send-keys into an occupied
-          // pane). Before this check, a second arm() on the SAME pane
-          // silently overwrote the first registry entry ("last-arm-wins") —
-          // a real gap found the same day: the first session would be
-          // silently dropped with zero trace, even in debug logs, because
-          // the pane's `precmd` prompt event would only ever match the
-          // NEWEST entry. Same `throw`-to-block pattern as
-          // `make-check-guard.js` (the only other hook in this kernel that
-          // blocks a tool call outright).
           const existing = registry.get(paneId);
+          const currentCmd = paneCurrentCommand(paneId);
           if (existing) {
-            const elapsedSecs = Math.round(
-              (Date.now() - existing.armedAt) / 1000,
-            );
-            throw new Error(
-              `BLOCKED: pane ${paneId} is already busy — a command armed ` +
-                `${elapsedSecs}s ago (TMUX_TIMEOUT=${existing.timeoutSecs}s) has not ` +
-                `yet returned to its prompt. NEVER send-keys into an occupied pane — ` +
-                `use a different EMPTY pane if one exists (check with 'tmux list-panes -a'), ` +
-                `or create a new pane/window if all are occupied.`,
-            );
+            // The lease owner may freely continue, correct, or cancel an
+            // interactive process. Crucially this is CONTROL INPUT, not a new
+            // arm: the original completion watch is never overwritten. Even
+            // when tmux still reports a shell, it may simply not have started
+            // the prior send-keys payload yet; only the timestamped prompt
+            // event is authoritative for releasing a lease.
+            if (existing.sessionID === input.sessionID) {
+              controlCalls.add(input.callID);
+              debug(`owner control pane=${paneId} session=${input.sessionID}`);
+              return input;
+            } else {
+              const elapsedSecs = Math.round(
+                (Date.now() - Number(existing.armedAtNs / 1000000n)) / 1000,
+              );
+              throw new Error(
+                `BLOCKED: pane ${paneId} is leased by another OpenCode session ` +
+                  `(${elapsedSecs}s active). Use a different EMPTY pane, or ask its owner ` +
+                  `to release it by returning to the shell.`,
+              );
+            }
           }
 
           // Layer 2 (KπX, 2026-08-16): layer 1 above only catches panes WE
@@ -387,18 +550,6 @@ export default async function ({ client }) {
           // the pane's foreground process natively — pure metadata, no
           // `capture-pane` / content read needed — so query it and block if
           // it's not a known idle shell.
-          let currentCmd = "";
-          try {
-            currentCmd = execSync(
-              `tmux display-message -p -t ${paneId} '#{pane_current_command}'`,
-              {
-                timeout: 3000,
-                encoding: "utf8",
-              },
-            ).trim();
-          } catch {
-            currentCmd = ""; // pane gone / tmux error — fail open, let arming proceed
-          }
           const KNOWN_IDLE_SHELLS = ["zsh", "bash", "sh", "fish"];
           if (currentCmd && !KNOWN_IDLE_SHELLS.includes(currentCmd)) {
             throw new Error(
@@ -414,45 +565,18 @@ export default async function ({ client }) {
           );
           const agent = await resolveAgent(client, input.sessionID);
 
-          const timeoutTimer = setTimeout(async () => {
-            debug(`timeout expired for pane ${paneId}`);
-            const entry = registry.get(paneId);
-            if (!entry) return;
-            entry.timeoutTimer = null; // clear timer ref
-
-            let out = "";
-            try {
-              out = execSync(`tmux capture-pane -p -t ${paneId}`, {
-                timeout: 3000,
-                encoding: "utf8",
-              });
-            } catch (e) {
-              out = `(failed to capture pane: ${e.message})`;
-            }
-            const sliced = out.split("\n").slice(-entry.maxLines).join("\n");
-            const note = notificationFor(
-              paneId,
-              sliced,
-              true,
-              entry.timeoutSecs,
-            );
-
-            // Push + flush under the OWNING session id (never a global
-            // queue) — see header comment on session isolation.
-            pushPending(entry.sessionID, note);
-            flushToSession(entry.sessionID);
-          }, timeout * 1000);
-          timeoutTimer.unref();
-
-          registry.set(paneId, {
+          const entry = {
             agent,
             sessionID: input.sessionID,
-            timeoutTimer,
+            timeoutTimer: null,
             timeoutSecs: timeout,
             maxLines,
             cmd,
-            armedAt: Date.now(),
-          });
+            armedAtNs: BigInt(Date.now()) * 1000000n,
+            watchdogCount: 0,
+          };
+          registry.set(paneId, entry);
+          armWatchdog(paneId, entry);
         }
       }
       return input;
@@ -468,22 +592,68 @@ export default async function ({ client }) {
     // see the note in `tool.execute.before`).
     "tool.execute.after": async (input, output) => {
       if (input.tool !== "bash") return;
+
+      // Confirmation for the `: TMUX_ADJUST <pane> <secs>` meta marker (see
+      // `tool.execute.before`). Never touches `output.output` from a
+      // send-keys path — this command never matches `SEND_KEYS_REGEX` below,
+      // it is a plain no-op bash command, so it is handled first and returns.
+      if (adjustResults.has(input.callID)) {
+        const r = adjustResults.get(input.callID);
+        adjustResults.delete(input.callID);
+        const msg =
+          r.status === "ok"
+            ? `<tmux-timeout-adjusted>\n` +
+              `Pane ${r.paneId}: timeout ${r.old}s -> ${r.newTimeout}s. Watchdog countdown restarted from ${r.newTimeout}s.\n` +
+              `No input was sent to the pane — its running command is untouched.\n` +
+              `</tmux-timeout-adjusted>`
+            : r.status === "denied"
+            ? `<tmux-timeout-adjusted>\n` +
+              `Pane ${r.paneId} is leased by another session — you cannot adjust its timeout.\n` +
+              `</tmux-timeout-adjusted>`
+            : `<tmux-timeout-adjusted>\n` +
+              `No active watch on pane ${r.paneId} — nothing to adjust (already completed, never armed, or wrong pane id).\n` +
+              `</tmux-timeout-adjusted>`;
+        output.output = output.output ? `${output.output}\n\n${msg}` : msg;
+        debug(`adjust confirmation appended pane=${r.paneId} status=${r.status}`);
+        return;
+      }
+
       const cmd = input.args?.command || "";
-      const sendKeysRegex =
-        /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
-      const match = sendKeysRegex.exec(cmd);
+      // SEND_KEYS_REGEX (imported) — single source of truth shared with
+      // `raw-exec-guard.js`, see `libs/tmux-patterns.js`.
+      const match = SEND_KEYS_REGEX.exec(cmd);
       if (!match) return;
       const paneId = resolvePaneId(match[1]);
       if (!paneId) return;
+      if (controlCalls.delete(input.callID)) {
+        const reminder =
+          `<tmux-control>\n` +
+          `Pane ${paneId} remains leased to this session — your input was just sent to it, and the ORIGINAL ` +
+          `completion watch is UNCHANGED (not reset, not extended). It still has NOT returned to its shell.\n` +
+          `Same rules as when it was armed: if it is an interactive program, keep driving it with more input as ` +
+          `needed; if you are done with it (or it needs aborting), send \`tmux send-keys -t ${paneId} C-c\` to ` +
+          `return it to the shell; otherwise just wait — the next <tmux-watchdog>/<tmux-notify> arrives ` +
+          `automatically, no polling needed.\n` +
+          `</tmux-control>`;
+        output.output = output.output ? `${output.output}\n\n${reminder}` : reminder;
+        return;
+      }
       const entry = registry.get(paneId);
       if (!entry) return; // arming failed (or already resolved) — nothing to remind about
       const reminder =
         `<tmux-armed>\n` +
         `Pane ${paneId} armed: TMUX_TIMEOUT=${entry.timeoutSecs}s, TMUX_LINES=${entry.maxLines}.\n` +
-        `Do NOT run tmux capture-pane on this pane. Do NOT run sleep, wait, or any\n` +
-        `timeout/polling to wait for this pane. Either CONTINUE other parallel work you\n` +
-        `already have, OR stop your turn now — in BOTH cases you will be automatically\n` +
-        `notified (<tmux-notify>) when the command finishes.\n` +
+        `STATUS: you just sent this command to the pane. It has NOT returned to its shell yet (still running) — ` +
+        `this is expected, not an error.\n` +
+        `What happens next, automatically, with ZERO polling from you:\n` +
+        `  - Returns to shell within ${entry.timeoutSecs}s -> you get a definitive <tmux-notify> (finished, lease released, nothing more to do).\n` +
+        `  - Does not -> you get a <tmux-watchdog> every ${entry.timeoutSecs}s with fresh output and an explicit A/B/C/D decision (continue / adjust / wait / abort), repeating until it finishes.\n` +
+        `What you can do right now, your choice — none of these are wrong:\n` +
+        `  - CONTINUE other work in parallel, or stop this turn here -> you will be re-invoked automatically either way, nothing is lost.\n` +
+        `  - This is interactive (a TUI/prompt you are driving) -> keep sending it input via send-keys as needed.\n` +
+        `  - You already expect this to take much longer than ${entry.timeoutSecs}s -> adjust now with \`: TMUX_ADJUST ${paneId} <seconds>\` (pure meta command, NEVER touches the pane).\n` +
+        `  - You change your mind and want to abort -> send \`tmux send-keys -t ${paneId} C-c\` to force it back to the shell.\n` +
+        `If the final <tmux-notify> capture is empty, incomplete, or does not explain the result, immediately run \`tmux capture-pane -p -t ${paneId} -S -100\` and use that larger one-shot diagnostic capture. Never turn it into a polling loop.\n` +
         `</tmux-armed>`;
       debug(`reminder appended pane=${paneId}`);
       if (typeof output.output === "string" && output.output.length > 0) {

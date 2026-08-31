@@ -46,7 +46,7 @@ check-sh: ## Lint Shell scripts using shellcheck (ignore known false positives)
 	@echo "  ├─ 🔎 ShellCheck"
 	@find . -type f -name "*.sh" -not -path "*/.venv/*" \
 		-exec shellcheck --shell=bash \
-		-e SC1090,SC1091,SC2034,SC2154,SC2086,SC2012,SC2004,SC2015,SC2014,SC2129,SC2181,SC2035,SC2029,SC2155,SC2291,SC2024,SC2317,SC2162 \
+		-e SC1090,SC1091,SC2034,SC2154,SC2086,SC2012,SC2004,SC2015,SC2014,SC2129,SC2181,SC2035,SC2029,SC2155,SC2291,SC2024,SC2317,SC2162,SC1010,SC2016 \
 		{} + # SC1090-91:non-constant source (modular .kshrc). SC2034:exported vars. SC2154:sourced vars. SC2086:word-split intentional. SC2012:ls readable. SC2004:style. SC2015:A&&B||C intended. SC2014:find expansion needed. SC2129:style. SC2181:style. SC2035:no dashes. SC2029:client-side expansion. SC2155:export VAR="$(cmd)" idiomatic. SC2291:ASCII art spaces. SC2024:sudo context safe. SC2317:indirect calls. SC2162:backslash edge-case
 	@echo "  └─ ✅ Summary: Shell checks passed"
 

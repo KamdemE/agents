@@ -142,7 +142,7 @@ time an upload is repeated.
 
 ```python
 def att(page, name):
-    return list_attachments(page)[name]["id"]   # looked up now, never remembered
+    return list_attachments(page)[name]["id"]  # looked up now, never remembered
 ```
 
 Upload with a **deterministic name**, and let every reference go through that

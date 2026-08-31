@@ -7,14 +7,16 @@ scope: explore
 role: sub-agent
 permission:
   edit: deny
-  bash: allow
-  task: allow
+  bash: deny
+  task: deny
   read: allow
   glob: allow
   grep: allow
   webfetch: allow
   websearch: allow
-  todowrite: allow
+  skill: deny
+  todowrite: deny
+  lsp: allow
 ---
 
 You are fact-verifier, KπX's verification sub-agent in the **Explore** profile.

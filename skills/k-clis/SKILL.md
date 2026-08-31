@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.6
+  version: 1.16.7
   scope: operations
 ---
 
@@ -116,7 +116,7 @@ metadata:
 | `pnpm` | **`k-node`** | Fast, disk-efficient package manager (npm global) |
 | `tree-sitter` | **`k-nvim`** | Incremental parsing tool + CLI — powers nvim LSP/treesitter queries |
 | `loom` | **`k-loom`** | Persistent cross-session code index — CLI ONLY (loom-mcp removed from opencode.jsonc 2026-08-24, see `k-loom/references/mcp.md`) |
-| `msedge-cdp` | **`k-browser`** | Edge automation via CDP (headless/connected) |
+| `browser-proxy` | **`k-browser`** | Universal visible Edge web-UI proxy; dedicated proxy fallback for unsupported actions |
 | `k-vpn` | **`k-ai`** | Sovereign VPN wrapper/launcher |
 | `mail-proxy` | **`k-mail`** | Mail CLI proxy (tick-proxy ADN, 24 `do` actions) |
 | `tick-proxy` | **`k-tick`** | TickTick CLI proxy (tasks/habits/projects) |
@@ -182,6 +182,7 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-30 | [LIVE] | v1.16.7 — Replaced retired `msedge-cdp` with `browser-proxy` in the CLI registry: universal visible web-UI fallback for gaps in dedicated proxies; operational contract → `k-browser` + `rules/proxies-reflex.md`. |
 | 2026-08-26 | [COLAB] | v1.16.6 — **`rm` wrapper fixed to honor GNU `rm -f` semantics on missing targets** (`assets/rm`): `trash-put -f` does NOT silently no-op on a nonexistent path like real `rm -f` does — it errors `cannot trash non existent '<path>'` (exit 74). Symptom: oh-my-zsh's unconditional `command rm -rf "$ZSH_COMPDUMP.zwc.old" "${ZSH_COMPDUMP}.lock"` (upstream, every shell startup) printed that warning on nearly every new deep-pc6 shell, since `.zwc.old` only exists after a rare `zrecompile` rotation. Fix: when `-f`/`--force` is present, filter `trash_files` to only entries that exist (or are broken symlinks) before forwarding to `trash-put`; explicit `exit 0` when the filtered list is empty (matches GNU `rm -f` exiting 0 on all-missing arguments) instead of silently falling through to a nonzero exit from the short-circuited `[ -gt 0 ] && exec` guard. Behavior without `-f` unchanged (still errors on a missing target, like real `rm`). `references/insights.md` +1 entry. |
 | 2026-08-26 | [COLAB] | v1.16.5 — **`powerpoint` uv tool fully purged (KπX order)**: uninstalled (`uv tool uninstall powerpoint`), `~/.local/bin/powerpoint` symlink + `~/.local/share/uv/tools/powerpoint/` gone. Stale registry row removed (superseded by `k-pptx` v3.0.0's "decks as code" doctrine, `deckkit.py`/`figkit.py`). Historical record kept in `k-pptx/references/alternative-mcp-approach.md`. |
 | [SUMMARY] | — | v1.16.4 fastfetch preferred, neofetch fallback (KπX order at PR #1 integration) · v1.16.3 neofetch registered in Shell & Terminal (system info summary) · v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan (→ `references/log.md`) · v1.13.0 and earlier copied to `references/log.md` |

@@ -211,9 +211,6 @@
     // --- k-clis -------------------------------------------------------------------
     "rm":      { "source": "$HOME/.local/bin/rm", "target": "$HOME/.agents/skills/k-clis/assets/rm", "skill": "k-clis", "infras": ["*"] },
 
-    // --- k-browser -----------------------------------------------------------------
-    "msedge-cdp": { "source": "$HOME/.local/bin/msedge-cdp", "target": "$HOME/.agents/skills/k-browser/assets/msedge-cdp.sh", "skill": "k-browser", "infras": ["kpihx-ubuntu"] },
-
     // --- k-dxo (deep-pc6) ----------------------------------------------------------
     "ollama6": { "source": "$HOME/.local/bin/ollama6", "target": "$HOME/.agents/skills/k-dxo/scripts/ollama6", "skill": "k-dxo", "infras": ["kpihx-ubuntu", "blglaptop139"] },
     "tmux6":   { "source": "$HOME/.local/bin/tmux6",   "target": "$HOME/.agents/skills/k-dxo/assets/tmux6",   "skill": "k-dxo", "infras": ["kpihx-ubuntu", "blglaptop139"] },
@@ -261,6 +258,7 @@
     // --- k-ollama ---------------------------------------------------------------
     "ollama-service": { "source": "/etc/systemd/system/ollama.service", "target": "$HOME/.agents/skills/k-ollama/assets/ollama.service", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
     "ollama-override-conf": { "source": "/etc/systemd/system/ollama.service.d/override.conf", "target": "$HOME/.agents/skills/k-ollama/assets/ollama-override.conf", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
+    "ollama-vulkan-service": { "source": "$HOME/.config/systemd/user/ollama-vulkan.service", "target": "$HOME/.agents/skills/k-ollama/assets/ollama-vulkan.service", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
 
     // --- k-tailscale --------------------------------------------------------------
     // 2026-08-24: tailscaled.service + /etc/default/tailscaled DE-LINKED per KπX order —

@@ -1,0 +1,5 @@
+{
+  "name": "Model Selector Own Line",
+  "description": "Forces the OpenCode Web model selector onto its own full-width line so a long model name never overlaps the submit button.",
+  "script": "./plugin.js"
+}

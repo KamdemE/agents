@@ -16,6 +16,7 @@
 | `agent-registry.md` | Symlink map, per-agent config paths | When setting up or debugging an agent runtime |
 | `whats-up.md` | Status digest protocol, domain ordering | When KπX asks "what's up" |
 | `hermes-governance.md` | Hermes daemon isolation, cron safety | Before any Hermes work |
+| `proxies-reflex.md` | Dedicated proxy-first routing; browser-proxy as the universal web-UI fallback; `--help`-only and secrets boundary | ANY proxy-mediated or browser-driving task |
 
 ## Who Reads What
 
@@ -24,7 +25,7 @@
 | **Colab** (primary) | All rules (enforced through checker) |
 | **Explore** (primary) | `response-format`, `file-governance` |
 | **executor** | `file-governance`, `audit-commands`, `tool-discipline` |
-| **pragmatic-checker** | **ALL 9 rules** — mandatory before every check pass |
+| **pragmatic-checker** | **ALL listed rules** — mandatory before every check pass |
 | **curator** | `agent-registry`, `skill-governance`, `k-context-hygiene` |
 | **intent-guardian** | `k-context-hygiene` |
 | **fact-verifier** | `file-governance` (for source indexing) |

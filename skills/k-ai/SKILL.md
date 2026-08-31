@@ -4,7 +4,7 @@ description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central invento
 license: private
 metadata:
   author: KpihX
-  version: 3.5.0
+  version: 3.6.2
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -22,6 +22,7 @@ This skill is the compact central inventory for all Artificial Intelligence runt
 |---------|--------|-------|
 | **OpenCode CLI** | 🟢 Active | `k-opencode` |
 | **Ollama** | 🟢 Active | `k-ollama` |
+| **OpenVINO GenAI** | 🟢 Active | `k-openvino` |
 | **OpenClaw** | 🟢 Opérationnel | `k-openclaw` |
 | **Hermes Agent** | 🟢 Active | `k-hermes` |
 | **Cursor** (IDE) | 🟢 Active | `k-code` |
@@ -53,6 +54,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - **K-Com Hub** (`k-com`) — Orchestrateur STT→Translate→TTS. Projet `~/KpihX-Labs/AI/k-com/` (100% uv), wrapper `~/.local/bin/k-com`. → `references/k-com.md`
 - **Tesseract** (`tesseract`) — OCR local. Binaire `/usr/bin/tesseract` (apt), langues `/usr/share/tesseract-ocr/5/tessdata/` (`eng`, `fra`, `osd`). CLI simple, **pas de wrapper** (usage direct `tesseract image stdout -l fra`). Consommé par l'extension GNOME `text-extractor` via le helper `~/.local/bin/text-extractor-ocr` (venv uv `text-extractor-ocr-venv`). → `references/tesseract.md`
 - **QMD** (`qmd`/`qmdr`, package npm `@tobilu/qmd`) — Recherche de connaissances locale (BM25+vector hybride) sur les bases markdown KπX. **Embeddings 100% locaux en GGUF** (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), **indépendant d'Ollama** (runtime llama.cpp embarqué). Modèles `~/.cache/qmd/models/` (~2.1 GB), config `~/.config/qmd/index.yml`. → `k-qmd`
+- **Hugging Face Hub CLI** (`hf` nouveau standard, `huggingface-cli` déprécié, package `huggingface_hub` via `uv`/`pip`) — Auth + download Hub. **PAS un paquet `apt`** (`apt install huggingface-cli` → `Unable to locate package`). Install : `uv tool install huggingface_hub` → binaire `~/.local/bin/hf` (nouveau, `huggingface-cli` reste en alias déprécié). Token `HF_TOKEN` via `hf auth login` → `~/.cache/huggingface/token` ou `~/.agents/.env` (`HF_TOKEN`), évite `Warning: unauthenticated` et débloque le débit `pull` (ex: `openvino pull` passe de 1.49 à 78 MB/s). → `references/huggingface.md`
 
 ## Local Models Inventory (`~/.local/share/`)
 
@@ -91,6 +93,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - `references/whisper.md` — Whisper.cpp (whisper-cli) setup, usage, compilation, Vulkan (Intel iGPU) + CUDA (NVIDIA discrete GPU) optimization guides.
 - `references/piper.md` — Piper (TTS) setup, usage, deployment, ONNX Runtime optimization guide.
 - `references/tesseract.md` — Tesseract OCR setup, CLI usage, language packs, Text Extractor helper integration.
+- `references/huggingface.md` — Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) — install via `uv` (not `apt`), `HF_TOKEN` auth via `hf auth login`, rate-limit fix for `openvino pull`.
 - `references/purged.md` — Purged AI runtimes archive (AGY, Codex, Gemini, Copilot, VIBE, Cline, Zed, Cursor CLI, Continue, MCPs) — GRAVÉ, never deleted.
 
 ## Insights Discipline (mandatory)
@@ -103,6 +106,6 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-26 | [COLAB] | v3.5.0 — **CUDA build documented for `whisper-cli`** (`references/whisper.md`): full deep-pc6 install (2× RTX 3090, Ampere arch `86`), incl. the `nvcc`(11.5)/`g++`(11.4) parameter-pack incompatibility fix (install `gcc-10`/`g++-10`, pass `-DCMAKE_CUDA_HOST_COMPILER`), and confirmation that `nvidia-cuda-toolkit` via apt does not touch the existing driver package (verified with `apt-get install --simulate` before running for real on a shared GPU box). End-to-end voice stack (`sox`, `whisper-cli` CUDA, `piper`) installed and smoke-tested on deep-pc6 via a synth→transcribe round-trip (no physical mic on this headless server). |
-| 2026-08-14 | [COLAB] | v3.4.0 — **Added QMD** to Local AI Binaries: `qmd`/`qmdr` (npm @tobilu/qmd) — local knowledge search (BM25+vector hybrid), 100% local GGUF embeddings (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), independent of Ollama. Points to `k-qmd`. |
-| [SUMMARY] | — | v3.3.0 Description reinforced (MANDATORY check: agents must check k-ai before any non-native task and use the right local tool; tesseract/OCR added to inventory) · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |
+| 2026-08-29 | [LIVE] | v3.6.2 — **`OpenVINO GenAI` added to AI Runtimes table** → new `k-openvino` skill (local LLM serving, Qwen3 IR on Intel Arc iGPU). Cross-domain insight added to `references/insights.md`: model size is never the fix for a broken tool-calling wiring — verified live that a 0.6B model tool-calls perfectly once `tools=` correctly reaches `apply_chat_template()`, generalizing beyond OpenVINO to any local runtime exposing an OpenAI-compatible endpoint. |
+| 2026-08-27 | [COLAB] | v3.6.1 — **HF CLI standard** : passage de `huggingface-cli` (déprécié) à `hf` (`hf auth login`, `hf download`, etc.) suite à `huggingface-cli login` → `Warning: use hf instead` constaté live après `uv tool install huggingface_hub`. Docs `k-ai` + `references/huggingface.md` + `AI/openvino` (`cli.py` hint) alignés sur `hf`. |
+| [SUMMARY] | — | v3.6.0 Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) added to Local AI Binaries, fixes `Warning: unauthenticated` + unlocks `openvino pull` throughput (1.49 → 78 MB/s) (→ `references/huggingface.md`) · v3.5.0 CUDA build documented for `whisper-cli` on deep-pc6 (2× RTX 3090) · v3.4.0 Added QMD to Local AI Binaries · v3.3.0 Description reinforced (MANDATORY check before non-native task) · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |

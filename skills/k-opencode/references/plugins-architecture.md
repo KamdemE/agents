@@ -62,6 +62,8 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
 
 These are the **KπX sovereign hooks** — self-contained `.js` files in `skills/k-opencode/scripts/plugins/hooks/` (helper libs in `scripts/plugins/libs/`). Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed. Full standard: `references/hooks-standard.md`.
 
+> **"Hook" ≠ "plugin" (see `scripts/plugins/AGENTS.md` → "Hooks vs Plugins" for the authoritative distinction and the CURRENT full inventory).** A hook actively shapes/injects/blocks what the agent sees or does. A non-hook plugin (`tmux-notify.js`, `scripts/plugins/opencode-context/`, `scripts/plugins/opencode-voice/`, `scripts/plugins/opencode-notify/`) only observes lifecycle events for a side effect (relay, slash command, TUI extension, notification) and never influences agent behavior — it lives in its own subdirectory directly under `scripts/plugins/`, never in `hooks/`, and does not declare `TARGET_AGENTS`. `tmux-notify.js` appears in the table below for historical/event-shape reasons but is itself a non-hook plugin, not a hook.
+
 | File | Event | Agent filter (`TARGET_AGENTS`) | Behavior |
 |------|-------|-------------|----------|
 | `libs/agent-scope.js` | shared utility | all scoped hooks | Resolves only the latest explicit `info.agent`; historical agent names never authorize an injection after an in-session switch |

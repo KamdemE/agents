@@ -1,0 +1,78 @@
+---
+name: k-openvino
+description: >
+  OpenVINO GenAI local LLM serving — Qwen3 IR models on Intel Arc iGPU via
+  the `openvino` CLI (pull/ls/ps/search/serve) and a FastAPI OpenAI-compatible
+  server (serve.py). Covers async-safe generation architecture, the full
+  tool-calling protocol (tools= wiring + <think>/<tool_call> parsing), and
+  dynamic capability discovery (litellm model-info format) for OpenCode's
+  reasoning UI + context% display. Load before any OpenVINO model/server
+  work, or when a custom OpenAI-compatible provider mishandles tool calls
+  or reasoning in OpenCode.
+license: private
+metadata:
+  author: KpihX
+  version: "1.1.0"
+  scope: ai-engine
+---
+
+# OpenVINO GenAI — Local LLM Serving
+
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+> Project: `$HOME/KpihX-Labs/AI/openvino/` (uv package `k-openvino`, binary `openvino`). Server: FastAPI OpenAI-compatible, port `11437`, systemd user service `openvino.service`. Published to PyPI as [`k-openvino`](https://pypi.org/project/k-openvino/) (v0.2.0 live, dual remotes `github`+`gitlab` under `kpihx-labs/openvino`).
+> See also **`k-ai`** (AI hub registry entry + cross-domain insight) · **`k-ollama`** (Ollama, comparison baseline) · **`k-opencode`** (custom provider config in `opencode.jsonc`).
+
+---
+
+## CLI (`openvino`)
+
+```bash
+openvino search <query>              # HuggingFace search, Arc-compatible + fits disk/RAM (strict by default, --all for everything)
+openvino pull <hf-id>                # download + export to OpenVINO IR (optimum-cli export openvino)
+openvino ls                          # list local IR models (or live server models if reachable)
+openvino ps                          # server status + loaded model
+openvino server start --foreground   # what the systemd service runs
+```
+
+Models live in `~/.local/share/openvino/models/<name>/` (`openvino_model.xml`/`.bin` + tokenizer + `config.json`). Real download size is unreliable from `info.safetensors.total` (can undercount 2x+) — the CLI cross-checks real sibling file sizes via `files_metadata=True`, targeting the exact `transformers`-convention checkpoint (`model-000XX-of-000YY.safetensors` or `model.safetensors`), never a naive sum (some repos ship duplicate full-weight distributions in different formats).
+
+## Server architecture (`serve.py`)
+
+FastAPI + `openvino_genai.LLMPipeline`, OpenAI-compatible (`/v1/chat/completions`, `/v1/models`, `/v1/model/info`, `/v1/unload`, `/health`). Single systemd `--user` process, single asyncio event loop — **every blocking call inside an `async def` route must be offloaded via `asyncio.to_thread`** (model load, `apply_chat_template`, `pipe.generate`, tokenization) or it freezes ALL routes (including `/health`) for its duration. `_gen_lock` release lives in the generation THREAD's `finally`, never in the SSE generator's `finally` — a client disconnecting early (e.g. right after a `tool_calls` delta) must never leave the lock stuck. A global FastAPI exception handler returns OpenAI-style `{"error": {...}}` JSON on any unhandled exception — without it, OpenCode's AI SDK can't parse a plain-text 500 and the client silently hangs instead of showing red.
+
+Full protocol design (tool-calling, reasoning, anti-loop fallback) → **`references/tool-calling-protocol.md`**.
+Dynamic capability discovery for OpenCode (reasoning/thinking UI, context%) → **`references/model-discovery.md`**.
+GPU backend benchmark vs Ollama/IPEX/Vulkan → **`references/benchmark.md`**.
+
+## Config (`config.py`) — central constants, no hardcoding
+
+| Constant | Role |
+|----------|------|
+| `max_context` | Hard ceiling for `context_length` (32768 — IR reliability drops above this on Arc iGPU) |
+| `default_output_tokens` | Absolute cap for `max_output_tokens` (8192) — **never equal to `max_context`**: OpenCode's compaction reserves `max(output, buffer)` tokens of headroom; if output==context, usable budget is 0 and compaction fires almost instantly. Real providers (GPT-4o, Gemini, DeepSeek) use a flat absolute cap independent of context size, never a percentage/ratio of it |
+| `default_enable_thinking` | Qwen3 chain-of-thought toggle (default `True`) — per-request `enable_thinking` overrides; Qwen3 (this checkpoint) does not fully respect `enable_thinking=False` — it can still self-emit a `<think>` block despite the empty pre-fill |
+
+## Key insight — tool-calling capability is about wiring, not model size
+
+A 0.6B model does perfect real tool-calling (verified live in OpenCode's interactive TUI: `exa_web_search_exa` executed correctly, real search results, coherent final answer) once `tools=` is actually passed to `apply_chat_template()`. Before that fix, even a hypothetical 20B+ model would have hallucinated tool calls identically — the model was never shown the tool schema at all, regardless of its size. **Never assume "model too small" when tool-calling fails on a custom OpenAI-compatible server — check the wiring first.** Same insight, cross-domain framing → **`k-ai`**.
+
+## Insights Discipline (mandatory)
+
+- Read `references/insights.md` before non-trivial work in this skill domain.
+- Update `references/insights.md` at the end of the task with durable lessons.
+
+## References
+
+- `references/tool-calling-protocol.md` — full tool-calling + reasoning protocol design (root cause, fix, `_StreamParser`, anti-loop fallback)
+- `references/model-discovery.md` — bifrost vs litellm `modelsDiscovery` formats, `/v1/model/info` endpoint, why bifrost never mapped `reasoning`
+- `references/benchmark.md` — OpenVINO vs IPEX-LLM vs Vulkan (Ollama) GPU inference speed comparison
+- `references/insights.md` — durable lessons
+
+## Changelog
+
+| Date | Agent | Action |
+|------|-------|--------|
+| 2026-08-29 | [LIVE] | v1.1.0 — **Project finalized through `make release` v0.2.0**: the tool-calling/subprocess-cancellation work (v1.0.0 entry below) was committed (blocked once by the pre-commit `make check` gate — 26 pyright errors from `_StreamWorkerState` fields typed as bare `object` instead of `BaseProcess`/`MPQueue`/`MPEvent`, fixed), then released (`master` pushed to `github`+`gitlab`, `k_openvino-0.1.0` built+published to PyPI — first-ever publish of this package). A finalize pass then closed 3 outstanding gaps found during review: stale port `11436` in `README.md` (real value `11437` — `11436` belongs to the unrelated `ollama6` DxO tunnel) fixed in 4 spots; `CHANGELOG.md` backfilled with a `0.2.0` entry covering 8 previously-undocumented commits (tool-calling protocol, dynamic model discovery, real usage tokens, GPU port fix, HF_TOKEN propagation, short CLI options, typing fixes); `TODO.md` closed the systemd-service item (verified `openvino.service` already `enabled`+`active`). Version bumped `0.1.0`→`0.2.0` (minor — new backward-compatible features, no contract break) and re-released end-to-end (`push`→`uv-publish`→`push-tags`, verified live via `pypi.org/pypi/k-openvino/0.2.0/json`, tag `v0.2.0` on both remotes). |
+| 2026-08-29 | [LIVE] | v1.0.0 — Initial skill creation after a full session implementing OpenVINO's OpenAI-compatible tool-calling protocol from scratch: `tools=`/`enable_thinking` wiring into `apply_chat_template`, `_StreamParser` (shared `<think>`/`<tool_call>` grammar for streaming+non-streaming), `reasoning_content` field (DeepSeek convention), lock-release architecture fix (tied to generation thread, not the SSE generator), anti-loop fallback (empty content → reasoning fallback, fixes an `opencode` issue #37073-style pattern), and dynamic capability discovery via `/v1/model/info` (litellm format — bifrost never mapped `reasoning`). Verified live end-to-end in OpenCode's interactive TUI: collapsible `+ Thought: Xs` block + real tool execution (`exa_web_search_exa`) + `context%` display, all on `qwen3-0.6b`. |
+</content>

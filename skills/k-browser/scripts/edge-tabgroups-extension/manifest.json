@@ -1,9 +1,0 @@
-{
-  "manifest_version": 3,
-  "name": "Edge Tab Groups Explorer",
-  "version": "1.0",
-  "permissions": ["tabGroups", "tabs", "storage", "scripting", "activeTab"],
-  "host_permissions": ["https://*/*", "http://*/*"],
-  "background": { "service_worker": "background.js", "type": "module" },
-  "action": { "default_title": "Export" }
-}

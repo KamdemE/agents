@@ -45,7 +45,14 @@ models = {}
 for m in data.get("models", []):
     name = m["name"]
     size_gb = m.get("size", 0) / (1024**3)
-    model_id = name.split(":")[0]
+    # Ollama resolves a bare (untagged) name to its ":latest" tag implicitly, so the
+    # short form is safe ONLY when the pulled tag IS "latest". Any other explicit tag
+    # (e.g. ":1.7b", ":4b", ":14b") must keep its full "name:tag" as the JSON key —
+    # that key is the literal model ID sent to Ollama's OpenAI-compat endpoint, and a
+    # stripped non-latest tag 404s with `model "X" not found, try pulling it first`
+    # even though the model is actually present (real incident 2026-08-27, see
+    # k-ollama/SKILL.md insights).
+    model_id = name.split(":")[0] if name.endswith(":latest") else name
     models[model_id] = {"name": f"{name} ({size_gb:.1f} GB local)"}
 
 if not models:

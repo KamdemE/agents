@@ -1,11 +1,22 @@
 # OpenCode Hooks & Plugins Standards
 
-This document defines the standards and guidelines for creating, modifying, and maintaining OpenCode JavaScript hooks and plugins within the `.agents` repository.
+This document defines the standards and guidelines for creating, modifying, and maintaining OpenCode JavaScript **hooks** within the `.agents` repository.
+
+> **This document covers HOOKS ONLY.** "Hook" and "plugin" are NOT synonyms — see
+> `scripts/plugins/AGENTS.md` → "Hooks vs Plugins" for the authoritative distinction
+> and the full current inventory of both categories. A hook actively shapes/injects/
+> blocks what the agent sees or does; a non-hook plugin (`tmux-notify.js`,
+> `opencode-context/`, `opencode-voice/`, `opencode-notify/`) only observes lifecycle
+> events for a side effect and is NOT bound by the rules below (`TARGET_AGENTS`,
+> ordering, `synthetic:true`, prompt-name matching are hooks-only concerns).
 
 ## 1. File Structure
 
-All hook and plugin scripts must be stored in the skill's scripts/plugins/hooks folder:
+**Hooks only** must be stored in the skill's scripts/plugins/hooks folder:
 `skills/k-opencode/scripts/plugins/hooks/`
+
+Non-hook plugins live in their own subdirectory directly under `scripts/plugins/`
+(e.g. `scripts/plugins/opencode-notify/`) — never in `hooks/`.
 
 Shared helper libraries (logic helpers that do not subscribe directly to events) must be isolated in the `libs` sub-folder:
 `skills/k-opencode/scripts/plugins/libs/`

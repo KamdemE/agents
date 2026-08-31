@@ -1,13 +1,12 @@
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 import { execSync } from "node:child_process";
 import { currentAgentIs } from "../libs/agent-scope.js";
 import { messageText } from "../libs/message-utils.js";
 import { loadPrompt } from "../libs/prompt-loader.js";
-import { stripJsonc } from "../../../../../libs/jsonc/jsonc_lib.js";
+import { detectDevice } from "../libs/device-info.js";
 
-const TARGET_AGENTS = ["Colab", "Agent", "Auto", "Build", "Plan"];
+const TARGET_AGENTS = ["Colab", "Live", "Agent", "Auto", "Build", "Plan"];
 
 function readFileSafe(filePath) {
   try {
@@ -47,39 +46,27 @@ function tmuxContext() {
   lines.push("</tmux-context>");
   return lines.join("\n");
 }
-function detectDevice() {
-  const agentsDirectory = path.join(process.env.HOME, ".agents");
-  const raw =
-    readFileSafe(path.join(agentsDirectory, "assets", "infras_skills.jsonc")) ||
-    "{}";
-  // infras_skills.jsonc is the FLAT infra→skill map (no "infras" wrapper).
-  const map = JSON.parse(stripJsonc(raw)) || {};
-  let hostname = null;
-  try {
-    hostname = (
-      JSON.parse(
-        execSync("tailscale status --json", {
-          timeout: 5000,
-          encoding: "utf8",
-        }),
-      ).Self?.DNSName || ""
-    ).split(".")[0];
-  } catch {}
-  hostname ||= os.hostname().toLowerCase();
-  return { hostname, skillName: map[hostname.toLowerCase()] || null };
-}
-export function buildContext() {
+// inLabs — true only when the CLIENT session's own directory (Session.directory,
+// resolved via client.session.get; NEVER process.cwd(), which is the persistent
+// `opencode serve` daemon's own launch dir, not the calling client's) is EXACTLY
+// $HOME/KpihX-Labs. When false, the k-context block (TODOs/Projects/Log) is
+// skipped — device-context and tmux-context still always inject.
+export function buildContext(inLabs) {
   const skillsDirectory = path.join(process.env.HOME, ".agents", "skills");
-  const lines = [
-    "<startup-context>",
-    `Session date: ${new Date().toISOString().split("T")[0]}`,
-    "",
-    readFileSafe(path.join(skillsDirectory, "k-context", "SKILL.md")) ||
-      "(k-context not available)",
-    "",
-    loadPrompt("startup-context"),
-    "</startup-context>",
-  ];
+  const lines = ["<startup-context>", `Session date: ${new Date().toISOString().split("T")[0]}`, ""];
+  if (inLabs) {
+    lines.push(
+      readFileSafe(path.join(skillsDirectory, "k-context", "SKILL.md")) ||
+        "(k-context not available)",
+      "",
+      loadPrompt("startup-context"),
+    );
+  } else {
+    lines.push(
+      "(k-context skipped — session not launched from exactly $HOME/KpihX-Labs)",
+    );
+  }
+  lines.push("</startup-context>");
   const device = detectDevice();
   lines.push("", "<device-context>", `--- DEVICE: ${device.hostname} ---`);
   lines.push(
@@ -93,7 +80,27 @@ export function buildContext() {
   return lines.join("\n");
 }
 
-export default async function () {
+// isLaunchedFromLabs() — resolves the CALLING SESSION's own directory via
+// Session.directory (client.session.get), NOT process.cwd(). This hook runs
+// inside the single persistent `opencode serve` daemon shared by every
+// client/session regardless of where each one was launched from — so
+// process.cwd() would always report the DAEMON's own launch dir, never the
+// client's. Session.directory is the SDK-documented per-session field that
+// actually carries the client's real launch directory.
+async function isLaunchedFromLabs(client, messages) {
+  const sessionID = messages.find((message) => message.info?.sessionID)?.info
+    ?.sessionID;
+  if (!sessionID) return false;
+  try {
+    const session = await client.session.get({ path: { id: sessionID } });
+    const directory = session.data?.directory || "";
+    return directory === path.join(process.env.HOME, "KpihX-Labs");
+  } catch {
+    return false;
+  }
+}
+
+export default async function (input) {
   return {
     "experimental.chat.messages.transform": async (_input, output) => {
       const messages = output.messages || [];
@@ -104,13 +111,14 @@ export default async function () {
         )
       )
         return output;
+      const inLabs = await isLaunchedFromLabs(input.client, messages);
       output.messages ??= [];
       output.messages.unshift({
         info: { role: "user" },
         // synthetic:true — keeps the startup context visible to the model but
         // excludes it from OpenCode's title-gen gate (requires EXACTLY ONE
         // non-synthetic user message to fire).
-        parts: [{ type: "text", text: buildContext(), synthetic: true }],
+        parts: [{ type: "text", text: buildContext(inLabs), synthetic: true }],
       });
       return output;
     },

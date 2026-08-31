@@ -85,7 +85,7 @@ unrelated parents, and the drift is silent.
 **Re-assert the parent on every write**: read it, then send it back.
 
 ```python
-parent = parent_of(page_id)          # read now
+parent = parent_of(page_id)  # read now
 payload["ancestors"] = [{"id": parent}]
 ```
 

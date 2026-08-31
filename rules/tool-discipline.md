@@ -5,15 +5,17 @@
 ## Tmux Stateful Command Execution (MANDATORY — applies to EVERY `tmux send-keys`, not sudo only)
 - **Never** manually poll or loop `capture-pane` to check if a command finished — for ANY pane, ANY command, not just sudo. The shell's prompt hook (`precmd` in zsh / `PROMPT_COMMAND` in bash, in `.kshrc`) writes a return-to-prompt signal to `/tmp/tmux-pane-done.log` automatically; the `tmux-notify` OpenCode plugin (`k-opencode` `scripts/plugins/tmux-notify.js`) delivers it back into the conversation as a synthetic `<tmux-notify>` message. This is a **reflex**: you never "know" a command finished by looking — the system tells you.
 - 🔴 **ANY long-running or blocking command — not just sudo/auth prompts — MUST be routed through `tmux send-keys` on an available pane, ARMED with `TMUX_TIMEOUT`/`TMUX_LINES`. NEVER background it directly in your own Bash tool (`nohup ... &`, `... &`) and then `sleep`/poll for it yourself.** Backgrounding in your own shell produces NO `<tmux-notify>` — there is nothing to arm — so the only way you'd "know" it finished is by manually sleeping/polling, which is the exact anti-pattern this whole section exists to eliminate. If no pane is free, create one (`tmux new-window`/`split-window`) — never fall back to `sleep`. (Incident 2026-08-26, deep-pc6, KπX reaction: "connard ne t'es il pas dit de ne jmais faire sleep ?" — an agent launched a multi-minute `cmake --build` CUDA compile via `nohup cmake ... &` directly in its own Bash tool, then ran `sleep 60`/`sleep 90` twice in a row to poll it, because the previous fixes in this file only ever covered `tmux send-keys` calls and never explicitly named "backgrounding directly in the agent's own shell" as the same violation. Anti-repeat: before backgrounding ANY command that will take more than a few seconds, ask "should this be a `tmux send-keys` instead?" — the answer is almost always yes.)
+- 🔴 **TECHNICALLY ENFORCED (2026-08-29, KπX):** the rule above was PROSE-ONLY for over 3 days across 5 documented incidents — nothing actually stopped a raw `sleep`/`wait`/`timeout` from running. `k-opencode` `scripts/plugins/hooks/raw-exec-guard.js` now `throw`s (blocks) any bash command containing bare `sleep <n>`/`wait`/`timeout <n>` UNLESS the command is already a compliant `tmux send-keys -t <target> ...` call (the quoted payload runs IN the pane, never in your own shell — explicitly exempt). Scope deliberately limited to this static, pre-execution check — a 3rd idea (detect a command running >30s and kill it) was proposed and REJECTED by KπX as out of scope, and is not achievable anyway with the current plugin API (no PID access to the real subprocess).
 - **Always** prepend these env vars to ANY `tmux send-keys` you expect to take real time:
-  - `TMUX_TIMEOUT=<seconds>` (SECONDS — NOT milliseconds. Default `300` = 5 min.) — if the pane hasn't returned to its prompt after this many seconds, you get ONE "still running" notification with a fresh capture; the real completion notification still arrives automatically afterward (registry stays armed — never re-send the command).
-  - `TMUX_LINES=<n>` (alias `TMUX_MAX_LINES=<n>`, default `20`) — how many trailing lines of pane output are included in EVERY notification (the label always states the exact count actually shown, e.g. `Last 20 output lines:`).
-  - Example (long build/deploy): `TMUX_TIMEOUT=300 TMUX_LINES=20 tmux send-keys -t <session>:agents.2 'make build' Enter`
+  - `TMUX_TIMEOUT=<seconds>` (SECONDS — NOT milliseconds. Default `30`.) — if the pane hasn't returned to its prompt after this many seconds, you get ONE "still running" notification with a fresh capture; the real completion notification still arrives automatically afterward (registry stays armed — never re-send the command).
+  - `TMUX_LINES=<n>` (alias `TMUX_MAX_LINES=<n>`, default `50`) — how many trailing lines of pane output are included in EVERY notification (the label always states the exact count actually shown, e.g. `Last 50 output lines:`).
+  - Example (long build/deploy): `TMUX_TIMEOUT=300 TMUX_LINES=50 tmux send-keys -t <session>:agents.2 'make build' Enter`
   - Example (possible sudo/passphrase prompt — short timeout to catch it fast): `TMUX_TIMEOUT=20 TMUX_LINES=15 tmux send-keys -t <session>:agents.2 'sudo apt update' Enter`
 - **Never send-keys into a pane that's already busy running a tracked command** — prefer a DEDICATED, known-empty pane per task (e.g. `agents.N` per your own agent slot) rather than reusing a pane you're unsure about. If you try anyway, `tmux-notify.js` now BLOCKS it (throws) and tells you exactly what to do: use a different empty pane (`tmux list-panes -a` to check), or create a new one if all are occupied (added 2026-08-16, KπX directive — closes the earlier silent "last-arm-wins" gap where a second arm on the same pane could drop the first session's notification with zero trace).
 - Full mechanism: **`k-tmux/SKILL.md` → Stateful Integration** and **`### Run and get notified`**.
 
 ## tmux sudo Gate (MANDATORY)
+- 🔴 **TECHNICALLY ENFORCED (2026-08-29, KπX):** this rule was PROSE-ONLY for over 3 days — nothing actually stopped a raw `sudo` from running directly. `k-opencode` `scripts/plugins/hooks/raw-exec-guard.js` now `throw`s (blocks) any bash command containing a bare `sudo` UNLESS it is already a compliant `tmux send-keys -t <target> 'sudo ...' Enter` call (the quoted payload runs IN the pane, never in your own shell — explicitly exempt). Same `throw`-only pattern as `make-check-guard.js` (mutating the command does not propagate — upstream opencode #31680 — so blocking is the only reliable mechanism). If you see this block, route the exact same command through tmux instead of trying to bypass it.
 - **Never** run raw `sudo` in agent tool shells. Use the equipment's dedicated tmux session.
 - The ops pane is always `<session>:agents.2` where `<session>` is the current equipment
   (auto-detected via Tailscale: ubuntu, pve, pve-debian, blglaptop139, deep-pc6, s25...).
@@ -22,7 +24,7 @@
   2. Confirm session exists: `tmux ls | grep <session>`
   3. Send with a SHORT `TMUX_TIMEOUT` (15-30s) so you catch a password/passphrase/2FA prompt quickly:
      `TMUX_TIMEOUT=20 TMUX_LINES=15 tmux send-keys -t <session>:agents.2 'sudo apt update' Enter`
-  4. Right after `send-keys` executes you get a `<tmux-armed>` reminder appended to that SAME tool call's result (not a block — `capture-pane` is NEVER intercepted, KπX 2026-08-16, kept available as a manual fallback if the plugin itself malfunctions). **Prefer waiting for the automatic `<tmux-notify>` message over checking yourself.** If the notification's captured lines show a password/passphrase/2FA prompt, message KπX directly (never type the secret yourself, never re-send the command) and wait for KπX to act in the pane. If they show real work already progressing, no human action is needed — the real completion notification is already armed and will arrive on its own.
+  4. Right after `send-keys` executes you get a `<tmux-armed>` reminder appended to that SAME tool call's result (not a block — `capture-pane` is NEVER intercepted, KπX 2026-08-16, kept available as a manual fallback if the plugin itself malfunctions). **Prefer waiting for the automatic `<tmux-notify>` message over checking yourself.** If its final capture is empty, incomplete, or cannot establish the command result, immediately run one larger diagnostic capture: `tmux capture-pane -p -t <pane> -S -100`; use its result, never a polling loop. If the notification's captured lines show a password/passphrase/2FA prompt, message KπX directly (never type the secret yourself, never re-send the command) and wait for KπX to act in the pane. If they show real work already progressing, no human action is needed — the real completion notification is already armed and will arrive on its own.
   5. Never kill pane `<session>:agents.2` (permanent for the session).
 - **Never** create temp windows/panes for sudo
 - **Never** run `sudo` in agent tool shells
@@ -33,8 +35,10 @@
 - Run `edge-agent-status` before CDP attach
 
 ## File Operations (GRAVÉ)
-- **NEVER, EVER use shell redirection (`cat ... > ...`, `echo >`, `sed`, `awk`) to edit or create files.** 
-- **Always use the native `Edit` tool** (or `Write` tool for new files) provided by your environment. This is an absolute rule.
+- **NEVER, EVER use shell redirection (`cat ... > ...`, `echo >`, `sed`, `awk`) to edit or create files.**
+- **Always use the native `Edit` tool** for existing files. This is an absolute rule.
+- **NEVER rewrite a file wholesale if not explicitly requested.** Prefer precise `Edit` patches on exactly the lines that change. If similar/near-duplicate content already exists elsewhere, `cp` it as a base (shell `cp`, never `sed`) then `Edit` the differences — never regenerate from scratch.
+- **`Write` tool reserved for genuinely necessary cases only:** a new file that does not exist anywhere (verify via `plocate`/Glob first — if you suspect something similar might exist, `cp` + `Edit` instead), or an explicitly requested full rewrite/refactor. Not for "I'll just redo this file cleaner."
 - Read before Edit — you must use the `Read` tool to read the file contents first to ensure you patch it correctly.
 - No shell file ops (`cat`/`awk`/`echo >` for file creation/edits).
 - No real IPs, tokens, full legal names; use placeholders.
@@ -74,13 +78,19 @@ When KπX gives a permanent directive ("from now on", "always", "never again", "
 ### KπX code-suppression consent (2026-08-24)
 - Never add an in-code lint, type, or static-analysis suppression (for example `# noqa`) without KπX's explicit request for that exact suppression.
 
-## Proactive Skill Update (MANDATORY)
+## Propose ≠ Act (MANDATORY, GRAVÉ — KπX 2026-08-27)
+- **Proposing is not acting.** Analysis, research, and "I noticed X" NEVER justify writing, editing, or executing anything KπX did not explicitly request for the current turn.
+- **Never perform an action KπX did not explicitly say, or that does not directly follow from an action KπX explicitly requested.** Discovering something interesting mid-task (doc drift, a nice-to-have fix, a new pattern) is NOT authorization to act on it — surface it in Remarks/Suggestions and wait.
+- **The only exception: KπX explicitly grants "carte blanche"/"feu vert" for the current task** — only then decide and execute without asking further.
+- Does **NOT** override the `ABSOLUTE PROACTIVE FIX MANDATE` (root `AGENTS.md`) for problems blocking an **already explicitly requested** task, nor the session-log/issues-log record-keeping duties (`k-context-hygiene.md`) that document work already authorized and completed within the current turn — those stay automatic.
+- Applies to every "proactively [do/update/fix] X" mandate below unless stated otherwise: replace silent auto-action with **propose, then wait for go-ahead**.
+
+## Proactive Skill Update (MANDATORY) — propose, never auto-write (see `## Propose ≠ Act` above)
 After discovering a new pattern, fixing a bug, learning a configuration quirk, or gaining any durable knowledge:
 1. **Identify the owning skill** — find the relevant `k-*` skill in `~/.agents/skills/`.
-2. **Update it immediately** — extend the SKILL.md with the new knowledge, pattern, or fix.
-3. **Never keep knowledge only in conversation context** — if it's not in a skill, it doesn't exist for future sessions.
-4. **Bump version + changelog** — every skill edit must increment version and add a changelog entry.
-5. **Cross-reference** — if the pattern affects multiple skills, add pointers between them.
+2. **Propose the update** — present exactly what you'd add/change and WAIT for KπX's explicit go-ahead before writing (exception: KπX granted "carte blanche"/"feu vert" for this task).
+3. **Never keep knowledge only in conversation context** — if approved but not yet written, re-flag it before the session ends.
+4. **Once approved:** bump version + changelog, cross-reference affected skills.
 
 ## Context Save Proposal Gate
 Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjust`.

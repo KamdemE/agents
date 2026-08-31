@@ -22,8 +22,8 @@ metadata:
 
 ```bash
 uv tool install loom-tool                     # one time → `loom` in PATH
-cd ~/KpihX-Labs/proxies/tg-proxy && loom analyze .    # build index (~10-60s)
-cd ~/KpihX-Labs/proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
+cd ~/KpihX-Labs/Proxies/tg-proxy && loom analyze .    # build index (~10-60s)
+cd ~/KpihX-Labs/Proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
 ```
 
 The git hook runs `loom sync --old-sha HEAD~1 --new-sha HEAD` after every commit (~2-5s, incremental).
@@ -157,4 +157,4 @@ Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered b
 |------|-------|--------|
 | 2026-08-26 | [COLAB] | **v1.8.0 — Passthrough path reference updated**: `k-git`'s generic hook passthrough relocated `assets/` → `scripts/` inside its skill (KπX order); § Hook Ownership cross-reference updated accordingly (`scripts/git-hook-passthrough.sh`). No functional change — Loom's post-commit dispatcher untouched. |
 | 2026-08-24 | [COLAB] | **v1.7.0 — LOOM MCP REMOVED (KπX directive)**: `loom-mcp` deleted from `opencode.jsonc` (live = symlinked asset, 16 stdio instances ≈ 790M RAM); ALL rules/agents/skills now reference the `loom` CLI ONLY (`rules/search-governance.md`, `AGENTS.md`, `agents/Colab/prompt.txt`, `agents/Agent/prompt.txt`, `k-clis`, `k-optim`, `k-uv`); full MCP→CLI equivalence table + RAM history archived in `references/mcp.md` (NON-RECOMMENDED registry). |
-| [SUMMARY] | — | v1.6.1 check-skills audit (→ `references/log.md`) · v1.6.0 hook ownership cleanup (→ `references/log.md`) · v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore (→ `references/log.md`) · v1.3.0 Loom activation (→ `references/log.md`) · v1.2.0 proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |
+| [SUMMARY] | — | v1.6.1 check-skills audit (→ `references/log.md`) · v1.6.0 hook ownership cleanup (→ `references/log.md`) · v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore (→ `references/log.md`) · v1.3.0 Loom activation (→ `references/log.md`) · v1.2.0 Proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |

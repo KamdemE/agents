@@ -17,6 +17,7 @@ Canonical text assets shared by OpenCode JavaScript hooks and Python core hooks.
 |---|---|
 | `prompt-enforcer-strict.txt` | Colab per-turn enforcement (loaded by `prompt-enforcer-strict.js`). |
 | `prompt-enforcer-lite.txt` | Agent-only enforcement after a real user message (loaded by `prompt-enforcer-lite.js`). |
+| `prompt-enforcer.txt` | Live-only enforcement after a real user message — real copy of `prompt-enforcer-strict.txt` content, kept as its own file per the naming rule (no symlink; loaded by `prompt-enforcer.js`). |
 | `stop-enforcer.txt` | Agent idle-time completion check; receives `{{MISSION_CONTEXT}}` (loaded by `stop-enforcer.js`). |
 | `startup-context.txt` | Startup presentation directive after injected context (loaded by `startup-context.js`). |
 | `suggestions-check.txt` | Universal final-response suggestions format rule (loaded by `suggestions-check.js`). |

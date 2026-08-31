@@ -100,6 +100,13 @@
       "installedAt": "2026-05-26T00:00:00.000Z",
       "updatedAt": "2026-05-26T00:00:00.000Z"
     },
+    "k-openvino": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-openvino/SKILL.md",
+      "installedAt": "2026-08-29T00:00:00.000Z",
+      "updatedAt": "2026-08-29T00:00:00.000Z"
+    },
     "k-vibe": {
       "source": "local",
       "sourceType": "local",
@@ -240,7 +247,7 @@
       "sourceType": "local",
       "skillPath": "skills/k-browser/SKILL.md",
       "installedAt": "2026-04-26T17:00:00.000Z",
-      "updatedAt": "2026-04-26T17:00:00.000Z"
+      "updatedAt": "2026-08-30T21:00:08.000Z"
     },
     "k-bw": {
       "source": "local",

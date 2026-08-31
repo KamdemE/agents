@@ -7,8 +7,6 @@ mode: subagent
 scope: colab
 role: sub-agent
 permission:
-  edit: allow
-  bash: allow
   task: allow
   read: allow
   glob: allow

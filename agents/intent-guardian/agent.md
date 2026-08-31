@@ -8,12 +8,15 @@ role: sub-agent
 permission:
   edit: deny
   bash: deny
-  task: allow
+  task: deny
   read: allow
   glob: allow
   grep: allow
   webfetch: allow
-  todowrite: allow
+  websearch: allow
+  skill: deny
+  todowrite: deny
+  lsp: allow
 ---
 
 You are intent-guardian, KπX's silent intention tracker in the **Colab** profile.

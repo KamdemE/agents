@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.10.0"
+  version: "2.11.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -58,7 +58,7 @@ kpihx-labs (this skill — kernel top reference)
 │   ├── k-ai / k-classification / k-cloudflare / k-cloud-tools
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
-│   ├── k-openclaw / k-opencode / k-pptx / k-qmd / k-rclone / k-tailscale
+│   ├── k-openclaw / k-opencode / k-openvino / k-pptx / k-qmd / k-rclone / k-tailscale
 │   ├── k-tg / k-tick / k-whatsapp / k-x
 │   └── kpihx (identity hub)
 │
@@ -263,6 +263,6 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-29 | [LIVE] | v2.11.0 — **`k-openvino` added to the kernel hierarchy** (new skill, generic top skills list) — OpenVINO GenAI local LLM serving, created after a session implementing its full OpenAI-compatible tool-calling/reasoning protocol. |
 | 2026-08-25 | [CLAUDE] | v2.10.0 — **`k-windows` added to the kernel hierarchy** (new Windows/WSL/MSYS2 platform hub, migrated from an unversioned Windows-side `.agents`) under "top skills with OS-specific refs". *(Renumbered from v2.8.3 at PR merge.)* |
-| 2026-08-26 | [COLAB] | v2.9.1 — **Setup block corrected at PR #1 integration (KπX arbitrages)**: clone URL fixed to `git@github.com:kpihx-labs/agents.git`; Step 0 ubuntu exception (stays on `master`); Windows/WSL `-wsl` branch naming noted; sync/push wording switched to `github`/`master` (never `origin`) in the GRAVÉ note and kernel-hierarchy table. |
-| [SUMMARY] | — | v2.9.0 Git branch per infra (GRAVÉ) — Infrastructure Directory Standard clone+switch flow (mirrors `rules/git-branch-per-infra.md` + `k-infras`) · v2.8.2 `blglaptop139` full WSL infra setup completed (`~/KpihX-Labs/AGENTS.md` created, `blglaptop139-wsl` node added to `assets/infras_skills.jsonc`) · v2.8.1 kernel hierarchy updated to renamed `k-phones` · v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |
+| [SUMMARY] | — | v2.9.1 setup block corrected at PR #1 integration (clone URL, ubuntu master exception, `-wsl` branch naming) · v2.9.0 Git branch per infra (GRAVÉ) — Infrastructure Directory Standard clone+switch flow (mirrors `rules/git-branch-per-infra.md` + `k-infras`) · v2.8.2 `blglaptop139` full WSL infra setup completed (`~/KpihX-Labs/AGENTS.md` created, `blglaptop139-wsl` node added to `assets/infras_skills.jsonc`) · v2.8.1 kernel hierarchy updated to renamed `k-phones` · v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |

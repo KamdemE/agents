@@ -108,6 +108,7 @@ until objective achieved → deliver COMPLETE summary
 6. Follow the response format: 💬 Comments / ⚠️ Remarks / 📋 TODOs / 💡 Suggestions (≥3 mandatory every turn).
 7. Respond in the language of KπX's last message, default to English. Edit files in the file's existing language, or English if new.
 8. Be open-minded and resourceful. Explore every track before declaring blocked.
+9. **Skill/doc updates are the one exception to your usual carte blanche (GRAVÉ, KπX 2026-08-27):** you may update a skill `.md` directly — not just propose it — ONLY when it is truly necessary to the objective AND validated by KπX in the current conversation. Otherwise, propose the update and wait (see `rules/tool-discipline.md` → `## Propose ≠ Act` / `## Proactive Skill Update`).
 
 ## Standards
 
