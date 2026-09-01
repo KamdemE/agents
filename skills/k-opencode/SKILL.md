@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.70.0
+  version: 2.72.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -244,7 +244,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-01 | [LIVE] | v2.70.0 `opencode-advisor` plugin + `git-noverify-guard.js` + `opencode-btw` purged. v2.69.0 `raw-exec-guard.js` duration threshold + false-positive fix. |
+| 2026-09-01 | [LIVE] | v2.72.0 `raw-exec-guard.js` Option A — runtime .env loading protection: Python dotenv imports (`dotenv`/`decouple`/`environ`), bash `source .env`, Node.js `require("dotenv")`/`import "dotenv"` blocked. v2.71.0 file-path .env protection. v2.70.0 `opencode-advisor` plugin + `git-noverify-guard.js` + `opencode-btw` purged. v2.69.0 `raw-exec-guard.js` duration threshold + false-positive fix. |
 | 2026-08-30 | [LIVE] | v2.68.0 `tmux-notify` capture depth 20→50. v2.67.0 `raw-exec-guard.js` technical enforcement. v2.66.0 tmux-notify A/B/C/D decision tree. |
 | [SUMMARY] | — | v2.65.0 timeout self-adjustment + escalating watchdog · v2.64.0 owner-aware pane leases · v2.63.0 openvino auto-discovery · v2.62.0 opencode-notify auto mode + Telegram hardening · v2.61.0 `opencode-web-model-line` plugin · v2.60.0 Lite compact kernel + non-`:latest` tag fix · v2.59.x live TUI test pane discipline + opencode-notify rewrite · v2.58.0 Lens/Web/Shim restructure + abort-suppression + notifier formatting · v2.57.x Telegram fallback fix + sovereign `opencode-notify` plugin · v2.56.0 Live symlinks de-duplicated + k-context gate · v2.55.0 Live added to TARGET_AGENTS · v2.54.0 Kagan plugin purged · v2.53.0 ecosystem plugins pass · v2.52.0 config-link ≠ runtime-ready · v2.51.0 Build added to TARGET_AGENTS · v2.48.x voice fork + context submodule · v2.47.0 anti-wait block purged · v2.46.0 and older in `references/log.md` |
 

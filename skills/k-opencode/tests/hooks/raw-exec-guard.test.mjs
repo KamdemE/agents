@@ -1,13 +1,17 @@
 // Test for raw-exec-guard.js — simulates tool.execute.before calls.
-// Two static checks only (KπX, 2026-08-29 — 3rd "kill after 30s" idea
-// explicitly rejected as out of scope): raw `sudo` outside tmux, and raw
-// `sleep`/`wait`/`timeout` used as manual polling outside tmux. Both are
-// EXEMPT when the command is already a compliant `tmux send-keys -t ...`
-// call (the quoted payload runs IN the pane, never in the agent's own
-// shell).
+// Four static checks (KπX, 2026-08-29 / 2026-09-01):
+//   1. raw `sudo` outside tmux — blocked
+//   2. raw `sleep`/`wait`/`timeout` used as manual polling outside tmux — blocked (>20s)
+//   3. .env file access (secrets) — blocked unless path is .env.example*
+//   4. proxy pipe (`*-proxy do*` piped into jq/python/etc.) — blocked
+// All are EXEMPT when the command is already a compliant `tmux send-keys -t ...`
+// call (the quoted payload runs IN the pane, never in the agent's own shell).
 // Duration threshold (KπX, 2026-08-30): sleep/timeout only blocked when
 // duration > 20s (POLL_THRESHOLD_SECS). `wait` always blocked (indeterminate).
 // False-positive guard: `--wait-for-cdp` and similar flags are NOT blocked.
+// .env protection (KπX, 2026-09-01): commands referencing *.env* files blocked
+// unless path matches *.env.example*. Closes the gap where `cat`/`less`/etc.
+// could read secrets via shell (opencode.jsonc glob only covers edit+read).
 // Run from the repo root: node skills/k-opencode/tests/hooks/raw-exec-guard.test.mjs
 import { fileURLToPath } from "node:url";
 
@@ -77,6 +81,85 @@ const cases = [
 
   // --- non bash tool → pass ---
   ["non bash tool (passe)", "sudo anything", false, "read"],
+
+  // --- .env file protection (KπX, 2026-09-01) ---
+  // .env files → blocked
+  ["cat .env (bloqué)", "cat ~/.config/mail-proxy/.env", true, "bash"],
+  ["cat /foo/.env (bloqué)", "cat /foo/.env", true, "bash"],
+  ["less .env.local (bloqué)", "less ./.env.local", true, "bash"],
+  ["head .env.production (bloqué)", "head ./config/prod/.env.production", true, "bash"],
+  ["rg SECRET in .env (bloqué)", "rg SECRET /tmp/.env.staging", true, "bash"],
+  ["diff .env files (bloqué)", "diff ~/.config/x/.env ~/.config/x/.env.local", true, "bash"],
+  ["cp .env (bloqué)", "cp /foo/.env /bar/.env.bak", true, "bash"],
+  ["strings .env (bloqué)", "strings /proc/self/.env", true, "bash"],
+  ["xxd .env (bloqué)", "xxd /home/user/.env", true, "bash"],
+  ["cat /home/user/.config/tg-proxy/.env (bloqué)", "cat /home/user/.config/tg-proxy/.env", true, "bash"],
+
+  // .env.example → allowed
+  ["cat .env.example (passe)", "cat /foo/.env.example", false, "bash"],
+  ["cat .env.example.local (passe)", "cat /foo/.env.example.local", false, "bash"],
+  ["less .env.example (passe)", "less ~/.config/x/.env.example", false, "bash"],
+
+  // env var names (NOT file paths) → allowed
+  ["env -i bash (passe)", "env -i bash", false, "bash"],
+  ["printenv HOME (passe)", "printenv HOME", false, "bash"],
+  ["export MY_ENV=1 (passe)", "export MY_ENV=1", false, "bash"],
+
+  // non-.env files with "env" in name → allowed
+  ["cat myenv.txt (passe)", "cat /foo/myenv.txt", false, "bash"],
+  ["echo env.prod (passe)", "echo \"env.prod\"", false, "bash"],
+
+  // .env inside tmux send-keys → allowed (payload runs in pane, not agent shell)
+  [
+    "cat .env inside tmux send-keys (autorisé — payload livré au pane)",
+    "tmux send-keys -t ubuntu:0.2 'cat ~/.config/mail-proxy/.env' Enter",
+    false,
+    "bash",
+  ],
+
+  // --- proxy pipe protection → blocked ---
+  [
+    "whats-proxy do with jq pipe (bloqué)",
+    "whats-proxy do chat-list '{}' -a 33605957785 | jq '.data.chats'",
+    true,
+    "bash",
+  ],
+  [
+    "browser-proxy do with python pipe (bloqué)",
+    "browser-proxy do page-screenshot '{}' | python3 -c 'import sys; print(sys.stdin.read()[:100])'",
+    true,
+    "bash",
+  ],
+  [
+    "whats-proxy do with grep pipe (bloqué)",
+    "whats-proxy do whatsup '{}' -a 33605957785 | grep 'needs_reply'",
+    true,
+    "bash",
+  ],
+  [
+    "whats-proxy do with sed pipe (bloqué)",
+    "whats-proxy do chat-list '{}' | sed 's/\"name\"/\"nom\"/g'",
+    true,
+    "bash",
+  ],
+  [
+    "tick-proxy do with head pipe (bloqué)",
+    "tick-proxy do list-tasks '{}' | head -20",
+    true,
+    "bash",
+  ],
+  [
+    "whats-proxy do without pipe (passe)",
+    "whats-proxy do chat-list '{}' -a 33605957785",
+    false,
+    "bash",
+  ],
+  [
+    "whats-proxy do with -o (passe, -o is explicit save)",
+    "whats-proxy do whatsup '{}' -a 33605957785 -o /tmp/result.json",
+    false,
+    "bash",
+  ],
 ];
 
 let pass = 0;

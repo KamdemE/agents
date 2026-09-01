@@ -30,6 +30,35 @@
 // or `--wait-for-something` are NOT blocked — only the bare `wait` bash
 // builtin (preceded by space, quote, or start-of-string) triggers.
 //
+// .env protection (KπX, 2026-09-01, extended 2026-09-01): Option A — blocks
+// secret access at 3 layers: (1) direct .env file paths, (2) runtime secret
+// loading (Python dotenv, bash source, Node dotenv), (3) exclusions for
+// .env.example and legitimate env usage.
+//
+// Proxy pipe protection (KπX, 2026-09-01): blocks any `*-proxy do*` command
+// piped into jq/python/etc. to prevent overloading the proxy server with
+// repeated calls. Agent must call proxy ONCE (autosave in /tmp/*-proxy-autosave/),
+// then read the saved file for parsing.
+//
+// Layer 1 — File paths: any bash command referencing `*.env*` file is
+// blocked UNLESS the path is `*.env.example*`. Covers cat, less, head,
+// tail, bat, xxd, strings, cp, mv, diff, etc. Path-anchored to avoid
+// false positives on env var names like `MY_ENV_VAR=1`.
+//
+// Layer 2 — Runtime loading (Option A scope):
+//   - Python dotenv: `python -c "from dotenv import..."` / `import dotenv`
+//     / `from decouple import` / `from environ import` — blocks code that
+//     LOADS .env files via libraries. Does NOT block `os.environ` access
+//     (too broad, would break legitimate env debugging).
+//   - Bash source: `source .env` / `. .env` — blocks sourcing .env files
+//     directly. Excludes `.env.example*`.
+//   - Node.js dotenv: `node -e 'require("dotenv")...'` / `import "dotenv"`
+//     — blocks inline Node code loading dotenv.
+//
+// NOT blocked (Option A exclusions): `os.environ`/`os.getenv` in Python
+// inline (too broad), `python script.py` (can't inspect file contents),
+// env var names (`MY_ENV_VAR=1`), `env`/`printenv` builtins.
+//
 // Compliant path (never blocked): a command that is ALREADY a
 // `tmux send-keys -t <target> ...` call. The quoted payload inside it
 // (which may itself contain "sudo"/"sleep"/"wait"/"timeout") is delivered
@@ -53,6 +82,30 @@ const SLEEP_PATTERN = /\bsleep\s+([\d.]+)/;
 const WAIT_PATTERN = /(?<![a-zA-Z-])\bwait\b/;
 const TIMEOUT_PATTERN = /\btimeout\s+([\d.]+)/;
 
+// .env file protection: match any file path ending with .env* but NOT .env.example*
+// Anchored to paths (contain / or start with ~/ or ./) to avoid matching env var names.
+// Examples matched: cat /foo/.env, less ~/.config/x/.env.local, head ./.env
+// Examples NOT matched: cat /foo/.env.example, less x.env, export MY_ENV=1, env -i
+const ENV_FILE_PATTERN = /(?:(?:^|\s)(?:[~/.][^\s]*\/[^\s]*\.env(?![\w.]*example)[^\s]*))/;
+
+// Python dotenv import: catches `python -c "from dotenv import..."` /
+// `import dotenv` / `from decouple import` / `from environ import` in
+// inline Python code. Does NOT match `python script.py` (file execution).
+const PYTHON_DOTENV_PATTERN = /\b(?:python3?|uv\s+run\s+python3?)\s+(?:-[ce]\s+['"]?.*?)?\b(?:from\s+(?:dotenv|decouple|environ)\s+import|import\s+(?:dotenv|decouple|environ)\b)/;
+
+// Bash source .env: matches `source .env`, `. .env`, `source ~/.config/x/.env`
+// but NOT `source .env.example`. Bare `.env` allowed (no path required).
+const BASH_SOURCE_ENV_PATTERN = /(?:^|\s)(?:source|\.)\s+(?:([^\s]*\/))?[~/.]env(?![\w.])/;
+
+// Node.js dotenv: matches `require("dotenv")`, `import "dotenv"`,
+// `"dotenv".config()` in inline Node code (node -e / node -c).
+const NODE_DOTENV_PATTERN = /\bnode\s+-[ec]\s+['"].*?(?:require\s*\(\s*['"]dotenv['"]\s*\)|import\s+(?:.*?\s+from\s*)?['"]dotenv['"]|['"]dotenv['"]\.config)/;
+
+// Proxy pipe protection: blocks `*-proxy do*` commands piped into jq/python/etc.
+// Agent must call the proxy ONCE (autosave in /tmp/*-proxy-autosave/),
+// then read the saved file for parsing. Never pipe proxy output.
+const PROXY_DO_PATTERN = /\b\w+[-_]proxy\s+do\b/;
+
 export default async function () {
   return {
     "tool.execute.before": async (input, output) => {
@@ -64,6 +117,85 @@ export default async function () {
       // executed IN THE PANE, never by the agent's own shell. Nothing to
       // block here; `tmux-notify.js` already arms/handles it.
       if (SEND_KEYS_REGEX.test(cmd)) return input;
+
+      // .env file protection: block any command referencing a .env* file
+      // (secrets, tokens, passwords) unless it's a .env.example* file.
+      // Covers cat, less, head, tail, bat, xxd, strings, cp, mv, diff, etc.
+      const envMatch = cmd.match(ENV_FILE_PATTERN);
+      if (envMatch) {
+        // Extract the matched path for a clean error message
+        const envPath = envMatch[0].trim();
+        throw new Error(
+          "🔒 .env secrets protection: access to secrets files is blocked.\n" +
+            "Secrets are NEVER accessible to agents — this is an absolute security rule.\n" +
+            "If you need to understand a service's configuration, consult the source:\n" +
+            "  → the corresponding `.env.example` file (has all keys, no secrets)\n" +
+            "  → the project's `CONTRACT.md` or `config.py` (documents expected env vars)\n" +
+            `  → the owning skill's SKILL.md (documents configuration patterns)\n\n` +
+            `Blocked path: ${envPath}\n` +
+            `Blocked command: ${cmd}`,
+        );
+      }
+
+      // Runtime .env loading protection (Option A): block code that LOADS
+      // secrets at runtime via dotenv libraries or bash source.
+      // Python dotenv: import dotenv/decouple/environ in inline code
+      if (PYTHON_DOTENV_PATTERN.test(cmd)) {
+        throw new Error(
+          "🔒 .env secrets protection: Python dotenv loading is blocked.\n" +
+            "Code that loads .env secrets via dotenv/decouple/environ is forbidden.\n" +
+            "To understand a service's configuration, consult:\n" +
+            "  → the corresponding `.env.example` file (has all keys, no secrets)\n" +
+            "  → the project's `CONTRACT.md` or `config.py` (documents expected env vars)\n" +
+            `  → the owning skill's SKILL.md (documents configuration patterns)\n\n` +
+            `Blocked command: ${cmd}`,
+        );
+      }
+
+      // Bash source .env: `source .env` / `. .env` — loads env vars from file
+      if (BASH_SOURCE_ENV_PATTERN.test(cmd)) {
+        throw new Error(
+          "🔒 .env secrets protection: sourcing .env files is blocked.\n" +
+            "`source .env` loads secrets into the shell environment — forbidden.\n" +
+            "To understand a service's configuration, consult:\n" +
+            "  → the corresponding `.env.example` file (has all keys, no secrets)\n" +
+            "  → the project's `CONTRACT.md` or `config.py` (documents expected env vars)\n" +
+            `  → the owning skill's SKILL.md (documents configuration patterns)\n\n` +
+            `Blocked command: ${cmd}`,
+        );
+      }
+
+      // Node.js dotenv: require("dotenv") / import "dotenv" in inline code
+      if (NODE_DOTENV_PATTERN.test(cmd)) {
+        throw new Error(
+          "🔒 .env secrets protection: Node.js dotenv loading is blocked.\n" +
+            "Code that loads .env secrets via dotenv module is forbidden.\n" +
+            "To understand a service's configuration, consult:\n" +
+            "  → the corresponding `.env.example` file (has all keys, no secrets)\n" +
+            "  → the project's `CONTRACT.md` or `config.ts` (documents expected env vars)\n" +
+            `  → the owning skill's SKILL.md (documents configuration patterns)\n\n` +
+            `Blocked command: ${cmd}`,
+        );
+      }
+
+      // Proxy pipe protection: block `*-proxy do*` piped into jq/python/etc.
+      // The proxy autosaves the full output to /tmp/*-proxy-autosave/.
+      // Agent must call the proxy ONCE, then read the autosave file.
+      if (PROXY_DO_PATTERN.test(cmd) && cmd.includes("|")) {
+        throw new Error(
+          "🛑 Proxy pipe blocked (minimize proxy calls): " +
+            "`*-proxy do*` must NOT be piped into jq/python/etc.\n" +
+            "The proxy server returns full JSON and autosaves it to:\n" +
+            "  → /tmp/whats-proxy-autosave/<action>_<timestamp>.json\n" +
+            "  → /tmp/browser-proxy-autosave/<action>_<timestamp>.json\n\n" +
+            "Correct flow:\n" +
+            "  1. Run: whats-proxy do <action> '{...}'\n" +
+            "  2. Read the autosave file (full output, no truncation)\n" +
+            "  3. Parse the JSON from the saved file\n\n" +
+            "This prevents overloading the proxy server with repeated calls.\n" +
+            `Blocked command: ${cmd}`,
+        );
+      }
 
       if (SUDO_PATTERN.test(cmd)) {
         throw new Error(
