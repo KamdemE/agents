@@ -184,11 +184,8 @@
     // --- k-pve-debian (infra skill → -pve-debian suffix) ------------------------
     "kshrc-pve-debian": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-pve-debian/assets/kshrc", "skill": "k-pve-debian", "infras": ["kpihx-pve-debian"] },
 
-    // --- k-blglaptop139 (infra skill → -blglaptop139 suffix) ---------------------
-    "kshrc-blglaptop139": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-blglaptop139/assets/kshrc", "skill": "k-blglaptop139", "infras": ["blglaptop139"] },
-
-    // --- k-deep-pc6 (infra skill → -deep-pc6 suffix) ----------------------------
-    "kshrc-deep-pc6": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-deep-pc6/assets/kshrc", "skill": "k-deep-pc6", "infras": ["deep-pc6"] },
+    // k-blglaptop139 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
+    // k-deep-pc6 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
 
     // --- k-ai (voice) -------------------------------------------------------------
     "k-piper":     { "source": "$HOME/.local/bin/k-piper",     "target": "$HOME/.agents/skills/k-ai/scripts/k-piper.sh",     "skill": "k-ai", "infras": ["kpihx-ubuntu"] },
@@ -211,12 +208,7 @@
     // --- k-clis -------------------------------------------------------------------
     "rm":      { "source": "$HOME/.local/bin/rm", "target": "$HOME/.agents/skills/k-clis/assets/rm", "skill": "k-clis", "infras": ["*"] },
 
-    // --- k-dxo (deep-pc6) ----------------------------------------------------------
-    "ollama6": { "source": "$HOME/.local/bin/ollama6", "target": "$HOME/.agents/skills/k-dxo/scripts/ollama6", "skill": "k-dxo", "infras": ["kpihx-ubuntu", "blglaptop139"] },
-    "tmux6":   { "source": "$HOME/.local/bin/tmux6",   "target": "$HOME/.agents/skills/k-dxo/assets/tmux6",   "skill": "k-dxo", "infras": ["kpihx-ubuntu", "blglaptop139"] },
-    "vpn-dxo-service": { "source": "/etc/systemd/system/vpn-dxo.service", "target": "$HOME/.agents/skills/k-dxo/assets/vpn-dxo.service", "skill": "k-dxo", "infras": ["kpihx-ubuntu"] },
-    "ollama6-tunnel-service": { "source": "$HOME/.config/systemd/user/ollama6-tunnel.service", "target": "$HOME/.agents/skills/k-dxo/assets/ollama6-tunnel.service", "skill": "k-dxo", "infras": ["kpihx-ubuntu", "blglaptop139"] },
-    "rclone-deep-pc6-service": { "source": "$HOME/.config/systemd/user/rclone-deep-pc6.service", "target": "$HOME/.agents/skills/k-dxo/assets/rclone-deep-pc6.service", "skill": "k-dxo", "infras": ["kpihx-ubuntu"] },
+    // --- k-dxo DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/ ---
 
     // --- k-openclaw ----------------------------------------------------------------
     "openclaw-opencode": { "source": "$HOME/.local/bin/openclaw-opencode", "target": "$HOME/.agents/skills/k-openclaw/assets/openclaw-opencode", "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
@@ -255,10 +247,7 @@
     "rclone-gdrive-service":   { "source": "$HOME/.config/systemd/user/rclone-gdrive.service",   "target": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service",   "skill": "k-rclone", "infras": ["kpihx-ubuntu"] },
     "rclone-gdrive-x-service": { "source": "$HOME/.config/systemd/user/rclone-gdrive-x.service", "target": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive-x.service", "skill": "k-rclone", "infras": ["kpihx-ubuntu"] },
 
-    // --- k-ollama ---------------------------------------------------------------
-    "ollama-service": { "source": "/etc/systemd/system/ollama.service", "target": "$HOME/.agents/skills/k-ollama/assets/ollama.service", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
-    "ollama-override-conf": { "source": "/etc/systemd/system/ollama.service.d/override.conf", "target": "$HOME/.agents/skills/k-ollama/assets/ollama-override.conf", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
-    "ollama-vulkan-service": { "source": "$HOME/.config/systemd/user/ollama-vulkan.service", "target": "$HOME/.agents/skills/k-ollama/assets/ollama-vulkan.service", "skill": "k-ollama", "infras": ["kpihx-ubuntu"] },
+    // --- k-ollama DEACTIVATED 2026-09-01 (replaced by k-openvino) → skills/deactive/ ---
 
     // --- k-tailscale --------------------------------------------------------------
     // 2026-08-24: tailscaled.service + /etc/default/tailscaled DE-LINKED per KπX order —

@@ -97,25 +97,7 @@
       "expect-active": true
     },
 
-    // --- k-ollama (generic tool skill, NOT infra) → no suffix, shared -----------
-    "ollama-service": {
-      "unit": "ollama.service",
-      "type": "system",
-      "path": "$HOME/.agents/skills/k-ollama/assets/ollama.service",
-      "skill": "k-ollama",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": true
-    },
-
-    // --- k-ollama Vulkan backend (Intel Arc iGPU, dedicated port 11435) --------
-    "ollama-vulkan-service": {
-      "unit": "ollama-vulkan.service",
-      "type": "user",
-      "path": "$HOME/.agents/skills/k-ollama/assets/ollama-vulkan.service",
-      "skill": "k-ollama",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": true
-    },
+    // --- k-ollama DEACTIVATED 2026-09-01 (replaced by k-openvino) → skills/deactive/ ---
 
     // --- k-hermes (generic, NOT infra) → no suffix ------------------------------
     "hermes-gateway-service": {
@@ -182,36 +164,7 @@
       "expect-active": true
     },
 
-    // --- k-dxo (client-side tunnels/mounts TO deep-pc6) ----------------------
-    // These run on the CLIENT machines (kpihx-ubuntu, blglaptop139) that need to
-    // reach deep-pc6. deep-pc6 itself is already on the DxO VPN — it does NOT
-    // run these. key = appellation (k-dxo is a tool skill, not the deep-pc6
-    // infra skill → NO -<infra> suffix).
-    "vpn-dxo-service": {
-      "unit": "vpn-dxo.service",
-      "type": "system",
-      "path": "$HOME/.agents/skills/k-dxo/assets/vpn-dxo.service",
-      "skill": "k-dxo",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": false,
-      "note": "GlobalProtect VPN to DxO — needed only on kpihx-ubuntu to reach deep-pc6; deep-pc6 is already on the DxO VPN. NOT mandatory (only when working at a distance)."
-    },
-    "ollama6-tunnel-service": {
-      "unit": "ollama6-tunnel.service",
-      "type": "user",
-      "path": "$HOME/.agents/skills/k-dxo/assets/ollama6-tunnel.service",
-      "skill": "k-dxo",
-      "infras": ["kpihx-ubuntu", "blglaptop139"],
-      "expect-active": true
-    },
-    "rclone-deep-pc6-service": {
-      "unit": "rclone-deep-pc6.service",
-      "type": "user",
-      "path": "$HOME/.agents/skills/k-dxo/assets/rclone-deep-pc6.service",
-      "skill": "k-dxo",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": true
-    },
+    // --- k-dxo DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/ ---
 
     // --- k-pve (infra skill for kpihx-pve) → -pve suffix --------------------------
     // Critical PVE units are deliberately copied into /etc, not symlinked.

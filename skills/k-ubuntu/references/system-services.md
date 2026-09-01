@@ -12,13 +12,13 @@ All services listed below are **active and running** (verified 2026-07-25). Sour
 | `NetworkManager.service` | Network management | ✅ enabled + active | — (system default) | — |
 | `systemd-resolved.service` | DNS resolver | ✅ enabled + active | — (system default) | — |
 | `snapd.service` | Snap daemon | ✅ enabled + active | — (system default) | — |
-| `ollama.service` | LLM runtime (Intel Arc iGPU) | ✅ linked + active | `k-ollama/assets/ollama.service` + `override.conf` | ✅ symlink via `k-ollama` |
+| `ollama.service` | LLM runtime (Intel Arc iGPU) | 🔴 DEACTIVATED 2026-09-01 (replaced by k-openvino) | `deactive/k-ollama/assets/ollama.service` + `override.conf` | removed |
 | | | | | |
 | **User services** (systemctl --user) | | | | |
 | `opencode-web.service` | OpenCode Web server | ✅ enabled + active | `k-opencode/assets/opencode-web.service` | ✅ `~/.config/systemd/user/opencode-web.service` |
 | `rclone-gdrive.service` | Gdrive (kapoivha@gmail.com → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive.service` | ✅ `~/.config/systemd/user/rclone-gdrive.service` |
 | `rclone-gdrive-x.service` | Gdrive_X (X account → ~/Gdrive_X) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive-x.service` | ✅ `~/.config/systemd/user/rclone-gdrive-x.service` |
-| `rclone-deep-pc6.service` | Deep-PC6 (via k-dxo → ~/Deep-PC6) | ✅ enabled + active | `k-dxo/assets/rclone-deep-pc6.service` | ✅ `~/.config/systemd/user/rclone-deep-pc6.service` |
+| `rclone-deep-pc6.service` | Deep-PC6 mount | 🔴 DEACTIVATED 2026-09-01 (DxO internship ended) | `deactive/k-dxo/assets/rclone-deep-pc6.service` | removed |
 | | | | | |
 | **Timers** (system) | | | | |
 | `clean.timer` | System cleanup (Sat 04:00) | ✅ enabled + active | `k-ubuntu/assets/clean/clean.service` + `.timer` | ✅ `/etc/systemd/system/clean.*` |

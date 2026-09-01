@@ -35,14 +35,6 @@
 #   ln -sf ~/.agents/skills/<infra>/assets/kshrc ~/.kshrc
 # ============================================================
 
-# ── Windows+WSL infra-type base (SOURCED, not copied) ──────────
-# Generic content shared by every Windows+WSL machine in the fleet
-# (SSH agent, $HOMEW/$USERW, ~w) lives in k-windows/assets/kshrc and
-# is sourced here so a fix made there needs no re-copy on this machine.
-# See k-windows/SKILL.md for what it contains and why.
-[ -f "$HOME/.agents/skills/k-windows/assets/kshrc" ] && \
-  . "$HOME/.agents/skills/k-windows/assets/kshrc"
-
 # ════════════════════════════════════════════════════════════════
 # SECTION 1: UNIVERSAL — runs ONCE per shell for EVERY process
 # ════════════════════════════════════════════════════════════════
@@ -124,6 +116,12 @@ if [ -z "$__KSHRC_LOADED" ]; then
   _gpg_ssh_sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh"
   [ -z "$SSH_AUTH_SOCK" ] && [ -S "$_gpg_ssh_sock" ] && export SSH_AUTH_SOCK="$_gpg_ssh_sock"
   unset _gpg_ssh_sock
+
+  # ── KπX workspace shortcut variables ─────────────────────────
+  # Available everywhere (scripts, cron, make, SSH, terminals).
+  export KHOME="$HOME/KpihX-Labs"
+  export KLABS="$HOME/KpihX-Labs"
+  export LABS="$HOME/KpihX-Labs"
 
   # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
   # They will be available in ALL shells: scripts, cron, make,
@@ -259,6 +257,11 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
     # with-env zsh autocomplete
     type compdef >/dev/null 2>&1 && compdef _precommand with-env 2>/dev/null || true
 
+    # ── Named directory: ~k = KπX workspace ─────────────────────
+    # Shell shortcut: cd ~k, ls ~k, pushd ~k — zsh only (hash -d).
+    # Equivalent env vars ($KHOME/$KLABS/$LABS) are in Section 1.
+    hash -d k="$HOME/KpihX-Labs"
+
     # ══ >>> ADD ZSH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ═══
     # If it only works in zsh (widgets, zle, zstyle, hooks),
     # guard it with [ -n "$ZSH_VERSION" ] and put it here.
@@ -311,12 +314,12 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   unset _ollama_sh
 
   # ── Auto-tmux (interactive only) ────────────────────────────
-  # Replace blglaptop139 with actual infra name (ubuntu, s25, pve...).
+  # Replace deep-pc6 with actual infra name (ubuntu, s25, pve...).
   # Runs ONCE per new interactive shell (inside __KSHRC_INTERACTIVE_LOADED guard).
   # If already inside tmux ($TMUX set), or no TTY, skip.
   if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1 && [ -t 0 ]; then
-    if tmux has-session -t blglaptop139 2>/dev/null; then
-      tmux attach -t blglaptop139
+    if tmux has-session -t deep-pc6 2>/dev/null; then
+      tmux attach -t deep-pc6
     fi
   fi
 

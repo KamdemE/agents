@@ -4,7 +4,7 @@ description: KπX Edge Automation via browser-proxy — the sovereign JSON-RPC d
 license: private
 metadata:
   author: KpihX
-  version: "4.2.2"
+  version: "5.2.0"
   scope: agent-tooling
   cli: browser-proxy
 ---
@@ -12,6 +12,10 @@ metadata:
 # KπX Browser Automation — browser-proxy
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+
+**⚠️ EDIT SOURCE — not generated.** Update header version + footer changelog on every edit.
+
+**Source code:** `$HOME/KpihX-Labs/Proxies/browser-proxy/src/browser_proxy/` — key files: `actions.py` (all action handlers), `cdp.py` (CDP protocol), `cli.py` (CLI entry), `models.py` (envelope/response models). Service: `services/browser-proxy-profile@.service`.
 
 ## What this is — read this first
 
@@ -73,7 +77,7 @@ Created **only** on genuine, particular insight (login mechanism, real quirks, u
 | `sites/linkedin.com.md` | Primary account ivann.kamdem@hotmail.com (not the Google SSO), feed/infinite-scroll parsing, messaging UI, InMail vs Message distinction, LinkedIn notification emails in Outlook |
 | `sites/outlook.live.com.md` | Passwordless Authenticator login (cross-origin iframe gotcha), Focused/Other inbox split, coordinate-click-only for login form |
 
-**Imposed structure for a new site file:** `Category`/`Account`/`Profile` header line → `## Login` → `## Structure / navigation` → `## Known quirks` → `## Changelog`. Keep it free of long inline commands — extract those into `scripts/presets/` and link them instead (see below). **MANDATORY:** You MUST list the known critical DOM selectors and their fallbacks for each site; update them immediately when one breaks.
+**Imposed structure for a new site file:** `Category`/`Account`/`Profile` header line → `## Login` → `## Structure / navigation` → `## Known quirks` → `## Changelog` (site-level). Keep it free of long inline commands — extract those into `scripts/presets/` and link them instead (see below). **MANDATORY:** You MUST list the known critical DOM selectors and their fallbacks for each site; update them immediately when one breaks.
 
 ## Selector Strategy (GRAVÉ)
 
@@ -111,23 +115,75 @@ Long or frequently-repeated command sequences live here as small scripts, refere
 
 ## InPrivate / Incognito
 
-`window-create` and `tab-create` both accept `"incognito": true` to create tabs in a fresh Edge InPrivate browsing context instead of the profile's default context.
+A tab's privacy status is determined by its **window**, not by any per-tab parameter. This is a direct consequence of how CDP isolates browser contexts.
 
-**`window-create` with `incognito: true`:** all layout tabs share the SAME incognito context — one call, one InPrivate window.
+### Mental model: browserContextId = privacy boundary
+
+Every tab lives inside a **browser context** (`browserContextId`). The default profile uses one shared context. InPrivate windows each get a **separate disposable context** — cookies, localStorage, session storage, service workers are all isolated. `window-create` with `"incognito": true` calls `Target.createBrowserContext` with `{"private": true}` to spin up a fresh disposable context, then places all layout tabs inside it.
+
+```mermaid
+┌─ Default context ─────────────────────┐  ┌─ InPrivate context ─────────────┐
+│  Tab A  (normal)                      │  │  Tab B  (incognito)             │
+│  Tab C  (normal)                      │  │  Tab D  (incognito)             │
+│  Tab E  (normal)                      │  │                                 │
+│  Cookies: real logins                 │  │  Cookies: isolated, disposable  │
+│  localStorage: real app state         │  │  localStorage: empty            │
+└───────────────────────────────────────┘  └─────────────────────────────────┘
+```
+
+### Create an InPrivate window
+
+`window-create` with `"incognito": true` — all layout tabs share the SAME incognito context.
 
 ```bash
 browser-proxy do window-create '{"profile":"default","incognito":true,"layout":[{"type":"tab","url":"https://example.com"}]}'
 ```
 
-**`tab-create` with `incognito: true`:** creates a fresh per-call incognito context. Mutually exclusive with `window_id` (cannot add an incognito tab to an existing normal window).
+### Add tabs to an InPrivate window
+
+`tab-create` with just `window_id` — the tab automatically inherits the window's `browserContextId`. No extra flag needed.
 
 ```bash
-browser-proxy do tab-create '{"profile":"default","incognito":true,"url":"https://example.com","new_window":true}'
+browser-proxy do tab-create '{"profile":"default","window_id":<INPRIVATE_WINDOW_ID>,"url":"https://example.com"}'
 ```
 
-**Under the hood:** uses `Target.createBrowserContext` with `{"private": true}` — the correct CDP domain for Edge (NOT `Browser.createBrowserContext`, which does not exist in Edge CDP).
+### Close windows and tabs
 
-**Cleanup note:** `window-close` is `@require_approval`-gated and requires the extension. When the extension is disconnected, use `raw` + `Target.closeTarget` directly to close InPrivate windows:
+- **`window-close`** takes `window_id` — closes all tabs, Edge auto-closes the window.
+- **`tab-close`** takes `target_ids` — closes specific tabs; if last tab in a window, the window auto-closes.
+
+Both are `@require_approval`-gated. When the extension is disconnected, use `raw` + `Target.closeTarget` directly (see fallback below).
+
+### Detect InPrivate
+
+`window-list` returns `incognito: true/false` per window, computed by comparing the first tab's `browserContextId` against the most common (default profile) context. `window-get` returns the same field.
+
+### Why this matters (use cases)
+
+| Use case | Why InPrivate | How |
+|----------|--------------|-----|
+| **Scraping without session bleed** | No cookies from your real logins leak into the scrape session | `window-create incognito:true` + curl/bulk download from that context |
+| **Age-gated / auth-gated sites** | Fresh cookies per session, no leftover login state | InPrivate window with cookie injection (see `references/scraping.md`) |
+| **Testing a site as a new user** | No localStorage, no cache, no service workers from previous visits | InPrivate window + `page-navigate` |
+| **Multi-account testing** | Each window = isolated identity | Multiple InPrivate windows, each with different cookies |
+| **Anti-fingerprint isolation** | Session state from one site can't leak to another | Separate context per site |
+
+### What works / What doesn't in InPrivate
+
+| ✅ Works | ❌ Broken (Chromium platform limitation) |
+|----------|------------------------------------------|
+| `tab-create` with `window_id` | `group-create` — "No tab with id" |
+| `tab-close` with `target_ids` | `group-add-tabs` / `group-remove-tabs` |
+| `tab-activate` | `tab-move` (cross-group) |
+| `page-navigate` / `page-click` / `page-evaluate` | `window-sync` layout grouping |
+| `window-create` / `window-close` | |
+| `window-list` / `tab-list` (with `incognito` flag) | |
+
+`chrome.tabs.group()` calls `GetTabById()` which fails to find tabs in InPrivate windows despite
+`"incognito": "spanning"` + "Allow in incognito" being active. Edge's native drag & drop uses an
+internal code path not exposed via the extension API. For InPrivate grouping, use Edge's UI directly.
+
+### Fallback: raw CDP when extension is disconnected
 
 ```bash
 browser-proxy do raw '{"profile":"default","protocol":"cdp-browser","method":"Target.closeTarget","params":{"target_id":"<TARGET_ID>"}}'
@@ -135,19 +191,20 @@ browser-proxy do raw '{"profile":"default","protocol":"cdp-browser","method":"Ta
 
 ## Window/tab/group hygiene
 
-Before finishing any session: close every tab/window/group the agent itself created for testing (probe pages, temporary tabs, extension pages left open) — `window-close`/`tab-list` to verify. Never touch KπX's pre-existing tabs, and never leave orphaned test artifacts behind. Violation = the session is not complete.
+Before finishing any session: close every tab/window/group the agent itself created for testing — `window-close` (by `window_id`) or `tab-close` (by `target_ids`) to verify. Never touch KπX's pre-existing tabs, and never leave orphaned test artifacts behind. Violation = the session is not complete.
 
 ## Full action catalog
 
-Never memorize the 67 actions — the categorized `browser-proxy do --help` output IS the catalog (Profiles/Windows/Tabs/Groups/Bookmarks/Extensions/Navigation/Interaction/Inspection/Dialogs/Cookies/Storage/HumanInTheLoop/Advanced). Two categories deserve a mental note:
+Never memorize the 71 actions — the categorized `browser-proxy do --help` output IS the catalog (Profiles/Windows/Tabs/Groups/Bookmarks/Extensions/Navigation/Interaction/Inspection/Dialogs/Cookies/Storage/HumanInTheLoop/Advanced). Two categories deserve a mental note:
 - **HumanInTheLoop** (7 actions: `browser-ask-user`, `browser-dismiss-overlays`, `browser-solve-captcha`, `browser-set-date`, `browser-set-combobox`, `browser-drop-file`, `browser-get-new-tab`) — the overlay/interaction itself IS the mechanism, no separate approval gate.
-- **`@require_approval`-gated actions** (mutating/destructive: `cookie-set`/`cookie-remove`, `storage-local-set`/`remove`/`clear`, `bookmark-*` writes, `group-*` writes, `window-close`/`window-sync`, `extension-disable`) — KπX must click Approve/Reject in the Edge popup before these run.
+- **`@require_approval`-gated actions** (mutating/destructive: `cookie-set`/`cookie-remove`, `storage-local-set`/`remove`/`clear`, `bookmark-*` writes, `group-*` writes, `window-close`/`tab-close`/`window-sync`, `extension-disable`) — KπX must click Approve/Reject in the Edge popup before these run.
 
 ## References
 
 | Path | Content |
 |------|---------|
 | `references/insights.md` | Durable, cross-site operational lessons (backend gotchas, heuristic honesty, active-tab footguns) |
+| `references/scraping.md` | Generic scraping methodology: browser-proxy + CLI hybrid for bulk extraction (AJAX pagination, cookie management, rate-limit strategy, InPrivate sessions, URL encoding, semantic filtering) |
 | `references/sites/*.md` | Per-site memory — see registry above |
 | `scripts/presets/*` | Long/frequent command sequences — see registry above |
 
@@ -155,13 +212,6 @@ Never memorize the 67 actions — the categorized `browser-proxy do --help` outp
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-31 | [LIVE] | **v4.2.0 — InPrivate/Incognito navigation.** `window-create` and `tab-create` both accept `incognito: true` to create tabs in a fresh `Target.createBrowserContext` private context. Uses the correct CDP domain (`Target.createBrowserContext` — `Browser.createBrowserContext` does not exist in Edge). `incognito` is mutually exclusive with `window_id` in `tab-create`. Extension disconnects prevent `window-close` via `@require_approval` — use `raw` + `Target.closeTarget` as fallback. |
-| 2026-08-31 | [LIVE] | **v4.2.0 — Root cause fix: `page-screenshot` + new `page-press`.** Removed the old `translateZ(0)` hack from `_page_screenshot` (was breaking SPAs like YouTube Music by modifying `document.body.style.transform`). Now optional via `force_repaint` param. Added `_page_press` action (CDP `Input.dispatchKeyEvent` — proper keyboard input pipeline, unlike `page-evaluate` + JS `KeyboardEvent`). Updated `music.youtube.com.md` and `insights.md` with corrected understanding: the layout breakage was caused by the screenshot hack, not DOM clicks. Player bar is at the bottom, not top (top position was a side effect of the hack). |
-| 2026-08-31 | [LIVE] | **v4.2.1 — `add-to-playlist.sh` preset + YouTube Music "add to playlist" DOM lesson.** Created `scripts/presets/add-to-playlist.sh` — automates the 4-step flow: player menu → "Enregistrer dans une playlist" → click named playlist's inner `<button>` → toast verification. Key DOM lesson: `ytmusic-playlist-add-to-option-renderer` is a wrapper; only the inner `<button>` click registers (clicking the outer element is silently ignored). Updated `music.youtube.com.md` with corrected playlist counts (grid view ≠ detail view) and the add-to-playlist DOM structure. Updated `proxies-reflex.md` → AGENTS.md with mandatory browser-proxy skill + site memory pre-read rule. |
-| 2026-08-31 | [LIVE] | **v4.2.2 — YouTube Music full player bar inventory.** Documented all 18 player bar buttons with French labels (`aria-label`). Loop toggle states: `"Lecture en boucle désactivée"` ↔ `"Tout lire en boucle"`. Play verification: use button label (`"Mettre en pause"` = playing) not `.time-info`. `page-press Space` unreliable for play — prefer `page-click-coordinates` or direct JS button click. Full "add to playlist" flow with DOM selectors added to site memory. |
-| 2026-08-31 | [LIVE] | **v4.1.1 — YouTube Music interaction lesson.** Added critical playback interaction docs to `music.youtube.com.md` site memory: DOM JS `.click()` breaks the SPA layout (player bar disappears, queue breaks, page goes black); correct approach is `page-hover` to reveal play button, then `page-click` on thumbnail `img`. Queue items (`ytmusic-player-queue-item`) safe with `page-click-eval`. Read-only DOM queries remain fine. Added corresponding insight to `references/insights.md`. |
-| 2026-08-31 | [LIVE] | **v4.1.0 — `page-click-eval` default click strategy.** Added `page-click-eval` as the default CSS-selector page click action (atomic `Runtime.evaluate`, no race condition). Updated Selector Strategy with `page-click-eval` vs `page-click` decision guide: `page-click-eval` for 90% of cases, `page-click` only for XPath, Shadow DOM, CSP-strict pages, or retry/fallback needs. |
-| 2026-08-30 | [LIVE] | **v4.0.5 — LinkedIn + Outlook site memories.** Created `references/sites/linkedin.com.md` (primary account ivann.kamdem@hotmail.com, Google SSO is just a login option, feed/messaging/InMail structure) and `references/sites/outlook.live.com.md` (passwordless Authenticator login, cross-origin iframe gotcha, Focused/Other split). Corrected LinkedIn primary email from kapoivha@gmail.com to ivann.kamdem@hotmail.com. |
-| 2026-08-30 | [LIVE] | **v4.0.4 — Bootstrap-tab reuse rule.** Live CLI/status/window inventory confirmed the managed `default` profile is active and exposes an initial `edge://newtab/` browser-UI tab. Agents must inspect `window-list`, reuse that visible startup tab through `page-navigate`, and create a separate window only on KπX's explicit request. |
-| 2026-08-30 | [LIVE] | **v4.0.3 — Official Polytechnique 3A document flow.** Added the live `www.polytechnique.edu` → 3ème année → Planning des cours route, the SIATEL/Gargantua companion memory, and a transparent PDF download preset: Edge remains visibly on the document; a same-origin browser download bypasses its inline PDF viewer. Five 3A documents were retrieved and validated locally. |
-| [SUMMARY] | — | v4.2.0 added InPrivate navigation. v4.0.2 documented Moodle/Nudgis HLS recovery and the local `k-whisper` fallback. v4.0.1 moved reusable presets from `assets/` to `scripts/` and synchronized `rules/proxies-reflex.md`. v4.0.0 total browser-proxy refonte: retired chrome-agent-mcp/browser-mcp/Playwright/Edge-Tab-Groups Explorer stack, established `--help`-only reflex, profiles/workspaces registry, no-secret `browser-ask-user` boundary, site-memory and preset systems, `rules/proxies-reflex.md`, and rewritten proxy-era insights. v3.2.0 and older (MCP-era CAPTCHA/download/tab-group/cleanup rules) fully superseded; historical detail via `qmd query` over past session logs. |
+| 2026-08-31 | [LIVE] | v5.2.0 InPrivate limitation documentation (Chromium platform). v5.1.0 InPrivate section enriched. v5.0.0 InPrivate refactoring. v4.3.0 generic scraping methodology. |
+| 2026-08-30 | [LIVE] | v4.0.5 LinkedIn + Outlook site memories. v4.0.4 Bootstrap-tab reuse rule. v4.0.3 Official Polytechnique 3A document flow. |
+| [SUMMARY] | — | v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation. v4.1.x page-click-eval strategy + YouTube Music interaction. v4.0.x Polytechnique 3A docs, LinkedIn/Outlook site memories, bootstrap-tab reuse. Earlier versions → `references/log.md`. |

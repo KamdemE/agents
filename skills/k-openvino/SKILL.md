@@ -21,7 +21,7 @@ metadata:
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
 > Project: `$HOME/KpihX-Labs/AI/openvino/` (uv package `k-openvino`, binary `openvino`). Server: FastAPI OpenAI-compatible, port `11437`, systemd user service `openvino.service`. Published to PyPI as [`k-openvino`](https://pypi.org/project/k-openvino/) (v0.2.0 live, dual remotes `github`+`gitlab` under `kpihx-labs/openvino`).
-> See also **`k-ai`** (AI hub registry entry + cross-domain insight) · **`k-ollama`** (Ollama, comparison baseline) · **`k-opencode`** (custom provider config in `opencode.jsonc`).
+> See also **`k-ai`** (AI hub registry entry + cross-domain insight) · **`k-ollama`** (Ollama, historical comparison baseline — deactivated) · **`k-opencode`** (custom provider config in `opencode.jsonc`).
 
 ---
 
@@ -73,6 +73,7 @@ A 0.6B model does perfect real tool-calling (verified live in OpenCode's interac
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-29 | [LIVE] | v1.1.0 — **Project finalized through `make release` v0.2.0**: the tool-calling/subprocess-cancellation work (v1.0.0 entry below) was committed (blocked once by the pre-commit `make check` gate — 26 pyright errors from `_StreamWorkerState` fields typed as bare `object` instead of `BaseProcess`/`MPQueue`/`MPEvent`, fixed), then released (`master` pushed to `github`+`gitlab`, `k_openvino-0.1.0` built+published to PyPI — first-ever publish of this package). A finalize pass then closed 3 outstanding gaps found during review: stale port `11436` in `README.md` (real value `11437` — `11436` belongs to the unrelated `ollama6` DxO tunnel) fixed in 4 spots; `CHANGELOG.md` backfilled with a `0.2.0` entry covering 8 previously-undocumented commits (tool-calling protocol, dynamic model discovery, real usage tokens, GPU port fix, HF_TOKEN propagation, short CLI options, typing fixes); `TODO.md` closed the systemd-service item (verified `openvino.service` already `enabled`+`active`). Version bumped `0.1.0`→`0.2.0` (minor — new backward-compatible features, no contract break) and re-released end-to-end (`push`→`uv-publish`→`push-tags`, verified live via `pypi.org/pypi/k-openvino/0.2.0/json`, tag `v0.2.0` on both remotes). |
-| 2026-08-29 | [LIVE] | v1.0.0 — Initial skill creation after a full session implementing OpenVINO's OpenAI-compatible tool-calling protocol from scratch: `tools=`/`enable_thinking` wiring into `apply_chat_template`, `_StreamParser` (shared `<think>`/`<tool_call>` grammar for streaming+non-streaming), `reasoning_content` field (DeepSeek convention), lock-release architecture fix (tied to generation thread, not the SSE generator), anti-loop fallback (empty content → reasoning fallback, fixes an `opencode` issue #37073-style pattern), and dynamic capability discovery via `/v1/model/info` (litellm format — bifrost never mapped `reasoning`). Verified live end-to-end in OpenCode's interactive TUI: collapsible `+ Thought: Xs` block + real tool execution (`exa_web_search_exa`) + `context%` display, all on `qwen3-0.6b`. |
+| 2026-08-29 | [LIVE] | v1.1.0 — Project finalized through `make release` v0.2.0: committed tool-calling/subprocess-cancellation work, PyPI publish (`k_openvino-0.1.0`→`0.2.0`), stale port `11436`→`11437` fixed, CHANGELOG backfilled, systemd service verified. |
+| 2026-08-29 | [LIVE] | v1.0.0 — Initial skill: OpenVINO OpenAI-compatible tool-calling protocol (`tools=`/`enable_thinking` wiring, `_StreamParser`, `reasoning_content`, anti-loop fallback, dynamic capability discovery via `/v1/model/info`). |
+| [SUMMARY] | — | v1.1.0 finalized + PyPI published · v1.0.0 initial skill with full tool-calling protocol. |
 </content>

@@ -55,7 +55,7 @@ check-js: ## Lint JS/TS files in hooks, scripts, libs, and skill scripts
 	@echo "  ├─ 🔎 OXLint"
 	@oxlint scripts/ libs/ skills/ --deny-warnings
 	@echo "  ├─ 🧩 Node syntax"
-	@for f in $$(find scripts/ libs/ skills/ -name "*.js" -type f); do node -c "$$f" || exit $$?; done
+	@for f in $$(find scripts/ libs/ skills/ -name "*.js" -type f -not -path "*/node_modules/*" -not -path "*/vendor/*"); do node -c "$$f" || exit $$?; done
 	@echo "  └─ ✅ Summary: JS/TS checks passed"
 
 check-services: ## Verify .agents-owned systemd services (from assets/services.jsonc) — deployed + functional

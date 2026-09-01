@@ -9,9 +9,7 @@ The agent auto-detects the equipment via Tailscale and creates the session on re
 | Proxmox hypervisor | `pve` | `k-pve` |
 | Debian VM (Docker) | `pve-debian` | `k-pve-debian` |
 | Docker CT | `dockerhost` | `k-pve-dockerhost` |
-| Internship laptop | `blglaptop139` | `k-blglaptop139` |
 | S25 phone | `s25` | `k-phones` |
-| DxO server | `deep-pc6` | `k-deep-pc6` |
 
 (No `kpihx-` prefix — short equipment names only.)
 

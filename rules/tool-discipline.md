@@ -135,3 +135,25 @@ Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjus
 ## Troubleshooting
 - Unknown error → check if k-context is already in context (auto-injected for Colab/Build); if absent, load `skills/k-context/SKILL.md`
 - New tool/skill detected → propose updating the corresponding `k-*` skill
+
+## Advisor & Question Reflexes
+
+**`advisor` tool reflex (GRAVÉ):** When the agent is stuck, repeating failed approaches, going in circles, or facing a complex decision it cannot resolve alone — **CALL `advisor()` IMMEDIATELY**. Do NOT waste tokens retrying the same broken approach. The advisor consults a stronger model that provides strategic guidance. Specifically:
+
+- After **2 consecutive failures** on the same subtask → call advisor before the 3rd attempt
+- When the approach **does not converge** (repeated errors, same file edited back and forth) → call advisor
+- Before **committing to a major architectural decision** → call advisor
+- When you believe the task is done but **are not 100% certain** → call advisor for final review
+- **Never** spin more than 3 turns on a single problem without consulting the advisor
+
+The advisor is read-only (cannot edit, cannot run shell) — it gives strategy, not implementation. Apply its guidance, do not mechanically execute its output.
+
+**`question` tool reflex (GRAVÉ):** At the **slightest doubt, concern, or need for clarification** — **USE THE `question` TOOL TO ASK KπX IMMEDIATELY**. Do NOT guess, do NOT assume, do NOT proceed on uncertain ground. Specifically:
+
+- **Ambiguous instruction** → question before acting
+- **Multiple valid paths** → question to confirm which one
+- **Missing context** (file not found, unclear scope, conflicting info) → question
+- **External service uncertain** (API unclear, rate limit hit, auth questionable) → question
+- **Scope expansion temptation** ("I noticed X while doing Y") → question before touching X
+
+The question tool is the SOVEREIGN escalation path when KπX is available. When KπX is NOT available (no response after reasonable wait), fall back to the advisor tool for autonomous guidance. When NEITHER is available, proceed with the safest conservative choice and document the uncertainty.

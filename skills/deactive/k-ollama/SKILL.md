@@ -63,6 +63,8 @@ sudo systemctl restart ollama.service
 
 > **Source of truth:** les fichiers dans `assets/` sont la seule source — ne JAMAIS éditer directement `/etc/systemd/system/ollama.service` ou son drop-in.
 
+**Bundled assets:** `assets/ollama.service` (systemd unit), `assets/ollama-override.conf` (GPU/hardware drop-in), `assets/ollama-vulkan.service` (Vulkan backend variant).
+
 ## Basic Commands
 
 ```bash

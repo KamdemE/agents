@@ -53,6 +53,8 @@ service_internal_paths_guard() {
 
   if [ -n "$env_paths" ]; then
     local ep
+    # Split comma-separated path lists (e.g. OPENCODE_WEB_PLUGINS=path1,path2)
+    env_paths="${env_paths//,/ }"
     for ep in $env_paths; do
       ep="${ep//\$HOME/$HOME}"
       ep="${ep%\"}"; ep="${ep#\"}"

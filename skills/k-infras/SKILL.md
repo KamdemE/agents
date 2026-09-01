@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: infrastructure
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -18,7 +18,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 **⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-blglaptop139` (Windows+WSL) · `k-deep-pc6` (Linux server) · `k-phones` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
+> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-phones` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
 > **Scope also covers:** low-level hardware (disk partitioning, BIOS/UEFI, filesystem recovery, dual-boot, interrupted ntfsresize recovery) — see `references/ntfs-shrink-dual-boot.md`. Firewall: `k-nftables`. Mesh VPN: `k-tailscale`.
 > **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
 > This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
@@ -34,8 +34,6 @@ Source of truth for live state: `tailscale status --json` or `tailscale status`.
 | Tailscale name | Short name | Tailscale IP | OS | Status | Skill | Notes |
 |---------------|-----------|-------------|----|--------|-------|-------|
 | `kpihx-ubuntu` | `ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. |
-| `blglaptop139` | `blglaptop139` | `100.99.196.32` | Windows | online | **`k-blglaptop139`** | Internship PC (Grenoble), native Windows Tailscale. |
-| `blglaptop139-wsl` | `blglaptop139` | `100.118.76.46` | Linux (WSL) | online | **`k-blglaptop139`** | Same physical machine, separate WSL `tailscaled` node — see naming convention in `k-tailscale/references/windows.md`. |
 | `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
 | `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
 | `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-dockerhost`** | Docker host VM on PVE. |
@@ -74,6 +72,7 @@ Rules:
 - `~/.agents/` is **always a symlink** → `~/KpihX-Labs/.agents/`. Never a real directory, never a second clone.
 - All projects are created inside `~/KpihX-Labs/` (`~/KpihX-Labs/<project>/`), never outside it.
 - Only `/tmp`-scoped debris may live outside `~/KpihX-Labs/`.
+- **Workspace shortcuts (GRAVÉ):** `~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/` (defined in every `.kshrc`). Agents are always launched from there — when KπX references a file/project without a path, the 1st reflex is to search in `~k` (`ls ~k`, `plocate`, `rg`).
 - **Verify before proceeding:** `readlink ~/.agents` must resolve to `~/KpihX-Labs/.agents`, and `git -C ~/.agents status` must work.
 - **Branch guard:** immediately after clone+symlink, switch to your infra branch (branch name = infra short name from `assets/infras_skills.jsonc`; Windows/WSL appends `-wsl`). Never stay on `master` — sole exception: `kpihx-ubuntu`, which works directly on `master`.
 
@@ -126,8 +125,6 @@ kpihx-labs (kernel top reference)
 ├── k-context    (HOT context — session log, active projects)
 ├── k-infras     (this skill — master map)
 │   ├── k-ubuntu          (Ubuntu workstation)
-│   ├── k-blglaptop139       (Windows + WSL — internship)
-│   ├── k-deep-pc6        (Linux server — internship)
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-dockerhost (Docker host VM)
@@ -153,7 +150,6 @@ Source of truth: `$HOME/.ssh/config`. Each infra skill documents its own SSH spe
 | `kpihx-cloud` | `10.10.10.10` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
 | `pve-debian` | `10.10.10.101` via `pve` | LAN jump | `k-pve-debian` |
 | `kpihx-pve-debian` | `10.10.10.101` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
-| `deep-pc6` | `172.16.150.163` | Direct (DxO VPN) | `k-deep-pc6` |
 | `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-phones` |
 
 ---
@@ -209,6 +205,6 @@ functions, and the checks/guards that consume them.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-26 | [CLAUDE] | v1.8.0 — **Windows/WSL setup-checklist additions**: Step 1b of the New Infra Setup Checklist gained an explicit Windows+WSL addendum (also `source` `k-windows/assets/kshrc` near the top of the new infra's own `assets/kshrc`, for SSH-agent + `$HOMEW`/`$USERW`/`~w` — sourced, never copied) and a Windows-infra callout (read `k-windows` before Step 0 for any Windows machine, register the new infra in `k-windows`'s "Child Windows-type infra skills" list). *(Renumbered from v1.6.6/v1.6.5 at PR merge, condensed into one row.)* |
-| 2026-08-26 | [COLAB] | v1.7.1 — **Branch-per-infra integration corrections (PR #1 merge — KπX arbitrages)**: Step 0 + GRAVÉ section updated — `kpihx-ubuntu` = sole infra allowed on `master` (Step 0 keeps it there), Windows/WSL `-wsl` suffix documented (`blglaptop139-wsl`), remotes `github`/`gitlab` NEVER `origin`, clone URL corrected to `git@github.com:kpihx-labs/agents.git`. Mirrors the `rules/git-branch-per-infra.md` rewrite. |
-| [SUMMARY] | — | v1.7.0 Git branch per infra (GRAVÉ) — Step 0 branch switch + daily sync-before-push + PR-only workflow (rule authoritative in `rules/git-branch-per-infra.md`) · v1.6.4 `blglaptop139-wsl` equipment row · v1.6.3 check-skills audit rotation · v1.6.2 renamed Android infra skill to `k-phones` (S25/tablet inventory, Termux exception, hierarchy, SSH map updated) · v1.6.1 references/libs.md added · v1.6.0 Shared Libs Reflex (→ `references/log.md`) · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |
+| 2026-08-31 | [LIVE] | v1.9.0 — Workspace shortcuts + default reflex in Setup Checklist. |
+| 2026-08-26 | [COLAB] | v1.8.0 Windows/WSL setup-checklist additions. v1.7.1 Branch-per-infra integration corrections (PR #1 merge). |
+| [SUMMARY] | — | v1.7.0 Git branch per infra (GRAVÉ) · v1.6.4 `blglaptop139-wsl` · v1.6.3 check-skills audit rotation · v1.6.2 renamed Android infra skill to `k-phones` · v1.6.1 references/libs.md · v1.6.0 Shared Libs Reflex · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |

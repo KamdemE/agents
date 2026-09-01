@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.11.0"
+  version: "2.12.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -34,8 +34,8 @@ kpihx-labs (this skill — kernel top reference)
 ├── k-context    (HOT context — session log, active projects, current intent)
 ├── k-infras     (master infrastructure map)
 │   ├── k-ubuntu          (Ubuntu workstation — this machine)
-│   ├── k-blglaptop139       (Windows + WSL — internship)
-│   ├── k-deep-pc6        (Linux server — internship)
+│   ├── k-openvino         (OpenVINO local LLM serving — Intel Arc iGPU)
+│   │   // k-blglaptop139, k-deep-pc6 DEACTIVATED 2026-09-01 → skills/deactive/
 │   ├── k-pve             (Proxmox VE hypervisor)
 │   │   ├── k-pve-debian     (Debian VM)
 │   │   └── k-pve-dockerhost (Docker host VM)
@@ -51,13 +51,13 @@ kpihx-labs (this skill — kernel top reference)
 ├── [top skills with OS-specific refs]
 │   ├── k-tmux / k-optim / k-browser / k-code
 │   ├── k-hermes / k-nvim / k-docker
-│   ├── k-windows (Windows/WSL/MSYS2 platform hub — child infra skills: k-blglaptop139)
+│   ├── k-windows (Windows/WSL/MSYS2 platform hub)
 │   └── … (see references/ for full list)
 │
 ├── [generic top skills]
 │   ├── k-ai / k-classification / k-cloudflare / k-cloud-tools
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
-│   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-ollama
+│   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-openvino
 │   ├── k-openclaw / k-opencode / k-openvino / k-pptx / k-qmd / k-rclone / k-tailscale
 │   ├── k-tg / k-tick / k-whatsapp / k-x
 │   └── kpihx (identity hub)
@@ -86,7 +86,7 @@ Skills that have platform-specific behaviors use `refs/<os>.md` files to documen
 
 1. **`refs/` files are always OS/Platform-oriented.** Never machine-oriented (use infra skills for that). A `refs/windows.md` documents Windows-specific editor paths or WSL tmux aliases — not that `blglaptop139` has a specific Chrome profile.
 2. **The main `SKILL.md` stays generic.** It should work on any supported OS without modification. OS-specific details live exclusively in `refs/`.
-3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** (`k-blglaptop139`), not in `refs/windows.md`.
+3. **Infra-specific vs OS-specific**: If a detail changes between machines running the same OS (e.g., different Chrome profiles on two Windows machines), it belongs in the **infra skill** of that machine, not in `refs/windows.md`.
 4. **Each `refs/` file is self-contained** — readable on its own without cross-referencing the main skill.
 5. **WSL is documented under `refs/windows.md`** with a clear `### WSL` subsection, not in a separate file. WSL is Windows subsystem — one file per OS.
 
@@ -109,6 +109,10 @@ Every KpihX infrastructure machine MUST have the following directory layout:
 - `~/KpihX-Labs/` is the **work directory** — not a git repo itself, but contains all projects as subdirectories or repos.
 - `~/KpihX-Labs/.agents/` is a **symlink** so that paths like `~/KpihX-Labs/.agents/skills/...` work consistently across all machines, even when code references the kernel from within the workspace.
 - `~/KpihX-Labs/AGENTS.md` exists per-infra so that machine-specific agent instructions can be added without modifying the shared kernel.
+
+### Workspace Shortcuts (GRAVÉ)
+
+`~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/`. Shell shortcuts defined in every `.kshrc` (Section 1 exports + Section 2 `hash -d`). Agents are always launched from there — **default reflex:** when KπX references a file/project without a path, search `~k` first (`ls ~k`, `plocate`, `rg`).
 
 ### Setup on a new machine
 
@@ -263,6 +267,7 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-08-31 | [LIVE] | v2.12.0 — **Workspace shortcuts + default reflex documented**: added `~k`/`$KLABS`/`$KHOME`/`$LABS` → `~/KpihX-Labs/` subsection in Infrastructure Directory Standard with agent reflex (search `~k` first when KπX references a file/project without a path). |
 | 2026-08-29 | [LIVE] | v2.11.0 — **`k-openvino` added to the kernel hierarchy** (new skill, generic top skills list) — OpenVINO GenAI local LLM serving, created after a session implementing its full OpenAI-compatible tool-calling/reasoning protocol. |
 | 2026-08-25 | [CLAUDE] | v2.10.0 — **`k-windows` added to the kernel hierarchy** (new Windows/WSL/MSYS2 platform hub, migrated from an unversioned Windows-side `.agents`) under "top skills with OS-specific refs". *(Renumbered from v2.8.3 at PR merge.)* |
 | [SUMMARY] | — | v2.9.1 setup block corrected at PR #1 integration (clone URL, ubuntu master exception, `-wsl` branch naming) · v2.9.0 Git branch per infra (GRAVÉ) — Infrastructure Directory Standard clone+switch flow (mirrors `rules/git-branch-per-infra.md` + `k-infras`) · v2.8.2 `blglaptop139` full WSL infra setup completed (`~/KpihX-Labs/AGENTS.md` created, `blglaptop139-wsl` node added to `assets/infras_skills.jsonc`) · v2.8.1 kernel hierarchy updated to renamed `k-phones` · v2.8.0 External repo refs convention · v2.7.0 Shared JSONC libs + lint/type single source · v2.6.0 Config Standard JSONC · v2.5.0 kernel tree cleanup · v2.4.0 k-ai reactivated · v2.3.0 Infrastructure Directory Standard (→ `references/log.md`) |

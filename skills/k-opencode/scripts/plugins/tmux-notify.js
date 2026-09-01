@@ -130,7 +130,7 @@ function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount) {
   const count = watchdogCount || 1;
   const heavy = count >= 3;
   const elapsed = count * timeoutSecs;
-  const adjustCmd = `: TMUX_ADJUST ${paneId} <bigger_seconds>`;
+  const adjustCmd = `: TMUX_ADJUST ${paneId} <bigger_seconds>`;  // typed in YOUR shell (not the pane), colon : is mandatory (bash no-op builtin)
   const ctrlcCmd = `tmux send-keys -t ${paneId} C-c`;
 
   return (
@@ -144,7 +144,7 @@ function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount) {
     `  A. INTERACTIVE program you are actively driving (a TUI/prompt waiting for your input) ` +
     `-> send it more input via \`tmux send-keys\`, or if you are done with it, send \`${ctrlcCmd}\` to return to the shell.\n` +
     `  B. Still working NORMALLY, just slow (build/install/long test) and you expect it to take MUCH longer than ${timeoutSecs}s ` +
-    `-> run \`${adjustCmd}\` now, estimating the real duration, so you stop being pinged this often (pure meta command, NEVER touches the pane).\n` +
+    `-> TYPE \`${adjustCmd}\` in YOUR OWN SHELL (not in the tmux pane!) — the colon : is mandatory (bash no-op builtin). Estimate the real duration so you stop being pinged this often.\n` +
     `  C. Still working normally and the current interval is fine, you just need to wait a bit more ` +
     `-> do NOTHING: CONTINUE other work in parallel or pause here, the next check arrives automatically.\n` +
     `  D. STUCK, crashed, erroring, or you FORGOT about / no longer need this pane ` +
@@ -651,7 +651,7 @@ export default async function ({ client }) {
         `What you can do right now, your choice — none of these are wrong:\n` +
         `  - CONTINUE other work in parallel, or stop this turn here -> you will be re-invoked automatically either way, nothing is lost.\n` +
         `  - This is interactive (a TUI/prompt you are driving) -> keep sending it input via send-keys as needed.\n` +
-        `  - You already expect this to take much longer than ${entry.timeoutSecs}s -> adjust now with \`: TMUX_ADJUST ${paneId} <seconds>\` (pure meta command, NEVER touches the pane).\n` +
+        `  - You already expect this to take much longer than ${entry.timeoutSecs}s -> TYPE \`: TMUX_ADJUST ${paneId} <seconds>\` in YOUR OWN SHELL (not in the tmux pane!) — the colon : is mandatory (bash no-op builtin).\n` +
         `  - You change your mind and want to abort -> send \`tmux send-keys -t ${paneId} C-c\` to force it back to the shell.\n` +
         `If the final <tmux-notify> capture is empty, incomplete, or does not explain the result, immediately run \`tmux capture-pane -p -t ${paneId} -S -100\` and use that larger one-shot diagnostic capture. Never turn it into a polling loop.\n` +
         `</tmux-armed>`;

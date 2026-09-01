@@ -520,6 +520,8 @@
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
+    // git-noverify-guard.js — blocks git commit/push/merge/rebase with --no-verify or -n bypass flags. Same pattern as make-check-guard.js (throw-only, no TARGET_AGENTS).
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/git-noverify-guard.js",
     // raw-exec-guard — technically enforces the tmux sudo Gate + no-manual-polling rules (2026-08-29, KπX):
     // blocks raw `sudo`/`sleep`/`wait`/`timeout` outside a compliant `tmux send-keys` call. Same pattern as
     // make-check-guard.js (throw-only, no TARGET_AGENTS — tool.execute.before has no messages to scope by).
@@ -531,11 +533,9 @@
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
     // opencode-advisor — advisor() tool + auto-escalation. KπX sovereign fork (StefanoBalocco). Non-hook plugin (event + tool, not messages.transform).
     ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-advisor/dist/plugin.js", {
-      "model": "deepseek/deepseek-v4-pro",
+      "model": "opencode-go/deepseek-v4-pro",
       "failureThreshold": 5
     }],
-    // opencode-btw — /btw slash command. Raw .ts (no build). Creates ephemeral sub-session for side questions. Default model: opencode-go/mimo-v2.5.
-    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-btw/btw.ts",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
     // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"

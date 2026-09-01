@@ -21,7 +21,7 @@ This skill is the compact central inventory for all Artificial Intelligence runt
 | Runtime | Status | Skill |
 |---------|--------|-------|
 | **OpenCode CLI** | 🟢 Active | `k-opencode` |
-| **Ollama** | 🟢 Active | `k-ollama` |
+| **Ollama** | 🔴 Deactivated 2026-09-01 (replaced by k-openvino) | `deactive/k-ollama` |
 | **OpenVINO GenAI** | 🟢 Active | `k-openvino` |
 | **OpenClaw** | 🟢 Opérationnel | `k-openclaw` |
 | **Hermes Agent** | 🟢 Active | `k-hermes` |

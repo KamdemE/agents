@@ -161,7 +161,7 @@ Full inventory of all active system/user services, timers, and config symlinks (
 
 ## Ollama (Intel Arc iGPU)
 
-This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama is tuned for this hardware (IPEX vs native backend control plane, performance tuning env vars, group prerequisites) → **`references/ollama-igpu.md`**. Generic Ollama operations (install, model management, API): **`k-ollama`**.
+This workstation has Intel Core Ultra 7 155H with Arc Graphics iGPU. Ollama was tuned for this hardware (IPEX vs native backend control plane, performance tuning env vars, group prerequisites) → **`references/ollama-igpu.md`** (historical). Ollama deactivated 2026-09-01, replaced by **`k-openvino`**.
 
 ---
 

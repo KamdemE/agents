@@ -75,9 +75,6 @@ scripts/plugins/
 ├── opencode-advisor/      # NON-HOOK plugin — advisor() tool + auto-escalation (git submodule)
 │   ├── dist/plugin.js (compiled)
 │   └── src/plugin.ts
-├── opencode-btw/          # NON-HOOK plugin — /btw slash command (git submodule, raw .ts)
-│   ├── btw.ts, index.ts
-│   └── assets/plugins/btw/btw.md (command definition, symlinked to ~/.config/opencode/commands/)
 └── web/                   # web plugins (opencode-lens, opencode-web-voice)
 
 assets/plugins/
@@ -115,6 +112,7 @@ neighbors.
 | `prompt-enforcer.js` | `experimental.chat.messages.transform` | `Live` | `prompt-enforcer.txt` | Injects the strict obedience/enforcement prompt LITE-style (only after a real new user message, not every turn) — Live's delta vs Colab's every-turn `prompt-enforcer-strict.js`. |
 | `stop-enforcer.js` | `event` (`session.idle`) | `Agent` | `stop-enforcer.txt` | Post-tool completion check on session idle; injects `{{MISSION_CONTEXT}}`. |
 | `make-check-guard.js` | `tool.execute.before` | `*` | — | Blocks any bash command where the FIRST `make check` is followed by a blank (enforces the GRAVÉ 2-token rule). |
+| `git-noverify-guard.js` | `tool.execute.before` | `*` | — | Blocks `git commit`/`push`/`merge`/`rebase` with `--no-verify`, `--no-verify-signatures`, or `-n` bypass flag. Enforces GRAVÉ rule: `make check` MUST run before commit. Same throw-only pattern. |
 | `raw-exec-guard.js` | `tool.execute.before` | `*` | — | **Technically enforces two long-standing PROSE-ONLY rules (KπX, 2026-08-29)**: blocks raw `sudo` (`rules/tool-discipline.md` → `## tmux sudo Gate`) and raw `sleep`/`wait`/`timeout` used as manual polling (`## Tmux Stateful Command Execution` self-backgrounding rule) whenever the bash command is NOT already a compliant `tmux send-keys -t <target> ...` call (checked via the shared `SEND_KEYS_REGEX`, see `libs/tmux-patterns.js`) — the quoted payload inside a compliant send-keys call is delivered to the pane, never executed by the agent's own shell, so it is explicitly exempt. Same `throw`-only pattern as `make-check-guard.js` (no `TARGET_AGENTS`, same reasoning: `tool.execute.before` has no `messages` to scope by — this is a GLOBAL kernel rule). **Scope explicitly limited to these 2 static pre-execution checks** — a 3rd idea ("kill any command after 30s and relaunch the agent") was proposed and REJECTED by KπX as out of scope: not achievable anyway with the current plugin API (no PID access, no reliable command rewriting — mutating `output.args` does not propagate, upstream opencode #31680), and KπX chose a simple, fully-verifiable hook over a reactive mechanism that could only ever be an after-the-fact reminder. 17/17 tests green (`tests/hooks/raw-exec-guard.test.mjs`, imports the real module). |
 | `math-enforcer.js` | `experimental.chat.messages.transform` | `Explore` | `math-enforcer.txt` | Enforces OpenCode-web math rendering order. |
 | `suggestions-check.js` | `experimental.chat.messages.transform` | `*` | `suggestions-check.txt` | Appends the universal "≥3 Suggestions" footer format (must be LAST). |
@@ -147,12 +145,6 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 | File | Role |
 |------|------|
 | `plugin.js` (compiled from `src/plugin.ts`) | **Advisor tool + auto-escalation.** Registers `advisor()` tool (model decides when to consult a stronger model) and monitors `message.part.updated` for consecutive tool errors — after `failureThreshold` (default 3, configured 5), aborts session, consults advisor, resumes with guidance. Hidden agent with read-only permissions. Non-hook plugin (event + tool, not messages.transform). |
-
-### /btw plugin (`scripts/plugins/opencode-btw/`)
-
-| File | Role |
-|------|------|
-| `btw.ts` (raw .ts, no build — opencode-context pattern) | **`/btw` command.** `command.execute.before` intercepts `/btw <query>`, creates ephemeral sub-session via SDK, appends answer as card. Default model: `opencode-go/mimo-v2.5`. Command definition in `assets/plugins/btw/btw.md` (symlinked to `~/.config/opencode/commands/btw.md`). |
 
 ### Shared libs (`scripts/plugins/libs/`)
 

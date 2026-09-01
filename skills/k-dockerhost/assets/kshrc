@@ -117,6 +117,12 @@ if [ -z "$__KSHRC_LOADED" ]; then
   [ -z "$SSH_AUTH_SOCK" ] && [ -S "$_gpg_ssh_sock" ] && export SSH_AUTH_SOCK="$_gpg_ssh_sock"
   unset _gpg_ssh_sock
 
+  # ── KπX workspace shortcut variables ─────────────────────────
+  # Available everywhere (scripts, cron, make, SSH, terminals).
+  export KHOME="$HOME/KpihX-Labs"
+  export KLABS="$HOME/KpihX-Labs"
+  export LABS="$HOME/KpihX-Labs"
+
   # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
   # They will be available in ALL shells: scripts, cron, make,
   # SSH commands, terminals, tmux panes.
@@ -250,6 +256,11 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
 
     # with-env zsh autocomplete
     type compdef >/dev/null 2>&1 && compdef _precommand with-env 2>/dev/null || true
+
+    # ── Named directory: ~k = KπX workspace ─────────────────────
+    # Shell shortcut: cd ~k, ls ~k, pushd ~k — zsh only (hash -d).
+    # Equivalent env vars ($KHOME/$KLABS/$LABS) are in Section 1.
+    hash -d k="$HOME/KpihX-Labs"
 
     # ══ >>> ADD ZSH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ═══
     # If it only works in zsh (widgets, zle, zstyle, hooks),

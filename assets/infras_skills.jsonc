@@ -25,8 +25,7 @@
   "kpihx-pve": "k-pve",
   "kpihx-pve-debian": "k-pve-debian",
   "kpihx-dockerhost": "k-dockerhost",
-  "blglaptop139": "k-blglaptop139",
-  "blglaptop139-wsl": "k-blglaptop139",
-  "kpihx-s25": "k-phones",
-  "deep-pc6": "k-deep-pc6"
+  "kpihx-s25": "k-phones"
+  // blglaptop139 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
+  // deep-pc6 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
 }

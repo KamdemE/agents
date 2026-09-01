@@ -45,9 +45,33 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 1. **Find the video ID** from the playlist/history DOM (safe read-only): `page-evaluate` → extract `href` from `.title-column yt-formatted-string a` elements
 2. **Navigate directly** to the watch URL: `page-navigate` to `https://music.youtube.com/watch?v=VIDEO_ID`
 3. **Play/pause** with one of:
-   - `page-press` with `key: "Space"` — real CDP keyboard input, most reliable
-   - `page-click-coordinates` at (640, 400) — clicks the center of the video player area
-4. Verify playback: check `.time-info` text (should show progressing time like `0:40 / 3:10`)
+   - `page-click-coordinates` at (640, 400) — clicks the center of the video player area (preferred)
+   - `page-evaluate` → click the player bar button with `aria-label="Lire"` (or `"Mettre en pause"` when playing)
+4. Verify playback: check player bar button label — `"Mettre en pause"` = playing, `"Lire"` = paused
+
+**Player bar buttons (French labels — always check `aria-label` dynamically):**
+- `Précédent` — previous track
+- `Revenir en arrière de 10 secondes` — rewind 10s
+- `Mettre en pause` / `Lire` — pause/play toggle
+- `Avancer de 30 secondes` — forward 30s
+- `Suivant` — next track
+- `J'aime` / `Je n'aime pas` — like/dislike
+- `Menu d'actions` — three-dot menu (add to playlist, share, etc.)
+- `Couper le son` — mute
+- `Vitesse de lecture` — playback speed
+- `Lecture en boucle désactivée` / `Tout lire en boucle` — loop toggle
+- `Lecture aléatoire` — shuffle
+
+**Loop mode:** click the loop button to toggle. States: `"Lecture en boucle désactivée"` → `"Tout lire en boucle"` (loop all). Button is inside `ytmusic-player-bar`.
+
+**Add to playlist flow:**
+1. Click `Menu d'actions` (three-dot) in player bar
+2. Click `Enregistrer dans une playlist` in the popup menu
+3. Dialog `ytmusic-add-to-playlist-renderer` opens with `.scroller` containing `ytmusic-playlist-add-to-option-renderer` items
+4. 🔴 **CRITICAL:** each item has an inner `<button>` — clicking the outer `ytmusic-playlist-add-to-option-renderer` element does NOT register. Must click the `<button>` inside it.
+5. Toast confirms: `"Enregistrée dans <name>"` (success) or `"Ce titre figure déjà dans la playlist"` (duplicate)
+6. Dialog stays open after each click — can add to multiple playlists in one session
+7. Close with `.close-icon button`
 
 **Extracting track lists (read-only, safe):**
 - `page-evaluate` + DOM queries are SAFE for reading data (track names, counts, hrefs, etc.)
@@ -69,9 +93,9 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 
 | Playlist | Tracks | Theme |
 |----------|--------|-------|
-| **o** | 67 | Emotional ballads — acoustic covers, Zaho, Black M, SARA'H French versions, Forest Blakk, Ed Sheeran |
-| **.** | 44 | Motivational/energy — Black M, Sia, Imagine Dragons, David Guetta, Youssoupha, cinematic epic |
-| **1** | 34 | Piano/instrumental — Hans Zimmer, Gibran Alcocer, Atlantic Notes, Jacob's Piano, Interstellar, Amélie |
+| **o** | 61 | Emotional ballads — acoustic covers, Zaho, Black M, SARA'H French versions, Forest Blakk, Ed Sheeran |
+| **.** | 38 | Motivational/energy — Black M, Sia, Imagine Dragons, David Guetta, Youssoupha, cinematic epic |
+| **1** | 28 | Piano/instrumental — Hans Zimmer, Gibran Alcocer, Atlantic Notes, Jacob's Piano, Interstellar, Amélie |
 | **Mix** | 49 | — |
 | **0** | 22 | — |
 | **->** | 23 | — |
@@ -88,3 +112,5 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 |------|------|
 | 2026-08-31 | Created after full YouTube Music library exploration: cookie consent flow, playlist inventory (60+ playlists), DOM extraction of track lists for top 3 playlists (o/./1), sorting limitation documented, "Réécouter" section identified as best "most played" proxy. |
 | 2026-08-31 | **Root cause identified & fixed:** the old `page-screenshot` hack (`translateZ(0)` on `document.body`) was breaking YT Music's SPA layout, NOT the DOM clicks themselves. Removed the hack (now optional via `force_repaint`). Added `page-press` action (CDP `Input.dispatchKeyEvent`) for reliable keyboard input. Corrected "player bar at top" — it was a side effect of the hack, real position is bottom. Simplified playback interaction docs. |
+| 2026-08-31 | Playlist counts corrected: grid view shows different numbers than detail view (o: 61, .: 38, 1: 28 — grid counts). Detail view lazy-loads more tracks. "Add to playlist" dialog uses `ytmusic-playlist-add-to-option-renderer` with inner `<button>` — clicking the `<button>` directly is required (clicking the outer element doesn't register). Toast confirms duplicate with "Ce titre figure déjà dans la playlist". |
+| 2026-08-31 | **Full player bar button inventory** documented (French labels). Loop toggle: `"Lecture en boucle désactivée"` → `"Tout lire en boucle"`. Play verification now uses button label (`"Mettre en pause"` = playing) instead of `.time-info` (unreliable). Complete "add to playlist" flow documented with DOM selectors. `page-press Space` unreliable for play — prefer `page-click-coordinates` or direct button click. Preset `add-to-playlist.sh` created. |

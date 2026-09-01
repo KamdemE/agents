@@ -46,19 +46,19 @@ check_executable() {
 # ── scripts/ ──
 while IFS= read -r -d '' f; do
   check_executable "$f" "$(stat -c '%A' "$f")"
-done < <(find scripts/ -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
+done < <(find scripts/ -not -path "*/node_modules/*" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
 
 echo "  ├─ 📚 2/3 libs/ executability"
 # ── libs/ ──
 while IFS= read -r -d '' f; do
   check_executable "$f" "$(stat -c '%A' "$f")"
-done < <(find libs/ -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
+done < <(find libs/ -not -path "*/node_modules/*" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
 
 echo "  ├─ 🧩 3/3 skill-script executability"
 # ── skills/**/scripts/ ──
 while IFS= read -r -d '' f; do
   check_executable "$f" "$(stat -c '%A' "$f")"
-done < <(find skills/ -path "*/scripts/*" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
+done < <(find skills/ -not -path "*/node_modules/*" -path "*/scripts/*" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.zsh" -o -name "*.ksh" -o -name "*.js" -o -name "*.ts" \) -print0)
 
 echo "  └─ 📊 Summary: $checked files, $errors error(s). Fix with: make chmod"
 [ "$errors" -eq 0 ]
