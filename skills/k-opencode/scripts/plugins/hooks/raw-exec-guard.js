@@ -40,6 +40,12 @@
 // repeated calls. Agent must call proxy ONCE (autosave in /tmp/*-proxy-autosave/),
 // then read the saved file for parsing.
 //
+// Proxy stderr suppression (KπX, 2026-09-01): blocks `2>/dev/null` on any
+// `*-proxy` command. The 100% Transparency mantra demands that proxy errors
+// are NEVER silenced — agents MUST see failures, diagnostics, and status
+// output. This covers tg-proxy, tick-proxy, whats-proxy, mail-proxy,
+// browser-proxy, ts-proxy, and any future proxy.
+//
 // Layer 1 — File paths: any bash command referencing `*.env*` file is
 // blocked UNLESS the path is `*.env.example*`. Covers cat, less, head,
 // tail, bat, xxd, strings, cp, mv, diff, etc. Path-anchored to avoid
@@ -105,6 +111,11 @@ const NODE_DOTENV_PATTERN = /\bnode\s+-[ec]\s+['"].*?(?:require\s*\(\s*['"]doten
 // Agent must call the proxy ONCE (autosave in /tmp/*-proxy-autosave/),
 // then read the saved file for parsing. Never pipe proxy output.
 const PROXY_DO_PATTERN = /\b\w+[-_]proxy\s+do\b/;
+
+// Proxy stderr suppression: blocks `2>/dev/null` on any `*-proxy` command.
+// 100% Transparency — proxy errors/diagnostics must never be silenced.
+const PROXY_PATTERN = /\b\w+[-_]proxy\b/;
+const DEVNULL_PATTERN = /2\s*>\s*\/dev\/null/;
 
 export default async function () {
   return {
@@ -174,6 +185,18 @@ export default async function () {
             "  → the corresponding `.env.example` file (has all keys, no secrets)\n" +
             "  → the project's `CONTRACT.md` or `config.ts` (documents expected env vars)\n" +
             `  → the owning skill's SKILL.md (documents configuration patterns)\n\n` +
+            `Blocked command: ${cmd}`,
+        );
+      }
+
+      // Proxy stderr suppression: block `2>/dev/null` on any `*-proxy` command.
+      // 100% Transparency — proxy errors/diagnostics must never be silenced.
+      if (PROXY_PATTERN.test(cmd) && DEVNULL_PATTERN.test(cmd)) {
+        throw new Error(
+          "🛑 Proxy stderr suppression blocked (100% Transparency): " +
+            "`*-proxy` commands must NOT use `2>/dev/null`.\n" +
+            "Proxy errors, diagnostics, and status output must be visible to the agent.\n" +
+            "If stdout is noisy, redirect only stdout (not stderr), or read the autosave file.\n" +
             `Blocked command: ${cmd}`,
         );
       }

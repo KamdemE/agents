@@ -105,7 +105,7 @@ opencode models
 ## Plugins & Hooks — Four Systems
 
 OpenCode and its environment are extended via four distinct systems:
-1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS/TS modules). 19 active plugins (8 npm, 11 local: 8 hooks + 1 submodule tool + 1 advisor + 1 context). See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, and coding standards in **`references/hooks-standard.md`**.
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS/TS modules). 20 active plugins (7 npm, 13 local: 9 hooks + 4 non-hooks). See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, `file://` sovereign fork) for console interface features (voice STT/TTS via `@kpihx/opencode-voice` `v0.4.1-kpihx.1` fork de `renjfk`). ⚠️ **Config/link registration ≠ runtime readiness (GRAVÉ):** registering a plugin (config array, `tui.json` symlink, `file://` path) only loads its JS glue — every external binary, service, or model file the plugin invokes MUST ALSO be installed and verified **per machine** (e.g. voice: `sox`/`whisper-cli`/`piper`; hooks: `tmux` CLI; web voice: lens proxy). Run the owning skill's dependency checks before declaring the feature working. Per-machine deployment checklist → **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (e.g. `opencode-web-voice` Web Speech mic, `opencode-web-model-line` model-selector own-line fix). See **`### Web UI plugins (opencode-lens proxy)`** below.
@@ -123,6 +123,14 @@ Advisor model + auto-escalation. Forked from `StefanoBalocco/opencode-advisor` v
 - **`advisor()` tool**: model decides when to consult a stronger model for strategic guidance.
 - **Auto-escalation**: after `failureThreshold` (configured 5, code default 3) consecutive tool errors, plugin aborts the session, consults advisor, resumes with guidance. Opt-out per agent: `"tools": { "advisor": false }`.
 - **Config**: `"model"` (`provider/model`, default `deepseek/deepseek-v4-pro`), `"failureThreshold"`, `"temperature"`, `"prompt"`. Full docs → repo `AGENTS.md`.
+
+### Help (non-hook plugin — `opencode-help/`)
+
+Durable, explicitly parent-controlled peer sessions. Source: `scripts/plugins/opencode-help/` (git submodule, `github` + `gitlab` `kpihx-labs/opencode-help`), loaded through its TypeScript entry in `assets/opencode.jsonc`.
+
+- **Tools:** `help_open`, `help_list`, `help_read`, `help_message` (`steer` or durable `queue`), `help_wait`, `help_close`, and `help_resume`.
+- **Lifecycle:** a peer is an ordinary root OpenCode session, owned only by its creator across restarts. `help_close` archives/detaches it without deleting conversation history; no automatic escalation, spawning, or resumption exists.
+- **Model:** `help_open` accepts a direct `provider/model-id` selection, persisted for follow-up messages. OpenCode SDK v1.18.26 verifies the underlying `{ providerID, modelID }` prompt shape.
 
 ### Providers: Ollama (local) & Ollama6 (deep-pc6)
 
@@ -244,8 +252,8 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-02 | [LIVE] | v2.73.0 `opencode-help` v0.1.1 activated from its sovereign `kpihx-labs` submodule: durable, parent-owned root peer sessions with explicit agent/model selection, steer/queue dialogue, bounded waits, and non-destructive archive/resume. `opencode-advisor` remains disabled. |
 | 2026-09-01 | [LIVE] | v2.72.0 `raw-exec-guard.js` Option A — runtime .env loading protection: Python dotenv imports (`dotenv`/`decouple`/`environ`), bash `source .env`, Node.js `require("dotenv")`/`import "dotenv"` blocked. v2.71.0 file-path .env protection. v2.70.0 `opencode-advisor` plugin + `git-noverify-guard.js` + `opencode-btw` purged. v2.69.0 `raw-exec-guard.js` duration threshold + false-positive fix. |
-| 2026-08-30 | [LIVE] | v2.68.0 `tmux-notify` capture depth 20→50. v2.67.0 `raw-exec-guard.js` technical enforcement. v2.66.0 tmux-notify A/B/C/D decision tree. |
-| [SUMMARY] | — | v2.65.0 timeout self-adjustment + escalating watchdog · v2.64.0 owner-aware pane leases · v2.63.0 openvino auto-discovery · v2.62.0 opencode-notify auto mode + Telegram hardening · v2.61.0 `opencode-web-model-line` plugin · v2.60.0 Lite compact kernel + non-`:latest` tag fix · v2.59.x live TUI test pane discipline + opencode-notify rewrite · v2.58.0 Lens/Web/Shim restructure + abort-suppression + notifier formatting · v2.57.x Telegram fallback fix + sovereign `opencode-notify` plugin · v2.56.0 Live symlinks de-duplicated + k-context gate · v2.55.0 Live added to TARGET_AGENTS · v2.54.0 Kagan plugin purged · v2.53.0 ecosystem plugins pass · v2.52.0 config-link ≠ runtime-ready · v2.51.0 Build added to TARGET_AGENTS · v2.48.x voice fork + context submodule · v2.47.0 anti-wait block purged · v2.46.0 and older in `references/log.md` |
+| [SUMMARY] | — | v2.68.0 tmux-notify capture depth 20→50 · v2.67.0 raw-exec guard technical enforcement · v2.66.0 tmux-notify A/B/C/D decision tree · v2.65.0 timeout self-adjustment + escalating watchdog · v2.64.0 owner-aware pane leases · v2.63.0 openvino auto-discovery · v2.62.0 opencode-notify auto mode + Telegram hardening · v2.61.0 `opencode-web-model-line` plugin · v2.60.0 Lite compact kernel + non-`:latest` tag fix · v2.59.x live TUI test pane discipline + opencode-notify rewrite · v2.58.0 Lens/Web/Shim restructure + abort-suppression + notifier formatting · v2.57.x Telegram fallback fix + sovereign `opencode-notify` plugin · v2.56.0 Live symlinks de-duplicated + k-context gate · v2.55.0 Live added to TARGET_AGENTS · v2.54.0 Kagan plugin purged · v2.53.0 ecosystem plugins pass · v2.52.0 config-link ≠ runtime-ready · v2.51.0 Build added to TARGET_AGENTS · v2.48.x voice fork + context submodule · v2.47.0 anti-wait block purged · v2.46.0 and older in `references/log.md` |
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-lens.service` (day-to-day proxy), `assets/opencode-web.service` (native backend), and `assets/opencode-web-shim.service` (dual-port middleware — see `## OpenCode Web` for the full request chain) — all 3 symlink targets for `~/.config/systemd/user/`

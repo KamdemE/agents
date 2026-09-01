@@ -18,3 +18,7 @@
 	path = skills/k-opencode/scripts/plugins/opencode-advisor
 	url = git@github.com:kpihx-labs/opencode-advisor.git
 	branch = main
+[submodule "skills/k-opencode/scripts/plugins/opencode-help"]
+	path = skills/k-opencode/scripts/plugins/opencode-help
+	url = git@github.com:kpihx-labs/opencode-help.git
+	branch = master

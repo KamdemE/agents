@@ -4,6 +4,7 @@
 //   2. raw `sleep`/`wait`/`timeout` used as manual polling outside tmux — blocked (>20s)
 //   3. .env file access (secrets) — blocked unless path is .env.example*
 //   4. proxy pipe (`*-proxy do*` piped into jq/python/etc.) — blocked
+//   5. proxy stderr suppression (`*-proxy` + `2>/dev/null`) — blocked
 // All are EXEMPT when the command is already a compliant `tmux send-keys -t ...`
 // call (the quoted payload runs IN the pane, never in the agent's own shell).
 // Duration threshold (KπX, 2026-08-30): sleep/timeout only blocked when
@@ -157,6 +158,56 @@ const cases = [
   [
     "whats-proxy do with -o (passe, -o is explicit save)",
     "whats-proxy do whatsup '{}' -a 33605957785 -o /tmp/result.json",
+    false,
+    "bash",
+  ],
+
+  // --- proxy stderr suppression (KπX, 2026-09-01) ---
+  [
+    "tg-proxy 2>/dev/null (bloqué)",
+    "tg-proxy do send-message '{\"chat_id\": 123}' 2>/dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "whats-proxy do 2>/dev/null (bloqué)",
+    "whats-proxy do chat-list '{}' 2>/dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "tick-proxy 2>/dev/null (bloqué)",
+    "tick-proxy do list-tasks '{}' 2>/dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "browser-proxy 2>/dev/null (bloqué)",
+    "browser-proxy do page-screenshot '{}' 2>/dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "mail-proxy 2>/dev/null (bloqué)",
+    "mail-proxy do read '{\"uid\": 42}' 2>/dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "whats-proxy 2 >/dev/null (bloqué, spaced redirect)",
+    "whats-proxy do chat-list '{}' 2 > /dev/null",
+    true,
+    "bash",
+  ],
+  [
+    "non-proxy 2>/dev/null (passe)",
+    "curl -s https://example.com 2>/dev/null",
+    false,
+    "bash",
+  ],
+  [
+    "proxy 2>/dev/null inside tmux send-keys (autorisé)",
+    "tmux send-keys -t ubuntu:0.2 'whats-proxy do chat-list {} 2>/dev/null' Enter",
     false,
     "bash",
   ],

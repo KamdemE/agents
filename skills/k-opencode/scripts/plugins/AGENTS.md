@@ -72,6 +72,8 @@ scripts/plugins/
 ├── opencode-voice/        # NON-HOOK plugin — TUI STT/TTS (voice, sovereign fork)
 ├── opencode-notify/       # NON-HOOK plugin — system+Telegram lifecycle notification
 │   ├── opencode-notify.js, opencode-notify.sh
+├── opencode-help/         # NON-HOOK plugin — durable parent-owned peer sessions (git submodule)
+│   └── src/index.ts
 ├── opencode-advisor/      # NON-HOOK plugin — advisor() tool + auto-escalation (git submodule)
 │   ├── dist/plugin.js (compiled)
 │   └── src/plugin.ts
@@ -145,6 +147,12 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 | File | Role |
 |------|------|
 | `plugin.js` (compiled from `src/plugin.ts`) | **Advisor tool + auto-escalation.** Registers `advisor()` tool (model decides when to consult a stronger model) and monitors `message.part.updated` for consecutive tool errors — after `failureThreshold` (default 3, configured 5), aborts session, consults advisor, resumes with guidance. Hidden agent with read-only permissions. Non-hook plugin (event + tool, not messages.transform). |
+
+### Help plugin (`scripts/plugins/opencode-help/`)
+
+| File | Role |
+|------|------|
+| `src/index.ts` | **Durable peer-session control, not an auto-escalation hook.** Registers `help_open`, `help_list`, `help_read`, `help_message`, `help_wait`, `help_close`, and `help_resume`. A parent creates an ordinary root peer with an explicit agent and optional `provider/model-id`, keeps exclusive ownership across restarts, then steers or queues follow-ups. The SQLite registry enforces owner capability, bounded concurrency, atomic queued delivery, and no recursive peer creation. Closing archives/detaches only; OpenCode history is never deleted. |
 
 ### Shared libs (`scripts/plugins/libs/`)
 
