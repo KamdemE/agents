@@ -152,7 +152,7 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 
 | File | Role |
 |------|------|
-| `src/index.ts` | **Durable peer-session control, not an auto-escalation hook.** Registers `help_open`, read-only `help_catalog`, `help_list`, `help_read`, `help_message`, `help_wait`, `help_close`, and `help_resume`. A parent creates an ordinary root peer with explicit overrides or the configured `general` + `opencode-go/mimo-v2.5` defaults, keeps exclusive ownership across restarts, then steers or queues follow-ups. `help_catalog` reads OpenCode's live agent/provider APIs and flags disconnected providers/missing defaults. The SQLite registry enforces owner capability, bounded concurrency, atomic queued delivery, and no recursive peer creation. Closing archives/detaches only; OpenCode history is never deleted. |
+| `src/index.ts` | **Durable peer-session control, not an auto-escalation hook.** Registers `help_open`, `help_list`, `help_read`, `help_message`, `help_wait`, `help_close`, and `help_resume`. A parent must explicitly name an agent already exposed by OpenCode as `subagent` or `all`; the plugin validates that live native delegation surface before it creates a root peer. KπX alone fixes the Mimo 2.5 model in `opencode.jsonc`; the caller has no model argument and there is no duplicate catalog. The SQLite registry enforces owner capability, bounded concurrency, atomic queued delivery, and no recursive peer creation. Closing archives/detaches only; OpenCode history is never deleted. |
 
 ### Shared libs (`scripts/plugins/libs/`)
 

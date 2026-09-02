@@ -93,6 +93,12 @@
       "skill": "k-opencode",
       "infras": ["kpihx-ubuntu"]
     },
+    "opencode-web-enabled-service": {
+      "source": "$HOME/.config/systemd/user/default.target.wants/opencode-web.service",
+      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-web.service",
+      "skill": "k-opencode",
+      "infras": ["kpihx-ubuntu"]
+    },
     // opencode-web-shim: fixes upstream #5844 (WebSocket URL malformed when
     // reached via a non-localhost hostname, e.g. Tailscale) — sits between
     // Tailscale Serve and opencode-web itself, 302-redirects the first page

@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.51"
+  version: "3.66.52"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -172,6 +172,7 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-09-02 | [LIVE] | `opencode-help` v0.3.0 corrected to native OpenCode delegation: explicit live subagent only, Mimo 2.5 fixed by KπX JSONC, no catalog/default agent/caller model selection. |
 | 2026-08-30 | [LIVE] | Official Polytechnique 3A docs + k-browser v4.0.3. |
 | 2026-08-30 | [LIVE] | MIE browser-proxy → local transcript E2E + k-browser v4.0.2. |
 | 2026-08-29 | [LIVE] | browser-proxy Edge lifecycle corrected (v0.5.0 — KπX Transparency violation fix). |
@@ -206,6 +207,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-02 | [LIVE] | v3.66.52 `opencode-help` v0.3.0 direction correction: native subagent-only, KπX-owned fixed model, no parallel catalog/default. |
 | 2026-08-31 | [LIVE] | v3.66.50 Workspace shortcuts + default reflex. v3.66.49 Polytechnique 3A retrieval + k-browser v4.0.3. |
-| 2026-08-30 | [LIVE] | v3.66.48 MIE media recovery + k-browser v4.0.2. v3.66.47 SynapseS 3A exploration + Zimbra mail check. |
-| [SUMMARY] | — | v3.66.46 browser-proxy v0.5.0 (KπX Transparency fix) · v3.66.45 browser-proxy v0.4.0 (49 actions) · v3.66.44 raw-exec-guard.js · v3.66.43 k-tmux orphan fragment fix · v3.66.42 tmux-notify A/B/C/D decision tree · v3.66.41 tmux-notify self-adjustment · v3.66.40 tmux-notify owner-aware leases · v3.66.39 Propose ≠ Act governance · v3.66.37 opencode-notify built · v3.66.36 PR #4 merged · v3.66.34 tmux-notify 5th root cause · v3.66.33 PR #2 merged · v3.66.32 PR #1 merged · older → `references/log.md` |
+| [SUMMARY] | — | v3.66.48 MIE media recovery + k-browser v4.0.2 · v3.66.47 SynapseS 3A exploration + Zimbra mail check · v3.66.46 browser-proxy v0.5.0 (KπX Transparency fix) · v3.66.45 browser-proxy v0.4.0 (49 actions) · v3.66.44 raw-exec-guard.js · v3.66.43 k-tmux orphan fragment fix · v3.66.42 tmux-notify A/B/C/D decision tree · v3.66.41 tmux-notify self-adjustment · v3.66.40 tmux-notify owner-aware leases · v3.66.39 Propose ≠ Act governance · v3.66.37 opencode-notify built · v3.66.36 PR #4 merged · v3.66.34 tmux-notify 5th root cause · v3.66.33 PR #2 merged · v3.66.32 PR #1 merged · older → `references/log.md` |

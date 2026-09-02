@@ -11,6 +11,8 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **2026-09-02 — Mirror native delegation; do not invent a parallel selection surface:** durable help peers must require an explicit agent already available to the caller as OpenCode `subagent`/`all`, rejecting primary-only and unknown names before session creation. Do not add default agents, catalogs, or caller model overrides. Model policy is exclusively the KπX-controlled plugin configuration (`opencode-go/mimo-v2.5`); this keeps `help_open` semantically aligned with native OpenCode delegation.
+
 - **2026-09-02 — Defaults must be explicit and introspectable:** durable peers must not silently inherit a caller's agent/model when the operator expects a stable baseline. `opencode-help` therefore configures `general` + `opencode-go/mimo-v2.5` explicitly and exposes `help_catalog`, backed by OpenCode's live `/agent` and `/provider` APIs. Catalog output must state unavailable defaults and disconnected providers rather than implying that a configured model is callable.
 
 - **2026-09-02 — Preserve structured OpenCode SDK errors at the boundary:** `String(result.error)` turns server diagnostics into `[object Object]`, making an invalid agent/model impossible to debug during live peer creation. Plugin API adapters must serialize object errors with `JSON.stringify` (falling back to `String`) and test the exact surfaced structure before claiming a model-selection path works.
