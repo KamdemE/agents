@@ -212,6 +212,6 @@ k-whisper 1 -p "audio.m4a"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-03 | [LIVE] | v3.0.2 — Default media-download path relocated to `~/Downloads/Whats-Proxy/tel/<phone>/`. whats-proxy v0.7.1 published. |
+| 2026-09-03 | [LIVE] | v3.0.2 — Default media-download path relocated to `~/Downloads/Whats-Proxy/<phone>/`. |
 | 2026-09-02 | [LIVE] | v3.0.1 — Fixed action names: `chat-archive` → `chat-manage`, `get-contact-info` → `contact-info`. Updated `tick-mcp` → `tick-proxy`. |
 | [SUMMARY] | — | v3.0.0 Full rewrite proxy-only · v2.2.3 MCP purge annotation · older → `references/log.md` |
