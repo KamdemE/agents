@@ -136,17 +136,9 @@ Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjus
 - Unknown error → check if k-context is already in context (auto-injected for Colab/Build); if absent, load `skills/k-context/SKILL.md`
 - New tool/skill detected → propose updating the corresponding `k-*` skill
 
-## Advisor & Question Reflexes
+## Help & Question Reflexes
 
-**`advisor` tool reflex (GRAVÉ):** When the agent is stuck, repeating failed approaches, going in circles, or facing a complex decision it cannot resolve alone — **CALL `advisor()` IMMEDIATELY**. Do NOT waste tokens retrying the same broken approach. The advisor consults a stronger model that provides strategic guidance. Specifically:
-
-- After **2 consecutive failures** on the same subtask → call advisor before the 3rd attempt
-- When the approach **does not converge** (repeated errors, same file edited back and forth) → call advisor
-- Before **committing to a major architectural decision** → call advisor
-- When you believe the task is done but **are not 100% certain** → call advisor for final review
-- **Never** spin more than 3 turns on a single problem without consulting the advisor
-
-The advisor is read-only (cannot edit, cannot run shell) — it gives strategy, not implementation. Apply its guidance, do not mechanically execute its output.
+**🔴 Two escape routes when stuck** — the agent has exactly 2 tools to break out of a loop:
 
 **`question` tool reflex (GRAVÉ):** At the **slightest doubt, concern, or need for clarification** — **USE THE `question` TOOL TO ASK KπX IMMEDIATELY**. Do NOT guess, do NOT assume, do NOT proceed on uncertain ground. Specifically:
 
@@ -156,4 +148,19 @@ The advisor is read-only (cannot edit, cannot run shell) — it gives strategy, 
 - **External service uncertain** (API unclear, rate limit hit, auth questionable) → question
 - **Scope expansion temptation** ("I noticed X while doing Y") → question before touching X
 
-The question tool is the SOVEREIGN escalation path when KπX is available. When KπX is NOT available (no response after reasonable wait), fall back to the advisor tool for autonomous guidance. When NEITHER is available, proceed with the safest conservative choice and document the uncertainty.
+The question tool is the SOVEREIGN escalation path when KπX is available. It is the first reflex — always try `question` first when KπX is reachable.
+
+**`help_open` tool reflex (GRAVÉ):** When the agent is stuck, repeating failed approaches, going in circles, or needs a **fresh technical perspective from a completely separate agent context** — **OPEN A HELP PEER via `help_open()` IMMEDIATELY**. Do NOT waste tokens retrying the same broken approach. Specifically:
+
+- After **2 consecutive failures** on the same subtask → open a help peer before the 3rd attempt
+- When the approach **does not converge** (repeated errors, same file edited back and forth) → open a help peer
+- Before **committing to a major architectural decision** → open a help peer for a second opinion
+- When you believe the task is done but **are not 100% certain** → open a help peer for review
+- **Never** spin more than 3 turns on a single problem without consulting a help peer
+
+The help peer is a **separate OpenCode root session** with its own context window, agent, and model. It reads the same codebase but starts from a clean slate — no shared assumptions, no confirmation bias. Use `help_list` to see open peers, `help_read` to inspect their work, `help_close` when done. The help peer gives strategy AND can explore; it is not read-only.
+
+**Decision flow:**
+1. KπX available? → `question` first
+2. KπX unavailable or question would take too long? → `help_open` with a focused peer
+3. Neither available? → proceed with the safest conservative choice and document the uncertainty

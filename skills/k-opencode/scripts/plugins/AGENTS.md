@@ -74,7 +74,7 @@ scripts/plugins/
 │   ├── opencode-notify.js, opencode-notify.sh
 ├── opencode-help/         # NON-HOOK plugin — durable parent-owned peer sessions (git submodule)
 │   └── src/index.ts
-├── opencode-advisor/      # NON-HOOK plugin — advisor() tool + auto-escalation (git submodule)
+├── opencode-advisor/      # DEACTIVATED — was advisor() + auto-escalation (git submodule, kept for archival)
 │   ├── dist/plugin.js (compiled)
 │   └── src/plugin.ts
 └── web/                   # web plugins (opencode-lens, opencode-web-voice)
@@ -142,17 +142,15 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 | `opencode-notify.js` | **NOT a hook** (read-only/observational, see "Hooks vs Plugins" above). Fires KπX a notification (system + Telegram) the moment the agent finishes a turn (`event`/`session.idle`), hits an error (`event`/`session.error`), or is blocked waiting for an approval decision (`"permission.ask"` hook callback). Always fires, all agents, no focus-detection gate (replaces the purged third-party `opencode-notifications` npm plugin — see `references/plugin-watch.md` → Purged). Includes device hostname (`libs/device-info.js`), resolved agent (`libs/agent-scope.js`), and session title/directory (`client.session.get`) in every notification. |
 | `opencode-notify.sh` | Sibling shell wrapper — sources the shared `$HOME/.agents/libs/notif/notifier.sh` and calls `notify_mixed` (system `notify-send` + Telegram, one call). Invoked by `opencode-notify.js` via `execFile` (argv array, no shell string interpolation). Prefers the dedicated `TELEGRAM_OPENCODE_TOKEN` (see `.env.example`) over the shared notifier fallback chain. |
 
-### Advisor plugin (`scripts/plugins/opencode-advisor/`)
+### Advisor plugin (DEACTIVATED — `scripts/plugins/opencode-advisor/`)
 
-| File | Role |
-|------|------|
-| `plugin.js` (compiled from `src/plugin.ts`) | **Advisor tool + auto-escalation.** Registers `advisor()` tool (model decides when to consult a stronger model) and monitors `message.part.updated` for consecutive tool errors — after `failureThreshold` (default 3, configured 5), aborts session, consults advisor, resumes with guidance. Hidden agent with read-only permissions. Non-hook plugin (event + tool, not messages.transform). |
+**Removed from config 2026-09-01.** Source kept for archival. Auto-escalation replaced by `help_open` (explicit parent-controlled peer sessions). The `help` reflex is the agent's "stuck" escape route — see `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 
 ### Help plugin (`scripts/plugins/opencode-help/`)
 
 | File | Role |
 |------|------|
-| `src/index.ts` | **Durable peer-session control, not an auto-escalation hook.** Registers `help_open`, `help_list`, `help_read`, `help_message`, `help_wait`, `help_close`, and `help_resume`. A parent must explicitly name an agent already exposed by OpenCode as `subagent` or `all`; the plugin validates that live native delegation surface before it creates a root peer. KπX alone fixes the Mimo 2.5 model in `opencode.jsonc`; the caller has no model argument and there is no duplicate catalog. The SQLite registry enforces owner capability, bounded concurrency, atomic queued delivery, and no recursive peer creation. Closing archives/detaches only; OpenCode history is never deleted. |
+| `src/index.ts` | **Durable peer-session control — the agent's primary "stuck" escape route.** Registers `help_open`, `help_list`, `help_read`, `help_message` (steer or durable queue), `help_wait`, `help_close`, and `help_resume`. A parent opens a separate OpenCode root session with an explicit agent name and a KπX-fixed model (`opencode-go/mimo-v2.5`). The parent keeps exclusive ownership, can steer/queue follow-ups, and archives non-destructively. Combined with the `question` tool (for clarification from KπX), the agent has 2 complementary paths out of any blockage. Full reflex rules → `rules/tool-discipline.md` → `## Help & Question Reflexes`. |
 
 ### Shared libs (`scripts/plugins/libs/`)
 

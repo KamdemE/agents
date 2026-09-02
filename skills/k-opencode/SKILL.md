@@ -116,13 +116,9 @@ OpenCode and its environment are extended via four distinct systems:
 
 STT + TTS 100% local via `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice`, fork `renjfk`, `v0.4.1-kpihx.1`: siwis FR, `<leader>r`, LLM fallback). Config in `tui.json` (`file:///…/scripts/plugins/opencode-voice`, not `@renjfk` npm), tracked as `assets/tui.json` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`). Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and sovereign patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
 
-### Advisor (non-hook plugin — `opencode-advisor/`)
+### Advisor (DEACTIVATED — `opencode-advisor/`)
 
-Advisor model + auto-escalation. Forked from `StefanoBalocco/opencode-advisor` v2.3.1. Source: `scripts/plugins/opencode-advisor/` (git submodule, `github`+`gitlab` `kpihx-labs/opencode-advisor`).
-
-- **`advisor()` tool**: model decides when to consult a stronger model for strategic guidance.
-- **Auto-escalation**: after `failureThreshold` (configured 5, code default 3) consecutive tool errors, plugin aborts the session, consults advisor, resumes with guidance. Opt-out per agent: `"tools": { "advisor": false }`.
-- **Config**: `"model"` (`provider/model`, default `deepseek/deepseek-v4-pro`), `"failureThreshold"`, `"temperature"`, `"prompt"`. Full docs → repo `AGENTS.md`.
+Auto-escalation plugin purged from config 2026-09-01. Source kept in `scripts/plugins/opencode-advisor/` (git submodule) for archival only. **Replaced by `opencode-help` for the "stuck" reflex — see below.**
 
 ### Help (non-hook plugin — `opencode-help/`)
 
@@ -130,8 +126,9 @@ Durable, explicitly parent-controlled peer sessions. Source: `scripts/plugins/op
 
 - **Tools:** `help_open`, `help_list`, `help_read`, `help_message` (`steer` or durable `queue`), `help_wait`, `help_close`, and `help_resume`.
 - **Lifecycle:** a peer is an ordinary root OpenCode session, owned only by its creator across restarts. `help_close` archives/detaches it without deleting conversation history; no automatic escalation, spawning, or resumption exists.
-- **Native delegation only:** `help_open` requires an explicit agent which OpenCode itself reports as `subagent` or `all`; primary-only and unknown agents are rejected. The caller already receives this delegation surface from OpenCode—there is no parallel catalog.
+- **Agent:** `help_open` requires an explicit agent name passed directly to OpenCode server-side `promptAsync`, which validates it; invalid agent names surface the server error verbatim.
 - **Model:** only KπX selects the fixed model through the plugin entry in `assets/opencode.jsonc` (`opencode-go/mimo-v2.5`). The caller cannot send or override a model; the configured `{ providerID, modelID }` is persisted for peer follow-ups.
+- **Escape route:** `help_open` is the technical escape route when stuck/spinning. Combined with the `question` tool (for clarification from KπX), the agent has 2 complementary paths out of any blockage. Full reflex rules → `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 
 ### Providers: Ollama (local) & Ollama6 (deep-pc6)
 
