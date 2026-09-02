@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.0.0"
+  version: "3.0.1"
 allowed-tools: Bash(*), *
 ---
 
@@ -74,8 +74,8 @@ whats-proxy do <action> [payload|file] [-a phone] [-o file] [-f json|table]
 | `chat-read` | Read messages from a chat | `{"jid":"...", "limit":50}` |
 | `find-messages` | Search messages by keyword | `{"query":"...", "jid":"..."}` |
 | `send-text` | Send a text message | `{"jid":"...", "text":"..."}` |
-| `chat-archive` | Archive a chat | `{"jid":"..."}` |
-| `get-contact-info` | Get contact details | `{"jid":"..."}` |
+| `chat-manage` | Archive, pin, mute, mark read/unread | `{"jid":"...","action":"archive\|pin\|mute\|mark_read\|mark_unread"}` |
+| `contact-info` | Get contact details | `{"jid":"..."}` |
 
 Use `-a <phone>` to target a specific account. Use `-f table` for human-readable output, `-f json` (default) for machine parsing.
 
@@ -90,7 +90,7 @@ Use only when `whats-proxy do` lacks the needed action. Consult `whats-proxy --h
 
 ## Closure hygiene (mandatory)
 
-- **1:1 chat fully handled** (you sent the last needed message, or KπX confirms the matter closed): **archive the chat** (`whats-proxy do chat-archive -a <phone>` with target JID), then confirm state. **Do not** archive **groups** (`@g.us`) as a blanket action — groups stay active; only mute/leave per explicit KπX instruction.
+- **1:1 chat fully handled** (you sent the last needed message, or KπX confirms the matter closed): **archive the chat** (`whats-proxy do chat-manage '{"jid":"...","action":"archive"}' -a <phone>`), then confirm state. **Do not** archive **groups** (`@g.us`) as a blanket action — groups stay active; only mute/leave per explicit KπX instruction.
 - **KπX says *I replied elsewhere* / *c'est bon*:** Still **verify** the 1:1 thread; if the story is closed, **archive** (or confirm already archived) **before** continuing.
 - **Persistent nudge:** On later turns touching WhatsApp, if a **closed** 1:1 is **still unarchived**, one line *Still to archive: …* until fixed. Align with **`k-mail` `## Closure hygiene`** and **`k-tick`** for mail + tasks.
 
@@ -108,7 +108,7 @@ Use only when `whats-proxy do` lacks the needed action. Consult `whats-proxy --h
 - You must proactively update `## Open Threads (operational memory)` when thread status changes.
 - You have full control over the whole `k-whats/` folder and must proactively keep all files up to date (`SKILL.md`, `references/log.md`, `references/insights.md`, `references/mcp.md`, and other files).
 - Before ending, you must run a final self-check: "Are all files in `k-whats/` reflecting current reality?" If not, update them immediately.
-- If you detect key actionable information in WhatsApp content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-mcp.
+- If you detect key actionable information in WhatsApp content (exam, deadline, event, admin/professional follow-up, or other important academic/professional facts), you must proactively propose creating or updating a TickTick item via tick-proxy.
 - For any WhatsApp group message, mandatory dry-run first.
 - Step 1: produce preview (`target_jid`, `target_name`, `final_text`, optional mentions/quote).
 - Step 2: wait for explicit user approval (`OK ENVOI` or equivalent).
@@ -181,7 +181,7 @@ CORRECT:
   1. Get phone number from KπX
   2. Strip '+' and spaces → E.164 digits only (e.g. +237 77947720 → 23777947720)
   3. JID = <digits>@s.whatsapp.net
-  4. Confirm: whats-proxy do get-contact-info '{"jid":"23777947720@s.whatsapp.net"}'
+  4. Confirm: whats-proxy do contact-info '{"jid":"23777947720@s.whatsapp.net"}'
 ```
 
 ## Audio transcription helper (local)
@@ -212,6 +212,5 @@ k-whisper 1 -p "audio.m4a"
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-02 | [COLAB] | v3.0.0 — **Full rewrite**: renamed from `k-whatsapp` to `k-whats`. Proxy-only architecture (`whats-proxy` CLI), no MCP. Added multi-account section (KπX / KπX-Labs / Ivann), proxy architecture docs, raw API section, Community KπX-Labs. All MCP tool references replaced with `whats-proxy do <action>` syntax. |
-| 2026-08-14 | [COLAB] | v2.2.3 — MCP purge annotation: `whats-mcp` purged (2026-08-14), only `*-proxy` CLIs kept. |
-| [SUMMARY] | — | v2.2.2 Graph creds → `k-meta` · v2.2.1 and older copied to `references/log.md` |
+| 2026-09-02 | [LIVE] | v3.0.1 — Fixed action names: `chat-archive` → `chat-manage`, `get-contact-info` → `contact-info`. Updated `tick-mcp` → `tick-proxy`. |
+| [SUMMARY] | — | v3.0.0 Full rewrite proxy-only · v2.2.3 MCP purge annotation · older → `references/log.md` |

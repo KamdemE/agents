@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.8.0"
+  version: "1.9.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -150,7 +150,7 @@ For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 
 
 1. `make uv-build` / `make bun-build` wipes `dist/` first (built into the target — no separate manual `rm -rf dist/` step needed).
 2. `make uv-publish` / `make bun-publish` (each depends on its own `*-build` target, so `make release` alone runs the whole chain: `check → push → publish → push-tags` — see project Makefile).
-   - **Requirement**: `UV_PUBLISH_TOKEN` / `NPM_TOKEN`/`BUN_AUTH_TOKEN` must already be in the environment before running `make` (via `with-env` in an interactive shell, or already exported) — no Makefile-level login-shell wrapper needed (2026-08-25: the `$(ZSH_LOGIN)` pattern was dropped — real deployed projects don't use it, they rely on the calling shell already having secrets loaded).
+   - **Requirement**: `UV_PUBLISH_TOKEN` / `NPM_TOKEN` must be in the environment before running `make`. The agent calls `with-env make bun-publish` (or `with-env make uv-publish`) from a tmux ops pane — `with-env` loads `$HOME/.agents/.env` and exports `NPM_TOKEN`/`UV_PUBLISH_TOKEN` into a subshell. The Makefile targets themselves reference `$(NPM_TOKEN)` / `$(UV_PUBLISH_TOKEN)` directly (2026-09-02: confirmed for whats-proxy — `npm config set //registry.npmjs.org/:_authToken "$(NPM_TOKEN)"` pattern).
    - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
 3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `with-env` — see `AGENTS.md` kernel → Security — or `~/.agents/.env`). If missing or invalid → **stop**; tell KπX to export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
@@ -188,6 +188,5 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.8.0 — **Makefile target names + root AGENTS.md aligned to real projects**: Phase I now says `make uv-link`/`make uv-uninstall` (Python) and `make bun-link`/`make bun-unlink` (JS/TS) — matches `k-project`'s rewritten templates. Phase J: dropped the `$(ZSH_LOGIN)` publish requirement (never actually defined anywhere, not used by real deployed projects — `uv-publish`/`bun-publish` now just require the token already in the environment via `with-env`); `dist/` wipe is now built into `uv-build`/`bun-build`, no separate manual step. Phase A now points at `make check` (includes the new `smoke` target) instead of ad-hoc `make test`. Docs table: `.agents/AGENTS.md` → root `AGENTS.md`. |
-| 2026-08-25 | [CLAUDE] | v1.7.0 — **config.yaml/ConfigManager purged from Phase B**: hygiene step now points at `config.py`/`config.ts` constants (no YAML, no ConfigManager — see `k-project`); comments belong next to the constant they document instead of in a YAML file. NEW Phase B step 4: doc/Makefile drift check — diff `README.md`/`AGENTS.md`-documented targets against real `make help` output (found stale in a real project audit 2026-08-25). Related-skills pointer to `k-project`'s new Pipeline R&D archetype. |
-| [SUMMARY] | — | v1.6.3 restored make check gates (→ `references/log.md`) · v1.6.0 make check target rename (→ `references/log.md`) · v1.6.2–v1.6.1 superseded approval-policy wording · v1.4.0–v1.5.0 Trimmed: Phase K simplified + k-workspace references replaced with k-context/kpihx-labs. v1.3.x MIE Ubisoft Case; v1.3.0 Hardened Sovereign workflow; v1.2.0–v1.1.0 audit pass and security templates; older → file history |
+| 2026-09-02 | [LIVE] | v1.9.0 — **Phase J publish pattern clarified**: documented `with-env make bun-publish` / `with-env make uv-publish` as the standard agent-initiated publish flow. Makefile targets reference `$(NPM_TOKEN)` / `$(UV_PUBLISH_TOKEN)` directly; agent handles secret loading via `with-env` from tmux ops pane. |
+| [SUMMARY] | — | v1.8.0 Makefile target names + root AGENTS.md aligned · v1.7.0 config.yaml/ConfigManager purged · v1.6.x make check gates + rename · v1.4.0–v1.5.0 Phase K simplified · v1.3.x MIE/Sovereign · older → `references/log.md` |

@@ -35,10 +35,8 @@ bun-build:  ## Bundle with bun build (adjust entry/outdir as needed)
 	@echo "🏗️  Building $(PKG_NAME) v$(VERSION)..."
 	@bun build src/index.ts --outdir dist --target node
 
-bun-publish: bun-build  ## Publish to npm (requires NPM_TOKEN or BUN_AUTH_TOKEN already in the environment)
-	@echo "🚀 Publishing v$(VERSION) to npm..."
-	@bun publish
-# Ensure package.json has "publishConfig": { "access": "public" } for scoped packages.
+bun-publish: bun-build  ## Publish to npm (requires NPM_TOKEN in env; agent calls with-env make bun-publish)
+	@npm config set //registry.npmjs.org/:_authToken "$(NPM_TOKEN)" && npm publish --access public; npm config delete //registry.npmjs.org/:_authToken
 
 # ── Git ───────────────────────────────────────────────────────────────────────
 
