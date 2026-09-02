@@ -4,7 +4,7 @@ description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central invento
 license: private
 metadata:
   author: KpihX
-  version: 3.6.2
+  version: 3.7.0
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -53,6 +53,12 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - **CTranslate2** (`k-translate` using `scripts/k-translate.sh`) — NMT local (int8). Wrapper `~/.local/bin/k-translate`, modèles `~/.local/share/ctranslate2/`. → `references/translate.md`
 - **K-Com Hub** (`k-com`) — Orchestrateur STT→Translate→TTS. Projet `~/KpihX-Labs/AI/k-com/` (100% uv), wrapper `~/.local/bin/k-com`. → `references/k-com.md`
 - **Tesseract** (`tesseract`) — OCR local. Binaire `/usr/bin/tesseract` (apt), langues `/usr/share/tesseract-ocr/5/tessdata/` (`eng`, `fra`, `osd`). CLI simple, **pas de wrapper** (usage direct `tesseract image stdout -l fra`). Consommé par l'extension GNOME `text-extractor` via le helper `~/.local/bin/text-extractor-ocr` (venv uv `text-extractor-ocr-venv`). → `references/tesseract.md`
+  - **Keyboard shortcut** : `Super+Shift+T` — select a screen region, OCR in French, result copied to clipboard. Configured in GNOME extension `text-extractor@aditya190803` (language `fra`, notifications enabled).
+  - **⚠️ Fix if shortcut stops responding** : the extension can silently lose its keybinding registration. Quick fix:
+    ```bash
+    gnome-extensions disable text-extractor@aditya190803 && gnome-extensions enable text-extractor@aditya190803
+    ```
+    This forces the `enable()` call in `extension.js`, which re-runs `Main.wm.addKeybinding(...)`. No systemd, no service — the extension runs inside the `gnome-shell` process itself.
 - **QMD** (`qmd`/`qmdr`, package npm `@tobilu/qmd`) — Recherche de connaissances locale (BM25+vector hybride) sur les bases markdown KπX. **Embeddings 100% locaux en GGUF** (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), **indépendant d'Ollama** (runtime llama.cpp embarqué). Modèles `~/.cache/qmd/models/` (~2.1 GB), config `~/.config/qmd/index.yml`. → `k-qmd`
 - **Hugging Face Hub CLI** (`hf` nouveau standard, `huggingface-cli` déprécié, package `huggingface_hub` via `uv`/`pip`) — Auth + download Hub. **PAS un paquet `apt`** (`apt install huggingface-cli` → `Unable to locate package`). Install : `uv tool install huggingface_hub` → binaire `~/.local/bin/hf` (nouveau, `huggingface-cli` reste en alias déprécié). Token `HF_TOKEN` via `hf auth login` → `~/.cache/huggingface/token` ou `~/.agents/.env` (`HF_TOKEN`), évite `Warning: unauthenticated` et débloque le débit `pull` (ex: `openvino pull` passe de 1.49 à 78 MB/s). → `references/huggingface.md`
 
@@ -106,6 +112,6 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-02 | [LIVE] | v3.7.0 — **Text Extractor keyboard shortcut** (`Super+Shift+T`) added to Tesseract OCR entry, with silent keybinding loss fix command. |
 | 2026-08-29 | [LIVE] | v3.6.2 — **`OpenVINO GenAI` added to AI Runtimes table** → new `k-openvino` skill (local LLM serving, Qwen3 IR on Intel Arc iGPU). Cross-domain insight added to `references/insights.md`: model size is never the fix for a broken tool-calling wiring — verified live that a 0.6B model tool-calls perfectly once `tools=` correctly reaches `apply_chat_template()`, generalizing beyond OpenVINO to any local runtime exposing an OpenAI-compatible endpoint. |
-| 2026-08-27 | [COLAB] | v3.6.1 — **HF CLI standard** : passage de `huggingface-cli` (déprécié) à `hf` (`hf auth login`, `hf download`, etc.) suite à `huggingface-cli login` → `Warning: use hf instead` constaté live après `uv tool install huggingface_hub`. Docs `k-ai` + `references/huggingface.md` + `AI/openvino` (`cli.py` hint) alignés sur `hf`. |
-| [SUMMARY] | — | v3.6.0 Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) added to Local AI Binaries, fixes `Warning: unauthenticated` + unlocks `openvino pull` throughput (1.49 → 78 MB/s) (→ `references/huggingface.md`) · v3.5.0 CUDA build documented for `whisper-cli` on deep-pc6 (2× RTX 3090) · v3.4.0 Added QMD to Local AI Binaries · v3.3.0 Description reinforced (MANDATORY check before non-native task) · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |
+| [SUMMARY] | — | v3.6.1 HF CLI standard (`hf` replacing deprecated `huggingface-cli`) · v3.6.0 Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) added to Local AI Binaries, fixes `Warning: unauthenticated` + unlocks `openvino pull` throughput (1.49 → 78 MB/s) (→ `references/huggingface.md`) · v3.5.0 CUDA build documented for `whisper-cli` on deep-pc6 (2× RTX 3090) · v3.4.0 Added QMD to Local AI Binaries · v3.3.0 Description reinforced (MANDATORY check before non-native task) · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |

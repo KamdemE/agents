@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.52"
+  version: "3.66.57"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -28,7 +28,7 @@ allowed-tools: "Bash(*), *"
 > - **Issues Pre-check Rule (Mandatory):** BEFORE creating a new issue, agent MUST `grep`/`rg` `references/issues.md` for existing or related issues. If a matching issue exists, do NOT duplicate — update the existing row (Status, Updated, new Evidence/Commands/Results) instead. If no match found, create new row at the top.
 > - **Issues Proactive Update Rule (Mandatory):** whenever a problem is solved, deferred, or its status changes — agent MUST proactively update the corresponding `issues.md` row with the new Status, Updated timestamp, and relevant Actions/Results. Follow the exact table structure without breaking columns.
 > - **Auto-Update Rule (Mandatory):** agents must update `references/issues.md` and relevant context sections automatically without asking KπX.
-> - **🔴 Two escape routes when stuck (Mandatory):** (1) **`question` tool** — when KπX is available, ask for clarification IMMEDIATELY. (2) **`help_open` tool** — open a separate agent peer for a fresh technical perspective (2 consecutive failures → help peer; approach not converging → help peer; major decision → help peer review). **Never** spin more than 3 turns on a single problem without consulting one of these two routes. Full rule: `rules/tool-discipline.md` → `## Help & Question Reflexes`.
+> - **🔴 Two escape routes when stuck (Mandatory):** (1) **`question` tool** — when KπX is available, ask for clarification IMMEDIATELY. (2) **`help_open` tool** — open a separate agent peer for a **second opinion or fresh perspective** (COMMUNICATION, NOT DELEGATION — never use help_open to hand off tasks). 2 consecutive failures → help peer; approach not converging → help peer; major decision → help peer review. **Never** spin more than 3 turns on a single problem without consulting one of these two routes. Full rule: `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 > - **🔴 Question tool reflex (Mandatory):** at the SLIGHTEST doubt, concern, or need for clarification — **USE THE `question` TOOL TO ASK KπX IMMEDIATELY**. Do NOT guess, do NOT assume, do NOT proceed on uncertain ground. Ambiguous instruction → question before acting. Multiple valid paths → question to confirm. Missing context → question. External service uncertain → question. Scope expansion temptation → question. Full rule: `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 > - **Session Log Linking Rule:** `## Session Log` keeps short summaries only and each issue-related entry must include exact issue IDs (e.g., `ISS-YYYYMMDD-XXX`) that point to `references/issues.md`.
 > **MANDATORY NOTIFICATION:** Agents MUST immediately notify KπX of any URGENT tasks found in `k-context` upon loading.
@@ -173,18 +173,17 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-09-02 | [LIVE] | `opencode models` exposed expired Claude credentials while verifying the help-model pool; catalogs remain usable, but interactive `claude` re-auth is required (`ISS-20260902-003`). |
+| 2026-09-02 | [LIVE] | `opencode-help` v0.4.0: verified live model IDs; ordered allowlist defaults to Go DeepSeek V4 Pro and includes direct Google Gemini 3.1 Pro Preview, Go DeepSeek V4 Flash, Go Mimo 2.5. Explicit model selection only; provider failures require transparent close/reopen—never silent fallback. |
+| 2026-09-02 | [LIVE] | mail-proxy v0.2.6 Outlook `BADCHARSET` fallback: bare installed binary verified against Hotmail; 168 tests green (`ISS-20260902-002`). |
+| 2026-09-02 | [LIVE] | mail-proxy v0.2.5: `message-move`, `archive`, `trash`, and `spam` are browser-HITL-gated and read-back verified; 166 tests green. |
+| 2026-09-02 | [LIVE] | mail-proxy v0.2.4 IMAP timeout hardening — typed transport errors, 14 regression tests, `make check` 166 green; live `admin auth status` restored (`ISS-20260902-001`). |
 | 2026-09-02 | [LIVE] | `opencode-help` v0.3.0 corrected to native OpenCode delegation: explicit live subagent only, Mimo 2.5 fixed by KπX JSONC, no catalog/default agent/caller model selection. |
 | 2026-08-30 | [LIVE] | Official Polytechnique 3A docs + k-browser v4.0.3. |
 | 2026-08-30 | [LIVE] | MIE browser-proxy → local transcript E2E + k-browser v4.0.2. |
 | 2026-08-29 | [LIVE] | browser-proxy Edge lifecycle corrected (v0.5.0 — KπX Transparency violation fix). |
 | 2026-08-29 | [LIVE] | browser-proxy full-coverage rebuild (49 actions) + Edge lifecycle redesign. |
-| 2026-08-29 | [LIVE] | New hook `raw-exec-guard.js` — tmux sudo Gate + no-polling technically enforced. |
-| 2026-08-29 | [LIVE] | `tmux-notify.js` timeout self-adjustment + escalating watchdog (v1.27.0/v2.65.0). |
-| 2026-08-29 | [LIVE] | openvino v0.2.0 finalize + PyPI publish (`k_openvino-0.2.0`). |
-| 2026-08-29 | [LIVE] | openvino v0.1.0 — tool-calling/streaming committed + `make release`. |
-| 2026-08-28 | [LIVE] | tmux-notify owner-aware pane lease implemented (`ISS-20260828-001`). |
-| 2026-08-27 | [COLAB] | Kernel-wide "Propose ≠ Act" governance pass (KπX directive). |
-| [SUMMARY] | — | 2026-08-27 opencode-notify built + @k_opencode_bot · 2026-08-27 PR #4 deep-pc6 merged · 2026-08-27 k-windows v1.4.0 remote-server-access stack · 2026-08-26 BLGLAPTOP139 SSH saga → k-windows v1.3.0 · 2026-08-26 PRs #1–#3 merged (branch-per-infra, remotes contract, tmux-notify 5th root cause) · 2026-08-26 tmux-notify 5th root cause (self-backgrounding) · 2026-08-24 k-ticktick→k-tick refactor · 2026-08-24 OpenCode Web Voice mobile fix · 2026-08-21 browser-proxy v0.1.0 created · 2026-08-21 OpenCode Web/Lens mobile ingress regression · older → `references/log.md` |
+| [SUMMARY] | — | 2026-08-29 raw-exec-guard.js tmux sudo Gate + no-polling enforced · 2026-08-29 tmux-notify timeout self-adjustment + escalating watchdog · 2026-08-29 openvino v0.2.0 finalize + PyPI publish · 2026-08-29 openvino v0.1.0 tool-calling/streaming · 2026-08-28 tmux-notify owner-aware pane lease (`ISS-20260828-001`) · 2026-08-27 Propose ≠ Act governance · 2026-08-27 opencode-notify built + @k_opencode_bot · 2026-08-27 PR #4 deep-pc6 merged · 2026-08-27 k-windows v1.4.0 remote-server-access stack · 2026-08-26 BLGLAPTOP139 SSH saga → k-windows v1.3.0 · 2026-08-26 PRs #1–#3 merged · older → `references/log.md` |
 ## References
 
 - `references/architecture-vision.md` — KpihX-Labs cloud + Personal OS + Agentic Architecture + Sovereign Email (merged)
@@ -208,6 +207,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-02 | [LIVE] | v3.66.52 `opencode-help` v0.3.0 direction correction: native subagent-only, KπX-owned fixed model, no parallel catalog/default. |
-| 2026-08-31 | [LIVE] | v3.66.50 Workspace shortcuts + default reflex. v3.66.49 Polytechnique 3A retrieval + k-browser v4.0.3. |
-| [SUMMARY] | — | v3.66.48 MIE media recovery + k-browser v4.0.2 · v3.66.47 SynapseS 3A exploration + Zimbra mail check · v3.66.46 browser-proxy v0.5.0 (KπX Transparency fix) · v3.66.45 browser-proxy v0.4.0 (49 actions) · v3.66.44 raw-exec-guard.js · v3.66.43 k-tmux orphan fragment fix · v3.66.42 tmux-notify A/B/C/D decision tree · v3.66.41 tmux-notify self-adjustment · v3.66.40 tmux-notify owner-aware leases · v3.66.39 Propose ≠ Act governance · v3.66.37 opencode-notify built · v3.66.36 PR #4 merged · v3.66.34 tmux-notify 5th root cause · v3.66.33 PR #2 merged · v3.66.32 PR #1 merged · older → `references/log.md` |
+| 2026-09-02 | [LIVE] | v3.66.57 recorded blocked Claude re-authentication warning (`ISS-20260902-003`) observed during OpenCode model-pool verification. |
+| 2026-09-02 | [LIVE] | v3.66.56 `opencode-help` v0.4.0 model allowlist and explicit reopen-on-provider-failure workflow. |
+| [SUMMARY] | — | v3.66.55 mail-proxy Outlook IMAP charset fallback (`ISS-20260902-002`) · v3.66.54 mail-proxy v0.2.5 message-move family HITL gate · v3.66.53 mail-proxy IMAP probe timeout (`ISS-20260902-001`) · v3.66.52 `opencode-help` v0.3.0 direction correction · v3.66.50 Workspace shortcuts + default reflex · v3.66.49 Polytechnique 3A retrieval + k-browser v4.0.3 · v3.66.48 MIE media recovery + k-browser v4.0.2 · v3.66.47 SynapseS 3A exploration + Zimbra mail check · v3.66.46 browser-proxy v0.5.0 (KπX Transparency fix) · v3.66.45 browser-proxy v0.4.0 (49 actions) · v3.66.44 raw-exec-guard.js · v3.66.43 k-tmux orphan fragment fix · v3.66.42 tmux-notify A/B/C/D decision tree · v3.66.41 tmux-notify self-adjustment · v3.66.40 tmux-notify owner-aware leases · v3.66.39 Propose ≠ Act governance · v3.66.37 opencode-notify built · v3.66.36 PR #4 merged · v3.66.34 tmux-notify 5th root cause · v3.66.33 PR #2 merged · v3.66.32 PR #1 merged · older → `references/log.md` |
