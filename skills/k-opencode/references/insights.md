@@ -11,6 +11,8 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ## Insights
 
+- **2026-09-02 — Defaults must be explicit and introspectable:** durable peers must not silently inherit a caller's agent/model when the operator expects a stable baseline. `opencode-help` therefore configures `general` + `opencode-go/mimo-v2.5` explicitly and exposes `help_catalog`, backed by OpenCode's live `/agent` and `/provider` APIs. Catalog output must state unavailable defaults and disconnected providers rather than implying that a configured model is callable.
+
 - **2026-09-02 — Preserve structured OpenCode SDK errors at the boundary:** `String(result.error)` turns server diagnostics into `[object Object]`, making an invalid agent/model impossible to debug during live peer creation. Plugin API adapters must serialize object errors with `JSON.stringify` (falling back to `String`) and test the exact surfaced structure before claiming a model-selection path works.
 
 - **2026-09-02 — Durable peer dialogue belongs in root sessions, not native `task` children:** `opencode-help` uses OpenCode root sessions plus a SQLite owner registry because native task subagents do not expose a durable, parent-addressable continuation surface. The plugin is deliberately passive: only the parent calls `help_open`/`help_message`/`help_resume`; no automatic escalation is permitted. Register the sovereign submodule through an explicit `file://{env:HOME}` TypeScript entry, not an unpublished npm name. The source-local `package.json` lets OpenCode resolve the plugin dependencies at startup. `help_close` must archive/detach, never delete the OpenCode session or its history.

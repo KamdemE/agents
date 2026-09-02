@@ -540,8 +540,11 @@
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
     // opencode-notify — sovereign always-on system+Telegram notification (session.idle/session.error/permission.ask). NOT a hook (read-only/observational, never influences agent behavior — same category as tmux-notify.js/opencode-context/opencode-voice), lives in its own scripts/plugins/opencode-notify/ subdirectory. Replaces opencode-notifications.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-notify/opencode-notify.js",
-    // opencode-help — durable, explicitly parent-controlled root peer sessions. Uses its TypeScript source entry; OpenCode resolves local package dependencies at startup. No automatic escalation.
-    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-help/src/index.ts",
+    // opencode-help — durable, explicitly parent-controlled root peer sessions. Uses its TypeScript source entry; OpenCode resolves local package dependencies at startup. No automatic escalation. help_catalog reveals the live agent/model catalog and unavailable-provider reasons.
+    ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-help/src/index.ts", {
+      "defaultAgent": "general",
+      "defaultModel": "opencode-go/mimo-v2.5"
+    }],
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
     // DISABLED 2026-09-02 (KπX): opencode-advisor — advisor() tool + auto-escalation.
     // ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-advisor/dist/plugin.js", {
