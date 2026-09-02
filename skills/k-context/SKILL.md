@@ -63,6 +63,7 @@ allowed-tools: "Bash(*), *"
 | **tg-homelab (k-pve)** | NO | NO | PVE | — | Old `tg-homelab.service` purged. Rebuild as k-pve arch: Telegram bot for PVE monitoring, server logs, backup notifications. Define scope vs `tg-bot` (workstation) before implementation. |
 | **rclone client_id** | YES | NO | GDRIVE | 2026 | Rclone's shared Google Drive client_id is being retired in 2026. Must create own OAuth client_id in Google Cloud Console + `rclone config reconnect` for both gdrive: and gdrive-x: before it stops working. See k-rclone/SKILL.md for procedure. |
 | **ts-proxy refactor** | NO | NO | TS-PROXY | — | Folder moved to `$HOME/KpihX-Labs/Proxies/ts-proxy/` and reinstalled via `uv` (v1.2.0). Config migrated from `~/.ts_proxy/` → `~/.config/ts-proxy/` (secrets.json preserved, NOT `.env` — code expects `PERSISTED_SECRETS_PATH`). `.ts_proxy` backup kept pending live validation. |
+| **Create k-explore skill** | YES | NO | K-EXPLORE | **2026-09-02** | Créer un skill `k-explore` basé sur `$HOME/Explore/`. Déplacer les projets didactiques `techskills` et `sciencurious` de `~/Work` vers `~/KpihX-Labs/Explore/`. Déplacer les images `sciencurious.jpeg` et `techskills.jpg` dans `k-explore/assets/` (depuis `k-context/assets/`). Le skill doit documenter les projets pédagogiques, le lab d'expérimentation rapide, et les templates scientifiques préinstallés (numpy, matplotlib, scipy). |
 
 ## Active Projects
 
