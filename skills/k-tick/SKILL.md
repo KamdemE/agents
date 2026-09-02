@@ -191,7 +191,7 @@ tick-proxy do project-list       # flat list (⚠️ groupId always null in V1)
 5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless KπX scoped only tick + already provided context.
 6. **Closure nudge** — List any task **explicitly discussed as done** in the session that is **still open** in TickTick; propose **`task-complete`** (or equivalent) before closing the slice.
 
-**Sequential ladder:** **AGENTS.md → What's up** — one domain per assistant response; **never** pair with `k-mail` or `k-whatsapp` fetches in the same generation.
+**Sequential ladder:** **AGENTS.md → What's up** — one domain per assistant response; **never** pair with `k-mail` or `k-whats` fetches in the same generation.
 
 ---
 

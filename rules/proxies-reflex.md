@@ -13,7 +13,7 @@
 
 ## What to do
 
-1. Check whether a dedicated proxy already covers the task first (`k-tg`/`k-tick`/`k-mail`/`k-whatsapp`/`k-clis` for `ts-proxy`/`k-bw` skills) — prefer its native action when one exists (faster, no browser overhead, no HITL needed for reads).
+1. Check whether a dedicated proxy already covers the task first (`k-tg`/`k-tick`/`k-mail`/`k-whats`/`k-clis` for `ts-proxy`/`k-bw` skills) — prefer its native action when one exists (faster, no browser overhead, no HITL needed for reads).
 2. If none covers it, or the specific action is missing, load `k-browser` for the generic web-UI fallback.
 3. **Never read ANY proxy's source code** to learn its usage. Always `<proxy> do --help` / `<proxy> do <action> --help` (or that proxy's own documented help convention) — docstrings ARE the contract, always in sync, and source code will not even be local post-beta for several of these.
 4. For `browser-proxy` specifically: check `k-browser/references/sites/<domain>.md` before navigating blind, and check `k-browser/scripts/presets/` for an existing preset — never redo manually what a preset already automates. Also check `kpihx` + `kpihx-labs` skills for any non-secret personal field.

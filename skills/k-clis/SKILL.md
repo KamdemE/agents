@@ -129,7 +129,7 @@ metadata:
 | Platform | Vault / Auth | Skill |
 |----------|-------------|-------|
 | YouTube | OAuth `kpihx-labs` | **`k-media`** + **`k-google`** |
-| Meta (WA + Graph) | Meta Dev vault | **`k-meta`** · WA → **`k-whatsapp`** |
+| Meta (WA + Graph) | Meta Dev vault | **`k-meta`** · WA → **`k-whats`** |
 | X | X Dev vault | **`k-x`** |
 | LinkedIn | — | **`k-linkedin`** |
 

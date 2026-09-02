@@ -2,7 +2,7 @@
 name: k-meta
 description: >
   Meta Graph API + WhatsApp Cloud credentials — Meta Dev Vault, meta_cli smoke,
-  JSON creds at $HOME/.config/kpihx/meta/. Messaging via k-whatsapp. Load before Meta Graph work.
+  JSON creds at $HOME/.config/kpihx/meta/. Messaging via k-whats. Load before Meta Graph work.
 license: private
 metadata:
   author: KpihX
@@ -20,7 +20,7 @@ allowed-tools: Bash(*)
 | Need | Where |
 |------|--------|
 | JSON creds + Graph smoke | `references/meta-dev-setup.md` · `scripts/meta_cli.py` |
-| WhatsApp send/receive | **`k-whatsapp`** (whats-proxy, ex-`whats-mcp` purgé 2026-08-14) |
+| WhatsApp send/receive | **`k-whats`** (whats-proxy) |
 | Registry | **`k-clis`** · **`k-media`** hub |
 
 **Creds file:** `$HOME/.config/kpihx/meta/credentials.json`

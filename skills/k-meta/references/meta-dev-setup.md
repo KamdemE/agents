@@ -1,6 +1,6 @@
 # Meta Graph + WhatsApp Cloud — KπX (`Meta Dev`)
 
-> **Skill:** `k-meta` · **WA messaging:** `k-whatsapp` (whats-mcp) · **Registry:** `k-cloud-tools/references/social-dev-platforms.md`
+> **Skill:** `k-meta` · **WA messaging:** `k-whats` (whats-proxy) · **Registry:** `k-cloud-tools/references/social-dev-platforms.md`
 
 ## Secrets JSON
 
@@ -44,7 +44,7 @@ Live status: `references/smoke-status.md`.
 | Layer | Skill / tool |
 |-------|----------------|
 | Graph app token, WA phone metadata | **`k-meta`** · `meta_cli.py` |
-| Send/receive WhatsApp messages | **`k-whatsapp`** · whats-mcp |
+| Send/receive WhatsApp messages | **`k-whats`** · whats-proxy |
 | FB Page / IG publish | Graph endpoints (future `meta_cli` subcommands) |
 
 ## QMD keywords

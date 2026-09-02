@@ -21,4 +21,4 @@ Generate System User token: Meta Business Manager → **System users** → gener
 
 ## Messaging
 
-Live WhatsApp send/receive → **`k-whatsapp`** / whats-mcp (not `meta_cli`).
+Live WhatsApp send/receive → **`k-whats`** / whats-proxy (not `meta_cli`).

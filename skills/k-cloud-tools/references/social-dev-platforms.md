@@ -9,7 +9,7 @@
 |----------|-------------------|-------------------------------------|-----------|
 | **YouTube** | **`k-media`** + **`k-google`** | `$HOME/.config/gws/kpihx-labs/youtube_token.json` | — |
 | **X** | **`k-x`** | `$HOME/.config/kpihx/x/credentials.json` | — |
-| **Meta Graph / WA Cloud** | **`k-meta`** | `$HOME/.config/kpihx/meta/credentials.json` | **`k-whatsapp`** (whats-mcp) |
+| **Meta Graph / WA Cloud** | **`k-meta`** | `$HOME/.config/kpihx/meta/credentials.json` | **`k-whats`** (whats-proxy) |
 | **LinkedIn** | **`k-linkedin`** | Vault / MCP config | linkedin-mcp |
 | **Registry** | **`k-cloud-tools`** (this file) | — | — |
 

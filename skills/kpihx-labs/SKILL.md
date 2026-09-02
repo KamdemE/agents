@@ -59,7 +59,7 @@ kpihx-labs (this skill — kernel top reference)
 │   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-linkedin
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-openvino
 │   ├── k-openclaw / k-opencode / k-openvino / k-pptx / k-qmd / k-rclone / k-tailscale
-│   ├── k-tg / k-tick / k-whatsapp / k-x
+│   ├── k-tg / k-tick / k-whats / k-x
 │   └── kpihx (identity hub)
 │
 └── k-context/references/refactor.md (skills refactoring plan)

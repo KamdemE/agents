@@ -24,7 +24,7 @@ Operational hub for **video + social API setup** — routes to domain skills; **
 | **YouTube** (GCP `kpihx-labs`, OAuth, upload) | This skill → `references/youtube-kpihx-labs.md` |
 | `gcloud`, `gws-labs`, GCP auth | **`k-google`** |
 | Vault items Meta Dev / X Dev, program order | **`k-clis`** → `references/social-dev-platforms.md` |
-| WhatsApp Cloud API | **`k-whatsapp`** |
+| WhatsApp Cloud API | **`k-whats`** |
 | Long-term multi-platform architecture | **`k-context/references/vision/social-media-apis.md`** |
 
 ## YouTube (default project: `kpihx-labs`)
