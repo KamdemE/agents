@@ -150,7 +150,7 @@ Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjus
 
 The question tool is the SOVEREIGN escalation path when KπX is available. It is the first reflex — always try `question` first when KπX is reachable.
 
-**`help_open` tool reflex (GRAVÉ):** When the agent is stuck, repeating failed approaches, going in circles, or needs a **fresh technical perspective from a completely separate agent context** — **OPEN A HELP PEER via `help_open()` IMMEDIATELY**. Do NOT waste tokens retrying the same broken approach. Specifically:
+**`help_open` tool reflex (GRAVÉ):** When the agent needs a **second opinion, fresh perspective, or architectural review from a SEPARATE agent context** — **OPEN A HELP PEER via `help_open()` IMMEDIATELY**. Do NOT spin alone. Specifically:
 
 - After **2 consecutive failures** on the same subtask → open a help peer before the 3rd attempt
 - When the approach **does not converge** (repeated errors, same file edited back and forth) → open a help peer
@@ -160,7 +160,15 @@ The question tool is the SOVEREIGN escalation path when KπX is available. It is
 
 The help peer is a **separate OpenCode root session** with its own context window, agent, and model. It reads the same codebase but starts from a clean slate — no shared assumptions, no confirmation bias. Use `help_list` to see open peers, `help_read` to inspect their work, `help_close` when done. The help peer gives strategy AND can explore; it is not read-only.
 
+> **🔴 `help_open` = COMMUNICATION, NOT DELEGATION (GRAVÉ — KπX 2026-09-02)**
+> `help_open` is a **communication tool** — it opens a dialogue with another agent to get a second opinion, a fresh perspective, or an architectural review. It is **NEVER** a delegation tool. You do NOT use `help_open` to hand off a task to an executor sub-agent with a long prompt and expect it to do the work for you. That is task delegation, not communication.
+> - ✅ **CORRECT:** "I'm stuck on X — let me ask a peer for their perspective" → `help_open` with a focused question
+> - ✅ **CORRECT:** "I want to validate this architecture before committing" → `help_open` for review
+> - ❌ **WRONG:** "Fix this code for me" + handing off the entire task → that's `task` (executor), not `help_open`
+> - ❌ **WRONG:** Sending a 500-word prompt to `help_open` expecting it to do all the work → that's delegation, not communication
+> **The test:** If your `help_open` prompt could be rewritten as "What do you think about X?" → it's communication. If it could be rewritten as "Do X for me" → it's delegation (use `task` instead).
+
 **Decision flow:**
 1. KπX available? → `question` first
-2. KπX unavailable or question would take too long? → `help_open` with a focused peer
+2. KπX unavailable or question would take too long? → `help_open` with a focused peer for a second opinion
 3. Neither available? → proceed with the safest conservative choice and document the uncertainty

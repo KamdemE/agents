@@ -110,6 +110,17 @@ metadata:
 - Update `$HOME/.agents/skills/kpihx/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, provenance rules, anti-hallucination guidance).
 - Keep provenance explicit when mixing official records, authored material, public web, and self-report.
 
+## Visual Assets
+
+| File | Description |
+|------|-------------|
+| `kpihx.jpg` | KπX — photorealistic hooded figure with laptop (original) |
+| `kpihx_logo.png` | KπX — illustrated line-art logo with "KπX" on laptop screen (Gemini-generated) |
+| `kpihx_banner.png` | KπX banner |
+| `kpihx_logo-bgone.png` | KπX illustrated logo — bgone background removed |
+| `kpihx_logo-nobg.png` | KπX illustrated logo — nobg (FeyNobg) background removed |
+| `kpihx_signature.png` | KπX digital signature |
+
 ## Changelog
 
 | Date | Agent | Action |

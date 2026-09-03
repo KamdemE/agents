@@ -40,6 +40,11 @@
 // repeated calls. Agent must call proxy ONCE (autosave in /tmp/*-proxy-autosave/),
 // then read the saved file for parsing.
 //
+// False-positive fix (KπX, 2026-09-02): the pipe check now strips quoted
+// substrings before testing for `|`.  A `|` inside a single-quoted JSON
+// payload or double-quoted JS expression is a literal character, NOT a
+// shell pipe operator — only naked `|` outside quotes triggers the block.
+//
 // Proxy stderr suppression (KπX, 2026-09-01): blocks `2>/dev/null` on any
 // `*-proxy` command. The 100% Transparency mantra demands that proxy errors
 // are NEVER silenced — agents MUST see failures, diagnostics, and status
@@ -111,6 +116,40 @@ const NODE_DOTENV_PATTERN = /\bnode\s+-[ec]\s+['"].*?(?:require\s*\(\s*['"]doten
 // Agent must call the proxy ONCE (autosave in /tmp/*-proxy-autosave/),
 // then read the saved file for parsing. Never pipe proxy output.
 const PROXY_DO_PATTERN = /\b\w+[-_]proxy\s+do\b/;
+
+/**
+ * Strip quoted substrings from a command so that pipe characters inside
+ * string literals (JSON payloads, JS expressions, etc.) are NOT treated
+ * as shell pipes.  Handles both single and double quotes, with backslash
+ * escapes inside double-quoted regions.  Returns the command with every
+ * quoted region replaced by an empty string — only "naked" characters
+ * remain.
+ */
+function stripQuotedContent(s) {
+  let out = "";
+  let i = 0;
+  while (i < s.length) {
+    const ch = s[i];
+    if (ch === "'") {
+      // Single-quoted: consume until closing ' (no escapes inside)
+      i++; // skip opening quote
+      while (i < s.length && s[i] !== "'") i++;
+      i++; // skip closing quote (if any)
+    } else if (ch === '"') {
+      // Double-quoted: consume until closing " (backslash escapes apply)
+      i++; // skip opening quote
+      while (i < s.length && s[i] !== '"') {
+        if (s[i] === "\\" && i + 1 < s.length) i++; // skip escaped char
+        i++;
+      }
+      i++; // skip closing quote (if any)
+    } else {
+      out += ch;
+      i++;
+    }
+  }
+  return out;
+}
 
 // Proxy stderr suppression: blocks `2>/dev/null` on any `*-proxy` command.
 // 100% Transparency — proxy errors/diagnostics must never be silenced.
@@ -203,8 +242,10 @@ export default async function () {
 
       // Proxy pipe protection: block `*-proxy do*` piped into jq/python/etc.
       // The proxy autosaves the full output to /tmp/*-proxy-autosave/.
-      // Agent must call the proxy ONCE, then read the autosave file.
-      if (PROXY_DO_PATTERN.test(cmd) && cmd.includes("|")) {
+      // Agent must call the proxy ONCE, then read the saved file for parsing.
+      // Only detect pipes OUTSIDE quotes — a `|` inside a JSON payload or JS
+      // expression is a literal character, not a shell pipe operator.
+      if (PROXY_DO_PATTERN.test(cmd) && stripQuotedContent(cmd).includes("|")) {
         throw new Error(
           "🛑 Proxy pipe blocked (minimize proxy calls): " +
             "`*-proxy do*` must NOT be piped into jq/python/etc.\n" +

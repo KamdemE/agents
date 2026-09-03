@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.16.7
+  version: 1.17.0
   scope: operations
 ---
 
@@ -123,6 +123,8 @@ metadata:
 | `tg-proxy` | **`k-tg`** | Telegram CLI proxy (admin/raw access) |
 | `gopls` | **`k-node`** | Go language server (LSP) — from `~/go/bin` |
 | `srt` / `srt-*` | _(this skill)_ | Subtitle toolkit (dedup, shift, mux, normalize, play) |
+| `bgone` | **`k-ai`** | Background removal — Rust color unmixing, CPU-only, ~0.2s/img 1024×1024 |
+| `nobg` | **`k-ai`** | Background removal — FeyNobg semantic matting (PyTorch), `uv tool install k-nobg[gpu-intel]` |
 
 ## Social / Media / API
 
@@ -182,6 +184,6 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-03 | [LIVE] | v1.17.0 — Added `bgone` (Rust CPU) and `nobg` (FeyNobg PyTorch) to Media, AI & Utilities CLI registry. |
 | 2026-08-30 | [LIVE] | v1.16.7 — Replaced retired `msedge-cdp` with `browser-proxy` in the CLI registry: universal visible web-UI fallback for gaps in dedicated proxies; operational contract → `k-browser` + `rules/proxies-reflex.md`. |
-| 2026-08-26 | [COLAB] | v1.16.6 `rm` wrapper GNU `rm -f` semantics fix. v1.16.5 `powerpoint` uv tool fully purged (superseded by `k-pptx` v3.0.0). |
-| [SUMMARY] | — | v1.16.4 fastfetch preferred, neofetch fallback · v1.16.3 neofetch registered · v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan · v1.13.0 and earlier copied to `references/log.md` |
+| [SUMMARY] | — | v1.16.6 `rm` wrapper GNU `rm -f` fix · v1.16.5 `powerpoint` purged (superseded by `k-pptx`) · v1.16.4 fastfetch preferred, neofetch fallback · v1.16.3 neofetch registered · v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan · v1.13.0 and earlier → `references/log.md` |

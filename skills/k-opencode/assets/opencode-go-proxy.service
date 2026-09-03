@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenCode Go 2nd account reverse proxy (localhost:4999 → opencode.ai/zen/go)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node %h/KpihX-Labs/.agents/skills/k-opencode/scripts/opencode-go-proxy.js 4999
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

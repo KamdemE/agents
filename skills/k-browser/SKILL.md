@@ -4,7 +4,7 @@ description: KπX Edge Automation via browser-proxy — the sovereign JSON-RPC d
 license: private
 metadata:
   author: KpihX
-  version: "5.2.0"
+  version: "5.4.0"
   scope: agent-tooling
   cli: browser-proxy
 ---
@@ -67,6 +67,7 @@ Created **only** on genuine, particular insight (login mechanism, real quirks, u
 
 | Site | What it captures |
 |---|---|
+| `sites/gemini.google.com.md` | Gemini chat UI: DataTransfer upload pattern, canvas→base64 image extraction, Enter-key send, INFINITE-SCROLLER navigation, conversation management, prompt patterns |
 | `sites/aistudio.google.com.md` | Attachment-readiness gate, code-exec/grounding conflicts, model catalog, history cleanup |
 | `sites/synapses.polytechnique.fr.md` | Egide/Shibboleth SSO chain (shared with Gargantua/Moodle), catalogue navigation, download-path gotcha |
 | `sites/webmail.polytechnique.fr.md` | Zimbra auth internals (CSRF-in-localStorage, not a cookie), DOM-scrape pattern for the inbox |
@@ -112,6 +113,9 @@ Long or frequently-repeated command sequences live here as small scripts, refere
 | `scripts/presets/ubicast-hls-download.sh` | Transparently download separate Ubicast HLS video/audio manifests with `yt-dlp`, then losslessly mux them with `ffmpeg` |
 | `scripts/presets/pdf-download-sequence.sh` | Keep Edge visibly on a PDF, then request its real browser download into `$HOME/Downloads` without an inline-viewer dead end |
 | `scripts/presets/add-to-playlist.sh` | Add the currently playing YouTube Music song to a named playlist (menu → Enregistrer → select → toast verify) |
+| `scripts/presets/gemini-upload.py` | Upload a local image to Gemini via DataTransfer pattern (`TARGET_ID`, `IMAGE_PATH`, optional `FILENAME`) |
+| `scripts/presets/gemini-extract-images.py` | Extract all generated blob images from a Gemini conversation via canvas→base64→file (`TARGET_ID`, `OUTPUT_DIR`) |
+| `scripts/presets/gemini-batch-upload.sh` | Upload multiple images to Gemini in sequence — handles Importation menu cycle per file (`TARGET_ID`, `IMAGE1 [IMAGE2 ...]`) |
 
 ## InPrivate / Incognito
 
@@ -172,12 +176,14 @@ Both are `@require_approval`-gated. When the extension is disconnected, use `raw
 
 | ✅ Works | ❌ Broken (Chromium platform limitation) |
 |----------|------------------------------------------|
-| `tab-create` with `window_id` | `group-create` — "No tab with id" |
-| `tab-close` with `target_ids` | `group-add-tabs` / `group-remove-tabs` |
+| `tab-create` with `window_id` | `group-create` in InPrivate — "No tab with id" (use Edge UI directly) |
+| `tab-close` with `target_ids` | `group-add-tabs` / `group-remove-tabs` in InPrivate |
 | `tab-activate` | `tab-move` (cross-group) |
 | `page-navigate` / `page-click` / `page-evaluate` | `window-sync` layout grouping |
 | `window-create` / `window-close` | |
 | `window-list` / `tab-list` (with `incognito` flag) | |
+
+`group-create` now **requires `window_id`** — the target Edge window where the group will be created. This prevents accidentally grouping tabs from the wrong window. The extension passes `createProperties: { windowId }` to `chrome.tabs.group()`. Missing `window_id` raises a clear `ValueError`.
 
 `chrome.tabs.group()` calls `GetTabById()` which fails to find tabs in InPrivate windows despite
 `"incognito": "spanning"` + "Allow in incognito" being active. Edge's native drag & drop uses an
@@ -212,6 +218,6 @@ Never memorize the 71 actions — the categorized `browser-proxy do --help` outp
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-08-31 | [LIVE] | v5.2.0 InPrivate limitation documentation (Chromium platform). v5.1.0 InPrivate section enriched. v5.0.0 InPrivate refactoring. v4.3.0 generic scraping methodology. |
-| 2026-08-30 | [LIVE] | v4.0.5 LinkedIn + Outlook site memories. v4.0.4 Bootstrap-tab reuse rule. v4.0.3 Official Polytechnique 3A document flow. |
-| [SUMMARY] | — | v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation. v4.1.x page-click-eval strategy + YouTube Music interaction. v4.0.x Polytechnique 3A docs, LinkedIn/Outlook site memories, bootstrap-tab reuse. Earlier versions → `references/log.md`. |
+| 2026-09-03 | [LIVE] | v5.4.0 `group-create` now requires `window_id` — prevents wrong-window grouping; InPrivate docs clarified. browser-proxy v0.8.1 published. |
+| 2026-09-03 | [LIVE] | v5.3.0 Added gemini.google.com.md site memory (DataTransfer upload, canvas extraction, conversation patterns). Added 3 Gemini presets: gemini-upload.py, gemini-extract-images.py, gemini-batch-upload.sh. |
+| [SUMMARY] | — | v5.2.0 InPrivate limitation documentation · v5.1.0 InPrivate section enriched · v5.0.0 InPrivate refactoring · v4.3.0 generic scraping methodology · v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation · v4.1.x page-click-eval strategy + YouTube Music interaction · v4.0.5 LinkedIn + Outlook site memories · v4.0.4 Bootstrap-tab reuse rule · v4.0.3 Official Polytechnique 3A document flow · Earlier versions → `references/log.md`. |

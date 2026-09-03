@@ -1,7 +1,7 @@
 [Default Applications]
 application/vnd.debian.binary-package=snap-store_snap-store.desktop
 text/html=com.microsoft.Edge.desktop
-x-scheme-handler/mailto=com.microsoft.Edge.desktop
+x-scheme-handler/mailto=microsoft-edge.desktop
 x-scheme-handler/mid=com.microsoft.Edge.desktop
 application/pdf=org.gnome.Papers.desktop
 x-scheme-handler/http=com.microsoft.Edge.desktop

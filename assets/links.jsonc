@@ -115,6 +115,12 @@
       "skill": "k-opencode",
       "infras": ["kpihx-ubuntu"]
     },
+    "opencode-go-proxy-service": {
+      "source": "$HOME/.config/systemd/user/opencode-go-proxy.service",
+      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-go-proxy.service",
+      "skill": "k-opencode",
+      "infras": ["kpihx-ubuntu"]
+    },
 
     // --- k-zsh -----------------------------------------------------------------
     "zshrc":    { "source": "$HOME/.zshrc",    "target": "$HOME/.agents/skills/k-zsh/assets/zshrc",    "skill": "k-zsh", "infras": ["*"] },

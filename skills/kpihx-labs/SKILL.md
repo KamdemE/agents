@@ -263,6 +263,16 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 - Update `$HOME/.agents/skills/kpihx-labs/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
+## Visual Assets
+
+| File | Description |
+|------|-------------|
+| `kpihx-labs.jpg` | KπX-Labs — photorealistic lightbulb with neural network (original) |
+| `kpihx-labs_logo.png` | KπX-Labs — illustrated line-art logo with "KπX-Labs" text (Gemini-generated) |
+| `kpihx-labs_banner.png` | KπX-Labs banner |
+| `kpihx-labs_logo-bgone.png` | KπX-Labs illustrated logo — bgone background removed |
+| `kpihx-labs_logo-nobg.png` | KπX-Labs illustrated logo — nobg (FeyNobg) background removed |
+
 ## Changelog
 
 | Date | Agent | Action |

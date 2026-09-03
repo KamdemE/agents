@@ -4,7 +4,7 @@ description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central invento
 license: private
 metadata:
   author: KpihX
-  version: 3.7.0
+  version: 3.7.3
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -61,6 +61,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
     This forces the `enable()` call in `extension.js`, which re-runs `Main.wm.addKeybinding(...)`. No systemd, no service — the extension runs inside the `gnome-shell` process itself.
 - **QMD** (`qmd`/`qmdr`, package npm `@tobilu/qmd`) — Recherche de connaissances locale (BM25+vector hybride) sur les bases markdown KπX. **Embeddings 100% locaux en GGUF** (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), **indépendant d'Ollama** (runtime llama.cpp embarqué). Modèles `~/.cache/qmd/models/` (~2.1 GB), config `~/.config/qmd/index.yml`. → `k-qmd`
 - **Hugging Face Hub CLI** (`hf` nouveau standard, `huggingface-cli` déprécié, package `huggingface_hub` via `uv`/`pip`) — Auth + download Hub. **PAS un paquet `apt`** (`apt install huggingface-cli` → `Unable to locate package`). Install : `uv tool install huggingface_hub` → binaire `~/.local/bin/hf` (nouveau, `huggingface-cli` reste en alias déprécié). Token `HF_TOKEN` via `hf auth login` → `~/.cache/huggingface/token` ou `~/.agents/.env` (`HF_TOKEN`), évite `Warning: unauthenticated` et débloque le débit `pull` (ex: `openvino pull` passe de 1.49 à 78 MB/s). → `references/huggingface.md`
+- **Background removal** — retained local pair: `bgone` (Rust, CPU, ~0.2s/img 1024×1024) for deterministic solid-color backgrounds and `nobg` (FeyNobg, PyTorch, ~8.8s/img batch on Intel Arc XPU) for semantic alpha matting. Project: `$HOME/KpihX-Labs/AI/nobg/` (git: github+gitlab kpihx-labs/nobg, PyPI: `k-nobg`). Install: `uv tool install '.[gpu-intel]' -e` or `uv tool install k-nobg[gpu-intel]`. Full reference, comparison, and benchmark → `references/remove-bg.md`.
 
 ## Local Models Inventory (`~/.local/share/`)
 
@@ -100,6 +101,8 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - `references/piper.md` — Piper (TTS) setup, usage, deployment, ONNX Runtime optimization guide.
 - `references/tesseract.md` — Tesseract OCR setup, CLI usage, language packs, Text Extractor helper integration.
 - `references/huggingface.md` — Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) — install via `uv` (not `apt`), `HF_TOKEN` auth via `hf auth login`, rate-limit fix for `openvino pull`.
+- `references/remove-bg.md` — retained `bgone` + FeyNobg (`nobg`) background-removal workflow, hardware-aware setup, and logo-comparison evidence.
+- `assets/bg_comparison.pdf` — visual comparison of bgone vs nobg background removal results (referenced by `remove-bg.md`).
 - `references/purged.md` — Purged AI runtimes archive (AGY, Codex, Gemini, Copilot, VIBE, Cline, Zed, Cursor CLI, Continue, MCPs) — GRAVÉ, never deleted.
 
 ## Insights Discipline (mandatory)
@@ -112,6 +115,6 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-02 | [LIVE] | v3.7.0 — **Text Extractor keyboard shortcut** (`Super+Shift+T`) added to Tesseract OCR entry, with silent keybinding loss fix command. |
-| 2026-08-29 | [LIVE] | v3.6.2 — **`OpenVINO GenAI` added to AI Runtimes table** → new `k-openvino` skill (local LLM serving, Qwen3 IR on Intel Arc iGPU). Cross-domain insight added to `references/insights.md`: model size is never the fix for a broken tool-calling wiring — verified live that a 0.6B model tool-calls perfectly once `tools=` correctly reaches `apply_chat_template()`, generalizing beyond OpenVINO to any local runtime exposing an OpenAI-compatible endpoint. |
-| [SUMMARY] | — | v3.6.1 HF CLI standard (`hf` replacing deprecated `huggingface-cli`) · v3.6.0 Hugging Face Hub CLI (`hf` nouveau standard, `huggingface-cli` déprécié) added to Local AI Binaries, fixes `Warning: unauthenticated` + unlocks `openvino pull` throughput (1.49 → 78 MB/s) (→ `references/huggingface.md`) · v3.5.0 CUDA build documented for `whisper-cli` on deep-pc6 (2× RTX 3090) · v3.4.0 Added QMD to Local AI Binaries · v3.3.0 Description reinforced (MANDATORY check before non-native task) · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents (→ `references/log.md`) · v2.x and older → `references/log.md` |
+| 2026-09-03 | [LIVE] | v3.7.3 — Added `nobg` project reference (`$HOME/KpihX-Labs/AI/nobg/`, PyPI `k-nobg`) with measured inference times (bgone ~0.2s CPU, nobg ~8.8s batch Intel Arc XPU). |
+| 2026-09-03 | [LIVE] | v3.7.2 — Comprehensive `references/remove-bg.md` rewrite: full 4-tool evaluation, visual benchmark matrix, installation guides (Intel Arc + NVIDIA), decision flowchart. |
+| [SUMMARY] | — | v3.7.1 Added bgone + nobg pair · v3.7.0 Text Extractor keyboard shortcut · v3.6.2 OpenVINO GenAI added + tool-wiring insight · v3.6.1 HF CLI standard · v3.6.0 Hugging Face Hub CLI · v3.5.0 CUDA whisper-cli · v3.4.0 QMD · v3.3.0 Description reinforced · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents · v2.x and older → `references/log.md` |

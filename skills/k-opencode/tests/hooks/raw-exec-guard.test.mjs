@@ -1,9 +1,11 @@
 // Test for raw-exec-guard.js — simulates tool.execute.before calls.
-// Four static checks (KπX, 2026-08-29 / 2026-09-01):
+// Five static checks (KπX, 2026-08-29 / 2026-09-01 / 2026-09-02):
 //   1. raw `sudo` outside tmux — blocked
 //   2. raw `sleep`/`wait`/`timeout` used as manual polling outside tmux — blocked (>20s)
 //   3. .env file access (secrets) — blocked unless path is .env.example*
 //   4. proxy pipe (`*-proxy do*` piped into jq/python/etc.) — blocked
+//      → 2026-09-02: pipe detection now strips quoted content first to avoid
+//        false positives on `|` inside JSON payloads / JS expressions
 //   5. proxy stderr suppression (`*-proxy` + `2>/dev/null`) — blocked
 // All are EXEMPT when the command is already a compliant `tmux send-keys -t ...`
 // call (the quoted payload runs IN the pane, never in the agent's own shell).
@@ -159,6 +161,38 @@ const cases = [
     "whats-proxy do with -o (passe, -o is explicit save)",
     "whats-proxy do whatsup '{}' -a 33605957785 -o /tmp/result.json",
     false,
+    "bash",
+  ],
+
+  // --- proxy pipe: | inside quotes → NOT blocked (false positive fix, 2026-09-02) ---
+  [
+    "browser-proxy do page-evaluate with JS ternary | in expression (passe — pipe is inside quotes)",
+    "browser-proxy do page-evaluate '{\"expression\":\"el ? el.tagName : \\\"not found\\\"\"}'",
+    false,
+    "bash",
+  ],
+  [
+    "browser-proxy do with | inside JSON payload (passe — pipe is inside single-quoted JSON)",
+    "whats-proxy do chat-list '{\"filter\": \"a|b\"}' -a 123",
+    false,
+    "bash",
+  ],
+  [
+    "browser-proxy do with | inside double-quoted arg (passe — pipe is inside double quotes)",
+    "browser-proxy do page-evaluate \"{\\\"expr\\\": \\\"x | y\\\"}\"",
+    false,
+    "bash",
+  ],
+  [
+    "whats-proxy do pipe outside quotes is STILL blocked",
+    "whats-proxy do chat-list '{\"filter\":\"a|b\"}' | jq '.data'",
+    true,
+    "bash",
+  ],
+  [
+    "browser-proxy do with | inside single-quoted arg AND real pipe outside (blocked — real pipe)",
+    "browser-proxy do page-evaluate '{\"expression\":\"a|b\"}' | head -5",
+    true,
     "bash",
   ],
 

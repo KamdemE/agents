@@ -6,7 +6,7 @@
   "autoupdate": "notify",
   "shell": "zsh",
   "model": "opencode-go/mimo-v2.5",
-  "small_model": "opencode-go/mimo-v2.5",
+  "small_model": "opencode/mimo-v2.5-free",
   "default_agent": "Live",
 
   // ──── GLOBAL permission — single source of truth ────
@@ -483,6 +483,25 @@
         }
       }
     },
+
+    // ──── OpenCode Go — 2nd account (KπX, 2026-09-03) ────
+    // Custom provider pointing to same API as opencode-go, with its own key in auth.json.
+    // Usage: "model": "opencode-go-2/<model-name>"
+    // Local proxy needed because modelsDiscovery plugin strips path from baseURL
+    // (buildAPIURL uses origin only → /zen/go/v1 lost). Proxy at localhost:4999
+    // rewrites /v1/* → https://opencode.ai/zen/go/v1/*.
+    "opencode-go-2": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenCode Go (2nd)",
+      "options": {
+        "baseURL": "http://localhost:4999/v1",
+        "modelsDiscovery": {
+          "enabled": true,
+          "filterNonChat": true,
+          "smartModelName": true
+        }
+      }
+    },
   },
 
   "mcp": {
@@ -513,7 +532,7 @@
     "opencode-ssh-session",
     "opencode-ast",
     "opencode-antigravity-auth@latest",
-    "opencode-claude-auth",
+    // "opencode-claude-auth",  // DEACTIVATED 2026-09-03 — Claude re-auth blocked (ISS-20260902-003), no longer needed for now
     "opencode-models-discovery@latest",
     // 2026-08-27 (KπX directive): ecosystem plugins — see references/plugin-watch.md for full research
     // @kagan-sh/kagan purged 2026-08-27 (KπX directive) — see references/plugin-watch.md → Purged
@@ -540,9 +559,14 @@
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
     // opencode-notify — sovereign always-on system+Telegram notification (session.idle/session.error/permission.ask). NOT a hook (read-only/observational, never influences agent behavior — same category as tmux-notify.js/opencode-context/opencode-voice), lives in its own scripts/plugins/opencode-notify/ subdirectory. Replaces opencode-notifications.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-notify/opencode-notify.js",
-    // opencode-help — durable, explicitly parent-controlled root peer sessions. Uses its TypeScript source entry; OpenCode resolves local package dependencies at startup. No automatic escalation. help_open requires an explicit native OpenCode-delegable subagent; only KπX controls its model.
+    // opencode-help — durable, explicitly parent-controlled root peer sessions. The first ordered model is the default; callers may explicitly choose only another model listed here. Provider/quota failures are transparent: parent archives/reopens with another listed model, never automatic fallback.
     ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-help/src/index.ts", {
-      "defaultModel": "opencode-go/mimo-v2.5"
+      "models": [
+        "google/gemini-3-flash-preview",
+        "google/gemini-3.1-pro-preview",
+        "opencode-go/mimo-v2.5",
+        "opencode-go/deepseek-v4-flash"
+      ]
     }],
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
     // DISABLED 2026-09-02 (KπX): opencode-advisor — advisor() tool + auto-escalation.
