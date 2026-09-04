@@ -1,5 +1,5 @@
 # Google Workspace CLI — profile wrappers (source from $HOME/.kshrc)
-# Canonical path; k-google/assets/gws-profiles.zsh → symlink here.
+# Canonical path; k-google/scripts/gws-profiles.sh — sourced by .kshrc.
 
 # Default bare `gws` → KpihX personal profile (kpihx-489121). Use gws-labs for homelab project.
 gws() {

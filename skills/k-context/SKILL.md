@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.59"
+  version: "3.66.65"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -174,16 +174,9 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
-| 2026-09-03 | [LIVE] | browser-proxy v0.8.1: group-create requires `window_id` (InPrivate safety), extension submodule pinned, commit+push+build+publish via tmux with-env. k-browser v5.4.0 updated. AGENTS.md with-env publish pattern documented. ISS-20260902-003 CLOSED (Claude purged). |
-| 2026-09-03 | [LIVE] | k-nobg v0.1.0 — FeyNobg sovereign background removal CLI published to PyPI (`k-nobg`). Project: `~/KpihX-Labs/AI/nobg/`, remotes github+gitlab kpihx-labs/nobg. Intel Arc XPU install via `uv tool install '.[gpu-intel]' -e`. Benchmark: bgone ~0.2s/image CPU, nobg ~8.8s/batch (4 images) Intel Arc XPU. |
-| 2026-09-03 | [LIVE] | k-ai v3.7.3 — comprehensive `references/remove-bg.md` rewrite (4-tool eval, visual benchmark matrix, §4.3 measured perf table), `remove-bg.md` archived in `assets/`, k-clis v1.17.0 (bgone + nobg registered). |
-| 2026-09-02 | [LIVE] | `opencode models` exposed expired Claude credentials while verifying the help-model pool (`ISS-20260902-003` — CLOSED: Claude purged from system). |
-| 2026-09-02 | [LIVE] | `opencode-help` v0.4.0: verified live model IDs; ordered allowlist defaults to Go DeepSeek V4 Pro and includes direct Google Gemini 3.1 Pro Preview, Go DeepSeek V4 Flash, Go Mimo 2.5. Explicit model selection only; provider failures require transparent close/reopen—never silent fallback. |
-| 2026-09-02 | [LIVE] | mail-proxy v0.2.6 Outlook `BADCHARSET` fallback: bare installed binary verified against Hotmail; 168 tests green (`ISS-20260902-002`). |
-| 2026-09-02 | [LIVE] | mail-proxy v0.2.5: `message-move`, `archive`, `trash`, and `spam` are browser-HITL-gated and read-back verified; 166 tests green. |
-| 2026-09-02 | [LIVE] | mail-proxy v0.2.4 IMAP timeout hardening — typed transport errors, 14 regression tests, `make check` 166 green; live `admin auth status` restored (`ISS-20260902-001`). |
-| 2026-09-02 | [LIVE] | `opencode-help` v0.3.0 corrected to native OpenCode delegation: explicit live subagent only, Mimo 2.5 fixed by KπX JSONC, no catalog/default agent/caller model selection. |
-| [SUMMARY] | — | 2026-08-30 Polytechnique 3A docs + k-browser v4.0.3 · 2026-08-30 MIE browser-proxy + k-browser v4.0.2 · 2026-08-29 browser-proxy v0.5.0 (Transparency fix) · 2026-08-29 browser-proxy 49 actions rebuild · 2026-08-29 raw-exec-guard.js tmux sudo Gate · 2026-08-29 tmux-notify timeout self-adjustment · 2026-08-29 openvino v0.2.0 finalize + PyPI · 2026-08-28 tmux-notify owner-aware pane lease (`ISS-20260828-001`) · 2026-08-27 Propose ≠ Act governance · 2026-08-27 opencode-notify + @k_opencode_bot · 2026-08-27 PR #4 deep-pc6 merged · 2026-08-27 k-windows v1.4.0 · 2026-08-26 k-windows v1.3.0 + PRs #1–#3 · older → `references/log.md` |
+| 2026-09-04 | [LIVE] | mail-proxy v0.8.0 (Zimbra SOAP, from_address, mandatory account_id, batch folder-delete) + k-mail v3.0.0 (sole transport, 5 accounts, signature rule, routing) + Cloudflare Worker ivann@ deployed + Gmail/Outlook folder+filter SOTs + k-cloudflare v1.5.2 + k-google v1.7.1 + k-microsoft v1.6.1. |
+| 2026-09-02 | [LIVE] | mail-proxy v0.2–v0.8 evolution (IMAP hardening, HITL, BADCHARSET, CLI expansion, Zimbra SOAP tags, from_address send-as, mandatory account_id); opencode-help v0.3–v0.4; Claude purged; gws cleanup; browser-proxy v0.8.1; k-nobg v0.1.0 PyPI; k-ai v3.7.3. |
+| [SUMMARY] | — | 2026-08-30 Polytechnique 3A docs + k-browser · 2026-08-29 browser-proxy rebuild + raw-exec-guard + openvino · 2026-08-27 Propose ≠ Act + PRs · older → `references/log.md` |
 ## References
 
 - `references/architecture-vision.md` — KpihX-Labs cloud + Personal OS + Agentic Architecture + Sovereign Email (merged)
@@ -207,6 +200,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-03 | [LIVE] | v3.66.59 — browser-proxy v0.8.1 (group-create window_id), Claude purged (ISS-20260902-003 closed), k-browser v5.4.0, with-env publish pattern documented. |
-| 2026-09-03 | [LIVE] | v3.66.58 — k-nobg v0.1.0 session: FeyNobg background removal project created, published to PyPI (github+gitlab kpihx-labs/nobg), benchmarked on Intel Arc XPU (~8.8s batch 4 images), k-ai v3.7.3 + k-clis v1.17.0 updated. |
-| [SUMMARY] | — | v3.66.57 Claude purged (`ISS-20260902-003`) · v3.66.56 `opencode-help` v0.4.0 model allowlist · v3.66.55 mail-proxy Outlook IMAP charset fallback (`ISS-20260902-002`) · v3.66.54 mail-proxy v0.2.5 message-move family HITL gate · v3.66.53 mail-proxy IMAP probe timeout (`ISS-20260902-001`) · v3.66.52 `opencode-help` v0.3.0 direction correction · v3.66.50 Workspace shortcuts + default reflex · v3.66.49 Polytechnique 3A retrieval + k-browser v4.0.3 · v3.66.48 MIE media recovery + k-browser v4.0.2 · v3.66.47 SynapseS 3A exploration + Zimbra mail check · v3.66.46 browser-proxy v0.5.0 (KπX Transparency fix) · v3.66.45 browser-proxy v0.4.0 (49 actions) · v3.66.44 raw-exec-guard.js · v3.66.43 k-tmux orphan fragment fix · v3.66.42 tmux-notify A/B/C/D decision tree · v3.66.41 tmux-notify self-adjustment · v3.66.40 tmux-notify owner-aware leases · v3.66.39 Propose ≠ Act governance · v3.66.37 opencode-notify built · v3.66.36 PR #4 merged · v3.66.34 tmux-notify 5th root cause · v3.66.33 PR #2 merged · v3.66.32 PR #1 merged · older → `references/log.md` |
+| 2026-09-04 | [LIVE] | v3.66.6x — mail-proxy v0.8.0 + k-mail v3.0.0 + k-cloudflare v1.5.x + k-google v1.7.x + k-microsoft v1.6.x + k-clis v1.18.x — full infrastructure + mail E2E validated. |
+| 2026-09-03 | [LIVE] | v3.66.5x — mail-proxy evolution (IMAP, HITL, BADCHARSET, Zimbra SOAP, mandatory account_id); opencode-help v0.3–v0.4; gws cleanup; browser-proxy v0.8.1; k-nobg v0.1.0; k-ai v3.7.3. |
+| [SUMMARY] | — | v3.66.4x tmux-notify fixes + Propose ≠ Act · v3.66.3x PR merges · older → `references/log.md` |

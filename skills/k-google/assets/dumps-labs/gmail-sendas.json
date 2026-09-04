@@ -1,0 +1,26 @@
+{
+  "sendAs": [
+    {
+      "displayName": "",
+      "isDefault": true,
+      "isPrimary": true,
+      "replyToAddress": "",
+      "sendAsEmail": "kpihx.labs@gmail.com",
+      "signature": ""
+    },
+    {
+      "displayName": "KpihX-Labs",
+      "isDefault": false,
+      "replyToAddress": "",
+      "sendAsEmail": "contact@kpihx-labs.com",
+      "signature": "",
+      "smtpMsa": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "securityMode": "starttls"
+      },
+      "treatAsAlias": false,
+      "verificationStatus": "accepted"
+    }
+  ]
+}

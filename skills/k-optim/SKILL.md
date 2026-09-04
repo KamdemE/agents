@@ -68,7 +68,7 @@ When KπX asks to **purge** or **uninstall** a package, application, or tool, th
 | 5 | `/opt/` | heavy-client dirs | `/opt/Signal`, `/opt/zoom` |
 | 6 | `/etc/apparmor.d/` | AppArmor profiles (root) | `opt.bw-mcp.bin.bw-mcp` (needs tmux sudo) |
 | 7 | `apt sources` + `/usr/share/applications/*.desktop` | stale `*.sources` + launchers | `signal-desktop.sources`, `Zoom.desktop` |
-| 8 | **Skills** (`~/.agents/skills/`) | doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-cloud-tools`, `k-final`, `kpihx`, `deactive/*` |
+| 8 | **Skills** (`~/.agents/skills/`) | doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-final`, `kpihx`, `deactive/*` |
 
 > **🔴 Always check `~` root level AND `~/.cache` when cleaning local configs or purging anything** (added 2026-08-14): many tools leave top-level dotdirs (`~/.zoom`, `~/.windsurf`, `~/.cline`, …) and caches (`~/.cache/*`) that `apt purge` / `npm uninstall` never touch. Sweep them with the same debris check below.
 

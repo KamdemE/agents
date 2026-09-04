@@ -1,0 +1,50 @@
+{
+  "result": [
+    {
+      "id": "a0756076-653c-4fb1-8747-626f216ac615",
+      "type": "onetimepin",
+      "uid": "a0756076-653c-4fb1-8747-626f216ac615",
+      "name": "",
+      "version": "ec3847733ee220909a55fd95e8060972",
+      "config": {
+        "redirect_url": "https://kpihx-labs.cloudflareaccess.com/cdn-cgi/access/callback"
+      },
+      "scim_config": {
+        "enabled": false,
+        "user_deprovision": false,
+        "seat_deprovision": false,
+        "group_member_deprovision": false
+      }
+    },
+    {
+      "id": "a4c9264c-5736-4a9d-9cb9-4dab305aae13",
+      "type": "google",
+      "uid": "a4c9264c-5736-4a9d-9cb9-4dab305aae13",
+      "name": "Google",
+      "version": "5f79f7ddd9f4397dd659ff63c1d9e867",
+      "config": {
+        "client_id": "747851806672-ncbjr8e18gtdbonupcfgmh1j1d961q69.apps.googleusercontent.com",
+        "pkce_enabled": true,
+        "redirect_url": "https://kpihx-labs.cloudflareaccess.com/cdn-cgi/access/callback"
+      },
+      "scim_config": {
+        "scim_base_url": "https://kpihx-labs.cloudflareaccess.com/scim/a4c9264c-5736-4a9d-9cb9-4dab305aae13",
+        "enabled": false,
+        "user_deprovision": false,
+        "seat_deprovision": false,
+        "group_member_deprovision": false,
+        "identity_update_behavior": "no_action"
+      }
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 200,
+    "count": 2,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}

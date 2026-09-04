@@ -1,0 +1,70 @@
+{
+  "etag": "\"p33frnd6pmn4p60o\"",
+  "items": [
+    {
+      "accessRole": "owner",
+      "backgroundColor": "#9fe1e7",
+      "colorId": "14",
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "hangoutsMeet"
+        ]
+      },
+      "defaultReminders": [
+        {
+          "method": "popup",
+          "minutes": 30
+        }
+      ],
+      "etag": "\"1750720248211935\"",
+      "foregroundColor": "#000000",
+      "id": "kpihx.labs@gmail.com",
+      "kind": "calendar#calendarListEntry",
+      "notificationSettings": {
+        "notifications": [
+          {
+            "method": "email",
+            "type": "eventCreation"
+          },
+          {
+            "method": "email",
+            "type": "eventChange"
+          },
+          {
+            "method": "email",
+            "type": "eventCancellation"
+          },
+          {
+            "method": "email",
+            "type": "eventResponse"
+          }
+        ]
+      },
+      "primary": true,
+      "selected": true,
+      "summary": "kpihx.labs@gmail.com",
+      "timeZone": "Europe/Paris"
+    },
+    {
+      "accessRole": "reader",
+      "backgroundColor": "#16a765",
+      "colorId": "8",
+      "conferenceProperties": {
+        "allowedConferenceSolutionTypes": [
+          "hangoutsMeet"
+        ]
+      },
+      "defaultReminders": [],
+      "description": "Holidays and Observances in France",
+      "etag": "\"1764341056852895\"",
+      "foregroundColor": "#000000",
+      "id": "en.french#holiday@group.v.calendar.google.com",
+      "kind": "calendar#calendarListEntry",
+      "selected": true,
+      "summary": "Holidays in France",
+      "timeZone": "Europe/Paris"
+    }
+  ],
+  "kind": "calendar#calendarList",
+  "nextSyncToken": "CN-7tNm1yZMDEhRrcGloeC5sYWJzQGdtYWlsLmNvbQ=="
+}

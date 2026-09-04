@@ -39,7 +39,7 @@
       "diff *": "allow",
       "dirname *": "allow",
       "echo *": "allow",
-      "env": "allow",
+      "env": "ask",
       "expand *": "allow",
       "file *": "allow",
       "find *": "allow",
@@ -66,8 +66,11 @@
       "numfmt *": "allow",
       "paste *": "allow",
       "pr *": "allow",
-      "printenv": "allow",
+      "printenv": "ask",
       "printf *": "allow",
+      "set *": "ask",
+      "export *": "ask",
+      "compgen *": "ask",
       "pwd": "allow",
       "readlink *": "allow",
       "realpath *": "allow",
@@ -263,15 +266,18 @@
 
     // ──── External directories ────
     "external_directory": {
-      "~/.agents/**": "allow",
-      "~/.config/**": "allow",
+      "~/.agents/**": "ask",
+      "~/.config/**": "ask",
       "/tmp/**": "allow",
       "~/Downloads/**": "allow",
       "~/Pictures/**": "allow",
       "~/Gdrive_X/**": "allow",
       "~/Gdrive/**": "allow",
       "~/KpihX-Labs/**": "allow",
-      "~/.local/**": "allow"
+      "~/KpihX-Labs/.agents/**": "ask",
+      "~/.local/**": "ask",
+      "~/.ssh/**": "deny",
+      "~/.gnupg/**": "deny"
     },
 
     // ──── MCP chrome-agent — all allow ────

@@ -6,7 +6,7 @@ description: >
   Merger of k-cloud-tools routing hub.
 metadata:
   author: KpihX
-  version: 1.17.0
+  version: 1.18.1
   scope: operations
 ---
 
@@ -43,6 +43,7 @@ metadata:
 | `flarectl` | **`k-cloudflare`** | Cloudflare DNS/zones (workstation) |
 | `cloudflared` | **`k-cloudflare`** | Tunnel connector (homelab server only) |
 | `wrangler` | **`k-cloudflare`** | Off on workstation — IDE only |
+| `curls` | _(this skill)_ | Secure curl wrapper — provider-based secret injection (see **curls** section below) |
 | `tailscale` | **`k-tailscale`** | Mesh VPN + Tailscale Serve — port mapping, service hookup |
 | `ts-proxy` | _(this skill)_ | Tailscale API + HITL |
 | `docker` / `docker-compose` | **`k-docker`** | Container build & deploy |
@@ -180,10 +181,26 @@ argument matches any pattern, `rm` uses `/usr/bin/rm` (real delete) instead of
 - Read `$HOME/.agents/skills/k-clis/references/insights.md` before non-trivial work in this skill domain.
 - Update insights at task end with durable lessons.
 
+## curls — Secure curl wrapper
+
+`curls` injects auth headers from env vars (set by `with-env`) via a provider manifest. Agent never touches secret values.
+
+```bash
+with-env curls --provider cloudflare https://api.cloudflare.com/...   # or -p cloudflare
+curls https://api.example.com/public/data                              # no auth (public API)
+```
+
+- **Manifest:** `assets/providers.json` — add a provider = add one JSON block
+- **Rules:** `--provider`/`-p` required for auth; unknown provider → error; missing non-optional secret → error
+- **HITL:** `POST`/`PUT`/`PATCH` trigger interactive `read -p` confirmation in tmux pane; `DELETE` strictly blocked by guard (`CURLS_DELETE`); `SEND_KEYS_CONFIRM` blocks agent auto-confirmation
+- **Symlink:** `~/.local/bin/curls` → `scripts/curls.sh` (registered in `assets/links.jsonc`)
+- **Refs:** `references/cloud-hub.md` (routing hub), `references/token-gate.md` (Vault gate), `references/social-dev-platforms.md` (API registry)
+- **Enforcement:** `raw-exec-guard.js` blocks `curl -H "$TOKEN"` and suggests `curls --provider <name>`
+
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-03 | [LIVE] | v1.17.0 — Added `bgone` (Rust CPU) and `nobg` (FeyNobg PyTorch) to Media, AI & Utilities CLI registry. |
-| 2026-08-30 | [LIVE] | v1.16.7 — Replaced retired `msedge-cdp` with `browser-proxy` in the CLI registry: universal visible web-UI fallback for gaps in dedicated proxies; operational contract → `k-browser` + `rules/proxies-reflex.md`. |
-| [SUMMARY] | — | v1.16.6 `rm` wrapper GNU `rm -f` fix · v1.16.5 `powerpoint` purged (superseded by `k-pptx`) · v1.16.4 fastfetch preferred, neofetch fallback · v1.16.3 neofetch registered · v1.16.2 check-skills audit rotation · v1.16.1 adb+scrcpy routed to k-phones · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan · v1.13.0 and earlier → `references/log.md` |
+| 2026-09-04 | [LIVE] | v1.18.x — `curls` v1.0.0 (secure curl wrapper, provider-based secret injection); `providers.json` + `cloud-hub.md` migrated from k-cloud-tools; k-cloud-tools deactivated. |
+| 2026-09-03 | [LIVE] | v1.17.0 — `bgone` + `nobg` added; `browser-proxy` replaced `msedge-cdp`; CLI registry expanded. |
+| [SUMMARY] | — | v1.16.6 `rm` wrapper fix · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan · older → `references/log.md` |

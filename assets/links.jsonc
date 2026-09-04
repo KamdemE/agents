@@ -246,8 +246,11 @@
     "code-profile-general":      { "source": "$HOME/.config/Code/User/profiles/general.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/general.code-profile", "skill": "k-code", "infras": ["kpihx-ubuntu"] },
     "code-profile-latex":        { "source": "$HOME/.config/Code/User/profiles/latex.code-profile",   "target": "$HOME/.agents/skills/k-code/references/profiles/latex.code-profile",   "skill": "k-code", "infras": ["kpihx-ubuntu"] },
 
+
+    // --- k-clis ---------------------------------------------------------------------
+    "curls": { "source": "$HOME/.local/bin/curls", "target": "$HOME/.agents/skills/k-clis/scripts/curls.sh", "skill": "k-clis", "infras": ["*"] },
+
     // --- k-google ---------------------------------------------------------------------
-    "gws-profiles": { "source": "$HOME/.config/gws/gws-profiles.zsh", "target": "$HOME/.agents/skills/k-google/assets/gws-profiles.zsh", "skill": "k-google", "infras": ["kpihx-ubuntu"] },
 
     // --- k-nvim -----------------------------------------------------------------------
     "nvim-init":      { "source": "$HOME/.config/nvim/init.lua",      "target": "$HOME/.agents/skills/k-nvim/assets/init.lua",      "skill": "k-nvim", "infras": ["*"] },

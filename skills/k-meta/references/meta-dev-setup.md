@@ -1,6 +1,6 @@
 # Meta Graph + WhatsApp Cloud — KπX (`Meta Dev`)
 
-> **Skill:** `k-meta` · **WA messaging:** `k-whats` (whats-proxy) · **Registry:** `k-cloud-tools/references/social-dev-platforms.md`
+> **Skill:** `k-meta` · **WA messaging:** `k-whats` (whats-proxy) · **Registry:** `k-clis/references/social-dev-platforms.md`
 
 ## Secrets JSON
 

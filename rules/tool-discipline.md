@@ -136,6 +136,29 @@ Signal when new context should be saved, then WAIT for `approve`/`reject`/`adjus
 - Unknown error → check if k-context is already in context (auto-injected for Colab/Build); if absent, load `skills/k-context/SKILL.md`
 - New tool/skill detected → propose updating the corresponding `k-*` skill
 
+## curls — Secure API Calls (GRAVÉ — KπX 2026-09-04)
+
+**Agents MUST use `curls --provider <name>` (or `-p <name>`) for any API call that requires authentication.** Never use raw `curl -H "Authorization: $TOKEN"` — shell variable expansion in headers leaks secrets into `ps`, history, and tmux panes.
+
+**Pattern:** `with-env curls --provider <name> URL [curl options...]`
+
+- `with-env` sets secrets as env vars (from Vault)
+- `curls` reads the provider manifest (`k-clis/assets/providers.json`) and injects the right headers
+- Secret values exist ONLY inside the `with-env` subshell — never in the command line
+
+**Adding a provider:** edit `k-clis/assets/providers.json`.
+
+**The `raw-exec-guard.js` hook blocks** any `curl`/`curls` command with `-H` containing `$VAR` and tells the agent to use `curls --provider <name>` instead.
+
+**Compliant (never blocked):**
+- `with-env curls --provider cloudflare https://...`
+- `with-env curls -p github https://...`
+- `curls https://api.public.com/...` (no auth)
+
+**Blocked (raw-exec-guard throws):**
+- `curl -H "Authorization: Bearer $CF_API_TOKEN" https://...`
+- `curl -H 'Authorization: Bearer $TOKEN' https://...`
+
 ## Help & Question Reflexes
 
 **🔴 Two escape routes when stuck** — the agent has exactly 2 tools to break out of a loop:

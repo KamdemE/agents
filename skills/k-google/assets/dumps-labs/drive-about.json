@@ -1,0 +1,16 @@
+{
+  "storageQuota": {
+    "limit": "16106127360",
+    "usage": "70319261",
+    "usageInDrive": "67534161",
+    "usageInDriveTrash": "0"
+  },
+  "user": {
+    "displayName": "KpihX-Labs",
+    "emailAddress": "kpihx.labs@gmail.com",
+    "kind": "drive#user",
+    "me": true,
+    "permissionId": "02301959043454575967",
+    "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocIr8-7xIfHx1CAAPRKVpvYbOQQon40s1rRPHdZhxs8v9x9tOQ=s64"
+  }
+}

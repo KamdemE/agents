@@ -28,14 +28,16 @@
 
 **Partial scope symptom:** Rules/addresses work but `GET …/email/routing` returns `Authentication error` until **Zone Settings Edit** is added.
 
-## Preflight (read-only)
+## Preflight (read-only via `curls`)
 
 ```bash
 export CF_ZONE_ID=255f60d9f77924ac016c194300dbeb3c
 export CF_ACCOUNT_ID=5d0ff5e40bbc37baed99d3c7aacd0741
 
-curl -sS "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-  -H "Authorization: Bearer $CF_API_TOKEN" | jq '{success,status:.result.status}'
+# Verify token & list email routing status / rules via curls
+with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing"
+with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/rules"
+with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/email/routing/addresses"
 
 flarectl zone list | rg kpihx-labs
 

@@ -1,0 +1,16 @@
+{
+  "name": "<APP_NAME>",
+  "domain": "<SUBDOMAIN>.kpihx-labs.com",
+  "type": "self_hosted",
+  "session_duration": "24h",
+  "app_launcher_visible": true,
+  "allowed_idps": [
+    "a0756076-653c-4fb1-8747-626f216ac615",
+    "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+  ],
+  "policies": [
+    {
+      "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415"
+    }
+  ]
+}

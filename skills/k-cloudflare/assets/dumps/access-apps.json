@@ -1,0 +1,388 @@
+{
+  "result": [
+    {
+      "id": "aecc7276-2c47-47e3-8936-0cce3aae3a89",
+      "uid": "aecc7276-2c47-47e3-8936-0cce3aae3a89",
+      "type": "self_hosted",
+      "name": "Sentinel",
+      "aud": "6b1147f78b9bda7bf93bfa32ff9db36c49076e3cd1c3e57ba20d572bf6f8bbc0",
+      "created_at": "2025-12-25T15:30:14Z",
+      "updated_at": "2026-09-04T12:24:26Z",
+      "domain": "sentinel.kpihx-labs.com",
+      "self_hosted_domains": [
+        "sentinel.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "sentinel.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false
+    },
+    {
+      "id": "cddce1a8-ed7b-4a9b-b312-590b0bb6f0e3",
+      "uid": "cddce1a8-ed7b-4a9b-b312-590b0bb6f0e3",
+      "type": "self_hosted",
+      "name": "Ticktick",
+      "aud": "05963b6752d0d7a6eff3364bf6c0c828b94036e86fb0df82674359c53ce88413",
+      "created_at": "2026-05-09T02:06:57Z",
+      "updated_at": "2026-09-04T12:24:03Z",
+      "domain": "tick.kpihx-labs.com",
+      "self_hosted_domains": [
+        "tick.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "tick.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false
+    },
+    {
+      "id": "7841ab7c-6aae-4cb1-88de-833c8bb153c5",
+      "uid": "7841ab7c-6aae-4cb1-88de-833c8bb153c5",
+      "type": "self_hosted",
+      "name": "Whatsapp",
+      "aud": "9ce53279130e21f84a7c1989017101dad76cc5c3a2d1cd45483bd2f767eb4321",
+      "created_at": "2026-05-09T02:14:28Z",
+      "updated_at": "2026-09-04T12:23:43Z",
+      "domain": "whats.kpihx-labs.com",
+      "self_hosted_domains": [
+        "whats.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "whats.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false
+    },
+    {
+      "id": "6facdf2f-272c-4850-b946-15c89d702639",
+      "uid": "6facdf2f-272c-4850-b946-15c89d702639",
+      "type": "self_hosted",
+      "name": "Mail",
+      "aud": "04e34e2760828db9a7c18f9bcfcf6a40963ea222b688340714ac4065f1af895a",
+      "created_at": "2026-05-09T02:14:51Z",
+      "updated_at": "2026-09-04T12:23:33Z",
+      "domain": "mail.kpihx-labs.com",
+      "self_hosted_domains": [
+        "mail.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "mail.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false
+    },
+    {
+      "id": "a9e040dc-fc7e-4b7b-8297-4f48f339ccd0",
+      "uid": "a9e040dc-fc7e-4b7b-8297-4f48f339ccd0",
+      "type": "self_hosted",
+      "name": "Live",
+      "aud": "63bad3d1dfc65e980c8b9c818cea7533cb913a2284acd29d66a93834536f2e6c",
+      "created_at": "2026-09-04T12:21:26Z",
+      "updated_at": "2026-09-04T12:21:26Z",
+      "domain": "live.kpihx-labs.com",
+      "self_hosted_domains": [
+        "live.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "live.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false,
+      "eager_redirect_cookie_setting": true
+    },
+    {
+      "id": "8fe323b7-6a1a-458c-948a-e66d5c57e68b",
+      "uid": "8fe323b7-6a1a-458c-948a-e66d5c57e68b",
+      "type": "self_hosted",
+      "name": "AI",
+      "aud": "201566d52c405872d2d55c939173a6716d6c17d40adb6e532077b671acc835fb",
+      "created_at": "2026-09-04T12:21:11Z",
+      "updated_at": "2026-09-04T12:21:11Z",
+      "domain": "ai.kpihx-labs.com",
+      "self_hosted_domains": [
+        "ai.kpihx-labs.com"
+      ],
+      "destinations": [
+        {
+          "type": "public",
+          "uri": "ai.kpihx-labs.com"
+        }
+      ],
+      "app_launcher_visible": true,
+      "allowed_idps": [
+        "a0756076-653c-4fb1-8747-626f216ac615",
+        "a4c9264c-5736-4a9d-9cb9-4dab305aae13"
+      ],
+      "tags": [],
+      "auto_redirect_to_identity": false,
+      "policies": [
+        {
+          "created_at": "2025-12-25T15:26:11Z",
+          "decision": "allow",
+          "exclude": [],
+          "id": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "include": [
+            {
+              "email": {
+                "email": "kapoivha@gmail.com"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem-pouokam@polytechnique.edu"
+              }
+            },
+            {
+              "email": {
+                "email": "ivann.kamdem@hotmail.com"
+              }
+            }
+          ],
+          "name": "Admins",
+          "require": [],
+          "session_duration": "24h",
+          "uid": "d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415",
+          "updated_at": "2026-09-04T12:20:54Z",
+          "reusable": true,
+          "precedence": 1
+        }
+      ],
+      "session_duration": "24h",
+      "enable_binding_cookie": false,
+      "http_only_cookie_attribute": true,
+      "options_preflight_bypass": false,
+      "eager_redirect_cookie_setting": true
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 1000,
+    "count": 6,
+    "total_count": 6,
+    "total_pages": 1
+  }
+}

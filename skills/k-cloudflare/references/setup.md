@@ -12,29 +12,33 @@ ln -sf "$HOME/go/bin/flarectl" "$HOME/.local/bin/flarectl"
 flarectl --version
 ```
 
-### API token (dashboard)
+### API token — complete permissions (reference)
 
-1. [dash.cloudflare.com](https://dash.cloudflare.com/profile/api-tokens) → **Create Token**.
-2. **Homelab minimum:** template **Edit zone DNS** → zone `kpihx-labs.com`.
-3. **Email Routing (API):** custom token on `kpihx-labs.com` + account (full runbook: **`email-routing-ops.md`**):
-   - Account: **Email Routing Addresses** → Edit
-   - Zone: **Email Routing Rules** → Edit · **Zone Settings** → Edit (enables `GET/POST …/email/routing` + `enable` + DNS wizard)
-   - Zone: **DNS** → Edit (already required for `flarectl`)
-4. **Optional (+ tunnels):** Account **Cloudflare Tunnel** Edit.
-5. Copy token **only when creating** a new token → Vault `CF_API_TOKEN=…`. **Editing** an existing token’s permissions does **not** change the secret — no Vault update.
+If the token is lost, recreate it at https://dash.cloudflare.com/profile/api-tokens with **exactly these permissions**:
 
-**Edit vs roll:** Dashboard “Token updated” after permission edit = same `CF_API_TOKEN` value. **Roll** or **Create** = new secret shown once → update Vault + ensure env is loaded.
+| Scope | Permission | Level |
+|-------|-----------|-------|
+| Email Routing Addresses | Edit | Account |
+| Cloudflare Tunnel | Edit | Account |
+| Zero Trust | Edit | Account |
+| Workers Scripts | Edit | Account |
+| Access: Apps and Policies | Edit | Account |
+| Email Routing Rules | Edit | Zone (`kpihx-labs.com`) |
+| Zone Settings | Edit | Zone (`kpihx-labs.com`) |
+| Zone | Edit | Zone (`kpihx-labs.com`) |
+| DNS | Edit | Zone (`kpihx-labs.com`) |
+| User Details | Read | User |
+
+**After creating:** copy token → Vault `CF_API_TOKEN=…`. Editing an existing token's permissions does **not** change the secret — no Vault update needed. Roll or Create = new secret shown once → update Vault + ensure env is loaded.
 
 ### Activate session
 
 ```bash
-# Ensure environment is loaded (secrets available)
-# Then use flarectl or cf-proxy
-env | grep -E '^CF_' | cut -d= -f1    # names only
-flarectl zone list
-flarectl dns list --zone kpihx-labs.com
-curl -s "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-  -H "Authorization: Bearer $CF_API_TOKEN" | head -5
+# Ensure environment is loaded (secrets available via with-env in tmux)
+# Then use flarectl or curls
+with-env flarectl zone list
+with-env flarectl dns list --zone kpihx-labs.com
+with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/user/tokens/verify"
 ```
 
 ## 2 — `cloudflared` (homelab server only — quarantined on workstation)
@@ -48,7 +52,7 @@ curl -s "https://api.cloudflare.com/client/v4/user/tokens/verify" \
 1. Zero Trust → **Networks** → **Connectors** → **Cloudflare Tunnels** → create or select tunnel.
 2. Copy install command: `cloudflared tunnel run eyJ...` (token only — store in Vault / compose env).
 3. Run on docker-host (systemd or compose) — **no** `tunnel login` required for this path.
-4. DNS: CNAME hostname → `<tunnel-id>.cfargotunnel.com` (dashboard or `flarectl dns create`).
+4. DNS: CNAME hostname → `<tunnel-id>.cfargotunnel.com` (dashboard or `with-env flarectl dns create`).
 
 ### Path B — Locally-managed / laptop (not current KπX prod)
 
@@ -64,6 +68,6 @@ See `cloudflared-quarantine.md` — includes **quick tunnel** for localhost prev
 
 | Check | Command | OK when |
 |-------|---------|---------|
-| flarectl auth | `flarectl zone list` | zones listed |
-| token valid | `curl .../user/tokens/verify` | `"status":"active"` |
+| flarectl auth | `with-env flarectl zone list` | zones listed |
+| token valid | `with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/user/tokens/verify"` | `"status":"active"` |
 | tunnel running | Zero Trust dashboard **`kpihx-labs` Healthy** | on **server**, not laptop |

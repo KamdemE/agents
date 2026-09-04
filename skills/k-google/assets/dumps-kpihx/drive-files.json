@@ -1,0 +1,307 @@
+{
+  "files": [
+    {
+      "id": "1Y5rVl7B54QaTo0nSskgeppgYqBLhzMcm",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "Corrige_cas_Operation_Souvenir_720p.mp4"
+    },
+    {
+      "id": "1xqBDzl6Q9QSn_RYy1sxYixnyO_tgqrzO",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Optimus Prime Cyberpunk Visualization"
+    },
+    {
+      "id": "1_-JDQt0i3dubTXQLyxNcf4iTofBeXS5m",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Optimus Prime Cyberpunk 3D Render"
+    },
+    {
+      "id": "1vBf5P0Gkoz2l2_Zb4npuyKMvg1SdoyRY",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Optimus Prime Cyberpunk Visualization Prompt"
+    },
+    {
+      "id": "1tMgkzUM0EocVaShulvPEqJhWdxu4pxRR",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "Culling"
+    },
+    {
+      "id": "1jl0FWcboAHmkwlC39vinejD1p27-EvQqU6_cFmlw_8Y",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.spreadsheet",
+      "name": "Pg_enspy_2026"
+    },
+    {
+      "id": "1ELWFlspeE9E6_dJbJErH4Gvo1taiyOkl",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "name": "Presentation_Stage_2A-DxO_Culling.pptx"
+    },
+    {
+      "id": "13NL6E1phqeeyWSsTs9cWgCKThn_qoZf9",
+      "kind": "drive#file",
+      "mimeType": "application/pdf",
+      "name": "Rapport_Stage_2A-DxO_Culling.pdf"
+    },
+    {
+      "id": "1RDFLQlbkb_YMZnDBQzUh-R7JJcI0bOgi",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "name": "Assisted_Culling_Eye_Status_Blur-2026.pptx"
+    },
+    {
+      "id": "1BByLwVhKfLVJR6pXUoMjWrDcmRLn6qTGrOmRslVeAi0",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.presentation",
+      "name": "w3"
+    },
+    {
+      "id": "1_ccalNTZpRsq6-XeMgC3f0CqIeFDUCk6",
+      "kind": "drive#file",
+      "mimeType": "application/json",
+      "name": "Machine_Learning_Beginner_DB2026.ipynb"
+    },
+    {
+      "id": "1Mm45zA3yE5eJeDM8YsbeLYM51rwKPDYu",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google.colaboratory",
+      "name": "Untitled2.ipynb"
+    },
+    {
+      "id": "19fFQr8aqTXhMd4zfu55G5unpLVdHD9-I",
+      "kind": "drive#file",
+      "mimeType": "application/octet-stream",
+      "name": "RECOVERY.yoti"
+    },
+    {
+      "id": "1b-TTgcpoMpm-OHyLbObFJRv9mEXunagKbjaZzQljA_A",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.document",
+      "name": "X24 - Quelques mots sur la 2A"
+    },
+    {
+      "id": "1ErYmdn7UL25woloPAWy-o9-LqkdMDtq_JxE0rbF8YRY",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.spreadsheet",
+      "name": "X24 BADMINTON"
+    },
+    {
+      "id": "17BujRtHzw78DB1iLUAm25LrVmswFIwUD",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Introduction aux Réseaux de Neurones"
+    },
+    {
+      "id": "1AMyXejbbveVKHGWdf9nM9bzCdlYLE5jr",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Vers une Optimisation Globale Structurée"
+    },
+    {
+      "id": "1_kdAjFxq8MVPV-hSAgYMhgyp0Tb3fqDS",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Réflexions sur l'Apprentissage Moderne"
+    },
+    {
+      "id": "1Z20ICRstkdNFYZnN_iRTDGI3096OX31B",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Restaurer des SMS sur Samsung"
+    },
+    {
+      "id": "1SGFkXFeZcR_UcRFK4s16w6Pm8kVrZbU7",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-makersuite.prompt",
+      "name": "Comprendre Chehra et Intraface."
+    },
+    {
+      "id": "12_5pTJF2zguBF5vxQGOxqZyu3KNyl__gTrR3-mbO0Rw",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.spreadsheet",
+      "name": "Créneaux de ménage Bad 24"
+    },
+    {
+      "id": "10gO4znyJj3C4xT3R9qHjjXPBUr8UBncn",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google.colaboratory",
+      "name": "projection_simplexe_Goldman.ipynb"
+    },
+    {
+      "id": "1UIZnYDGXkpHFuxvj0vq0ixYflSrnVFJM",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "Downloads_transit"
+    },
+    {
+      "id": "1JPEgqlZ4hYo9Giz5bdJ7Jbr8bj5hMmbU",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "TextExtractor"
+    },
+    {
+      "id": "1WXdc99DAGxmq4MQ1ODk4XMq9NdL5YHjL",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "Screenshots_transit_2026-05-28"
+    },
+    {
+      "id": "1baIwUvhLEFZKH3kuVsdNclAVTvm9PbAg",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "KpihX"
+    },
+    {
+      "id": "1YxfrfbFuAjvHESB1q_L3CvtR6BENxG1Q",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-31 01-53-32.png"
+    },
+    {
+      "id": "1iGlobHmp4jlSSf7HRpZq00NNeBRgFEWS",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-30 21-20-22.png"
+    },
+    {
+      "id": "1t-0xEvArjQHoG5VcGI2kSg5NvPc67K5D",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-30 16-22-28.png"
+    },
+    {
+      "id": "1gwaZoinX1w0v5cTHJ9_Pip36ve_xOkNy",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 23-10-13.png"
+    },
+    {
+      "id": "1tZrXnuusSxtX3DruHczGsDnCehaWsEcM",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 22-34-43.png"
+    },
+    {
+      "id": "16TCAo4Mc6Rha2tzuPNuaDCwPQv5-9Mhj",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 22-17-44.png"
+    },
+    {
+      "id": "1VYhTmers1Li3P1cHsbqUzI5BGgAwGF3i",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 21-58-39.png"
+    },
+    {
+      "id": "1x10dkEkxq2DeHYhPdogG08TAIM2z5t0SV0FWieHni3k",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.spreadsheet",
+      "name": "Repas RDB 24/25"
+    },
+    {
+      "id": "1zyi9A1rDaPwFPYIevvFbmb2h3T4XSZ1l",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 10-11-19.png"
+    },
+    {
+      "id": "1JUN31wryUahDh0jLH7zP56SwWKB1ld2x",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 02-56-24.png"
+    },
+    {
+      "id": "13-ZukTPTsSKf840oqJVo7l3qQ7d8aZnN",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 02-50-08.png"
+    },
+    {
+      "id": "10fAaHTjHMxzvzhbvlpUEdck1JnqtJ15i",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 02-28-14.png"
+    },
+    {
+      "id": "1vwkfQaXMm7uHWuH7vz_5jNez0l5ZLM32",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 02-16-54.png"
+    },
+    {
+      "id": "1K1R_yLGojG8UrTNAA9ueGD5tGBxU8Pdc",
+      "kind": "drive#file",
+      "mimeType": "image/png",
+      "name": "Screenshot From 2026-05-28 02-04-22.png"
+    },
+    {
+      "id": "1BJAklj_Abvr3vEAkdfSwWRvg1tuTU3oy",
+      "kind": "drive#file",
+      "mimeType": "application/vnd.google-apps.folder",
+      "name": "DBC2025-ressources"
+    },
+    {
+      "id": "1kQ2YWT4nGxZGUeicGFeOA-JPm4FEDCEs",
+      "kind": "drive#file",
+      "mimeType": "application/pdf",
+      "name": "08_pdf_Enonce_cas_Parrot.pdf"
+    },
+    {
+      "id": "1p8qxMcmWB3ycK9C-B-I1APHs2QKaqmNt",
+      "kind": "drive#file",
+      "mimeType": "application/pdf",
+      "name": "08_pdf_Points_cles_Management_Strategique.pdf"
+    },
+    {
+      "id": "1jnldwY9XKgMbKP8qVzTQ1wm0Qjlg3E4n",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "02_01m40s.mp4"
+    },
+    {
+      "id": "1pNwQbi4jG_sKJh3DJpE8QItjLsxKDDDX",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "03_03m20s.mp4"
+    },
+    {
+      "id": "1gfSD3MPmSGKAq41nX04dTL6VI5ccI2n5",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "03_03m20s.mp4"
+    },
+    {
+      "id": "1m_by5fp2BxgaVuxyObMLC9RKRRg1qqOa",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "03_01m53s.mp4"
+    },
+    {
+      "id": "1FQg56IC-zxVLTDj1ZnxspJD3PUeUiHxr",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "01_00m04s.mp4"
+    },
+    {
+      "id": "1wWHbLoHVztitGrDMT_3g7bny8ORgmaBm",
+      "kind": "drive#file",
+      "mimeType": "video/mp4",
+      "name": "01_00m04s.mp4"
+    },
+    {
+      "id": "19K14DoBi-jytQETajEai_D7tf9s7TEfZ",
+      "kind": "drive#file",
+      "mimeType": "application/pdf",
+      "name": "CamScanner 18-05-2026 15.49.pdf"
+    }
+  ],
+  "incompleteSearch": false,
+  "kind": "drive#fileList",
+  "nextPageToken": "~!!~AAfjczeEVdewadSwzUAy5wo2C3DhMdY9iyr4evz72aJynneskbSURwpihwnG--_vQXlHu3fYQp8EMyTkEVUWT4dRlJZbiTE685CmnBCU-50cKnrIKITe_J146da7Wuv0c1mp9M9dRuQFzxFQsErc5Xys17ExdPSOndmqKKiX2RwE-jnAniqJ5ixLtVH3gZFwP2wcw3GIVBOlHhYDvZxkfeWFuTKHDXWJQe-0UtH9oXl4ud2YhJj4VNuhQFE6ucIPUmRvHvvlLqoR6opORzflDtjkS61SuL_ncPKt8VU4FLbQDlcI0FaD-zytooLPUNy5T-Nhuozc58vbluTPEfNgWiw-pRZgSUAGMPH4MBR3jnpLdlXGOcRezU5E7sC5U070MIsiHCyu7mVGOMmy9SwsoasNCfSXIaA9xk7qiM7_z--guMgsiDhYF7tWCsLIXTemZ-9VWk_NU_ry447S-DhG9YelgETsO5tXYF1Nnl6YyyOLSWqxIpn4UKjWuRwc42n4s4SpVY0P0D1ifxQVf97fLwus3GaeRjIILR0rezHCJvpt4yzgd4-byKv4ag7c0LRqc_izKOQgECBc93Z9On8hflIDk13aoGXmUh0fCV7hnxsmB2k9dgtRXO4="
+}

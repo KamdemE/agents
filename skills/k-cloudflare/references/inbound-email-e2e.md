@@ -1,6 +1,6 @@
 # Inbound email — E2E verification (`@kpihx-labs.com`)
 
-> **Status:** validated **2026-05-25** (Worker + prime rules + anti-spam on all mailboxes).  
+> **Status:** validated **2026-09-04** (Worker + prime rules + anti-spam + folders/labels on all mailboxes).  
 > **Routing SOT:** `email-routing-ops.md` · **Deploy:** `scripts/deploy-inbound-email-full.sh` · **Anti-spam:** `scripts/apply-inbound-antispam-filters.sh` · **Verify:** `scripts/verify-inbound-e2e.sh`
 
 ## Live route map
@@ -9,7 +9,7 @@
 |-------|----------------|------------------|
 | `kpihx@kpihx-labs.com` | Hotmail + `kapoivha@gmail.com` | Hotmail → `kpihx@` (loop / S3150 risk) |
 | `contact@kpihx-labs.com` | Labs + `kapoivha@gmail.com` | — |
-| `ivann@kpihx-labs.com` | Hotmail only | Hotmail → `ivann@` (NDR loop) |
+| `ivann@kpihx-labs.com` | Hotmail + `kapoivha@gmail.com` | Hotmail → `ivann@` (NDR loop) |
 
 **Internal (do not publish):** `_prime-labs@`, `_prime-kapoivha@`, `_prime-hotmail@` — native `forward` so Worker `message.forward()` sees verified destinations.
 

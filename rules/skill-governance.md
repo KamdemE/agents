@@ -22,7 +22,7 @@
 | 7 | `/etc/apparmor.d/` | AppArmor profiles (root-owned) | `opt.bw-mcp.bin.bw-mcp`, `zoom`, `signal-desktop` |
 | 8 | `apt sources` + `/usr/share/applications/*.desktop` | `*.sources` leftovers + stale launchers | `signal-desktop.sources`, `Zoom.desktop` |
 | 9 | `systemd` (user+system) | unit files, timers, socket activators | `tg-homelab.service`, purged daemons |
-| 10 | **Skills (`~/.agents/skills/`)** | any doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-cloud-tools`, `k-final`, `kpihx`, `deactive/*` |
+| 10 | **Skills (`~/.agents/skills/`)** | any doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-final`, `kpihx`, `deactive/*` |
 
 **Verification technique — how to confirm a config dir belongs to a dead app (never delete live-app config):**
 ```bash

@@ -182,7 +182,7 @@ Scripts that need scientific libraries (numpy, matplotlib, scipy, etc.) go to **
 | Shell config | `.zshrc`, `.bashrc` (frozen) | `k-zsh` |
 | Systemd service | drop-in, unit files | `k-ubuntu`, `k-tailscale` |
 | Firewall ruleset | `nftables.conf` → `/etc/nftables.conf` | `k-nftables` |
-| Tool scripts | `k_phones_sshd_autostart.sh`, gws-profiles.zsh | `k-phones`, `k-google` |
+| Tool scripts | `k_phones_sshd_autostart.sh`, gws-profiles.sh | `k-phones`, `k-google` |
 
 ### What does NOT go in `.agents/`
 

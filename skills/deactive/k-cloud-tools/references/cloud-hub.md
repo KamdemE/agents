@@ -19,7 +19,7 @@
 | **Cloudflare** | `k-cloudflare` | `cloudflared`, `flarectl` | `k-cloudflare/references/setup.md` |
 | **Google** | `k-google` | `gcloud` (container), `gws` (content) | `techskills/gws-cli.md` |
 | **Google Drive files** | `k-rclone` + `k-drive` | `rclone` mounts | `k-rclone/SKILL.md` |
-| **Microsoft** | `k-microsoft` | `m365` (content only; `az` **deactivated**) | `techskills/m365-cli.md` |
+| **Microsoft** | `k-microsoft` | `m365` (content only; `az` **deactivated**) | `k-microsoft/references/m365-cli.md` |
 | **Mail** | `k-mail` | mail-mcp (poly), `m365 outlook` (Hotmail) | `k-mail/references/mcp.md` |
 | **Tasks / calendar** | `k-tick` | tick-proxy | `k-tick/SKILL.md` |
 | **WhatsApp** | `k-whats` | whats-proxy CLI | `k-whats/references/mcp.md` (legacy) |

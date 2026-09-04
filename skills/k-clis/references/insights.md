@@ -40,3 +40,11 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
   audited against each flag's REAL semantics on edge cases (missing
   files, broken symlinks, empty globs) — don't assume the replacement
   tool treats a same-named flag (`-f`) identically to the original.
+
+### 2026-09-04 — [LIVE] k-cloud-tools merged into k-clis
+
+- **Cloud hub routing:** `references/cloud-hub.md` — all cloud/productivity skills route through it. Original in k-cloud-tools, merged here.
+- **Social/dev platforms:** `references/social-dev-platforms.md` — YouTube, X, Meta, LinkedIn, WhatsApp registry. Original in k-cloud-tools.
+- **Token gate:** `references/token-gate.md` — Vault token gate procedure. Original in k-cloud-tools.
+- **curls:** `scripts/curls.sh` — secure curl wrapper with provider-based secret injection. `assets/providers.json` manifest (cloudflare only for now). Symlink `~/.local/bin/curls`.
+- **curls security:** `raw-exec-guard.js` blocks `curl -H "...$VAR..."` and suggests `curls --provider <name>` instead.

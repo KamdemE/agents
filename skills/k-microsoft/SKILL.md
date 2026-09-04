@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.4.0"
+  version: "1.6.1"
   scope: operations
 allowed-tools: Bash(m365:*)
 ---
@@ -35,9 +35,11 @@ For Azure Foundry / AOAI deploy **if** a subscription exists later → external 
 
 | Binary | Runbook |
 |--------|---------|
-| `m365` | `$HOME/Work/techskills/m365-cli.md` |
+| `m365` | `references/m365-cli.md` |
 
 **Agent auth (mandatory):** never `m365 login` / `logout` / `setup` — KπX only. Read/status + approved reads. Mail gates: **`k-mail`**.
+
+> ⚠️ **m365 status is interactive:** if the token is expired, `m365 status` will prompt for device-code re-auth in the terminal. **Always run m365 in a tmux pane** (`k-tmux`) to avoid blocking the agent session. If the status fails, report to KπX who will run `m365 login` manually.
 
 ### Session persistence (v11 — mandatory)
 
@@ -122,6 +124,21 @@ What's up: Zimbra canonical; dedupe Outlook — **`k-mail`**.
 python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folder Inbox
 ```
 
+## Outlook folders & rules reference (`k-mail` canonical)
+
+> 📌 **Canonical reference:** See **`k-mail/references/outlook-folders-rules.md`** for the full inventory of Hotmail mailFolders (`KpihX-Labs/*`), `childFolders` hierarchy creation pattern, `copyToFolder` inbox rules, and inspection/setup scripts (`inspect_outlook_rules_folders.sh`, `setup_alias_folders_filters.sh`).
+
+## Outlook inbox rules (messageRules)
+
+| Command | Purpose |
+|---|---|
+| `m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules" --method get` | List all inbox rules |
+| `m365 request --url "..." --method post --body @file.json --content-type "application/json"` | Create rule (requires `sequence` field) |
+
+**Common actions:** `moveToFolder`, `stopProcessingRules`, `forwardTo`, `delete`, `markAsRead`.
+**Conditions:** `sentToAddresses`, `fromAddresses`, `subjectContains`, `bodyContains`, `importance`.
+**Pitfall:** `sequence` is mandatory on creation (Graph returns `MessageRuleValidationError` if omitted). Consumer MSA accounts **do not support** `forwardTo` to external addresses via `mailboxSettings` PATCH (returns 400).
+
 ## Cross-skills
 
 | Task | Load |
@@ -140,6 +157,6 @@ python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folde
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.4.0 — Session persistence: `~/.cli-m365-*`, deviceCode+consumers, `/me` check. |
-| 2026-05-25 | [CURSOR] | v1.3.0 — **`az` deactivated**; skill = **m365-only**. |
-| [SUMMARY] | — | v1.2.x `scripts/_m365_common.py` helpers; v1.1.0 cloud-hub; v1.0.0 m365+az. |
+| 2026-09-04 | [LIVE] | v1.6.x — Outlook inbox rules (messageRules API, sequence pitfall, copyToFolder); `k-mail` Outlook SOT ref; tmux mandate for m365 status. |
+| 2026-05-25 | [CURSOR] | v1.3–v1.5 — Session persistence, `az` deactivated, m365-cli.md runbook. |
+| [SUMMARY] | — | v1.2.x `scripts/_m365_common.py`; v1.1.0 cloud-hub; v1.0.0 m365+az. |

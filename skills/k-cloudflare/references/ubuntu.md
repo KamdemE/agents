@@ -19,12 +19,12 @@ flarectl binary installs to `~/go/bin/flarectl` (or `$GOPATH/bin/flarectl`).
 
 ## Usage
 
-flarectl requires `CF_API_TOKEN` environment variable. Gate via `k-bw` / `k-clis` token gate.
+flarectl requires `CF_API_TOKEN` environment variable. Always run via `with-env` in tmux (token lives in Vault, not agent env).
 
 Common operations:
 ```bash
-flarectl zone list
-flarectl dns records list --zone kpihx-labs.com
+with-env flarectl zone list
+with-env flarectl dns records list --zone kpihx-labs.com
 ```
 
 ## Wrangler (Inbound Email Worker only)

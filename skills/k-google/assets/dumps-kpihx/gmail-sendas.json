@@ -1,0 +1,40 @@
+{
+  "sendAs": [
+    {
+      "displayName": "",
+      "isDefault": true,
+      "isPrimary": true,
+      "replyToAddress": "",
+      "sendAsEmail": "kapoivha@gmail.com",
+      "signature": ""
+    },
+    {
+      "displayName": "Ivann KAMDEM",
+      "isDefault": false,
+      "replyToAddress": "",
+      "sendAsEmail": "ivann@kpihx-labs.com",
+      "signature": "",
+      "smtpMsa": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "securityMode": "starttls"
+      },
+      "treatAsAlias": false,
+      "verificationStatus": "accepted"
+    },
+    {
+      "displayName": "KpihX",
+      "isDefault": false,
+      "replyToAddress": "",
+      "sendAsEmail": "kpihx@kpihx-labs.com",
+      "signature": "",
+      "smtpMsa": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "securityMode": "starttls"
+      },
+      "treatAsAlias": false,
+      "verificationStatus": "accepted"
+    }
+  ]
+}

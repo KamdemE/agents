@@ -1,6 +1,6 @@
 # YouTube Data API v3 — project `kpihx-labs`
 
-> **Owner skill:** `k-media` · **GCP/gws:** `k-google` (`gws-labs`) · **Registry:** `k-cloud-tools/references/social-dev-platforms.md`
+> **Owner skill:** `k-media` · **GCP/gws:** `k-google` (`gws-labs`) · **Registry:** `k-clis/references/social-dev-platforms.md`
 
 ## Agent-done (2026-05-25)
 
@@ -86,7 +86,7 @@ Prefer **reuse** `kpihx-labs` OAuth client; inject via environment.
 |---------|-------|
 | Enable API, project id, bootstrap script | **`k-media`** (this file) |
 | `gcloud`, `gws-labs`, GCP profiles | **`k-google`** |
-| Meta / X / LinkedIn registry | **`k-cloud-tools`** → `social-dev-platforms.md` |
+| Meta / X / LinkedIn registry | **`k-clis`** → `social-dev-platforms.md` |
 | Cross-platform publish vision | **`k-context/.../social-media-apis.md`** |
 
 ## QMD keywords

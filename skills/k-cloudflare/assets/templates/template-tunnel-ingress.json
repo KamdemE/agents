@@ -1,0 +1,16 @@
+{
+  "config": {
+    "ingress": [
+      {
+        "hostname": "<SUBDOMAIN>.kpihx-labs.com",
+        "service": "https://traefik:443",
+        "originRequest": {
+          "noTLSVerify": true
+        }
+      },
+      {
+        "service": "http_status:404"
+      }
+    ]
+  }
+}

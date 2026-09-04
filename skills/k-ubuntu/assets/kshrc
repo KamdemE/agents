@@ -305,7 +305,7 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   [ -x /usr/bin/fdfind ] && alias fd=fdfind
 
   # Google Workspace profiles
-  [ -f "$HOME/.config/gws/gws-profiles.zsh" ] && source "$HOME/.config/gws/gws-profiles.zsh"
+  [ -f "$HOME/.agents/skills/k-google/scripts/gws-profiles.sh" ] && source "$HOME/.agents/skills/k-google/scripts/gws-profiles.sh"
 
   # Legacy bash aliases (if any)
   [ -f "$HOME/.bash_aliases" ] && . "$HOME/.bash_aliases"

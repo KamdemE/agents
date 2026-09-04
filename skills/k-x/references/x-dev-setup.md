@@ -1,6 +1,6 @@
 # X (Twitter) API — KπX setup (`X Dev`)
 
-> **Skill:** `k-x` · **Registry:** `k-cloud-tools/references/social-dev-platforms.md` · **Vault item:** **X Dev**
+> **Skill:** `k-x` · **Registry:** `k-clis/references/social-dev-platforms.md` · **Vault item:** **X Dev**
 
 ## Agent-done (2026-05-25)
 

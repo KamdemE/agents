@@ -9,7 +9,7 @@
 |-------|-----------|
 | **SOT** | Vaultwarden `GLOBAL_ENV_VARS` → environment on login/tmux |
 | **Env vars** | `CF_API_TOKEN`, `CF_ACCOUNT_ID`, optional `CF_ZONE_ID` |
-| **Agent shells** | Often empty → **`k-cloud-tools/references/token-gate.md`** (tmux `default`/`remote` first) |
+| **Agent shells** | Often empty → **`k-clis/references/token-gate.md`** (tmux `default`/`remote` first) |
 | **cf-proxy (future)** | Read env only; optional `~/.cf_proxy/config.yaml` for IDs, **no** token on disk |
 
 **Verify (safe):**

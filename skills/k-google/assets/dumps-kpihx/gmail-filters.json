@@ -1,0 +1,282 @@
+{
+  "filter": [
+    {
+      "action": {
+        "removeLabelIds": [
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "query": "to:contact@kpihx-labs.com"
+      },
+      "id": "ANe1BmgYXyGbQ9yOGe52rcu1ikbMelX0SKC01g"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "query": "to:kpihx@kpihx-labs.com"
+      },
+      "id": "ANe1BmiarfGeNFaEQCS87eFEzqEhwzWMKbkNvg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "query": "to:ivann@kpihx-labs.com"
+      },
+      "id": "ANe1BmhDyzgYP1vvbdZ0Jlmrt90XoDqjqcLgJw"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "mail.ticktick.com"
+      },
+      "id": "ANe1BmhU62A2smSbusor2nZ0bmtPnVm7sSSoYg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "linkedin.com"
+      },
+      "id": "ANe1Bmgd-_SixCPvfMbWKINv6RfCGJvdx5fw9w"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "notifications@github.com"
+      },
+      "id": "ANe1Bmi7xhtZ-T9zeuC2WUI5TlCmHa83YelguQ"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "noreply@github.com"
+      },
+      "id": "ANe1BmjTyBuAWeVGYUpUq9EiIiXK0JET_qrdqw"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "noreply-dmarc-support@google.com"
+      },
+      "id": "ANe1BmgV_26eRAydPCJcxPlws2NPEoz_SrlEvg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "query": "to:@kpihx-labs.com"
+      },
+      "id": "ANe1Bmiu7hHs3NHuBhZLqV4xWb_9ZFfyb7ciWg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "deliveroo.com"
+      },
+      "id": "ANe1BmjIAZmlBXmAp64GGw2d14Cb0W7n51HBpA"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX",
+          "SPAM"
+        ]
+      },
+      "criteria": {
+        "from": "t.deliveroo.com"
+      },
+      "id": "ANe1BmhHGQP9RQvWQjjtLuMF-7HJsbOTN_bUlA"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "news@communications.socgen.com"
+      },
+      "id": "ANe1BmgVMglxLnkuUIYZAatcIwqvgRClcuhN_w"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "carrefour@email.carrefour.fr"
+      },
+      "id": "ANe1BmjeJzmkBu6-Xhh--RGrWR6xcLczYArRfQ"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "no-reply@email.lebara.fr"
+      },
+      "id": "ANe1BmjHr8U8TkXBI2w5yYHFTiQLY0TGfG9BWA"
+    },
+    {
+      "action": {
+        "addLabelIds": [
+          "TRASH"
+        ]
+      },
+      "criteria": {
+        "query": "subject:(OUT-E2E OR E2E-)"
+      },
+      "id": "ANe1BmgJ-FlrDzvUZbUb43ASsN-iXINZuDhFcg"
+    },
+    {
+      "action": {
+        "addLabelIds": [
+          "TRASH"
+        ]
+      },
+      "criteria": {
+        "query": "subject:(OUT-E2E OR E2E-)"
+      },
+      "id": "ANe1Bmho-j0px0r14qYtDyZPiQl3m20pi2KODA"
+    },
+    {
+      "action": {
+        "addLabelIds": [
+          "TRASH"
+        ]
+      },
+      "criteria": {
+        "query": "subject:(OUT-E2E OR E2E-)"
+      },
+      "id": "ANe1Bmh7U1dfeSEiGL71KPY1OfYghbDUmR6mAA"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "noreply@ip-paris.fr"
+      },
+      "id": "ANe1BmhHP0fuSZ0rl02WMIGecou55Ij7UUwv0Q"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "aliexpress.com"
+      },
+      "id": "ANe1BmgJRAJBvK4qV91ZfJvx6kZHMdZvJ4vLVg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "pypi.org"
+      },
+      "id": "ANe1BmiM4khHoPzSJ0pb-BV2kjRUbPm7udg1dw"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "discord.com"
+      },
+      "id": "ANe1BmgloB82-cQ-JFef-BBsdBo3zXL1XR1zIA"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "getgitguardian.com"
+      },
+      "id": "ANe1BmgX2cQzMLdbug-O8_CpSfbo2lTh_4bcPg"
+    },
+    {
+      "action": {
+        "removeLabelIds": [
+          "UNREAD",
+          "INBOX"
+        ]
+      },
+      "criteria": {
+        "from": "enspyalumni.abroad@gmail.com"
+      },
+      "id": "ANe1Bmj0V93DwopKcr2Po3X4JqxIDQmRlOLXPA"
+    }
+  ]
+}

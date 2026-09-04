@@ -1,0 +1,7 @@
+{
+  "type": "CNAME",
+  "name": "<SUBDOMAIN>",
+  "content": "db6721cb-6bfe-4750-b55a-124e6dc74388.cfargotunnel.com",
+  "proxied": true,
+  "ttl": 1
+}

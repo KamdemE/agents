@@ -1,0 +1,16 @@
+{
+  "storageQuota": {
+    "limit": "5497558138880",
+    "usage": "15962563739",
+    "usageInDrive": "11233559603",
+    "usageInDriveTrash": "0"
+  },
+  "user": {
+    "displayName": "Ivann KAMDEM",
+    "emailAddress": "kapoivha@gmail.com",
+    "kind": "drive#user",
+    "me": true,
+    "permissionId": "13691199986760116894",
+    "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocJhFja12gazHlyKo_znB9zf8hz6uAJ_IOOvqz8xnSjsQsdmH0u4=s64"
+  }
+}

@@ -19,6 +19,12 @@ export default {
       return;
     }
 
+    if (to.includes("ivann@kpihx-labs.com")) {
+      await message.forward(HOTMAIL);
+      return;
+    }
+
+    // Default (unknown address) — forward to the primary inbox.
     await message.forward(KAPIVHA);
   },
 };

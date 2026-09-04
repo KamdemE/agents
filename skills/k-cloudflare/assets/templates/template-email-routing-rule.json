@@ -1,0 +1,19 @@
+{
+  "name": "<RULE_NAME>",
+  "matchers": [
+    {
+      "type": "literal",
+      "field": "to",
+      "value": "<ALIAS>@kpihx-labs.com"
+    }
+  ],
+  "actions": [
+    {
+      "type": "worker",
+      "value": [
+        "kpihx-labs-inbound-router"
+      ]
+    }
+  ],
+  "enabled": true
+}

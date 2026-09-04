@@ -21,6 +21,6 @@
 
 ## 2026-05-25 — [CURSOR]
 
-- **Uniform stack:** route via `k-cloud-tools/references/cloud-hub.md`; mail briefings stay in **`k-mail`**.
+- **Uniform stack:** route via `k-clis/references/cloud-hub.md`; mail briefings stay in **`k-mail`**.
 - **`m365` v11.7.0** at `$HOME/.npm-global/bin/m365` — sole Microsoft CLI on KπX.
 - Poly mail: still **mail-mcp**, not `m365`.

@@ -1,0 +1,27 @@
+{
+  "result": [
+    {
+      "created_on": "2026-05-25T04:21:46.236164Z",
+      "modified_on": "2026-05-25T04:58:25.574439Z",
+      "id": "kpihx-labs-inbound-router",
+      "tag": "b1b06b9b99254df5bf5fd8bf5535189b",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "61d1feffa4818a62491b6be08626dae5c63d075d1d562ba6a147f3ff32e5bbd3",
+      "handlers": [
+        "email"
+      ],
+      "last_deployed_from": "wrangler",
+      "compatibility_date": "2024-09-23",
+      "usage_model": "standard",
+      "routes": null
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": []
+}

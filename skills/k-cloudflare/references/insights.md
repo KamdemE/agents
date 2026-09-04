@@ -23,7 +23,7 @@
 
 - **Ingress routes:** API `GET/PUT …/configurations` — `flarectl` cannot edit routes (DNS only).
 - **`cloudflared` quarantined on Ubuntu dev** — prod connector on homelab; laptop → `flarectl` only.
-- **`flarectl`:** `CF_API_TOKEN` via **environment** · **`k-cloud-tools`** token gate.
+- **`flarectl`:** `CF_API_TOKEN` in Vault, not agent env — always run via `with-env` in tmux (confirmed 2026-09-04: `with-env flarectl zone list` works).
 
 ## 2026-05-25 — [CURSOR] skill bootstrap
 

@@ -1,0 +1,12 @@
+{
+  "name": "<POLICY_NAME>",
+  "decision": "allow",
+  "session_duration": "24h",
+  "include": [
+    {
+      "email": {
+        "email": "<USER_EMAIL>"
+      }
+    }
+  ]
+}
