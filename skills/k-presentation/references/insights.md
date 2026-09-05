@@ -19,6 +19,10 @@ patterns.
 
 ## Insights
 
+- 2026-09-05: `check-dashes.sh` wired as a symlink to the k-tex canonical copy
+  (registered in `assets/links.jsonc` as `presentation-check-dashes`) — every
+  deck project MUST run it FIRST in `make check`; renders rule adopted
+  (`build/*` + `!build/*.pptx` + `!build/*.pdf`, renders always committed).
 - Baseline created 2026-08-25 during the consolidation of this skill onto
   the "decks as code" doctrine (see `SKILL.md` changelog v3.0.0). No
   in-domain execution has happened yet under this doctrine from this

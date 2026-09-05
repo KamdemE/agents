@@ -122,6 +122,8 @@ if [ -z "$__KSHRC_LOADED" ]; then
   export KHOME="$HOME/KpihX-Labs"
   export KLABS="$HOME/KpihX-Labs"
   export LABS="$HOME/KpihX-Labs"
+  export AGENTS="$HOME/KpihX-Labs/.agents"
+  export EXPLORE="$HOME/KpihX-Labs/Explore"
 
   # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
   # They will be available in ALL shells: scripts, cron, make,
@@ -257,10 +259,13 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
     # with-env zsh autocomplete
     type compdef >/dev/null 2>&1 && compdef _precommand with-env 2>/dev/null || true
 
-    # ── Named directory: ~k = KπX workspace ─────────────────────
-    # Shell shortcut: cd ~k, ls ~k, pushd ~k — zsh only (hash -d).
-    # Equivalent env vars ($KHOME/$KLABS/$LABS) are in Section 1.
+    # ── Named directories: ~k / ~e / ~a / ~d ────────────────────
+    # Shell shortcuts: cd ~k, ls ~k, pushd ~k — zsh only (hash -d).
+    # Equivalent env vars ($KHOME/$KLABS/$LABS/$AGENTS/$EXPLORE) are in Section 1.
     hash -d k="$HOME/KpihX-Labs"
+    hash -d e="$HOME/KpihX-Labs/Explore"
+    hash -d a="$HOME/KpihX-Labs/.agents"
+    hash -d d="$HOME/Downloads"
 
     # ══ >>> ADD ZSH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ═══
     # If it only works in zsh (widgets, zle, zstyle, hooks),

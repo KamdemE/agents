@@ -100,7 +100,7 @@ metadata:
 | `bun` | **`k-node`** · **`k-project`** | JS/TS runtime & package manager — sovereign choice for KpihX-owned projects |
 | `fnm` / `nvm` | **`k-node`** | Node version manager — `fnm` (Fast Node Manager, Rust). Dynamic PATH via `--use-on-cd`. nvm retained as fallback. |
 | `node` / `npm` | **`k-node`** | Node.js runtime & package manager — npm global prefix (`~/.npm-global`), EACCES prevention |
-| `latexmk` / `pdflatex` / `pdfunite` | **`k-latex`** | LaTeX compilation & lossless PDF merging (`pdfunite`) |
+| `latexmk` / `pdflatex` / `pdfunite` | **`k-tex`** | LaTeX compilation & lossless PDF merging (`pdfunite`) |
 | `make` | **`k-project`** / workspace | Build system — Makefile templates |
 | `pdftotext` / `pdfinfo` / `pdftoppm` / `pdffonts` | **`k-pdf`** | PDF classic tools (poppler-utils) — text, metadata, render, font list |
 | `docling` | **`k-pdf`** | Structured PDF parser (IBM, MIT) — MD/JSON/images extraction |

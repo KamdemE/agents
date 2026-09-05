@@ -359,10 +359,10 @@
       "installedAt": "2026-06-05T00:00:00.000Z",
       "updatedAt": "2026-06-05T00:00:00.000Z"
     },
-    "k-latex": {
+    "k-tex": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-latex/SKILL.md",
+      "skillPath": "skills/k-tex/SKILL.md",
       "installedAt": "2026-06-05T00:00:00.000Z",
       "updatedAt": "2026-06-05T00:00:00.000Z"
     },

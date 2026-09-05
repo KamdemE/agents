@@ -1,12 +1,14 @@
 ---
-name: k-latex
+name: k-tex
 description: >
   KπX LaTeX architecture & compilation workflows — latexmk multi-pass, pdfunite merging,
-  and two canonical report archetypes (envision-copilot-rapport & culling-rapport).
-  Load when creating, editing, structuring, or building any LaTeX project or report.
+  two canonical report archetypes (envision-copilot-rapport & culling-rapport),
+  and a dense revision-sheet template (template-revision/).
+  Load when creating, editing, structuring, or building any LaTeX project or report —
+  and ALWAYS when the task is making revision sheets (fiches de révision).
 metadata:
   author: KpihX
-  version: "2.0.0"
+  version: "2.2.0"
   scope: templates-workflow
   target-agent: all
 allowed-tools: Bash, Read, Write, Edit
@@ -85,6 +87,52 @@ KπX maintains two canonical reference archetypes for LaTeX documents:
 
 ---
 
+## Canonical Live Example: `cv` (CI/CD reference project)
+
+The single-file CV is the live reference for a LaTeX project with full CI/CD —
+read its `AGENTS.md` (style guide + tag/release lessons) before scaffolding:
+
+- **Local**: `$HOME/KpihX-Labs/cv`
+- **GitHub**: `https://github.com/KpihX/cv` (default: `master`)
+- **GitLab**: `https://gitlab.com/kpihx/cv` (default: `master`)
+- **CI/CD**: GitHub Actions (build + preview commit + Release on date tag
+  `YYYY-MM-DD`) + GitLab CI (PDF + preview artifacts, 1 year).
+- **Checks**: `make check` = `check-dashes` (em-dash gate, FIRST — never build
+  on failure) → build → 1-page gate; `check` gates `make push`.
+
+---
+
+## Revision Sheets (`assets/template-revision/`)
+
+Dense fiches de révision that pack a whole course onto minimal pages: 8pt
+landscape, page split in **3 columns** (`multicol`), 0.5cm margins, compact
+lists, grayscale `mybox` highlights — every square centimeter earns its place.
+
+- **Asset**: `skills/k-tex/assets/template-revision/`
+  (`main.tex` + `1.tex` content + `Makefile` + `.gitignore` + `AGENTS.md`).
+- **Content flow**: write Markdown → `pandoc revision.md -o 1.tex`
+  (or write `1.tex` directly) → `make build` (single command, always rebuilds,
+  double pdflatex pass into internal `build/`, PDF copied to root).
+- **Academic workflow**: after exploring a course's material, copy the template
+  into `~/KpihX-Labs/Explore/` (`~e`) adjusted per course.
+
+---
+
+## Mandatory `check-dashes` (NEVER forget)
+Every KπX TeX-family project MUST wire `scripts/check-dashes.sh` (canonical
+copy lives here: `skills/k-tex/scripts/check-dashes.sh`, symlinked into
+`skills/k-presentation/scripts/`) as the FIRST step of its `make check` —
+before any build. It fails on any em-dash (`---`) outside `%` comments:
+
+```makefile
+check:  ## Dashes first (no build on failure), then build, then page gate
+	sh scripts/check-dashes.sh
+	$(MAKE) -s build
+	@test "$$(pdfinfo …)" = "1" || (echo "check FAILED" >&2; exit 1)
+```
+
+---
+
 ## Standard Makefile Pattern
 
 Every KπX LaTeX repository MUST carry a `Makefile` following this exact template:
@@ -135,6 +183,11 @@ build/*
 !build/*.pdf
 ```
 
+🔴 **Renders rule (NEVER forget):** always ignore `build/` debris, but NEVER
+ignore the final renders — `!build/*.pdf` stays, and the final PDF is ALWAYS
+committed. (Use `build/*`, never bare `build/`: a bare dir exclusion cannot be
+re-included by `!` negations.)
+
 ---
 
 ## Asset Path Wiring & `polytechnique.sty`
@@ -171,6 +224,7 @@ In `main.tex`, graphics includes MUST reference `assets/figures/`:
 - **`pdfunite` over `\includepdf` for form PDFs**: `\includepdf` in pdflatex strips interactive PDF form fields (AcroForm data filled by tutors). `pdfunite` concatenates PDF streams at byte level, preserving form fields, signatures, and stamps.
 - **`-output-directory=build` with `latexmk`**: Keeps repository root clean. Ensure `.gitignore` carries `build/*` + `!build/*.pdf`.
 - **`latexmk` error handling**: Add `|| true` to `make build` if minor warnings occur, ensuring `build/main.pdf` is output cleanly.
+- Full operational memory (recurring mistakes, validated fixes) → `references/insights.md`.
 
 ---
 
@@ -178,6 +232,6 @@ In `main.tex`, graphics includes MUST reference `assets/figures/`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.0.0 — Complete rewrite: latexmk multi-pass, pdfunite lossless merging, archetype 1 (envision-copilot-rapport, modular long report) and archetype 2 (culling-rapport, single-file report with pdfunite), assets/x/ wiring, standard Makefile & .gitignore patterns. |
-| 2026-05-06 | [ANTIGRAVITY] | v1.0.0 — Initialized k-latex skill. Documented ultra-compact revision template. |
-| [SUMMARY] | — | v1.0.0 Initial revision sheet template · older → `references/log.md` |
+| 2026-09-05 | [LIVE] | v2.2.0 — `assets/template-revision/` (8pt landscape 3-column fiches, single `make build` → internal `build/`, `build/*` + `!build/*.pdf` gitignore); skill desc routes all revision-sheet tasks here; academic workflow (per-course copies under `~e`). |
+| 2026-09-05 | [LIVE] | v2.1.0 — Renamed `k-latex` → `k-tex`; canonical live example `cv` (local + 2 remotes, CI/CD); mandatory `check-dashes` (canonical copy in `scripts/`, symlinked into k-presentation, FIRST in every `make check`); renders rule (`!build/*.pdf` always committed). |
+| [SUMMARY] | — | v2.0.0 full rewrite (latexmk, pdfunite, 2 archetypes) · v1.0.0 revision template init · older → `references/log.md` |

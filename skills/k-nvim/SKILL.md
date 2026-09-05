@@ -3,11 +3,11 @@ name: k-nvim
 description: KπX Neovim hub — config, plugins, LSP, and daily workflow map.
 agent: [OPCODE]
 created: "2026-05-28"
-updated: "2026-08-24"
+updated: "2026-09-05"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.8.0
+  version: 3.9.0
 ---
 
 # KπX — Neovim
@@ -132,6 +132,7 @@ All Python dependencies required by nvim plugins live in a single uv-managed vir
 | `<leader>e` | Oil file explorer |
 | `..` | Oil: go to parent directory |
 | `<C-r>` (oil) | Oil: refresh directory |
+| `gc` / `gC` | Open current file or Oil directory in VS Code (auto-detect) |
 | `gx` (oil) | Oil: open file with system handler |
 | `:%O` | Oil: open all files with system handler |
 | `:2,4O` | Oil: open files line 2-4 with system handler |
@@ -141,7 +142,8 @@ All Python dependencies required by nvim plugins live in a single uv-managed vir
 | `gr` | LSP references |
 | `[d` / `]d` | Diagnostic prev/next |
 | `<leader>xx` | Trouble diagnostics |
-| `gcc` | Comment toggle line |
+| `<leader>cc` | Comment toggle line |
+| `<leader>c` (visual) | Comment toggle selection |
 | `Ctrl+h/j/k/l` | Navigate splits/panes (tmux-aware) |
 | `<leader>ha` | Harpoon add |
 | `<leader>hl` | Harpoon quick menu |
@@ -209,6 +211,6 @@ Verify: `echo $EDITOR` → `nvim`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v3.9.0 — **VS Code integration:** `gc` opens current file in VS Code (with cursor position via `-g line:col`), `gC` opens Oil directory in VS Code. |
 | 2026-08-25 | [COLAB] | v3.8.0 — **Telescope backends fixed (blglaptop139-wsl, GRAVÉ):** `fd` (`0.1.8` `find_command = {"fd",…}`) shipped as `fdfind` on Debian/Ubuntu → `Space ff` showed 0 results; `rg` (`ripgrep`) missing → `Space fg` silent. Installed `ripgrep` + `ln -sf $(which fdfind) ~/.local/bin/fd`; documented both as mandatory in `references/telescope.md` → Dependency and `SKILL.md` table. |
-| 2026-08-24 | [COLAB] | v3.7.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| [SUMMARY] | — | v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
+| [SUMMARY] | — | v3.7.1 check-skills audit rotation · v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |

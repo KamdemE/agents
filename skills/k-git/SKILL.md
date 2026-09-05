@@ -4,7 +4,7 @@ description: "KπX Git workflow — SSH protocol, remote naming convention, Make
 license: private
 metadata:
   author: KpihX
-  version: "2.16.1"
+  version: "2.17.0"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -26,6 +26,11 @@ allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
   - Default → `kpihx` personal namespace
   - `kpihx-labs` group → homelab/server-related projects **or** projects deployed via GitLab CI (e.g. homelab infra, n8n workflows)
   - Personal tools (e.g. HTTP MCPs) → `kpihx` even if they run on the homelab
+- **Subgroups (`kpihx-labs/<subgroup>/<project>`)** — thematic grouping inside the org group (existing: `ai`, `opencode`, `proxies`; `proxies` holds the 7 RPC proxies + `browser-proxy-ext`, all topic `proxy`). GitHub orgs are FLAT (no subgroups) → the same repos live at `kpihx-labs/<project>` there; only topics mirror the grouping.
+  - Create: `glab api --method POST groups --field name=<Name> --field path=<slug> --field parent_id=<group-id> --field visibility=<public|private>`
+  - Move (GitLab): `glab api --method PUT projects/<id>/transfer --field namespace=kpihx-labs/<subgroup>` — ASYNC, re-GET after ~10s to confirm (200 still shows the old path)
+  - Move (GitHub): `gh api -X POST repos/<owner>/<repo>/transfer -f new_owner=kpihx-labs` — old URLs redirect, verify with `gh repo view`
+  - Topics: GitHub `gh repo edit <repo> --add-topic <t>` (repeat per topic) · GitLab `--field topics=a,b` (ONE comma-separated field — repeated `--field` keeps only the LAST value)
 - **Push:** ALWAYS `make push` (all remotes simultaneously). Never push to one remote alone.
 - **PR/MR:** ALWAYS `make pr` after `make push` — opens PR (github via `gh`) + MR (gitlab via `glab`) for the current branch against `master` (`make pr BASE=dev` to override). Title/body come from the last commit; slugs parsed from the remote URLs. 🚨 LOUD gate: if `glab` is missing or unauthenticated, the script prints the install/auth commands + the pre-filled web-UI fallback URL — never silent (`scripts/git/create-pr.sh`).
 - **Commits:** Conventional Commits spec. Atomic. No `--no-verify`. No amending published commits.
@@ -124,6 +129,7 @@ Vault (`vault.kpihx-labs.com`) is private — Tailscale must be up for SSH key v
 5. GitLab remote — pick namespace:
    - **Personal / tools** (MCPs, personal scripts): `git remote add gitlab git@gitlab.com:kpihx/<name>.git`
    - **Homelab / CI-deploy** (infra, server workloads, GitLab CI pipelines): `git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git`
+   - **Themed family** (e.g. a proxy): `git remote add gitlab git@gitlab.com:kpihx-labs/<subgroup>/<name>.git` (GitHub stays flat: `git@github.com:kpihx-labs/<name>.git`)
 6. Create `Makefile` from `assets/Makefile.git` (at minimum: `push`, `status`, `log`) — or from `k-project/assets/Makefile.uv` / `Makefile.npm-bun` for uv/bun projects
 7. Initial commit + `make push`
 
@@ -154,6 +160,6 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.17.0 — **Subgroup convention** (`kpihx-labs/<subgroup>/<project>`, GitHub-flat note) + move/topic command recipes (GitLab transfer async, `topics=a,b` single-field) + init-checklist subgroup variant (KπX order, proxies migration). |
 | 2026-09-05 | [LIVE] | v2.16.1 — **Root `AGENTS.md` comment fix in global excludesFile**: `assets/git-ignore-global` §10 header now reads `AGENTS.md convention (repo root, …)` instead of `.agents/AGENTS.md`. Ignore rules unchanged. |
-| 2026-08-27 | [COLAB] | v2.16.0 — **Insight: root-owned `.git/refs/remotes/` blocks local push bookkeeping.** `ollama-ipex` migration to `kpihx-labs` org hit `update_ref failed ... Permission denied` on `git push` despite the remote push succeeding (`[new branch] master -> master` printed right above the error) — root cause: `.git/refs/remotes/{github,gitlab}/` AND separately `.git/logs/refs/remotes/{github,gitlab}/master` were root-owned on an otherwise `kpihx`-owned repo. Fixed via `sudo chown -R kpihx:kpihx` (tmux ops pane) on both paths — documented as a durable insight (`references/insights.md`) since it recurred across two sub-paths in the same repo and could hit any repo. |
-| [SUMMARY] | — | v2.15.0 ABSOLUTE merge-workflow.md reference (PR #1+#2 proven pipeline) · v2.14.0 passthrough relocated to skill scripts (KπX order) · v2.13.0 `make pr` (blglaptop139-wsl, KπX order): NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo); LOUD glab gate never silent · v2.12.0 NO BYPASS vars purge (`KPIHX_ALLOW_*`/`SKIP_*`/`KEEP_*` all removed from `git-hook-passthrough.sh` + `push-submodules.sh`; checks ARE the code) + remote-pair contract bonus checks (submodule coverage, live `ls-remote` joinability, branch presence) absorbed into `scripts/remotes/` · v2.11.0 pre-push gate banner-proof remote SHA extraction (fixed false-positive submodule blocks) · v2.10.1 GIT_DIR/etc cleared before per-submodule `git -C` calls (ENOTDIR fix) · v2.10.0 remotes contract + check-remotes/set-remotes (`scripts/remotes/`, origin pruning) · v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| [SUMMARY] | — | v2.16.0 root-owned refs insight · v2.15.0 ABSOLUTE merge-workflow.md reference (PR #1+#2 proven pipeline) · v2.14.0 passthrough relocated to skill scripts (KπX order) · v2.13.0 `make pr` (blglaptop139-wsl, KπX order): NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo); LOUD glab gate never silent · v2.12.0 NO BYPASS vars purge (`KPIHX_ALLOW_*`/`SKIP_*`/`KEEP_*` all removed from `git-hook-passthrough.sh` + `push-submodules.sh`; checks ARE the code) + remote-pair contract bonus checks (submodule coverage, live `ls-remote` joinability, branch presence) absorbed into `scripts/remotes/` · v2.11.0 pre-push gate banner-proof remote SHA extraction (fixed false-positive submodule blocks) · v2.10.1 GIT_DIR/etc cleared before per-submodule `git -C` calls (ENOTDIR fix) · v2.10.0 remotes contract + check-remotes/set-remotes (`scripts/remotes/`, origin pruning) · v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |

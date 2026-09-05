@@ -13,7 +13,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.12.0"
+  version: "2.13.0"
   scope: kernel
 allowed-tools: Bash(*), "*"
 ---
@@ -56,7 +56,7 @@ kpihx-labs (this skill — kernel top reference)
 │
 ├── [generic top skills]
 │   ├── k-ai / k-classification / k-cloudflare / k-clis
-│   ├── k-drive / k-git / k-git-pages / k-google / k-latex / k-link
+│   ├── k-drive / k-git / k-git-pages / k-google / k-tex / k-link
 │   ├── k-mail / k-media / k-meta / k-microsoft / k-napkin / k-openvino
 │   ├── k-openclaw / k-opencode / k-openvino / k-pptx / k-qmd / k-rclone / k-tailscale
 │   ├── k-tg / k-tick / k-whats / k-x
@@ -233,19 +233,30 @@ Source code for all KpihX-Labs projects lives here. When a KπX project is menti
 | `sh/` | Homelab shell scripts (backup, boot notify, etc.) | — |
 | `presentation/` | Knowledge / docs project (see below) | GitHub Pages |
 
+> Personal flagship outside Homelab: **`cv`** (live LaTeX CV, CI/CD reference)
+> → local `$HOME/KpihX-Labs/cv` · github `KpihX/cv` · gitlab `kpihx/cv`
+> (full doc → `k-tex`, identity entry → `kpihx`).
+
 ---
 
 ## Knowledge Base — `$HOME/Work/KpihX-Labs/Homelab/presentation/`
 
 Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS`, `STATE_OF_THE_ART`, `EVOLUTION`, `PORTABILITY`. Docsify site published at `kpihx-labs.github.io/presentation/` (`_sidebar.md`, `index.html`). Sub-structure:
 
-- **`techskills/`** — Step-by-step homelab implementation series, Problem-first approach. Sections:
-  - Root: 6 core infra guides (Proxmox/802.1X → Docker host → DevOps/CI → Tailscale/AdGuard → Cloudflare/Zero Trust → Vaultwarden/DNS-01)
-  - `n8n/` — n8n deployment (private cerveau, PostgreSQL reuse)
-  - `security/` — backup 3-2-1, Watchtower, SSH hardening
-  - `annexes/` — Network watchdog, Termux toolkit
-  - **`templates/`** — Ready-to-use config files for all homelab services: Docker Compose YAMLs + `.env` examples (Traefik, Vaultwarden, Ollama, Tailscale, AdGuard, n8n, Postgres, Watchtower, wa-bot…), GitLab CI deploy pipelines, SSH config template
+- **`techskills/`** — (moved out) Step-by-step guides now live in Explore (see `## Explore` below), not here.
 - **`scripts/`** — utility scripts: `check_links.sh`, `check_templates.sh`, `check_tutos.sh`
+
+---
+
+## Explore — Sharing & Exploration HQ (`~/KpihX-Labs/Explore/`, `~e`/`$EXPLORE`)
+
+Explore is where everything KπX builds gets **diffused**: tech side on TechSkills, science side on ScienCurious — both public Docsify sites, both mirrored on GitHub + GitLab. A `lab/` corner holds quick experiments with ML libs preinstalled (numpy, matplotlib, scipy — `uv run` from `lab/scripts/`).
+
+| Project | Role | Local path | GitHub | GitLab |
+|---------|------|-----------|--------|--------|
+| **TechSkills** | Tech diffusion — Ubuntu field notes, 40+ tutorials (system/dev/net/apps/ai/proxies…) | `~/KpihX-Labs/Explore/techskills/` | `KpihX/techskills` (+ Pages site) | `kpihx/techskills` |
+| **ScienCurious** | Science diffusion — visual maths/physics articles (Manim, culling, integration…) | `~/KpihX-Labs/Explore/sciencurious/` | `KpihX/sciencurious` | `kpihx/sciencurious` |
+| **lab** | Rapid prototyping — throwaway scripts, preinstalled ML stack | `~/KpihX-Labs/Explore/lab/` | — (local only) | — (local only) |
 
 ---
 
@@ -277,6 +288,8 @@ Living knowledge/research project. Key `.md` at root: `README`, `VISION`, `IDEAS
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.13.0 — **Explore HQ documented**: new `## Explore` section (TechSkills = tech diffusion, ScienCurious = science diffusion — local paths + github/gitlab remotes + `lab/` ML playground); stale `presentation/techskills/` block replaced with pointer. |
+| 2026-09-05 | [LIVE] | v2.12.1 — Registered personal flagship `cv` pointer (local + github + gitlab → `k-tex`); `k-latex` → `k-tex` rename in skill tree. |
 | 2026-08-31 | [LIVE] | v2.12.0 — **Workspace shortcuts + default reflex documented**: added `~k`/`$KLABS`/`$KHOME`/`$LABS` → `~/KpihX-Labs/` subsection in Infrastructure Directory Standard with agent reflex (search `~k` first when KπX references a file/project without a path). |
 | 2026-08-29 | [LIVE] | v2.11.0 — **`k-openvino` added to the kernel hierarchy** (new skill, generic top skills list) — OpenVINO GenAI local LLM serving, created after a session implementing its full OpenAI-compatible tool-calling/reasoning protocol. |
 | 2026-08-25 | [CLAUDE] | v2.10.0 — **`k-windows` added to the kernel hierarchy** (new Windows/WSL/MSYS2 platform hub, migrated from an unversioned Windows-side `.agents`) under "top skills with OS-specific refs". *(Renumbered from v2.8.3 at PR merge.)* |

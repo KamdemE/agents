@@ -180,6 +180,11 @@
     // then runs `loom sync` when an index exists for the project.
     "git-hooks-post-commit": { "source": "$HOME/.config/git/hooks/post-commit", "target": "$HOME/.agents/skills/k-loom/assets/git-post-commit.sh", "skill": "k-loom", "infras": ["*"] },
 
+    // --- k-presentation -------------------------------------------------------
+    // check-dashes.sh is a skill→skill symlink to the k-tex canonical copy
+    // (single source of truth — never duplicated, see k-presentation SKILL.md).
+    "presentation-check-dashes": { "source": "$HOME/.agents/skills/k-presentation/scripts/check-dashes.sh", "target": "$HOME/.agents/skills/k-tex/scripts/check-dashes.sh", "skill": "k-presentation", "infras": ["*"] },
+
     // --- k-phones (phones — infra skill → -s25 suffix) -------------------------
     "kshrc-phones": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-phones/assets/kshrc", "skill": "k-phones", "infras": ["kpihx-s25"] },
     "termux-boot-sshd-phones": { "source": "$HOME/.termux/boot/sshd", "target": "$HOME/.agents/skills/k-phones/assets/termux-boot-sshd", "skill": "k-phones", "infras": ["kpihx-s25"] },
@@ -211,7 +216,6 @@
     "hermes-profile-opencode-go": { "source": "$HOME/.hermes/profiles/opencode-go/config.yaml", "target": "$HOME/.agents/skills/k-hermes/assets/profiles/opencode-go/config.yaml", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
     "hermes-SOUL":          { "source": "$HOME/.hermes/SOUL.md",          "target": "$HOME/.agents/AGENTS.md",              "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
     "hermes-memories-USER": { "source": "$HOME/.hermes/memories/USER.md", "target": "$HOME/.agents/skills/kpihx/SKILL.md", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "her-SOUL":             { "source": "$HOME/her/SOUL.md",             "target": "$HOME/.agents/AGENTS.md",              "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
     "hermes-SOUL-dir":      { "source": "$HOME/hermes/SOUL.md",          "target": "$HOME/.agents/AGENTS.md",              "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
 
     // --- k-qmd --------------------------------------------------------------------

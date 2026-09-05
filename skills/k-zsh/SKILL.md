@@ -8,7 +8,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.7.0"
+  version: "2.7.1"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -222,6 +222,6 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.7.1 — Workspace shortcuts extended (`~e`→Explore, `~a`→agents kernel, `~d`→Downloads, `$AGENTS`, `$EXPLORE`) in `kshrc.base` + all 7 infra copies (incl. 2 deactive). |
 | 2026-08-31 | [LIVE] | v2.7.0 — KπX workspace shortcuts (`~k`, `$KHOME/$KLABS/$LABS`). |
-| 2026-08-26 | [COLAB] | v2.6.2 `kr()` reload helper universalized. v2.6.1 SSH-agent block made non-destructive. |
-| [SUMMARY] | — | v2.6.0 gpg-agent pinentry TTY re-point · v2.5.0 persistent SSH agent · v2.4.4 no net change · v2.4.3 corrected S25 shell source path · v2.4.2 Android infra cross-refs · v2.4.1–v2.4.0 → `references/log.md` · v2.3.0 idempotency-guard gotcha · v2.2.0 with-env helper · v2.1.0 kshrc pattern redesigned · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |
+| [SUMMARY] | — | v2.6.2 `kr()` universalized + SSH-agent non-destructive · v2.6.0 gpg-agent pinentry TTY re-point · v2.5.0 persistent SSH agent · v2.4.4 no net change · v2.4.3 corrected S25 shell source path · v2.4.2 Android infra cross-refs · v2.4.1–v2.4.0 → `references/log.md` · v2.3.0 idempotency-guard gotcha · v2.2.0 with-env helper · v2.1.0 kshrc pattern redesigned · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

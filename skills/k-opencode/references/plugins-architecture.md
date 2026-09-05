@@ -43,7 +43,6 @@ These are loaded from `opencode.jsonc` → `"plugin"` array:
   "opencode-ssh-session",                   // Type 1: npm — persistent SSH sessions
   "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
   "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
-  // "opencode-claude-auth",                 // DEACTIVATED 2026-09-03 — Claude re-auth blocked (ISS-20260902-003). Was: npm — Claude Code credentials reuse (reads ~/.claude/.credentials.json, syncs to auth.json)
   "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
   "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
   "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)

@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.68"
+  version: "3.66.74"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -38,7 +38,7 @@ allowed-tools: "Bash(*), *"
 > **Skills & kernel homogeneity (GRAVÉ):** Before creating or editing any skill, `AGENTS.md`, or hub `references/` file — inspect first (`tree $HOME/.agents/skills/`, `rg`), find the owning `k-*` skill, extend it; never duplicate identity paths or domain tables; create new files only when nothing covers the topic. Full rule: **AGENTS.md → Skills & kernel homogeneity — GRAVÉ**.
 > **🔴 RED RULE — SYMLINKS TO SKILLS / AGENTS ARE ALWAYS CENTRALIZED VIA `.agents/` + REGISTERED:** any symlink pointing to a skill asset/script or tied to the agents kernel MUST (1) be centralized via `~/.agents` (canonical file stays in `.agents/skills/<skill>/`), and (2) be registered in `assets/links.jsonc` so BOTH `make set-links` (creates) and `make check-links` (verifies, part of `make check`) cover it automatically. New `.agents` symlink → add its entry to `assets/links.jsonc` grouped under the owning skill (only registration point). See `rules/skill-governance.md` → Symlinks Centralization + Registration.
 > TODOs: only KπX adds; agents execute + remove.
-> **Workspace shortcuts (GRAVÉ):** `~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/`. Agents are always launched from there. **Default reflex:** when KπX references a file/project without a path, start by searching in `~k` — `ls ~k`, `plocate <name>` in `~k`, `rg <pattern> ~k` — before looking elsewhere.
+> **Workspace shortcuts (GRAVÉ):** `~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/`; `~e`/`$EXPLORE` → `~/KpihX-Labs/Explore/`, `~a`/`$AGENTS` → `~/KpihX-Labs/.agents/`, `~d` → `~/Downloads`. Agents are always launched from there. **Default reflex:** when KπX references a file/project without a path, start by searching in `~k` — `ls ~k`, `plocate <name>` in `~k`, `rg <pattern> ~k` — before looking elsewhere.
 > **Project rule:** before touching any project — if not already in context — read its folder's `.md` files in order: `AGENTS.md` → `CHANGELOG` → `README` → `TODO`. Never work on a project without knowing its current state. Project rows and session log entries include the folder path for this purpose.
 > **Brainstorms & research:** `references/` — load on demand. **Durable ideas and in-flight project visions** (not yet promoted to a skill or `$HOME/Work/` doc) are stored there as standalone `.md` files; see also **AGENTS.md → Brainstorm & vision archive**.
 > **Insights governance (k-context specific):** maintain `references/insights.md` as the general cross-domain operational memory for recurring mistakes, repeated dead-end actions, and validated workarounds. Update it autonomously whenever a durable pattern is learned.
@@ -46,7 +46,6 @@ allowed-tools: "Bash(*), *"
 > - **Archive standard:** superseded references and merged-away originals are retained as preserved archives. Skills that have been deactivated remain in `skills/deactive/`. Update `## Brainstorm Registry` entries to `[ARCHIVED]` when originals are archived.
 > - **Visual reference assets:**
 >   - `assets/mac-studio-m4-max-config.png` — current Project Sovereignty hardware target snapshot.
->   - `assets/sciencurious_lab.png` — branding reference for ScienCurious Lab (ln → Assets Hub).
 
 ## Active TODOs
 
@@ -62,7 +61,6 @@ allowed-tools: "Bash(*), *"
 | **tg-homelab (k-pve)** | NO | NO | PVE | — | Old `tg-homelab.service` purged. Rebuild as k-pve arch: Telegram bot for PVE monitoring, server logs, backup notifications. Scope vs workstation notifications (notifier.sh, no service) to be defined before implementation. |
 | **rclone client_id** | YES | NO | GDRIVE | 2026 | Rclone's shared Google Drive client_id is being retired in 2026. Must create own OAuth client_id in Google Cloud Console + `rclone config reconnect` for both gdrive: and gdrive-x: before it stops working. See k-rclone/SKILL.md for procedure. |
 | **ts-proxy refactor** | NO | NO | TS-PROXY | — | Folder moved to `$HOME/KpihX-Labs/Proxies/ts-proxy/` and reinstalled via `uv` (v1.2.0). Config migrated from `~/.ts_proxy/` → `~/.config/ts-proxy/` (secrets.json preserved, NOT `.env` — code expects `PERSISTED_SECRETS_PATH`). `.ts_proxy` backup kept pending live validation. |
-| **Create k-explore skill** | YES | NO | K-EXPLORE | **2026-09-02** | Créer un skill `k-explore` basé sur `$HOME/Explore/`. Déplacer les projets didactiques `techskills` et `sciencurious` de `~/Work` vers `~/KpihX-Labs/Explore/`. Déplacer les images de `k-context/assets/sciencurious/` (logo, banner, logo-bgone, logo-nobg) et `k-context/assets/techskills/` (logo, banner, logo-bgone, logo-nobg) dans `k-explore/assets/`. Déplacer aussi `sciencurious.jpeg` et `techskills.jpg` depuis `k-context/assets/`. Le skill doit documenter les projets pédagogiques, le lab d'expérimentation rapide, et les templates scientifiques préinstallés (numpy, matplotlib, scipy). |
 
 ## Active Projects
 
@@ -71,7 +69,7 @@ allowed-tools: "Bash(*), *"
 | **KπX Fit (fun rhythm)** | 🟢 ACTIVE — **Mois 1** depuis 2026-05-24: SU–FR `2×100` corde + **pair=20 pompes / impair=gainage 1 min** + `2×100`; **sam vélo seul**; semaine CROUS midi/soir; TickTick = 3 habits + sam task (see `fit.md`). | Créer habits TickTick ou `go` tick-mcp · `$HOME/.agents/skills/kpihx/references/fit.md` |
 | **Optimisation** | 🟢 ACTIVE — `Projection_Simplex_Goldmann.ipynb` complété et exécuté à partir des PDFs du cours. Rendu TP (Notebook) fixé au 18/05 (23h59). Soutenance confirmée le 04/06 à 15h15 (PC 3). Tâches TickTick `69f8a9288f086d028b4d7b74` et `69f8a9298f0885d1c6763497` à jour. | Relecture finale du notebook + rendu. · `🎓 X/📅 Agenda` |
 | **Sinner Visualizer** | ✅ STABLE — `sinner_analysis_1080p_fr.mp4` delivered. Full tactical video (1080p60) and multi-lang dashboard (v0.3.0). | Final high-res walkthrough delivered. · `$HOME/Work/X/Python_2A_P3/sinner-tactical-visualizer/` |
-| **ScienCurious Lab** | 🟢 ACTIVE — Collaboration avec **Demartino KUETE** formalisée. Candidature au **Prix Gerondeau** en cours (échéance 10 mai). Tâche TickTick `69f629138f085570b2766a1f` créée. Assets Hub opérationnel (v1.1.5). Logos dans `k-context/assets/sciencurious/` (logo, banner, logo-bgone, logo-nobg). | "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !" · `$HOME/Work/KpihX-Labs/Homelab/assets/` |
+| **ScienCurious Lab** | 🟢 ACTIVE — Collaboration avec **Demartino KUETE** formalisée. Candidature au **Prix Gerondeau** en cours (échéance 10 mai). Tâche TickTick `69f629138f085570b2766a1f` créée. Assets Hub opérationnel (v1.1.5). Brand dans `~/KpihX-Labs/Explore/sciencurious/assets/` (k-context/assets/ purgé 2026-09-05). | "Enseigner, ce n'est pas remplir un vase, mais allumer une flamme !" · `$HOME/Work/KpihX-Labs/Homelab/assets/` |
 | **Choix de PA X24** | ✅ STABLE — Classement final des vœux P1 et P2 validé et capturé sur Gdrive_X. Attente de la validation finale sur la plateforme. | Captures dans `Gdrive_X/X/3A/Admin/Captures_Plateforme_Voeux/` · `$HOME/.agents/skills/kpihx/references/3a_course_planning.md` |
 | **Sovereign Email Hub**| ✅ **INBOUND + OUTBOUND + DMARC** — 3 send-as; `_dmarc` `p=none` + `rua→kapoivha`. | Aggregate reports in kapoivha inbox · `outbound-setup-status.md` |
 | **Social APIs (media)** | ✅ STABLE — hub **`k-media`**; **`k-x`** + **`k-meta`** JSON LIVE (outside git); no **`k-publish`** skill. | X credits · Meta System User · `social-dev-platforms.md` |
@@ -173,13 +171,16 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-09-05 | [LIVE] | k-explore TODO purged (skill NOT created — Explore documented as `## Explore` HQ in kpihx-labs v2.13.0 instead: techskills=tech, sciencurious=science, remotes+paths+lab) + k-context/assets/sciencurious/ + techskills/ purged (12 files, brand now in Explore repos) + refs updated. |
+| 2026-09-05 | [LIVE] | Explore/techskills day: brand assets copied + banner/logo wiring (sciencurious model) · reorg 0.10.0 (system/dev/net/apps) + 0.10.1 (templates/→apps/assets/templates/) · `proxies/` 8 pages from live --help (306 actions) · nvim + opencode + tmux tutos (k-nvim/k-opencode/k-tmux) + expansions — 6 commits, push github+gitlab. |
+| 2026-09-05 | [LIVE] | ts-proxy 1.2.2 full release (drift fixé: aucun tag, README seul à 1.2.2 → bump pyproject+CHANGELOG+lock `8f9ad94`, tag `v1.2.2` pushé ×2 remotes, PyPI publié via tmux 0.1, `uv-install` local, status ok) + tg-proxy vérifié déjà docker-free depuis 1.2.0 → option A (pas de release vide, 1.2.1 == PyPI). |
+| 2026-09-05 | [LIVE] | ts-proxy Docker purgé totalement (7 fichiers supprimés, `admin upgrade`+mount+targets retirés, 5 md ajustés, historique CHANGELOG préservé) + pipelines GitLab 5/5 supprimées (#5 annulée avant push) + image locale rmi + deploy uv (`uv-install`, binaire frais, status ok) — commit `9d0c192` (+48/-480), check 182 verts, push 2 remotes. |
+| 2026-09-05 | [LIVE] | ts-proxy registre B full: 7 refs → `registry.gitlab.com/kpihx-labs/proxies/` (Makefile/install/uninstall/compose/CI/CONTRACT) + job CI publish (CI_JOB_TOKEN) + bug Dockerfile README pré-existant fixé (build OK, push local refusé sans auth → CI #5 pending) + `admin status` 7/7 verts. |
+| 2026-09-05 | [LIVE] | Proxies all-public (GitHub link/whats + GitLab ts/link/whats flipped, 8/8 vérifié) + `browser-proxy-ext` → `kpihx-labs/proxies/` (GitLab; GitHub flat, topics `proxy+extension` ×2 forges, submodule intact) + k-git v2.17.0 (convention sous-groupes, recettes move/topics, insights). |
+| 2026-09-05 | [LIVE] | Proxies migration done: GitLab subgroup `kpihx-labs/proxies` created (7/7 in, visibilities kept) + GitHub `KpihX/`→`kpihx-labs/` (mail/ts/whats), topics `proxy` ×14, local remotes `github+gitlab` + doc URLs fixed, commits+push 7/7 (tick `expand_recurring` RRULE shipped), PyPI publish tg 1.2.1/tick 2.2.0/ts 1.2.0 via tmux 0.1 `with-env`. |
+| 2026-09-05 | [LIVE] | `opencode-claude-auth` purged totally (opencode.jsonc + plugins-arch + cache 126M, k-opencode v2.79.1) + workspace shortcuts `~e ~a ~d $AGENTS $EXPLORE` in kshrc.base + 7 infra copies (k-zsh v2.7.1, live-tested in zsh). |
 | 2026-09-05 | [LIVE] | QMD drift fixed: `index.yml` techskills/sciencurious → `~/KpihX-Labs/Explore/` (post-move), `check_collections.sh` hardened (`QMD_CLI_FAIL` + stderr capture, E2E-tested) + k-qmd v2.20.1; 4 collections re-indexed (602 files, 14550 vectors). |
 | 2026-09-05 | [LIVE] | Backup Phoenix fixed: root cause commit `c1b5ade` (16/08, `source $HOME/...` breaks under `User=root`); HOME guard added (same as clean/PVE), `reset-failed`, manual run SUCCESS 68G + Telegram confirmed; silent-failure window 16/08–05/09 (10 missed runs). |
-| 2026-09-05 | [LITE] | link-proxy v0.1.6 shipped (github+gitlab `kpihx-labs`, npm pending token) + skill `k-linkedin` → `k-link` v3.0.0 (link-proxy transport, `--help`-first, `post-create-full` default, k-browser handoff) + 4 culling posts live (CONNECTIONS). |
-| 2026-09-05 | [LIVE] | Root `AGENTS.md` standard enforced (k-git-pages v1.3.5, k-project v2.16.1, k-git v2.16.1) + `envision-copilot-presentation` live example wired (local + GitHub + GitLab). |
-| 2026-09-05 | [LIVE] | Envision Copilot & RAG restructuring: 3 autonomous public repos (envision-copilot, envision-copilot-presentation, envision-copilot-rapport) under GitLab subgroup kpihx-labs/ai/envision & GitHub KpihX; submodules wired (main has rapport+presentation, graph has rapport); local workspace consolidated under $HOME/KpihX-Labs/AI/Envision/envision-copilot; k-pdf v1.0.0 created; k-latex v2.0.0 refactored; k-presentation v3.1.0 (ex k-pptx); k-ai v3.8.0 updated. |
-| 2026-09-04 | [LIVE] | mail-proxy v0.8.0 (Zimbra SOAP, from_address, mandatory account_id, batch folder-delete) + k-mail v3.0.0 (sole transport, 5 accounts, signature rule, routing) + Cloudflare Worker ivann@ deployed + Gmail/Outlook folder+filter SOTs + k-cloudflare v1.5.2 + k-google v1.7.1 + k-microsoft v1.6.1. |
-| 2026-09-02 | [LIVE] | mail-proxy v0.2–v0.8 evolution (IMAP hardening, HITL, BADCHARSET, CLI expansion, Zimbra SOAP tags, from_address send-as, mandatory account_id); opencode-help v0.3–v0.4; Claude purged; gws cleanup; browser-proxy v0.8.1; k-nobg v0.1.0 PyPI; k-ai v3.7.3. |
 | [SUMMARY] | — | 2026-08-30 Polytechnique 3A docs + k-browser · 2026-08-29 browser-proxy rebuild + raw-exec-guard + openvino · 2026-08-27 Propose ≠ Act + PRs · older → `references/log.md` |
 ## References
 
@@ -204,6 +205,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v3.66.68 — Backup Phoenix fix (HOME guard, manual SUCCESS 68G) + QMD drift fix (`index.yml` Explore paths, `QMD_CLI_FAIL`+stderr hardening, re-index 602 files) + k-qmd v2.20.1; session log updated. |
-| 2026-09-05 | [LIVE] | v3.66.67 — Purged stale `tg-bot.service` live mentions (ISS-20260815-001 TODO row obsolete since 2026-08-24 purge + `tg-homelab` scope clause reworded) — full text archived in `references/log.md`; `references/issues.md` ledger preserved (immutable). |
-| [SUMMARY] | — | v3.66.66 root AGENTS.md standard · v3.66.6x mail-proxy v0.8.0 stack · v3.66.5x mail-proxy evolution · v3.66.4x tmux-notify fixes + Propose ≠ Act · v3.66.3x PR merges · older → `references/log.md` |
+| 2026-09-05 | [LIVE] | v3.66.74 — k-explore TODO purged (no skill, Explore HQ in kpihx-labs v2.13.0) + k-context/assets/sciencurious/+techskills/ purged (12 files) + Explore/techskills day logged (reorg 0.10.x, proxies/, nvim/opencode/tmux) ; session log updated. |
+| 2026-09-05 | [LIVE] | v3.66.73 — ts-proxy 1.2.2 full release (tag+PyPI tmux, uv-install) + tg-proxy skip release vide (option A) ; session log updated. |
+| [SUMMARY] | — | v3.66.72→67 ts-proxy 1.2.2/docker-purge/registry-B/all-public/migration/Phoenix+QMD/tg-bot-purge · v3.66.66 root AGENTS.md standard · v3.66.6x mail-proxy v0.8.0 stack · v3.66.5x mail-proxy evolution · v3.66.4x tmux-notify fixes + Propose ≠ Act · v3.66.3x PR merges · older → `references/log.md` |

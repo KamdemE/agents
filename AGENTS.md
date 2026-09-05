@@ -103,7 +103,7 @@ Master map → `k-infras`. Per-machine skills: `k-ubuntu` (workstation) · `k-pv
 
 ### Runtimes, services, tools
 
-Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-confluence` · `k-tg` · `k-tick` · `k-whats` · `k-link` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-latex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
+Each AI runtime has a skill: `k-opencode` · `k-hermes`. Services: `k-browser` · `k-bw` · `k-cloudflare` · `k-google` · `k-microsoft` · `k-mail` · `k-confluence` · `k-tg` · `k-tick` · `k-whats` · `k-link` · `k-x` · `k-meta` · `k-media` · `k-phones`. Tools: `k-code` · `k-nvim` · `k-tmux` · `k-drive` · `k-rclone` · `k-tex` · `k-napkin` · `k-pptx`. Deactivated: `k-claude` · `k-workspace` · `k-gemini` · `k-codex` · `k-copilot` · `k-vibe` · `k-cline` · `k-zed`.
 
 → Full OS-specific reference files at `refs/<os>.md` inside each skill. See `kpihx-labs` → OS-Specific References Governance.
 
@@ -130,7 +130,7 @@ See `k-infras` for full setup.
 
 ### Workspace Shortcuts (GRAVÉ)
 
-`~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/`. Shell shortcuts defined in every `.kshrc` (Section 1 exports + Section 2 `hash -d`). Agents are always launched from there — **default reflex:** when KπX references a file/project without a path, search `~k` first (`ls ~k`, `plocate`, `rg`).
+`~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/`. `~e`/`$EXPLORE` → `~/KpihX-Labs/Explore/` · `~a`/`$AGENTS` → `~/KpihX-Labs/.agents/` (kernel source of truth) · `~d` → `~/Downloads`. Shell shortcuts defined in every `.kshrc` (Section 1 exports + Section 2 `hash -d`). Agents are always launched from there — **default reflex:** when KπX references a file/project without a path, search `~k` first (`ls ~k`, `plocate`, `rg`).
 
 ## Language
 

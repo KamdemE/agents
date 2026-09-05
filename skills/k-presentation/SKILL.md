@@ -16,7 +16,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.1.2"
+  version: "3.2.0"
   scope: content-authoring
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -196,6 +196,28 @@ should clear, accented capitals decomposing under font substitution, layout
 decorations that cannot be deleted per slide, mounts that refuse `unlink`. Do
 not re-derive them.
 
+## Mandatory `check-dashes` (NEVER forget)
+
+`scripts/check-dashes.sh` is a symlink to the canonical copy in
+`skills/k-tex/scripts/check-dashes.sh` — single source of truth, never a
+duplicate. Every deck project MUST run it FIRST in its own `make check`,
+before any build: it fails on any em-dash (`---`) in tracked `.tex` files
+(beamer/poster sources) outside `%` comments.
+
+## Build debris vs renders (NEVER forget)
+
+`build/` debris is 100 % regenerable and stays untracked — but final renders
+are ALWAYS committed. Every deck repo `.gitignore` MUST carry:
+
+```gitignore
+build/*
+!build/*.pptx
+!build/*.pdf
+```
+
+(Use `build/*`, never bare `build/`: a bare dir exclusion cannot be
+re-included by `!` negations.)
+
 ## Example repositories
 
 Two canonical decks were built with this exact doctrine and prove it works end to end.
@@ -232,6 +254,7 @@ If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide
 | `scripts/figkit.py` | matplotlib with inches as data units, plus duotone/tint/desaturate image treatments |
 | `scripts/preview.py` | pptx → PDF → PNG per slide + contact sheets |
 | `scripts/render.py` | entry-point skeleton: `figures \| deck \| preview \| check \| all` |
+| `scripts/check-dashes.sh` | symlink → canonical em-dash gate in `k-tex` (runs FIRST in `make check`) |
 
 ## Assets
 
@@ -247,6 +270,6 @@ If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v3.2.0 — Mandatory `check-dashes` (symlink → k-tex canonical, FIRST in `make check`, NEVER forget) + renders rule (`build/*` + `!build/*.pptx` + `!build/*.pdf`, renders always committed) + scripts table row. |
 | 2026-09-05 | [LIVE] | v3.1.2 — Renamed `assets/README.md` → `assets/AGENTS.md`. |
-| 2026-09-05 | [LIVE] | v3.1.1 — `k-pptx` → `k-presentation` sweep: live script paths, stamp marker, titles (`SKILL.md` commands, `make_help_slides.py`, `inspect_template.py`, `insights.md`, `log.md`, `assets/README.md`). |
-| [SUMMARY] | — | v3.1.0 k-pptx→k-presentation rename (fonts bundled, example repos) · v3.0.1 powerpoint uv tool purged · v1.1.0 first full execution under old MCP doctrine · v1.0.0 initial mapping · folded into v3.0.0. |
+| [SUMMARY] | — | v3.1.1 k-pptx→k-presentation sweep · v3.1.0 k-pptx→k-presentation rename (fonts bundled, example repos) · v3.0.1 powerpoint uv tool purged · v1.1.0 first full execution under old MCP doctrine · v1.0.0 initial mapping · folded into v3.0.0. |

@@ -1,0 +1,1 @@
+../../k-tex/scripts/check-dashes.sh

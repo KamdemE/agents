@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.0"
+  version: "2.8.1"
   scope: personal-os
 ---
 
@@ -43,6 +43,9 @@ metadata:
   - `github`: `https://github.com/KpihX`
   - `labs`: `https://kpihx-labs.com`
   - `docs`: `https://kpihx.github.io/k-ai-docs/`
+- **CV repo** (live LaTeX source, see `k-tex`): local `$HOME/KpihX-Labs/cv` ·
+  github `KpihX/cv` (`https://github.com/KpihX/cv`) ·
+  gitlab `kpihx/cv` (`https://gitlab.com/kpihx/cv`)
 - **Foundational Mantras**:
   - `$1 != 0`
   - Reciprocity
@@ -125,6 +128,7 @@ metadata:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.8.1 — Registered `cv_repo` (local `$HOME/KpihX-Labs/cv`, github `KpihX/cv`, gitlab `kpihx/cv`) in Sovereign Registry → `k-tex`. |
 | 2026-06-04 | [HERMES] | v2.8.0 — Agent Self-Identification Rule: agents must never conflate themselves with KπX. Added Operating Rule under # Operating Rules. |
 | 2026-05-26 | [CURSOR] | v2.7.5 — `x.md` § SynapseS (emploi du temps, groupes PC via ICS DESCRIPTION, liens Moodle). |
 | 2026-05-26 | [CURSOR] | v2.7.4 — Transport IDF block in `identity.md` (Navigo `37096403`, AST `5920537`, canonical `Gdrive_X/KpihX/Fr/` paths); forms/doc discovery rule in Operating Rules. |

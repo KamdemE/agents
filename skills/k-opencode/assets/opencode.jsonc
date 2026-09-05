@@ -538,7 +538,6 @@
     "opencode-ssh-session",
     "opencode-ast",
     "opencode-antigravity-auth@latest",
-    // "opencode-claude-auth",  // DEACTIVATED 2026-09-03 — Claude re-auth blocked (ISS-20260902-003), no longer needed for now
     "opencode-models-discovery@latest",
     // 2026-08-27 (KπX directive): ecosystem plugins — see references/plugin-watch.md for full research
     // @kagan-sh/kagan purged 2026-08-27 (KπX directive) — see references/plugin-watch.md → Purged

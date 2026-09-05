@@ -64,3 +64,37 @@ end
 
 vim.keymap.set("n", "gx", gx_open, { desc = "Open file/URL with system app" })
 vim.keymap.set("n", "<leader>gx", gx_open, { desc = "Open file/URL with system app" })
+
+-- Open current file/directory in VS Code
+local function open_in_vscode(target)
+  local path = target
+  if not path then
+    -- Try Oil directory first (we're in a file explorer)
+    local ok, oil = pcall(require, "oil")
+    if ok then
+      local dir = oil.get_current_dir()
+      if dir then path = dir end
+    end
+    -- Fallback: current buffer file
+    if not path then
+      local file = vim.fn.expand("%:p")
+      if file ~= "" then path = file end
+    end
+  end
+  if not path or path == "" then
+    vim.notify("No file or directory to open", vim.log.levels.WARN)
+    return
+  end
+  local cmd = { "code" }
+  if vim.fn.isdirectory(path) == 1 then
+    table.insert(cmd, path)
+  else
+    table.insert(cmd, path)
+    table.insert(cmd, "-g")
+    table.insert(cmd, vim.fn.line(".") .. ":" .. vim.fn.col("."))
+  end
+  vim.fn.jobstart(cmd, { detach = true })
+end
+
+vim.keymap.set("n", "gc", function() open_in_vscode() end, { desc = "Open in VS Code" })
+vim.keymap.set("n", "gC", function() open_in_vscode() end, { desc = "Open in VS Code" })
