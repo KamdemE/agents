@@ -9,6 +9,10 @@
       "skillFolderHash": "5e0c2d401c82021e1d180c89cf3233ddfbb5fbc9",
       "installedAt": "2026-03-18T13:21:03.937Z",
       "updatedAt": "2026-03-20T16:33:41.662Z"
+    },
+    "k-pdf": {
+      "version": "1.0.0",
+      "path": "skills/k-pdf"
     }
   },
   "dismissed": {},
@@ -55,10 +59,10 @@
       "installedAt": "2026-03-25T00:00:00.000Z",
       "updatedAt": "2026-04-09T23:45:00.000Z"
     },
-    "k-linkedin": {
+    "k-link": {
       "source": "local",
       "sourceType": "local",
-      "skillPath": "skills/k-linkedin/SKILL.md",
+      "skillPath": "skills/k-link/SKILL.md",
       "installedAt": "2026-03-25T00:00:00.000Z",
       "updatedAt": "2026-03-28T18:50:00.000Z"
     },
@@ -213,13 +217,6 @@
       "skillPath": "skills/k-tg/SKILL.md",
       "installedAt": "2026-04-05T21:00:00.000Z",
       "updatedAt": "2026-05-27T00:05:00.000Z"
-    },
-    "k-pptx": {
-      "source": "local",
-      "sourceType": "local",
-      "skillPath": "skills/k-pptx/SKILL.md",
-      "installedAt": "2026-04-07T23:00:00.000Z",
-      "updatedAt": "2026-04-07T23:00:00.000Z"
     },
     "k-final": {
       "source": "local",
@@ -389,6 +386,13 @@
       "skillPath": "skills/k-confluence/SKILL.md",
       "installedAt": "2026-07-12T12:41:17.000Z",
       "updatedAt": "2026-08-26T09:19:39.000Z"
+    },
+    "k-presentation": {
+      "source": "local",
+      "sourceType": "local",
+      "skillPath": "skills/k-presentation/SKILL.md",
+      "installedAt": "2026-04-07T23:00:00.000Z",
+      "updatedAt": "2026-04-07T23:00:00.000Z"
     }
   }
 }

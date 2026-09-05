@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "1.3.4"
+  version: "1.3.5"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -20,6 +20,10 @@ allowed-tools: Bash(*), "*"
 > **Related skills:** `k-git` (push, remotes) · `k-project` (init, naming)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** `$HOME/Work/techskills/` (live Docsify site), `$HOME/Work/Homelab/presentation/` — check via `k-qmd` or shell.
+> **Live example — `envision-copilot-presentation`:**
+> - Local: `$HOME/KpihX-Labs/AI/Envision/envision-copilot-presentation`
+> - GitHub: `https://github.com/KpihX/envision-copilot-presentation`
+> - GitLab: `https://gitlab.com/kpihx-labs/ai/envision-copilot-presentation`
 
 ## Stack
 
@@ -35,8 +39,7 @@ my-site/
 ├── TODO.md
 ├── Makefile          ← from k-git/assets/Makefile.git (push, status, log)
 ├── assets/           ← images, diagrams
-└── .agents/
-    └── AGENTS.md     ← project context for AI agents (NEVER committed)
+└── AGENTS.md         ← project context for AI agents (repo root, NEVER committed, gitignored by name)
 ```
 
 `.nojekyll` is critical: without it, Jekyll silently drops `_*` files (including `_sidebar.md`) → blank navigation panel.
@@ -117,6 +120,6 @@ Example from techskills:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v1.3.5 — **Root `AGENTS.md` standard + live example**: stack tree now shows `AGENTS.md` at repo root (never `.agents/AGENTS.md`); added `envision-copilot-presentation` live example (local + GitHub + GitLab URLs). |
 | 2026-08-15 | [COLAB] | v1.3.4 — **Template → gitlab URL unification**: `## Templates` now notes that external repos (techskills / 𝛱/TechSkills) must reference these assets by their **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/skills/k-git-pages/assets/<file>`), not a local symlink. Source of truth stays in `.agents`. |
-| 2026-04-13 | [CODEX] | v1.3.3 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v1.3.2 normalized paths (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |
+| [SUMMARY] | — | v1.3.3 insights discipline + maintenance hooks · v1.3.2 normalized paths (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |

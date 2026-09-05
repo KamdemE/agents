@@ -1,0 +1,283 @@
+PAGE 1  (COMPRENDRE UNE ENTREPRISE D'INNOVATION À TRAVERS SA R&D)
+  ├── texts/  0  section_header        "COMPRENDRE UNE ENTREPRISE D'INNOVATION À TRAVERS SA R&D"
+  ├── texts/  1  text                  "Rapport de stage d'entreprise de deuxième année Stage chez DxO, Boulogne-Billancourt Équipe R&D, recherche image et cull"
+  ├── texts/  2  text                  "Juin à Août 2026"
+  ├── texts/  3  text                  "Ivann Harold KAMDEM POUOKAM"
+  ├── texts/  4  text                  "ÉCOLE"
+  ├── texts/  5  text                  "POLYTECHNIQUE"
+  ├── texts/  6  text                  "POLTECHNIG"
+  ├── texts/  7  text                  "IP PARIS"
+  └── pictures/  0  picture               (visual)
+
+PAGE 2  (REMERCIEMENTS)
+  ├── texts/  8  section_header        "REMERCIEMENTS"
+  ├── texts/  9  text                  "Je remercie d'abord mes encadrants, Sylvain, Shuxian et Marzieh, pour la confiance qu'ils m'ont accordée, la liberté lai"
+  └── texts/ 10  text                  "Je remercie enfin les équipes que j'ai croisées au-delà de la R&D. Elles m'ont permis de comprendre que la recherche ne "
+
+PAGE 3  (RÉSUMÉ EXÉCUTIF)
+  ├── texts/ 11  section_header        "RÉSUMÉ EXÉCUTIF"
+  ├── texts/ 12  text                  "Ce rapport présente mon stage de découverte d'entreprise de deuxième année à l'École polytechnique, effectué de juin à a"
+  ├── texts/ 13  text                  "L'analyse montre d'abord que DxO ne se laisse pas réduire à une seule étiquette. L 'entreprise a une organisation foncti"
+  ├── texts/ 14  text                  "Le modèle économique éclaire cette organisation. DxO commercialise surtout des licences perpétuelles, complétées de mise"
+  ├── texts/ 15  text                  "Mon activité sur l'état des yeux puis sur le flou a été un terrain d'apprentissage de cette logique : l'enjeu n'était pa"
+  └── texts/ 16  text                  "Enfin, ce stage a confirmé mon goût pour les environnements d'exploration, où se relient mathématiques, physique, intuit"
+
+PAGE 4  (TABLE DES MATIÈRES)
+  ├── texts/ 17  section_header        "TABLE DES MATIÈRES"
+  └── tables/  0  document_index        (visual)
+
+PAGE 5
+  ├── texts/ 18  text                  "1"
+  ├── texts/ 19  text                  "INTRODUCTION"
+  ├── texts/ 20  text                  "J'ai choisi ce stage par curiosité et par goût prononcé pour l'inconnu : je cherchais un stage à caractère exploratoire,"
+  ├── texts/ 21  text                  "Un stage de découverte d'entreprise n'a pas pour objet de démontrer une performance technique isolée. Il doit permettre "
+  ├── texts/ 22  text                  "Ce rapport adopte ainsi une démarche d'analyse plutôt que de description. Les éléments observés sont interprétés avec le"
+  ├── texts/ 23  text                  "La première partie situe DxO dans son environnement et analyse son organisation. La deuxième présente ma mission comme u"
+  ├── texts/ 24  footnote              "1. École polytechnique, Introduction au management des entreprises , supports de cours, Palaiseau, 2025-2026."
+  ├── texts/ 25  page_footer           "1"
+  └── pictures/  1  picture               (visual)
+
+PAGE 6  (2 DXO LABS : TRANSFORMER UNE EXPERTISE IMAGE EN VALEUR DURAB)
+  ├── texts/ 26  section_header        "2 DXO LABS : TRANSFORMER UNE EXPERTISE IMAGE EN VALEUR DURABLE"
+  ├── texts/ 27  section_header        "2.1 UNE ENTREPRISE DE LOGICIELS PHOTOGRAPHIQUES DANS UN ENVIRONNEMENT CONCURRENTIEL"
+  ├── texts/ 28  text                  "Fondée en 2003, DxO s'est construite autour de l'analyse et du traitement de l'image 2 . L 'entreprise développe notamme"
+  ├── texts/ 29  text                  "TABLE 1 - Analyse PESTEL (Politique, Économique, Socioculturelle, Technologique, Écologique, Légale) synthétique de l'en"
+  ├── texts/ 30  footnote              "2. DxO, « Company », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ company"
+  ├── texts/ 31  footnote              "3. DxO, « Technology », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ tech"
+  ├── texts/ 32  page_footer           "2"
+  └── tables/  1  table                 (visual)
+
+PAGE 7  (2.2 UN MODÈLE ÉCONOMIQUE FONDÉ SUR LA LICENCE ET LE RENOUVEL)
+  ├── texts/ 33  text                  "Cette analyse PESTEL (Tableau 1) ne vaut pas par l'exhaustivité de ses rubriques. Elle fait émerger une question central"
+  ├── texts/ 34  section_header        "2.2 UN MODÈLE ÉCONOMIQUE FONDÉ SUR LA LICENCE ET LE RENOUVELLEMENT DE LA VALEUR"
+  ├── texts/ 35  text                  "L'analyse du site commercial de DxO permet de préciser un point important : le modèle central n'est pas un abonnement lo"
+  ├── texts/ 36  text                  "Expertise image"
+  ├── texts/ 37  text                  "et recherche"
+  ├── texts/ 38  text                  "Fonctionnalités"
+  ├── texts/ 39  text                  "et qualité produit"
+  ├── texts/ 40  text                  "Valeur perçue par"
+  ├── texts/ 41  text                  "le photographe"
+  ├── texts/ 42  text                  "Ventes, mises"
+  ├── texts/ 43  text                  "à niveau, offres"
+  ├── texts/ 44  text                  "groupées, support"
+  ├── texts/ 45  text                  "4"
+  ├── texts/ 46  text                  "Le schéma souligne une interdépendance. La recherche nourrit la différenciation; l'exploitation produit donne à cette di"
+  ├── texts/ 47  text                  "Une analyse de type VRIO (Valeur, Rareté, Imitabilité, Organisation) conduit à nuancer cette position. L'expertise accum"
+  ├── texts/ 48  footnote              "4. DxO, « DxO PhotoLab 9 landing page », shop.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https:"
+  ├── texts/ 49  footnote              "5. DxO, « Upgrading & Purchasing », support.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https: /"
+  ├── texts/ 50  footnote              "6. DxO, « DxO Shop », shop.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://shop.dxo.com/en/ "
+  ├── texts/ 51  footnote              "7. DxO, « DxO free trials », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/"
+  ├── texts/ 52  footnote              "8. DxO, « Introducing DxO Premium Customer Support », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible su"
+  ├── texts/ 53  footnote              "9. DxO, « Affiliate Program », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/e"
+  ├── texts/ 54  page_footer           "3"
+  └── pictures/  2  picture               (visual)
+
+PAGE 8  (2.3 CONCURRENCE ET RESSOURCES : UNE DIFFÉRENCIATION À ENTRET)
+  ├── texts/ 55  section_header        "2.3 CONCURRENCE ET RESSOURCES : UNE DIFFÉRENCIATION À ENTRETENIR"
+  ├── texts/ 56  text                  "Les cinq forces de Porter donnent une seconde lecture de ce modèle. La rivalité est forte : les photographes peuvent cho"
+  ├── texts/ 57  text                  "Cette analyse conduit à distinguer deux types de ressources. Certaines sont visibles, comme une fonctionnalité ou une no"
+  ├── texts/ 58  text                  "TABLE 2 - SWOT (Forces, Faiblesses, Opportunités, Menaces) synthétique : une lecture stratégique, et non un inventaire d"
+  ├── texts/ 59  text                  "La SWOT du Tableau 2 n'a d'intérêt que si elle débouche sur une priorité. Celle que je retiens est la suivante : la vale"
+  ├── texts/ 60  section_header        "2.4 UNE STRUCTURE FONCTIONNELLE, AVEC UNE R&D AUX LOGIQUES DIFFÉRENCIÉES"
+  ├── texts/ 61  text                  "L'organigramme interne consulté pendant le stage 10 met en évidence une structure d'abord fonctionnelle. Au sommet se tr"
+  ├── texts/ 62  footnote              "10. Organigramme interne Lucca, consultation durant le stage, août 2026; source interne, non reproduite nominativement d"
+  ├── texts/ 63  page_footer           "4"
+  └── tables/  2  table                 (visual)
+
+PAGE 9  (2.5 UNE AMBIDEXTRIE À CONSTRUIRE ENTRE EXPLORATION ET EXPLOI)
+  ├── texts/ 64  caption               "FIGURE 1 - Organigramme fonctionnel simplifié de DxO, reconstitué à partir de l'organigramme interne consulté pendant le"
+  ├── texts/ 65  text                  "Direction générale"
+  ├── texts/ 66  text                  "Fonctions corporate"
+  ├── texts/ 67  text                  "finance, RH,"
+  ├── texts/ 68  text                  "IT, sécurité"
+  ├── texts/ 69  text                  "Stratégie produit"
+  ├── texts/ 70  text                  "produit, UX/UI,"
+  ├── texts/ 71  text                  "documentation"
+  ├── texts/ 72  text                  "Marketing"
+  ├── texts/ 73  text                  "e-commerce,"
+  ├── texts/ 74  text                  "contenu, sup-"
+  ├── texts/ 75  text                  "port, diffusion"
+  ├── texts/ 76  text                  "R&D"
+  ├── texts/ 77  text                  "recherche image,"
+  ├── texts/ 78  text                  "framework, UI,"
+  ├── texts/ 79  text                  "QA, programme"
+  ├── texts/ 80  text                  "La structure fonctionnelle permet de regrouper des compétences semblables et d'éviter de les dupliquer. Elle présente né"
+  ├── texts/ 81  text                  "À l'intérieur de la R&D, j'ai observé un fonctionnement différent de la seule lecture de l'organigramme. Les problèmes n"
+  ├── texts/ 82  section_header        "2.5 UNE AMBIDEXTRIE À CONSTRUIRE ENTRE EXPLORATION ET EXPLOITATION"
+  ├── texts/ 83  text                  "Le vocabulaire de March aide à comprendre cette coexistence. L 'exploitation désigne les améliorations, la fiabilisation"
+  ├── texts/ 84  caption               "TABLE 3 - La tension exploration/exploitation, appliquée à l'observation de DxO."
+  ├── texts/ 85  page_footer           "5"
+  ├── tables/  3  table                 (visual)
+  └── pictures/  3  picture               (visual)
+
+PAGE 10  (2.6 DÉCIDER SOUS INCERTITUDE SANS PERDRE LA VITESSE D'APPREN)
+  ├── texts/ 86  text                  "Le Tableau 3 le montre : l'entreprise semble organiser une forme d'ambidextrie principalement structurelle : des unités "
+  ├── texts/ 87  section_header        "2.6 DÉCIDER SOUS INCERTITUDE SANS PERDRE LA VITESSE D'APPRENTISSAGE"
+  ├── texts/ 88  text                  "Le cours IME invite à ne pas imaginer qu'une décision organisationnelle serait la conséquence mécanique d'un calcul parf"
+  ├── texts/ 89  text                  "Les sprints donnaient un cadre commun, mais ne déterminaient pas à l'avance toutes les solutions. Ils découpaient le tra"
+  ├── texts/ 90  text                  "Une leçon importante est que la vitesse ne signifie pas la précipitation. Dans une activité d'innovation, elle repose su"
+  ├── texts/ 91  section_header        "2.7 TROIS TENSIONS DE GOUVERNANCE DERRIÈRE UNE ENTREPRISE D'INNOVATION"
+  ├── texts/ 92  text                  "L'observation de DxO fait apparaître trois tensions, qui ne sont pas des dysfonctionnements en soi mais des problèmes de"
+  ├── texts/ 93  text                  "La deuxième tension oppose l'autonomie des experts à la mémoire collective. L 'équipe disposait de beaucoup de liberté e"
+  └── texts/ 94  page_footer           "6"
+
+PAGE 11  (3 UNE MISSION EXPLORATOIRE : ASSISTER LE JUGEMENT DU PHOTOGR)
+  ├── texts/ 95  text                  "Enfin, l'adoption rapide des assistants d'IA crée une troisième tension entre accélération et responsabilité. Elle abais"
+  ├── texts/ 96  section_header        "3 UNE MISSION EXPLORATOIRE : ASSISTER LE JUGEMENT DU PHOTOGRAPHE"
+  ├── texts/ 97  section_header        "3.1 UN SUJET DE STAGE INSCRIT DANS UNE FINALITÉ D'USAGE"
+  ├── texts/ 98  text                  "Ma mission portait sur le culling assisté : aider un photographe à parcourir une série d'images et à repérer rapidement "
+  ├── texts/ 99  text                  "Cette orientation impose aussi une forme de modestie épistémique. Dans le dépôt de travail, les cas ambigus, les limites"
+  ├── texts/100  text                  "J'ai ainsi compris qu'un résultat ne devient professionnel que lorsqu'il résiste à trois questions : sur quelles données"
+  └── texts/101  page_footer           "7"
+
+PAGE 12  (3.2 DE L'ÉTAT DES YEUX AU FLOU : DEUX RÉGIMES DE PREUVE DIFF)
+  ├── texts/102  section_header        "3.2 DE L'ÉTAT DES YEUX AU FLOU : DEUX RÉGIMES DE PREUVE DIFFÉRENTS"
+  ├── texts/103  text                  "La comparaison entre les deux sujets a été l'un des enseignements les plus féconds du stage. Le premier chantier, Eye St"
+  ├── texts/104  caption               "FIGURE 2 - Premier sujet du stage, Eye Status : localisation du visage puis repères faciaux employés pour interpréter l'"
+  ├── texts/105  text                  "Le chantier Blur, commencé après cette première séquence et poursuivi jusqu'à la fin du stage, soulevait une autre diffi"
+  ├── texts/106  text                  "Cette différence modifie aussi la façon de piloter une recherche. Pour les yeux, l'enjeu était de rendre visible une fro"
+  ├── texts/107  footnote              "11. Image : jeu de données Eyeblink8 (A. Fogelton et W. Benesova, « Eye Blink Completeness Detection », Computer Vision "
+  ├── texts/108  footnote              "12. Photographie : CUHK Blur Detection Dataset (J. Shi, L. Xu et J. Jia, « Discriminative Blur Detection Features », Pro"
+  ├── texts/109  page_footer           "8"
+  └── pictures/  4  picture               (visual)
+
+PAGE 13  (3.3 APPRENDRE PAR ITÉRATIONS DANS UN CADRE DE CONFIANCE)
+  ├── texts/110  caption               "TABLE 4 - Deux régimes de preuve observés pendant le stage."
+  ├── texts/111  text                  "FIGURE 3 - Prototype de mesure locale du flou sur une photographie du jeu CUHK Blur Detection : le contour cyan isole un"
+  ├── texts/112  text                  "Ce visuel n'est donc pas une note automatique de qualité : il rend perceptible une comparaison entre les régions de l'im"
+  ├── texts/113  text                  "Bien qu'ils aient été traités successivement et selon des méthodes distinctes, l'état des yeux et le flou répondent en r"
+  ├── texts/114  section_header        "3.3 APPRENDRE PAR ITÉRATIONS DANS UN CADRE DE CONFIANCE"
+  ├── texts/115  text                  "Le travail se déroulait dans l'open space d'une petite équipe de R&D présente sur site, complétée par des collègues très"
+  ├── texts/116  page_footer           "9"
+  ├── tables/  4  table                 (visual)
+  └── pictures/  5  picture               (visual)
+
+PAGE 14  (3.4 L'INTELLIGENCE ARTIFICIELLE : ACCÉLÉRATEUR, PAS DÉLÉGATI)
+  ├── texts/117  text                  "Mon cycle de travail suivait généralement quatre temps : comprendre une difficulté, chercher des références ciblées, con"
+  ├── texts/118  section_header        "3.4 L'INTELLIGENCE ARTIFICIELLE : ACCÉLÉRATEUR, PAS DÉLÉGATION DE RESPONSABILITÉ"
+  ├── texts/119  text                  "Le stage s'est aussi déroulé dans un contexte où les assistants d'intelligence artificielle sont présents dans les prati"
+  ├── texts/120  text                  "Mais cette rapidité ne remplace pas la compréhension : les assistants peuvent produire du code redondant, une architectu"
+  ├── texts/121  section_header        "3.5 RENDRE L'EXPLORATION TRANSMISSIBLE ET APPROPRIABLE"
+  ├── texts/122  text                  "Un résultat exploratoire n'a de portée collective que s'il peut être compris, repris ou discuté par d'autres. C'est pour"
+  ├── texts/123  text                  "Elle est d'autant plus importante dans une équipe internationale et partiellement distribuée. Le télétravail, possible p"
+  ├── texts/124  text                  "J'ai également découvert que la transmission rend plus lucide. Préparer une présentation finale devant l'équipe oblige à"
+  └── texts/125  page_footer           "10"
+
+PAGE 15  (ENSEIGNEMENTS PROFESSIONNELS ET PERSONNELS)
+  ├── texts/126  page_header           "4"
+  ├── texts/127  section_header        "ENSEIGNEMENTS PROFESSIONNELS ET PERSONNELS"
+  ├── texts/128  section_header        "4.1 CULTURE, POUVOIR ET INCITATIONS : CE QUE J'AI OBSERVÉ AU TRAVAIL"
+  ├── texts/129  text                  "La culture de DxO peut être analysée avec la grille de Schein. Ses signes sont immédiatement visibles : une R&D en open "
+  ├── texts/130  text                  "Cette culture a une force intégratrice réelle : elle facilitait les questions rapides, la recherche d'un avis et l'appro"
+  ├── texts/131  text                  "La diversité internationale accentuait à la fois la richesse et l'exigence de cette culture. Les membres de l'équipe et "
+  ├── texts/132  text                  "Sur le plan de la mixité, l'équipe R&D comptait nettement plus d'hommes que de femmes; je n'ai pas observé, sur la durée"
+  ├── texts/133  text                  "Les moments de sociabilité existaient, mais n'étaient pas imposés : repas ponctuels, espace commun à midi, convention an"
+  └── texts/134  page_footer           "11"
+
+PAGE 16  (4.2 DE L'ORGANIGRAMME AU SYSTÈME D'ACTION RÉEL)
+  ├── texts/135  section_header        "4.2 DE L'ORGANIGRAMME AU SYSTÈME D'ACTION RÉEL"
+  ├── texts/136  text                  "L'organigramme donne les responsabilités formelles; il ne dit pas à lui seul comment une décision devient une action. Mo"
+  ├── texts/137  text                  "R&D"
+  ├── texts/138  text                  "hypothèses,"
+  ├── texts/139  text                  "preuves, limites"
+  ├── texts/140  text                  "Produit / UX /"
+  ├── texts/141  text                  "documentation"
+  ├── texts/142  text                  "priorisation et"
+  ├── texts/143  text                  "appropriation"
+  ├── texts/144  text                  "Marketing /"
+  ├── texts/145  text                  "e-commerce"
+  ├── texts/146  text                  "/ support"
+  ├── texts/147  text                  "usage, diffu-"
+  ├── texts/148  text                  "sion, retours"
+  ├── texts/149  text                  "Photographes"
+  ├── texts/150  text                  "pratiques, at-"
+  ├── texts/151  text                  "tentes, confiance"
+  ├── texts/152  text                  "possibilités"
+  ├── texts/153  text                  "offre et"
+  ├── texts/154  text                  "accompa-"
+  ├── texts/155  text                  "gnement"
+  ├── texts/156  text                  "valeur"
+  ├── texts/157  text                  "perçue"
+  ├── texts/158  text                  "retours et"
+  ├── texts/159  text                  "nouveaux"
+  ├── texts/160  text                  "problèmes"
+  ├── texts/161  text                  "4"
+  ├── texts/162  text                  "FIGURE 4 - Lecture fonctionnelle de la circulation de valeur et de connaissance chez DxO. Ce schéma représente des rôles"
+  ├── texts/163  text                  "Cette boucle explique pourquoi le travail de documentation et de démonstration avait une importance disproportionnée pou"
+  ├── texts/164  text                  "La notion de pouvoir apporte une seconde lecture. Dans une organisation de connaissances, l'expertise est une zone d'inc"
+  ├── texts/165  caption               "TABLE 5 - Lecture non nominative des interdépendances de pouvoir."
+  ├── texts/166  text                  "Les incitations observées étaient surtout intrinsèques. Selon Herzberg, le matériel performant, le télétravail ou des lo"
+  ├── texts/167  page_footer           "12"
+  ├── tables/  5  table                 (visual)
+  └── pictures/  6  picture               (visual)
+
+PAGE 17  (4.3 CE QUE J'AI APPRIS SUR LA COOPÉRATION DANS UN COLLECTIF )
+  ├── texts/168  section_header        "4.3 CE QUE J'AI APPRIS SUR LA COOPÉRATION DANS UN COLLECTIF D'EXPERTS"
+  ├── texts/169  text                  "Le stage m'a fait passer d'une représentation individuelle de la compétence à une représentation plus organisationnelle."
+  ├── texts/170  text                  "Cette prise de conscience a fait écho à un trait déjà apparu lors de mon stage de formation humaine : quand je veux très"
+  ├── texts/171  text                  "Cette expérience donne un contenu concret à l'ajustement mutuel. Il ne s'agit pas d'une conversation permanente ni d'un "
+  ├── texts/172  text                  "J'ai également compris que l'internationalisation et le télétravail renforcent le besoin de cette explicitation. Travail"
+  ├── texts/173  text                  "La présentation finale devant l'équipe a été le moment où cette progression est devenue tangible. Il ne suffisait plus d"
+  ├── texts/174  section_header        "4.4 CE QUE LE STAGE A CONFIRMÉ DANS MON ORIENTATION"
+  ├── texts/175  text                  "Je suis arrivé chez DxO avec la crainte de découvrir un monde professionnel réduit à l'exploitation de procédés établis."
+  └── texts/176  page_footer           "13"
+
+PAGE 18  (4.5 UN APPRENTISSAGE SUR L'AUTONOMIE ET SES LIMITES)
+  ├── texts/177  section_header        "4.5 UN APPRENTISSAGE SUR L'AUTONOMIE ET SES LIMITES"
+  ├── texts/178  text                  "Mon principal point de vigilance concerne l'intensité de mon investissement. Ma journée contractuelle durait cinq heures"
+  ├── texts/179  text                  "Le vélo illustre concrètement cette recherche d'équilibre. J'ai fait plus de 70 % de mes trajets à vélo à assistance éle"
+  ├── texts/180  text                  "L'analyse par le contrat psychologique aide à formuler ce point. L 'entreprise offrait autonomie, confiance, outils et p"
+  └── texts/181  page_footer           "14"
+
+PAGE 19  (5 CONCLUSION)
+  ├── texts/182  section_header        "5 CONCLUSION"
+  ├── texts/183  text                  "Ce stage m'a permis de comprendre de l'intérieur une entreprise d'innovation et pas seulement un sujet de recherche. DxO"
+  ├── texts/184  text                  "Ma mission sur le culling assisté a constitué un exemple concret de cette dynamique. Elle m'a appris à expérimenter sans"
+  ├── texts/185  text                  "Le rapprochement entre l'état des yeux et le flou a rendu cette leçon particulièrement concrète. Deux phénomènes photogr"
+  ├── texts/186  text                  "Cette expérience a aussi modifié ma façon de concevoir le travail collectif. J'y suis entré avec une forte appétence pou"
+  ├── texts/187  text                  "Enfin, ce stage a affermi mon projet professionnel. Je souhaite poursuivre dans des contextes où l'on explore des problè"
+  └── texts/188  page_footer           "15"
+
+PAGE 20  (FICHE D'EVALUATION DU STAGIAIRE /)
+  ├── texts/189  text                  "ÉCOLE"
+  ├── texts/190  text                  "POLYTECHNIQUE"
+  ├── texts/191  text                  "UNIVESSITE PABId-SACLAY"
+  ├── texts/192  text                  "Nom de l'élève/Student name :"
+  ├── texts/193  text                  "Ivann Harold KAMDEM POUOKAM"
+  ├── texts/194  text                  "Organisme d'accueil / Company :"
+  ├── texts/195  text                  "DxO Lab"
+  ├── texts/196  text                  "Nom et fonction  de l'évaluateur/Name and function of appraiser :"
+  ├── texts/197  text                  "Signature/ Signature :"
+  ├── texts/198  text                  "Cheisani"
+  ├── texts/199  text                  "Marzieh Gheisari - Ingénieure de recherche"
+  ├── texts/200  list_item             "Jugement global sur le stage/ Gobal opinion on the internship."
+  ├── texts/201  text                  "Très bon stage. Ivann a été autonome, curieux et très investi. Il a obtenu de bons résultats sur un sujet de R&D explora"
+  ├── texts/202  list_item             "Quels sont les points forts de l'élève et les points faibles à améliorer ? / What are the student's  strengths and which"
+  ├── texts/203  text                  "Grande autonomie, beaucoup d'initiative et une forte curiosité scientifique. Ivann apprend vite et sait explorer un prob"
+  ├── texts/204  list_item             "Etes-vous satisfait de cette expérience ? Envisagez-vous de reprendre un stagiaire polytechnicien ? Are you satisfied wi"
+  ├── texts/205  text                  "Oui, bien sûr."
+  ├── texts/206  list_item             "Pourquoi ? Qu'est ce qui a différencié cet élève des autres stagiaires ?"
+  ├── texts/207  text                  "Why? What differentiated this student from other interns?"
+  ├── texts/208  text                  "Son niveau d'initiative et sa capacité à aller au-delà d'une simple implémentation, en cherchant à comprendre et compare"
+  ├── texts/209  section_header        "FICHE D'EVALUATION DU STAGIAIRE /"
+  ├── texts/210  section_header        "APPRAISAL  FORM OF STUDENT"
+  ├── texts/211  text                  "28/08/2026"
+  ├── texts/212  text                  "Date :"
+  ├── tables/  6  table                 (visual)
+  ├── pictures/  7  picture               (visual)
+  └── pictures/  8  picture               (visual)
+
+
+============================================================
+META
+Schema: DoclingDocument
+Version: 1.10.0
+Body children: 157
+  groups: 6
+  pictures: 8
+  tables: 7
+  texts: 136
+Total texts: 213
+Total tables: 7
+Total pictures: 9
+============================================================

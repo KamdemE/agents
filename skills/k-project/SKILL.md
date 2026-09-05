@@ -9,7 +9,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.16.0"
+  version: "2.16.1"
 allowed-tools: Bash(*), "*"
 ---
 
@@ -273,5 +273,6 @@ This creates/updates `.gitmodules`:
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.16.1 — **Root `AGENTS.md` standard enforced in references**: `references/docs-site.md` + `references/bash-shell-init.md` trees now show `AGENTS.md` at repo root (never `.agents/AGENTS.md`). |
 | 2026-09-02 | [LIVE] | v2.16.0 — **Makefile.npm-bun publish pattern updated**: `bun-publish` now uses `npm config set` + `npm publish --access public` with `$(NPM_TOKEN)`. Agent calls `with-env make bun-publish`. |
 | [SUMMARY] | — | v2.15.0 Root AGENTS.md + Makefile templates · v2.14.0 Pipeline R&D archetype + config.yaml purge · older → `references/log.md` |

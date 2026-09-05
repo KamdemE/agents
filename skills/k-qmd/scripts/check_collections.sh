@@ -56,7 +56,21 @@ while IFS= read -r line; do
 done < "$INDEX_YML"
 
 declare -A QMD_FILES=()
-list_out="$("$QMD_BIN" collection list 2>/dev/null || true)"
+# Capture stderr instead of discarding it: on CLI failure its content is the
+# only diagnostic of the real cause — surfaced inside QMD_CLI_FAIL details.
+QMD_ERR_TMP="$(mktemp /tmp/qmd-collection-list-err.XXXXXX)"
+trap 'rm -f "$QMD_ERR_TMP"' EXIT
+list_out="$("$QMD_BIN" collection list 2>"$QMD_ERR_TMP" || true)"
+# Empty CLI output means the qmd call itself failed (DB lock, daemon down,
+# binary error) — NOT that collections are gone. Flag it explicitly so callers
+# don't report N misleading UNKNOWN_QMD issues (seen 2026-09-05 04:01 clean).
+QMD_CLI_DEAD=0
+QMD_ERR=""
+if [[ -z "${list_out//[[:space:]]/}" ]]; then
+    QMD_CLI_DEAD=1
+    QMD_ERR="$(tr '\n' ';' < "$QMD_ERR_TMP" 2>/dev/null | cut -c1-1500)"
+    [[ -z "${QMD_ERR//[ ;]/}" ]] && QMD_ERR="<empty>"
+fi
 col=""
 while IFS= read -r line; do
   if [[ "$line" =~ ^([a-zA-Z0-9_-]+)[[:space:]]+\(qmd:// ]]; then
@@ -92,7 +106,11 @@ for name in "${!CONFIG_PATH[@]}"; do
     disk_count="$(count_disk_docs "$path")"
 
     if [[ "$qmd_count" -lt 0 ]]; then
-        issues+=("UNKNOWN_QMD|$name|$path|collection missing from 'qmd collection list'")
+        if [[ "$QMD_CLI_DEAD" -eq 1 ]]; then
+            issues+=("QMD_CLI_FAIL|$name|$path|'qmd collection list' returned empty — CLI/DB failure, collections NOT verified (do not treat as collection loss). qmd stderr: $QMD_ERR")
+        else
+            issues+=("UNKNOWN_QMD|$name|$path|collection missing from 'qmd collection list'")
+        fi
         continue
     fi
 

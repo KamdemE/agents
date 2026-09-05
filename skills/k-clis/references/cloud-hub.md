@@ -23,7 +23,7 @@
 | **Mail** | `k-mail` | mail-mcp (poly), `m365 outlook` (Hotmail) | `k-mail/references/mcp.md` |
 | **Tasks / calendar** | `k-tick` | tick-proxy | `k-tick/SKILL.md` |
 | **WhatsApp** | `k-whats` | whats-proxy CLI | `k-whats/references/mcp.md` (legacy) |
-| **LinkedIn** | `k-linkedin` | linkedin-mcp | `k-linkedin/references/mcp.md` |
+| **LinkedIn** | `k-link` | link-proxy CLI | `k-link/SKILL.md` |
 | **Telegram** | `k-tg` | `tg` CLI (Telethon + Bot API) | `k-tg/SKILL.md` |
 | **Secrets** | local config / env | no longer injected via `k-bw` (purged 2026-08-14) |
 | **Homelab edge** | `kpihx-labs` | Traefik, Docker, GitLab | not public cloud |
@@ -50,4 +50,4 @@ Reference: `ts-proxy`, `whats_proxy` — same API via CLI and HTTP; HITL on dest
 | X | `k-x` | LIVE `me`; tweet needs credits |
 | Meta Graph | `k-meta` | LIVE core; System User for WA Graph |
 | WhatsApp chat | `k-whats` | ACTIVE (whats-proxy) |
-| LinkedIn | `k-linkedin` | ACTIVE (linkedin-mcp) |
+| LinkedIn | `k-link` | ACTIVE (link-proxy) |

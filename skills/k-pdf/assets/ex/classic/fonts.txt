@@ -1,0 +1,22 @@
+Font                                    Size  Occurrences  Usage
+───────────────────────────────────────────────────────  ───────────────────────────────────
+EQHUAQ+NimbusSanL-Regu                 10.4pt       42 555  Body text (main paragraphs)
+EQHUAQ+NimbusSanL-Regu                  9.5pt        3 951  Footnotes
+EQHUAQ+NimbusSanL-Regu                  8.5pt        1 590  Notes / captions
+XDNLOJ+Calibri                         11.0pt        1 035  Secondary text
+EQHUAQ+NimbusSanL-Regu                 10.9pt          857  Secondary text
+AHLALF+LMMono9-Regular                  9.0pt          436  Code / mono
+OPLMOQ+NimbusSanL-Bold                 16.4pt          328  Part titles
+OPLMOQ+NimbusSanL-Bold                  9.5pt          228  Footnotes
+OPLMOQ+NimbusSanL-Bold                 10.4pt          178  Bold in text
+ZSGYWJ+NimbusSanL-ReguItal              8.5pt          140  Notes / captions
+EQHUAQ+NimbusSanL-Regu                 13.6pt          107  Secondary text
+EQHUAQ+NimbusSanL-Regu                  7.6pt           87  Notes / captions
+ZSGYWJ+NimbusSanL-ReguItal             10.4pt           78  Italic
+HFLOYP+Calibri-Bold                    14.0pt           62  Part titles
+OPLMOQ+NimbusSanL-Bold                 23.5pt           48  Section titles
+EQHUAQ+NimbusSanL-Regu                  8.3pt           40  Notes / captions
+UNSYKC+LMRoman12-Regular               14.3pt           24  Titles
+MPYXQF+SymbolMT                        11.0pt            4  Secondary text
+───────────────────────────────────────────────────────  ───────────────────────────────────
+TOTAL                                              51 748

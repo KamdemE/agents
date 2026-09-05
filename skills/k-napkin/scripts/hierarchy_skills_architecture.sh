@@ -29,6 +29,6 @@ Root identity, language rules, security, mantras
 - k-homelab: infra SSH and services
 
 ### Communication
-- k-whatsapp, k-mail, k-linkedin, k-tick
+- k-whatsapp, k-mail, k-link, k-tick
 EOF
 napkin_gen /tmp/napkin_content.md hierarchy svg

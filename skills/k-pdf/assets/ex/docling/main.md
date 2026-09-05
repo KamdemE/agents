@@ -1,0 +1,363 @@
+## COMPRENDRE UNE ENTREPRISE D'INNOVATION À TRAVERS SA R&amp;D
+
+Rapport de stage d'entreprise de deuxième année Stage chez DxO, Boulogne-Billancourt Équipe R&amp;D, recherche image et culling assisté
+
+Juin à Août 2026
+
+Ivann Harold KAMDEM POUOKAM
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000000_de86e4b9e48da82d6b3da683970e40f55027b98b303f17f29a3f8b53032ac3c5.png)
+
+## REMERCIEMENTS
+
+Je remercie d'abord mes encadrants, Sylvain, Shuxian et Marzieh, pour la confiance qu'ils m'ont accordée, la liberté laissée dans l'exploration des pistes et la qualité de leurs retours. Je remercie également l'ensemble des membres de la R&amp;D de DxO. Leur disponibilité dans les échanges quotidiens, leur exigence technique et leur manière de discuter une intuition plutôt que de donner une réponse immédiate ont fait de ce stage une expérience de formation particulièrement dense.
+
+Je remercie enfin les équipes que j'ai croisées au-delà de la R&amp;D. Elles m'ont permis de comprendre que la recherche ne prend son sens qu'insérée dans une entreprise qui conçoit, teste, documente, commercialise et accompagne des logiciels pour des photographes. Cette ouverture est au coeur de ce rapport : il ne vise pas à reproduire l'ensemble de la documentation scientifique et technique du projet, mais à rendre compte de l'observation d'une organisation et de mon évolution au sein d'elle.
+
+## RÉSUMÉ EXÉCUTIF
+
+Ce rapport présente mon stage de découverte d'entreprise de deuxième année à l'École polytechnique, effectué de juin à août 2026 chez DxO Labs (ci-après DxO) à Boulogne-Billancourt, éditeur de logiciels de traitement photographique pour des photographes exigeants. Il s'est déroulé dans une équipe de R&amp;D autour du culling assisté, c'est-à-dire de l'aide au tri de photographies. Cette situation m'a offert un observatoire riche : une activité exploratoire, doublée de la découverte des mécanismes qui transforment une expertise image en produits, en services et en relation durable avec l'utilisateur.
+
+L'analyse montre d'abord que DxO ne se laisse pas réduire à une seule étiquette. L 'entreprise a une organisation fonctionnelle structurée (R&amp;D, stratégie produit, marketing, e-commerce, support, fonctions corporate) qui organise l'exploitation : qualité, documentation, diffusion et accompagnement des produits existants. La R&amp;D, elle, garde des traits d'adhocratie : problèmes incertains, autonomie des spécialistes, ajustement mutuel, rendus coordonnables par des rituels courts (sprints, revues de code, échanges informels). L 'intérêt n'est donc pas de qualifier DxO de « start-up » de façon vague, mais de comprendre une combinaison concrète entre stabilité fonctionnelle et exploration.
+
+Le modèle économique éclaire cette organisation. DxO commercialise surtout des licences perpétuelles, complétées de mises à niveau, d'offres groupées, d'un essai et d'un support premium optionnel, sans abonnement logiciel central. L 'entreprise doit donc entretenir une relation de confiance avec les photographes et transformer régulièrement ses avancées de recherche en bénéfices perceptibles. Les retours du marketing, du support et des utilisateurs ont ainsi une fonction organisationnelle : relier la recherche à l'usage réel et à la création de valeur.
+
+Mon activité sur l'état des yeux puis sur le flou a été un terrain d'apprentissage de cette logique : l'enjeu n'était pas un système décidant seul à la place du photographe, mais l'exploration de signaux susceptibles de l'assister. J'ai avancé par cycles courts : hypothèse, lecture ciblée, preuve de concept, confrontation à des cas visuels, puis décision de garder, corriger ou abandonner une piste. L 'intelligence artificielle a accéléré ce travail sans supprimer la responsabilité du raisonnement : architecture, validation, lisibilité et contrôle des erreurs restaient de mon ressort.
+
+Enfin, ce stage a confirmé mon goût pour les environnements d'exploration, où se relient mathématiques, physique, intuition et expérimentation, tout en révélant une limite personnelle : l'autonomie et la passion peuvent conduire à une implication excessive ou à un isolement silencieux. Mon apprentissage principal est donc double : je veux m'orienter vers la recherche ou la R&amp;D, en y cultivant autant la coopération, la capacité à demander de l'aide et un rythme soutenable que l'exigence intellectuelle.
+
+## TABLE DES MATIÈRES
+
+| 1 Introduction                                                     | 1 Introduction                                                     | 1 Introduction                                                                             | 1                                                                  |
+|--------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+|                                                                    | 2 DxO Labs : transformer une expertise image                       | en valeur durable                                                                          | 2                                                                  |
+|                                                                    | 2.1                                                                | Une entreprise de logiciels photographiques dans un environnement concurrentiel .          | . . . 2                                                            |
+|                                                                    | 2.2                                                                | Un modèle économique fondé sur la licence et le renouvellement de la valeur . . .          | . . . 3                                                            |
+|                                                                    | 2.3                                                                | Concurrence et ressources : une différenciation à entretenir . . . . . . . . . . . . .     | . . . 4                                                            |
+|                                                                    | 2.4                                                                | Une structure fonctionnelle, avec une R&D aux logiques différenciées . . . . . . . .       | . . . 4                                                            |
+|                                                                    | 2.5                                                                | Une ambidextrie à construire entre exploration et exploitation . . . . . . . . . . . .     | . . . 5                                                            |
+|                                                                    | 2.6                                                                | Décider sous incertitude sans perdre la vitesse d'apprentissage . . . . . . . . . . .      | . . . 6                                                            |
+|                                                                    | 2.7                                                                | Trois tensions de gouvernance derrière une entreprise d'innovation . . . . . . . . .       | . . . 6                                                            |
+| 3 Une mission exploratoire : assister le jugement du photographe 7 | 3 Une mission exploratoire : assister le jugement du photographe 7 | 3 Une mission exploratoire : assister le jugement du photographe 7                         | 3 Une mission exploratoire : assister le jugement du photographe 7 |
+|                                                                    | 3.1                                                                | Un sujet de stage inscrit dans une finalité d'usage . . . . . . . . . . . . . . . . . .    | . . . 7                                                            |
+|                                                                    | 3.2                                                                | De l'état des yeux au flou : deux régimes de preuve différents . . . . . . . . . . . .     | . . . 8                                                            |
+|                                                                    | 3.3                                                                | Apprendre par itérations dans un cadre de confiance . . . . . . . . . . . . . . . . .      | . . . 9                                                            |
+|                                                                    | 3.4                                                                | L'intelligence artificielle : accélérateur, pas délégation de responsabilité . . . . . . . | . . . 10                                                           |
+|                                                                    | 3.5                                                                | Rendre l'exploration transmissible et appropriable . . . . . . . . . . . . . . . . . . .   | . . . 10                                                           |
+|                                                                    | 4 Enseignements professionnels et personnels                       | 4 Enseignements professionnels et personnels                                               | 4 Enseignements professionnels et personnels                       |
+|                                                                    | 4.1                                                                | Culture, pouvoir et incitations : ce que j'ai observé au travail . . . . . . . . . . . . . | 11 . . . 11                                                        |
+|                                                                    | 4.2                                                                | De l'organigramme au système d'action réel . . . . . . . . . . . . . . . . . . . . . .     | . . . 12                                                           |
+|                                                                    | 4.3                                                                | Ce que j'ai appris sur la coopération dans un collectif d'experts . . . . . . . . . . .    | . . . 13                                                           |
+|                                                                    | 4.4                                                                | Ce que le stage a confirmé dans mon orientation . . . . . . . . . . . . . . . . . . .      | . . . 13                                                           |
+|                                                                    | 4.5                                                                | Un apprentissage sur l'autonomie et ses limites . . . . . . . . . . . . . . . . . . . .    | . . . 14                                                           |
+| 5 Conclusion                                                       | 5 Conclusion                                                       | 5 Conclusion                                                                               | 15                                                                 |
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000001_9925f030cfe2a1c752922ba1ae08e23eb2a957858136826d1e94fe2d9b2241ba.png)
+
+J'ai choisi ce stage par curiosité et par goût prononcé pour l'inconnu : je cherchais un stage à caractère exploratoire, proche de la recherche, plutôt qu'une mission d'exécution classique. Passionné de technologie et d'intelligence artificielle, je voulais un milieu qui nourrisse cette curiosité. Je me suis donc orienté vers des entreprises de type start-up ou à forte composante R&amp;D, DxO en faisant partie; je l'envisageais alors davantage comme un acteur de la vision par ordinateur que du traitement d'image au sens strict. J'ai également candidaté chez HRflow.ai, une start-up d'intelligence artificielle pour les ressources humaines; dès la confirmation de mon stage chez DxO, j'ai arrêté cette autre piste.
+
+Un stage de découverte d'entreprise n'a pas pour objet de démontrer une performance technique isolée. Il doit permettre de comprendre comment une organisation agit collectivement, comment elle crée de la valeur et comment un étudiant s'y adapte. Mon stage chez DxO avait cependant une particularité : l'offre portait sur la recherche d'images et l'aide au tri photographique. J'ai donc vécu de très près l'exploration technique, tout en découvrant que cette exploration n'est qu'une composante d'un système plus vaste : produits, utilisateurs, marketing, support, qualité, choix de priorités et conditions de travail.
+
+Ce rapport adopte ainsi une démarche d'analyse plutôt que de description. Les éléments observés sont interprétés avec les grilles du cours Introduction au management des entreprises (IME) 1 : structure et coordination, culture, pouvoir, incitations, décision et innovation. Ces concepts ne sont pas employés comme des étiquettes; ils permettent de relier un fait observé à son effet sur l'action collective et à ses limites. Cette exigence a une conséquence méthodologique explicite : il ne s'agit pas de restituer le discours que DxO tient sur elle-même, mais d'en proposer une lecture critique et personnelle, appuyée sur des observations vérifiables et assumant leurs limites plutôt que sur une évaluation complaisante. Une attention particulière est consacrée à la tension entre exploration et exploitation . La première renouvelle les connaissances et prépare les offres futures; la seconde fiabilise, diffuse et valorise les offres existantes. Une entreprise d'innovation doit faire vivre les deux simultanément.
+
+La première partie situe DxO dans son environnement et analyse son organisation. La deuxième présente ma mission comme un exemple de projet exploratoire inséré dans cette entreprise. La troisième tire les enseignements professionnels et personnels de l'expérience.
+
+1. École polytechnique, Introduction au management des entreprises , supports de cours, Palaiseau, 2025-2026.
+
+## 2 DXO LABS : TRANSFORMER UNE EXPERTISE IMAGE EN VALEUR DURABLE
+
+## 2.1 UNE ENTREPRISE DE LOGICIELS PHOTOGRAPHIQUES DANS UN ENVIRONNEMENT CONCURRENTIEL
+
+Fondée en 2003, DxO s'est construite autour de l'analyse et du traitement de l'image 2 . L 'entreprise développe notamment PhotoLab, Nik Collection et PureRAW, des logiciels destinés aux photographes qui souhaitent garder une maîtrise fine de leurs images 3 . Son histoire rappelle qu'une innovation n'est pas seulement une invention : elle doit être intégrée dans une offre, comprise par un marché et durablement utilisée. Cette insertion économique et sociale est précisément ce que le cours IME appelle l'innovation. Le secteur combine plusieurs contraintes. Le progrès des capteurs, des appareils et des pratiques photographiques impose de suivre une grande diversité de matériels. L 'intelligence artificielle accélère les attentes sur l'automatisation, mais soulève aussi une exigence de confiance : le photographe ne veut pas nécessairement déléguer son jugement esthétique à une boîte noire. Enfin, la concurrence des suites logicielles généralistes, des outils spécialisés et des fonctions intégrées aux plateformes crée une forte pression sur la différenciation.
+
+| Dimension       | Observation                                                                                                                                                                | Enjeu stratégique pour DxO                                                                                                                                                   |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Politique       | Soutien public à l'innovation technologique et à l'IA en Europe; réglementation numérique naissante (par exemple l'AI Act) encadrant les fonctionnalités assistées par IA. | Anticiper les exigences de transparence et de conformité pour toute assistance fondée sur l'IA.                                                                              |
+| Économique      | Marché de logiciels créatifs concurrentiel, arbitrage entre solutions gratuites, abonnement et achat perpétuel; vente numérique directe, essais, partenaires et support.   | Donner une raison tangible de mettre à niveau ou d'acheter une offre perpétuelle, en s'appuyant sur des canaux qui font remonter le retour d'usage vers les équipes produit. |
+| Socioculturelle | Photographes attachés à leur style, à leur contrôle et à la qualité du rendu.                                                                                              | Concevoir une assistance qui augmente la capacité d'action sans confisquer la décision.                                                                                      |
+| Technologique   | Progrès rapide de l'IA, multiplicité des appareils et attentes de qualité visuelle.                                                                                        | Maintenir une expertise difficile à reproduire tout en transformant les avancées en fonctionnalités lisibles.                                                                |
+| Écologique      | Renouvellement fréquent du matériel photographique et informatique; préoccupations croissantes sur l'empreinte environnementale du numérique et de l'IA.                   | Prolonger l'utilité du matériel existant par le logiciel plutôt que par le seul renouvellement matériel.                                                                     |
+| Légal           | Protection par brevets des modules de traitement optique; réglementation sur les données personnelles pour les métadonnées et images traitées.                             | Préserver la propriété intellectuelle sur les algorithmes propriétaires tout en garantissant la conformité du traitement des données utilisateur.                            |
+
+TABLE 1 - Analyse PESTEL (Politique, Économique, Socioculturelle, Technologique, Écologique, Légale) synthétique de l'environnement de DxO.
+
+2. DxO, « Company », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ company/ .
+
+3. DxO, « Technology », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ technology/ .
+
+Cette analyse PESTEL (Tableau 1) ne vaut pas par l'exhaustivité de ses rubriques. Elle fait émerger une question centrale : comment préserver une promesse de qualité et de contrôle photographique lorsque les technologies évoluent vite et que les attentes d'automatisation augmentent? La réponse ne dépend pas seulement de la R&amp;D; elle dépend de la capacité de toute l'entreprise à sélectionner, rendre utilisables et expliquer les innovations.
+
+## 2.2 UN MODÈLE ÉCONOMIQUE FONDÉ SUR LA LICENCE ET LE RENOUVELLEMENT DE LA VALEUR
+
+L'analyse du site commercial de DxO permet de préciser un point important : le modèle central n'est pas un abonnement logiciel. Les logiciels sont vendus sous licence perpétuelle 4 . L 'entreprise propose aussi des mises à niveau 5 , des ensembles de produits 6 , une période d'essai complète 7 et un support premium optionnel 8 . Ce choix n'élimine pas la nécessité de revenus récurrents; il déplace le problème. Une nouvelle version doit démontrer sa valeur, et le portefeuille de produits doit créer des complémentarités sans transformer artificiellement le client en captif.
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000002_3a4c12d5f0b6db7e5735e6da9a5b6ba199fe40dd2a3c5d84f9a958bfc7551e09.png)
+
+Le schéma souligne une interdépendance. La recherche nourrit la différenciation; l'exploitation produit donne à cette différenciation une forme fiable; le marketing, les essais et le support rendent l'offre visible et recueillent des signaux de marché; ces signaux contribuent à orienter les priorités futures. Le programme partenaire officiel, fondé sur les lancements, les créateurs et le partage de revenus, illustre aussi l'importance de ces médiateurs dans l'accès à la communauté photographique 9 . Il serait donc faux d'opposer la R&amp;D au marketing. Les deux maîtrisent des ressources différentes et complémentaires : l'une une expertise scientifique et technique, l'autre le lien avec les utilisateurs, les usages et les conditions de diffusion.
+
+Une analyse de type VRIO (Valeur, Rareté, Imitabilité, Organisation) conduit à nuancer cette position. L'expertise accumulée, les connaissances liées aux équipements photographiques, la réputation auprès d'une communauté de passionnés et la cohérence d'une gamme de produits sont des ressources potentiellement créatrices de valeur. Elles ne deviennent un avantage durable que si l'organisation sait les mobiliser : documentation, expérience utilisateur, qualité, relation client et rythme de renouvellement comptent autant que l'idée initiale. Cette conclusion exclut une vision héroïque de l'innovation, réduite à un seul chercheur ou à un seul algorithme.
+
+4. DxO, « DxO PhotoLab 9 landing page », shop.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https: //shop.dxo.com/en/landing .
+
+5. DxO, « Upgrading &amp; Purchasing », support.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https: //support.dxo.com/hc/en-us/sections/4870505921693-Upgrading-Purchasing .
+
+6. DxO, « DxO Shop », shop.dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://shop.dxo.com/en/ .
+
+7. DxO, « DxO free trials », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ free-trial/ .
+
+8. DxO, « Introducing DxO Premium Customer Support », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/news/introducing-dxo-premium-customer-support/ .
+
+9. DxO, « Affiliate Program », dxo.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.dxo.com/en/ company/affiliate/ .
+
+## 2.3 CONCURRENCE ET RESSOURCES : UNE DIFFÉRENCIATION À ENTRETENIR
+
+Les cinq forces de Porter donnent une seconde lecture de ce modèle. La rivalité est forte : les photographes peuvent choisir entre des suites généralistes, des logiciels experts, des outils de retouche plus simples ou des fonctions incluses dans leur environnement de prise de vue. Leur pouvoir de comparaison est élevé, car l'achat d'un logiciel de création engage aussi des habitudes, un catalogue de photos et une manière de travailler. Les solutions de substitution augmentent avec la diffusion d'outils d'IA facilement accessibles. En revanche, entrer durablement sur ce marché exige plus qu'une interface séduisante : il faut construire une réputation, assurer la compatibilité avec un grand nombre de matériels, maintenir une qualité de rendu et gagner la confiance d'utilisateurs exigeants.
+
+Cette analyse conduit à distinguer deux types de ressources. Certaines sont visibles, comme une fonctionnalité ou une nouvelle version; elles peuvent être rapidement imitées. D'autres sont moins immédiatement observables : expérience accumulée sur l'image, capacité à tester et intégrer les contraintes d'appareils variés, compréhension du langage des photographes, coopération entre recherche et produit. Ce second ensemble est plus difficile à reproduire parce qu'il ne réside pas dans un objet unique mais dans l'organisation qui le met en mouvement.
+
+| Diagnostic   | Éléments observés ou publics                                                                                      | Conséquence organisationnelle                                                              |
+|--------------|-------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| Forces       | Expertise image, ancienneté, gamme cohérente, relation avec une communauté de photographes.                       | Faire circuler l'expertise entre recherche, produit et discours commercial.                |
+| Faiblesses   | Ressources nécessairement plus limitées qu'une grande plateforme, dépendance à un rythme de nouveautés crédibles. | Choisir les priorités et éviter la dispersion des projets.                                 |
+| Opportunités | Attentes autour de l'assistance intelligente, renouvellement des appareils et des pratiques créatives.            | Proposer des aides contrôlables et compréhensibles, non de simples automatismes.           |
+| Menaces      | Concurrence des suites établies, banalisation de certaines fonctions IA, évolution rapide des usages.             | Préserver une différence perceptible pour l'utilisateur et une capacité de renouvellement. |
+
+TABLE 2 - SWOT (Forces, Faiblesses, Opportunités, Menaces) synthétique : une lecture stratégique, et non un inventaire de faits.
+
+La SWOT du Tableau 2 n'a d'intérêt que si elle débouche sur une priorité. Celle que je retiens est la suivante : la valeur de DxO ne provient pas d'une recherche isolée, mais de sa capacité à rendre cette recherche désirable, robuste et contrôlable dans un usage photographique. Cette priorité justifie l'investissement dans la R&amp;D autant que l'existence d'équipes de produit, qualité, documentation, marketing et support. Elle explique également pourquoi l'exploration doit être sélective : une idée nouvelle n'est pas utile par elle-même; elle doit contribuer à une promesse identifiable pour le client.
+
+## 2.4 UNE STRUCTURE FONCTIONNELLE, AVEC UNE R&amp;D AUX LOGIQUES DIFFÉRENCIÉES
+
+L'organigramme interne consulté pendant le stage 10 met en évidence une structure d'abord fonctionnelle. Au sommet se trouvent les fonctions corporate; l'activité se répartit ensuite entre R&amp;D, stratégie produit et marketing. Le marketing réunit notamment e-commerce, contenu, relations externes, support client et développement commercial. La stratégie produit réunit gestion de produit, UX/UI (expérience utilisateur et interface utilisateur) et documentation. La R&amp;D rassemble à son tour recherche image, framework, développement d'interfaces, assurance qualité, gestion de programme, support matériel et bêta-test (Figure 1).
+
+10. Organigramme interne Lucca, consultation durant le stage, août 2026; source interne, non reproduite nominativement dans le rapport.
+
+FIGURE 1 - Organigramme fonctionnel simplifié de DxO, reconstitué à partir de l'organigramme interne consulté pendant le stage (source citée ci-dessus). Les rôles sont volontairement non nominatifs : ce schéma représente des fonctions, pas des personnes.
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000003_ac455435a7f1618f3105c6de08548a6a4b419b78a39a294247db3178723850dc.png)
+
+La structure fonctionnelle permet de regrouper des compétences semblables et d'éviter de les dupliquer. Elle présente néanmoins un risque classique : chaque fonction peut poursuivre ses objectifs locaux et perdre de vue le parcours complet qui va d'une idée au photographe. C'est pourquoi les liens entre unités sont décisifs. L 'activité d'innovation ne suit pas un simple couloir où la recherche livrerait un résultat terminé au produit, puis au marketing. Elle comporte des allers-retours : les contraintes d'expérience utilisateur, de qualité, de documentation ou de support peuvent modifier ce qu'il est pertinent de rechercher.
+
+À l'intérieur de la R&amp;D, j'ai observé un fonctionnement différent de la seule lecture de l'organigramme. Les problèmes ne sont pas entièrement spécifiables au départ; les spécialistes disposent d'une large autonomie; la coopération se fait par questions rapides, revues de code, démonstrations et points d'avancement. Selon Mintzberg, cela rapproche certaines activités d'une adhocratie : l'ajustement mutuel est le mécanisme de coordination dominant lorsque le travail est incertain et interdépendant. Il ne s'agit toutefois pas d'une absence de cadre. Les sprints, les jalons, les conventions de code et les résultats attendus introduisent une standardisation des résultats et des qualifications qui rend l'autonomie praticable. Dans le vocabulaire de Mintzberg, cette coordination relève des fonctions de support logistique (outils partagés, conventions de dépôt de code, pages de suivi) plutôt que du sommet stratégique ou de la ligne hiérarchique. Deux mécanismes plus classiques restent, à l'inverse, peu présents : la supervision directe, qui supposerait un contrôle rapproché par un responsable, et la standardisation des procédés, qui figerait à l'avance la manière de résoudre un problème encore mal posé. Leur absence n'est pas un manque; elle est cohérente avec un travail dont l'incertitude porte autant sur la méthode que sur le résultat.
+
+## 2.5 UNE AMBIDEXTRIE À CONSTRUIRE ENTRE EXPLORATION ET EXPLOITATION
+
+Le vocabulaire de March aide à comprendre cette coexistence. L 'exploitation désigne les améliorations, la fiabilisation et la diffusion de connaissances existantes. À DxO, elle se matérialise dans les versions de logiciels, la qualité, la documentation, le support et la commercialisation. L 'exploration consiste à essayer de nouvelles approches dont la valeur et le chemin restent incertains. Elle était au coeur de ma mission de culling assisté.
+
+TABLE 3 - La tension exploration/exploitation, appliquée à l'observation de DxO.
+
+|                       | Exploration                                                           | Exploitation                                                           |
+|-----------------------|-----------------------------------------------------------------------|------------------------------------------------------------------------|
+| Question dominante    | Que pouvons-nous découvrir ou rendre possible?                        | Comment délivrer une valeur fiable, compréhensible et rentable?        |
+| Rythme                | Hypothèses, essais, bifurcations, abandon de pistes.                  | Versions, contrôle qualité, documentation, vente, support.             |
+| Coordination observée | Ajustement mutuel entre experts, points de recherche, démonstrations. | Spécialisation fonctionnelle, processus produit et relation client.    |
+| Risque                | Errance, coût et difficulté à stabiliser les choix.                   | Rigidité, dépendance aux recettes du passé et perte de renouvellement. |
+
+Le Tableau 3 le montre : l'entreprise semble organiser une forme d'ambidextrie principalement structurelle : des unités différentes portent plus fortement l'exploration et l'exploitation. Elle est également contextuelle au sein des projets, car une même équipe doit parfois préparer une piste nouvelle tout en tenant compte de la mise en produit. Cette interprétation doit rester prudente : je n'ai observé qu'une partie de l'organisation et pendant trois mois. Elle est néanmoins plus fidèle aux faits qu'une opposition caricaturale entre « créatifs » et « commerciaux ».
+
+## 2.6 DÉCIDER SOUS INCERTITUDE SANS PERDRE LA VITESSE D'APPRENTISSAGE
+
+Le cours IME invite à ne pas imaginer qu'une décision organisationnelle serait la conséquence mécanique d'un calcul parfait. Dans mon expérience, le problème de culling n'était jamais donné sous une forme entièrement stabilisée. Une demande initiale devait être précisée : quelle erreur est vraiment gênante pour un photographe? Dans quel type d'images? À quel moment une mesure devient-elle un signal utile plutôt qu'un chiffre technique ? Ces questions mobilisaient des informations incomplètes, des sensibilités différentes et des contraintes de temps.
+
+Les sprints donnaient un cadre commun, mais ne déterminaient pas à l'avance toutes les solutions. Ils découpaient le travail en étapes visibles, permettaient de signaler un blocage et rendaient les priorités révisables. Les pages de suivi et les revues de code jouaient un rôle complémentaire : elles rendaient l'apprentissage transmissible et permettaient une discussion asynchrone, notamment lorsque certains collègues travaillaient à distance. Ce fonctionnement est proche du modèle de décision organisationnel : la structure distribue l'information et les responsabilités. Il comprend aussi une dimension politique au sens neutre du terme, puisque des expertises et des objectifs différents doivent être conciliés. L 'enjeu n'est pas d'éliminer cette pluralité, mais de la rendre productive.
+
+Une leçon importante est que la vitesse ne signifie pas la précipitation. Dans une activité d'innovation, elle repose sur la possibilité de tester tôt, de partager les résultats et de modifier une trajectoire avant que les choix ne deviennent irréversibles. À l'inverse, une décision trop lente peut transformer une hypothèse fragile en investissement coûteux simplement parce qu'elle n'a pas été confrontée assez tôt à la réalité. Les rituels courts observés dans l'équipe constituaient donc moins un contrôle de présence qu'une infrastructure d'apprentissage collectif.
+
+## 2.7 TROIS TENSIONS DE GOUVERNANCE DERRIÈRE UNE ENTREPRISE D'INNOVATION
+
+L'observation de DxO fait apparaître trois tensions, qui ne sont pas des dysfonctionnements en soi mais des problèmes de gouvernance à tenir dans le temps. La première découle du modèle de licence perpétuelle : vendre une version ou une mise à niveau suppose de rendre le renouvellement visible pour le client. Cette logique est féconde : elle oblige l'entreprise à ne pas s'endormir sur une rente d'abonnement. Mais elle comporte aussi un risque : privilégier les améliorations immédiatement montrables au détriment de recherches plus lentes, dont la valeur ne se révélera qu'après plusieurs cycles. Une véritable ambidextrie demande donc de protéger des espaces d'exploration tout en reliant leurs résultats à une stratégie de gamme compréhensible.
+
+La deuxième tension oppose l'autonomie des experts à la mémoire collective. L 'équipe disposait de beaucoup de liberté et les stagiaires étaient nombreux au début de l'été : à mon arrivée, plusieurs d'entre eux étaient déjà présents en R&amp;D, venus d'écoles et de pays très divers, aux côtés d'une doctorante. Cette configuration crée un apport stimulant de profils et d'idées, mais peut fragiliser la continuité quand les personnes arrivent, repartent ou travaillent à distance. Je l'ai vécu concrètement : à mon départ, un autre stagiaire arrivait déjà sur le sujet voisin, avec une bonne partie du contexte à reconstituer. Sans traces partagées, la vitesse individuelle peut devenir un coût collectif : une piste est redécouverte, une décision devient illisible ou une dépendance se concentre sur une personne. Les conventions de dépôt, les revues et les documents de suivi ne sont donc pas du formalisme superflu; ils transforment une activité individuelle en savoir organisationnel, d'autant plus décisif que le renouvellement des stagiaires est rapide.
+
+Enfin, l'adoption rapide des assistants d'IA crée une troisième tension entre accélération et responsabilité. Elle abaisse le coût d'un prototype et rend possible l'initiative de personnes hors de l'équipe traditionnellement chargée du développement : une démonstration convaincante peut naître d'une fonction qui n'est pas celle de la R&amp;D, puis alimenter un chantier réel une fois reprise par les équipes concernées. C'est un modèle d'innovation interactif précieux, où diffusion, idées d'usage et développement se construisent ensemble. Mais le passage à un produit durable réclame ensuite architecture, tests, qualité et prise en charge par les métiers concernés. L 'IA redistribue ainsi des zones d'incertitude : elle ne supprime pas le besoin d'expertise, elle rend plus importante la capacité à qualifier, intégrer et assumer ce qui est produit. Ces tensions se répondent. Une entreprise qui accélère l'expérimentation grâce à l'IA doit renforcer la transmission de ses apprentissages; une entreprise qui dépend du renouvellement de sa valeur doit éviter de confondre nouveauté visible et innovation utile; une entreprise qui recrute des stagiaires et fonctionne à distance doit rendre la confiance compatible avec un cadre collectif. Le point décisif n'est pas de choisir un pôle contre l'autre, mais de concevoir des règles du jeu qui permettent leur articulation.
+
+## 3 UNE MISSION EXPLORATOIRE : ASSISTER LE JUGEMENT DU PHOTOGRAPHE
+
+## 3.1 UN SUJET DE STAGE INSCRIT DANS UNE FINALITÉ D'USAGE
+
+Ma mission portait sur le culling assisté : aider un photographe à parcourir une série d'images et à repérer rapidement celles qui méritent son attention. Le déroulé du stage a suivi deux séquences successives : de juin au début juillet, j'ai travaillé sur l'état des yeux d'un visage ; le sujet Blur a pris le relais ensuite, jusqu'à la fin du stage. Ils sont immédiatement compréhensibles par un utilisateur. Une photographie de portrait peut être moins utile si les yeux du sujet sont fermés; dans une autre, le flou peut signaler une difficulté de prise de vue ou, au contraire, contribuer à un choix esthétique. L 'objectif n'était donc pas d'automatiser un verdict, mais de produire des signaux interprétables au service de la décision humaine. Cette précision a une portée organisationnelle : elle relie une question exploratoire à la promesse de l'entreprise, fournir des outils de création et de contrôle au photographe. Concevoir une assistance ne revient pas à retirer le choix à l'utilisateur ; la qualité d'une innovation se mesure alors autant à sa capacité à s'insérer dans un flux de travail réel qu'à son élégance technique.
+
+Cette orientation impose aussi une forme de modestie épistémique. Dans le dépôt de travail, les cas ambigus, les limites de jeux de données et les échecs de modèles étaient explicitement conservés au lieu d'être effacés du récit. Le flou, par exemple, peut être local et esthétiquement souhaité; un regard peut être difficile à interpréter ; une image peut ne fournir aucun signal fiable. Le bon comportement d'une assistance n'est donc pas toujours de décider : c'est parfois de signaler une incertitude ou de s'abstenir. Cette idée a une portée générale pour les usages de l'IA en entreprise. La performance d'un outil ne se réduit pas à une moyenne chiffrée; elle dépend de la manière dont ses erreurs, ses limites et son degré de confiance sont rendus intelligibles à celui qui reste responsable de la décision.
+
+J'ai ainsi compris qu'un résultat ne devient professionnel que lorsqu'il résiste à trois questions : sur quelles données a-t-il été obtenu? dans quelles situations peut-il être réutilisé ? que doit faire l'utilisateur lorsque le système hésite? Cette discipline de traçabilité rejoint les besoins de l'organisation : le produit, la qualité, le support et le marketing ne peuvent porter une promesse que si ses conditions de validité sont explicites. La recherche ne fournit donc pas seulement des possibilités nouvelles; elle fournit aussi la connaissance de leurs frontières.
+
+## 3.2 DE L'ÉTAT DES YEUX AU FLOU : DEUX RÉGIMES DE PREUVE DIFFÉRENTS
+
+La comparaison entre les deux sujets a été l'un des enseignements les plus féconds du stage. Le premier chantier, Eye Status, a occupé la période de juin au début juillet. À première vue, « yeux fermés » et « flou » semblent être deux défauts photographiques à classer. En pratique, ils n'ont ni le même objet, ni la même forme d'incertitude. L 'état d'un oeil est localisable : on peut repérer un visage, isoler l'oeil, élaborer une taxonomie qui distingue le regard ouvert, les états intermédiaires, la fermeture, et les cas illisibles (Figure 2) 11 . Le travail déterminant a alors été de construire une supervision plus fine que l'opposition simpliste ouvert/fermé, puis d'accepter qu'une partie des exemples demeure ambiguë.
+
+FIGURE 2 - Premier sujet du stage, Eye Status : localisation du visage puis repères faciaux employés pour interpréter l'état des yeux. Source de l'image : jeu de données Eyeblink8; annotations et extraction réalisées pendant le stage (source citée ci-dessus).
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000004_81a6483b5fdb405072f39e86376e44068ef8b538df485712c4fe95ef82012a41.png)
+
+Le chantier Blur, commencé après cette première séquence et poursuivi jusqu'à la fin du stage, soulevait une autre difficulté. Le flou n'est pas contenu dans un objet unique : il peut concerner l'ensemble de la photographie, un arrière-plan, ou le sujet même. Une profondeur de champ volontaire et une mise au point manquée peuvent présenter des statistiques visuelles comparables tout en conduisant à des décisions opposées. La question pertinente n'est donc pas seulement « quelle quantité de flou? », mais « où est-il par rapport à ce que le photographe cherche à montrer? » (Figure 3) 12 . Cette dernière question engage une intention qui ne se déduit pas automatiquement d'une mesure image par image.
+
+Cette différence modifie aussi la façon de piloter une recherche. Pour les yeux, l'enjeu était de rendre visible une frontière de classes et de documenter les cas où elle ne l'était pas. Pour le flou, il fallait d'abord interroger la provenance des corpus : un modèle entraîné sur un corpus multi-source peut exploiter des indices liés à la provenance des données plutôt que le phénomène visuel recherché. Cette vigilance rejoint une idée importante du cours IME : l'information disponible ne constitue pas automatiquement une connaissance actionnable. Il faut examiner comment elle a été produite, par qui, et pour quelle décision elle pourra être utilisée. Dans les deux cas, la meilleure conclusion n'était pas de promettre une automatisation totale, mais de rendre la décision humaine plus informée.
+
+11. Image : jeu de données Eyeblink8 (A. Fogelton et W. Benesova, « Eye Blink Completeness Detection », Computer Vision and Image Understanding , vol. 176-177, 2018, p. 78-85). Dataset disponible via « Blinking Matters », blinkingmatters.com [en ligne], s.d. [consulté le 28 août 2026]. Disponible sur https://www.blinkingmatters.com/research . Annotations et extraction : documentation interne du stage sur l'état des yeux et le flou, consultée en août 2026; source interne, résultats et éléments sensibles non reproduits au-delà de ce qui est nécessaire à l'analyse.
+
+12. Photographie : CUHK Blur Detection Dataset (J. Shi, L. Xu et J. Jia, « Discriminative Blur Detection Features », Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , 2014, p. 2965-2972). Dataset disponible sur http: //www.cse.cuhk.edu.hk/~leojia/projects/dblurdetect/ . Carte et annotations : documentation interne du stage sur l'état des yeux et le flou, consultée en août 2026; source interne, résultats et éléments sensibles non reproduits au-delà de ce qui est nécessaire à l'analyse.
+
+TABLE 4 - Deux régimes de preuve observés pendant le stage.
+
+| Aspect                  | État des yeux                                                                        | Flou                                                                                 |
+|-------------------------|--------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| Objet du jugement       | Une région localisable, susceptible d'être annotée.                                  | Une propriété répartie dans l'image, dont la position change le sens.                |
+| Risque principal        | Confondre un état intermédiaire, une occlusion ou une expression.                    | Confondre un effet esthétique accepté et une dégradation du sujet.                   |
+| Réponse responsable     | Taxonomie fine, exemples incertains explicites, signal plutôt que rejet automatique. | Distinguer mesure globale, comparaison sujet/fond et décision finale du photographe. |
+| Leçon organisationnelle | La donnée et son vocabulaire font partie de l'innovation.                            | Une métrique ne remplace pas la connaissance de l'usage ni de l'intention.           |
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000005_48cf70897b85314d2cf649e190cce2118f4cb5472315905281ca8478a4629ec3.png)
+
+FIGURE 3 - Prototype de mesure locale du flou sur une photographie du jeu CUHK Blur Detection : le contour cyan isole une zone de netteté et le contour orange une zone plus floue. Photographie source : CUHK Blur Detection Dataset; carte et annotations produites pendant le stage (source citée ci-dessus).
+
+Ce visuel n'est donc pas une note automatique de qualité : il rend perceptible une comparaison entre les régions de l'image. C'est précisément cette interprétation, replacée dans le projet photographique, qui permet de distinguer un bokeh intentionnel d'un défaut à signaler.
+
+Bien qu'ils aient été traités successivement et selon des méthodes distinctes, l'état des yeux et le flou répondent en réalité à la même question pour l'outil de tri : une photographie mérite-t-elle l'attention du photographe? Les deux signaux sont conçus pour être lus ensemble plutôt que fusionnés en un score unique : un portrait aux yeux fermés reste écarté même si le reste de l'image est net, et une image nette du sujet mais présentant un flou d'arrière-plan volontaire n'est pas pénalisée par le premier signal. Cette complémentarité, plutôt qu'une fusion en une seule métrique, laisse au photographe la possibilité de comprendre pourquoi une image a été signalée.
+
+## 3.3 APPRENDRE PAR ITÉRATIONS DANS UN CADRE DE CONFIANCE
+
+Le travail se déroulait dans l'open space d'une petite équipe de R&amp;D présente sur site, complétée par des collègues très régulièrement à distance, essentiellement en anglais. Un point quotidien permettait de situer les sujets dans des jalons suivis sur Jira : à faire, en cours, en revue ou terminé ; certains étaient annulés lorsqu'une phase de planification demandait plus d'attention aux responsables. Cette coordination légère était complétée par des échanges informels, des revues de code, des pages Confluence maintenues à jour et des échanges réguliers avec mes encadrants. Ce dispositif est cohérent avec un travail de recherche : on ne peut pas prescrire à l'avance chaque étape d'un problème dont la formulation s'affine au fur et à mesure.
+
+Mon cycle de travail suivait généralement quatre temps : comprendre une difficulté, chercher des références ciblées, construire une preuve de concept, puis examiner visuellement les résultats et discuter leur sens. L 'étape finale était décisive : une piste pouvait être conservée, corrigée ou abandonnée, sans que recommencer soit vécu comme un échec plutôt que comme une information sur le problème. Ce fonctionnement illustre la rationalité limitée de Simon : face à une information incomplète et à un espace de solutions trop vaste, on avance par solutions satisfaisantes plutôt que par le calcul d'un optimum global.
+
+## 3.4 L'INTELLIGENCE ARTIFICIELLE : ACCÉLÉRATEUR, PAS DÉLÉGATION DE RESPONSABILITÉ
+
+Le stage s'est aussi déroulé dans un contexte où les assistants d'intelligence artificielle sont présents dans les pratiques de développement. J'ai utilisé plusieurs outils pour explorer rapidement des idées, écrire des éléments ponctuels, générer des visualisations ou mettre à l'épreuve une hypothèse. Leur apport était réel : ils réduisaient le coût de certains prototypes et rendaient possible une itération plus rapide.
+
+Mais cette rapidité ne remplace pas la compréhension : les assistants peuvent produire du code redondant, une architecture confuse ou une erreur plausible. J'ai donc appris à garder la « main sur le volant » : définir l'organisation du projet, isoler les éléments critiques, relire les modifications, tester les résultats et mettre en place des vérifications : moins un apprentissage d'outil qu'un apprentissage de responsabilité professionnelle. Dans une équipe d'experts, utiliser l'IA implique de savoir expliquer, valider et, si nécessaire, contredire ce qu'elle propose.
+
+## 3.5 RENDRE L'EXPLORATION TRANSMISSIBLE ET APPROPRIABLE
+
+Un résultat exploratoire n'a de portée collective que s'il peut être compris, repris ou discuté par d'autres. C'est pourquoi mon travail ne se limitait pas à produire des essais ponctuels. Les étapes importantes étaient documentées dans des pages de suivi, les modifications étaient proposées dans le dépôt partagé et les démonstrations visuelles servaient à rendre une question accessible au-delà de son détail technique. Cette discipline m'a appris que la capitalisation n'est pas une tâche administrative ajoutée à la fin : elle fait partie du travail de recherche dans une organisation.
+
+Elle est d'autant plus importante dans une équipe internationale et partiellement distribuée. Le télétravail, possible plusieurs jours par semaine et facilement mobilisable en cas de difficulté de transport, donnait une grande flexibilité. Il était soutenu par les accès aux outils internes, le partage de documents et la possibilité de se connecter aux machines de calcul. Cette autonomie ne fonctionne cependant que si les traces du travail sont suffisamment claires pour qu'un collègue puisse comprendre l'état d'une piste sans être assis à côté de son auteur. Les revues, les pages de suivi et les conventions de projet formaient ainsi une infrastructure discrète de coopération.
+
+J'ai également découvert que la transmission rend plus lucide. Préparer une présentation finale devant l'équipe oblige à distinguer ce qui est établi, ce qui est seulement prometteur et ce qui a échoué. Cette mise en forme ne réduit pas l'incertitude de la recherche; elle évite de la masquer. Dans le vocabulaire du cours, elle limite l'escalade d'engagement : rendre visibles les contre-exemples et les impasses permet de ne pas poursuivre une solution simplement parce que du temps y a déjà été investi.
+
+## ENSEIGNEMENTS PROFESSIONNELS ET PERSONNELS
+
+## 4.1 CULTURE, POUVOIR ET INCITATIONS : CE QUE J'AI OBSERVÉ AU TRAVAIL
+
+La culture de DxO peut être analysée avec la grille de Schein. Ses signes sont immédiatement visibles : une R&amp;D en open space, des échanges majoritairement en anglais, des écrans et des photographies au centre des conversations, une grande facilité à travailler à distance. Le rituel du sprint fonctionne comme un support symbolique : il rythme le collectif et rend visible, chaque cycle, ce qui a été accompli. À l'inverse, la difficulté à créer du lien dans un open space où chacun reste absorbé par son écran agit comme un tabou implicite : on y évoque peu le besoin de lien social, comme si l'admettre revenait à reconnaître un manque d'autonomie. Ces signes renvoient à des valeurs vécues de compétence, de passion pour l'image, d'autonomie et de confiance. L 'imaginaire partagé qui s'en dégage répond à trois questions : l'organisation se voit comme une communauté d'experts au service d'un photographe exigeant; le bon membre, comme une personne autonome et curieuse, capable de défendre une intuition sans y être invitée ; le pouvoir, détaillé en section 4.2, comme une expertise reconnue par les pairs plutôt qu'une autorité hiérarchique affichée.
+
+Cette culture a une force intégratrice réelle : elle facilitait les questions rapides, la recherche d'un avis et l'appropriation de standards élevés. Le tabou qui vient d'être nommé en est aussi la limite : l'intégration sociale dépend davantage du feeling et de l'initiative individuelle que d'un dispositif organisé, et la richesse intellectuelle de l'environnement peut coexister, pour une personne concentrée sur son travail, avec une solitude choisie sans être délibérément voulue. La culture n'est donc pas entièrement positive : ressource de sens et de cohésion, elle peut aussi rendre moins visible le besoin de liens sociaux ou de respiration : un risque, non un simple trait de couleur locale.
+
+La diversité internationale accentuait à la fois la richesse et l'exigence de cette culture. Les membres de l'équipe et les stagiaires venaient de parcours et de pays variés; l'anglais était donc la langue de travail de la R&amp;D, même si les échanges avec d'autres équipes pouvaient se dérouler en français. Cette situation m'a obligé à expliciter davantage une idée, à accepter qu'une même expression technique ou organisationnelle ne soit pas spontanément interprétée de la même manière, et à apprendre par observation des pratiques professionnelles. Elle montre aussi que la culture d'une entreprise n'est jamais uniforme : des sous-cultures de métier coexistent entre recherche image, développement logiciel, produit, marketing ou support.
+
+Sur le plan de la mixité, l'équipe R&amp;D comptait nettement plus d'hommes que de femmes; je n'ai pas observé, sur la durée du stage, de dynamique de relation femmes-hommes marquée au-delà de ce déséquilibre numérique. Mon immersion s'étant faite presque exclusivement au sein de la R&amp;D, je ne dispose en revanche pas d'un recul suffisant pour me prononcer sur la mixité ou les relations femmes-hommes dans les autres équipes de l'entreprise.
+
+Les moments de sociabilité existaient, mais n'étaient pas imposés : repas ponctuels, espace commun à midi, convention annuelle où des informations de résultat sont partagées en interne, séances de sport encadrées par un coach deux fois par semaine (footing, cross-training, escalade). Cette liberté est cohérente avec une culture d'autonomie; elle ne suffit pas à créer automatiquement un collectif, et elle laisse aussi à chacun la responsabilité de s'en saisir. Sur ce point précis, mon propre bilan est mitigé : je n'ai pas participé aux séances de sport proposées, en partie à cause des fortes chaleurs de l'été, ce qui a sans doute réduit mes occasions d'échanger hors du cadre strictement professionnel. Prendre part à ces moments, demander un éclairage sur le travail d'un autre métier et ne pas attendre que la relation apparaisse seule constituent des compétences d'intégration que je dois encore travailler; c'est un enseignement concret que je retiens pour mes expériences futures.
+
+## 4.2 DE L'ORGANIGRAMME AU SYSTÈME D'ACTION RÉEL
+
+L'organigramme donne les responsabilités formelles; il ne dit pas à lui seul comment une décision devient une action. Mon observation fait plutôt apparaître un système d'interdépendances : la R&amp;D possède des possibilités et des limites techniques ; les équipes produit rendent une promesse cohérente et utilisable ; le support, le marketing et le commerce électronique observent les usages, les objections et les conditions de diffusion. Aucun de ces acteurs ne peut, seul, définir ce qui fera une innovation utile. Une amélioration techniquement élégante mais incompréhensible pour l'utilisateur resterait sans effet; inversement, une demande exprimée par le marché ne devient pas automatiquement une solution réalisable (Figure 4).
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000006_166d2fe7c460550acd8cebeb0fbefb70e8d37e708cb7425fc649fa2e919a59b2.png)
+
+FIGURE 4 - Lecture fonctionnelle de la circulation de valeur et de connaissance chez DxO. Ce schéma représente des rôles collectifs, non des personnes.
+
+Cette boucle explique pourquoi le travail de documentation et de démonstration avait une importance disproportionnée pour un stagiaire. Elle constituait mon moyen de faire circuler une connaissance encore incomplète : préciser ce qui avait été essayé, montrer un résultat, signaler une limite, puis permettre à d'autres de décider s'il fallait approfondir, réorienter ou arrêter. C'est aussi une lecture plus concrète du pouvoir au sens de Crozier et Friedberg. L 'expertise technique donne une capacité d'action, mais elle n'est productive que lorsqu'elle devient compréhensible et mobilisable par les autres zones d'incertitude de l'organisation.
+
+La notion de pouvoir apporte une seconde lecture. Dans une organisation de connaissances, l'expertise est une zone d'incertitude au sens de Crozier et Friedberg : celui qui maîtrise une méthode rare, une partie du produit ou une information pertinente devient une ressource pour les autres. La R&amp;D détient ainsi un pouvoir lié à l'expertise image. Le marketing, le support et le produit détiennent un autre pouvoir, lié à l'accès au marché, à l'expérience utilisateur et au retour des clients. La direction porte enfin une légitimité formelle pour arbitrer les moyens et les priorités. Le fonctionnement réel dépend de la coopération entre ces ressources, résumée au Tableau 5; l'organigramme ne suffit pas à l'expliquer.
+
+TABLE 5 - Lecture non nominative des interdépendances de pouvoir.
+
+| Acteur collectif                  | Ressource ou zone d'incertitude                                              | Enjeu de coopération                                                                |
+|-----------------------------------|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| R&D                               | Expertise image, expérimentation, connaissance des limites.                  | Explorer sans perdre le lien avec un usage et une mise en produit possibles.        |
+| Produit / UX / docu- mentation    | Priorisation, cohérence du parcours utilisateur, explicitation de la valeur. | Transformer une possibilité en fonctionnalité appropriable.                         |
+| Marketing / e- commerce / support | Accès aux clients, retours d'usage, diffusion et fidélisation.               | Faire remonter des signaux utiles sans réduire l'innovation à la demande immédiate. |
+| Direction et fonctions support    | Allocation de ressources, cadre collectif, continuité.                       | Préserver l'autonomie tout en assurant la cohérence d'ensemble.                     |
+
+Les incitations observées étaient surtout intrinsèques. Selon Herzberg, le matériel performant, le télétravail ou des locaux confortables sont des facteurs d'hygiène : ils évitent une insatisfaction, mais ne suffisent pas à créer le désir de s'investir. Les véritables facteurs moteurs étaient le contenu intellectuel du problème, la liberté de proposer une piste, la responsabilité donnée et la reconnaissance par les pairs. La confiance accordée aux stagiaires relevait aussi d'un mécanisme d'identification au sens d'Etzioni : elle invitait à se sentir membre d'un collectif qui poursuit une mission exigeante.
+
+## 4.3 CE QUE J'AI APPRIS SUR LA COOPÉRATION DANS UN COLLECTIF D'EXPERTS
+
+Le stage m'a fait passer d'une représentation individuelle de la compétence à une représentation plus organisationnelle. Au début, je valorisais surtout la capacité à avancer seul et rapidement sur une piste. Cette autonomie a été utile dans les phases de preuve de concept; elle n'était pourtant jamais suffisante. Une question posée tôt à un collègue pouvait éviter plusieurs heures d'exploration dans une direction mal cadrée. Une revue pouvait révéler qu'un résultat apparemment satisfaisant reposait sur une hypothèse trop forte. Une démonstration visuelle permettait de faire discuter un problème par des personnes qui ne partageaient pas le même détail technique.
+
+Cette prise de conscience a fait écho à un trait déjà apparu lors de mon stage de formation humaine : quand je veux très bien faire, mon premier réflexe peut être de chercher seul et de ne solliciter les autres qu'une fois une solution déjà construite. Dans une R&amp;D, cette posture donne une impression d'efficacité à court terme, mais peut retarder la confrontation utile aux contraintes du problème ou à l'expérience d'un collègue. J'ai appris à préparer une question plus courte et précise (l'hypothèse, le test effectué, le point réellement bloquant) plutôt qu'à attendre une solution parfaite avant de parler. Ce déplacement compte pour moi : demander un éclairage n'est pas renoncer à l'autonomie, c'est utiliser le collectif pour mieux l'orienter.
+
+Cette expérience donne un contenu concret à l'ajustement mutuel. Il ne s'agit pas d'une conversation permanente ni d'un refus de la spécialisation. C'est la capacité de spécialistes à rapprocher leurs interprétations quand les règles formelles ne suffisent plus à prescrire l'action. Dans l'équipe, le daily donnait une visibilité minimale sur l'avancement; Confluence et le dépôt partagé conservaient les traces; les interactions de proximité permettaient ensuite de demander l'avis pertinent au bon moment. La coordination était donc hybride : suffisamment légère pour ne pas casser l'élan d'exploration, suffisamment structurée pour que le travail individuel devienne appropriable par le collectif.
+
+J'ai également compris que l'internationalisation et le télétravail renforcent le besoin de cette explicitation. Travailler surtout en anglais m'a conduit à formuler plus clairement une intuition, un blocage ou une demande d'aide. La communication écrite n'était pas une simple archive : elle permettait à une personne absente du bureau de retrouver le raisonnement, les résultats et les limites d'un essai. Pour mes futures expériences, je retiens donc un objectif précis : conserver ma capacité de concentration profonde, tout en rendant plus tôt visibles l'état de mon travail et les incertitudes qui appellent une discussion.
+
+La présentation finale devant l'équipe a été le moment où cette progression est devenue tangible. Il ne suffisait plus de connaître intimement les essais menés : il fallait raconter leur logique, rendre les exemples visuels lisibles, distinguer ce qui était solide de ce qui restait ouvert et accepter les questions. Cette mise à distance a renforcé ma confiance dans une parole moins exhaustive mais plus structurée. Elle m'a aussi montré que communiquer n'est pas « parler pour parler » : c'est créer les conditions pour qu'une intuition devienne un objet de discussion collective.
+
+## 4.4 CE QUE LE STAGE A CONFIRMÉ DANS MON ORIENTATION
+
+Je suis arrivé chez DxO avec la crainte de découvrir un monde professionnel réduit à l'exploitation de procédés établis. J'y ai au contraire rencontré une activité où une intuition peut être confrontée à une image, une discussion ou une expérience, puis conduire à une révision radicale du chemin suivi. Le moment le plus stimulant pour moi était celui où une analogie issue des mathématiques ou de la physique rendait possible une nouvelle formulation du problème. J'ai retrouvé la sensation de relier des connaissances abstraites à un objet concret et de produire une trace visuelle qui permet de discuter. Cette expérience a clarifié mon désir de m'orienter vers la recherche, l'université ou la R&amp;D d'une entreprise capable de préserver cette part d'exploration. Je recherche des environnements où l'incertitude n'est pas masquée, où l'on peut recommencer après avoir identifié une mauvaise hypothèse et où l'expertise se construit collectivement. Le stage a aussi montré que cette préférence ne signifie pas un rejet de l'exploitation. Sans qualité, produit, documentation, marketing et support, une piste de recherche resterait un exercice sans utilisateur. Je souhaite donc apprendre à mieux tenir ensemble la curiosité de recherche et l'attention aux conditions réelles d'appropriation d'une innovation.
+
+## 4.5 UN APPRENTISSAGE SUR L'AUTONOMIE ET SES LIMITES
+
+Mon principal point de vigilance concerne l'intensité de mon investissement. Ma journée contractuelle durait cinq heures, mais j'arrivais régulièrement avant le daily, entre 9h20 et 9h50, et je restais souvent au-delà pour finir une idée, lancer un entraînement ou préparer une tâche avant de partir; il m'est aussi arrivé de reprendre le travail à distance dans les transports. Cette énergie a soutenu mon apprentissage et je ne la regrette pas, mais elle ne doit pas être confondue avec une norme souhaitable : je me reconnais une propension au surinvestissement, proche de ce que l'on désigne parfois comme une conduite de surtravail, que je dois apprendre à réguler plutôt qu'à laisser la passion pour le sujet justifier silencieusement.
+
+Le vélo illustre concrètement cette recherche d'équilibre. J'ai fait plus de 70 % de mes trajets à vélo à assistance électrique, environ 52 minutes à l'aller et 58 au retour; les deux montées du retour, de Boulogne vers le plateau de Palaiseau, demandaient un effort réel par forte chaleur. Ce temps me permettait pourtant de sortir de l'écran et de laisser émerger une autre manière de formuler une difficulté. Il ne s'agit pas d'ériger une préférence personnelle en modèle, mais de donner un exemple simple de ressource pour préserver la qualité de l'attention dans un stage très absorbant.
+
+L'analyse par le contrat psychologique aide à formuler ce point. L 'entreprise offrait autonomie, confiance, outils et possibilités d'apprentissage; en retour, je fournissais engagement, curiosité et résultats. Cet échange reste équilibré tant que l'autonomie permet de mieux agir, non de supprimer les limites personnelles : chacun doit savoir demander un retour, rendre visible une difficulté et conserver un rythme soutenable. Cette leçon compte pour mon futur : la passion pour l'exploration ne sera une force que si elle s'accompagne d'une discipline de coopération et de protection de l'équilibre personnel.
+
+## 5 CONCLUSION
+
+Ce stage m'a permis de comprendre de l'intérieur une entreprise d'innovation et pas seulement un sujet de recherche. DxO organise une coexistence exigeante : une structure fonctionnelle rend possible la production, la qualité, la diffusion et le support de logiciels photographiques; une R&amp;D autonome et fortement coordonnée par ajustement mutuel entretient l'exploration de nouvelles possibilités. Cette ambidextrie demeure un équilibre dynamique. Elle dépend de la circulation des connaissances entre recherche, produit, marketing et utilisateurs, ainsi que d'une culture de confiance qui n'occulte pas ses risques.
+
+Ma mission sur le culling assisté a constitué un exemple concret de cette dynamique. Elle m'a appris à expérimenter sans transformer un prototype en vérité, à mobiliser l'intelligence artificielle sans renoncer à la compréhension, et à considérer un résultat technique comme une étape vers un usage humain. Je retiens surtout que l'innovation utile ne naît ni de la seule créativité ni de la seule efficacité opérationnelle : elle résulte de leur mise en relation.
+
+Le rapprochement entre l'état des yeux et le flou a rendu cette leçon particulièrement concrète. Deux phénomènes photographiques qui paraissent voisins ne donnent pas droit au même type de conclusion : l'un permet de construire une taxonomie locale et de mesurer une frontière de décision; l'autre oblige à distinguer le phénomène optique, sa localisation dans l'image et l'intention du photographe. Le résultat le plus responsable n'est donc pas forcément une prédiction plus affirmative. C'est parfois une limite formulée avec précision, un signal relatif à une série d'images, ou le choix assumé de ne pas automatiser ce qui relève encore d'un jugement.
+
+Cette expérience a aussi modifié ma façon de concevoir le travail collectif. J'y suis entré avec une forte appétence pour la concentration individuelle et pour l'exploration autonome. J'en ressors convaincu que cette force n'a de valeur durable que si elle se relie à une communauté de travail : poser une question avant de s'enfermer dans une hypothèse, documenter une impasse aussi sérieusement qu'un succès, présenter un résultat de façon intelligible et écouter les métiers qui porteront ensuite l'usage. L 'autonomie dont j'ai bénéficié n'était pas l'absence d'organisation; elle reposait sur des rituels légers, des traces partagées et une confiance qui engageait chacun à rendre son travail appropriable.
+
+Enfin, ce stage a affermi mon projet professionnel. Je souhaite poursuivre dans des contextes où l'on explore des problèmes ouverts et où l'on met en mouvement des connaissances scientifiques. Je ne confonds plus pour autant l'exploration avec un refus de l'exploitation : la qualité, la documentation, le produit, le support et le marketing sont les conditions qui permettent à une intuition de devenir une innovation. Mon point de vigilance reste l'intensité de mon engagement. Le goût de l'exploration peut facilement me conduire à prolonger une tâche au-delà de ce qui est soutenable ou à laisser le travail absorber les temps de respiration et de relation. Je veux désormais faire de cette énergie une force plus équilibrée : ambitieuse intellectuellement, mais capable de partager les incertitudes, de préserver les liens sociaux et de construire une autonomie durable.
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000007_a3f88195198ff0cb360a3f5733ba9f66f95b9231b3172f5d56182c60cb645164.png)
+
+UNIVESSITE PABId-SACLAY
+
+Nom de l'élève/Student name :
+
+Ivann Harold KAMDEM POUOKAM
+
+Organisme d'accueil / Company :
+
+DxO Lab
+
+Nom et fonction  de l'évaluateur/Name and function of appraiser :
+
+Signature/ Signature :
+
+![Image](/tmp/pdf-full/dclt/main_artifacts/image_000008_58bfd0dc3489678638386b2d9401ce51e6d2ac7e2994e3cc5cfe1344f73fde2e.png)
+
+Marzieh Gheisari - Ingénieure de recherche
+
+- Jugement global sur le stage/ Gobal opinion on the internship.
+
+Très bon stage. Ivann a été autonome, curieux et très investi. Il a obtenu de bons résultats sur un sujet de R&amp;D exploratoire et a bien documenté son travail.
+
+- Quels sont les points forts de l'élève et les points faibles à améliorer ? / What are the student's  strengths and which student skills need to be improved?
+
+Grande autonomie, beaucoup d'initiative et une forte curiosité scientifique. Ivann apprend vite et sait explorer un problème en profondeur.
+
+- Etes-vous satisfait de cette expérience ? Envisagez-vous de reprendre un stagiaire polytechnicien ? Are you satisfied with this experience? Will you consider hosting again a student from Polytechnique?
+
+Oui, bien sûr.
+
+- Pourquoi ? Qu'est ce qui a différencié cet élève des autres stagiaires ?
+
+Why? What differentiated this student from other interns?
+
+Son niveau d'initiative et sa capacité à aller au-delà d'une simple implémentation, en cherchant à comprendre et comparer les différentes approches.
+
+| Evaluation du stagiaire/ Appraisal of student.   | Très bien Excellent A   | Bon Good B   | Moyen Satisfactory C   | Faible Weak D   | Insuffisant Deficient F   |
+|--------------------------------------------------|-------------------------|--------------|------------------------|-----------------|---------------------------|
+| Autonomie/Autonomy                               | x                       |              |                        |                 |                           |
+| Quantité de travail/ Amount of work              | x                       |              |                        |                 |                           |
+| Initiative/ Initiative                           | x                       |              |                        |                 |                           |
+| Résultats/ Results obtained                      | x                       |              |                        |                 |                           |
+| Comportement général/ General behaviour          | x                       |              |                        |                 |                           |
+| Intégration dans l'équipe/ Team integration      |                         | x            |                        |                 |                           |
+
+## FICHE D'EVALUATION DU STAGIAIRE /
+
+## APPRAISAL  FORM OF STUDENT
+
+28/08/2026
+
+Date :

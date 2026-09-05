@@ -10,7 +10,7 @@
 | **YouTube** | **`k-media`** + **`k-google`** | `$HOME/.config/gws/kpihx-labs/youtube_token.json` | — |
 | **X** | **`k-x`** | `$HOME/.config/kpihx/x/credentials.json` | — |
 | **Meta Graph / WA Cloud** | **`k-meta`** | `$HOME/.config/kpihx/meta/credentials.json` | **`k-whats`** (whats-proxy) |
-| **LinkedIn** | **`k-linkedin`** | Vault / MCP config | linkedin-mcp |
+| **LinkedIn** | **`k-link`** | Vault / OAuth (60j) | link-proxy |
 | **Registry** | **`k-clis`** (this file) | — | — |
 
 **`k-media`** = hub + YouTube runbooks — **not** a second publish stack. **`k-publish`** in vision docs = future mono-repo idea only.

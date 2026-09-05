@@ -138,7 +138,6 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 | Project | Path | Status |
 |---------|------|--------|
 | `O/engine` | `~/KpihX-Labs/O/engine/.venv` | Empty (no pip packages) |
-| `AI/oriyama` | `~/KpihX-Labs/AI/oriyama/.venv` | Empty |
 | `Fluid/ts_proxy` | `~/KpihX-Labs/Fluid/ts_proxy/.venv` | Empty |
 | `colab` | `~/KpihX-Labs/colab/.venv` | Has deps via `uv sync` |
 | `test` | `~/KpihX-Labs/test/.venv` | Empty |

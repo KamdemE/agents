@@ -22,16 +22,59 @@ allowed-tools: Bash(*), *
 2. **NEVER include personal info** in body. End with **"Cordialement,"**, **"Bien cordialement,"**, **"Cdt,"** / **"Best regards,"**, **"Kind regards,"**, **"Yours sincerely,"** — signature block handles the rest.
 3. When asked "include signature", don't add `signature:"default"` — it's the default when omitted.
 
+## Name Convention
+
+| Context | Format | Example |
+|---------|--------|---------|
+| Academic / Professional | 4 parts: `SURNAME SURNAME2 Firstname Middle` | `KAMDEM POUOKAM Ivann Harold` |
+| Casual / Personal / Internal | 2 parts: `SURNAME Firstname` | `KAMDEM Ivann` |
+
+> **Rule:** All official documents, emails to institutions, companies, or academic
+> bodies use the **4-part name**. Personal correspondence, internal notes, and
+> non-official contexts use the **2-part name**.
+
 ## Runtime Discipline
 
 - **Sole transport:** `mail-proxy do <action>`. No MCP, no HTTP backend.
-- **tmux ONLY for Zimbra** (password prompt needed). All other accounts → run directly in agent shell (no tmux).
+- **tmux for Zimbra when password cache expired.** When Zimbra prompts for password → route through tmux ops pane (`tmux send-keys`). Once password is cached (keyring ~20min), run directly in agent shell. All other accounts (Hotmail, Gmail) → always run directly in agent shell (no tmux needed).
 - **Never pipe/redirect** mail-proxy commands (hooks will block). If output truncated → read autosave at `~/.config/mail-proxy/autosave/`.
 - **`message-archive` over `message-move`** — auto-detects folder name (Archive, [Gmail]/Tous les messages, [Gmail]/All Mail).
 - Read `references/insights.md` before mail tasks. Append to `references/log.md`.
 - **Post-send verification:** wait ~5s, check Sent + INBOX for bounces (mandatory).
 - **Closure hygiene:** archive after handling; nudge if still in INBOX on subsequent turns.
 - **M365 auth:** never `m365 login` / `logout`. Auth is KπX-owned. If token expired → ask KπX to re-auth manually.
+
+### message-search — CRITICAL RULES
+
+`message-search` **defaults to INBOX only** — always specify `folders` to search across Archive, Sent, INBOX. **Mandatory: search at least 3 folders** (`INBOX`, `Archive`, `Sent`).
+
+```bash
+# WRONG — only searches INBOX:
+mail-proxy do message-search '{"account_id":"ivann.kamdem-pouokam","query":"stage"}'
+# CORRECT — searches all 3:
+mail-proxy do message-search '{"account_id":"ivann.kamdem-pouokam","query":"stage","folders":["INBOX","Archive","Sent"]}'
+```
+
+| Field | Type | What it does |
+|-------|------|-------------|
+| `query` | string | Raw text match in **subject OR body** (IMAP server-side) |
+| `sender` | string | FROM exact substring match |
+| `sender_pattern` | regex | Regex on From address — use when `sender` returns nothing |
+| `to_filter` | string | TO substring match |
+| `body_pattern` | regex | Regex on body (expensive — fetches full bodies) |
+
+> **Rule:** If `sender:"name"` returns 0 → ALWAYS retry `sender_pattern:"name"` (regex catches everything sender misses).
+
+### message-send — CRITICAL RULES
+
+**Never include `signature` in payload** (default handles it). **NEVER** `signature: ""`.
+
+| Field | Correct | WRONG |
+|-------|---------|-------|
+| `to` | `["email@domain.edu"]` (list) | `"email@domain.edu"` (string) |
+| body | `body_text` (string) | `body` (ignored, produces empty body) |
+
+JSON example: `{"account_id":"ivann.kamdem-pouokam","to":["recipient@polytechnique.edu"],"subject":"Subject","body_text":"Body.\n\nCordialement.","attachments":["/path/to/file.pdf"]}`
 
 ## mail-proxy Commands
 
@@ -78,13 +121,15 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 
 ### 1. Zimbra — `ivann.kamdem-pouokam@polytechnique.edu` (PRIMARY — Pro + Perso)
 
-> **L'account utilisé le plus souvent.** Mail académique, pro, et perso.
+> **Most-used account.** Academic, professional, and personal mail.
 > Account ID: `ivann.kamdem-pouokam` | Auth: password (tmux only, keyring 20min)
 
 - **Folders:** INBOX · Sent · Archive · Drafts · Outbox · Junk · Trash (7 flat)
 - **Native tags:** `Important` · `Dx0` (stage DXO) · `Hi-ParisAI:FLAG7760` (IPAI) · `4A` · `Stage` · `Eco`
-- **Cmds:** `zimbra-tag-list` pour voir les tags, `zimbra-tag-create/delete/apply/remove` pour gérer
+- **Cmds:** `zimbra-tag-list` to view tags, `zimbra-tag-create/delete/apply/remove` to manage
 - **Signature:** Ivann KAMDEM · ÉCOLE POLYTECHNIQUE · EIX X2024
+- **Full name (academic/pro):** `KAMDEM POUOKAM Ivann Harold`
+- **Short name (casual):** `KAMDEM Ivann`
 
 **Key contacts:**
 
@@ -92,9 +137,9 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 |---------|------|-----|
 | `scolarite.1a-2a@polytechnique.fr` | Admin PSC/stages/examens | CRIT |
 | `noreply@ip-paris.fr` | Moodle notes/QCM | CRIT |
-| `henry.develey@polytechnique.edu` | Cdt DEVELEY DFHM | HIGH |
-| `mathieu.lesoualch@polytechnique.edu` | Adj LESOUALCH DFHM | HIGH |
-| `vincent.beurel@polytechnique.edu` | Directives/évaluations | HIGH |
+| `henry.develey@polytechnique.edu` | CDU (since X24, entire school career) · Cdt DEVELEY DFHM | CRIT |
+| `mathieu.lesoualch@polytechnique.edu` | CDS (since 2025, replaced Mouchet Mandrin) · Adj LESOUALCH DFHM | CRIT |
+| `vincent.beurel@polytechnique.edu` | **Commandant de promotion** · Directives/évaluations | CRIT |
 | `camille.challant@polytechnique.edu` | Notes/calendrier | HIGH |
 | `anne.taupin@polytechnique.edu` | Career Center stage 2A | HIGH |
 | `stages.x2a@polytechnique.fr` | Bureau stages officiel | HIGH |
@@ -107,103 +152,96 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 **Frequent contacts:** `info@ax.polytechnique.org` (newsletter AX/X-IA), `messages-noreply@linkedin.com`, `jobalerts-noreply@linkedin.com` (offres stage), `financialaid@polytechnique.fr` (CROUS), `alexis.ruel@polytechnique.edu` (badges)
 
 **Key knowledge:**
-- **Template demande d'absence** : chercher dans `Archive` le mail avec sujet contenant "demande d'absence" — le modèle complet (destinataire, objet, corps avec dates) est dans un mail ancien réutilisable tel quel.
-- **Adressing rule:** `@polytechnique.edu` UNIQUEMENT — `.fr` = SMTP 550 Non-existent address.
-- **Poste:** X24, EIX — signature pro : Ivann KAMDEM · ÉCOLE POLYTECHNIQUE · EIX X2024
+- **Absence request template:** search `Archive` for subject containing "demande d'absence" — the full model (recipient, subject, body with dates) is in an old email, reusable as-is.
+- **Addressing rule:** `@polytechnique.edu` ONLY — `.fr` = SMTP 550 Non-existent address.
+- **Position:** X24, EIX — pro signature: Ivann KAMDEM · ÉCOLE POLYTECHNIQUE · EIX X2024
 
-### 2. Hotmail — `ivann.kamdem@hotmail.com` (Perso non-acad)
+### 2. Hotmail — `ivann.kamdem@hotmail.com` (Personal non-academic)
 
-> **Secondaire.** Mail perso non-académique. Reçoit les forwards CF Worker pour `kpihx@` et `ivann@`.
+> **Secondary.** Personal non-academic mail. Receives CF Worker forwards for `kpihx@` and `ivann@`.
 > Account ID: `ivann.kamdem` | Auth: OAuth2 device code (tokens `~/.cli-m365-*`)
 
 - **Folders:** Inbox · Sent · Archive · Drafts · Junk · Deleted (6)
 - **Rules:** 3 KpihX inbound (`contact@`/`kpihx@`/`ivann@` → moveToFolder + copyToFolder dossier)
-- **Dossiers `@kpihx-labs.com` :** `KpihX-Labs/Ivann/In` + `KpihX-Labs/KpihX/In`
-- **Routing:** reçoit `kpihx@` + `ivann@` via CF Worker
+- **Dossiers `@kpihx-labs.com`:** `KpihX-Labs/Ivann/In` + `KpihX-Labs/KpihX/In`
+- **Routing:** receives `kpihx@` + `ivann@` via CF Worker
 
 **Frequent contacts:** `clement.liu@lokad.com` (PSC INF01 coordinator, CC on Hotmail), `info@ax.polytechnique.org` (newsletter AX), `financialaid@polytechnique.fr` (CROUS notifications), `vincent.beurel@polytechnique.edu` (DFHM directives)
 
 ### 3. `.2024` — `ivann.kamdem-pouokam.2024@polytechnique.org` (AX Workspace)
 
-> **Compte Google Workspace offert par l'AX** — 100 Go, tous les services Google (Gmail, Drive, Calendar, Meet).
+> **Google Workspace account provided by AX** — 100 GB, all Google services.
 > Account ID: `ivann.kamdem-pouokam.2024`
 
-- **Redirection:** tous les mails reçus sont automatiquement **redirectés vers Hotmail + Zimbra** (configuré sur le site `polytechnique.org`, pas sur Gmail lui-même)
-- **Usage:** tests, envois de validation, comptes de service. Utile comme « source neutre » pour tester le routing @kpihx-labs
+- **Redirection:** all received emails automatically **redirected to Hotmail + Zimbra**
+- **Usage:** tests, validation sends, routing testing
 - **Folders:** INBOX · Sent Mail · [Gmail] standard
-
-**Frequent contacts:** principalement des notifications Google (sign-in alerts, data sharing), des notifications npmjs/Oracle Cloud, et les emails de test que l'on envoie pour valider le routing.
 
 ### 4. kapoivha — `kapoivha@gmail.com` (Test / Quick solutions)
 
-> **Compte de test.** Solutions rapides, forwarding CF Worker, vérifications inbox.
+> **Test account.** Quick solutions, CF Worker forwarding, inbox checks.
 > Account ID: `kpihx`
 
 - **Labels:** `KpihX-Labs/{Ivann,KpihX,Contact}/In` + `{Ivann,KpihX,Contact}/Out`
-- **Routing:** reçoit `kpihx@` + `contact@` + `ivann@` via CF Worker
-- **Anti-spam:** 3 filtres `to:<alias>` → removeLabelIds ["SPAM"] sur les 3 aliases
+- **Routing:** receives `kpihx@` + `contact@` + `ivann@` via CF Worker
+- **Anti-spam:** 3 filters `to:<alias>` → removeLabelIds ["SPAM"] on 3 aliases
 
-**Frequent contacts:** notifications GitHub, npmjs (packages), OpenCode receipts, security alerts Google, newsletters (Towards Data Science, Meta Connect), Oracle Cloud.
+### 5. Labs — `kpihx.labs@gmail.com` (Ecosystem)
 
-### 5. Labs — `kpihx.labs@gmail.com` (Écosystème)
-
-> **Compte écosystème.** Rapports, notifications GitHub/CI, forwarding contact@.
+> **Ecosystem account.** Reports, GitHub/CI notifications, contact@ forwarding.
 > Account ID: `kpihx.labs`
 
 - **Labels:** `KpihX-Labs/Contact/In` + `KpihX-Labs/Contact/Out`
-- **Routing:** reçoit `contact@` via CF Worker
-- **Anti-spam:** 3 filtres `to:<alias>` → removeLabelIds ["SPAM"] sur les 3 aliases
+- **Routing:** receives `contact@` via CF Worker
+- **Anti-spam:** 3 filters `to:<alias>` → removeLabelIds ["SPAM"] on 3 aliases
 
 ---
 
 ## Email Strategy
 
-| Rôle | Compte | Domaine |
+| Role | Account | Domain |
 |---|---|---|
 | Prof + perso | Zimbra (`ivann.kamdem-pouokam@polytechnique.edu`) | @polytechnique.edu |
-| Perso non-acad | Hotmail (`ivann.kamdem@hotmail.com`) | @hotmail.com |
+| Personal non-academic | Hotmail (`ivann.kamdem@hotmail.com`) | @hotmail.com |
 | Test / quick | kapoivha (`kapoivha@gmail.com`) | @gmail.com |
-| Écosystème | Labs (`kpihx.labs@gmail.com`) | @gmail.com |
+| Ecosystem | Labs (`kpihx.labs@gmail.com`) | @gmail.com |
 | AX Workspace | `.2024` (`ivann.kamdem-pouokam.2024@polytechnique.org`) | @polytechnique.org |
 
 ## @kpihx-labs.com Routing
 
-| Alias | Destinations | Via | Refs |
-|---|---|---|---|
-| `kpihx@` | Hotmail + kapoivha | CF Worker | `k-cloudflare/references/inbound-email-e2e.md` |
-| `contact@` | Labs + kapoivha | CF Worker | `k-cloudflare/references/inbound-email-e2e.md` |
-| `ivann@` | Hotmail | CF Worker | `k-cloudflare/references/inbound-email-e2e.md` |
+| Alias | Destinations | Via |
+|---|---|---|
+| `kpihx@` | Hotmail + kapoivha | CF Worker |
+| `contact@` | Labs + kapoivha | CF Worker |
+| `ivann@` | Hotmail | CF Worker |
 
-**Envoyer depuis les 2 Gmail (Send-as aliases) :**
-- kapoivha : `from_address:"kpihx@kpihx-labs.com"` ou `"ivann@kpihx-labs.com"`
-- Labs : `from_address:"contact@kpihx-labs.com"`
-- Hotmail : pas de Send-as configuré
+**Send-as from Gmail:** kapoivha → `from_address:"kpihx@kpihx-labs.com"` · Labs → `from_address:"contact@kpihx-labs.com"` · Hotmail: no Send-as.
 
-Pour plus de détails sur le Worker, filtres, dossiers → `k-cloudflare/references/inbound-email-e2e.md`, `gmail-folders-filters.md`, `outlook-folders-rules.md`.
+For details → `k-cloudflare/references/inbound-email-e2e.md`, `gmail-folders-filters.md`, `outlook-folders-rules.md`.
 
 ### Future Address Plan
 
-| Adresse | Actuel | Futur |
+| Address | Current | Future |
 |---|---|---|
-| `contact@` | Ecosystem/routing | → orga KpihX |
-| `kpihx@` | Test/quick | → perso+pro (remplacer Hotmail) |
-| `ivann@` | Restrictive | Cercles serrés uniquement |
+| `contact@` | Ecosystem/routing | → KpihX org |
+| `kpihx@` | Test/quick | → perso+pro |
+| `ivann@` | Restrictive | Inner circles only |
 
 ---
 
 ## What's up (mail briefing)
 
-Timezone: **Europe/Paris**. **Preflight:** `mail-proxy admin status` + `mail-proxy do inbox-check '{"account_id":"ivann.kamdem"}'`. Si échoue → STOP.
+Timezone: **Europe/Paris**. **Preflight:** `mail-proxy admin status` + `mail-proxy do inbox-check '{"account_id":"ivann.kamdem"}'`. If fails → STOP.
 
 **Steps:**
-1. **Open pipelines** (flagged + Important) — `message-search` sur INBOX, Archive, Sent
-2. **Today poly/Zimbra** — tri par contact, blocs Admin/Academic/Professional (interest lens)
-3. **Hotmail m365** — dedup avec poly, highlight net-new
-4. **Key contacts pulse** — Clément Liu Lokad, autres threads récents
+1. **Open pipelines** (flagged + Important) — `message-search` on INBOX, Archive, Sent
+2. **Today poly/Zimbra** — sort by contact, blocks Admin/Academic/Professional (interest lens)
+3. **Hotmail m365** — dedup with poly, highlight net-new
+4. **Key contacts pulse** — Clément Liu Lokad, other recent threads
 5. **Backward window** — yesterday + 7j unread
 6. **Proactive close** — archive + TickTick proposals
 
-Max exhaustivité, 1 seule réponse par tour.
+Max exhaustiveness, 1 response per turn.
 
 ---
 
@@ -233,23 +271,17 @@ Handled → **archive** via `message-archive`. 1:1 closed → archive thread. St
 | IPAI Hackathon prize | `hannah.conrad@join-nxtgn.com` | Payout pending |
 | Prix Gerondeau-Safran | `charlotte.milone@polytechnique.edu` | Candidature avec KUETE |
 
-## References
+## References & Scripts
 
-- `references/gmail-folders-filters.md` — Gmail labels & filters SOT
-- `references/outlook-folders-rules.md` — Hotmail folders & rules SOT
-- `references/insights.md` · `references/log.md` · `references/mcp.md` (LEGACY) · `references/tool-keep-matrix.md`
-
-## Scripts
-
-`inspect_gmail_filters_labels.sh` · `inspect_outlook_rules_folders.sh` · `setup_alias_folders_filters.sh`
-
-## Legacy
-
-`references/mcp.md` — `mail-mcp` purged 2026-08-14. `mail-proxy` is sole transport.
+- `references/gmail-folders-filters.md` · `references/outlook-folders-rules.md` · `references/insights.md` · `references/log.md`
+- `inspect_gmail_filters_labels.sh` · `inspect_outlook_rules_folders.sh` · `setup_alias_folders_filters.sh`
+- `references/mcp.md` — `mail-mcp` purged 2026-08-14. `mail-proxy` is sole transport.
+- `references/tool-keep-matrix.md` — keep/drop matrix for mail tooling (what stays, what was purged and why).
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-04 | [LIVE] | v3.0.0 — Mail-proxy sole transport; signature/body rule; 5 accounts; routing + future plan; command reference; Gmail/Outlook SOTs. |
+| 2026-09-05 | [LIVE] | v3.0.1 — Name convention; search/send rules (3 folders, body_text, to as list); tmux rule; FR→EN. |
+| 2026-09-04 | [LIVE] | v3.0.0 — Mail-proxy sole transport; signature/body rule; 5 accounts; routing; command ref. |
 | [SUMMARY] | — | v2.3.0 Gmail/Outlook SOTs + scripts · v2.2.5 MCP purge · older → `references/log.md` |

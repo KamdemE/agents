@@ -11,7 +11,7 @@ Applies to every tool that needs **high-impact tokens** from Vaultwarden via **`
 | `CF_API_TOKEN` | `flarectl`, Cloudflare API `curl` |
 | M365 / Graph | `m365` (KπX login only — agents read after unlock) |
 | Google OAuth files | `gws`, `gcloud` ADC |
-| MCP / API keys | mail-mcp, tick-mcp, linkedin-mcp, ts-proxy, etc. |
+| MCP / API keys | mail-mcp, tick-mcp, link-proxy, ts-proxy, etc. |
 | Social JSON (local) | `$HOME/.config/kpihx/x/credentials.json`, `$HOME/.config/kpihx/meta/credentials.json` |
 
 **Social JSON rule:** files are **outside** `.agents/` git — agents use `--creds-file` on `x_cli.py` / `meta_cli.py` when `Vaultwarden` is incomplete. **Never** commit, copy into skills, or paste values in chat.

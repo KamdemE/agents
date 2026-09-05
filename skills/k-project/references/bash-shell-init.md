@@ -14,8 +14,7 @@ For pure shell scripts, CLI wrappers, or systemd-managed tools with no `uv`/`npm
 ├── .env.example         # Required env vars (keys only, no values)
 ├── README.md
 ├── CHANGELOG.md
-└── .agents/
-    └── AGENTS.md
+└── AGENTS.md             ← project context for AI agents (repo root, gitignored by name, NEVER committed)
 ```
 
 **Mandatory scripts:**

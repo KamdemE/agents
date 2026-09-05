@@ -164,7 +164,6 @@ Aucun fichier `.nvmrc` ou `.node-version` trouvé dans `KpihX-Labs`. Tous les pr
 | `O/surface` | Bun + Vite | ✅ `~5.8.0` | Playwright, Vite |
 | `𝛱/live/web` | Bun + Vite | ✅ `~5.8.0` | Vite |
 | `Fluid/whats_proxy` | Bun | ✅ `^6.0.3` | Baileys, Fastify, Pino |
-| `AI/oriyama/opencode-plugin` | Node | ❌ | *(minimal, main: index.js)* |
 | `.opencode/plugin` | Node | ❌ | `@opencode-ai/plugin` |
 
 ---

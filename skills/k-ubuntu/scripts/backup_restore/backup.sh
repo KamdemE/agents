@@ -18,6 +18,11 @@ PREVIEW=0
 
 # ── Load libs ──────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# systemd services with explicit `User=root` preset $HOME=/root, which misses
+# the kernel (/root/.agents does not exist) — force the agent user home whenever
+# .agents is not reachable from the current value.
+export HOME="${HOME:-/home/kpihx}"
+[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
 # shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"

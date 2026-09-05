@@ -574,12 +574,6 @@
         "opencode-go/deepseek-v4-flash"
       ]
     }],
-    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",
-    // DISABLED 2026-09-02 (KπX): opencode-advisor — advisor() tool + auto-escalation.
-    // ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-advisor/dist/plugin.js", {
-    //   "model": "opencode-go/deepseek-v4-pro",
-    //   "failureThreshold": 5
-    // }],
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
     // /context plugin — explicit file:// (1.18.16 auto-discovery glob is non-recursive; explicit path is the reliable mechanism, same as plugins).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts"

@@ -100,8 +100,11 @@ metadata:
 | `bun` | **`k-node`** · **`k-project`** | JS/TS runtime & package manager — sovereign choice for KpihX-owned projects |
 | `fnm` / `nvm` | **`k-node`** | Node version manager — `fnm` (Fast Node Manager, Rust). Dynamic PATH via `--use-on-cd`. nvm retained as fallback. |
 | `node` / `npm` | **`k-node`** | Node.js runtime & package manager — npm global prefix (`~/.npm-global`), EACCES prevention |
-| `latexmk` / `pdflatex` | **`k-latex`** | LaTeX compilation |
+| `latexmk` / `pdflatex` / `pdfunite` | **`k-latex`** | LaTeX compilation & lossless PDF merging (`pdfunite`) |
 | `make` | **`k-project`** / workspace | Build system — Makefile templates |
+| `pdftotext` / `pdfinfo` / `pdftoppm` / `pdffonts` | **`k-pdf`** | PDF classic tools (poppler-utils) — text, metadata, render, font list |
+| `docling` | **`k-pdf`** | Structured PDF parser (IBM, MIT) — MD/JSON/images extraction |
+| `tesseract` | **`k-pdf`** | OCR for scanned PDFs (eng+fra) |
 
 ### Media, AI & Utilities
 
@@ -134,7 +137,7 @@ metadata:
 | YouTube | OAuth `kpihx-labs` | **`k-media`** + **`k-google`** |
 | Meta (WA + Graph) | Meta Dev vault | **`k-meta`** · WA → **`k-whats`** |
 | X | X Dev vault | **`k-x`** |
-| LinkedIn | — | **`k-linkedin`** |
+| LinkedIn | — | **`k-link`** |
 
 ## Token & Credential Gate
 

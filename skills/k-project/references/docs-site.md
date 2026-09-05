@@ -21,8 +21,7 @@ my-project/
 ├── README.md
 ├── CHANGELOG.md
 ├── TODO.md
-└── .agents/
-    └── AGENTS.md         ← NEVER committed
+└── AGENTS.md             ← NEVER committed, gitignored by name (repo root, not .agents/)
 ```
 
 GitHub Pages: **Settings → Pages → Source: `main` / `docs`**

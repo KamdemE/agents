@@ -125,7 +125,6 @@ ENV/
 
 # Packaging & build
 dist/
-build/
 *.egg-info/
 .eggs/
 eggs/
@@ -163,7 +162,6 @@ dist/
 # ============================================================================
 
 target/
-build/
 out/
 *.class
 .gradle/
@@ -209,7 +207,7 @@ playwright-report/
 # 10. KπX AGENT / LOCAL-ONLY PROJECT DOCS — never shared via git, any project
 # ============================================================================
 
-# .agents/AGENTS.md convention (project-scoped agent knowledge, never shipped)
+# AGENTS.md convention (repo root, project-scoped agent knowledge, never shipped)
 .agents/
 AGENTS.md
 DRAW.md

@@ -4,7 +4,7 @@ description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central invento
 license: private
 metadata:
   author: KpihX
-  version: 3.7.3
+  version: 3.8.0
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
@@ -76,6 +76,17 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - **Proactivity:** save new facts/preferences/patterns without waiting.
 - **No duplicates:** check existing entries first; when a fact belongs to a runtime skill, POINT to it here instead of repeating (see `rules/skill-governance.md` → Cross-References).
 
+## R&D AI Projects & RAG Architecture
+
+- **Envision Copilot** (`envision-copilot` + `envision-copilot-presentation`) — Graph-based RAG exploration & intelligent interactive copilot for Domain-Specific Languages (DSL case of Envision).
+  - **GitHub Remotes**:
+    - Sovereign Code: `https://github.com/KpihX/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
+    - Docs & Presentation: `https://github.com/KpihX/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
+    - Upstream Reference: `https://github.com/ClementLokad/llm-DSL-info-extraction`
+  - **GitLab Remotes**:
+    - Sovereign Code: `https://gitlab.com/kpihx-labs/ai/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
+    - Docs & Presentation: `https://gitlab.com/kpihx-labs/ai/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
+
 ## Project References
 
 | Resource | Path / URL |
@@ -115,6 +126,6 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v3.8.0 — Added Envision Copilot RAG project entry with GitHub (KpihX) and GitLab (kpihx-labs/ai) remotes + ClementLokad upstream reference. |
 | 2026-09-03 | [LIVE] | v3.7.3 — Added `nobg` project reference (`$HOME/KpihX-Labs/AI/nobg/`, PyPI `k-nobg`) with measured inference times (bgone ~0.2s CPU, nobg ~8.8s batch Intel Arc XPU). |
-| 2026-09-03 | [LIVE] | v3.7.2 — Comprehensive `references/remove-bg.md` rewrite: full 4-tool evaluation, visual benchmark matrix, installation guides (Intel Arc + NVIDIA), decision flowchart. |
-| [SUMMARY] | — | v3.7.1 Added bgone + nobg pair · v3.7.0 Text Extractor keyboard shortcut · v3.6.2 OpenVINO GenAI added + tool-wiring insight · v3.6.1 HF CLI standard · v3.6.0 Hugging Face Hub CLI · v3.5.0 CUDA whisper-cli · v3.4.0 QMD · v3.3.0 Description reinforced · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents · v2.x and older → `references/log.md` |
+| [SUMMARY] | — | v3.7.2 remove-bg.md rewrite (4-tool eval, benches, Arc+NVIDIA guides) · v3.7.1 Added bgone + nobg pair · v3.7.0 Text Extractor keyboard shortcut · v3.6.2 OpenVINO GenAI added + tool-wiring insight · v3.6.1 HF CLI standard · v3.6.0 Hugging Face Hub CLI · v3.5.0 CUDA whisper-cli · v3.4.0 QMD · v3.3.0 Description reinforced · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents · v2.x and older → `references/log.md` |

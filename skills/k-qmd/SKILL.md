@@ -8,7 +8,7 @@ license: MIT
 compatibility: Requires local qmd CLI. CLI-first runtime; no qmd MCP should remain configured in agent runtimes.
 metadata:
   author: tobi (upstream) / [CLAUDE] (KπX annotations)
-  version: "2.20.0"
+  version: "2.20.1"
 allowed-tools: Bash(qmd:*), Bash(qmdr:*)
 ---
 
@@ -147,6 +147,6 @@ Exact command shapes and setup details live in `references/mcp-setup.md`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v2.20.1 — `check_collections.sh` hardening: empty `qmd collection list` output now reports explicit `QMD_CLI_FAIL` (with captured CLI stderr, mktemp+trap, human+JSON) instead of N misleading `UNKNOWN_QMD` — closes the documented false-positive path (insights l.16) seen live 2026-09-05 04:01 clean; tested E2E (normal exit 0, simulated SQLITE_BUSY failure → 4× `QMD_CLI_FAIL`, valid JSON, no tmp residue). |
 | 2026-08-24 | [CLAUDE] | v2.20.0 — Added `references/wsl.md`: WSL GPU passthrough trap found on `blglaptop139-wsl` — `nvidia-smi`/driver visible, but no CUDA runtime toolkit, so `qmd embed` silently ran 100% on CPU despite a real NVIDIA RTX 5070 present (Vulkan fallback unusable too — no NVIDIA Vulkan ICD registered in WSL, only Mesa software ICDs). Fix: NVIDIA's driver-less `wsl-ubuntu` CUDA Toolkit apt repo. Linked from Source Of Truth, References, and Troubleshooting. |
-| 2026-08-24 | [COLAB] | v2.19.0 — Converted the three local QMD post-commit hooks (Homelab/presentation, techskills, k_ai) from registered `.agents` symlinks into executable standalone copies of `references/post-commit-hook.sh`; registry entries removed by KπX order. |
-| [SUMMARY] | — | v2.18.0 update_collections.sh + auto-update pattern (→ `references/log.md`) · v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |
+| [SUMMARY] | — | v2.19.0 post-commit hooks → standalone copies (symlink registry entries removed) · v2.18.0 update_collections.sh + auto-update pattern (→ `references/log.md`) · v2.15.0 purged collections (→ `references/log.md`) · v2.14.8 QMD rebuilt Node mismatch fix (→ `references/log.md`) · v2.14.7 Insights: transient `chunks failed` after parallel post-commit embed; v2.14.4 presentation path typo fix; v2.14.3 audit compact; v2.14.2 path correction; older → file history |

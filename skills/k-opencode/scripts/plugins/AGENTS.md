@@ -74,9 +74,6 @@ scripts/plugins/
 │   ├── opencode-notify.js, opencode-notify.sh
 ├── opencode-help/         # NON-HOOK plugin — durable parent-owned peer sessions (git submodule)
 │   └── src/index.ts
-├── opencode-advisor/      # DEACTIVATED — was advisor() + auto-escalation (git submodule, kept for archival)
-│   ├── dist/plugin.js (compiled)
-│   └── src/plugin.ts
 └── web/                   # web plugins (opencode-lens, opencode-web-voice)
 
 assets/plugins/
@@ -141,10 +138,6 @@ See `k-tmux` → Stateful Integration for the full mechanism.
 |------|------|
 | `opencode-notify.js` | **NOT a hook** (read-only/observational, see "Hooks vs Plugins" above). Fires KπX a notification (system + Telegram) the moment the agent finishes a turn (`event`/`session.idle`), hits an error (`event`/`session.error`), or is blocked waiting for an approval decision (`"permission.ask"` hook callback). Always fires, all agents, no focus-detection gate (replaces the purged third-party `opencode-notifications` npm plugin — see `references/plugin-watch.md` → Purged). Includes device hostname (`libs/device-info.js`), resolved agent (`libs/agent-scope.js`), and session title/directory (`client.session.get`) in every notification. |
 | `opencode-notify.sh` | Sibling shell wrapper — sources the shared `$HOME/.agents/libs/notif/notifier.sh` and calls `notify_mixed` (system `notify-send` + Telegram, one call). Invoked by `opencode-notify.js` via `execFile` (argv array, no shell string interpolation). Prefers the dedicated `TELEGRAM_OPENCODE_TOKEN` (see `.env.example`) over the shared notifier fallback chain. |
-
-### Advisor plugin (DEACTIVATED — `scripts/plugins/opencode-advisor/`)
-
-**Removed from config 2026-09-01.** Source kept for archival. Auto-escalation replaced by `help_open` (explicit parent-controlled peer sessions). The `help` reflex is the agent's "stuck" escape route — see `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 
 ### Help plugin (`scripts/plugins/opencode-help/`)
 

@@ -388,6 +388,19 @@ return {
     end,
   },
 
+  -- === Search & replace ===
+  {
+    "nvim-pack/nvim-spectre",
+    event = "VeryLazy",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("spectre").setup()
+    end,
+    keys = {
+      { "<leader>sr", "<cmd>lua require('spectre').open()<cr>", desc = "Spectre search/replace", mode = "n" },
+    },
+  },
+
   {
     "stevearc/oil.nvim",
     lazy = false,
