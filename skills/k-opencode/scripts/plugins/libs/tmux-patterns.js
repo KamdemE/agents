@@ -19,3 +19,13 @@
  */
 export const SEND_KEYS_REGEX =
   /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
+
+// Opt-in SSH bypass (KπX, 2026-09-05): a pane whose foreground process is an
+// interactive `ssh`/`mosh` client is idle-shell-unknown from the local side
+// (local metadata only ever sees `ssh`). By default such panes stay BLOCKED
+// (fail-closed). Prefixing the SAME send-keys call with `TMUX_ALLOW_SSH=1`
+// explicitly accepts degraded notifications (no auto <tmux-notify> — the
+// remote prompt never writes the local /tmp/tmux-pane-done.log — watchdog
+// only + one-shot capture-pane) and arms the lease anyway.
+export const ALLOW_SSH_REGEX = /TMUX_ALLOW_SSH=1/;
+export const SSH_WRAPPER_CMDS = ["ssh", "mosh"];

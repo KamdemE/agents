@@ -7,7 +7,7 @@ description: >
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.31.0
+  version: 1.32.0
   author: KpihX
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
@@ -229,6 +229,24 @@ still in the registry. Only fall back to a manual chat handoff for a
 code, OAuth consent click) — never for a command that will return to its own
 prompt.
 
+### SSH panes — opt-in `TMUX_ALLOW_SSH=1` (2026-09-05)
+
+A pane running an interactive `ssh`/`mosh` client is BLOCKED by default
+(fail-closed — local metadata only ever sees `ssh`, never the remote shell
+state). If the remote shell is idle AND you accept degraded notifications,
+prefix the SAME `send-keys` call:
+
+```bash
+TMUX_ALLOW_SSH=1 TMUX_TIMEOUT=30 TMUX_LINES=50 tmux send-keys -t SESSION:WIN.PANE 'docker ps' Enter
+```
+
+Degraded means: NO auto `<tmux-notify>` will ever fire (the remote prompt
+never writes the local prompt log) — `<tmux-watchdog>` checks are the ONLY
+signal, plus one `capture-pane -p -t <pane> -S -100` when it looks done
+(`<tmux-armed-ssh>` reminder states this explicitly). Prefer the one-shot
+`ssh <host> 'cmd'` pattern from an idle pane whenever possible — reserve this
+flag for panes already inside an interactive SSH session.
+
 ### ⚠️ CRITICAL — Always identify pane before send-keys
 
 **NEVER** use `tmux send-keys` without first confirming the exact target session, window, and pane index via `tmux list-panes`. Blindly sending keys to the wrong pane can:
@@ -273,6 +291,6 @@ This shows every pane across all sessions with the running command — no guessi
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v1.32.0 SSH opt-in `TMUX_ALLOW_SSH=1` — interactive ssh/mosh panes armable en mode dégradé (watchdog-only, pas de `<tmux-notify>` auto), block message du hook avec hint + exemple. |
 | 2026-08-31 | [LIVE] | v1.31.0 TMUX_ADJUST clarity — must be typed in agent's own shell, not via send-keys. |
-| 2026-08-30 | [LIVE] | v1.30.0 Default `TMUX_LINES` 20→50 + empty-result fallback made explicit. |
-| [SUMMARY] | — | v1.29.0 sudo/sleep rules technically enforced · v1.28.1 orphan sentence fragment fixed · v1.28.0 watchdog A/B/C/D decision tree · v1.27.0 timeout self-adjustment + escalating watchdog · v1.26.0 owner-aware leases + interactive mode · v1.25.0 default TMUX_TIMEOUT 300→30s · v1.24.0 copy-mode mouse bindings fully reverted + Shift+drag real fix · v1.23.0 remote clipboard fix reverted · v1.22.0 self-backgrounding nohup+sleep · v1.21.0 native-OSC52 attempt · v1.20.x split-window hazard, busy-pane block · v1.19.0 dead-pane & terminal hijack · v1.18.0 capture-pane block removed · v1.17.0 technical block on capture-pane · v1.16.0 TMUX_TIMEOUT/TMUX_LINES generalized · v1.14.0 Stateful Integration · v1.13.0 SKILL size reduction · v1.12.0 symlink direction reversed · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |
+| [SUMMARY] | — | v1.30.0 TMUX_LINES 20→50 + empty-result fallback · v1.29.0 sudo/sleep rules technically enforced · v1.28.1 orphan sentence fragment fixed · v1.28.0 watchdog A/B/C/D decision tree · v1.27.0 timeout self-adjustment + escalating watchdog · v1.26.0 owner-aware leases + interactive mode · v1.25.0 default TMUX_TIMEOUT 300→30s · v1.24.0 copy-mode mouse bindings fully reverted + Shift+drag real fix · v1.23.0 remote clipboard fix reverted · v1.22.0 self-backgrounding nohup+sleep · v1.21.0 native-OSC52 attempt · v1.20.x split-window hazard, busy-pane block · v1.19.0 dead-pane & terminal hijack · v1.18.0 capture-pane block removed · v1.17.0 technical block on capture-pane · v1.16.0 TMUX_TIMEOUT/TMUX_LINES generalized · v1.14.0 Stateful Integration · v1.13.0 SKILL size reduction · v1.12.0 symlink direction reversed · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

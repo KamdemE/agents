@@ -4,7 +4,7 @@ description: "KpihX HOT context - auto-injected by hooks for Colab/Build. Active
 license: "private"
 metadata:
   author: "KpihX"
-  version: "3.66.74"
+  version: "3.66.75"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -171,6 +171,8 @@ Run this slice as a **batch deep exploration**: keep opening relevant records un
 Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the full *what's up* ladder applies — **AGENTS.md → What's up** mandates **one domain per turn**.
 
 ## Session Log
+| 2026-09-05 | [LIVE] | Vaultwarden 1.36.0 → 1.37.2 OK (KπX redeploy via Portainer stack 10 Editor + Re-pull, tag repinné) : diag via pane 0.3 SSH homelab (TMUX_ALLOW_SSH=1 live-testé), sudo 3 essais KO puis OK, compose Portainer `/var/lib/docker/volumes/portainer_data/_data/compose/10/`, backup tar 6.8M `~/vaultwarden-data-20260905.tgz`, Bitwarden app OK. Mobile vide suspecté = mauvaise URL serveur (cloud vs vault.kpihx-labs.com). |
+| 2026-09-05 | [LIVE] | tmux SSH opt-in shippé (KπX order) : `TMUX_ALLOW_SSH=1` arme un lease sur pane ssh/mosh (k-opencode v2.80.0 + libs/tmux-patterns.js), mode dégradé watchdog-only `<tmux-armed-ssh>` (jamais de notify auto), hint TMUX dans le message de blocage + section k-tmux v1.32.0. Validé live : arm/watchdog/release-on-ssh-exit sur homelab. |
 | 2026-09-05 | [LIVE] | k-explore TODO purged (skill NOT created — Explore documented as `## Explore` HQ in kpihx-labs v2.13.0 instead: techskills=tech, sciencurious=science, remotes+paths+lab) + k-context/assets/sciencurious/ + techskills/ purged (12 files, brand now in Explore repos) + refs updated. |
 | 2026-09-05 | [LIVE] | Explore/techskills day: brand assets copied + banner/logo wiring (sciencurious model) · reorg 0.10.0 (system/dev/net/apps) + 0.10.1 (templates/→apps/assets/templates/) · `proxies/` 8 pages from live --help (306 actions) · nvim + opencode + tmux tutos (k-nvim/k-opencode/k-tmux) + expansions — 6 commits, push github+gitlab. |
 | 2026-09-05 | [LIVE] | ts-proxy 1.2.2 full release (drift fixé: aucun tag, README seul à 1.2.2 → bump pyproject+CHANGELOG+lock `8f9ad94`, tag `v1.2.2` pushé ×2 remotes, PyPI publié via tmux 0.1, `uv-install` local, status ok) + tg-proxy vérifié déjà docker-free depuis 1.2.0 → option A (pas de release vide, 1.2.1 == PyPI). |
@@ -205,6 +207,6 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LIVE] | v3.66.75 — tmux SSH opt-in live-validé (k-opencode v2.80.0, k-tmux v1.32.0) + Vaultwarden 1.36.0→1.37.2 via Portainer stack 10 (backup 6.8M) ; session log updated. |
 | 2026-09-05 | [LIVE] | v3.66.74 — k-explore TODO purged (no skill, Explore HQ in kpihx-labs v2.13.0) + k-context/assets/sciencurious/+techskills/ purged (12 files) + Explore/techskills day logged (reorg 0.10.x, proxies/, nvim/opencode/tmux) ; session log updated. |
-| 2026-09-05 | [LIVE] | v3.66.73 — ts-proxy 1.2.2 full release (tag+PyPI tmux, uv-install) + tg-proxy skip release vide (option A) ; session log updated. |
-| [SUMMARY] | — | v3.66.72→67 ts-proxy 1.2.2/docker-purge/registry-B/all-public/migration/Phoenix+QMD/tg-bot-purge · v3.66.66 root AGENTS.md standard · v3.66.6x mail-proxy v0.8.0 stack · v3.66.5x mail-proxy evolution · v3.66.4x tmux-notify fixes + Propose ≠ Act · v3.66.3x PR merges · older → `references/log.md` |
+| [SUMMARY] | — | v3.66.73 ts-proxy 1.2.2 full release + tg-proxy skip release vide · v3.66.72→67 ts-proxy 1.2.2/docker-purge/registry-B/all-public/migration/Phoenix+QMD/tg-bot-purge · v3.66.66 root AGENTS.md standard · v3.66.6x mail-proxy v0.8.0 stack · v3.66.5x mail-proxy evolution · v3.66.4x tmux-notify fixes + Propose ≠ Act · v3.66.3x PR merges · older → `references/log.md` |

@@ -59,7 +59,11 @@
 import * as fs from "node:fs";
 import { execSync } from "node:child_process";
 import { currentAgent } from "./libs/agent-scope.js";
-import { SEND_KEYS_REGEX } from "./libs/tmux-patterns.js";
+import {
+  SEND_KEYS_REGEX,
+  ALLOW_SSH_REGEX,
+  SSH_WRAPPER_CMDS,
+} from "./libs/tmux-patterns.js";
 
 // "Live" added 2026-08-27 (found live while investigating the 6th root
 // cause below): the agent renamed/split from "Colab" but this gate was
@@ -109,7 +113,7 @@ function debug(message) {
 // naturally returns, (3) a lettered A/B/C/D decision tree covering every
 // real case (interactive program / normal-but-slow / just-wait / stuck or
 // forgotten), each with the EXACT command to run, never a vague suggestion.
-function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount) {
+function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount, viaSsh) {
   const isWatchdog = kind === "watchdog";
   const tag = isWatchdog ? "tmux-watchdog" : "tmux-notify";
   const lineCount = lines === "" ? 0 : lines.split("\n").length;
@@ -153,6 +157,11 @@ function notificationFor(paneId, lines, kind, timeoutSecs, watchdogCount) {
       ? `NOTE: this is check #${count} (~${elapsed}s total, not your first check) — this reads as a genuinely ` +
         `long-running process, not a hang. Seriously consider B (adjust) or D (abort) now instead of letting ` +
         `this repeat indefinitely.\n`
+      : ``) +
+    (viaSsh
+      ? `SSH MODE (TMUX_ALLOW_SSH=1): this pane is an interactive ssh session — the remote prompt NEVER writes ` +
+        `the local prompt log, so NO auto <tmux-notify> will ever fire. Watchdog checks are your ONLY signal: ` +
+        `judge completion from the output above + one \`tmux capture-pane -p -t ${paneId} -S -100\` when it looks done.\n`
       : ``) +
     `Never sleep/poll this pane manually — one of A/B/C/D above is always the right move.\n` +
     `</${tag}>`
@@ -257,6 +266,7 @@ export default async function ({ client }) {
         "watchdog",
         entry.timeoutSecs,
         entry.watchdogCount,
+        entry.viaSsh,
       );
 
       // Push + flush under the OWNING session id (never a global queue) — see
@@ -550,18 +560,37 @@ export default async function ({ client }) {
           // the pane's foreground process natively — pure metadata, no
           // `capture-pane` / content read needed — so query it and block if
           // it's not a known idle shell.
+          // SSH exception (KπX, 2026-09-05): an interactive ssh/mosh pane may
+          // still hold an IDLE remote shell — invisible locally (only `ssh`
+          // is seen). Fail-closed by default, but `TMUX_ALLOW_SSH=1` on the
+          // SAME send-keys call explicitly accepts degraded notifications
+          // (watchdog only, no auto <tmux-notify>) and arms anyway. No
+          // recursive remote inspection is attempted (would require injecting
+          // into the very pane we refuse to touch blindly).
           const KNOWN_IDLE_SHELLS = ["zsh", "bash", "sh", "fish"];
+          const allowSsh = ALLOW_SSH_REGEX.test(cmd);
+          const isSshWrapper = SSH_WRAPPER_CMDS.includes(currentCmd);
           if (currentCmd && !KNOWN_IDLE_SHELLS.includes(currentCmd)) {
-            throw new Error(
-              `BLOCKED: pane ${paneId} is busy with an untracked process: '${currentCmd}' ` +
-                `(not one of ${KNOWN_IDLE_SHELLS.join("/")}). NEVER send-keys into an occupied ` +
-                `pane — use a different EMPTY pane if one exists (check with 'tmux list-panes -a'), ` +
-                `or create a new pane/window if all are occupied.`,
-            );
+            if (!(allowSsh && isSshWrapper)) {
+              const sshHint = isSshWrapper
+                ? ` This pane is an interactive SSH session (local view: '${currentCmd}') — the remote shell state is ` +
+                  `unknown from here. If it is idle AND you accept degraded notifications (watchdog only, NO auto ` +
+                  `<tmux-notify> — the remote prompt never writes the local prompt log), re-send the SAME command ` +
+                  `prefixed with TMUX_ALLOW_SSH=1, e.g. \`TMUX_ALLOW_SSH=1 TMUX_TIMEOUT=30 tmux send-keys -t ${target} '...' Enter\`.`
+                : ``;
+              throw new Error(
+                `BLOCKED: pane ${paneId} is busy with an untracked process: '${currentCmd}' ` +
+                  `(not one of ${KNOWN_IDLE_SHELLS.join("/")}). NEVER send-keys into an occupied ` +
+                  `pane — use a different EMPTY pane if one exists (check with 'tmux list-panes -a'), ` +
+                  `or create a new pane/window if all are occupied.` + sshHint,
+              );
+            }
           }
+          const viaSsh = allowSsh && isSshWrapper;
 
           debug(
-            `arming pane=${paneId} timeout=${timeout} maxLines=${maxLines}`,
+            `arming pane=${paneId} timeout=${timeout} maxLines=${maxLines}` +
+              (viaSsh ? ` viaSsh (TMUX_ALLOW_SSH=1, degraded watchdog-only)` : ``),
           );
           const agent = await resolveAgent(client, input.sessionID);
 
@@ -574,6 +603,7 @@ export default async function ({ client }) {
             cmd,
             armedAtNs: BigInt(Date.now()) * 1000000n,
             watchdogCount: 0,
+            viaSsh,
           };
           registry.set(paneId, entry);
           armWatchdog(paneId, entry);
@@ -640,9 +670,17 @@ export default async function ({ client }) {
       }
       const entry = registry.get(paneId);
       if (!entry) return; // arming failed (or already resolved) — nothing to remind about
+      const sshTag = entry.viaSsh ? "tmux-armed-ssh" : "tmux-armed";
+      const sshNote = entry.viaSsh
+        ? `SSH MODE (TMUX_ALLOW_SSH=1): this pane is an interactive ssh session — the remote prompt NEVER writes ` +
+          `the local prompt log, so NO auto <tmux-notify> will ever fire. <tmux-watchdog> checks every ` +
+          `${entry.timeoutSecs}s are your ONLY signal. Judge completion from those + one \`tmux capture-pane -p -t ${paneId} -S -100\` when it looks done.\n`
+        : ``;
       const reminder =
-        `<tmux-armed>\n` +
-        `Pane ${paneId} armed: TMUX_TIMEOUT=${entry.timeoutSecs}s, TMUX_LINES=${entry.maxLines}.\n` +
+        `<${sshTag}>\n` +
+        `Pane ${paneId} armed: TMUX_TIMEOUT=${entry.timeoutSecs}s, TMUX_LINES=${entry.maxLines}` +
+        (entry.viaSsh ? `, via SSH (degraded watchdog-only)` : ``) + `.\n` +
+        sshNote +
         `STATUS: you just sent this command to the pane. It has NOT returned to its shell yet (still running) — ` +
         `this is expected, not an error.\n` +
         `What happens next, automatically, with ZERO polling from you:\n` +
@@ -654,7 +692,7 @@ export default async function ({ client }) {
         `  - You already expect this to take much longer than ${entry.timeoutSecs}s -> TYPE \`: TMUX_ADJUST ${paneId} <seconds>\` in YOUR OWN SHELL (not in the tmux pane!) — the colon : is mandatory (bash no-op builtin).\n` +
         `  - You change your mind and want to abort -> send \`tmux send-keys -t ${paneId} C-c\` to force it back to the shell.\n` +
         `If the final <tmux-notify> capture is empty, incomplete, or does not explain the result, immediately run \`tmux capture-pane -p -t ${paneId} -S -100\` and use that larger one-shot diagnostic capture. Never turn it into a polling loop.\n` +
-        `</tmux-armed>`;
+        `</${sshTag}>`;
       debug(`reminder appended pane=${paneId}`);
       if (typeof output.output === "string" && output.output.length > 0) {
         output.output = `${output.output}\n\n${reminder}`;

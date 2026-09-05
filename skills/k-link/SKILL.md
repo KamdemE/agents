@@ -5,7 +5,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.0.0"
+  version: "3.0.1"
 allowed-tools: Bash(*), *
 ---
 
@@ -68,6 +68,9 @@ Disabled (commented, code kept — personal-token scope blocks): `post-delete`, 
 - **Images = `media[]`** (local paths or http), each with `alt_text` (+ `title`). No OMoBlur faces, no internal paths/data (DxO rule).
 - **Visibility:** `CONNECTIONS` = max privacy via API (no "only me" exists). Default per KπX instruction unless told otherwise.
 - **HITL:** every post opens the full editor — review, edit inline, Approve. Envelope `edited` flag tells if touched.
+- **Reference post:** `urn:li:share:7502087590259367936` (PUBLIC, 2 images + URL in text) — the canonical KπX style specimen. Re-read its payload before drafting any post.
+- **Style rules (learned 2026-09-05):** title = universal hook (a problem or need everyone feels, zero jargon, named subjects — never ambiguous pronouns); body opens with the title line; story before terms (technical words only after their plain presentation); keep mystery (`…`, no revealing numbers) to drive article reads; domain order eye status before blur; the article link is a closing PS, never the subject.
+- **Incompatible combo:** `post-create-full` with `url` + `media[]` together → LinkedIn 400 (`IMAGE` ignores `originalUrl`, `ARTICLE` rejects asset URNs). Either link-card (`url` only, no media) or images + URL written in the text (no `url` key).
 
 ## Publishing style
 
@@ -117,6 +120,6 @@ Single rule: if the answer needs a logged-in page (feed, messaging, profile, sta
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-05 | [LITE] | v3.0.1 — reference post URN + KπX style rules (hook title, mystery, problem-first, terms-after-presentation) + `url`+`media` incompatibility note. |
 | 2026-09-05 | [LITE] | v3.0.0 — **link-proxy rewrite**: skill renamed `k-linkedin` → `k-link`; old transport archived to `references/mcp.md` (legacy); transport = `link-proxy` (10 actions, `do`+`admin` tables); `--help`-first rule (never read code); `post-create-full` default for posts; scope limits → `k-browser` + `references/sites/linkedin.com.md`; live refs updated (k-clis, kpihx-labs, AGENTS.md, skill-lock, k-napkin). |
-| 2026-08-14 | [COLAB] | v2.0.9 — **transport purge annotation**: old transport purged (2026-08-14), only `*-proxy` CLIs kept → skill description + allowed-tools updated; `references/mcp.md` annotated. See `k-node/references/purged.md`. |
-| [SUMMARY] | — | v2.0.8 cloud-hub block + compact layout · v2.0.7 insights discipline; API limits table; transport naming; publishing style. |
+| [SUMMARY] | — | v2.0.9 transport purge annotation · v2.0.8 cloud-hub block + compact layout · v2.0.7 insights discipline; API limits table; transport naming; publishing style. |
