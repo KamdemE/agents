@@ -3,7 +3,7 @@
 # Script Name: clean_editors.sh
 # Description: Wrapper script to clean caches for Code, Cursor, and Antigravity
 # API: --infos/-i, --safe/-s, --purge/-p
-# Author: KpihX / AI
+# Author:  / AI
 # ==============================================================================
 BLUE='\033[0;34m'
 PURPLE='\033[0;35m'

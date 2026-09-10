@@ -1,36 +1,36 @@
 ---
 name: k-skill-creator
 description: >
-  Create, standardize, audit, and improve KπX skills. This is the KπX fork and governance
+  Create, standardize, audit, and improve  skills. This is the  fork and governance
   overlay of the upstream skill-creator baseline. Use when creating a new skill, restructuring
-  an existing one, enforcing the KπX skill standard, or running eval/benchmark loops on skill
+  an existing one, enforcing the  skill standard, or running eval/benchmark loops on skill
   quality.
 license: private
 metadata:
-  author: KpihX
-  version: "2.6.0"
+  author: 
+  version: "1.0.0"
   scope: agent-governance
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Skill Creator
+#  — Skill Creator
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Role
 
-`k-skill-creator` is the structural baseline for KπX skills.
+`k-skill-creator` is the structural baseline for  skills.
 
-- It is a KπX-owned fork of the upstream skill-creator workflow.
-- It remains the reference for how KπX creates, audits, and evolves skills.
+- It is a -owned fork of the upstream skill-creator workflow.
+- It remains the reference for how  creates, audits, and evolves skills.
 - Other `k-*` skills should stay compact and source-of-truth first, but they inherit their creation standard from here.
 
-## KπX Overlay
+##  Overlay
 
-Apply these KπX rules on top of the inherited baseline:
+Apply these  rules on top of the inherited baseline:
 
 - Follow `$HOME/.agents/AGENTS.md` as the normative contract for response format, changelog limits, provenance tags, and `$HOME` generalization.
-- For standard KπX skills, use `SKILL.md` at root and add `scripts/`, `references/`, and `assets/` only when they materially help.
+- For standard  skills, use `SKILL.md` at root and add `scripts/`, `references/`, and `assets/` only when they materially help.
 - Keep downstream `k-*` skills concise: present the minimum runtime/workflow map, then point to the source files or dirs to inspect for detail.
 - Keep `k-skill-creator` itself as the allowed exception that also ships upstream support dirs when needed, notably `agents/` and `eval-viewer/`.
 - When a skill is renamed, moved, or added, propagate the change to `$HOME/.agents/AGENTS.md`, `$HOME/.agents/.skill-lock.json`, and any impacted `k-*` references.
@@ -52,7 +52,7 @@ When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubun
 4. **Ensure the infra skill references `k-infras`** for the full setup checklist.
 5. **Ensure the infra skill has a `## Host Identity` table** with both the Tailscale name and the short name.
 6. **For Termux/Android skills** (`k-phones`): skip `k-nvim` and `k-opencode` from the checklist (they do not run on Termux).
-7. **For Windows-type infra skills** (a Windows machine, with or without WSL — e.g. `k-blglaptop139`): **read `k-windows` first, before Step 0** — it's the seed/template for generic Windows/WSL/MSYS2 knowledge (WSL bootstrap, `.wslconfig`, NTFS link mechanics, MSYS2, SSH-mount-as-a-drive). Move anything genuinely generic into `k-windows` rather than writing it directly into the new infra skill (mirrors the `k-zsh/assets/kshrc.base` → per-infra `assets/kshrc` copy-then-personalize relationship). Add the new infra skill to `k-windows`'s "Child Windows-type infra skills" list once created, and mention `k-windows` in the new skill's own `> **Related skills:**` header.
+7. **For Windows-type infra skills** (a Windows machine, with or without WSL — e.g. `k-laptop`): **read `k-windows` first, before Step 0** — it's the seed/template for generic Windows/WSL/MSYS2 knowledge (WSL bootstrap, `.wslconfig`, NTFS link mechanics, MSYS2, SSH-mount-as-a-drive). Move anything genuinely generic into `k-windows` rather than writing it directly into the new infra skill (mirrors the `k-zsh/assets/kshrc.base` → per-infra `assets/kshrc` copy-then-personalize relationship). Add the new infra skill to `k-windows`'s "Child Windows-type infra skills" list once created, and mention `k-windows` in the new skill's own `> **Related skills:**` header.
 
 - The main `SKILL.md` describes the **general case** (cross-Linux, cross-platform).
 - **OS-specific details** go in `references/<os>.md` (e.g., `ubuntu.md`, `windows.md`, `pve.md`).
@@ -64,7 +64,7 @@ When creating or editing an **infra skill** (any `k-*` for a machine — `k-ubun
 
 ## Structural Contract
 
-For every KπX skill:
+For every  skill:
 
 - valid YAML frontmatter with `name`, `description`, and `metadata.version`
 - one H1 plus the edit reminder directly under it
@@ -156,7 +156,7 @@ Do not run the heavy loop for trivial wording changes when structural validation
 
 - Keep `LICENSE.txt` when packaging or mirroring this baseline skill.
 - Preserve support dirs that are part of the inherited workflow for this skill itself.
-- For downstream KπX skills, strip accidental sprawl and keep only useful bundled files.
+- For downstream  skills, strip accidental sprawl and keep only useful bundled files.
 
 ## Insights Discipline (mandatory)
 
@@ -164,10 +164,3 @@ Do not run the heavy loop for trivial wording changes when structural validation
 - Update `$HOME/.agents/skills/k-skill-creator/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v2.6.0 — Added item 7 to the Infra Skill Checklist: for a Windows-type infra skill, read the new `k-windows` (generic Windows/WSL/MSYS2 platform hub) before Step 0, move generic content there instead of duplicating it, and register the new infra in `k-windows`'s "Child Windows-type infra skills" list. |
-| 2026-08-20 | [COLAB] | v2.5.1 — Updated the Android infra-skill example and Termux exception to `k-phones`. |
-| [SUMMARY] | — | v2.5.0 tests/ dir added to Structural Contract (→ `references/log.md`) · v2.4.0 Infrastructure Scope section (→ `references/log.md`) · v2.3.2 insights contract · v2.3.1–v1.0.0: insights discipline baseline, compact skill-writing rule, hooks audit entrypoint, KπX governance overlays, earlier historical rows condensed. |

@@ -2,7 +2,7 @@
 
 ## Scope
 
-Full `:checkhealth` cleanup of KpihX Neovim config after initial setup. Target: 0 ❌, 0 ⚠️ (except known terminal false positives).
+Full `:checkhealth` cleanup of  Neovim config after initial setup. Target: 0 ❌, 0 ⚠️ (except known terminal false positives).
 
 ## Changes by file
 

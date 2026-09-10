@@ -1,6 +1,6 @@
 # Programming
 
-Source: `KpihX-Datas/Applications/Programming/` (19G).
+Source: `-Datas/Applications/Programming/` (19G).
 
 - `Anaconda/Anaconda3-2024.10-1-Windows-x86_64.exe`
 - `Android_Studio/{android-studio-2024.1.1.12-linux.tar.gz,android-studio-2024.2.1.12-windows.exe}`

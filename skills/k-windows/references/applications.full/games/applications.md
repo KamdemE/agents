@@ -1,6 +1,6 @@
 # Games
 
-Source: `KpihX-Datas/Applications/Games/` (15G).
+Source: `-Datas/Applications/Games/` (15G).
 
 - `Blurv1.0.zip`
 - `kawaks.zip`

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""X (Twitter) API v2 — OAuth 1.0a user context (KπX X Dev / Vaultwarden)."""
+"""X (Twitter) API v2 — OAuth 1.0a user context ( X Dev / Vaultwarden)."""
 
 from __future__ import annotations
 
@@ -112,7 +112,7 @@ def cmd_tweets(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="KpihX X API CLI")
+    p = argparse.ArgumentParser(description=" X API CLI")
     p.add_argument(
         "--creds-file",
         type=Path,

@@ -23,8 +23,3 @@ None — public.
 - The old `/careers/` URL 404s — use `/recruitment/`.
 - Taleez is the ATS for applications; role type (CDD/CDI/Internship) must be read on the Taleez page.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: recruitment page path, Taleez ATS, CDD offer identified and moved to non-compatible (not 3A internship). |

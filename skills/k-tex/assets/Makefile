@@ -12,5 +12,4 @@ build: check  ## Build (runs dashes check first) → build/main.pdf
 	latexmk -pdf -f -interaction=nonstopmode -output-directory=build main.tex || true
 
 push:  ## Push to remotes
-	git push github main
-	git push gitlab main
+	git push origin main

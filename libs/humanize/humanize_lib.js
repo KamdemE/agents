@@ -4,9 +4,9 @@
 // This mirrors libs/humanize/humanize_lib.sh EXACTLY, language apart — see
 // libs/AGENTS.md for the mandatory "keep the 3 twins in sync" rule.
 // Callers import from the repo libs dir, e.g.
-//   import { containsBlockedDash } from "file:///home/kpihx/KpihX-Labs/.agents/libs/humanize/humanize_lib.js";
+//   import { containsBlockedDash } from "file://$HOME/Labs/.agents/libs/humanize/humanize_lib.js";
 //
-// Validated by KπX — 4 PROSE regex (Tier PROSE bloquant):
+// Validated by the user — 4 PROSE regex (Tier PROSE bloquant):
 //   EM_DASH_TRIPLE     = /---/            LaTeX em-dash
 //   EM_DASH_UNICODE    = /\u2014/         — U+2014
 //   EN_DASH_SPACED     = / \u2013 /       – U+2013 spaced (blocked)
@@ -26,7 +26,7 @@
 //   stripTmuxWrapper(cmd)       -> string  : strip send-keys wrapper → payload
 //   extractBashPayload(cmd)     -> string  : alias of stripTmuxWrapper
 //
-// Reference: KπX validated — single source of truth for PROSE dash
+// Reference:  validated — single source of truth for PROSE dash
 // Single source for SEND_KEYS_REGEX: skills/k-opencode/scripts/plugins/libs/tmux-patterns.js
 
 // --- Tier PROSE bloquant patterns ---

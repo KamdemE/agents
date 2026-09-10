@@ -1,29 +1,29 @@
 ---
 name: k-windows
 description: >
-  KπX Windows platform hub — generic knowledge for any Windows machine in the
+  Windows platform hub — generic knowledge for any Windows machine in the
   fleet that also runs WSL: WSL bootstrap (wsl.conf, .wslconfig), the
   gh-clone-then-symlink setup flow into the sovereign kernel, winget, NTFS
   symlink/hardlink/junction mechanics, and MSYS2 (legacy, optional — WSL
-  supersedes it for KπX agent work). NOT machine-specific (→ the relevant
-  k-* infra skill, e.g. k-blglaptop139) and NOT DxO-internship-specific
+  supersedes it for  agent work). NOT machine-specific (→ the relevant
+  k-* infra skill, e.g. k-laptop) and NOT DxO-internship-specific
   (→ k-dxo). Load before any Windows-native setup task or WSL bootstrap on a
   new Windows machine.
 license: private
 metadata:
-  author: KpihX
-  version: "1.4.0"
+  author: 
+  version: "1.0.0"
   scope: windows-platform
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Windows Platform Hub
+#  — Windows Platform Hub
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Related skills:** `k-infras` (master map, checklist) · `k-zsh` (shell hub — WSL side) · `k-tmux` (agents/default/tmp layout — WSL side) · `k-dxo` (DxO-internship-specific VPN/RDP/accounts/deep-pc6 access — never here, deactivated) · `k-openvino` (local LLM serving, replaces k-ollama)
+> **Related skills:** `k-infras` (master map, checklist) · `k-zsh` (shell hub — WSL side) · `k-tmux` (agents/default/tmp layout — WSL side) · `k-dxo` (DxO-internship-specific VPN/RDP/accounts/server access — never here, deactivated) · `k-openvino` (local LLM serving, replaces k-ollama)
 >
-> **Scope discipline:** this skill is for facts true of **any** Windows machine running WSL in the KπX fleet. A fact that's true only of one physical machine belongs in that machine's own infra skill. A fact that's true only because of the DxO internship (VPN, RDP target, deep-pc6 access, accounts) belongs in `k-dxo`, never here — `k-dxo` must stay the single skill that can be deleted at internship end with zero residue elsewhere.
+> **Scope discipline:** this skill is for facts true of **any** Windows machine running WSL in the  fleet. A fact that's true only of one physical machine belongs in that machine's own infra skill. A fact that's true only because of the DxO internship (VPN, RDP target, server access, accounts) belongs in `k-dxo`, never here — `k-dxo` must stay the single skill that can be deleted at internship end with zero residue elsewhere.
 
 ---
 
@@ -64,12 +64,12 @@ autoMemoryReclaim=gradual
 
 ### Setup flow (new Windows+WSL machine)
 
-Standard KπX bootstrap — see `k-infras` → New Infra Setup Checklist for the full ordered checklist (tmux → zsh → tailscale → ssh → clis → nvim → opencode). The Windows-specific first steps:
+Standard  bootstrap — see `k-infras` → New Infra Setup Checklist for the full ordered checklist (tmux → zsh → tailscale → ssh → clis → nvim → opencode). The Windows-specific first steps:
 
 1. Install WSL2 + an Ubuntu distro (`wsl --install` from an elevated PowerShell, or via the Microsoft Store).
-2. Inside the WSL distro: `gh auth login` (or plain `git clone git@github.com:kpihx-labs/agents.git`) into `~/KpihX-Labs/.agents` — the **real** clone, per `k-infras` Step 0.
-3. `ln -sfn ~/KpihX-Labs/.agents ~/.agents` — symlink, never a second clone.
-4. From here on, follow `k-infras`, `k-clis`, `kpihx-labs` exactly like any other infra — nothing Windows-specific left in the flow itself.
+2. Inside the WSL distro: `gh auth login` (or plain `git clone git@github.com:KamdemE/agents.git`) into `~/Labs/.agents` — the **real** clone, per `k-infras` Step 0.
+3. `ln -sfn ~/Labs/.agents ~/.agents` — symlink, never a second clone.
+4. From here on, follow `k-infras`, `k-clis`, `<github-user>` exactly like any other infra — nothing Windows-specific left in the flow itself.
 
 ---
 
@@ -92,15 +92,15 @@ Machine-specific infra skills that personalize content from this template — ch
 
 | Infra skill | Machine |
 |---|---|
-| `k-blglaptop139` | Windows + WSL laptop, DxO internship (Grenoble) |
+| `k-laptop` | Windows + WSL laptop, DxO internship (Grenoble) |
 
-> **Why this matters more than it looks:** a company-issued laptop's infra skill (like `k-blglaptop139`) gets abandoned along with the company-specific skill (`k-dxo`) when that chapter ends — **the physical machine itself doesn't come along.** Anything genuinely reusable that's still only sitting in the abandoned machine's skill at that point is knowledge lost for the *next* machine at the *next* place. This is why the discipline of pushing generic content up into `k-windows` (rather than letting it accumulate in the machine-specific skill "because it's easier right now") isn't just tidiness — it's the difference between rebuilding a new Windows+WSL setup from scratch next time vs. reusing this kernel's accumulated knowledge.
+> **Why this matters more than it looks:** a company-issued laptop's infra skill (like `k-laptop`) gets abandoned along with the company-specific skill (`k-dxo`) when that chapter ends — **the physical machine itself doesn't come along.** Anything genuinely reusable that's still only sitting in the abandoned machine's skill at that point is knowledge lost for the *next* machine at the *next* place. This is why the discipline of pushing generic content up into `k-windows` (rather than letting it accumulate in the machine-specific skill "because it's easier right now") isn't just tidiness — it's the difference between rebuilding a new Windows+WSL setup from scratch next time vs. reusing this kernel's accumulated knowledge.
 
 ## Pattern for a new Windows+WSL machine
 
 `k-windows` is a **seed/template**, exactly like `k-zsh/assets/kshrc.base` is for shell config — never used directly as a live config on a specific machine. When a new Windows+WSL machine joins the fleet:
 
-1. Create that machine's own infra skill (e.g. a future `k-<newmachine>`, following `k-blglaptop139`'s shape).
+1. Create that machine's own infra skill (e.g. a future `k-<newmachine>`, following `k-laptop`'s shape).
 2. If that machine needs a generic asset/script documented here (MSYS2 files in `assets/msys2/` + executable scripts in `scripts/msys2/`, the PowerShell profile `scripts/Microsoft.PowerShell_profile.ps1`, the remote-server-access family in `assets/remote-server/` + `scripts/remote-server/`), **copy** it into the new infra skill's own `assets/`/`scripts/` and personalize the copy there (machine-specific paths, tmux session name if it should differ from the generic `windows` example, etc.) — the same copy-then-customize relationship `kshrc.base` has with each infra's own `assets/kshrc`. **`assets/` vs `scripts/` split (fixed 2026-08-27):** executable code (`.sh`, `.ps1`) lives in `scripts/`; passive config/data (`.conf`, `.service`, `.cmd`/`.bat` launchers) stays in `assets/` — mirrors the root kernel's own `scripts/` vs `assets/` split (see root `AGENTS.md` → Kernel Structure Map).
 3. **Exception: `assets/kshrc` is sourced, never copied.** Add one `source` line near the top of the new machine's own `assets/kshrc` (see "`assets/kshrc` — the Windows+WSL shell base" above) — do not copy its content in.
 4. Everything genuinely generic (the NTFS mechanics, the WSL bootstrap flow, the MSYS2 *mechanism* itself) stays referenced from here, never duplicated into the new machine's skill — only the instance-specific, personalized copies move out.
@@ -113,7 +113,7 @@ Full mechanics, the Developer Mode incident, probe/conversion snippets → **`re
 
 ## PowerShell profile (generic template)
 
-`scripts/Microsoft.PowerShell_profile.ps1` — PSReadLine history/prediction tuning, the PowerToys `CommandNotFound` module import, `h`/`hist` full-history-dump aliases, and landing every new shell in `~/KpihX-Labs`. Copy into the owning machine's infra skill and personalize (see "Pattern for a new Windows+WSL machine" below) — a filled-in example lives at `k-blglaptop139/assets/Microsoft.PowerShell_profile.ps1` (that child skill's own copy stays in its `assets/`, unaffected by this skill's `scripts/` split — see "Child Windows-type infra skills" note above about not modifying `k-blglaptop139` without a dedicated pass there).
+`scripts/Microsoft.PowerShell_profile.ps1` — PSReadLine history/prediction tuning, the PowerToys `CommandNotFound` module import, `h`/`hist` full-history-dump aliases, and landing every new shell in `~/Labs`. Copy into the owning machine's infra skill and personalize (see "Pattern for a new Windows+WSL machine" below) — a filled-in example lives at `k-laptop/assets/Microsoft.PowerShell_profile.ps1` (that child skill's own copy stays in its `assets/`, unaffected by this skill's `scripts/` split — see "Child Windows-type infra skills" note above about not modifying `k-laptop` without a dedicated pass there).
 
 ## Windows service / software management techniques
 
@@ -122,23 +122,23 @@ Full mechanics, the Developer Mode incident, probe/conversion snippets → **`re
 - **Remote access services** — native RDP and Chrome Remote Desktop (`chromoting`) enable/disable, the generic corporate-VPN+RDP access pattern, and the Ubuntu-side Remmina client fields → **`references/remote-desktop.md`**.
 - **Dual-GPU laptops** — diagnosing display-wiring-caused dGPU idle load, and the Windows/app-level mitigations → **`references/dual-gpu.md`**.
 
-All four generalized from a specific machine's de-bloat pass (`k-blglaptop139`) — exact service/app names, GUIDs, and hardware numbers stay there; the techniques here are company/machine-agnostic.
+All four generalized from a specific machine's de-bloat pass (`k-laptop`) — exact service/app names, GUIDs, and hardware numbers stay there; the techniques here are company/machine-agnostic.
 
-## KpihX-Datas legacy applications inventory
+## -Datas legacy applications inventory
 
 The **current** post-refactor snapshot is under **`references/applications/README.md`**. The pre-cleanup full inventory is preserved at **`references/applications.full/README.md`**. Both preserve exact application, archive, and installer names without treating historical files as recommended software or live configuration.
 
 ## SSH Server (OpenSSH) — Windows side + Ubuntu client pairing
 
-Full mechanism, verified live on a real machine (`k-blglaptop139`): `Get-Service` vs `Get-WindowsCapability` install-state mismatch on corporate images, firewall rule display-name false-negatives, `administrators_authorized_keys` vs per-user `authorized_keys`, `DefaultShell` registry key + the `pwsh` (blocked by AppLocker) vs `powershell.exe` (works) asymmetry, and the `AutoRun` non-interactive-exec footgun (considered, rejected) → **`references/ssh-server-setup.md`**. Ubuntu-side key naming/config still follows `k-ssh` — not duplicated here.
+Full mechanism, verified live on a real machine (`k-laptop`): `Get-Service` vs `Get-WindowsCapability` install-state mismatch on corporate images, firewall rule display-name false-negatives, `administrators_authorized_keys` vs per-user `authorized_keys`, `DefaultShell` registry key + the `pwsh` (blocked by AppLocker) vs `powershell.exe` (works) asymmetry, and the `AutoRun` non-interactive-exec footgun (considered, rejected) → **`references/ssh-server-setup.md`**. Ubuntu-side key naming/config still follows `k-ssh` — not duplicated here.
 
 ## Mounting a remote SSH/SFTP host as a Windows drive
 
-Generic rclone+WinFsp+nssm pattern (why rclone over SSHFS-Win, SSH/rclone config shape, nssm-service-not-scheduled-task autostart, troubleshooting) → **`references/ssh-mount.md`**. Fill-in-the-blanks templates → **`assets/remote-server/`** (moved from `assets/ssh-mount/` 2026-08-27 — now part of the wider remote-server-access family, see below). A concrete DxO-specific instance (mounting `deep-pc6` as `Z:`) lives in `k-dxo` — that's where the real IP/account/target belongs, not here.
+Generic rclone+WinFsp+nssm pattern (why rclone over SSHFS-Win, SSH/rclone config shape, nssm-service-not-scheduled-task autostart, troubleshooting) → **`references/ssh-mount.md`**. Fill-in-the-blanks templates → **`assets/remote-server/`** (moved from `assets/ssh-mount/` 2026-08-27 — now part of the wider remote-server-access family, see below). A concrete DxO-specific instance (mounting `server` as `Z:`) lives in `k-dxo` — that's where the real IP/account/target belongs, not here.
 
 ## Remote dev/GPU server access stack (generic template family)
 
-The full stack for reaching a remote dev/GPU server from a Windows/WSL (or Ubuntu) client machine — VPN → SSH tunnel → tmux launcher → CLI proxy → OpenCode auto-sync → filesystem mount — generalized from a real, working setup (`k-dxo`/`k-deep-pc6`, both disposable/purged at internship end) with **zero company-specific values**. Full mechanism, the "why one doc not scattered pieces" rationale, and the stack diagram → **`references/remote-server-access.md`**.
+The full stack for reaching a remote dev/GPU server from a Windows/WSL (or Ubuntu) client machine — VPN → SSH tunnel → tmux launcher → CLI proxy → OpenCode auto-sync → filesystem mount — generalized from a real, working setup (`k-dxo`/`k-server`, both disposable/purged at internship end) with **zero company-specific values**. Full mechanism, the "why one doc not scattered pieces" rationale, and the stack diagram → **`references/remote-server-access.md`**.
 
 | Piece | Config/data template (`assets/`) | Executable script (`scripts/`) |
 |---|---|---|
@@ -155,7 +155,7 @@ The full stack for reaching a remote dev/GPU server from a Windows/WSL (or Ubunt
 
 MSYS2 + zsh + tmux was the pre-WSL way to get a POSIX shell and SSH/tmux access to remote Linux boxes from Windows. **Now that WSL2 (this kernel) is set up, MSYS2 is no longer the recommended path** — its downsides are real: `fork()` emulation makes MSYS2-native tools slow, especially over network drives (Windows-native Git/curl/make reach the SMB share at ~2400 MB/s vs. MSYS2's much slower emulated equivalents — this is *why* the PATH-merge trick documented below exists at all), and it's a second, entirely separate shell environment to keep in sync with the WSL one.
 
-It is documented here **as a possibility**, not a requirement — a machine can run MSYS2 alongside WSL if there's a specific reason to, but new KπX Windows+WSL setups should default to WSL only.
+It is documented here **as a possibility**, not a requirement — a machine can run MSYS2 alongside WSL if there's a specific reason to, but new  Windows+WSL setups should default to WSL only.
 
 Full mechanism (HOME resolution saga, PATH merge from the Windows registry, the `commande`/`commandem` convention) → **`references/msys2.md`**. Every real config file (verbatim, as actually deployed) → **`assets/msys2/`**.
 
@@ -176,7 +176,7 @@ top, before that file's own Section 1 body:
 ```
 
 **Why sourced and not copied, unlike everything else here:** a per-machine
-infra skill (e.g. `k-blglaptop139`) is scoped to one physical, company-issued
+infra skill (e.g. `k-laptop`) is scoped to one physical, company-issued
 laptop and **will be purged** when that chapter ends. Content that only
 exists as a copy inside that skill is lost the day it is purged. Sourcing
 this file instead means a fix made here reaches every Windows+WSL machine
@@ -217,7 +217,7 @@ manually with `ssh-add ~/.ssh/id_ed25519_<target>` (passphrase prompt — needs
 a TTY, never auto-loaded). This snippet was previously duplicated by copy
 into each Windows+WSL machine's own `assets/kshrc` — now centralized here
 and sourced instead (see 2026-08-25 changelog entry). It is still
-WSL-headless-specific, not universal across every KπX infra — it belongs in
+WSL-headless-specific, not universal across every  infra — it belongs in
 this skill's base, never in `k-zsh/assets/kshrc.base` (see `k-zsh` →
 Changelog 2026-08-24 for the incident where a similar snippet got wrongly
 added to the truly universal base and had to be reverted).
@@ -253,7 +253,7 @@ Actual hardware-tuning content (a specific GPU's CUDA setup, driver-passthrough 
 **`ollama-cuda-windows-intel`** — a self-contained, independently git-tracked repo documenting CUDA/hybrid-GPU (Intel iGPU + NVIDIA dGPU) Ollama tuning on Windows laptops (own commit history, own benchmark data). Not migrated into the kernel (it already has its own versioned home) — referenced here for discoverability only:
 
 ```
-git clone https://github.com/KpihX/ollama-cuda-windows-intel.git
+git clone https://github.com/<user>/ollama-cuda-windows-intel.git
 ```
 
 ---
@@ -264,10 +264,3 @@ git clone https://github.com/KpihX/ollama-cuda-windows-intel.git
 - Update `$HOME/.agents/skills/k-windows/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-29 | [LIVE] | v1.6.0 Applications inventory preserved (`references/applications/`). v1.5.0 Applications category-split snapshot. |
-| 2026-08-27 | [COLAB] | v1.4.0 Remote dev/GPU server access stack + `references/remote-server-access.md`. v1.3.0 SSH Server (OpenSSH) section + `references/ssh-server-setup.md`. |
-| [SUMMARY] | — | v1.2.0 GPU/Ollama section self-contained · v1.1.0 `assets/kshrc` created (SOURCED, not copied) · v1.0.0 baseline · full detail in `references/log.md` |

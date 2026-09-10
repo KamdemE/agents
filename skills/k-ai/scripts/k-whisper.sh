@@ -252,7 +252,17 @@ fi
 
 # Run whisper. Whisper outputs to the file automatically if -o<format> is used.
 # Note: whisper-cli output file flag is -of (output file prefix)
-whisper-cli -m "$model_path" -f "$final_audio" -of "$output_file" $whisper_opts $extra_args
+# ggml_backend_load_all discovers backend libs by scanning CWD — run from the
+# lib dir in a subshell (absolutize the output prefix first so relative paths
+# given by the caller keep working).
+case "$output_file" in
+  /*) ;;
+  *) output_file="$PWD/$output_file" ;;
+esac
+(
+  cd "$HOME/.local/lib" || exit 1
+  whisper-cli -m "$model_path" -f "$final_audio" -of "$output_file" $whisper_opts $extra_args
+)
 exit_code=$?
 
 if [ "$exit_code" -eq 0 ]; then

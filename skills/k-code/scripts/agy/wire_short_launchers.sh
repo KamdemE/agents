@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# KπX short launchers (pattern A): agy-ide, agy-hub → Google binaries.
+#  short launchers (pattern A): agy-ide, agy-hub → Google binaries.
 # Keeps antigravity-ide / antigravity-hub as compatibility symlinks.
 # ==============================================================================
 set -euo pipefail

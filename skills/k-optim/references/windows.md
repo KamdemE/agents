@@ -1,7 +1,7 @@
 # k-optim — Windows / WSL
 
 > **OS reference:** Microsoft Windows (with WSL subsystem)
-> **Applies to:** `k-blglaptop139` (blglaptop139)
+> **Applies to:** `k-laptop` (laptop)
 
 ---
 

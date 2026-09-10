@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================
-# rm — KπX safe rm wrapper (trash-cli)
+# rm —  safe rm wrapper (trash-cli)
 # ============================================================
 # Asset:  k-clis/assets/rm
 # Deploy: ln -sf $SKILL/assets/rm ~/.local/bin/rm
@@ -281,7 +281,7 @@ case "$FIRST_ARG" in
     # and arguments, never prompt"). `trash-put` does NOT do this on its
     # own — it errors "cannot trash non existent '<path>'" (exit 74) even
     # with -f, which is noisy for idempotent-cleanup callers (found
-    # 2026-08-26, deep-pc6: oh-my-zsh's oh-my-zsh.sh runs an unconditional
+    # 2026-08-26, server: oh-my-zsh's oh-my-zsh.sh runs an unconditional
     # `command rm -rf "$ZSH_COMPDUMP.zwc.old" "$ZSH_COMPDUMP.lock"` on every
     # shell startup — the .zwc.old only exists after a rare zrecompile
     # rotation, so this printed a spurious warning on nearly every new

@@ -2,12 +2,12 @@
 # Sync Cloudflare Email Routing rules from inbound-routes.json (worker action per alias).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../assets/kpihx-labs-inbound-router" && pwd)"
+ROOT="$(cd "$(dirname "$0")/../assets/<github-user>-inbound-router" && pwd)"
 ROUTES_JSON="${ROOT}/inbound-routes.json"
 
 : "${CF_API_TOKEN:?CF_API_TOKEN required}"
 CF_ZONE_ID="${CF_ZONE_ID:-255f60d9f77924ac016c194300dbeb3c}"
-WORKER_NAME="${WORKER_NAME:-kpihx-labs-inbound-router}"
+WORKER_NAME="${WORKER_NAME:-<github-user>-inbound-router}"
 
 put_worker_rule() {
   local id="$1" name="$2" priority="$3" address="$4"

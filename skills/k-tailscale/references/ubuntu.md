@@ -1,7 +1,7 @@
 # k-tailscale — Ubuntu
 
 > **OS reference:** Ubuntu (native)
-> **Applies to:** `k-ubuntu` (kpihx-ubuntu workstation)
+> **Applies to:** `k-ubuntu` (workstation workstation)
 
 ---
 
@@ -16,8 +16,8 @@ curl -fsSL https://tailscale.com/install.sh | sh
 | File | Path | Purpose |
 |------|------|---------|
 | System service file | `/lib/systemd/system/tailscaled.service` | Default unit (from package) |
-| Override | `/etc/systemd/system/tailscaled.service` | Local override — REAL FILE since 2026-08-24 (stock Tailscale-managed, de-linked from skill per KπX order) |
-| Config | `/etc/default/tailscaled` | Daemon flags — REAL FILE since 2026-08-24 (de-linked from skill per KπX order) |
+| Override | `/etc/systemd/system/tailscaled.service` | Local override — REAL FILE since 2026-08-24 (stock Tailscale-managed, de-linked from skill per maintainer decision) |
+| Config | `/etc/default/tailscaled` | Daemon flags — REAL FILE since 2026-08-24 (de-linked from skill per maintainer decision) |
 | State | `/var/lib/tailscale/tailscaled.state` | Persistent state |
 | Socket | `/run/tailscale/tailscaled.sock` | Local API socket |
 
@@ -42,7 +42,7 @@ This enables:
 
 ## Assets
 
-NONE in `.agents` since 2026-08-24 (de-link per KπX order): `tailscaled.service` and `/etc/default/tailscaled` are stock Tailscale-managed files with zero KπX customization — they live directly in `/etc` as real files and Tailscale governs them. To customize, edit the `/etc` files directly, then:
+NONE in `.agents` since 2026-08-24 (de-link per maintainer decision): `tailscaled.service` and `/etc/default/tailscaled` are stock Tailscale-managed files with zero  customization — they live directly in `/etc` as real files and Tailscale governs them. To customize, edit the `/etc` files directly, then:
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl restart tailscaled

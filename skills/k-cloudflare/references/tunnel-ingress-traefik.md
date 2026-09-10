@@ -1,7 +1,7 @@
-# Cloudflare Tunnel `kpihx-labs` & Traefik Ingress
+# Cloudflare Tunnel `<github-user>` & Traefik Ingress
 
 > **Account ID:** `5d0ff5e40bbc37baed99d3c7aacd0741` · **Zone ID:** `255f60d9f77924ac016c194300dbeb3c`  
-> **Tunnel Name:** `kpihx-labs` · **Tunnel UUID:** `db6721cb-6bfe-4750-b55a-124e6dc74388`
+> **Tunnel Name:** `<github-user>` · **Tunnel UUID:** `db6721cb-6bfe-4750-b55a-124e6dc74388`
 
 ## Connector Status
 
@@ -19,16 +19,16 @@ All public subdomains route to internal Docker proxy `https://traefik:443` with 
 
 | Hostname Public | Internal Target | TLS Settings | Zero Trust Protected? |
 |-----------------|-----------------|--------------|-----------------------|
-| `sentinel.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Sentinel` App) |
-| `whoami.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🌐 Public Traefik |
-| `kpihx-labs.com` (apex) | `https://traefik:443` | `noTLSVerify: true`, `httpHostHeader: kpihx-labs.com` | 🌐 Public Traefik |
-| `www.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true`, `httpHostHeader: www.kpihx-labs.com` | 🌐 Public Traefik |
-| `assets.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🌐 Public Traefik |
-| `tick.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Ticktick` App) |
-| `whats.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Whatsapp` App) |
-| `mail.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Mail` App) |
-| `live.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Live` App) |
-| `ai.kpihx-labs.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`AI` App) |
+| `sentinel.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Sentinel` App) |
+| `whoami.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🌐 Public Traefik |
+| `<github-user>.com` (apex) | `https://traefik:443` | `noTLSVerify: true`, `httpHostHeader: <github-user>.com` | 🌐 Public Traefik |
+| `www.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true`, `httpHostHeader: www.<github-user>.com` | 🌐 Public Traefik |
+| `assets.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🌐 Public Traefik |
+| `tick.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Ticktick` App) |
+| `whats.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Whatsapp` App) |
+| `mail.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Mail` App) |
+| `live.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`Live` App) |
+| `ai.<github-user>.com` | `https://traefik:443` | `noTLSVerify: true` | 🔒 Yes (`AI` App) |
 | `*` (Catch-all) | `http_status:404` | — | — |
 
 ---

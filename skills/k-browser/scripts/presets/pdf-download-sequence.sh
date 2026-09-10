@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Preset: turn an Edge inline PDF viewer into a real, visible browser download.
 # It never uses curl, hidden fetches, or browser-proxy internals: each navigation and the final
-# download request happens in KπX's visible Edge window through public `browser-proxy do` actions.
+# download request happens in the user's visible Edge window through public `browser-proxy do` actions.
 #
 # Usage: pdf-download-sequence.sh <profile> <target_id> <pdf_url>
 # Result: the server's canonical filename is saved in $HOME/Downloads. Verify it with `file`.

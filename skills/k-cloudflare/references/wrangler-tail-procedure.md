@@ -15,7 +15,7 @@ Use `wrangler tail` to read **live runtime logs** from the Cloudflare Email Work
 
 ```bash
 # In a tmux ops pane (k-tmux)
-with-env npx --yes wrangler@3 tail kpihx-labs-inbound-router --format pretty
+with-env npx --yes wrangler@3 tail <github-user>-inbound-router --format pretty
 ```
 
 This creates a **long-running stream** (expires after ~6h). Send a test email while it's listening. The `console.log`/`console.error` entries from `src/index.mjs` appear immediately:
@@ -56,5 +56,5 @@ Wrangler prints deprecation warnings for the old names — they still work but u
 ## Pitfalls
 
 - **`message.forward()` can only be called ONCE per email per Worker invocation** in practice — if the first forward throws, subsequent forwards are skipped. The `src/index.mjs` has try/catch per forward to log failures individually.
-- **Destination must be verified** — even if the dashboard shows "verified", prime rules (`_prime-*@`) may be needed for Worker forwards. Re-send to `_prime-<dest>@kpihx-labs.com` to warm the verification.
+- **Destination must be verified** — even if the dashboard shows "verified", prime rules (`_prime-*@`) may be needed for Worker forwards. Re-send to `_prime-<dest>@<yourdomain.com>` to warm the verification.
 - **Gmail filters can silently trash/strip forwarded mail** — always check destination inbox filters after verifying CF-side delivery.

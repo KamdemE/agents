@@ -5,23 +5,23 @@ description: >
   Load before any mail workflow or What's up mail slice.
 license: private
 metadata:
-  author: KpihX
-  version: "3.4.1"
+  author: 
+  version: "1.0.0"
 allowed-tools: Bash(*), *
 ---
 
-# KπX — Mail
+#  — Mail
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **mail-proxy is the sole transport.** No MCP, no mail-mcp. Run `mail-proxy do <action>` for everything.
 
 ## ⛔ Signature & Body Rule (CRITICAL — GRAVÉ)
 
-1. **NEVER include `signature` in payload** unless KπX explicitly names one. Absent = default. **NEVER** `signature: ""`.
-2. **NEVER include ANY personal info in `body_text`.** The default signature block is auto-appended by the transport after the closing line — it already contains name, EIX, school, address, phone, and email. Body must end with a closing formula only:
+1. **NEVER include `signature` in payload** unless the user explicitly names one. Absent = default. **NEVER** `signature: ""`.
+2. **NEVER include ANY personal info in `body_text`.** The default signature block is auto-appended by the transport after the closing line — it already contains name, <Program>, school, address, phone, and email. Body must end with a closing formula only:
    - ✅ `"Cordialement,"` / `"Bien cordialement,"` / `"Cdt,"` / `"Best regards,"` / `"Kind regards,"` / `"Yours sincerely,"`
-   - ❌ Name, EIX, school name, address, phone number, email — ALL belong in the signature block, NEVER in body_text
+   - ❌ Name, <Program>, school name, address, phone number, email — ALL belong in the signature block, NEVER in body_text
 3. When asked "include signature", don't add `signature:"default"` — it's the default when omitted.
 4. **Pattern:** `body_text` = greeting + message + closing formula. NOTHING ELSE. The transport appends everything after that automatically.
 
@@ -29,8 +29,8 @@ allowed-tools: Bash(*), *
 
 | Context | Format | Example |
 |---------|--------|---------|
-| Academic / Professional | 4 parts: `SURNAME SURNAME2 Firstname Middle` | `KAMDEM POUOKAM Ivann Harold` |
-| Casual / Personal / Internal | 2 parts: `SURNAME Firstname` | `KAMDEM Ivann` |
+| Academic / Professional | 4 parts: `SURNAME SURNAME2 Firstname Middle` | `Your Full Name` |
+| Casual / Personal / Internal | 2 parts: `SURNAME Firstname` | `Your Name` |
 
 > **Rule:** All official documents, emails to institutions, companies, or academic
 > bodies use the **4-part name**. Personal correspondence, internal notes, and
@@ -39,15 +39,15 @@ allowed-tools: Bash(*), *
 ## Runtime Discipline
 
 - **Sole transport:** `mail-proxy do <action>`. No MCP, no HTTP backend.
-- **Zimbra password pattern (GRAVÉ):** Zimbra requires password entry on first use (keyring caches ~20min). The **first** Zimbra command of a session MUST go through tmux ops pane so KπX can type the password. **All subsequent** mail-proxy commands — including all non-Zimbra accounts — run directly in the agent's shell. Pattern:
-  1. First Zimbra call → `tmux send-keys -t ubuntu:1.0 'mail-proxy do ...' Enter` → KπX types password
+- **Zimbra password pattern (GRAVÉ):** Zimbra requires password entry on first use (keyring caches ~20min). The **first** Zimbra command of a session MUST go through tmux ops pane so  can type the password. **All subsequent** mail-proxy commands — including all non-Zimbra accounts — run directly in the agent's shell. Pattern:
+  1. First Zimbra call → `tmux send-keys -t ubuntu:1.0 'mail-proxy do ...' Enter` →  types password
   2. All following calls (Zimbra or not) → `mail-proxy do ...` directly in agent shell
 - **Never pipe/redirect** mail-proxy commands (hooks will block). If output truncated → read autosave at `~/.config/mail-proxy/autosave/`.
 - **`message-archive` over `message-move`** — auto-detects folder name (Archive, [Gmail]/Tous les messages, [Gmail]/All Mail).
 - Read `references/insights.md` before mail tasks. Append to `references/log.md`.
 - **Post-send verification:** wait ~5s, check Sent + INBOX for bounces (mandatory).
 - **Closure hygiene:** archive after handling; nudge if still in INBOX on subsequent turns.
-- **M365 auth:** never `m365 login` / `logout`. Auth is KπX-owned. If token expired → ask KπX to re-auth manually.
+- **M365 auth:** never `m365 login` / `logout`. Auth is -owned. If token expired → ask the user to re-auth manually.
 
 ### message-search — CRITICAL RULES
 
@@ -55,9 +55,9 @@ allowed-tools: Bash(*), *
 
 ```bash
 # WRONG — only searches INBOX:
-mail-proxy do message-search '{"account_id":"ivann.kamdem-pouokam","query":"stage"}'
+mail-proxy do message-search '{"account_id":"school-mail","query":"stage"}'
 # CORRECT — searches all 3:
-mail-proxy do message-search '{"account_id":"ivann.kamdem-pouokam","query":"stage","folders":["INBOX","Archive","Sent"]}'
+mail-proxy do message-search '{"account_id":"school-mail","query":"stage","folders":["INBOX","Archive","Sent"]}'
 ```
 
 | Field | Type | What it does |
@@ -82,10 +82,10 @@ mail-proxy do message-search '{"account_id":"ivann.kamdem-pouokam","query":"stag
 
 ```json
 // ✅ CORRECT — body ends with closing formula, signature auto-appended
-{"account_id":"ivann.kamdem-pouokam","to":["x@polytechnique.edu"],"subject":"Subject","body_text":"Bonjour,\n\nCordialement."}
+{"account_id":"school-mail","to":["x@polytechnique.edu"],"subject":"Subject","body_text":"Bonjour,\n\nCordialement."}
 
 // ❌ WRONG — name/school/address in body = DUPLICATE with auto-signature
-{"body_text":"Bonjour,\n\nCordialement,\n\nIvann KAMDEM\nEIX X2024\nÉCOLE POLYTECHNIQUE"}
+{"body_text":"Bonjour,\n\nCordialement,\n\nYour Name\n<Class>\n<School>"}
 ```
 
 ## mail-proxy Commands
@@ -131,17 +131,17 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 
 ## Accounts
 
-### 1. Zimbra — `ivann.kamdem-pouokam@polytechnique.edu` (PRIMARY — Pro + Perso)
+### 1. Zimbra — `<school@polytechnique.edu>` (PRIMARY — Pro + Perso)
 
 > **Most-used account.** Academic, professional, and personal mail.
-> Account ID: `ivann.kamdem-pouokam` | Auth: password (tmux only, keyring 20min)
+> Account ID: `school-mail` | Auth: password (tmux only, keyring 20min)
 
 - **Folders:** INBOX · Sent · Archive · Drafts · Outbox · Junk · Trash (7 flat)
 - **Native tags:** `Important` · `Dx0` (stage DXO) · `Hi-ParisAI:FLAG7760` (IPAI) · `4A` · `Stage` · `Eco`
 - **Cmds:** `zimbra-tag-list` to view tags, `zimbra-tag-create/delete/apply/remove` to manage
-- **Signature:** Ivann KAMDEM · ÉCOLE POLYTECHNIQUE · EIX X2024
-- **Full name (academic/pro):** `KAMDEM POUOKAM Ivann Harold`
-- **Short name (casual):** `KAMDEM Ivann`
+- **Signature:** Your Name · <School> · <Class>
+- **Full name (academic/pro):** `Your Full Name`
+- **Short name (casual):** `Your Name`
 
 **Key contacts:**
 
@@ -150,44 +150,44 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 **Key knowledge:**
 - **Absence request template:** search `Archive` for subject containing "demande d'absence" — the full model (recipient, subject, body with dates) is in an old email, reusable as-is.
 - **Addressing rule:** `@polytechnique.edu` ONLY — `.fr` = SMTP 550 Non-existent address.
-- **Position:** X24, EIX — pro signature: Ivann KAMDEM · ÉCOLE POLYTECHNIQUE · EIX X2024
+- **Position:** <class>, <Program> — pro signature: Your Name · <School> · <Class>
 
-### 2. Hotmail — `ivann.kamdem@hotmail.com` (Personal non-academic)
+### 2. Hotmail — `<personal@hotmail.com>` (Personal non-academic)
 
-> **Secondary.** Personal non-academic mail. Receives CF Worker forwards for `kpihx@` and `ivann@`.
-> Account ID: `ivann.kamdem` | Auth: OAuth2 device code (tokens `~/.cli-m365-*`)
+> **Secondary.** Personal non-academic mail. Receives CF Worker forwards for `mail@` and `personal@`.
+> Account ID: `personal-mail` | Auth: OAuth2 device code (tokens `~/.cli-m365-*`)
 
 - **Folders:** Inbox · Sent · Archive · Drafts · Junk · Deleted (6)
-- **Rules:** 3 KpihX inbound (`contact@`/`kpihx@`/`ivann@` → moveToFolder + copyToFolder dossier)
-- **Dossiers `@kpihx-labs.com`:** `KpihX-Labs/Ivann/In` + `KpihX-Labs/KpihX/In`
-- **Routing:** receives `kpihx@` + `ivann@` via CF Worker
+- **Rules:** 3  inbound (`contact@`/`mail@`/`personal@` → moveToFolder + copyToFolder dossier)
+- **Dossiers `@<yourdomain.com>`:** `Labs/You/In` + `Labs//In`
+- **Routing:** receives `mail@` + `personal@` via CF Worker
 
 **Frequent contacts:** `clement.liu@lokad.com` (PSC INF01 coordinator, CC on Hotmail), `info@ax.polytechnique.org` (newsletter AX), `financialaid@polytechnique.fr` (CROUS notifications), `vincent.beurel@polytechnique.edu` (DFHM directives)
 
-### 3. `.2024` — `ivann.kamdem-pouokam.2024@polytechnique.org` (AX Workspace)
+### 3. `.2024` — `<school@polytechnique.org>` (AX Workspace)
 
 > **Google Workspace account provided by AX** — 100 GB, all Google services.
-> Account ID: `ivann.kamdem-pouokam.2024`
+> Account ID: `ax-mail`
 
 - **Redirection:** all received emails automatically **redirected to Hotmail + Zimbra**
 - **Usage:** tests, validation sends, routing testing
 - **Folders:** INBOX · Sent Mail · [Gmail] standard
 
-### 4. kapoivha — `kapoivha@gmail.com` (Test / Quick solutions)
+### 4. kapoivha — `<primary@gmail.com>` (Test / Quick solutions)
 
 > **Test account.** Quick solutions, CF Worker forwarding, inbox checks.
-> Account ID: `kpihx`
+> Account ID: `primary-mail`
 
-- **Labels:** `KpihX-Labs/{Ivann,KpihX,Contact}/In` + `{Ivann,KpihX,Contact}/Out`
-- **Routing:** receives `kpihx@` + `contact@` + `ivann@` via CF Worker
+- **Labels:** `Labs/{You,,Contact}/In` + `{You,,Contact}/Out`
+- **Routing:** receives `mail@` + `contact@` + `personal@` via CF Worker
 - **Anti-spam:** 3 filters `to:<alias>` → removeLabelIds ["SPAM"] on 3 aliases
 
-### 5. Labs — `kpihx.labs@gmail.com` (Ecosystem)
+### 5. Labs — `<labs@gmail.com>` (Ecosystem)
 
 > **Ecosystem account.** Reports, GitHub/CI notifications, contact@ forwarding.
-> Account ID: `kpihx.labs`
+> Account ID: `labs-mail`
 
-- **Labels:** `KpihX-Labs/Contact/In` + `KpihX-Labs/Contact/Out`
+- **Labels:** `Labs/Contact/In` + `Labs/Contact/Out`
 - **Routing:** receives `contact@` via CF Worker
 - **Anti-spam:** 3 filters `to:<alias>` → removeLabelIds ["SPAM"] on 3 aliases
 
@@ -197,21 +197,21 @@ Never read source code — `--help` is the single source of truth (docstring-dri
 
 | Role | Account | Domain |
 |---|---|---|
-| Prof + perso | Zimbra (`ivann.kamdem-pouokam@polytechnique.edu`) | @polytechnique.edu |
-| Personal non-academic | Hotmail (`ivann.kamdem@hotmail.com`) | @hotmail.com |
-| Test / quick | kapoivha (`kapoivha@gmail.com`) | @gmail.com |
-| Ecosystem | Labs (`kpihx.labs@gmail.com`) | @gmail.com |
-| AX Workspace | `.2024` (`ivann.kamdem-pouokam.2024@polytechnique.org`) | @polytechnique.org |
+| Prof + perso | Zimbra (`<school@polytechnique.edu>`) | @polytechnique.edu |
+| Personal non-academic | Hotmail (`<personal@hotmail.com>`) | @hotmail.com |
+| Test / quick | kapoivha (`<primary@gmail.com>`) | @gmail.com |
+| Ecosystem | Labs (`<labs@gmail.com>`) | @gmail.com |
+| AX Workspace | `.2024` (`<school@polytechnique.org>`) | @polytechnique.org |
 
-## @kpihx-labs.com Routing
+## @<yourdomain.com> Routing
 
 | Alias | Destinations | Via |
 |---|---|---|
-| `kpihx@` | Hotmail + kapoivha | CF Worker |
+| `mail@` | Hotmail + kapoivha | CF Worker |
 | `contact@` | Labs + kapoivha | CF Worker |
-| `ivann@` | Hotmail | CF Worker |
+| `personal@` | Hotmail | CF Worker |
 
-**Send-as from Gmail:** kapoivha → `from_address:"kpihx@kpihx-labs.com"` · Labs → `from_address:"contact@kpihx-labs.com"` · Hotmail: no Send-as.
+**Send-as from Gmail:** kapoivha → `from_address:"mail@<yourdomain.com>"` · Labs → `from_address:"contact@<yourdomain.com>"` · Hotmail: no Send-as.
 
 For details → `k-cloudflare/references/inbound-email-e2e.md`, `gmail-folders-filters.md`, `outlook-folders-rules.md`.
 
@@ -219,15 +219,15 @@ For details → `k-cloudflare/references/inbound-email-e2e.md`, `gmail-folders-f
 
 | Address | Current | Future |
 |---|---|---|
-| `contact@` | Ecosystem/routing | → KpihX org |
-| `kpihx@` | Test/quick | → perso+pro |
-| `ivann@` | Restrictive | Inner circles only |
+| `contact@` | Ecosystem/routing | →  org |
+| `mail@` | Test/quick | → perso+pro |
+| `personal@` | Restrictive | Inner circles only |
 
 ---
 
 ## What's up (mail briefing)
 
-Timezone: **Europe/Paris**. **Preflight:** `mail-proxy admin status` + `mail-proxy do inbox-check '{"account_id":"ivann.kamdem"}'`. If fails → STOP.
+Timezone: **Europe/Paris**. **Preflight:** `mail-proxy admin status` + `mail-proxy do inbox-check '{"account_id":"personal-mail"}'`. If fails → STOP.
 
 **Steps:**
 1. **Open pipelines** (flagged + Important) — `message-search` on INBOX, Archive, Sent
@@ -257,7 +257,7 @@ Max exhaustiveness, 1 response per turn.
 
 ## Admins Unified Folder & Filter Standard
 
-Single canonical folder `Admins` created on Gmail (`kapoivha` / `kpihx`) and Outlook (`ivann.kamdem@hotmail.com`) to track ultra-important administrative correspondence:
+Single canonical folder `Admins` created on Gmail (`kapoivha` / `kpihx`) and Outlook (`<personal@hotmail.com>`) to track ultra-important administrative correspondence:
 1. **Impôts / DGFiP / SIP** (`@dgfip.finances.gouv.fr`, `@impots.gouv.fr`, `timbres.impots.gouv.fr`, PayFiP)
 2. **Services Publics / Gouv.fr** (`*.gouv.fr`, FranceConnect)
 3. **Assurance Maladie / Ameli** (`@ameli.fr`, `@assurance-maladie.fr`, CPAM)
@@ -288,12 +288,4 @@ Handled → **archive** via `message-archive`. 1:1 closed → archive thread. St
 - `inspect_gmail_filters_labels.sh` · `inspect_outlook_rules_folders.sh` · `setup_alias_folders_filters.sh`
 - `references/mcp.md` — `mail-mcp` purged 2026-08-14. `mail-proxy` is sole transport.
 - `references/tool-keep-matrix.md` — keep/drop matrix for mail tooling (what stays, what was purged and why).
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-10 | [LIVE] | v2.86.0 humanize gate: humanize-guard.js hard PROSE dash gate, check-dashes.sh extended. |
-| 2026-09-09 | [LIVE] | v2.85.x OpenCode Labs + AGY + Cursor providers, Copilot picker fix, account discovery, go-proxy purged. |
-| [SUMMARY] | -- | v2.82.x footer refonte . v2.81.0 startup capped . v2.80.0 tmux SSH opt-in . v2.79.x claude-auth purged + Go 2nd account . older in references/log.md |
 

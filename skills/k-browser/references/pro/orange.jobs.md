@@ -24,8 +24,3 @@ None — public.
 - The `orange.jobs` root always redirects to `/gb/en` — use explicit locale paths for other countries (e.g. `/fr/...` paths are not served).
 - LinkedIn company jobs page list requires in-page scrolling/loading to populate; SSR returns empty.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: orange.jobs redirect behavior, jobs.orange.com timeout, LinkedIn company SSR empty; manual research required. |

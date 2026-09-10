@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KpihX mnt-sync — pull REMOTE_ROOT ⟶ LOCAL_ROOT (Linux, one-way, no --delete).
+#  mnt-sync — pull REMOTE_ROOT ⟶ LOCAL_ROOT (Linux, one-way, no --delete).
 # Generic mount-to-mount sync — REMOTE_ROOT/LOCAL_ROOT are any two mounted
 # disks/paths, not necessarily a project's assets/ (that's just the default).
 # Copy next to your project's dirs.txt, set the two paths below (or export

@@ -1,4 +1,4 @@
-# Social / video dev platforms — KπX registry
+# Social / video dev platforms —  registry
 
 > **Secrets:** Vaultwarden → **`Vaultwarden`** (primary). **JSON fallbacks** live under `$HOME/.config/kpihx/` — **never commit** (outside `.agents/` git).  
 > **Hub skill:** **`k-media`** (human entry point) · **no `k-publish` skill** — cross-post automation is vision-only → `k-context/references/vision/social-media-apis.md`.
@@ -7,7 +7,7 @@
 
 | Platform | Operational skill | Secrets file (optional, mode 600) | Messaging |
 |----------|-------------------|-------------------------------------|-----------|
-| **YouTube** | **`k-media`** + **`k-google`** | `$HOME/.config/gws/kpihx-labs/youtube_token.json` | — |
+| **YouTube** | **`k-media`** + **`k-google`** | `$HOME/.config/gws/<github-user>/youtube_token.json` | — |
 | **X** | **`k-x`** | `$HOME/.config/kpihx/x/credentials.json` | — |
 | **Meta Graph / WA Cloud** | **`k-meta`** | `$HOME/.config/kpihx/meta/credentials.json` | **`k-whats`** (whats-proxy) |
 | **LinkedIn** | **`k-link`** | Vault / OAuth (60j) | link-proxy |
@@ -30,14 +30,14 @@ Inject via **`Vaultwarden`** — gate: `references/token-gate.md`. While `Vaultw
 |----------|-------|---------|
 | YouTube `@kpihx` | ✅ upload smoke | — |
 | X `@KPIHX7` | ✅ `me` via JSON | tweet → **402 credits** |
-| Meta app **KpihX-Labs** | ✅ core Graph via JSON | WA phone Graph → **System User** token |
+| Meta app **Labs** | ✅ core Graph via JSON | WA phone Graph → **System User** token |
 | WA chat | ✅ whats-mcp | separate from `k-meta` |
 
 ## Runbooks
 
 | Topic | Path |
 |-------|------|
-| YouTube | `k-media/references/youtube-kpihx-labs.md` |
+| YouTube | `k-media/references/youtube-<github-user>.md` |
 | X | `k-x/references/x-dev-setup.md` |
 | Meta | `k-meta/references/meta-dev-setup.md` · `k-meta/references/smoke-status.md` |
 | Vision / future `k-publish` | `k-context/references/vision/social-media-apis.md` |

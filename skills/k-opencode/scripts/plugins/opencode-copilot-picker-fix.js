@@ -22,7 +22,7 @@ function authToken(auth) {
 function usable(m) {
   // Student/Free: policy=None legacy + internals (copilot-search-*, exec-agent-*)
   // still pass a soft "not disabled" check and then 400 "model is not supported".
-  // Keep only explicitly enabled models (KπX 2026-09-09 option A).
+  // Keep only explicitly enabled models ( 2026-09-09 option A).
   if (m?.policy?.state !== "enabled") return false;
   const lim = m?.capabilities?.limits;
   if (!lim?.max_output_tokens || !lim?.max_prompt_tokens) return false;

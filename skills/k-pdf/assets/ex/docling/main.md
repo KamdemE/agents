@@ -4,7 +4,7 @@ Rapport de stage d'entreprise de deuxième année Stage chez DxO, Boulogne-Billa
 
 Juin à Août 2026
 
-Ivann Harold KAMDEM POUOKAM
+YOUR NAME
 
 ![Image](/tmp/pdf-full/dclt/main_artifacts/image_000000_de86e4b9e48da82d6b3da683970e40f55027b98b303f17f29a3f8b53032ac3c5.png)
 
@@ -313,7 +313,7 @@ UNIVESSITE PABId-SACLAY
 
 Nom de l'élève/Student name :
 
-Ivann Harold KAMDEM POUOKAM
+YOUR NAME
 
 Organisme d'accueil / Company :
 

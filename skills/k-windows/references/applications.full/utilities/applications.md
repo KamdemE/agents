@@ -1,6 +1,6 @@
 # Utilities
 
-Source: `KpihX-Datas/Applications/Utilities/` (24G).
+Source: `-Datas/Applications/Utilities/` (24G).
 
 - `ADB/{android_adb_fastboot_1.7.msi,Xiaomi ADB_Fastboot Tools (Windows) - Download & Review/}`
 - `Advanced System Repair Pro 2.0.0.8 [FileCR].zip`

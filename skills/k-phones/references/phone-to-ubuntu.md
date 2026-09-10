@@ -1,11 +1,11 @@
 # Phone → Ubuntu PC (real remote-control path)
 
-Goal: run shell + Cursor Agent (`agent`) + tmux on **kpihx-ubuntu** from the **S25 Termux** app.
+Goal: run shell + Cursor Agent (`agent`) + tmux on **workstation** from the **S25 Termux** app.
 
 ## Architecture
 
 ```text
-[S25 Termux]  --SSH Tailscale-->  [kpihx-ubuntu]
+[S25 Termux]  --SSH Tailscale-->  [workstation]
      ubuntu (alias)                tmux attach → session "default" (PC)
                                    agent -p "…"
 ```
@@ -16,7 +16,7 @@ Not the reverse (`ssh s25` = PC → phone). ADB on the phone does **not** contro
 
 | Command | tmux server | Data stays on |
 |---------|-------------|---------------|
-| **`ubuntu`** | **kpihx-ubuntu** (forced by `ssh -t tmux …`) | PC disk (`$HOME/.tmux/resurrect` as user `kpihx`) |
+| **`ubuntu`** | **workstation** (forced by `ssh -t tmux …`) | PC disk (`$HOME/.tmux/resurrect` as user `kpihx`) |
 | **`tmux`** in Termux | **S25 Termux** only | Phone (`~/.tmux/resurrect` in Termux `$HOME`) |
 
 The `ubuntu` alias does **not** nest phone tmux inside PC tmux unless you start tmux on both sides manually.
@@ -33,8 +33,8 @@ The `ubuntu` alias does **not** nest phone tmux inside PC tmux unless you start 
 ```sshconfig
 Host ubuntu
     HostName 100.82.95.70
-    # HostName kpihx-ubuntu
-    # HostName kpihx-ubuntu.tail2527bd.ts.net
+    # HostName workstation
+    # HostName workstation.tail2527bd.ts.net
     User kpihx
     IdentityFile ~/.ssh/id_ed25519_ubuntu
     IdentitiesOnly yes
@@ -61,7 +61,7 @@ Full runbook: **`references/termux-tmux.md`** (Ctrl-a, continuum, **termux-api**
 | **PC tmux (default)** | `ubuntu` |
 | PC shell only | `ssh ubuntu` |
 | Local Termux tmux | `tmux` (autosave/restore like PC) |
-| One-shot agent task | `ssh ubuntu -t 'agent -p "your task" --trust --workspace \$HOME/KpihX-Labs'` |
+| One-shot agent task | `ssh ubuntu -t 'agent -p "your task" --trust --workspace \$HOME/Labs'` |
 | Long agent run | `ubuntu` → PC session **`default`** (e.g. window `agents`) → `agent` |
 
 Ensure `agent` is on `PATH` (`$HOME/.local/bin`) before running one-liners.

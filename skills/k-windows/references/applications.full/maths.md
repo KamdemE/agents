@@ -1,6 +1,6 @@
 # Maths (21G)
 
-> Source: `KpihX-Datas/Applications/Maths/`
+> Source: `-Datas/Applications/Maths/`
 > MATLAB (15G) + Mathematica (6.5G) + GeoGebra — licences payantes
 
 ## Geogebra (31M)

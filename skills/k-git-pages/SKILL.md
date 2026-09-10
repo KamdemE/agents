@@ -1,29 +1,29 @@
 ---
 name: k-git-pages
 description: >
-  KπX GitHub Pages + Docsify — index.html (VS Code dark theme), _sidebar.md,
+  GitHub Pages + Docsify — index.html (VS Code dark theme), _sidebar.md,
   .nojekyll setup, placeholder guide, and GitHub Pages activation steps.
   Use cases: project docs site, blog, article/tutorial site, knowledge base, portfolio.
   Load whenever creating a standalone Docsify/GitHub Pages site of any kind.
   For docs/ inside a project repo → see k-project/docs-site.md.
 license: private
 metadata:
-  author: KpihX
-  version: "1.3.5"
+  author: 
+  version: "1.0.0"
 allowed-tools: Bash(*), "*"
 ---
 
-# KπX — GitHub Pages + Docsify
+#  — GitHub Pages + Docsify
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related skills:** `k-git` (push, remotes) · `k-project` (init, naming)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
 > **Concrete examples:** `$HOME/Work/techskills/` (live Docsify site), `$HOME/Work/Homelab/presentation/` — check via `k-qmd` or shell.
 > **Live example — `envision-copilot-presentation`:**
-> - Local: `$HOME/KpihX-Labs/AI/Envision/envision-copilot-presentation`
-> - GitHub: `https://github.com/KpihX/envision-copilot-presentation`
-> - GitLab: `https://gitlab.com/kpihx-labs/ai/envision-copilot-presentation`
+> - Local: `$HOME/Labs/AI/Envision/envision-copilot-presentation`
+> - GitHub: `https://github.com/<user>/envision-copilot-presentation`
+> - GitHub: `https://github.com/<user>/envision-copilot-presentation`
 
 ## Stack
 
@@ -51,14 +51,14 @@ my-site/
 | `assets/github-pages-index.html` | Docsify + VS Code dark theme, search, sidebar, inline code color fix |
 | `assets/_sidebar.md` | Generic Docsify sidebar with `.nojekyll` reminder |
 
-> **Template → gitlab URL unification (2026-08-15):** the techskills / 𝛱/TechSkills repo `templates/` files that pointed at these assets were **local symlinks**, now **unplugged**. External repos must reference these templates by their **gitlab URL** of the real `.agents` file, not a local symlink: `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-git-pages/assets/<file>`. Source of truth stays in `.agents`.
+> **Template → gitlab URL unification (2026-08-15):** the techskills / 𝛱/TechSkills repo `templates/` files that pointed at these assets were **local symlinks**, now **unplugged**. External repos must reference these templates by their **GitHub URL** of the real `.agents` file, not a local symlink: `https://github.com/KamdemE/agents/blob/main/skills/k-git-pages/assets/<file>`. Source of truth stays in `.agents`.
 
 ### Placeholders in `index.html`
 
 | Placeholder | Example |
 |-------------|---------|
-| `SITE_TITLE` | `KpihX Ubuntu Live` |
-| `SITE_NAME` | `🐧 KpihX Ubuntu Live` |
+| `SITE_TITLE` | ` Ubuntu Live` |
+| `SITE_NAME` | `🐧  Ubuntu Live` |
 | `GITHUB_REPO_URL` | `https://github.com/kpihx/techskills` |
 | `SEARCH_PLACEHOLDER` | `🔍 Search tutorials...` |
 
@@ -116,10 +116,3 @@ Example from techskills:
 - Update `$HOME/.agents/skills/k-git-pages/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v1.3.5 — **Root `AGENTS.md` standard + live example**: stack tree now shows `AGENTS.md` at repo root (never `.agents/AGENTS.md`); added `envision-copilot-presentation` live example (local + GitHub + GitLab URLs). |
-| 2026-08-15 | [COLAB] | v1.3.4 — **Template → gitlab URL unification**: `## Templates` now notes that external repos (techskills / 𝛱/TechSkills) must reference these assets by their **gitlab URL** of the real `.agents` file (`https://gitlab.com/kpihx/agents/-/blob/main/skills/k-git-pages/assets/<file>`), not a local symlink. Source of truth stays in `.agents`. |
-| [SUMMARY] | — | v1.3.3 insights discipline + maintenance hooks · v1.3.2 normalized paths (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |

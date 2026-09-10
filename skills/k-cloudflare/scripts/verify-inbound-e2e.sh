@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only inbox verification for @kpihx-labs.com inbound routing (GWS + M365 Graph).
+# Read-only inbox verification for @<yourdomain.com> inbound routing (GWS + M365 Graph).
 # Usage: verify-inbound-e2e.sh [TAG]
 # Run directly — PATH and environment are set by .zshenv + .kshrc
 set -euo pipefail
@@ -57,10 +57,10 @@ fi
 echo "# verify-inbound-e2e TAG=$TAG"
 echo "# gws=$GWS_BIN"
 
-print_gmail "kapoivha" "$HOME/.config/gws/kpihx" "kpihx-489121" "in:inbox $TAG"
-print_gmail "kapoivha-sent" "$HOME/.config/gws/kpihx" "kpihx-489121" "$TAG"
-print_gmail "labs-inbox" "$HOME/.config/gws/kpihx-labs" "kpihx-labs" "in:inbox $TAG"
-print_gmail "labs-spam" "$HOME/.config/gws/kpihx-labs" "kpihx-labs" "in:spam $TAG"
+print_gmail "primary" "$HOME/.config/gws/kpihx" "kpihx-489121" "in:inbox $TAG"
+print_gmail "primary-sent" "$HOME/.config/gws/kpihx" "kpihx-489121" "$TAG"
+print_gmail "labs-inbox" "$HOME/.config/gws/<github-user>" "<github-user>" "in:inbox $TAG"
+print_gmail "labs-spam" "$HOME/.config/gws/<github-user>" "<github-user>" "in:spam $TAG"
 
 echo "=== Hotmail Graph search TAG=$TAG ==="
 if ! command -v m365 >/dev/null 2>&1; then

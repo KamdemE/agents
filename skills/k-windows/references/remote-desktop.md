@@ -1,6 +1,6 @@
 # k-windows — Remote access services (RDP, Chrome Remote Desktop) + the corporate VPN+RDP pattern
 
-> Generalized from a specific machine's setup (`k-blglaptop139`) — pure Windows OS mechanism below, zero company-specific content. The company-specific *target* (which machine, whose account, what VPN portal) belongs in that company's own skill (e.g. `k-dxo`).
+> Generalized from a specific machine's setup (`k-laptop`) — pure Windows OS mechanism below, zero company-specific content. The company-specific *target* (which machine, whose account, what VPN portal) belongs in that company's own skill (e.g. `k-dxo`).
 
 ## The generic corporate remote-access pattern
 
@@ -31,7 +31,7 @@ Disable-NetFirewallRule -DisplayGroup "Remote Desktop"
 
 ## Ubuntu client (Remmina) — RDP to a Windows+WSL machine
 
-Generalized from a real Remmina profile (`k-blglaptop139`, `k-dxo`, `k-ubuntu`) — the fields below are the mechanism; the actual hostname/domain/account belong in the company or machine skill that owns that connection.
+Generalized from a real Remmina profile (`k-laptop`, `k-dxo`, `k-ubuntu`) — the fields below are the mechanism; the actual hostname/domain/account belong in the company or machine skill that owns that connection.
 
 | Field | Value / guidance |
 |---|---|
@@ -59,8 +59,3 @@ net start chromoting
 
 **Disable:** standard service-disable (`references/windows-services.md`), target name `chromoting`.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Generalized the RDP and Chrome Remote Desktop enable/disable mechanisms from `k-blglaptop139`'s de-bloat scripts, plus a short note on the generic corporate-VPN+RDP pattern (Windows side only — the Linux-side systemd/keyring depth from `k-dxo` doesn't have a generic home yet). |

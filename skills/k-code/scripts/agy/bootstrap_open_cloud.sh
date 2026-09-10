@@ -113,7 +113,7 @@ main() {
 
   if [[ "${do_launch}" -eq 1 ]]; then
     # Desktop/menu launch uses launch_agy_ide.sh (avoids set -u + secrets traps from .kshrc).
-    # Terminal bootstrap may still load full shell when KπX runs this script interactively.
+    # Terminal bootstrap may still load full shell when  runs this script interactively.
     if [[ -t 0 ]] && [[ -f "${HOME}/.kshrc" ]]; then
       set +u
       set +e

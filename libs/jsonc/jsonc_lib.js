@@ -1,7 +1,7 @@
 // jsonc_lib.js — shared JSONC helpers for .agents JS scripts (hooks).
 //
 // Central place for everything common to .agents Node scripts that deal with
-// JSONC assets (config-with-comments — the KπX standard, see k-project and
+// JSONC assets (config-with-comments — the standard, see k-project and
 // `libs/jsonc_lib.sh` for the shell twin, `libs/jsonc_lib.py` for Python).
 //
 // Provided here (ESM exports):

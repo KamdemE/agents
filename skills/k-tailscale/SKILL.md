@@ -1,25 +1,25 @@
 ---
 name: k-tailscale
 description: >
-  KπX Tailscale — generic installation, status, peers, routes, serve, funnel,
+  Tailscale — generic installation, status, peers, routes, serve, funnel,
   DERP, ACL management, and troubleshooting. This skill covers Tailscale
   patterns that work on any OS. Machine-specific identity (hostname, IPs,
   DNS, serve config) lives in the relevant infra skill (e.g., k-ubuntu).
   Load before any tailscale serve, funnel, accept-routes, peer, or port
   management task.
 metadata:
-  version: 2.3.0
-  author: KpihX
+  version: 1.0.0
+  author: 
   scope: network
 ---
 
-# KπX — Tailscale Generic Operations
+#  — Tailscale Generic Operations
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (systemd service paths, apt install) · `references/windows.md` (WSL setup, native Windows Tailscale)
 > **Machine identity:** See `k-ubuntu` (this workstation) or the relevant infra skill for hostname, IPs, DNS, serve config, and peer state.
-> **Canonical assets:** NONE in `.agents` since 2026-08-24 — `tailscaled.service` + `/etc/default/tailscaled` are stock Tailscale-managed files with zero KπX customization: they live directly in `/etc` (real files, no symlinks) and Tailscale governs them (de-link per KπX order).
+> **Canonical assets:** NONE in `.agents` since 2026-08-24 — `tailscaled.service` + `/etc/default/tailscaled` are stock Tailscale-managed files with zero  customization: they live directly in `/etc` (real files, no symlinks) and Tailscale governs them (de-link per maintainer decision).
 
 ---
 
@@ -198,10 +198,3 @@ journalctl -u tailscaled -f  # Linux (systemd)
 - Update `references/insights.md` at the end of the task with durable lessons.
 - Keep insights autonomous and evolutionary.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [CLAUDE] | v2.3.0 — Documented `-wsl` naming convention for dual Windows/WSL Tailscale identity in `references/windows.md` (a machine running Tailscale both natively on Windows and separately inside WSL gets two distinct tailnet nodes; suffix the WSL one `<host>-wsl`). Triggered by `blglaptop139-wsl` coming online as a fresh separate node during full WSL infra setup. |
-| 2026-08-24 | [COLAB] | v2.2.0 — De-linked `tailscaled.service` + `/etc/default/tailscaled` from `.agents` per KπX order: stock Tailscale-managed files with zero KπX customization now live directly in `/etc` as real root-owned files (Tailscale governs them); skill assets purged from `assets/`; registry entries removed from `links.jsonc` + `services.jsonc` (explanatory comments kept); `references/ubuntu.md` service-paths table + Assets section rewritten to document the de-link; "Canonical assets" header note replaced by de-link notice. Backups of the exact live content preserved at `/tmp/opencode/tailscaled*.bak`. Service verified active after daemon-reload. |
-| [SUMMARY] | — | v2.1.0 added SUDO GATE warning to `tailscale up` (tmux ops pane required) · v2.0.0 generic core (→ `references/log.md`) · v1.2.0 assets symlinks · v1.1.0 full rewrite · v1.0.0 creation |

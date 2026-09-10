@@ -7,7 +7,7 @@ Android assigns one Unix user per app UID. **You cannot rename it to `kpihx`** â
 Cosmetic options **inside Termux** (`~/.bashrc` or `~/.zshrc`):
 
 ```bash
-export PS1='kpihx@s25:\w\$ '
+export PS1='mail@s25:\w\$ '
 # or: export USER=kpihx   # prompt only â€” real id remains u0_a417
 ```
 

@@ -49,7 +49,7 @@ function tmuxContext() {
 // inLabs — true only when the CLIENT session's own directory (Session.directory,
 // resolved via client.session.get; NEVER process.cwd(), which is the persistent
 // `opencode serve` daemon's own launch dir, not the calling client's) is EXACTLY
-// $HOME/KpihX-Labs. When false, the k-context block (TODOs/Projects/Log) is
+// $HOME/Labs. When false, the k-context block (TODOs/Projects/Log) is
 // skipped — device-context and tmux-context still always inject.
 export function buildContext(inLabs) {
   const skillsDirectory = path.join(process.env.HOME, ".agents", "skills");
@@ -63,7 +63,7 @@ export function buildContext(inLabs) {
     );
   } else {
     lines.push(
-      "(k-context skipped — session not launched from exactly $HOME/KpihX-Labs)",
+      "(k-context skipped — session not launched from exactly $HOME/Labs)",
     );
   }
   lines.push("</startup-context>");
@@ -94,7 +94,7 @@ async function isLaunchedFromLabs(client, messages) {
   try {
     const session = await client.session.get({ path: { id: sessionID } });
     const directory = session.data?.directory || "";
-    return directory === path.join(process.env.HOME, "KpihX-Labs");
+    return directory === path.join(process.env.HOME, "Labs");
   } catch {
     return false;
   }

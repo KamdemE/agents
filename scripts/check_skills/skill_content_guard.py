@@ -1,4 +1,4 @@
-"""Core: bundled-content coverage checks for KπX-owned skills."""
+"""Core: bundled-content coverage checks for -owned skills."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ def _is_file_mentioned(skill_text: str, rel_path: str, file_name: str) -> bool:
 
 
 def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
-    """Validate that bundled top-level files are surfaced in one KπX-owned skill payload."""
+    """Validate that bundled top-level files are surfaced in one -owned skill payload."""
     path = Path(skill_path)
     skill_dir = path.parent
     if not skill_dir.name.startswith("k-"):
@@ -45,7 +45,7 @@ def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
                 continue
             # references/log.md is the k-context-exclusive rotation archive
             # (rules/k-context-hygiene.md) — every other skill's own log.md
-            # is an incidental historical artifact, not a mechanism KπX wants
+            # is an incidental historical artifact, not a mechanism  wants
             # to force a mention of. Only k-context is required to surface it.
             if (
                 directory_name == "references"
@@ -63,7 +63,7 @@ def validate_skill_content_text(skill_path: str, skill_text: str) -> list[str]:
 
 
 def validate_skill_content(skill_path: str) -> list[str]:
-    """Validate that bundled top-level files are surfaced in KπX-owned SKILL.md files."""
+    """Validate that bundled top-level files are surfaced in -owned SKILL.md files."""
     path = Path(skill_path)
     try:
         skill_text = path.read_text(encoding="utf-8")

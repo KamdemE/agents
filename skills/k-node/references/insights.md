@@ -10,5 +10,5 @@
 - `.npmrc` avait `prefix=` commenté "for nvm compatibility" — mais nvm n'est plus sourcé ! Le commentaire était un vestige mort. Fixé : `prefix=` actif maintenant.
 - Le pattern `.npmrc prefix=` est critique pour les auto-updaters (Codex, Gemini) — `NPM_CONFIG_PREFIX` seul ne couvre pas les subprocess systemd/cron.
 - `whats-mcp` est linked vers `~/Work/AI/MCPs/whats_mcp` — dev mode.
-- Bun est le choix souverain pour les projets KpihX ; npm global pour les CLIs tiers.
+- Bun est le choix souverain pour les projets  ; npm global pour les CLIs tiers.
 - PATH resolution: `~/.bun/bin` → `~/.npm-global/bin` → fnm multishell.

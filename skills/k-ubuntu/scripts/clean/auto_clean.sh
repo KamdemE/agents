@@ -4,12 +4,12 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 # `$HOME` reference below would abort, and as root $HOME=/root would miss the
 # kernel. Set it explicitly to the agent user home (where .agents lives) before
 # sourcing notifier.sh. ${HOME:-default} is safe under `set -u`.
-export HOME="${HOME:-/home/kpihx}"
+export HOME="${HOME:-$HOME}"
 # systemd services with explicit `User=root` preset $HOME=/root, which misses
 # the kernel (/root/.agents does not exist) — force the agent user home whenever
 # .agents is not reachable from the current value.
-[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
-# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+[ -d "$HOME/.agents" ] || export HOME="$HOME"
+# shellcheck source=$HOME/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 # auto_clean.sh — Automated weekly cleanup: run all modules, analyze, notify via Telegram.
@@ -20,7 +20,7 @@ set -euo pipefail
 
 # ── Machine config (edit per machine) ─────────────────────────────────────────
 USER_BACKUP="kpihx"
-PC_NAME="KpihX-Ubuntu"
+PC_NAME="workstation"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOG_DIR="/var/log/clean"

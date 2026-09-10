@@ -14,7 +14,7 @@ cat > /tmp/napkin_content.md << 'EOF'
 - QMD: local knowledge base search across 492 docs
 
 ## Infrastructure Management
-- SSH via Tailscale: kpihx-labs and docker-host
+- SSH via Tailscale: <github-user> and docker-host
 - Portainer: container management UI
 - Traefik: reverse proxy and routing dashboard
 

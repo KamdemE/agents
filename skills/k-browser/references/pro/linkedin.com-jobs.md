@@ -1,12 +1,12 @@
 # linkedin.com/jobs (LinkedIn Jobs — 3A internship hunting)
 
-**Category:** Social network / job board. **Account:** ivann.kamdem@hotmail.com (KπX main, see `sites/linkedin.com.md`). **Profile:** `default`.
+**Category:** Social network / job board. **Account:** <personal@hotmail.com> ( main, see `sites/linkedin.com.md`). **Profile:** `default`.
 
 > Reference sheet for the 3A internship hunt via LinkedIn Jobs search. General LinkedIn profile/messaging knowledge lives in `sites/linkedin.com.md`; this is the jobs-side companion.
 
 ## Login
 
-Same as LinkedIn profile (`ivann.kamdem@hotmail.com`, Google SSO fallback). The `default` Edge profile is authenticated.
+Same as LinkedIn profile (`<personal@hotmail.com>`, Google SSO fallback). The `default` Edge profile is authenticated.
 
 ## Structure / navigation
 
@@ -29,8 +29,3 @@ Same as LinkedIn profile (`ivann.kamdem@hotmail.com`, Google SSO fallback). The 
 - Candidate counts + posting age are the freshness signal: prefer offers < 1 week, < 50 applicants (e.g. Dassault CAD 2 days/9 applicants, Scality 1 day/34).
 - "Promue par un recruteur" = promoted job (sponsored) — not a relevance signal.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: search URL filters (f_JT/f_TPR), 7-card SSR limit + infinite scroll, f_C ignored, per-offer triage fields (type/date/candidates), company-page SSR empty. |

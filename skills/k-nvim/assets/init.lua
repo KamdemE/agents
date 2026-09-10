@@ -1,4 +1,4 @@
--- KπX Neovim config — daily driver
+--  Neovim config — daily driver
 -- Lazy.nvim bootstrap
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

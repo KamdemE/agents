@@ -51,6 +51,23 @@ fzf-history-widget() {
 zle -N fzf-history-widget
 bindkey '^R' fzf-history-widget
 
+# ── 3b. hf — history | fzf, execute selection ────────────────
+# `hf` at the prompt: fuzzy-search the zsh history and run the pick.
+# The awk strips the numeric history index (same pattern as Ctrl+R above).
+hf() {
+  local selected
+  selected=$(history | fzf --tac --height 40% --layout=reverse --border --query="$LBUFFER" --bind 'ctrl-c:abort' \
+    | awk '{sub("^[ ]*[^ ]+[ ]+","",$0); print}')
+  [ -n "$selected" ] || return 0
+  print -s "$selected"
+  BUFFER="$selected"
+  zle accept-line
+}
+zle -N hf
+
+# ── 3c. zr — reload .zshrc ──────────────────────────────────
+zr() { source ~/.zshrc; }
+
 # ── 4. Zsh-specific aliases ─────────────────────────────────
 alias -g F=" | fzf"
 alias -g G=" | grep"
@@ -87,6 +104,4 @@ zstyle ':omz:plugins:alias-finder' cheaper yes
 #   - bash/shopt → .bashrc
 # ════════════════════════════════════════════════════════════
 
-
-# Added by Antigravity CLI installer
-export PATH="/home/kpihx/.local/bin:$PATH"
+source $HOME/.config/broot/launcher/bash/br

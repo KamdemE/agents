@@ -6,21 +6,21 @@ Local tmux on the phone — separate from the **PC** session reached by the `ubu
 
 | Layer | Host | Trigger | Target on PC |
 |-------|------|---------|----------------|
-| **PC remote** | `kpihx-ubuntu` | Termux: `ubuntu` | **`tmux attach -t default`** (no new session) |
+| **PC remote** | `workstation` | Termux: `ubuntu` | **`tmux attach -t default`** (no new session) |
 | **Termux local** | S25 Termux app | Termux: `tmux` | local sessions only |
 
 `ubuntu` runs `ssh … -t tmux attach -t default` on the workstation — not Termux’s tmux server, and **not** a throwaway `ubuntu` session on PC.
 
 ## PC session `default` (reference)
 
-On **kpihx-ubuntu**, inspect:
+On **workstation**, inspect:
 
 ```bash
 tmux list-sessions
 tmux list-windows -t default
 ```
 
-Typical layout (KπX): windows such as `default`, `agents`, `remote`, `browser` inside session **`default`**. Phone control = attach there; create tabs with **Ctrl-a c** inside that session.
+Typical layout (): windows such as `default`, `agents`, `remote`, `browser` inside session **`default`**. Phone control = attach there; create tabs with **Ctrl-a c** inside that session.
 
 ## Config (aligned with Ubuntu)
 

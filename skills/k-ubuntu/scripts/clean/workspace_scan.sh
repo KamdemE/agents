@@ -11,7 +11,7 @@
 #   -h, --help         Show this help
 #
 # Default: sorted by most recently used first.
-# Author: KpihX [CLAUDE]
+# Author:  [CLAUDE]
 
 set -euo pipefail
 
@@ -38,9 +38,9 @@ ${BLD}Sort options:${RST}
   -a, --asc          Ascending order  ${DIM}(-d → most recent first / -s → smallest first)${RST}
 
 ${BLD}Examples:${RST}
-  workspace-scan                     # ~/KpihX-Labs, sorted by date desc
+  workspace-scan                     # ~/Labs, sorted by date desc
   workspace-scan -s ~/Projects       # ~/Projects, sorted by size desc
-  workspace-scan -d -r               # ~/KpihX-Labs, sorted by oldest first
+  workspace-scan -d -r               # ~/Labs, sorted by oldest first
   workspace-scan -s -r .             # current dir, smallest first
 EOF
   exit 0
@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-ROOT="${ROOT:-$HOME/KpihX-Labs}"
+ROOT="${ROOT:-$HOME/Labs}"
 ROOT="$(realpath "$ROOT")"
 [[ -d "$ROOT" ]] || { echo -e "${RED}Error: '$ROOT' is not a directory.${RST}" >&2; exit 1; }
 
@@ -124,7 +124,7 @@ else
 fi
 
 echo -e "\n${BLD}${MAG}╔══════════════════════════════════════════════════════╗"
-echo -e      "║          🔍  WORKSPACE SCAN — KpihX                 ║"
+echo -e      "║          🔍  WORKSPACE SCAN —                  ║"
 echo -e      "╚══════════════════════════════════════════════════════╝${RST}"
 echo -e "${DIM}  Root   : $ROOT"
 echo -e "  Date   : $(date '+%Y-%m-%d %H:%M')"

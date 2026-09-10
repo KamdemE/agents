@@ -5,15 +5,15 @@ description: >
   JSON creds at $HOME/.config/kpihx/meta/. Messaging via k-whats. Load before Meta Graph work.
 license: private
 metadata:
-  author: KpihX
-  version: "1.0.2"
+  author: 
+  version: "1.0.0"
   scope: operations
 allowed-tools: Bash(*)
 ---
 
-# KπX — Meta (Graph / WA Cloud)
+#  — Meta (Graph / WA Cloud)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Role
 
@@ -42,10 +42,3 @@ allowed-tools: Bash(*)
 - Read `references/insights.md` before non-trivial Meta Graph work.
 - Update `references/insights.md` after durable lessons.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-14 | [COLAB] | v1.0.2 — **MCP purge annotation**: `whats-mcp` purged (2026-08-14) → WhatsApp row updated to `whats-proxy` (ex-`whats-mcp`). See `k-node/references/purged.md`. |
-| 2026-05-25 | [CURSOR] | v1.0.1 — Tiered smoke; JSON filled; core LIVE; System User optional keys. |
-| [SUMMARY] | — | v1.0.0 bootstrap → `references/smoke-status.md` |

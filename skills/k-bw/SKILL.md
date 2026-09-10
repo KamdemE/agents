@@ -1,16 +1,16 @@
 ---
 name: k-bw
-description: "BW-Proxy operational memory - KpihX Bitwarden Sovereign Management: self-hosted Vaultwarden (@docker-host) and AI-blind vault proxy. Load before any bw-proxy work. (bw-mcp/bw-admin purged 2026-08-14 — see references/purged.md)."
+description: "BW-Proxy operational memory -  Bitwarden Sovereign Management: self-hosted Vaultwarden (@docker-host) and AI-blind vault proxy. Load before any bw-proxy work. (bw-mcp/bw-admin purged 2026-08-14 — see references/purged.md)."
 license: private
 metadata:
-  author: KpihX
-  version: "3.1.0"
+  author: 
+  version: "1.0.0"
   allowed-tools: Bash(tmux:*)
 ---
 
-# KπX Sovereign Management — Bitwarden (Proxy & MCP)
+#  Sovereign Management — Bitwarden (Proxy & MCP)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (Linux setup) · `references/windows.md` (WSL bw-proxy, SSH Agent WSL bridge)
 
@@ -18,7 +18,7 @@ metadata:
 
 - **Vault Server:** Unofficial Bitwarden (Vaultwarden) in Rust.
 - **Location:** `@docker-host` (Container: `vaultwarden`).
-- **Public URL:** `https://vault.kpihx-labs.com` (Traefik-managed).
+- **Public URL:** `https://<vault-host>` (Traefik-managed).
 - **Persistent Storage:** `/var/lib/docker/volumes/vaultwarden_vaultwarden_data/_data` (host) -> `/data` (container).
 - **Dependency:** Bitwarden CLI (`bw`) installed locally (optional, rarely used directly).
 
@@ -65,7 +65,7 @@ Ces étapes sont **identiques** sur Linux, Windows et macOS :
 2. **Go to Settings → SSH Agent** (gear icon, then "SSH Agent" tab).
 3. **Toggle "Enable SSH agent" ON.**
 4. **Set "Ask for authorization when using SSH agent" to `"Remember until vault is locked"`** (or `"Always"` for first-time testing).
-5. **Create an SSH key**: click `+` → item type `SSH key` → Bitwarden generates an Ed25519 key pair automatically → name it (e.g., "kpihx-ubuntu") → **Save**.
+5. **Create an SSH key**: click `+` → item type `SSH key` → Bitwarden generates an Ed25519 key pair automatically → name it (e.g., "workstation") → **Save**.
 
 ### Linux natif (.deb, AppImage) — notre setup
 
@@ -121,12 +121,4 @@ Sur Windows, Bitwarden utilise un **named pipe** (`\\.\pipe\openssh-ssh-agent`),
 
 - `references/purged.md` (bw-mcp/bw-admin archive)
 - `references/insights.md`
-- `references/log.md`
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-14 | [COLAB] | v3.1.0 — **Purged `bw-mcp` + `bw-admin`** (broken symlinks to absent `/opt/bw-mcp`); archived full reference in `references/purged.md` (GRAVÉ); kept `bw-proxy` as the sovereign vault proxy. |
-| 2026-07-23 | [OPENCODE] | v3.0.0 — **MAJOR SIMPLIFICATION**. Focus: bw-mcp + bw-proxy MCP tools + Bitwarden Desktop SSH Agent. |
-| [SUMMARY] | — | v2.7.0 SSH Agent restructure · v2.4.0 Fast Interface · v2.3.0 Agnostic Web Approval UI (→ `references/log.md`) · v2.2.x distribution hardening; v2.1.2 naming; v2.1.0 anatomy; v2.0.0 initial dual-utility architecture; older → git history. |

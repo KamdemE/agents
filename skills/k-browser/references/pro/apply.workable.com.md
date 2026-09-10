@@ -23,8 +23,3 @@ None — public (login only for applying).
 - Location filter defaults to France/Île-de-France/Paris — click "Clear filters" before judging the full catalog.
 - Role cards are not plain `<a>` links; use page text extraction or targeted selectors.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: full list scan after clearing filters, confirmed zero internship roles; documented as out-of-scope for 3A. |

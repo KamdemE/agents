@@ -7,7 +7,7 @@ GWS_BIN="${GWS_BIN:-}"
 [[ -z "$GWS_BIN" ]] && GWS_BIN="$HOME/.npm-global/bin/gws"
 
 # Tight query — avoids unrelated "Bilan" newsletters (use E2E-BILAN for routing proof).
-GMAIL_Q='(subject:E2E OR subject:OUT-E2E OR subject:E2E-BILAN OR subject:reverify OR subject:"routing kpihx" OR subject:"labs-native" OR subject:"Ras kpihx" OR subject:hotmail-default OR subject:kpihx-verified OR subject:"from-override" OR subject:"Gmail Confirmation" kpihx-labs OR subject:"Undeliverable: E2E")'
+GMAIL_Q='(subject:E2E OR subject:OUT-E2E OR subject:E2E-BILAN OR subject:reverify OR subject:"routing kpihx" OR subject:"labs-native" OR subject:"Ras kpihx" OR subject:hotmail-default OR subject:kpihx-verified OR subject:"from-override" OR subject:"Gmail Confirmation" <github-user> OR subject:"Undeliverable: E2E")'
 strip_json() { awk '/^\{/{p=1} p'; }
 
 archive_gmail_profile() {
@@ -28,7 +28,7 @@ archive_gmail_profile() {
 }
 
 archive_gmail_profile "$HOME/.config/gws/kpihx" "kpihx-489121" "kapoivha"
-archive_gmail_profile "$HOME/.config/gws/kpihx-labs" "kpihx-labs" "labs"
+archive_gmail_profile "$HOME/.config/gws/<github-user>" "<github-user>" "labs"
 
 if command -v m365 >/dev/null 2>&1; then
   echo "=== Hotmail archive (Graph move) ==="
@@ -50,13 +50,13 @@ terms = [
     "E2E contact", "E2E labs-native", "E2E kpihx-reverify", "E2E labs-reverify",
     "OUT-E2E", "reverify", "Undeliverable: E2E", "routing 20260525", "labs-native",
     "hotmail-default", "kpihx-verified", "from-override",
-    "Gmail Confirmation kpihx-labs",
-    "Gmail Confirmation ivann@kpihx",
+    "Gmail Confirmation <github-user>",
+    "Gmail Confirmation personal@kpihx",
 ]
 needles = (
     "E2E", "OUT-E2E", "reverify", "routing", "labs-native", "BILAN",
     "Undeliverable", "Gmail Confirmation", "kpihx-verified", "hotmail-default",
-    "from-override", "kpihx-labs.com",
+    "from-override", "<github-user>.com",
 )
 seen = set()
 moved = 0

@@ -1,7 +1,7 @@
 # k-rclone — Windows / WSL
 
 > **OS reference:** Microsoft Windows (with WSL subsystem)
-> **Applies to:** `k-blglaptop139` (blglaptop139)
+> **Applies to:** `k-laptop` (laptop)
 
 ---
 
@@ -37,4 +37,4 @@ The same remote names (`gdrive:`, `gdrive-x:`) work on all platforms — the rcl
 
 ## SFTP Remote
 
-The `pve:` remote requires Tailscale connectivity and SSH key access to `ivann@kpihx-labs` — works from any OS with Tailscale connected.
+The `pve:` remote requires Tailscale connectivity and SSH key access to `personal@<github-user>` — works from any OS with Tailscale connected.

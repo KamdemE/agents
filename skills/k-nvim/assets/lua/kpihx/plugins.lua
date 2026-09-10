@@ -1,4 +1,4 @@
--- KπX Neovim plugins
+--  Neovim plugins
 
 local ignore = {
   ".git/", ".cache/", ".local/", ".npm-global/",
@@ -206,7 +206,9 @@ return {
   -- === File navigation ===
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
+    -- No tag pin: track master for nvim-treesitter 2026 API compat
+    -- (ft_to_lang/ts_configs removed upstream; 0.1.8 crashes previews).
+    -- Consistent with lazy defaults (version = false).
     dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       { "<leader>ff", function() require("telescope.builtin").find_files({

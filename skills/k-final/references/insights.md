@@ -17,4 +17,4 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
     - Always use `REAL_HOME` and `REAL_USER` (detected via `getent` / `SUDO_USER`) in Makefiles to ensure path resolution remains correct under elevation.
     - `uv tool install` must specify `--tool-bin-dir $(REAL_HOME)/.local/bin` to prevent binary placement in `/root`.
     - Explicitly fix ownership of user resources created by root (data dir, log dir, and symlinks in `.local/bin` using `chown -h`).
-    - Privileged installs: KπX runs `make install` steps needing `sudo` via **shared tmux** (`k-tmux`); remove internal `sudo` from Makefile targets. **`sui` deprecated** for agents.
+    - Privileged installs:  runs `make install` steps needing `sudo` via **shared tmux** (`k-tmux`); remove internal `sudo` from Makefile targets. **`sui` deprecated** for agents.

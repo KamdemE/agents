@@ -12,7 +12,7 @@ echo "→ [install] Pre-checks..."
 if [[ $EUID -ne 0 ]]; then
     echo "❌ Must be run as root: sudo bash install.sh" >&2; exit 1
 fi
-AGENTS_ENV="/home/kpihx/.agents/.env"
+AGENTS_ENV="$HOME/.agents/.env"
 if [[ ! -f "$AGENTS_ENV" ]]; then
     echo "❌ $AGENTS_ENV not found — create it from .env.example first." >&2; exit 1
 fi

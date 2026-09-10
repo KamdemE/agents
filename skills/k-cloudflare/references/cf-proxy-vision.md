@@ -1,6 +1,6 @@
 # cf-proxy vision (brainstorm — not implemented)
 
-> **Status:** PLANNING · **Reference contract:** `$HOME/Work/KpihX-Labs/Fluid/ts_proxy/CONTRACT.md`
+> **Status:** PLANNING · **Reference contract:** `$HOME/Work/Labs/Fluid/ts_proxy/CONTRACT.md`
 
 ## Intent
 

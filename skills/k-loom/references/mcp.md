@@ -1,7 +1,7 @@
 # Loom MCP — NON-RECOMMENDED (removed 2026-08-24)
 
 > 🔴 **STATUS: REMOVED / NON-RECOMMENDED.** The `loom` MCP server (`loom-mcp`) was removed from
-> `opencode.jsonc` on 2026-08-24 by KπX directive. **NEVER re-add it, NEVER call loom via MCP tools,
+> `opencode.jsonc` on 2026-08-24 by the user directive. **NEVER re-add it, NEVER call loom via MCP tools,
 > NEVER mention loom MCP in rules/skills/agents — always the `loom` CLI binary.**
 > This file is the historical registry: what the MCP exposed and its exact CLI equivalent.
 

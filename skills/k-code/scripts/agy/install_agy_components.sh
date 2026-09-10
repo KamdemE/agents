@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Install Google Antigravity ecosystem (Hub 2.0, IDE, CLI, SDK) from KπX paths.
+# Install Google Antigravity ecosystem (Hub 2.0, IDE, CLI, SDK) from the user paths.
 # Usage: install_agy_components.sh [--skip-apt-remove] [--skip-cli] [--skip-sdk]
 # ==============================================================================
 set -euo pipefail
@@ -142,7 +142,7 @@ main() {
   "${SCRIPT_DIR}/fix_agy_sandbox.sh" || true
   remove_apt_overlap
   echo ""
-  echo "=== KπX launchers: agy (CLI) · agy-ide · agy-hub ==="
+  echo "===  launchers: agy (CLI) · agy-ide · agy-hub ==="
   echo "=== If GUI still fails, run: ${SCRIPT_DIR}/fix_agy_sandbox.sh (sudo once) ==="
 }
 

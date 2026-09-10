@@ -1,4 +1,4 @@
-# Meta Graph + WhatsApp Cloud — KπX (`Meta Dev`)
+# Meta Graph + WhatsApp Cloud —  (`Meta Dev`)
 
 > **Skill:** `k-meta` · **WA messaging:** `k-whats` (whats-proxy) · **Registry:** `k-clis/references/social-dev-platforms.md`
 
@@ -12,7 +12,7 @@
 | `app_secret` | `META_APP_SECRET` |
 | `business_id` | `META_BUSINESS_ID` |
 | `wa_phone_number_id` | `META_WA_PHONE_NUMBER_ID` |
-| `wa_number` | `META_WA_NUMBER` (E.164, e.g. `+33605957785`) |
+| `wa_number` | `META_WA_NUMBER` (E.164, e.g. `+33000000000`) |
 | `waba_id` *(optional)* | `META_WA_BUSINESS_ACCOUNT_ID` |
 | `system_user_access_token` *(optional)* | `META_SYSTEM_USER_ACCESS_TOKEN` (Business Manager System User) |
 

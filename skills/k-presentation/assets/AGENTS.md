@@ -16,7 +16,7 @@ Additional example decks live in `exs/`:
 | `Presentation_Mother_Mirror.pdf` | 19 MB | 19.1 × 10.7 in | Narrative / NotebookLM reference |
 | `Presentation_YUPAYX_Soutenance_Johan_Touko.pptx` | 14 MB | 16:9 | Professional licence defence (SESAME Saint Jean) |
 | `Presentation_ElGamal_Crypto_3GI_ENSPY.pptx` | 63 MB | 16:9 | Dense technical/academic course (ENSPY 3GI, 69 slides) |
-| `Album_Photo_Bapteme_KpihX_Lyse.pptx` | 12 MB | 16:9 | Personal photo album (KπX first communion + Lyse baptism) |
+| `Album_Photo_Bapteme__Lyse.pptx` | 12 MB | 16:9 | Personal photo album ( first communion + Lyse baptism) |
 | `Presentation_Au_Dela_Du_Binaire_Kibib_Mebib_ENSPY.pptx` | 3.2 MB | 16:9 | Technical vulgarisation (ENSPY 2023) |
 | `Presentation_Binary_System_Unit_ENSPY.pptx` | 3.2 MB | 16:9 | Technical vulgarisation (ENSPY 2023) |
 | `Presentation_Computers_ENSPY.pptx` | 4 MB | 16:9 | IT general audience (ENSPY 2022) |
@@ -142,6 +142,6 @@ Structure: Couverture → Plan → Contexte (3 slides) → Problématique (3 sli
 des outils → Modélisation (6 slides: UC, activités, classes ×3 modules) →
 Architecture → Démonstration → Conclusion.
 
-**Provenance:** `KpihX-Datas1/Travaux/Documents/Modèles/Modèles Johan Soutenance/`,
+**Provenance:** `-Datas1/Travaux/Documents/Modèles/Modèles Johan Soutenance/`,
 author Johan Philbert Touko Seugoua. Copied here as-is (not a template —
 content kept for structural reference).

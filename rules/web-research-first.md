@@ -18,4 +18,4 @@
 
 ## Exceptions
 
-**Explore mode** and its sub-agents (`main-teacher`, `style-guardian`, `fact-verifier`, `scout`) are exempt from this rule's workspace-exploration aspect. They stay focused on what KπX asks. They may still do web research if the topic is unfamiliar.
+**Explore mode** and its sub-agents (`main-teacher`, `style-guardian`, `fact-verifier`, `scout`) are exempt from this rule's workspace-exploration aspect. They stay focused on what the user asks. They may still do web research if the topic is unfamiliar.

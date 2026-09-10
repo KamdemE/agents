@@ -1,6 +1,6 @@
 {
   "name": "<APP_NAME>",
-  "domain": "<SUBDOMAIN>.kpihx-labs.com",
+  "domain": "<SUBDOMAIN>.<github-user>.com",
   "type": "self_hosted",
   "session_duration": "24h",
   "app_launcher_visible": true,

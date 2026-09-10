@@ -56,7 +56,7 @@ never local majority or taste:
 2. **No duplication.** Any parsing/validation/loading must come from the shared
    `libs/` twins (`jsonc_lib.*`, `env_lib.*`, …). Never inline a local copy.
 3. **For the `.agents` kernel only**, always propose `make check` before
-   commit/push; **never run the kernel check without KπX's explicit request or
+   commit/push; **never run the kernel check without the user's explicit request or
    validation in the current conversation**. Once approved, it runs every
    check and MUST be 100% clean (see AGENTS.md → ABSOLUTE RULE — `make check`).
 4. **Every script uses `set -uo pipefail`** unless there's a reason not to, and
@@ -76,4 +76,4 @@ never local majority or taste:
    `check:` aggregate.
 3. Document it here (structure) and in the owning `k-*` skill if relevant.
 4. For a new kernel check, propose `make check`; run it and ensure it passes
-   100% only after KπX's explicit approval.
+   100% only after the user's explicit approval.

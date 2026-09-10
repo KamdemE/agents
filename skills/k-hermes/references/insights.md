@@ -11,4 +11,4 @@
 ## 2026-06-03 — Initial
 
 - Hermes is deployed as a persistent Memory Layer and Headless Daemon.
-- Auto-generated Hermes skills must remain sandboxed in `$HERMES_HOME/skills` and NOT symlinked to the production KπX kernel.
+- Auto-generated Hermes skills must remain sandboxed in `$HERMES_HOME/skills` and NOT symlinked to the production  kernel.

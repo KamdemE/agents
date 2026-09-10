@@ -2,7 +2,7 @@
 # ============================================================
 # notifier.sh — shared notification helpers for .agents scripts
 # ============================================================
-# Central place for every notification concern used across KπX skills
+# Central place for every notification concern used across  skills
 # (system desktop notification, Telegram, or mixed). All skills that notify
 # (k-pve, k-ubuntu, k-dockerhost, k-phones, …) source THIS file instead of shipping
 # their own private notifier.sh — single source of truth, one uniform style.
@@ -20,11 +20,9 @@
 # Telegram token/chat-id resolution (secret zero-touch — we only READ the vars,
 # never print them):
 #   - $NOTIFY_TG_TOKEN (explicit per-caller override — RECOMMENDED: each skill
-#     sets it to its own token so the correct one is used, e.g. k-ubuntu scripts
-#     set NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}")
-#   - else the first non-empty of TELEGRAM_PVE_TOKEN / TELEGRAM_UBUNTU_TOKEN /
-#     TELEGRAM_DOCKERHOST_TOKEN / TELEGRAM_S25_TOKEN / TELEGRAM_OPENCODE_TOKEN /
-#     TELEGRAM_TOKEN
+#     sets it to its own token so the correct one is used)
+#   - else the first non-empty of TELEGRAM_BOT_TOKEN (generic default for new
+#     setups) then legacy per-machine names (kept as fallback)
 #   - chat id from $TELEGRAM_CHAT_ID
 # Values are loaded from ~/.agents/.env via env_lib.sh (env_load) when present.
 #
@@ -46,7 +44,7 @@ notify_tg_token() {
     printf '%s' "$NOTIFY_TG_TOKEN"
     return
   fi
-  for var in TELEGRAM_PVE_TOKEN TELEGRAM_UBUNTU_TOKEN \
+  for var in TELEGRAM_BOT_TOKEN TELEGRAM_PVE_TOKEN TELEGRAM_UBUNTU_TOKEN \
              TELEGRAM_DOCKERHOST_TOKEN TELEGRAM_S25_TOKEN \
              TELEGRAM_OPENCODE_TOKEN TELEGRAM_TOKEN; do
     if [ -n "${!var:-}" ]; then

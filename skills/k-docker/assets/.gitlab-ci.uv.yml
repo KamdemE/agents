@@ -4,11 +4,11 @@
 #   PROJECT_NAME   → e.g. "tick-mcp"            (compose project name, container name)
 #   PACKAGE_NAME   → e.g. "tick_mcp"            (Python import name)
 #   PORT           → e.g. "8091"                (app HTTP port inside container)
-#   SERVICE_NAME   → e.g. "tick"                (subdomain: SERVICE_NAME.kpihx-labs.com)
+#   SERVICE_NAME   → e.g. "tick"                (subdomain: SERVICE_NAME.<github-user>.com)
 #   SECRET_ONE     → e.g. "TICKTICK_API_TOKEN"  (project-specific GitLab CI var)
 #   SMOKE_TEST_CMD → e.g. "curl -fsS http://127.0.0.1:PORT/health"
 #
-# Group CI/CD vars (kpihx-labs) — always available, do not redefine:
+# Group CI/CD vars (<github-user>) — always available, do not redefine:
 #   GITHUB_TOKEN, TELEGRAM_CHAT_IDS, POSTGRES_PASSWORD, TELEGRAM_HOMELAB_TOKEN
 
 stages:
@@ -68,7 +68,7 @@ deploy_homelab:
 
     # ── DB (uncomment if project connects to the server postgres container) ────
     # Server postgres: hostname "postgres", network "proxy", port 5432
-    # POSTGRES_PASSWORD is already in kpihx-labs group vars.
+    # POSTGRES_PASSWORD is already in <github-user> group vars.
     # - echo "DB_NAME=PROJECT_DB_NAME" >> .env
     # - echo "DB_USER=admin" >> .env
     # - echo "DB_PASS=$POSTGRES_PASSWORD" >> .env
@@ -81,7 +81,7 @@ deploy_homelab:
     - echo "PROJECT_NAME_HTTP_MCP_PATH=/mcp" >> .env
 
     # ── URLs ───────────────────────────────────────────────────────────────────
-    - echo "PROJECT_NAME_PUBLIC_BASE_URL=https://SERVICE_NAME.kpihx-labs.com" >> .env
+    - echo "PROJECT_NAME_PUBLIC_BASE_URL=https://SERVICE_NAME.<github-user>.com" >> .env
     - echo "PROJECT_NAME_FALLBACK_BASE_URL=https://SERVICE_NAME.homelab" >> .env
 
     # ── Telegram notifications (optional) ──────────────────────────────────────
@@ -110,14 +110,14 @@ deploy_homelab:
     - docker exec PROJECT_NAME curl -fsS http://127.0.0.1:PORT/health
     - docker image prune -f
 
-# ── Sync to GitHub mirror (kpihx-labs projects only — uncomment if needed) ────
+# ── Sync to GitHub mirror (<github-user> projects only — uncomment if needed) ────
 
 # sync_github:
 #   stage: sync
 #   only:
 #     - main
 #   variables:
-#     GITHUB_ORG: "kpihx-labs"
+#     GITHUB_ORG: "<github-user>"
 #     REPO_NAME: "PROJECT_NAME"
 #   script:
 #     - |

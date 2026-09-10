@@ -1,5 +1,5 @@
 # ============================================================================
-# KπX global git excludes — secrets & universally-ignored artifacts
+#  global git excludes — secrets & universally-ignored artifacts
 # ----------------------------------------------------------------------------
 # Source of truth : $HOME/.agents/skills/k-git/assets/git-ignore-global
 # Deployed as     : $HOME/.config/git/ignore (symlink)
@@ -18,7 +18,7 @@
 #
 # ORDERING: 1. Secrets  ·  2. OS junk  ·  3. Editors/IDE  ·  4. Logs/temp
 #           5. Python   ·  6. Node/JS   ·  7. JVM          ·  8. C/C++/Go/Rust
-#           9. Test reports & coverage  ·  10. KπX agent/local-only docs
+#           9. Test reports & coverage  ·  10.  agent/local-only docs
 # ============================================================================
 
 
@@ -204,10 +204,10 @@ playwright-report/
 
 
 # ============================================================================
-# 10. KπX AGENT / LOCAL-ONLY PROJECT DOCS — never shared via git, any project
+# 10.  AGENT / LOCAL-ONLY PROJECT DOCS — never shared via git, any project
 # ============================================================================
 
 # AGENTS.md convention (repo root, project-scoped agent knowledge — tracked only
-# when the project explicitly wants it, e.g. KpihX/cv; see that repo's AGENTS.md)
+# when the project explicitly wants it, e.g. /cv; see that repo's AGENTS.md)
 .agents/
 DRAW.md

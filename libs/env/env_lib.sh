@@ -3,7 +3,7 @@
 # env_lib.sh — shared .env helpers for .agents scripts
 # ============================================================
 # Central place for everything common to .agents scripts that deal with
-# .env / .env.example files (secrets — KπX NEVER prints or returns values,
+# .env / .env.example files (secrets — never print or return values,
 # only key names + whether a value is present/empty). The Python and JS twins
 # (env_lib.py, env_lib.js) mirror this file EXACTLY, language apart — see
 # libs/AGENTS.md for the mandatory "keep the 3 twins in sync" rule.

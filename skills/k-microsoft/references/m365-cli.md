@@ -2,7 +2,7 @@
 
 > Access Outlook mail, calendar, and OneDrive from the terminal via the Microsoft Graph API.
 
-I wanted to read and manage my Outlook (`ivann.kamdem@hotmail.com`) and Polytechnique mail from the terminal — without a browser-first workflow. Microsoft has an official CLI for this: `@pnp/cli-microsoft365`. It uses device-code OAuth, which means it prints a URL and a code, you paste the code in a browser once, and after that the CLI handles the rest via stored tokens.
+I wanted to read and manage my Outlook (`<personal@hotmail.com>`) and Polytechnique mail from the terminal — without a browser-first workflow. Microsoft has an official CLI for this: `@pnp/cli-microsoft365`. It uses device-code OAuth, which means it prints a URL and a code, you paste the code in a browser once, and after that the CLI handles the rest via stored tokens.
 
 ---
 
@@ -148,7 +148,7 @@ m365 outlook mail send \
   --bodyContents "Message body here"
 ```
 
-**⚠️ Send-as limitation for personal accounts:** The Graph API blocks `from` override for personal Microsoft/Hotmail accounts. You cannot send as `ivann.kamdem-pouokam@polytechnique.edu` via m365 unless:
+**⚠️ Send-as limitation for personal accounts:** The Graph API blocks `from` override for personal Microsoft/Hotmail accounts. You cannot send as `<school@polytechnique.edu>` via m365 unless:
 - You set up a **connected account** in Outlook settings (Settings → Sync email → Connected accounts → Zimbra SMTP), OR
 - You use direct Zimbra SMTP via another mail client.
 

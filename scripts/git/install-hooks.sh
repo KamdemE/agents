@@ -1,5 +1,5 @@
 #!/bin/bash
-# KπX git hooks installer for the .agents repo.
+#  git hooks installer for the .agents repo.
 # Symlinks all hooks from scripts/git/hooks/ into .git/hooks/.
 #
 # Usage:

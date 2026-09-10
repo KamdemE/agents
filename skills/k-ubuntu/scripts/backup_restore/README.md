@@ -25,7 +25,7 @@ Runs every 2 days at 22:00 (`OnCalendar=*-*-1/2 22:00:00`), `Persistent=true`.
 
 ## Destination
 
-`/media/kpihx/KpihX-Backup/Backups/Ubuntu/` — keeps last 2 archives.
+`/media/kpihx/-Backup/Backups/Ubuntu/` — keeps last 2 archives.
 
 ## Secrets
 

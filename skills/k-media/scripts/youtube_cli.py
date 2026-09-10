@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""YouTube Data API v3 — OAuth (kpihx-labs Desktop client) + smoke tests."""
+"""YouTube Data API v3 — OAuth (<github-user> Desktop client) + smoke tests."""
 
 from __future__ import annotations
 
@@ -8,14 +8,14 @@ import json
 import sys
 from pathlib import Path
 
-# Minimal scopes for KπX ops (extra console scopes are OK but not required).
+# Minimal scopes for  ops (extra console scopes are OK but not required).
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.readonly",
     "https://www.googleapis.com/auth/youtube.upload",
 ]
 
-DEFAULT_CLIENT = Path.home() / ".config/gws/kpihx-labs/client_secret.json"
-DEFAULT_TOKEN = Path.home() / ".config/gws/kpihx-labs/youtube_token.json"
+DEFAULT_CLIENT = Path.home() / ".config/gws/<github-user>/client_secret.json"
+DEFAULT_TOKEN = Path.home() / ".config/gws/<github-user>/youtube_token.json"
 
 
 def _load_flow(client_path: Path):
@@ -125,7 +125,7 @@ def cmd_upload(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="KpihX YouTube CLI (kpihx-labs)")
+    p = argparse.ArgumentParser(description=" YouTube CLI (<github-user>)")
     p.add_argument("--client", type=Path, default=DEFAULT_CLIENT)
     p.add_argument("--token", type=Path, default=DEFAULT_TOKEN)
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -136,7 +136,7 @@ def main() -> int:
     sub.add_parser("channels", help="List my channels").set_defaults(func=cmd_channels)
     up = sub.add_parser("upload", help="Upload video file")
     up.add_argument("--file", required=True)
-    up.add_argument("--title", default="KpihX smoke test")
+    up.add_argument("--title", default=" smoke test")
     up.add_argument("--description", default="Automated smoke upload — safe to delete.")
     up.add_argument(
         "--privacy", choices=("private", "unlisted", "public"), default="unlisted"

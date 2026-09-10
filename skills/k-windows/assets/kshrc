@@ -5,7 +5,7 @@
 #
 # ╔══════════════════════════════════════════════════════════════╗
 # ║  BASE FOR "WINDOWS+WSL"-TYPE INFRAS — NOT deployed directly    ║
-# ║  - SOURCED from the per-machine kshrc (e.g. k-blglaptop139),   ║
+# ║  - SOURCED from the per-machine kshrc (e.g. k-laptop),   ║
 # ║    near the very top, before that files own Section 1 body    ║
 # ║  - Two mini-sections, OWN idempotency guards, independent      ║
 # ║    from the parent files __KSHRC_LOADED / __KSHRC_INTERACTIVE_ ║
@@ -16,7 +16,7 @@
 # ║                                                                ║
 # ║  WHY THIS FILE IS SOURCED, NOT COPIED (unlike this skills      ║
 # ║  other assets/ templates): a per-machine infra skill like      ║
-# ║  k-blglaptop139 is scoped to one physical, company-issued      ║
+# ║  k-laptop is scoped to one physical, company-issued      ║
 # ║  laptop and WILL BE PURGED at internship end. Content that     ║
 # ║  only lives as a COPY inside that skill is lost the day it is  ║
 # ║  purged. Sourcing this file instead means every Windows+WSL    ║
@@ -24,7 +24,7 @@
 # ║  made here needs no re-copy step anywhere.                     ║
 # ╚══════════════════════════════════════════════════════════════╝
 #
-# ── Deploy (from the per-machine kshrc, e.g. k-blglaptop139) ────
+# ── Deploy (from the per-machine kshrc, e.g. k-laptop) ────
 #   Near the very top of the file, before its own Section 1 opens:
 #     [ -f "$HOME/.agents/skills/k-windows/assets/kshrc" ] && \
 #       . "$HOME/.agents/skills/k-windows/assets/kshrc"

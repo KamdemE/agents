@@ -1,6 +1,6 @@
 # Office
 
-Source: `KpihX-Datas/Applications/Office/` (5.7G).
+Source: `-Datas/Applications/Office/` (5.7G).
 
 - `Calibre/`; `Pandoc/`; `Pdftk/` — application folders with archived APT payloads
 - `Jupyter_Notebook_LaTeX_Integration/{ipynb-tex-master,jupynotex-trunk}/`

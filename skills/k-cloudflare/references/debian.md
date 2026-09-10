@@ -19,7 +19,7 @@ sudo dpkg -i cloudflared-linux-amd64.deb
 
 | Item | Value |
 |------|-------|
-| Tunnel name | `kpihx-labs` |
+| Tunnel name | `<github-user>` |
 | Type | Zero Trust remote-managed |
 | Connector run | `cloudflared tunnel run <token>` |
 | Management | Dashboard or API |
@@ -35,5 +35,5 @@ sudo systemctl enable --now cloudflared
 ## Troubleshooting
 
 - Connector logs: `journalctl -u cloudflared -f`
-- Test tunnel: `cloudflared tunnel info kpihx-labs`
+- Test tunnel: `cloudflared tunnel info <github-user>`
 - DNS records via `flarectl` from workstation (not on this machine)

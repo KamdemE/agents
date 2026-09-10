@@ -1,6 +1,6 @@
 # lebara.fr (Lebara Mobile France — Account & Self-Care Portal)
 
-**Category:** Mobile / Operator Self-Care. **Account:** `kapoivha@gmail.com` (MSISDN: `0605957785`). **Profile:** `default`.
+**Category:** Mobile / Operator Self-Care. **Account:** `<primary@gmail.com>` (MSISDN: `0605957785`). **Profile:** `default`.
 
 ## Login
 
@@ -77,8 +77,3 @@
     - **SMS**: Send `WEBXS` (or the pass keyword) to `22241`.
     - **Balance Check**: Dial `*144#` or `*133#`.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-06 | [LIVE] | Created lebara.fr.md after live account audit (browser-proxy). Documented Redux state architecture, DOM selectors, 6-month historical activity logs (June–Sept 2026), and offline GSM/USSD workflows. |

@@ -1,25 +1,25 @@
 ---
 name: k-project
 description: >
-  KπX project initialization — naming conventions (kebab/snake), Python (uv init --package)
+  project initialization — naming conventions (kebab/snake), Python (uv init --package)
   and TypeScript (bun init) setup, pyproject.toml + config.py + config.ts templates,
   AGENTS.md (repo root) context file, architecture philosophy (non-monolithic, plain config.py/ts,
   no hardcoding), Service/Lib vs Pipeline R&D archetypes. Load when creating or initializing any project, setting up pyproject.toml,
-  config.py/config.ts, or applying the KπX project structure.
+  config.py/config.ts, or applying the  project structure.
 license: private
 metadata:
-  author: KpihX
-  version: "2.16.1"
+  author: 
+  version: "1.0.0"
 allowed-tools: Bash(*), "*"
 ---
 
-# KπX — Project Initialization
+#  — Project Initialization
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related skills:** `k-git` (push, remotes, Makefiles — load for any git operation) · `k-final` (**mandatory** when closing a project workstream — full checklist: tests, hygiene, docs, semver, push, CI, deploy logs, install, publish) · `k-docker` (load if project will be deployed on homelab) · `k-git-pages` (load if project needs a Docsify docs site) · `k-node` (Node/bun runtime versions, npm global tools, fnm management)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
-> **Concrete examples:** `assets/pyproject.toml` + `assets/config.py` in this skill are the source of truth. External repos that referenced them via local symlinks (techskills/𝛱/TechSkills `templates/`) were **unplugged 2026-08-15** — they now reference the gitlab URL `https://gitlab.com/kpihx/agents/-/blob/main/skills/k-project/assets/<file>` instead. Browse via `ls` or `k-qmd`.
+> **Concrete examples:** `assets/pyproject.toml` + `assets/config.py` in this skill are the source of truth. External repos that referenced them via local symlinks (techskills/𝛱/TechSkills `templates/`) were **unplugged 2026-08-15** — they now reference the GitHub URL `https://github.com/KamdemE/agents/blob/main/skills/k-project/assets/<file>` instead. Browse via `ls` or `k-qmd`.
 
 ## Project Archetypes
 
@@ -49,13 +49,13 @@ Load `references/pipeline-archetype.md` when the project is an R&D/ML pipeline (
 
 > Kernel-wide file-naming rule (executable vs sourced vs imported): `rules/file-governance.md` → Naming Convention. In-repo canonical examples: `.agents/scripts/check-links.sh` / `.agents/scripts/link_basic_guard.sh`.
 
-**Name conflict resolution** (PyPI / npm name taken — applies ONLY to KπX-owned projects):
+**Name conflict resolution** (PyPI / npm name taken — applies ONLY to -owned projects):
 
 1. `k-<name>` — first attempt
 2. `k-<name>-x` — second attempt
 3. `<name>-kpihx` — fallback
 
-**Scope:** This naming convention applies **exclusively** to KπX's own publishable projects (skills published on registries, CLI tools, libraries on PyPI/npm). It does NOT apply to:
+**Scope:** This naming convention applies **exclusively** to the user's own publishable projects (skills published on registries, CLI tools, libraries on PyPI/npm). It does NOT apply to:
 - Third-party tool wrappers (keep their native name, e.g. `hermes`, `gcloud`, `ollama`)
 - Symlinks or aliases in `~/.local/bin/` (use the tool's original binary name)
 - Configuration proxies or profile scripts for existing tools (e.g., `gws` profile aliases are internal to `k-google`, not published)
@@ -125,7 +125,7 @@ bun init -y / npm init -y
 ├── TODO.md
 ├── LICENSE
 ├── .gitignore
-├── tmp/                   ← gitignored scratch — everything the agent produces before KπX validates it
+├── tmp/                   ← gitignored scratch — everything the agent produces before  validates it
 └── AGENTS.md              ← from assets/AGENTS.md (NEVER committed)
 ```
 
@@ -138,21 +138,21 @@ bun init -y / npm init -y
 | `TODO.md` | Active development backlog |
 | `AGENTS.md` (repo root) | Project context for AI agents — from `assets/AGENTS.md` |
 | `LICENSE` | Must be created at init. Default: MIT or GNU. |
-| `tmp/` | Gitignored scratch. Until KπX validates something, that's where the agent's output lives — nothing goes straight into `src/`/`scripts/` unvalidated. |
+| `tmp/` | Gitignored scratch. Until  validates something, that's where the agent's output lives — nothing goes straight into `src/`/`scripts/` unvalidated. |
 
 > **🔴 Standard is root `AGENTS.md`, not `.agents/AGENTS.md` (revised 2026-08-25).** One file, at the project root, gitignored by exact name (see `k-git`'s global excludesFile) — never committed, never mentioned in tracked files. No `.agents/` subdirectory for this.
 
 ## AGENTS.md
 
 All AI agents auto-load `AGENTS.md` when present at a project root.
-Content: KπX mantras · project purpose · architecture rules · evolution rules.
+Content:  mantras · project purpose · architecture rules · evolution rules.
 → Template: `assets/AGENTS.md`
 
 ## Architecture Philosophy
 
 - **Non-monolithic** — one package per concern; `src/<pkg>/` layout; no god modules
 - **No hardcoding** — runtime values as plain constants or a frozen `dataclass`/object directly in `config.py`/`config.ts`; secrets in `.env`
-- **Config Standard (2026-08-14, revised 2026-08-25)** — KπX config-file standard is **JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). For **code projects**: `config.py` / `config.ts` hold the values directly — no `config.yaml`, no loader, no `ConfigManager` singleton (removed kernel-wide 2026-08-25 — layered YAML merging added preload cost and indirection nothing in KπX projects actually needed); secrets always in `.env` (never committed).
+- **Config Standard (2026-08-14, revised 2026-08-25)** —  config-file standard is **JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). For **code projects**: `config.py` / `config.ts` hold the values directly — no `config.yaml`, no loader, no `ConfigManager` singleton (removed kernel-wide 2026-08-25 — layered YAML merging added preload cost and indirection nothing in  projects actually needed); secrets always in `.env` (never committed).
 - **No metadata in config** — package/app metadata (name, version, contract schema/version) lives in `pyproject.toml` or `package.json`, never in `config.py` / `config.ts` payloads to avoid desync.
 - **Contract-first by default** — `CONTRACT.md` is mandatory at init; define operation surface/types/error model/transport mapping in English before scaling implementation.
 - **OO** — encapsulation; internals prefixed `_`; public API explicit
@@ -167,7 +167,7 @@ Check available targets first: `make help`.
 
 | Common target | What it does |
 |---------------|-------------|
-| `make push` | Push to **all remotes** simultaneously (github + gitlab) |
+| `make push` | Push to **origin** |
 | `make uv-build` / `make bun-build` | Build the package |
 | `make release` | Full release pipeline: `check → push → publish → push-tags` |
 | `make check` | Lint + format-check + type-check + tests (also run by the global pre-commit gate, see `k-git`) |
@@ -229,16 +229,16 @@ When a project directory embeds another standalone git repo (submodule), declare
 
 ```bash
 # Add a submodule (run from the parent repo root)
-git submodule add git@github.com:KpihX/<repo>.git <path>
+git submodule add git@github.com:/<repo>.git <path>
 # e.g.:
-git submodule add git@github.com:KpihX/clean-sh.git clean
+git submodule add git@github.com:/clean-sh.git clean
 ```
 
 This creates/updates `.gitmodules`:
 ```ini
 [submodule "clean"]
     path = clean
-    url = git@github.com:KpihX/clean-sh.git
+    url = git@github.com:/clean-sh.git
 ```
 
 **Rules:**
@@ -269,10 +269,3 @@ This creates/updates `.gitmodules`:
 - Update `$HOME/.agents/skills/k-project/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.16.1 — **Root `AGENTS.md` standard enforced in references**: `references/docs-site.md` + `references/bash-shell-init.md` trees now show `AGENTS.md` at repo root (never `.agents/AGENTS.md`). |
-| 2026-09-02 | [LIVE] | v2.16.0 — **Makefile.npm-bun publish pattern updated**: `bun-publish` now uses `npm config set` + `npm publish --access public` with `$(NPM_TOKEN)`. Agent calls `with-env make bun-publish`. |
-| [SUMMARY] | — | v2.15.0 Root AGENTS.md + Makefile templates · v2.14.0 Pipeline R&D archetype + config.yaml purge · older → `references/log.md` |

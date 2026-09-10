@@ -43,7 +43,7 @@ Default: daily at ~6:00 AM local time.
 ```bash
 sudo updatedb        # full reindex
 # or for a specific path:
-sudo updatedb -l 0 -U /home/kpihx
+sudo updatedb -l 0 -U $HOME
 ```
 
 ## Agent Usage Mandate

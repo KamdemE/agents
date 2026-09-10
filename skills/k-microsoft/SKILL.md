@@ -1,19 +1,19 @@
 ---
 name: k-microsoft
 description: >
-  KπX Microsoft stack — m365 (M365/Graph content) only. Azure CLI (az) deactivated
+  Microsoft stack — m365 (M365/Graph content) only. Azure CLI (az) deactivated
   (no subscription). Load before Microsoft 365 tasks. Mail briefings → k-mail.
 license: private
 metadata:
-  author: KpihX
-  version: "1.6.1"
+  author: 
+  version: "1.0.0"
   scope: operations
 allowed-tools: Bash(m365:*)
 ---
 
-# KπX — Microsoft 365 (`m365`)
+#  — Microsoft 365 (`m365`)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Cloud hub
 
@@ -23,11 +23,11 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 
 | Status | Reason |
 |--------|--------|
-| **OFF** | No Azure subscription on KπX workstation — container plane not used |
-| **CLI** | `azure-cli` **removed** from system; do not reinstall without a subscription + explicit KπX decision |
+| **OFF** | No Azure subscription on  workstation — container plane not used |
+| **CLI** | `azure-cli` **removed** from system; do not reinstall without a subscription + explicit  decision |
 | **Agents** | **Never** invoke `az`, suggest `az login`, or read `$HOME/.azure/` for Microsoft work |
 
-**Microsoft universe on KπX = `m365` only** (Graph: Outlook, OneDrive, Calendar, To Do, Teams, Planner, raw `m365 request`).
+**Microsoft universe on  = `m365` only** (Graph: Outlook, OneDrive, Calendar, To Do, Teams, Planner, raw `m365 request`).
 
 For Azure Foundry / AOAI deploy **if** a subscription exists later → external skill **`microsoft-foundry`** (not this stack); re-enable `az` only then.
 
@@ -37,13 +37,13 @@ For Azure Foundry / AOAI deploy **if** a subscription exists later → external 
 |--------|---------|
 | `m365` | `references/m365-cli.md` |
 
-**Agent auth (mandatory):** never `m365 login` / `logout` / `setup` — KπX only. Read/status + approved reads. Mail gates: **`k-mail`**.
+**Agent auth (mandatory):** never `m365 login` / `logout` / `setup` —  only. Read/status + approved reads. Mail gates: **`k-mail`**.
 
-> ⚠️ **m365 status is interactive:** if the token is expired, `m365 status` will prompt for device-code re-auth in the terminal. **Always run m365 in a tmux pane** (`k-tmux`) to avoid blocking the agent session. If the status fails, report to KπX who will run `m365 login` manually.
+> ⚠️ **m365 status is interactive:** if the token is expired, `m365 status` will prompt for device-code re-auth in the terminal. **Always run m365 in a tmux pane** (`k-tmux`) to avoid blocking the agent session. If the status fails, report to  who will run `m365 login` manually.
 
 ### Session persistence (v11 — mandatory)
 
-| Layer | Lifetime | KπX notes |
+| Layer | Lifetime |  notes |
 |-------|----------|-----------|
 | **Access token** | ~1 h | Auto-refreshed by CLI; no re–device-code each hour |
 | **Refresh token** | **90 days** idle (Microsoft default, MSA `consumers`) | Not configurable on personal Hotmail; password change / “sign out everywhere” revokes early |
@@ -51,7 +51,7 @@ For Azure Foundry / AOAI deploy **if** a subscription exists later → external 
 **Token files (do not delete unless `m365 logout`):** `$HOME/.cli-m365-msal.json`, `$HOME/.cli-m365-connection.json`, `$HOME/.cli-m365-all-connections.json`.  
 **Obsolete paths (ignore):** `$HOME/.config/m365`, `$HOME/.local/share/m365`.
 
-**Stable config (KπX sets once):**
+**Stable config ( sets once):**
 
 ```bash
 m365 cli config set --key authType --value deviceCode
@@ -126,7 +126,7 @@ python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folde
 
 ## Outlook folders & rules reference (`k-mail` canonical)
 
-> 📌 **Canonical reference:** See **`k-mail/references/outlook-folders-rules.md`** for the full inventory of Hotmail mailFolders (`KpihX-Labs/*`), `childFolders` hierarchy creation pattern, `copyToFolder` inbox rules, and inspection/setup scripts (`inspect_outlook_rules_folders.sh`, `setup_alias_folders_filters.sh`).
+> 📌 **Canonical reference:** See **`k-mail/references/outlook-folders-rules.md`** for the full inventory of Hotmail mailFolders (`Labs/*`), `childFolders` hierarchy creation pattern, `copyToFolder` inbox rules, and inspection/setup scripts (`inspect_outlook_rules_folders.sh`, `setup_alias_folders_filters.sh`).
 
 ## Outlook inbox rules (messageRules)
 
@@ -153,10 +153,3 @@ python3 "$HOME/.agents/skills/k-microsoft/scripts/m365_inspect_inbox.py" --folde
 - Update `$HOME/.agents/skills/k-microsoft/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-04 | [LIVE] | v1.6.x — Outlook inbox rules (messageRules API, sequence pitfall, copyToFolder); `k-mail` Outlook SOT ref; tmux mandate for m365 status. |
-| 2026-05-25 | [CURSOR] | v1.3–v1.5 — Session persistence, `az` deactivated, m365-cli.md runbook. |
-| [SUMMARY] | — | v1.2.x `scripts/_m365_common.py`; v1.1.0 cloud-hub; v1.0.0 m365+az. |

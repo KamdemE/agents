@@ -1,6 +1,6 @@
 # Network (2.6G)
 
-> Source: `KpihX-Datas/Applications/Network/`
+> Source: `-Datas/Applications/Network/`
 > Browsers, messagerie, remote, VPN — majoritairement Windows
 
 ## Browsers

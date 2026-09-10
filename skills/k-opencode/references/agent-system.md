@@ -64,7 +64,7 @@ gray-matter silently drops the **entire frontmatter** if YAML is malformed. No e
 - After editing frontmatter, **restart OpenCode** — old parse is cached per session
 - Verify YAML with `python3 -c "import yaml; yaml.safe_load(open('file.md').read().split('---')[1])"`
 
-## KπX Setup
+##  Setup
 
 | Agent | Definition | Mode | File |
 |-------|-----------|------|------|

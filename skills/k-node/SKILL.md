@@ -1,22 +1,22 @@
 ---
 name: k-node
 description: >
-  KπX Node.js/TypeScript ecosystem — comprehensive inventory of Node versions,
+  Node.js/TypeScript ecosystem — comprehensive inventory of Node versions,
   npm global packages, bun runtime, fnm version management, and the governance
   patterns governing JS/TS operations. Load before any Node install, npm global
   management, bun usage, or JS/TS environment debugging.
 metadata:
-  author: KpihX
-  version: "1.1.2"
+  author: 
+  version: "1.0.0"
   scope: operations
 ---
 
-# KπX — Node/JS/TS Ecosystem
+#  — Node/JS/TS Ecosystem
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related rules:**
-> - `rules/audit-commands.md` — `uv` not `pip`, `bun` over `npm` for KpihX-owned projects.
+> - `rules/audit-commands.md` — `uv` not `pip`, `bun` over `npm` for -owned projects.
 > - `rules/file-governance.md` — Single source of truth, `.agents/` centralization.
 
 > **Related skills:** `k-clis` (CLI registry routing) · `k-project` (project init with bun) · `k-ubuntu` (fnm/node paths per machine) · `k-nvim` (nvim TS LSP) · `k-final` (bun build/publish in closure) · `k-git-pages` (docsify Node-based site) · `k-hermes` (hermes-agent Node MCPs)
@@ -147,7 +147,7 @@ All installed in `~/.npm-global/lib/node_modules/`. Binaires in `~/.npm-global/b
 |---------|--------|
 | *(empty)* | All global packages purged. `@modelcontextprotocol/server-filesystem` removed 2026-07-25. |
 
-Bun is used as a **project-level runtime** for KpihX-owned projects, not for global tools.
+Bun is used as a **project-level runtime** for -owned projects, not for global tools.
 
 ---
 
@@ -155,7 +155,7 @@ Bun is used as a **project-level runtime** for KpihX-owned projects, not for glo
 
 ### `.nvmrc` / `.node-version` files
 
-Aucun fichier `.nvmrc` ou `.node-version` trouvé dans `KpihX-Labs`. Tous les projets utilisent la version Node par défaut (fnm v24.18.0 / nvm v22.22.1).
+Aucun fichier `.nvmrc` ou `.node-version` trouvé dans `Labs`. Tous les projets utilisent la version Node par défaut (fnm v24.18.0 / nvm v22.22.1).
 
 ### Projects using Node/TS (package.json)
 
@@ -246,10 +246,3 @@ du -sh ~/.bun             # bun
 
 ---
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [OPENCODE] | v1.1.2 — **npm prefix hardcode fix**: `~/.npmrc` `prefix=` now `$HOME/.npm-global` (never `/home/kpihx`), per `rules/file-governance.md` $HOME rule. `NPM_CONFIG_PREFIX` + `PATH` already generic. Verified on `deep-pc6` (`/home/ikamdem@corp.dxo.com`). |
-| 2026-08-14 | [COLAB] | v1.1.1 — **Purged npm-global agent/MCP tools moved to `references/purged.md`**: removed `@openai/codex`, `@github/copilot`, `@google/gemini-cli` (agent runtimes) and `whats-mcp` rows from the SKILL.md tables; archived them in `references/purged.md` (never deleted); kept only `*-proxy` CLIs. |
-| [SUMMARY] | — | v1.1.0 fnm/nvm correction · v1.0.0 Created |

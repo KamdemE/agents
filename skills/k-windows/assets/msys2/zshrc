@@ -1,5 +1,5 @@
 # ============================================================
-#  KpihX-Labs — MSYS2 zsh config
+#  Labs — MSYS2 zsh config
 # ============================================================
 
 # ── HOME override (avant tout, avant oh-my-zsh) ─────────────
@@ -109,7 +109,7 @@ print -n '\e[5 q'
 # native opencode (literal prepend, must win over Windows /mnt/c npm)
 export PATH="$HOME/.opencode/bin:$PATH"
 
-# ── KpihX shared shell layer (cross-shell + MSYS2) ──────────
+# ──  shared shell layer (cross-shell + MSYS2) ──────────
 [ -f "$HOME/.kshrc" ] && source "$HOME/.kshrc"
 
 # ── MSYS2-specific layer (absolute path — $HOME just got overridden) ──

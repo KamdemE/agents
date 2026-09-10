@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# ksh — KpihX UNIVERSAL DISPATCHER
+# ksh —  UNIVERSAL DISPATCHER
 ROOT="$HOME/.agents/skills/k-ubuntu/scripts"
 
 usage() {

@@ -1,8 +1,8 @@
 # k-project — Pipeline R&D Archetype
 
-**⚠️ WHEN EDITING THIS FILE, ALSO UPDATE THE FOOTER (CHANGELOG) IF `k-skill-creator` flags one is required for this reference; otherwise fold into `SKILL.md`'s own changelog entry.**
+**⚠️ WHEN EDITING THIS FILE, ALSO UPDATE THE HEADER (VERSION).**
 
-Distilled (form only, zero business content) from a real, mature multi-month R&D/ML pipeline project — both its Windows-side early snapshot and its much more advanced deep-pc6 copy were audited (2026-08-25) to extract this. Use this archetype instead of the default Service/Lib one (`SKILL.md`) when the project is a **multi-stage R&D/ML pipeline**: uv workspace, CPU/GPU hardware variants, heavy local non-code assets, several loosely-coupled processing stages.
+Distilled (form only, zero business content) from a real, mature multi-month R&D/ML pipeline project — both its Windows-side early snapshot and its much more advanced server copy were audited (2026-08-25) to extract this. Use this archetype instead of the default Service/Lib one (`SKILL.md`) when the project is a **multi-stage R&D/ML pipeline**: uv workspace, CPU/GPU hardware variants, heavy local non-code assets, several loosely-coupled processing stages.
 
 Templates: `assets/pyproject.pipeline.toml`, `assets/Makefile.pipeline`.
 
@@ -51,7 +51,7 @@ assets/
 ```
 
 - `inputs/` and `weights/` are flat (or per-stage, as needed) — no numbering.
-- `results/` subfolders are **ordinal-numbered** (`00_`, `01_`, ...) in pipeline stage order, so their sort order always matches execution order. This differs deliberately from a ticket-ID-rooted layout (`<TICKET>_<slug>/`): that pattern only makes sense when a laptop/repo is shared across several unrelated work units at once. A KπX pipeline project is normally scoped to **one** self-contained repo per pipeline — so `assets/` numbering tracks **stage order within that one pipeline**, not a ticket registry.
+- `results/` subfolders are **ordinal-numbered** (`00_`, `01_`, ...) in pipeline stage order, so their sort order always matches execution order. This differs deliberately from a ticket-ID-rooted layout (`<TICKET>_<slug>/`): that pattern only makes sense when a laptop/repo is shared across several unrelated work units at once. A  pipeline project is normally scoped to **one** self-contained repo per pipeline — so `assets/` numbering tracks **stage order within that one pipeline**, not a ticket registry.
 - Each numbered `results/NN_<stage>/` folder should carry its own local `README.md` when its content isn't self-explanatory from filenames alone — link to it from a project-level synthesis doc rather than duplicating its content there (see Anti-patterns below).
 
 ## Scripts — `step_NN_<name>` naming
@@ -96,6 +96,3 @@ When `assets/` needs syncing against a network drive, an NVMe mirror, or a Windo
 - **Synthesis README polluted with results** — a project-wide "here's what we found" README filled with actual result tables/metrics instead of staying a pure pointer to per-stage/per-run READMEs. Keep synthesis docs free of content; link down instead of duplicating up.
 - **Two independently-maintained membership lists** — if using a standalone `pyrightconfig.json` instead of `[tool.pyright]` in `pyproject.toml`, its `include`/`extraPaths` must be kept in sync by hand with `[tool.uv.workspace] members` — don't forget a new `libs/` member in both places.
 
-## Changelog
-
-See `SKILL.md` — this reference is versioned as part of `k-project`'s overall changelog (v2.13.0 introduced this file).

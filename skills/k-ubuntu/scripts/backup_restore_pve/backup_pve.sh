@@ -9,11 +9,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # `$HOME` reference below would abort with "HOME: unbound variable". Set it
 # explicitly to the agent user home (where .agents / rclone.conf live) before
 # sourcing notifier.sh. ${HOME:-default} is safe under `set -u`.
-export HOME="${HOME:-/home/kpihx}"
+export HOME="${HOME:-$HOME}"
 # Same guard as auto_clean.sh: explicit `User=root` services preset
 # $HOME=/root which misses the kernel — force the agent user home if needed.
-[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
-# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+[ -d "$HOME/.agents" ] || export HOME="$HOME"
+# shellcheck source=$HOME/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
@@ -33,13 +33,13 @@ PVE_HOST="100.123.81.21"
 PVE_USER="kpihx"
 PVE_PORT="2222"
 REMOTE_DIR="/var/lib/vz/dump"
-HDD_MOUNT="/media/kpihx/KpihX-Backup"
+HDD_MOUNT="/media/kpihx/-Backup"
 HDD_DEST="$HDD_MOUNT/Backups/PVE"
-RCLONE_CONF="/home/kpihx/.config/rclone/rclone.conf"
+RCLONE_CONF="$HOME/.config/rclone/rclone.conf"
 RCLONE_DEST="gdrive-x:Backups/PVE"
 KEEP=3
 
-SSH_OPTS=(-i /home/kpihx/.ssh/id_ed25519_pve -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p "$PVE_PORT")
+SSH_OPTS=(-i "$HOME/.ssh/id_ed25519_pve" -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 -p "$PVE_PORT")
 SSH_DEST="$PVE_USER@$PVE_HOST"
 RSYNC_SSH="ssh -T -c aes128-gcm@openssh.com -o Compression=no -o ServerAliveInterval=60 -o ServerAliveCountMax=10 ${SSH_OPTS[*]}"
 
@@ -91,7 +91,7 @@ echo "$CLOUD_FILES" | grep -vF "$NAME" | while read -r f; do
 done || true
 
 # --- 4. Empty Drive trash ---
-# KπX directive: when pushing a new backup, empty the Drive trash so old
+#  directive: when pushing a new backup, empty the Drive trash so old
 # trashed backups (from any rotation) do not accumulate against the quota.
 # Google empties the trash in the background (can take minutes→days), the
 # command returns quickly. Idempotent — safe to run every time.

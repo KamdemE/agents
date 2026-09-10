@@ -1,9 +1,0 @@
-{
-  "providers": {
-    "cloudflare": {
-      "secrets": [
-        {"env": "CF_API_TOKEN", "header": "Authorization", "scheme": "Bearer"}
-      ]
-    }
-  }
-}

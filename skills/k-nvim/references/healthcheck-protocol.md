@@ -4,12 +4,12 @@ After ANY modification to Neovim config files (`init.lua`, `plugins.lua`, `lsp.l
 
 1. **Run `:checkhealth`** live in tmux (not headless).
 2. **Identify the source** of each ❌ or ⚠️:
-   - If it comes from `lua/kpihx/` or cites KπX config → fix it.
-   - If it comes from a plugin's `health.lua` (`lua/<plugin>/health.lua`) → it's a plugin-side false positive. **Do NOT patch plugins in `lazy/`** — those get wiped on update. Just explain to KπX that it's a known upstream issue with no functional impact.
-3. **Notify KπX** with a summary of what was fixed and what plugin-level noise was identified.
+   - If it comes from `lua/kpihx/` or cites  config → fix it.
+   - If it comes from a plugin's `health.lua` (`lua/<plugin>/health.lua`) → it's a plugin-side false positive. **Do NOT patch plugins in `lazy/`** — those get wiped on update. Just explain to  that it's a known upstream issue with no functional impact.
+3. **Notify ** with a summary of what was fixed and what plugin-level noise was identified.
 4. **Update k-nvim SKILL.md** if config changed.
 
-> **Policy:** KπX only owns `k-nvim/assets/`. Plugin healthcheck noise is ignored.
+> **Policy:**  only owns `k-nvim/assets/`. Plugin healthcheck noise is ignored.
 > Never modify files inside `~/.local/share/nvim/lazy/`.
 
 ## Agent autonomy (MANDATORY)
@@ -18,7 +18,7 @@ When the user asks you to fix nvim errors, you MUST:
 1. Reload nvim yourself (send `:qa!` then `nvim` to the tmux pane), never wait for the user.
 2. Run `:checkhealth` **live in tmux** — NEVER headless.
 3. Scroll through EVERY section using `G` / `gg` / `:N`. Capture all sections.
-4. Fix ❌ errors from **KπX config only**. Ignore plugin noise.
+4. Fix ❌ errors from ** config only**. Ignore plugin noise.
 5. Report detailed results before asking for further instructions.
 6. Do NOT ask the user for permission at each step — execute autonomously.
 
@@ -49,7 +49,7 @@ After ANY modification to Neovim config files (`init.lua`, `plugins.lua`, `lsp.l
 
 ## Known false positives (plugin-level, ignore)
 
-These `:checkhealth` items come from plugin health files, not KπX config. They have **zero impact on daily use**:
+These `:checkhealth` items come from plugin health files, not  config. They have **zero impact on daily use**:
 - `nvim-treesitter: installdir not in runtimepath` → symlink normalization issue upstream, not fixed yet
 - `which-key` keymap overlaps (`<gc>`/`<gcc>`, `<ys>`/`<yss>`) → inherent to vim modal editing
 - `tmux focus-events` → terminal limitation, fix in `.tmux.conf` needs `tmux source-file`

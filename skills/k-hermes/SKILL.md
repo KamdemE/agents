@@ -1,30 +1,30 @@
 ---
 name: k-hermes
 description: >
-  KπX integration and governance for Hermes Agent (Persistent memory & Daemon).
+  integration and governance for Hermes Agent (Persistent memory & Daemon).
   Use this to configure Hermes as a zero-trust headless cron executor and a cross-session
-  memory layer reading from the KπX kernel.
+  memory layer reading from the  kernel.
 license: private
 metadata:
-  author: KpihX
-  version: "1.4.4"
+  author: 
+  version: "1.0.0"
   scope: external-agent
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Hermes Integration (k-hermes)
+#  — Hermes Integration (k-hermes)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Role
 
-This skill governs the integration of **Hermes Agent** into the KπX sovereign ecosystem.
+This skill governs the integration of **Hermes Agent** into the  sovereign ecosystem.
 Hermes is used strictly as a **Memory Layer** and **Headless Daemon**, complementary to OpenCode.
 
 ## Architecture Map
 
 ```text
-~/.hermes/                            <-- $HERMES_HOME (Isolated from KπX kernel)
+~/.hermes/                            <-- $HERMES_HOME (Isolated from the user kernel)
 ├── config.yaml                       <-- Master config (MCPs, external_dirs)
 ├── SOUL.md                           <-- Symlink to ~/.agents/AGENTS.md
 ├── skills/                           <-- Sandbox for Hermes AUTO-GENERATED skills (Untrusted)
@@ -61,7 +61,7 @@ Hermes has the ability to auto-generate skills based on successful interactions.
 **RULE:** We DO NOT symlink `~/.hermes/skills` to `~/.agents/skills`.
 - `~/.agents/skills` is **Production** (100% Control, strictly governed by `k-skill-creator`).
 - `~/.hermes/skills` is **Staging/Sandbox** (AI-generated, untrusted).
-- **Workflow:** Hermes writes its auto-skills to its own staging folder. KπX reviews them, standardizes them via `k-skill-creator`, and *promotes* them to the kernel if useful.
+- **Workflow:** Hermes writes its auto-skills to its own staging folder.  reviews them, standardizes them via `k-skill-creator`, and *promotes* them to the kernel if useful.
 
 ## Persistent Memory (USER.md)
 
@@ -165,11 +165,11 @@ ModuleNotFoundError: No module named 'hermes_cli.dashboard_auth'
 cd /tmp && git clone --depth 1 https://github.com/NousResearch/hermes-agent.git
 
 # 2. Installer les dépendances web dans l'environnement uv du tool
-uv pip install --python /home/kpihx/.local/share/uv/tools/hermes-agent/bin/python \
+uv pip install --python $HOME/.local/share/uv/tools/hermes-agent/bin/python \
   fastapi uvicorn websockets python-multipart aiofiles
 
 # 3. Copier dashboard_auth (module principal + plugins)
-HERMES_SITE=/home/kpihx/.local/share/uv/tools/hermes-agent/lib/python3.12/site-packages
+HERMES_SITE=$HOME/.local/share/uv/tools/hermes-agent/lib/python3.12/site-packages
 cp -r /tmp/hermes-agent/hermes_cli/dashboard_auth $HERMES_SITE/hermes_cli/dashboard_auth/
 cp -r /tmp/hermes-agent/plugins/dashboard_auth $HERMES_SITE/plugins/dashboard_auth/
 
@@ -198,10 +198,3 @@ uv tool install --reinstall hermes-agent
 - Update `$HOME/.agents/skills/k-hermes/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.4.4 — Removed the obsolete kernel-temporary archive location from the stock-native rebuild record. |
-| 2026-08-24 | [COLAB] | v1.4.3 — Removed a residual `HERMES_HOME` service override after the stock-native rebuild and made the local smoke assertion robust to model wording. |
-| [SUMMARY] | — | v1.4.2 stock-native rebuild · v1.4.1 setup runbook · v1.4.0 custom-wrapper rebuild superseded by stock-native default · v1.3.0 HERMES_HOME migration · v1.2.0 Web Dashboard pip gap; older history condensed. |

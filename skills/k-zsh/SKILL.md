@@ -1,21 +1,21 @@
 ---
 name: k-zsh
 description: >
-  Cross-platform Zsh + shell hub (.kshrc) setup for all KπX equipment:
+  Cross-platform Zsh + shell hub (.kshrc) setup for all  equipment:
   Ubuntu, PVE, Debian, Windows/WSL. Covers installation, Oh My Zsh,
   the .kshrc centralisation pattern, and how to simplify .bashrc.
   ⚠️ MANDATORY READ before any CLI install, PATH change, or env var addition.
 license: private
 metadata:
-  author: KpihX
-  version: "2.7.1"
+  author: 
+  version: "1.0.0"
   scope: kernel
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Zsh / Shell Hub
+#  — Zsh / Shell Hub
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related skills:** `k-tmux` (setup BEFORE zsh — kshrc.base has auto-tmux at end) · `k-infras` (master map, checklist step 1b) · `k-skill-creator` (create infra skill if absent) · `k-ubuntu` / `k-pve` / `k-phones` (infra skills with their own shell assets)
 >
@@ -119,7 +119,7 @@ Each infra skill's `assets/kshrc` contains:
 - **Source calls** for skill-specific assets
 - **Auto-tmux block** at the end (session name customized per infra)
 
-> **Rule of thumb:** if a PATH or env var could serve another KπX machine, add it to `kshrc.base` instead so seed stays rich. If it's truly local (hardware paths, temporary experiments), add it to the infra skill's `assets/kshrc`.
+> **Rule of thumb:** if a PATH or env var could serve another  machine, add it to `kshrc.base` instead so seed stays rich. If it's truly local (hardware paths, temporary experiments), add it to the infra skill's `assets/kshrc`.
 
 ---
 
@@ -184,14 +184,14 @@ Each infra skill's `assets/kshrc` contains:
 
 All infra skills now follow the same pattern: `assets/kshrc` in the skill, `~/.kshrc` is a symlink to it.
 
-### Ubuntu (kpihx-ubuntu)
+### Ubuntu (workstation)
 See `k-ubuntu` → Shell. `~/.kshrc` → `k-ubuntu/assets/kshrc`.
 
 ### PVE (kpihx-pve)
 See `k-pve` → Shell. Same pattern: `assets/kshrc` in skill, symlink from home.
 
-### WSL (blglaptop139)
-WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal → zsh by default. See `k-blglaptop139` → Shell.
+### WSL (laptop)
+WSL needs `chsh -s $(which zsh)` inside the WSL distro. Windows Terminal → zsh by default. See `k-laptop` → Shell.
 
 ### Debian VM (kpihx-pve-debian)
 See `k-pve-debian` → Shell. Same symlink pattern.
@@ -206,8 +206,8 @@ See `k-phones` → S25. `~/.kshrc` → `k-phones/assets/kshrc`.
 Four documented gotchas, full detail preserved verbatim in `references/gotchas.md`:
 1. **`source ~/.kshrc` is a NO-OP for already-loaded shells (2026-08-16)** — two idempotency guards (`__KSHRC_LOADED`, `__KSHRC_INTERACTIVE_LOADED`) silently skip re-sourcing in a shell process that already loaded it once. Fix: `unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED; source ~/.kshrc`, or restart the shell.
 2. **opencode web's embedded terminal hijacked into the shared tmux session (2026-08-16)** — opencode web's terminal panel spawns an isolated PTY with `OPENCODE_TERMINAL=1` set unconditionally; without an exception the Auto-tmux block attached it into the shared desktop tmux session (resize glitches, input cross-contamination, leaked idle shells). **Fix not required** — the `[ -z "$OPENCODE_TERMINAL" ]` guard in the Auto-tmux block (`kshrc.base` + 7 infra copies) is **not necessary**; it should only be added as a **last resort** if isolation issues reproducibly occur. Current fleet runs without it and `origin/master` is intentionally without the guard.
-3. **tmux default-shell stuck on /bin/bash (2026-08-25, deep-pc6)** — after an agent changed the SSSD `default_shell` to `/bin/bash`, new tmux panes kept spawning bash even after fixing SSSD. Root cause: tmux caches `default-shell` at server start. Fix: `tmux source-file ~/.tmux.conf` suffices to flush the cache. Adding `set -g default-shell /usr/bin/zsh` to `tmux.conf` is **not necessary** — only as a **last resort** if `chsh`/`getent passwd` is broken or SSSD still overrides the login shell; tmux otherwise inherits the login shell correctly.
-4. **SSSD `default_shell` override on corporate LDAP machines (2026-08-25, deep-pc6)** — `/etc/sssd/sssd.conf` can contain `default_shell = /bin/bash` which forces bash for ALL users regardless of LDAP shell attribute. Fix: `sudo sed -i 's|default_shell = /bin/bash|default_shell = /usr/bin/zsh|' /etc/sssd/sssd.conf && sudo systemctl restart sssd`. Verify with `getent passwd $USER | cut -d: -f7`.
+3. **tmux default-shell stuck on /bin/bash (2026-08-25, server)** — after an agent changed the SSSD `default_shell` to `/bin/bash`, new tmux panes kept spawning bash even after fixing SSSD. Root cause: tmux caches `default-shell` at server start. Fix: `tmux source-file ~/.tmux.conf` suffices to flush the cache. Adding `set -g default-shell /usr/bin/zsh` to `tmux.conf` is **not necessary** — only as a **last resort** if `chsh`/`getent passwd` is broken or SSSD still overrides the login shell; tmux otherwise inherits the login shell correctly.
+4. **SSSD `default_shell` override on corporate LDAP machines (2026-08-25, server)** — `/etc/sssd/sssd.conf` can contain `default_shell = /bin/bash` which forces bash for ALL users regardless of LDAP shell attribute. Fix: `sudo sed -i 's|default_shell = /bin/bash|default_shell = /usr/bin/zsh|' /etc/sssd/sssd.conf && sudo systemctl restart sssd`. Verify with `getent passwd $USER | cut -d: -f7`.
 
 Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 
@@ -218,10 +218,3 @@ Full incident write-ups, root causes, and code: **`references/gotchas.md`**.
 - Read `$HOME/.agents/skills/k-zsh/references/insights.md` before non-trivial work in this skill domain.
 - Update insights at task end with durable lessons.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.7.1 — Workspace shortcuts extended (`~e`→Explore, `~a`→agents kernel, `~d`→Downloads, `$AGENTS`, `$EXPLORE`) in `kshrc.base` + all 7 infra copies (incl. 2 deactive). |
-| 2026-08-31 | [LIVE] | v2.7.0 — KπX workspace shortcuts (`~k`, `$KHOME/$KLABS/$LABS`). |
-| [SUMMARY] | — | v2.6.2 `kr()` universalized + SSH-agent non-destructive · v2.6.0 gpg-agent pinentry TTY re-point · v2.5.0 persistent SSH agent · v2.4.4 no net change · v2.4.3 corrected S25 shell source path · v2.4.2 Android infra cross-refs · v2.4.1–v2.4.0 → `references/log.md` · v2.3.0 idempotency-guard gotcha · v2.2.0 with-env helper · v2.1.0 kshrc pattern redesigned · v2.0.1 rm alias fix; v2.0.0 purged .kshrc.local; v1.1.0 frozen files |

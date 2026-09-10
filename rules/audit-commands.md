@@ -6,7 +6,7 @@
 ```bash
 make -C $HOME/.agents check     # Full validation (Ruff, Pyright, Shellcheck, Audit)
 ```
-This approval rule applies **only to `$HOME/.agents`**: after a relevant kernel change, **propose** `make check` and explain its scope. **Never run the kernel check unless KπX has explicitly requested it or explicitly validated its execution in the current conversation.** Once approved, run `make check` exactly and fix all findings before proposing commit + push. Project repositories run their project checks according to their own workflow.
+This approval rule applies **only to `$HOME/.agents`**: after a relevant kernel change, **propose** `make check` and explain its scope. **Never run the kernel check unless  has explicitly requested it or explicitly validated its execution in the current conversation.** Once approved, run `make check` exactly and fix all findings before proposing commit + push. Project repositories run their project checks according to their own workflow.
 
 ## Python & System (GRAVÉ)
 **NEVER** `pip install` on system Python.
@@ -24,7 +24,7 @@ This approval rule applies **only to `$HOME/.agents`**: after a relevant kernel 
 - Check `make help` first
 
 ## Post-Work Checklist
-1. For `$HOME/.agents`: propose `make check`; run it only with KπX's explicit approval — green
+1. For `$HOME/.agents`: propose `make check`; run it only with the user's explicit approval — green
 2. Tests pass
 3. k-context updated: session log, active projects
 5. Touched skills: version bumped, changelog updated

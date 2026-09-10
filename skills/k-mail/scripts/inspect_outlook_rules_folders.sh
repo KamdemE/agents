@@ -5,7 +5,7 @@
 set -euo pipefail
 
 echo "=========================================="
-echo "=== OUTLOOK (ivann.kamdem@hotmail.com) ==="
+echo "=== OUTLOOK (<personal@hotmail.com>) ==="
 echo "=========================================="
 echo "--- INBOX RULES ---"
 m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules" --method get --output json 2>/dev/null | python3 -c "
@@ -17,17 +17,17 @@ for r in (d.get('value') or []):
     print(f\"  [rule] seq={r.get('sequence')} | {r.get('displayName'):<30} | enabled={r.get('isEnabled')} | actions={acts}\")
 " 2>&1 || echo "  (failed to list rules)"
 
-echo "--- FOLDERS (KpihX hierarchy) ---"
+echo "--- FOLDERS ( hierarchy) ---"
 m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders" --method get --output json 2>/dev/null | python3 -c "
 import sys,json
 d=json.load(sys.stdin)
 def walk(f, depth=0):
     name=f.get('displayName','')
-    if 'KpihX' in name or depth>0:
+    if '' in name or depth>0:
         print('  '*(depth+1)+f\"[folder] {name} (id: {f.get('id')[:20]}...)\")
     for c in (f.get('childFolders') or []):
         walk(c, depth+1)
 for f in (d.get('value') or []):
-    if 'KpihX' in f.get('displayName',''):
+    if '' in f.get('displayName',''):
         walk(f)
 " 2>&1 || echo "  (failed to list folders)"

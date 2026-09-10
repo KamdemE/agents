@@ -1,6 +1,6 @@
 # k-qmd — WSL (GPU passthrough for local embedding models)
 
-> **OS reference:** WSL2 (Windows Subsystem for Linux). Applies to any infra running qmd inside WSL with an NVIDIA GPU on the Windows host (e.g. `k-blglaptop139`).
+> **OS reference:** WSL2 (Windows Subsystem for Linux). Applies to any infra running qmd inside WSL with an NVIDIA GPU on the Windows host (e.g. `k-laptop`).
 
 ## The trap: driver present ≠ CUDA usable
 
@@ -48,8 +48,3 @@ This applies to **any** WSL infra with local GGUF/llama.cpp-based inference — 
 - Read `$HOME/.agents/skills/k-qmd/references/insights.md` before non-trivial work in this skill domain.
 - Update it at task end with durable lessons.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [CLAUDE] | v1.0.0 — Created. Documented the WSL driver-passthrough-without-CUDA-runtime trap found on `blglaptop139-wsl` (NVIDIA RTX 5070 Ti Laptop GPU): `qmd embed` silently ran on CPU despite a real GPU being visible via `nvidia-smi`. Fix: NVIDIA's `wsl-ubuntu` CUDA Toolkit repo (driver-less package, since the driver lives on Windows). |

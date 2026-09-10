@@ -1,5 +1,5 @@
 #!/bin/bash
-# KπX — Standard tmux session per equipment
+#  — Standard tmux session per equipment
 # Usage: tmux-init.sh [session-name]
 #   If session-name omitted, ALWAYS auto-detects equipment via Tailscale.
 #   Creates standard 3-window session: agents (split), default, tmp (unsplit).
@@ -62,10 +62,10 @@ echo "Creating tmux session: $SESSION_NAME"
 #  Pane 0 (left) = agents pane (opencode)
 #  Pane 1 (right-top) = editors pane (nvim)
 #  Pane 2 (right-bottom) = ops pane (sudo/ssh)
-tmux new-session -d -s "$SESSION_NAME" -c ~/KpihX-Labs
+tmux new-session -d -s "$SESSION_NAME" -c ~/Labs
 tmux rename-window -t "$SESSION_NAME:0" agents
-tmux split-window -h -t "$SESSION_NAME:agents.0" -c ~/KpihX-Labs
-tmux split-window -v -t "$SESSION_NAME:agents.1" -c ~/KpihX-Labs
+tmux split-window -h -t "$SESSION_NAME:agents.0" -c ~/Labs
+tmux split-window -v -t "$SESSION_NAME:agents.1" -c ~/Labs
 
 # Window 1: default
 tmux new-window -t "$SESSION_NAME" -n default -c ~/

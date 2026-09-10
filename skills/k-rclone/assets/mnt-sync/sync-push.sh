@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KpihX mnt-sync — push LOCAL_ROOT ⟶ REMOTE_ROOT (Linux, one-way, mirrors
+#  mnt-sync — push LOCAL_ROOT ⟶ REMOTE_ROOT (Linux, one-way, mirrors
 # exactly via --delete — orphans on the remote side ARE removed).
 # Generic mount-to-mount sync — REMOTE_ROOT/LOCAL_ROOT are any two mounted
 # disks/paths, not necessarily a project's assets/ (that's just the default).

@@ -1,22 +1,22 @@
 ---
 name: k-optim
 description: >
-  KπX optimization state and action map — READ THIS FIRST when KπX talks
+  optimization state and action map — READ THIS FIRST when  talks
   about "nettoyer / purge / clean / optimiser / cleanup". Generic framework
   covering four optimization scopes: local machine, homelab server, agent
   runtimes, and kernel governance. OS-specific cleanup actions live in
   references/ (ubuntu.md, windows.md). Load before any cleanup/optim work.
 license: private
 metadata:
-  author: KpihX
-  version: "3.13.4"
+  author: 
+  version: "1.0.0"
   scope: optimization
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — Optimization Framework
+#  — Optimization Framework
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (Ubuntu cleanup: apt, snap, GNOME, ext4 recovery, services, home media) · `references/windows.md` (Windows cleanup: temp files, app caches, disk cleanup)
 > **Static rules:** `rules/audit-commands.md` (make check) · `rules/k-context-hygiene.md` (session log, issues log) · `rules/tool-discipline.md` (shared tmux gate)
@@ -28,11 +28,11 @@ allowed-tools: Bash, Read, Write, Edit
 ## Role
 
 > **AFTER PERFORMING AN OPTIMIZATION, THIS FILE MUST BE UPDATED WITH EVENTUAL FIXES OF COMMANDS AND THE LAST KNOWN STATE.**
-> **AUTO-UPDATE MANDATE:** do not wait for KπX confirmation to write the operational trace; update `k-optim` and `k-context/references/issues.md` automatically at the end of each relevant optimization/incident action.
+> **AUTO-UPDATE MANDATE:** do not wait for  confirmation to write the operational trace; update `k-optim` and `k-context/references/issues.md` automatically at the end of each relevant optimization/incident action.
 
 > **🔴 GRAVÉ — MANDATORY EXHAUSTIVE LOG AFTER EVERY FULL K-OPTIM RUN:** AFTER EACH COMPLETE `k-optim` RUN (a full cleanup/purge/optimization pass), **`references/log.md` MUST BE UPDATED WITH EVERYTHING THAT WAS DONE — EXHAUSTIVELY** (every command, every purge, every dir/file touched, every skill edited, every version bumped, every problem found+fixed). NO SUMMARIES, NO OMISSIONS, NO "ETC.". Append the full run trace to `references/log.md` (append-only, GRAVÉ). THIS IS AN ABSOLUTE, NON-NEGOTIABLE OBLIGATION — the operational history must never be lost. Only after logging is the run considered complete.
 
-`k-optim` is the compact operational map for KπX optimization work, organized in four scopes (executed in order):
+`k-optim` is the compact operational map for  optimization work, organized in four scopes (executed in order):
 
 - **Local machine scope** — storage cleanup, project artifact removal, cache management. See `references/ubuntu.md` (Ubuntu) or `references/windows.md` (Windows).
 - **Homelab scope** — server-side maintenance, Docker hygiene, client-side backup verification.
@@ -45,7 +45,7 @@ In all scopes: **load this skill before starting any cleanup/optim work** — re
 
 ## Purge Discipline (Absolute Obligation)
 
-When KπX asks to **purge** or **uninstall** a package, application, or tool, the agent MUST perform a complete and exhaustive cleanup of all associated files and directories across the entire system. No debris must remain. This includes purging:
+When  asks to **purge** or **uninstall** a package, application, or tool, the agent MUST perform a complete and exhaustive cleanup of all associated files and directories across the entire system. No debris must remain. This includes purging:
 - **User home directories**: `~` root level, `~/.local/`, `~/.config/`, `~/.local/share/`, `~/.cache/`, etc.
 - **Snaps / Flatpaks**: snap packages, snap cache, snap user/system directories.
 - **Systemd units**: both user-level (`~/.config/systemd/user/`) and system-level (`/etc/systemd/system/`) services and timers (including configurations, drop-ins, sockets).
@@ -68,7 +68,7 @@ When KπX asks to **purge** or **uninstall** a package, application, or tool, th
 | 5 | `/opt/` | heavy-client dirs | `/opt/Signal`, `/opt/zoom` |
 | 6 | `/etc/apparmor.d/` | AppArmor profiles (root) | `opt.bw-mcp.bin.bw-mcp` (needs tmux sudo) |
 | 7 | `apt sources` + `/usr/share/applications/*.desktop` | stale `*.sources` + launchers | `signal-desktop.sources`, `Zoom.desktop` |
-| 8 | **Skills** (`~/.agents/skills/`) | doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-final`, `kpihx`, `deactive/*` |
+| 8 | **Skills** (`~/.agents/skills/`) | doc/registry/skill referencing the purged tool as active | `bw-mcp`/`bw-admin` in `k-bw`, `k-clis`, `k-google`, `k-cloudflare`, `k-final`, `deactive/*` |
 
 > **🔴 Always check `~` root level AND `~/.cache` when cleaning local configs or purging anything** (added 2026-08-14): many tools leave top-level dotdirs (`~/.zoom`, `~/.windsurf`, `~/.cline`, …) and caches (`~/.cache/*`) that `apt purge` / `npm uninstall` never touch. Sweep them with the same debris check below.
 
@@ -98,11 +98,11 @@ This methodology lives in `rules/skill-governance.md` → Full Debris Scan Metho
 | QMD optimization guide | `$HOME/.agents/skills/k-qmd/references/qmd-optimization.md` |
 | QMD live runtime state | `qmd status`, `qmd collection list`, `qmd ls <collection>` |
 | Workstation Orchestrator (ksh) | `$HOME/.agents/skills/k-ubuntu/scripts/` |
-| Homelab Orchestrator (hsh) | `$HOME/Work/KpihX-Labs/Homelab/sh/` |
+| Homelab Orchestrator (hsh) | `$HOME/Work/Labs/Homelab/sh/` |
 | Ubuntu cleanup scripts | `$HOME/.agents/skills/k-ubuntu/scripts/clean/` |
 | Deleted-file recovery | `references/ubuntu.md` → Deleted-file recovery section |
 | Deleted-file recovery (full runbook) | `references/ubuntu-deleted-files-recovery.md` |
-| Homelab maintenance scripts | `$HOME/Work/KpihX-Labs/Homelab/sh/` |
+| Homelab maintenance scripts | `$HOME/Work/Labs/Homelab/sh/` |
 
 ---
 
@@ -120,16 +120,16 @@ See OS-specific reference:
 
 ### Last Known State
 
-- The operational homelab scripts live in `$HOME/Work/KpihX-Labs/Homelab/sh/` (Phoenix v3.1 modular architecture) — `hsh` is **not** guaranteed on non-login PATH; prefer `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh"`
+- The operational homelab scripts live in `$HOME/Work/Labs/Homelab/sh/` (Phoenix v3.1 modular architecture) — `hsh` is **not** guaranteed on non-login PATH; prefer `"$HOME/Work/Labs/Homelab/sh/hsh"`
 - `hsh` is the local dispatcher: `hsh status` (audit), `hsh backup host` (PVE), `hsh backup vault` (DKD), `hsh maintenance` (Server)
 - Backups follow the **3-2-1 rule**: 3 copies (SSD, HDD, Cloud), 2 supports, 1 off-site; Vault uses Deterministic Key Derivation (DKD)
 
 ### Actions
 
-1. Start with local audit: run `"$HOME/Work/KpihX-Labs/Homelab/sh/hsh" status`
+1. Start with local audit: run `"$HOME/Work/Labs/Homelab/sh/hsh" status`
 2. Prefer local-first orchestration: `hsh backup host` (hypervisor snapshot), `hsh backup vault` (encrypted Vaultwarden)
 3. Server-Side Maintenance: `hsh maintenance` for the weekly loop on the homelab server
-4. Manual Fallback: shared tmux — `ssh kpihx-labs` and run `/root/proxmox/maintenance.sh`
+4. Manual Fallback: shared tmux — `ssh <github-user>` and run `/root/proxmox/maintenance.sh`
 
 ### Automated Tasks & Logs
 
@@ -180,7 +180,7 @@ _(To be documented per optimization pass.)_
 - **Check ALL systemd symlinks to `.agents/` are valid:**
   ```bash
   # System services
-  find /etc/systemd/system/ -xtype l -lname '/home/kpihx/.agents/*' -o -lname '/home/kpihx/.config/opencode/skills/*'
+  find /etc/systemd/system/ -xtype l -lname '$HOME/.agents/*' -o -lname '$HOME/.config/opencode/skills/*'
   # User services
   find ~/.config/systemd/user/ -xtype l
   ```
@@ -198,7 +198,7 @@ _(To be documented per optimization pass.)_
 5. Check for orphaned references in `skills/` and `references/`
 6. **Check + run correct script permissions**: after any purge/optimization, verify and normalize execute bits on all kernel scripts with `make chmod` (default 755; stricter 744/700 via `scripts/chmod.sh <XYZ>`) — always check that installed scripts/entry points remain executable.
 7. **Broken-link sweep (`~` whole home + `/etc`)**: dig the ENTIRE `$HOME` (`find ~ -type l` — recursive, ALL of `~`, not just `~/.local/bin`, `~/.config`, `~/.local/share`; those are examples, not a limit) and the whole system config `/etc` (covers `/etc/systemd/system` and everything else). For each broken link whose canonical asset exists in `.agents` (`~/.agents/skills/<skill>/assets|scripts/...`), **re-create the symlink** to that source of truth (`ln -sf`; elevation via tmux for `/etc`). If the source of truth is NOT localizable (asset missing/uninstalled), **signal/report it** (do not silently leave it) and log to `k-context/references/issues.md`. Zero-tolerance: no broken `.agents`-related symlink should remain after an optimization pass. Fast detection (whole home + `/etc`): `find ~ /etc -type l ! -exec test -e {} \; -print 2>/dev/null`. **Speed note (PRUNE_DIRS — never scan into these noise dirs):** when sweeping the whole home, prune `Trash`, `.venv`, `node_modules`, and `models` (large model stores) — they are noise / not `.agents`-owned symlinks. Mirror of `scripts/links/check-links.sh` `PRUNE_DIRS`.
-8. **`.loom` index debris analysis (MANDATORY during any optimization pass)**: analyze `$HOME/.loom/projects/*.db` and clean Loom debris — (a) **stub DBs**: 0-node DBs created lazily whenever an agent merely started a session in a folder (only `meta`/FTS tables) → purge; (b) **rename ghosts**: DBs whose project directory was renamed/no longer exists (e.g. `tg_proxy.db` vs `tg-proxy.db`, cleaned 2026-08-24) → purge after confirming the new-name index exists or re-indexing; (c) **stale real indexes**: check freshness via `loom stats` + DB mtime (`stat`) on ACTIVE projects → flag for `loom sync`/`loom analyze .`, do not delete (loom CLI only — no MCP since 2026-08-24). Detection: `uv run --no-project python` sqlite read-only count over `nodes` per DB (`sqlite3` CLI may be absent); cross-check each DB name against existing directories under `$HOME/KpihX-Labs/`, `$HOME/Work/`, etc. Use trash-safe `rm`. Methodology details: `k-loom/SKILL.md` → `.loom` Hygiene.
+8. **`.loom` index debris analysis (MANDATORY during any optimization pass)**: analyze `$HOME/.loom/projects/*.db` and clean Loom debris — (a) **stub DBs**: 0-node DBs created lazily whenever an agent merely started a session in a folder (only `meta`/FTS tables) → purge; (b) **rename ghosts**: DBs whose project directory was renamed/no longer exists (e.g. `tg_proxy.db` vs `tg-proxy.db`, cleaned 2026-08-24) → purge after confirming the new-name index exists or re-indexing; (c) **stale real indexes**: check freshness via `loom stats` + DB mtime (`stat`) on ACTIVE projects → flag for `loom sync`/`loom analyze .`, do not delete (loom CLI only — no MCP since 2026-08-24). Detection: `uv run --no-project python` sqlite read-only count over `nodes` per DB (`sqlite3` CLI may be absent); cross-check each DB name against existing directories under `$HOME/Labs/`, `$HOME/Work/`, etc. Use trash-safe `rm`. Methodology details: `k-loom/SKILL.md` → `.loom` Hygiene.
 
 ---
 
@@ -208,10 +208,3 @@ _(To be documented per optimization pass.)_
 - Update `$HOME/.agents/skills/k-optim/references/insights.md` at the end of the task with durable lessons.
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [COLAB] | v3.13.4 — Removed kernel and workspace temporary-directory purge instructions after their explicit removal. |
-| 2026-08-24 | [COLAB] | v3.13.3 — Restored the optimization validation step: run `make check` and fix every warning. |
-| [SUMMARY] | — | v3.13.2 superseded approval-policy wording · v3.13.1 check-skills audit · v3.13.0 systemd/link audit · v3.12.0 .loom index debris · v3.11.0 interface purge (→ `references/log.md`) · v3.10.0 broken-link sweep (→ `references/log.md`) · v3.9.0 clean-system rename (→ `references/log.md`) · v3.8.0 chmod and older (→ `references/log.md`) |

@@ -15,15 +15,15 @@ description: >
   stay in control if you do.
 license: private
 metadata:
-  author: KpihX
-  version: "3.7.0"
+  author: 
+  version: "1.0.0"
   scope: content-authoring
 allowed-tools: Bash, Read, Write, Edit
 ---
 
 # k-presentation — decks as code
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Why this exists
 
@@ -36,7 +36,7 @@ Three artifacts in this skill's `assets/` (including `assets/fonts/` with Maven 
 - `assets/exs/Presentation_Mother_Mirror.pdf` — 14 slides generated with NotebookLM. The best looking deck here, dissected in `references/visual-systems.md`.
 - `assets/exs/Presentation_YUPAYX_Soutenance_Johan_Touko.pptx` — 25 slides, licence pro defence style (Institut Universitaire Saint Jean / SESAME), platform management for YUPAYX payment aggregator. Reference for **professional programme defence** profile (not academic X, not R&D). Sections: Contexte → Problématique → Solutions existantes → Notre solution → Choix outils → Modélisation (UC, activités, classes) → Architecture → Démonstration → Conclusion.
 - `assets/exs/Presentation_ElGamal_Crypto_3GI_ENSPY.pptx` — 69 slides, ENSPY 3GI crypto course presentation (2023-2024). Full ElGamal coverage: historique, courbes elliptiques (addition de points, cas identiques/oppozés), principe chiffré/déchiffré, signature. Heavy use of animations, embedded diagrams, and step-by-step mathematical walkthroughs. Reference for **dense technical/academic course** profile.
-- `assets/exs/Album_Photo_Bapteme_KpihX_Lyse.pptx` — 12 slides, personal photo album of KπX's first communion and cousin Lyse's baptism. Reference for **personal/nostalgic photo album** profile. Also cross-referenced in `kpihx/SKILL.md` under Visual Assets.
+- `assets/exs/Album_Photo_Bapteme__Lyse.pptx` — 12 slides, personal photo album of the user's first communion and cousin Lyse's baptism. Reference for **personal/nostalgic photo album** profile.
 - `assets/exs/Presentation_Au_Dela_Du_Binaire_Kibib_Mebib_ENSPY.pptx` — 3.2 MB, binary units (kibi, mebi) exposé ENSPY (2023). Reference for **technical vulgarisation** profile.
 - `assets/exs/Presentation_Binary_System_Unit_ENSPY.pptx` — 3.2 MB, binary system unit exposé ENSPY (2023). Pair with above.
 - `assets/exs/Presentation_Computers_ENSPY.pptx` — 4 MB, computers exposé ENSPY (2022). Reference for **IT general audience** profile.
@@ -221,10 +221,10 @@ Centralized in `skills/k-presentation/assets/Makefile` + `skills/k-presentation/
 Two canonical decks were built with this exact doctrine and prove it works end to end.
 If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide `.md` files, `theme.py`, and `render.py`:
 
-| Deck | Profile / Style | Local Location | GitHub Remote | GitLab Remote |
-|---|---|---|---|---|
-| **`culling-presentation`** | Full R&D Professional (40 slides, Maven Pro + Roboto, 16 figures, `DxO-Template.pptx`) | `$HOME/KpihX-Labs/Culling/culling-presentation` | `https://github.com/KpihX/culling-presentation` | `https://gitlab.com/k-culling/culling-presentation` |
-| **`culling-presentation-x`** | Light X Academic (17 slides, Georgia / Century Gothic, 16 figures, `Template_X.pptx`) | `$HOME/KpihX-Labs/Culling/culling-presentation-x` | `https://github.com/KpihX/culling-presentation-x` | `https://gitlab.com/k-culling/culling-presentation-x` |
+| Deck | Profile / Style | Local Location | GitHub Remote |
+|---|---|---|---|
+| **`culling-presentation`** | Full R&D Professional (40 slides, Maven Pro + Roboto, 16 figures, `Template_DxO.pptx`) | `$HOME/Labs/<project>/culling-presentation` | `https://github.com/<user>/culling-presentation` |
+| **`culling-presentation-x`** | Light X Academic (17 slides, Georgia / Century Gothic, 16 figures, `Template_X.pptx`) | `$HOME/Labs/<project>/culling-presentation-x` | `https://github.com/<user>/culling-presentation-x` |
 
 ## References
 
@@ -263,12 +263,4 @@ If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide
 - Read `$HOME/.agents/skills/k-presentation/references/insights.md` before non-trivial work in this skill domain.
 - Update `$HOME/.agents/skills/k-presentation/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-10 | [LIVE] | v3.7.0 — humanize centralization: check-dashes canonical now `scripts/check-dashes.sh` (global, extended to md/txt + unicode, HR + interval exemptions), copies (not symlinks) of central `scripts/check-dashes.sh` + `skills/k-tex/assets/Makefile/.gitignore` into each new deck, hook `humanize-guard.js` hard gate at write-time, docs updated. |
-| 2026-09-07 | [LIVE] | v3.6.1 — Standardized `Presentation_` prefix for all `exs/` files (except `Album_Photo_Bapteme`). All refs updated SKILL.md + AGENTS.md + 3 references/. 5 templates + 14 examples. |
-| [SUMMARY] | -- | v3.6.0 . v3.5.0 . v3.4.0 . v3.3.0 . v3.2.0 . v3.1.2 . v3.1.1 k-pptx→k-presentation sweep · v3.1.0 k-pptx→k-presentation rename (fonts bundled, example repos) · v3.0.1 powerpoint uv tool purged · v1.1.0 first full execution under old MCP doctrine · v1.0.0 initial mapping · folded into v3.0.0. |
 

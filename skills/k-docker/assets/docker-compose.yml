@@ -38,7 +38,7 @@ services:
       - "traefik.enable=true"
 
       # ── Public router (HTTPS via Cloudflare / certresolver) ────────────────
-      - "traefik.http.routers.project-name-private.rule=Host(`project-name.kpihx-labs.com`)"
+      - "traefik.http.routers.project-name-private.rule=Host(`project-name.<github-user>.com`)"
       - "traefik.http.routers.project-name-private.entrypoints=websecure"
       - "traefik.http.routers.project-name-private.tls=true"
       - "traefik.http.routers.project-name-private.tls.certresolver=myresolver"

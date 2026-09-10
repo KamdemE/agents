@@ -15,4 +15,4 @@ uv run python youtube_cli.py channels
 uv run python youtube_cli.py upload --file /path/to.mp4 --privacy unlisted
 ```
 
-**Token:** `$HOME/.config/gws/kpihx-labs/youtube_token.json` (never commit).
+**Token:** `$HOME/.config/gws/<github-user>/youtube_token.json` (never commit).

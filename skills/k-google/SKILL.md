@@ -1,19 +1,19 @@
 ---
 name: k-google
 description: >
-  KπX Google stack — gcloud (GCP container) and gws (Workspace content). Drive files via
+  Google stack — gcloud (GCP container) and gws (Workspace content). Drive files via
   k-rclone/k-drive. Load before Google Cloud or Workspace tasks.
 license: private
 metadata:
-  author: KpihX
-  version: "1.7.1"
+  author: 
+  version: "1.0.0"
   scope: operations
 allowed-tools: Bash(gws:*), Bash(gcloud:*), Bash(rclone:*)
 ---
 
-# KπX — Google (Cloud + Workspace)
+#  — Google (Cloud + Workspace)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Cloud hub
 
@@ -24,7 +24,7 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 | Plane | Tool | Scope |
 |-------|------|--------|
 | **Container** | `gcloud` | GCP projects, IAM, Compute, GKE, buckets, API enablement |
-| **Content** | `gws` / `gws-kpihx` / `gws-labs` | Gmail, Drive API, Calendar, Sheets, Docs (Discovery CLI) |
+| **Content** | `gws` / `gws-primary` / `gws-labs` | Gmail, Drive API, Calendar, Sheets, Docs (Discovery CLI) |
 | **Local files** | `rclone` | Mounted trees — **`k-rclone`**, semantics — **`k-drive`** |
 
 **Rule:** infra → `gcloud`. User mail/calendar/docs API → `gws`. Bulk file browse → mounts, not API alone.
@@ -42,18 +42,18 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 **Version:** `google-cloud-cli` **568.0.0-0** (dpkg direct, apt source **disabled** after Ubuntu 26.04 migration)  
 **Binary:** `/usr/bin/gcloud` → `/usr/lib/google-cloud-sdk/bin/gcloud`  
 **Config dir:** `$HOME/.config/gcloud/`  
-**Auth:** `kapoivha@gmail.com` (active), `kpihx.labs@gmail.com` (credentialed, secondary)  
+**Auth:** `<primary@gmail.com>` (active), `<labs@gmail.com>` (credentialed, secondary)  
 **ADC:** `$HOME/.config/gcloud/application_default_credentials.json` → quota project `kpihx-489121`
 
 ## GCP projects (two profiles)
 
 | Profile | `project_id` | Number | Billing | Lifecycle |
 |---------|--------------|--------|---------|-----------|
-| **KpihX** | `kpihx-489121` | `287665785458` | ✅ linked (open) | ACTIVE |
-| **KpihX-Labs** | `kpihx-labs` | `747851806672` | ✅ linked (open) | ACTIVE |
+| **** | `kpihx-489121` | `287665785458` | ✅ linked (open) | ACTIVE |
+| **Labs** | `<github-user>` | `747851806672` | ✅ linked (open) | ACTIVE |
 
-**IAM — `kapoivha@gmail.com`:** owner on both projects.  
-**IAM — `kpihx.labs@gmail.com`:** `serviceusage.serviceUsageConsumer` on `kpihx-labs` only (read-only quota consumer).
+**IAM — `<primary@gmail.com>`:** owner on both projects.  
+**IAM — `<labs@gmail.com>`:** `serviceusage.serviceUsageConsumer` on `<github-user>` only (read-only quota consumer).
 
 ### Service accounts (post-cleanup 2026-09-03)
 
@@ -61,47 +61,47 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 |--------|-------|-------------|
 | kpihx-489121 | `firebase-adminsdk-fbsvc@kpihx-489121.iam.gserviceaccount.com` | firebase-adminsdk |
 | kpihx-489121 | `ais-gemini-key-3af5c5890b784f3@287665785458.iam.gserviceaccount.com` | Default |
-| kpihx-labs | `747851806672-compute@developer.gserviceaccount.com` | Compute Engine default |
+| <github-user> | `747851806672-compute@developer.gserviceaccount.com` | Compute Engine default |
 
-**Deleted 2026-09-03:** `ais-gemini-key-32b3c763b7ec4cd` (OpenRouter, kpihx-489121), `ais-gemini-key-4ed8ce98a060435` (Test, kpihx-labs).
+**Deleted 2026-09-03:** `ais-gemini-key-32b3c763b7ec4cd` (OpenRouter, kpihx-489121), `ais-gemini-key-4ed8ce98a060435` (Test, <github-user>).
 
 ### GWS profiles (Workspace content)
 
 | Command | Profile | `project_id` | Config dir | Login account |
 |---------|---------|--------------|------------|---------------|
-| **`gws`** | **default = KpihX** (alias → `gws-kpihx`) | `kpihx-489121` | `$HOME/.config/gws/kpihx/` | `kapoivha@gmail.com` |
-| **`gws-kpihx`** | KpihX personal | `kpihx-489121` | `$HOME/.config/gws/kpihx/` | `kapoivha@gmail.com` |
-| **`gws-labs`** | KpihX-Labs homelab | `kpihx-labs` | `$HOME/.config/gws/kpihx-labs/` | `kpihx.labs@gmail.com` |
+| **`gws`** | **default = ** (alias → `gws-primary`) | `kpihx-489121` | `$HOME/.config/gws/kpihx/` | `<primary@gmail.com>` |
+| **`gws-primary`** |  personal | `kpihx-489121` | `$HOME/.config/gws/kpihx/` | `<primary@gmail.com>` |
+| **`gws-labs`** | Labs homelab | `<github-user>` | `$HOME/.config/gws/<github-user>/` | `<labs@gmail.com>` |
 
 **CLI wrappers (mandatory in interactive zsh):** sourced from `k-google/scripts/gws-profiles.sh` via `$HOME/.kshrc` (direct path, no symlink).
 
-**Rule:** always use a profile wrapper (`gws-kpihx` / `gws-labs`) in agents/scripts — never bare npm `gws` without `GOOGLE_WORKSPACE_*` env (non-interactive shells). In interactive zsh, bare `gws` is safe (forwards to `gws-kpihx`); `gws-labs` targets the homelab project.
+**Rule:** always use a profile wrapper (`gws-primary` / `gws-labs`) in agents/scripts — never bare npm `gws` without `GOOGLE_WORKSPACE_*` env (non-interactive shells). In interactive zsh, bare `gws` is safe (forwards to `gws-primary`); `gws-labs` targets the homelab project.
 
 ## OAuth secrets — Vaultwarden (source of truth)
 
-**Collection path (Vaultwarden UI):** `KpihX-Labs` → `Infra` → `Fluid` → `Google`
+**Collection path (Vaultwarden UI):** `Labs` → `Infra` → `Fluid` → `Google`
 
 | Vault item | GCP project | Custom fields |
 |------------|-------------|---------------|
-| **Google Fluid KpihX-Labs** | `kpihx-labs` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
-| **Google Fluid KpihX** | `kpihx-489121` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
+| **Google Fluid Labs** | `<github-user>` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
+| **Google Fluid ** | `kpihx-489121` | `GOAUTH_CLIENT_ID`, `GOAUTH_CLIENT_SECRET` |
 
 - **Agents:** secrets are no longer injected via `bw`/`k-bw` (purged 2026-08-14) — read credentials from local OAuth/client config only; never print secret values in chat.
-- **Runtime copy for `gws`:** `$HOME/.config/gws/<profile>/client_secret.json` (mode `600`). Refresh from Vault after Console rotation; OAuth client must match project (`287665785458-*` = KpihX, `747851806672-*` = Labs).
+- **Runtime copy for `gws`:** `$HOME/.config/gws/<profile>/client_secret.json` (mode `600`). Refresh from Vault after Console rotation; OAuth client must match project (`287665785458-*` = , `747851806672-*` = Labs).
 - **Console test users:** both projects — add every account used in `gws auth login` (see `references/gws-setup.md`).
-- **Labs API quota IAM:** `user:kpihx.labs@gmail.com` has `roles/serviceusage.serviceUsageConsumer` on `kpihx-labs` (granted 2026-05-25 via `gcloud`). This is the minimum role for API consumption — no IAM management, no service account creation.
+- **Labs API quota IAM:** `user:<labs@gmail.com>` has `roles/serviceusage.serviceUsageConsumer` on `<github-user>` (granted 2026-05-25 via `gcloud`). This is the minimum role for API consumption — no IAM management, no service account creation.
 
-Auth: `gws auth setup` / `gws auth login` — **KπX-owned** (browser).
+Auth: `gws auth setup` / `gws auth login` — **-owned** (browser).
 
 ### Full login procedure (all scopes, validated 2026-09-04)
 
 Both profiles use the same login flow — one command per profile:
 
 ```bash
-# KpihX personal (kapoivha@gmail.com)
-gws-kpihx auth login -s gmail,drive,calendar,contacts,sheets,docs,slides,tasks,people,chat,forms,keep,meet,classroom
+#  personal (<primary@gmail.com>)
+gws-primary auth login -s gmail,drive,calendar,contacts,sheets,docs,slides,tasks,people,chat,forms,keep,meet,classroom
 
-# KpihX-Labs homelab (kpihx.labs@gmail.com)
+# Labs homelab (<labs@gmail.com>)
 gws-labs auth login -s gmail,drive,calendar,contacts,sheets,docs,slides,tasks,people,chat,forms,keep,meet,classroom
 ```
 
@@ -121,12 +121,12 @@ The 31 scopes map to: Gmail (readonly, compose, insert, modify, send, labels, se
 
 **Note:** `keep`, `meet`, `classroom` in the `-s` list are **accepted but not added** — the gws CLI has no discovery for these services; the returned scope set stays at 31. Keep has no public API.
 
-**Read-only default** until KπX approves send/upload.
+**Read-only default** until  approves send/upload.
 
 ```bash
-gws-kpihx gmail users messages list --params '{"userId":"me","maxResults":5}'
+gws-primary gmail users messages list --params '{"userId":"me","maxResults":5}'
 gws-labs drive files list --params '{"pageSize":10}'
-# bare `gws` == gws-kpihx in interactive zsh only
+# bare `gws` == gws-primary in interactive zsh only
 ```
 
 ## Mail exception
@@ -134,7 +134,7 @@ gws-labs drive files list --params '{"pageSize":10}'
 | Account | Tool | Skill |
 |---------|------|-------|
 | Poly Zimbra | mail-proxy (ex-`mail-mcp`) | **`k-mail`** (canonical) |
-| Gmail (`kapoivha`, Labs) | `gws-kpihx` / `gws-labs` | **`k-mail`** + inbound E2E → **`k-cloudflare/references/inbound-email-e2e.md`** · kapoivha hygiene → **`references/kapoivha-gmail-hygiene.md`** |
+| Gmail (`kapoivha`, Labs) | `gws-primary` / `gws-labs` | **`k-mail`** + inbound E2E → **`k-cloudflare/references/inbound-email-e2e.md`** · kapoivha hygiene → **`references/gmail-hygiene.md`** |
 
 **GWS agent shells:** use profile wrappers or `$HOME/.npm-global/bin/gws` with `GOOGLE_WORKSPACE_*` env; strip `Using keyring…` line before `jq` (`awk '/^\{/{p=1} p'`). Send: `--params '{"userId":"me"}'` + `--json '{"raw":…}'`.
 
@@ -143,16 +143,16 @@ gws-labs drive files list --params '{"pageSize":10}'
 Dumps the complete Google Workspace state into `assets/dumps-<profile>/*.json` — Gmail (profile, labels, messages, send-as, filters, forwarding, vacation, POP, IMAP, delegates, auto-forwarding), Calendar (list + owned), Drive (files + about/quota), Tasks, Sheets/Docs/Slides/Forms/Keep (via Drive mimeType), **Contacts (People API)**.
 
 ```bash
-# KpihX personal (kapoivha) → assets/dumps-kpihx/
+#  personal (kapoivha) → assets/dumps-kpihx/
 $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh kpihx
 
-# KpihX-Labs homelab (kpihx.labs) → assets/dumps-labs/
+# Labs homelab (kpihx.labs) → assets/dumps-labs/
 $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh labs
 ```
 
 **Contacts:** `gws people people connections list` — native People API subcommand (≠ `people connections list`, which fails). Dumps up to 200 connections per page (pageSize=200).
 
-**Scripting note:** `gws-kpihx` and `gws-labs` are **shell** functions (`gws-profiles.sh`) — not available in a bash subshell. The script sets `GOOGLE_WORKSPACE_CLI_CONFIG_DIR` + `GOOGLE_WORKSPACE_PROJECT_ID` itself (kpihx default, `labs` arg for the homelab profile) and calls the bare `gws` binary.
+**Scripting note:** `gws-primary` and `gws-labs` are **shell** functions (`gws-profiles.sh`) — not available in a bash subshell. The script sets `GOOGLE_WORKSPACE_CLI_CONFIG_DIR` + `GOOGLE_WORKSPACE_PROJECT_ID` itself (kpihx default, `labs` arg for the homelab profile) and calls the bare `gws` binary.
 
 **Known dump limitations (validated 2026-09-04):**
 - `gmail-delegates` → 403 `Access restricted to service accounts...`: Gmail delegation listing is restricted to service accounts with domain-wide delegation — **not possible on a personal Gmail account** kapoivha.
@@ -162,7 +162,7 @@ $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh labs
 
 ## Gmail filter & label reference (`k-mail` canonical)
 
-> 📌 **Canonical reference:** See **`k-mail/references/gmail-folders-filters.md`** for the full inventory of active Gmail nested labels (`KpihX-Labs/*`), filters, and automated inspection/setup scripts (`inspect_gmail_filters_labels.sh`, `setup_alias_folders_filters.sh`).
+> 📌 **Canonical reference:** See **`k-mail/references/gmail-folders-filters.md`** for the full inventory of active Gmail nested labels (`Labs/*`), filters, and automated inspection/setup scripts (`inspect_gmail_filters_labels.sh`, `setup_alias_folders_filters.sh`).
 
 ## Gmail filter management (`gws` CLI)
 
@@ -177,7 +177,7 @@ $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh labs
 | `gws <profile> gmail users settings filters create --params '{"userId":"me"}' --json '{...}'` | Create a filter |
 | `gws <profile> gmail users settings filters delete --params '{"userId":"me","id":"<ID>"}'` | Delete a filter |
 
-**Profile wrappers:** `gws-kpihx` (kapoivha@gmail.com), `gws-labs` (kpihx.labs@gmail.com).
+**Profile wrappers:** `gws-primary` (<primary@gmail.com>), `gws-labs` (<labs@gmail.com>).
 
 ### Filter query syntax pitfalls
 
@@ -189,7 +189,7 @@ $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh labs
 
 | Pattern | Risk | Example |
 |---|---|---|
-| `removeLabelIds: ["INBOX"]` | Mails invisible in inbox but present in All Mail | `to:@kpihx-labs.com` |
+| `removeLabelIds: ["INBOX"]` | Mails invisible in inbox but present in All Mail | `to:@<yourdomain.com>` |
 | `addLabelIds: ["TRASH"]` | Mails immediately trashed | `subject:(OUT-E2E OR E2E-)` |
 | `from:X` + `remove INBOX,SPAM` | OK if intentional newsletter filtering | `from:linkedin.com` |
 
@@ -199,7 +199,7 @@ Before creating a filter, **list existing filters and check for duplicates**. Th
 
 ## YouTube Data API v3
 
-**Project:** `kpihx-labs` · **Profile:** `gws-labs` · **Runbook:** **`k-media/references/youtube-kpihx-labs.md`** · **Bootstrap:** `k-media/scripts/youtube_gcp_bootstrap.sh`.  
+**Project:** `<github-user>` · **Profile:** `gws-labs` · **Runbook:** **`k-media/references/youtube-<github-user>.md`** · **Bootstrap:** `k-media/scripts/youtube_gcp_bootstrap.sh`.  
 Agent: `gcloud` + OAuth file checks only — uploads/consent → **`k-media`** (not duplicated here).
 
 ## MCP / future
@@ -232,7 +232,7 @@ python3 "$HOME/.agents/skills/k-google/scripts/gws_inspect_recent_mail.py" --pro
 | Task | Load |
 |------|------|
 | Mount / remote | `k-rclone` |
-| `Gdrive_X` paths | `k-drive` |
+| `Gdrive` paths | `k-drive` |
 | Poly mail | `k-mail` |
 | Cloudflare | `k-cloudflare` |
 | Tailscale | `k-clis` |
@@ -244,10 +244,3 @@ python3 "$HOME/.agents/skills/k-google/scripts/gws_inspect_recent_mail.py" --pro
 - Update `$HOME/.agents/skills/k-google/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-04 | [LIVE] | v1.7.x — Gmail filter management (list/create/delete, E2E- trap, idempotency guard); `k-mail` Gmail SOT ref; `gws_dump_state.sh`, gws-labs added. |
-| 2026-09-03 | [LIVE] | v1.4–v1.6 — gws cleanup, profiles, wrappers, gcloud state, YouTube SOT → k-media. |
-| [SUMMARY] | — | v1.3.2 inbound Gmail E2E; v1.3.0–v1.3.3 scripts kit; v1.0.x gcloud+gws. |

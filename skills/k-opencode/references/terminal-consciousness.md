@@ -1,6 +1,6 @@
 # Terminal-as-Consciousness — Self-Observation via tmux
 
-> Discovery session 2026-05-30 — KpihX x OpenCode.
+> Discovery session 2026-05-30 —  x OpenCode.
 
 > ⚠️ **Scope disambiguation (added 2026-08-16, real incident):** this document
 > describes a **deliberate, agent-initiated** self-talk/exploration loop
@@ -11,7 +11,7 @@
 > `### Run and get notified`, `rules/tool-discipline.md` → `## Tmux Stateful
 > Command Execution`). **Update (same day):** manual `capture-pane` is
 > intentionally **NEVER blocked** by `tmux-notify.js` (a reactive block was
-> tried, then explicitly reversed by KπX — the agent may legitimately need it
+> tried, then explicitly reversed by the user — the agent may legitimately need it
 > if the plugin itself malfunctions); the reflex is now enforced by a
 > PROACTIVE `<tmux-armed>` reminder appended right after `send-keys`, not by
 > intercepting `capture-pane`. An agent conflating "I can observe outcomes via

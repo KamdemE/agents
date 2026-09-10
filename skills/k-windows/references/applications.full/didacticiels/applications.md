@@ -1,6 +1,6 @@
 # Didacticiels
 
-Source: `KpihX-Datas/Applications/Didacticiels/` (53G).
+Source: `-Datas/Applications/Didacticiels/` (53G).
 
 ## Bibles
 - `bibletime_3.0.2-1_amd64.deb`

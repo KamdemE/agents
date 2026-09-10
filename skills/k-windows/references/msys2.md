@@ -1,6 +1,6 @@
 # k-windows — MSYS2 + zsh + tmux (legacy, optional)
 
-> **Status: superseded by WSL for KπX agent work.** This mechanism predates WSL2 being set up on KπX Windows machines. It is documented here as a possibility (a machine can still run MSYS2 alongside WSL), not a requirement — new setups should default to WSL only. Downsides that motivated the move: MSYS2's `fork()` emulation makes MSYS2-native tools noticeably slower than their Windows-native equivalents, especially over network drives (Windows-native `git.exe`/`curl.exe` reach an SMB share at ~2400 MB/s; MSYS2's emulated equivalents are much slower) — this gap is *why* the PATH-merge trick below exists at all — and it's a second, fully separate shell environment to keep in sync with the WSL one.
+> **Status: superseded by WSL for  agent work.** This mechanism predates WSL2 being set up on  Windows machines. It is documented here as a possibility (a machine can still run MSYS2 alongside WSL), not a requirement — new setups should default to WSL only. Downsides that motivated the move: MSYS2's `fork()` emulation makes MSYS2-native tools noticeably slower than their Windows-native equivalents, especially over network drives (Windows-native `git.exe`/`curl.exe` reach an SMB share at ~2400 MB/s; MSYS2's emulated equivalents are much slower) — this gap is *why* the PATH-merge trick below exists at all — and it's a second, fully separate shell environment to keep in sync with the WSL one.
 >
 > All real config files referenced below, verbatim as actually deployed → **`assets/msys2/`**.
 
@@ -62,7 +62,7 @@ Key facts (full file in the asset):
   [ ! -d "$ZSH" ] && ZSH="/home/<user>/.oh-my-zsh"
   ```
   `DISABLE_AUTO_UPDATE="true"` / `DISABLE_UPDATE_PROMPT="true"` — avoids a startup hang from an update check.
-- Loads `~/.kshrc` at the end (the KπX shared shell layer) and `/home/<user>/.msysrc` last, by absolute path (deliberately not `$HOME`-relative, since `$HOME` has been overridden).
+- Loads `~/.kshrc` at the end (the  shared shell layer) and `/home/<user>/.msysrc` last, by absolute path (deliberately not `$HOME`-relative, since `$HOME` has been overridden).
 - `alias ssh="/c/Windows/System32/OpenSSH/ssh.exe"` — uses the Windows OpenSSH client (consistent SSH agent/config behavior with the rest of Windows), not MSYS2's own.
 
 ## Windows-home stub → `assets/msys2/zshrc_windows_home`
@@ -85,12 +85,12 @@ Full content in the asset. The one setting that matters most for correctness: `s
 
 ## SSH tunnel + remote-tmux pattern (generic mechanism)
 
-Two independent, composable patterns for reaching a remote Linux box with GPU compute from Windows via MSYS2 — shown here as a **mechanism**, with the concrete deep-pc6 example values (host, IP, tunnel port) living in `k-dxo` since that specific target is DxO-internship-internal. **Full family (both the Windows `.cmd` side here and the bash/systemd side) documented together in `references/remote-server-access.md`.**
+Two independent, composable patterns for reaching a remote Linux box with GPU compute from Windows via MSYS2 — shown here as a **mechanism**, with the concrete server example values (host, IP, tunnel port) living in `k-dxo` since that specific target is DxO-internship-internal. **Full family (both the Windows `.cmd` side here and the bash/systemd side) documented together in `references/remote-server-access.md`.**
 
 1. **Local port-forward to a remote service** (e.g. a remote Ollama server): `ssh -L <local_port>:127.0.0.1:<remote_port> <ssh_alias> -N -v`, then set `OLLAMA_HOST=http://127.0.0.1:<local_port>` (or whichever env var the local CLI needs) before invoking it. `assets/msys2/ollama-server.cmd` is the concrete `.cmd` wrapper implementing this pattern — it hardcodes only a *local* port (via a `LOCAL_PORT` env var, defaulting to `11435`), no remote host/IP, so it stays generic.
 2. **Direct remote tmux over SSH** (no local tunnel needed): `ssh -o BatchMode=yes -tt <ssh_alias> "tmux $*"` — `-tt` forces TTY allocation (required for `tmux attach` to work over SSH); `BatchMode=yes` disables the password fallback (fails hard instead of hanging on a prompt); all CLI args forward verbatim to the remote `tmux` binary. `assets/msys2/tmux-server.cmd` implements this — it only ever references the SSH alias name (via a `SSH_ALIAS` env var), never a raw IP.
 
-Both `.cmd` files rely entirely on the target alias (e.g. `deep-pc6`) being resolved by `~/.ssh/config` — the actual `Host` block (real IP, real domain-qualified username) is DxO-internship-internal and lives in `k-dxo`, not here. **(Renamed 2026-08-27 from `tmux6.cmd`/`ollama6.cmd`** — those names, while carrying no raw IP, still baked in the DxO-flavored `6` numeral and a hardcoded alias/port with no override mechanism; the new versions read `SSH_ALIAS`/`LOCAL_PORT` from the environment, matching the bash equivalents in `scripts/remote-server/`.)
+Both `.cmd` files rely entirely on the target alias (e.g. `server`) being resolved by `~/.ssh/config` — the actual `Host` block (real IP, real domain-qualified username) is DxO-internship-internal and lives in `k-dxo`, not here. **(Renamed 2026-08-27 from `tmux6.cmd`/`ollama6.cmd`** — those names, while carrying no raw IP, still baked in the DxO-flavored `6` numeral and a hardcoded alias/port with no override mechanism; the new versions read `SSH_ALIAS`/`LOCAL_PORT` from the environment, matching the bash equivalents in `scripts/remote-server/`.)
 
 ## Local tmux sessions on Windows (fixed, generic example)
 
@@ -133,8 +133,3 @@ Idempotent — never recreates an existing session/window; safe to re-run any ti
 | `curl` | Windows `curl.exe` |
 | `curlm` | MSYS2 `/usr/bin/curl.exe` |
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Migrated the generic MSYS2 mechanism from the unversioned Windows-side `k-win-msys2` skill: HOME-resolution saga, PATH-merge script, `commande`/`commandem` convention, SSH-tunnel/remote-tmux patterns (genericized — concrete deep-pc6 values moved to `k-dxo`). Replaced the original 3-mutually-contradictory tmux session maps with one corrected, DxO-agnostic example (`tmux-sessions.ps1`: session `windows`, windows `agents`/`default`/`tmp`, mirroring `k-tmux`'s standard layout exactly) rather than preserving the contradiction. |

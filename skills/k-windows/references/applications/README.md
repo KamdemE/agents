@@ -1,6 +1,6 @@
-# KpihX-Datas Applications — Current Inventory
+# -Datas Applications — Current Inventory
 
-Snapshot captured on 2026-08-29 after the manual refactor of `/run/media/kpihx/KpihX-Datas/Applications/`.
+Snapshot captured on 2026-08-29 after the manual refactor of `/run/media/kpihx/-Datas/Applications/`.
 
 ```text
 Applications/

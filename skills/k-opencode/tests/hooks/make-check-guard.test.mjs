@@ -1,5 +1,5 @@
 // Test for make-check-guard.js — simulates tool.execute.before calls.
-// Ultra-simple logic (KπX): find FIRST `make check` anywhere; if a blank
+// Ultra-simple logic (): find FIRST `make check` anywhere; if a blank
 // (whitespace) appears after it → block. Otherwise allow.
 // Run from the repo root: node skills/k-opencode/tests/hooks/make-check-guard.test.mjs
 import { fileURLToPath } from "node:url";

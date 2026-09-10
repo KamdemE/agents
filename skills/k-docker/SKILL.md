@@ -1,19 +1,19 @@
 ---
 name: k-docker
 description: >
-  KπX Docker deployment — Dockerfile (multi-stage), docker-compose prod/override, GitLab CI
+  Docker deployment — Dockerfile (multi-stage), docker-compose prod/override, CI
   (validate + deploy + sync), Traefik labels, Makefile.docker, repo creation. Load for ANY
   project that will be deployed on the homelab server.
 license: private
 metadata:
-  author: KpihX
-  version: "1.4.3"
+  author: 
+  version: "1.0.0"
 allowed-tools: Bash(*), "*"
 ---
 
-# KπX — Docker Deployment
+#  — Docker Deployment
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related skills:** `k-git` (push, Makefiles, remotes) · `k-project` (init, naming, config)
 > **Templates:** inspiration and baseline — adapt freely to project specifics; never follow blindly.
@@ -62,12 +62,12 @@ Env vars to inject in CI `.env` for projects that need a DB:
 ```
 DB_NAME=<project_db_name>    # project-specific (create the DB manually first)
 DB_USER=admin                # fixed on the server
-DB_PASS=$POSTGRES_PASSWORD   # kpihx-labs group var → maps to POSTGRES_PASSWORD
+DB_PASS=$POSTGRES_PASSWORD   # <github-user> group var → maps to POSTGRES_PASSWORD
 DB_HOST=postgres             # container name on the proxy network
 DB_PORT=5432
 ```
 
-> `POSTGRES_PASSWORD` is in the `kpihx-labs` GitLab group vars — never redefine it.
+> `POSTGRES_PASSWORD` is in the shared CI vars — never redefine it.
 
 ## docker-compose.override.yml (local dev)
 
@@ -80,20 +80,18 @@ Key rules:
 - Override `environment: DB_HOST: db` to point to the local container (instead of server `postgres`)
 - **NEVER commit a filled `.env`** — commit only `.env.example`
 
-## GitLab CI/CD
+## CI/CD (GitHub Actions)
 
-Templates:
-- `assets/.gitlab-ci.uv.yml` — Python/uv projects (validate with `ghcr.io/astral-sh/uv:python3.12-bookworm-slim`, pytest, health via `curl`)
-- `assets/.gitlab-ci.bun.yml` — Bun/TS projects (validate with `oven/bun:1-slim`, `bun test`, health via `bun -e fetch`)
+Templates (`assets/`):
+- `.gitlab-ci.uv.yml` / `.gitlab-ci.bun.yml` — GitLab CI references (kept as examples)
+- Prefer GitHub Actions workflows for new projects — verify with `gh run list`.
+
 
 **Runner:** tag `homelab` (deploy job only — validate runs on shared runner with the appropriate language image)
 
-**`kpihx-labs` GitLab group vars** — inherited by all group projects automatically.
+**Shared CI vars** — set once per GitHub org/user, inherited by all projects.
 
-> ⚠️ Always re-check before starting a new project — list may have changed:
-> ```bash
-> glab variable list -g kpihx-labs
-> ```
+> ⚠️ Always re-check before starting a new project — list may have changed.
 
 | Key | Protected | Masked | Notes |
 |-----|-----------|--------|-------|
@@ -104,19 +102,17 @@ Templates:
 | `TELEGRAM_PVE_TOKEN` | ✓ | ✓ | PVE Telegram bot token |
 | `TELEGRAM_DOCKERHOST_TOKEN` | ✓ | ✓ | Docker host Telegram bot token |
 
-**Project-specific vars** — create per project in GitLab **Settings → CI/CD → Variables** (or via CLI):
+**Project-specific vars** — create per project in GitHub **Settings → Secrets and variables → Actions** (or via CLI):
 
 ```bash
-# Create a masked+protected project var (replace values accordingly)
-glab variable set TELEGRAM_PROJECT_HOMELAB_TOKEN --value "<token>" \
-  --masked --protected --repo kpihx-labs/<project-name>
+# Create a secret (replace values accordingly)
+gh secret set TELEGRAM_PROJECT_TOKEN --body "<token>" --repo <user>/<project-name>
 
 # Or for a project-specific API key
-glab variable set TICKTICK_API_TOKEN --value "<token>" \
-  --masked --protected --repo kpihx-labs/<project-name>
+gh secret set TICKTICK_API_TOKEN --body "<token>" --repo <user>/<project-name>
 
-# List all vars for a project (verify after creation)
-glab variable list --repo kpihx-labs/<project-name>
+# List all Actions variables for a project (verify after creation)
+gh variable list --repo <user>/<project-name>
 ```
 
 - Rule: **never hardcode** — always inject via CI vars → generated `.env`
@@ -136,27 +132,17 @@ The `sync_github` block in the CI templates is kept commented out as a fallback 
 
 ## Repo Creation
 
-**Preferred — `gh` + `glab` at project init:**
+**Preferred — `gh` at project init:**
 
 ```bash
-# Homelab / CI-deploy projects (kpihx-labs org on both platforms)
-gh repo create kpihx-labs/<name> --public
-glab repo create kpihx-labs/<name> --public   # or: --group kpihx-labs
+# New project (single remote)
+gh repo create <user>/<name> --public
 
-# Set remotes (SSH — see k-git)
-git remote add github git@github.com:kpihx-labs/<name>.git
-git remote add gitlab git@gitlab.com:kpihx-labs/<name>.git
+# Set remote (SSH — see k-git)
+git remote add origin git@github.com:<user>/<name>.git
 
-# Push both
+# Push
 make push
-```
-
-```bash
-# Personal namespace (tools/MCPs not tied to homelab infra)
-gh repo create KpihX/<name> --public
-glab repo create kpihx/<name> --public
-git remote add github git@github.com:KpihX/<name>.git
-git remote add gitlab git@gitlab.com:kpihx/<name>.git
 ```
 
 > Once both remotes are set, `make push` keeps them in sync — no CI sync stage needed.
@@ -173,21 +159,21 @@ Targets: `up`, `down`, `restart`, `build`, `logs`, `ps`, `deploy`, `prune`, `she
 
 | Context | Pattern |
 |---------|---------|
-| Public HTTPS | `<service>.kpihx-labs.com` |
+| Public HTTPS | `<service>.<github-user>.com` |
 | Internal VPN | `<service>.homelab` |
 | Port | declared in `loadbalancer.server.port` |
 
 ## Post-Push Workflow: CI/CD Verification
 
-After any `make push` to a project that has a `.gitlab-ci.yml`, it is mandatory to monitor the pipeline's status to ensure the changes deploy successfully.
+After any `make push` to a project that has CI workflows, it is mandatory to monitor the pipeline's status to ensure the changes deploy successfully.
 
 **Always check the pipeline status until it completes.**
 
-Use the following `glab` command, replacing the repository path as needed:
+Use the following `gh` command, replacing the repository path as needed:
 
 ```bash
-# Check pipeline status for a project in the 'kpihx-labs' group
-glab pipeline list --repo kpihx-labs/your-project-name
+# Check workflow runs for a project
+gh run list --repo <user>/your-project-name
 ```
 
 This ensures that a successful push translates to a successful deployment.
@@ -198,10 +184,3 @@ This ensures that a successful push translates to a successful deployment.
 - Update `$HOME/.agents/skills/k-docker/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-04-13 | [CODEX] | v1.4.3 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| 2026-04-03 | [CODEX] | v1.4.2 — normalized the concrete example path to `$HOME` and clarified `k-qmd` as the preferred discovery path |
-| [SUMMARY] | — | +1 older changelog entries kept in file history; condensed for table limits |

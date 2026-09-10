@@ -1,4 +1,4 @@
--- KπX custom keymaps
+--  custom keymaps
 
 -- Editor binary — change this one constant to switch forks (cursor, agy, etc.)
 local CODE = "code"

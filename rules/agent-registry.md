@@ -68,7 +68,7 @@ ln -sf $HOME/.agents/skills $HOME/.config/zed/skills
 Before any setup action, agents should:
 1. Read their own `k-<name>/SKILL.md` for runtime-specific setup
 2. Cross-check: does the registry match their actual capabilities?
-3. If divergence detected: STOP, alert KπX, propose correction
+3. If divergence detected: STOP, alert , propose correction
 
 ## Skills Path — Per-Agent Details
 

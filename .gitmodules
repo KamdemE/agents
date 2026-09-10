@@ -1,20 +1,20 @@
 [submodule "k-opencode/plugins/opencode-lens"]
 	path = skills/k-opencode/scripts/plugins/web/opencode-lens
-	url = git@github.com:kpihx-labs/opencode-lens.git
+	url = git@github.com:<github-user>/opencode-lens.git
 	branch = main
 [submodule "k-opencode/plugins/opencode-web-voice"]
 	path = skills/k-opencode/scripts/plugins/web/opencode-web-voice
-	url = git@github.com:kpihx-labs/opencode-web-voice.git
+	url = git@github.com:<github-user>/opencode-web-voice.git
 	branch = main
 [submodule "k-opencode/plugins/opencode-context"]
 	path = skills/k-opencode/scripts/plugins/opencode-context
-	url = git@github.com:kpihx-labs/opencode-context.git
+	url = git@github.com:<github-user>/opencode-context.git
 	branch = main
 [submodule "k-opencode/plugins/opencode-voice"]
 	path = skills/k-opencode/scripts/plugins/opencode-voice
-	url = git@github.com:kpihx-labs/opencode-voice.git
+	url = git@github.com:<github-user>/opencode-voice.git
 	branch = main
 [submodule "skills/k-opencode/scripts/plugins/opencode-help"]
 	path = skills/k-opencode/scripts/plugins/opencode-help
-	url = git@github.com:kpihx-labs/opencode-help.git
+	url = git@github.com:<github-user>/opencode-help.git
 	branch = master

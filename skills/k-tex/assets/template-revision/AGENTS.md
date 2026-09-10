@@ -1,6 +1,6 @@
 # AGENTS.md — template-revision (k-tex asset)
 
-You are inside the canonical KπX revision-sheet template:
+You are inside the canonical  revision-sheet template:
 `~/.agents/skills/k-tex/assets/template-revision/`
 (canonical source of truth — full doc → `k-tex` SKILL.md § Revision Sheets).
 
@@ -13,7 +13,7 @@ minimal pages. Robust build (`|| true`) — a PDF always comes out.
 
 ## What to do with it (course workflow)
 
-1. **Copy** this whole folder to `~/KpihX-Labs/Explore/<course>/revision/`
+1. **Copy** this whole folder to `~/Labs/Explore/<course>/revision/`
    (`~e`) — one copy per course, adjusted as needed. Never build here.
 2. **Content**: Markdown → `pandoc revision.md -o 1.tex`, or write `1.tex`
    directly (`\section`, `\subsection`, `mybox`, short bullets, bold key terms).

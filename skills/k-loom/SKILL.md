@@ -3,14 +3,14 @@ name: "k-loom"
 description: "Loom — persistent code index CLI for cross-session code search and context retrieval (CLI ONLY, no MCP)"
 license: "private"
 metadata:
-  author: "KpihX"
-  version: "1.8.0"
+  author: ""
+  version: "1.0.0"
   scope: "code-tooling"
 ---
 
 # Loom — Persistent Code Index
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **What it is:** Persistent SQLite index of your codebase. Cross-session code search — unlike AST parsers that parse fresh. Relationship-aware: who calls what, where is this defined.
 >
@@ -22,13 +22,13 @@ metadata:
 
 ```bash
 uv tool install loom-tool                     # one time → `loom` in PATH
-cd ~/KpihX-Labs/Proxies/tg-proxy && loom analyze .    # build index (~10-60s)
-cd ~/KpihX-Labs/Proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
+cd ~/Labs/Proxies/tg-proxy && loom analyze .    # build index (~10-60s)
+cd ~/Labs/Proxies/tg-proxy && loom install      # git post-commit hook → auto-sync on commit
 ```
 
 The git hook runs `loom sync --old-sha HEAD~1 --new-sha HEAD` after every commit (~2-5s, incremental).
 
-🔴 **NO LOOM MCP (KπX directive 2026-08-24):** `loom-mcp` was REMOVED from `opencode.jsonc` — the stdio model spawned 1 process per AI session (16 instances ≈ 790M RAM). Agents MUST use the `loom` CLI binary ONLY (~0 resident RAM). Never re-add the MCP, never mention it in rules/agents. Full MCP→CLI equivalence table: `references/mcp.md`.
+🔴 **NO LOOM MCP ( directive 2026-08-24):** `loom-mcp` was REMOVED from `opencode.jsonc` — the stdio model spawned 1 process per AI session (16 instances ≈ 790M RAM). Agents MUST use the `loom` CLI binary ONLY (~0 resident RAM). Never re-add the MCP, never mention it in rules/agents. Full MCP→CLI equivalence table: `references/mcp.md`.
 
 ---
 
@@ -81,7 +81,7 @@ loom export /tmp/graph.html --open
 
 ## Agent Reflexes (MANDATORY on any indexed code/git project)
 
-🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` a non-git directory.** On any git project containing code, agents MUST use Loom as the structural layer — not just grep/read.
+🔴 **Loom is GIT-PROJECTS-ONLY ( directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` a non-git directory.** On any git project containing code, agents MUST use Loom as the structural layer — not just grep/read.
 
 1. **Session start on ANY git project (ALWAYS check before querying):** `[ -f ~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db ] || loom analyze .` → then `loom stats` + DB mtime → if stale → `loom sync`, re-check.
 2. **Resume work:** `git diff --name-only HEAD~1 HEAD` + `loom query` on changed symbols — see ONLY what changed since last time; never re-read unchanged functions.
@@ -109,7 +109,7 @@ Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered b
 ## Ignore & Secrets Policy (GRAVÉ — .env NEVER indexed)
 
 🔴 **Real secret files must NEVER be indexed. Templates (`.env.example`) stay indexed.**
-🔴 **Loom is GIT-PROJECTS-ONLY** (KπX directive 2026-08-24): never `loom analyze` a non-git directory. Git repos automatically honor `.gitignore` + `.git/info/exclude` + the global excludesFile through `git ls-files --exclude-standard`.
+🔴 **Loom is GIT-PROJECTS-ONLY** ( directive 2026-08-24): never `loom analyze` a non-git directory. Git repos automatically honor `.gitignore` + `.git/info/exclude` + the global excludesFile through `git ls-files --exclude-standard`.
 
 | Layer | Owner | Scope |
 |-------|-------|-------|
@@ -146,15 +146,8 @@ Every OTHER hook type (`pre-commit`, `commit-msg`, `pre-push`, …) is covered b
 1. plocate  → find files (fastest, system index — never `locate`, DB auto-updated daily)
 2. opencode-ast    → file structure (plugin, fresh parse)
 3. loom query      → cross-reference (persistent index)
-4. qmdr            → KπX know-how (past decisions)
+4. qmdr            →  know-how (past decisions)
 ```
 
 ---
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-26 | [COLAB] | **v1.8.0 — Passthrough path reference updated**: `k-git`'s generic hook passthrough relocated `assets/` → `scripts/` inside its skill (KπX order); § Hook Ownership cross-reference updated accordingly (`scripts/git-hook-passthrough.sh`). No functional change — Loom's post-commit dispatcher untouched. |
-| 2026-08-24 | [COLAB] | **v1.7.0 — LOOM MCP REMOVED (KπX directive)**: `loom-mcp` deleted from `opencode.jsonc` (live = symlinked asset, 16 stdio instances ≈ 790M RAM); ALL rules/agents/skills now reference the `loom` CLI ONLY (`rules/search-governance.md`, `AGENTS.md`, `agents/Colab/prompt.txt`, `agents/Agent/prompt.txt`, `k-clis`, `k-optim`, `k-uv`); full MCP→CLI equivalence table + RAM history archived in `references/mcp.md` (NON-RECOMMENDED registry). |
-| [SUMMARY] | — | v1.6.1 check-skills audit (→ `references/log.md`) · v1.6.0 hook ownership cleanup (→ `references/log.md`) · v1.5.0 Git-only scope (→ `references/log.md`) · v1.4.0 secrets ignore (→ `references/log.md`) · v1.3.0 Loom activation (→ `references/log.md`) · v1.2.0 Proxies/ move · v1.1.0 auto-sync (→ `references/log.md`) · v1.0.0 created (→ `references/log.md`) |

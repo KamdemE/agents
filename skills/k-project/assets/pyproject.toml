@@ -1,4 +1,4 @@
-# KpihX uv project template
+#  uv project template
 # ──────────────────────────
 # Usage:
 #   1. Copy to your project root, rename to pyproject.toml
@@ -29,7 +29,7 @@
 name        = "PROJECT_NAME"
 version     = "VERSION"
 description = "DESCRIPTION"
-authors     = [{ name = "KAMDEM Ivann", email = "kapoivha@gmail.com" }]
+authors     = [{ name = "Your Name", email = "<primary@gmail.com>" }]
 readme      = "README.md"
 license     = { text = "MIT" }
 requires-python = ">=3.12"

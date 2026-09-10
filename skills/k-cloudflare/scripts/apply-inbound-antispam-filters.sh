@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Idempotent Gmail + Outlook anti-spam for @kpihx-labs.com inbound aliases.
+# Idempotent Gmail + Outlook anti-spam for @<yourdomain.com> inbound aliases.
 # Gmail: filter criteria to:<alias> → removeLabelIds SPAM
 # Hotmail: inbox messageRules → moveToFolder inbox when sentToAddresses matches alias
 set -euo pipefail
@@ -10,7 +10,7 @@ if [[ -z "$GWS_BIN" ]]; then
   [[ -z "$GWS_BIN" ]] && GWS_BIN="$HOME/.npm-global/bin/gws"
 fi
 
-ALIASES=(contact@kpihx-labs.com kpihx@kpihx-labs.com ivann@kpihx-labs.com)
+ALIASES=("contact@<yourdomain.com>" "mail@<yourdomain.com>" "personal@<yourdomain.com>")
 strip_json() { awk '/^\{/{p=1} p'; }
 
 gmail_ensure_filter() {
@@ -33,7 +33,7 @@ gmail_ensure_filter() {
 echo "=== Gmail filters ==="
 for alias in "${ALIASES[@]}"; do
   gmail_ensure_filter "$HOME/.config/gws/kpihx" "kpihx-489121" "kapoivha" "to:$alias"
-  gmail_ensure_filter "$HOME/.config/gws/kpihx-labs" "kpihx-labs" "labs" "to:$alias"
+  gmail_ensure_filter "$HOME/.config/gws/<github-user>" "<github-user>" "labs" "to:$alias"
 done
 
 if ! command -v m365 >/dev/null 2>&1; then
@@ -51,7 +51,7 @@ existing_names="$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolde
 
 outlook_ensure_rule() {
   local short="$1" addr="$2" seq="$3"
-  local dn="KpihX inbound $short (inbox)"
+  local dn=" inbound $short (inbox)"
   if echo "$existing_names" | grep -qxF "$dn"; then
     echo "Outlook: exists $dn"
     return 0

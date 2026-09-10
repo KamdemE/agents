@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KπX shell launcher for Antigravity Hub (always safe flags for tar install + Wayland).
+#  shell launcher for Antigravity Hub (always safe flags for tar install + Wayland).
 set -euo pipefail
 
 HUB="${HOME}/.local/share/antigravity-hub/antigravity"

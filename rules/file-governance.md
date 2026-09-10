@@ -7,7 +7,7 @@
 
 - **First write = English.** Always. Every new file starts in English.
 - **Editing an existing file = stay in the file's language.** Read the file first. If it's in English, edit in English. If it's in another language (e.g., legacy or localized files), edit in that same language. **Never, ever mix languages in the same file.**
-- **Response language** (chat with KπX): **Respond in the language of KπX's last message in the chat.** If there is no clear language context or it is ambiguous, default to English.
+- **Response language** (chat with ): **Respond in the language of the user's last message in the chat.** If there is no clear language context or it is ambiguous, default to English.
 - **Exception:** Editing a legacy file that was written in another language — match that language for the edit. No mixing.
 - **Hard rule:** If you haven't read the file, you don't know its language → you CANNOT edit it. Read first, always.
 
@@ -63,12 +63,12 @@ convention `-`.
 | "ajuste AGENTS" | `AGENTS.md` |
 | "ajuste VIBE" | `skills/k-vibe/SKILL.md` |
 | "ajuste GIT" | `skills/k-git/SKILL.md` |
-| "ajuste WORKSPACE" | `skills/k-context/SKILL.md` (workspace context) or `skills/kpihx-labs/SKILL.md` (kernel) |
+| "ajuste WORKSPACE" | `skills/k-context/SKILL.md` (workspace context) or `skills/<github-user>/SKILL.md` (kernel) |
 
 ## Home Directory Routes
 | Path | Scope |
 |------|-------|
-| `$HOME/Gdrive_X/` | Pro/Academic Google Drive (rclone: `gdrive-x:`) |
+| `$HOME/Gdrive/` | Pro/Academic Google Drive (rclone: `gdrive-x:`) |
 | `$HOME/Gdrive/` | Personal Google Drive (rclone: `gdrive:`) |
 | `$HOME/Work/` | Dev & prod code, infra, scripts |
 | `$HOME/Pictures/` | Generated visuals, screenshots |
@@ -133,18 +133,18 @@ Every file that is NOT versioned project code goes into `/tmp/` — not `$HOME/`
 - **Use `mktemp -d` or explicit subdirectory** — no loose files at `/tmp/` root
 - **`/tmp/` is shared by all agents** — name directories to avoid collisions
 - **Cleanup: not mandatory** (reboot = clean), but if sensitive (token, secret) → delete after use
-- **Exception:** if KπX explicitly requests a path, follow KπX
+- **Exception:** if the user explicitly requests a path, follow 
 - **Exception:** Vaultwarden exports follow their own rule (`/tmp/*.env` → import + delete)
 
 ### Exception — Explore/lab (scientific scripts)
 
-Scripts that need scientific libraries (numpy, matplotlib, scipy, etc.) go to **`$HOME/KpihX-Labs/Explore/lab/scripts/`** — not `/tmp/`. This is a shared `uv` project pre-loaded with common scientific libs. Consult `pyproject.toml` before adding. New lib → `uv add <package>`. **100% uv in this lab — NEVER pip, NEVER python, NEVER `uv pip`.** Run with `uv run scripts/your_script.py`.
+Scripts that need scientific libraries (numpy, matplotlib, scipy, etc.) go to **`$HOME/Labs/Explore/lab/scripts/`** — not `/tmp/`. This is a shared `uv` project pre-loaded with common scientific libs. Consult `pyproject.toml` before adding. New lib → `uv add <package>`. **100% uv in this lab — NEVER pip, NEVER python, NEVER `uv pip`.** Run with `uv run scripts/your_script.py`.
 
 ### What does NOT go in `/tmp/`
 
 - Business/project code, scripts that belong to a codebase → **in the repo**
 - System configuration files → **`/etc/` or `~/.config/`**
-- Long-term data → **`$HOME/Work/`, `$HOME/Gdrive_X/`, etc.**
+- Long-term data → **`$HOME/Work/`, `$HOME/Gdrive/`, etc.**
 - Educational/tutorial assets → **`$HOME/Work/techskills/`**
 
 ## Binaries over Aliases
@@ -164,7 +164,7 @@ Scripts that need scientific libraries (numpy, matplotlib, scipy, etc.) go to **
 
 ## `.agents/` Centralization — First Reflex
 
-**Every config file, service, asset, wrapper, system script that belongs to the KπX infrastructure must live in `.agents/` under the appropriate skill.**
+**Every config file, service, asset, wrapper, system script that belongs to the  infrastructure must live in `.agents/` under the appropriate skill.**
 
 ### Principle
 

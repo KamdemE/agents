@@ -1,0 +1,28 @@
+{
+  "zone": "<github-user>.com",
+  "worker": "<github-user>-inbound-router",
+  "default_destinations": ["<primary@gmail.com>"],
+  "aliases": [
+    {
+      "address": "mail@<yourdomain.com>",
+      "name": "kpihx public",
+      "priority": 1,
+      "rule_id": "332137f5445a4b368e0759a357cef0f9",
+      "destinations": ["<personal@hotmail.com>", "<primary@gmail.com>"]
+    },
+    {
+      "address": "contact@<yourdomain.com>",
+      "name": "contact homelab",
+      "priority": 2,
+      "rule_id": "d510750af1ed449bbc02247c881f874a",
+      "destinations": ["<labs@gmail.com>", "<primary@gmail.com>"]
+    },
+    {
+      "address": "personal@<yourdomain.com>",
+      "name": "ivann outlook only",
+      "priority": 3,
+      "rule_id": "41bb5f76b8c7499c8bf60273d23a9cc3",
+      "destinations": ["<personal@hotmail.com>", "<primary@gmail.com>"]
+    }
+  ]
+}

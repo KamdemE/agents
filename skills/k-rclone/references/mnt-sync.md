@@ -1,6 +1,6 @@
 # k-rclone — Mount Sync (rsync/robocopy, across mounts/disks)
 
-Distilled (form only, zero business content) from a real, mature R&D pipeline project's asset-mirroring tooling. Distinct from the rest of `k-rclone` (Google Drive remotes/FUSE mounts): this is generic **mount-to-mount sync** — two separate mounted disks/paths (a network drive, an NVMe mirror, a Windows↔Linux boundary), not the same disk — plain `rsync`/`robocopy`, no rclone remote involved. The most common use is mirroring a project's heavy `assets/` (large data/model files), but the pattern is generic: any two mount points. Documented here anyway (not in `k-project`) so it's discoverable alongside the rest of KπX's sync tooling whenever a project needs it — `k-project` → Pipeline R&D archetype just points here.
+Distilled (form only, zero business content) from a real, mature R&D pipeline project's asset-mirroring tooling. Distinct from the rest of `k-rclone` (Google Drive remotes/FUSE mounts): this is generic **mount-to-mount sync** — two separate mounted disks/paths (a network drive, an NVMe mirror, a Windows↔Linux boundary), not the same disk — plain `rsync`/`robocopy`, no rclone remote involved. The most common use is mirroring a project's heavy `assets/` (large data/model files), but the pattern is generic: any two mount points. Documented here anyway (not in `k-project`) so it's discoverable alongside the rest of the user's sync tooling whenever a project needs it — `k-project` → Pipeline R&D archetype just points here.
 
 Templates: `assets/mnt-sync/{dirs.txt.example,load_dirs.sh,sync-pull.sh,sync-push.sh,sync-pull.ps1,sync-push.ps1}`.
 
@@ -41,9 +41,3 @@ Set `MNT_SYNC_REMOTE_ROOT` / `MNT_SYNC_LOCAL_ROOT` (env vars, both scripts defau
 - **Live progress for large transfers**: for very large/slow mounts, the source project used a hand-rolled progress UI (background `rsync` jobs polled via `kill -0` + `du -sb`, `trap ... EXIT` cleanup) instead of a third-party dependency — consistent with the "no extra dependency for local tooling" philosophy. The templates here use `rsync --info=progress2` instead (built into rsync, simpler); reach for the hand-rolled version only if you need per-folder parallel progress bars specifically.
 - **Keep a push error log outside any cleanup trap** — if you add error logging, write it outside the repo and outside any `trap ... EXIT` cleanup, so a partial/failed push is still diagnosable afterward.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | Renamed from `assets-sync` to `mnt-sync` — this is generic mount-to-mount sync (network drive, NVMe mirror, Windows↔Linux), not tied to the "assets" concept; env vars renamed `ASSETS_SYNC_*` → `MNT_SYNC_*` to match. |
-| 2026-08-25 | [CLAUDE] | Created — generalized from a real project's `scripts/sync-assets/` (dirs.txt manifest, per-direction sh/ps1 pair, Makefile targets), form only. |

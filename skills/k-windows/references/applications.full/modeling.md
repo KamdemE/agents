@@ -1,6 +1,6 @@
 # Modeling (338M)
 
-> Source: `KpihX-Datas/Applications/Modeling/`
+> Source: `-Datas/Applications/Modeling/`
 > draw.io (deb Linux) + StarUML (cracké)
 
 | Fichier | Type |

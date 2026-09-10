@@ -1,6 +1,6 @@
 #!/bin/sh
 # ============================================================================
-# KπX global git hook pass-through — GENERIC (any hook type via $0)
+#  global git hook pass-through — GENERIC (any hook type via $0)
 # ----------------------------------------------------------------------------
 # Source of truth : $HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh
 # Deployed as     : symlinks named after each hook type in
@@ -20,18 +20,18 @@
 # git when running hooks, else `rev-parse --absolute-git-dir`) and append
 # `/hooks/<name>`.
 #
-# ORDERING (KπX directive 2026-08-24): the GLOBAL gates run BEFORE the
+# ORDERING ( directive 2026-08-24): the GLOBAL gates run BEFORE the
 # repo-local hooks (fail fast — never burn an expensive local `make check`
 # on a commit that must be blocked anyway).
 #
-# ADDED BEHAVIOR (2026-08-24, KπX directive):
+# ADDED BEHAVIOR (2026-08-24,  directive):
 #   • pre-commit — Submodule hygiene gate: blocks if ANY submodule has
 #     uncommitted changes OR unpushed commits.
 #   • pre-push — Submodule push gate: blocks if ANY submodule HEAD is not
 #     present on EVERY of its remotes (live `git ls-remote` check, no stale
 #     tracking refs).
 #
-# ADDED BEHAVIOR (2026-08-25, KπX directive — generalized from a per-project
+# ADDED BEHAVIOR (2026-08-25,  directive — generalized from a per-project
 # pattern found in a mature pipeline project; repos NEVER set their own
 # `core.hooksPath` anymore, these two gates now apply to every repo globally):
 #   • pre-commit — `make check` gate: if the repo has a Makefile with a
@@ -41,7 +41,7 @@
 #     line starting with `co-authored-by:`, `signed-off-by:`, or `author:`
 #     (case-insensitive) before the repo-local hook (if any) sees it.
 #
-# 🔴🔴🔴 NO BYPASS, NO OVERRIDE VARIABLES (KπX directive 2026-08-25) — GRAVÉ
+# 🔴🔴🔴 NO BYPASS, NO OVERRIDE VARIABLES ( directive 2026-08-25) — GRAVÉ
 # There is deliberately NO environment variable to skip ANY gate here
 # (no KPIHX_ALLOW_* / KPIHX_SKIP_* / KPIHX_KEEP_*). If a gate blocks you,
 # FIX THE UNDERLYING STATE — never bypass the check. The checks ARE the code.
@@ -62,8 +62,8 @@ sm_paths() {
 }
 
 # --- GLOBAL GATE 1: pre-commit submodule hygiene ----------------------------
-# Unpushed is measured against the KPIX-owned PUSH remotes (github/gitlab) —
-# NOT @{upstream}, which points at read-only upstreams (Flickwire/IgorWarzocha).
+# Unpushed is measured against the owner PUSH remote (origin) —
+# NOT @{upstream}, which points at read-only upstreams.
 submodule_dirty_report() {
   report=""
   # githooks(5): a hook that runs git in a foreign repo (here: each submodule)
@@ -79,24 +79,20 @@ submodule_dirty_report() {
     branch="$(git -C "$p" rev-parse --abbrev-ref HEAD)"
     sha="$(git -C "$p" rev-parse HEAD)"
     on_a_remote=0
-    for r in github gitlab; do
-      git -C "$p" rev-parse --verify -q "$r/$branch" >/dev/null || continue
-      if git -C "$p" merge-base --is-ancestor "$sha" "$r/$branch"; then
-        on_a_remote=1
-        break
-      fi
-    done
+    if git -C "$p" rev-parse --verify -q "origin/$branch" >/dev/null && git -C "$p" merge-base --is-ancestor "$sha" "origin/$branch"; then
+      on_a_remote=1
+    fi
     if [ -n "$st" ] || [ "$on_a_remote" != "1" ]; then
       report="$report
-  🔴 $p (committed work present on no kpihx mirror: $sha)"
+  🔴 $p (committed work present on no push remote: $sha)"
       [ -n "$st" ] && report="$report
 $st"
     fi
   done
 }
 
-# --- GLOBAL GATE 2: pre-push — every submodule pushed to ALL its PUSH remotes
-# (KPIX-owned mirrors only — NOT read-only upstreams like Flickwire/IgorWarzocha)
+# --- GLOBAL GATE 2: pre-push — every submodule pushed to its PUSH remote
+# (owner fork only — NOT read-only upstreams)
 submodule_push_report() {
   report=""
   # githooks(5): clear the git-exported env before running git in a foreign
@@ -110,12 +106,10 @@ submodule_push_report() {
     [ -n "$branch" ] && [ -n "$sha" ] || { report="$report
   🔴 $p (cannot resolve HEAD/branch)"; continue; }
     remotes=""
-    for r in github gitlab; do
-      git -C "$p" remote get-url "$r" >/dev/null 2>&1 && remotes="$remotes $r"
-    done
+    if git -C "$p" remote get-url origin >/dev/null 2>&1; then remotes="origin"; fi
     if [ -z "$remotes" ]; then
       report="$report
-  🔴 $p (none of the kpihx push remotes github/gitlab configured)"
+  🔴 $p (push remote origin not configured)"
       continue
     fi
     for r in $remotes; do
@@ -155,7 +149,7 @@ run_make_check() {
 
 case "$hook" in
   pre-commit)
-    # GLOBAL FIRST (KπX): block before running any local hook.
+    # GLOBAL FIRST (): block before running any local hook.
     if [ -f .gitmodules ]; then
       submodule_dirty_report
       if [ -n "$report" ]; then
@@ -170,7 +164,7 @@ case "$hook" in
     fi
     ;;
   commit-msg)
-    # GLOBAL FIRST (KπX): strip AI-agent attribution trailers before the
+    # GLOBAL FIRST (): strip AI-agent attribution trailers before the
     # repo-local hook (if any) sees the message. $1 = path to the message file.
     if [ -n "${1:-}" ] && [ -f "$1" ]; then
       tmp="$(mktemp)"
@@ -178,7 +172,7 @@ case "$hook" in
     fi
     ;;
   pre-push)
-    # GLOBAL FIRST (KπX): every submodule must be on ALL its remotes.
+    # GLOBAL FIRST (): every submodule must be on ALL its remotes.
     if [ -f .gitmodules ]; then
       submodule_push_report
       if [ -n "$report" ]; then

@@ -16,7 +16,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 
 ## Tooling Patterns
 
-- **kapoivha Gmail (2026-05-25):** not mail-mcp — use `gws-kpihx` + `k-google/scripts/gws_gmail_deep_cleanup.py`. Filters skip inbox for TickTick/LinkedIn/homelab forwards; poly academic mail stays on Zimbra.
+- **kapoivha Gmail (2026-05-25):** not mail-mcp — use `gws-primary` + `k-google/scripts/gws_gmail_deep_cleanup.py`. Filters skip inbox for TickTick/LinkedIn/homelab forwards; poly academic mail stays on Zimbra.
 - Use mail-mcp (`http` or `stdio`) for Zimbra account operations (`poly`).
 - Use `m365`/Graph for Hotmail mailbox verification.
 - For current Hotmail auth with app `bf3e4ec4-fd28-48aa-89f0-c6d8ae7c6906`, force `--tenant consumers` on `m365 login --authType deviceCode`; `/common` triggers `AADSTS9002346`.
@@ -24,7 +24,7 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - On Linux sessions, set `autoOpenLinksInBrowser=false` and `copyDeviceCodeToClipboard=false` to avoid callback-side instability; this is a stability guard, not the root fix for `AADSTS9002346`.
 - `m365 status` can show empty `connectedAs` even after successful token acquisition; verify with `m365 request …/v1.0/me` or `outlook message list` **without** `--folderName Inbox` when MSA Inbox `totalItemCount` is 0.
 - **m365 v11 token cache:** `$HOME/.cli-m365-msal.json` + `~/.cli-m365-connection.json` — not `~/.config/m365`. Refresh token ~90d idle; access ~1h auto-refresh. Persist CLI config: `authType=deviceCode`, `tenantId=consumers`. Logout: `m365 logout` only.
-- **@kpihx-labs.com inbound (LIVE 2026-05-25):** Worker + **prime rules**. Anti-spam: Gmail filter `to:<alias>` → `removeLabelIds: ["SPAM"]` on **kapoivha + Labs** (all aliases); Hotmail **inbox** `messageRules` (`sentToAddresses` → moveTo inbox) — `apply-inbound-antispam-filters.sh`. Graph **cannot** POST rules on `junkemail`. **Traps:** Hotmail→`ivann@` NDR; kapoivha self-send **SENT only**. **m365 POST:** `-b @file.json` + `--content-type application/json`.
+- **@<yourdomain.com> inbound (LIVE 2026-05-25):** Worker + **prime rules**. Anti-spam: Gmail filter `to:<alias>` → `removeLabelIds: ["SPAM"]` on **kapoivha + Labs** (all aliases); Hotmail **inbox** `messageRules` (`sentToAddresses` → moveTo inbox) — `apply-inbound-antispam-filters.sh`. Graph **cannot** POST rules on `junkemail`. **Traps:** Hotmail→`personal@` NDR; kapoivha self-send **SENT only**. **m365 POST:** `-b @file.json` + `--content-type application/json`.
 - Bulk Outlook folder moves: list ids via `m365 outlook message list --folderName Inbox`, resolve Archive id via `m365 request -u 'https://graph.microsoft.com/v1.0/me/mailFolders/archive' -m get`, then POST Graph `$batch` (max 20 sub-requests) with `m365 request ... -b @file.json --content-type application/json` (body-only POSTs **require** explicit JSON content-type).
 - Treat Outlook forwarding notifications from `postmaster@zimbra.polytechnique.fr` as delivery receipts, not conversational messages.
 - On poly/mail-mcp stdio, `Important` behaves as a keyword label queryable via `search_messages(keyword="Important")`; favorites/star state is the IMAP `\\Flagged` flag queryable via `flagged_only=true` and editable via `mark_messages(flagged=...)`.

@@ -63,13 +63,13 @@ with open(config_path, "r") as f:
     lines = f.readlines()
 
 # Find the "ollama" sub-block boundaries inside the provider section
-# (surgical — preserves the other providers, e.g. ollama6, untouched)
+# (surgical — preserves the other providers untouched)
 start = -1
 for i, line in enumerate(lines):
     stripped = line.strip()
     if stripped.startswith("//"):
         continue
-    # exact key match: '"ollama"' (closing quote) never matches "ollama6"
+    # exact key match: '"ollama"' (closing quote) never matches longer keys like "ollama-remote"
     if '"ollama"' in stripped:
         start = i
         break

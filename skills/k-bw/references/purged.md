@@ -1,6 +1,6 @@
 # k-bw — Purged CLI / Server (Archive)
 
-> **Purpose:** `bw-mcp` and `bw-admin` were purged on 2026-08-14 per KπX directive ("purge bw-admin et bw-mcp totalement partout, même dans les skills"). The live skill now documents only `bw-proxy` (the active sovereign proxy). This file preserves the historical `bw-mcp` reference for the record — never deleted (GRAVÉ).
+> **Purpose:** `bw-mcp` and `bw-admin` were purged on 2026-08-14 per maintainer directive ("purge bw-admin et bw-mcp totalement partout, même dans les skills"). The live skill now documents only `bw-proxy` (the active sovereign proxy). This file preserves the historical `bw-mcp` reference for the record — never deleted (GRAVÉ).
 
 ## Purged 2026-08-14 — `bw-mcp` & `bw-admin`
 
@@ -21,17 +21,17 @@ Generic MCP setup reference for `bw-mcp` (superseded — purged).
 The `bw-mcp` server is a wrapper around the Bitwarden CLI. It cannot function without the following:
 
 - **Binaire Bitwarden CLI (`bw`)**: Must be installed and accessible in the `$PATH`.
-- **Active Session**: The CLI must be logged in and targeting `https://vault.kpihx-labs.com`.
+- **Active Session**: The CLI must be logged in and targeting `https://<vault-host>`.
 
 ## Install (required before STDIO)
 
 - PyPI package: `bw-mcp` (internal tool)
 - Install command: `uv tool install bw-mcp`
-- Tool location: `/home/kpihx/.local/bin/bw-mcp`
+- Tool location: `$HOME/.local/bin/bw-mcp`
 
 ## Configuration
 
-- Server URL: `https://vault.kpihx-labs.com`
+- Server URL: `https://<vault-host>`
 
 ## STDIO Registration
 

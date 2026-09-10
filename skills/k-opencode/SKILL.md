@@ -7,8 +7,8 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.86.0
-  author: KpihX
+  version: 1.0.0
+  author: 
   scope: agent-runtime
   target-agent: opencode
 allowed-tools: Bash, Read, Write, Edit
@@ -16,7 +16,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 # Agent Runtime — OpenCode CLI
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Installation
 
@@ -48,7 +48,7 @@ OpenCode does **not** ship Android-compatible binaries (non-PIE glibc ARM64 bina
 - **Global config dir:** `$HOME/.config/opencode/`
 - **Config file:** `$HOME/.config/opencode/opencode.jsonc`
 - **Auth store:** `$HOME/.local/share/opencode/auth.json`
-- **Global kernel symlinks (KπX):**
+- **Global kernel symlinks ():**
   - `$HOME/.config/opencode/AGENTS.md` → `$HOME/.agents/AGENTS.md`
   - `$HOME/.config/opencode/opencode.jsonc` → `$HOME/.agents/skills/k-opencode/assets/opencode.jsonc`
   - `$HOME/.config/opencode/agents` → `$HOME/.agents/agents`
@@ -74,7 +74,7 @@ OpenCode stores all conversation history in a single SQLite database (`$HOME/.lo
 
 ## Agent & Subagent System
 
-OpenCode discovers agents from config (`opencode.jsonc` → `agent.*`) and markdown files (`~/.config/opencode/agents/<path>/<name>.md`). Modes: `primary` (Tab-visible), `subagent` (via `task`/`@`), `all` (both). Full discovery rules, YAML frontmatter pitfalls, and the complete KπX agent roster (Colab, Explore, Build, Lite, Auto, Agent, Plan, executor, curator, intent-guardian, pragmatic-checker, fact-verifier) → **`references/agent-system.md`**.
+OpenCode discovers agents from config (`opencode.jsonc` → `agent.*`) and markdown files (`~/.config/opencode/agents/<path>/<name>.md`). Modes: `primary` (Tab-visible), `subagent` (via `task`/`@`), `all` (both). Full discovery rules, YAML frontmatter pitfalls, and the complete  agent roster (Colab, Explore, Build, Lite, Auto, Agent, Plan, executor, curator, intent-guardian, pragmatic-checker, fact-verifier) → **`references/agent-system.md`**.
 
 ## MCP Config Format (OpenCode — JSONC)
 
@@ -97,7 +97,7 @@ opencode auth list
 #          Cursor plan: https://cursor.com/dashboard/usage (no IDE `cursor quota`)
 ```
 
-## Operational Rules (KπX)
+## Operational Rules ()
 
 - **NEVER use `/usr/bin/rm` or `/bin/rm`** — they bypass the trash-safe `rm` wrapper (see `k-clis/assets/rm`). Always use `rm` (the `~/.local/bin/rm` wrapper which moves to trash). Enforced in `opencode.jsonc` → `"bash"` via explicit path denials globally and `*rm*` wildcard in Auto's permission block.
 - Keep OpenCode runtime config centralized in `$HOME/.config/opencode/opencode.jsonc`; avoid per-project overrides unless explicitly requested.
@@ -121,26 +121,26 @@ OpenCode and its environment are extended via four distinct systems:
 
 ### Voice (TUI — @kpihx/opencode-voice `v0.4.1-kpihx.1` sovereign)
 
-STT + TTS 100% local via `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice`, fork `renjfk`, `v0.4.1-kpihx.1`: siwis FR, `<leader>r`, LLM fallback). Config in `tui.json` (`file:///…/scripts/plugins/opencode-voice`, not `@renjfk` npm), tracked as `assets/tui.json` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`). Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and sovereign patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
+STT + TTS 100% local via `@kpihx/opencode-voice` (`<github-user>/opencode-voice`, fork `renjfk`, `v0.4.1-kpihx.1`: siwis FR, `<leader>r`, LLM fallback). Config in `tui.json` (`file:///…/scripts/plugins/opencode-voice`, not `@renjfk` npm), tracked as `assets/tui.json` (submodule `k-opencode/plugins/opencode-voice`, `origin`). Dependencies (sox, whisper-cli, piper), model install/management, keybinds, and sovereign patches → **`references/voice.md`**. The sovereign wrappers `k-whisper` / `k-piper` (see `k-ai`) manage the same models and voices.
 
 ### Help (non-hook plugin — `opencode-help/`)
 
-Durable, explicitly parent-controlled peer sessions. Source: `scripts/plugins/opencode-help/` (git submodule, `github` + `gitlab` `kpihx-labs/opencode-help`), loaded through its TypeScript entry in `assets/opencode.jsonc`.
+Durable, explicitly parent-controlled peer sessions. Source: `scripts/plugins/opencode-help/` (git submodule, `origin` `<user>/opencode-help`), loaded through its TypeScript entry in `assets/opencode.jsonc`.
 
 - **Tools:** `help_open`, `help_list`, `help_read`, `help_message` (`steer` or durable `queue`), `help_wait`, `help_close`, and `help_resume`.
 - **Lifecycle:** a peer is an ordinary root OpenCode session, owned only by its creator across restarts. `help_close` archives/detaches it without deleting conversation history; no automatic escalation, spawning, or resumption exists.
 - **Agent:** `help_open` requires an explicit agent name passed directly to OpenCode server-side `promptAsync`, which validates it; invalid agent names surface the server error verbatim.
-- **Models:** KπX owns the required ordered allowlist in `assets/opencode.jsonc`: `google/gemini-3-flash-preview` (default), `opencode-go/deepseek-v4-pro`, `google/gemini-3.1-pro-preview`, `opencode-go/deepseek-v4-flash`, then `opencode-go/mimo-v2.5`. A caller may omit `model` for the first entry or explicitly select one of those entries only; the selected `{ providerID, modelID }` is persisted for follow-ups.
+- **Models:**  owns the required ordered allowlist in `assets/opencode.jsonc`: `google/gemini-3-flash-preview` (default), `opencode-go/deepseek-v4-pro`, `google/gemini-3.1-pro-preview`, `opencode-go/deepseek-v4-flash`, then `opencode-go/mimo-v2.5`. A caller may omit `model` for the first entry or explicitly select one of those entries only; the selected `{ providerID, modelID }` is persisted for follow-ups.
 - **Provider failure:** no automatic fallback. A failed open archives its peer and reports every permitted alternative; the parent explicitly opens a replacement. A failed steer leaves its peer active and directs `help_close` then explicit reopen. A failed queued delivery returns its final OpenCode error and permitted models through `help_wait`.
-- **Escape route:** `help_open` is the technical escape route when stuck/spinning. Combined with the `question` tool (for clarification from KπX), the agent has 2 complementary paths out of any blockage. Full reflex rules → `rules/tool-discipline.md` → `## Help & Question Reflexes`.
+- **Escape route:** `help_open` is the technical escape route when stuck/spinning. Combined with the `question` tool (for clarification from the user), the agent has 2 complementary paths out of any blockage. Full reflex rules → `rules/tool-discipline.md` → `## Help & Question Reflexes`.
 
-### Providers: Ollama (local) & Ollama6 (deep-pc6)
+### Providers: Ollama (local) & Ollama6 (server)
 
-Two OpenAI-compatible providers auto-synced from local/remote Ollama servers: `ollama` (port 11434, via `scripts/opencode-ollama.sh`) and `ollama6` (port 11436 through the DxO tunnel, via `k-dxo/scripts/opencode-ollama6.sh`). Both do surgical sub-block JSONC replacement (other providers untouched). Full config examples → **`references/providers.md`**.
+One OpenAI-compatible provider auto-synced from the local Ollama server: `ollama` (port 11434, via `scripts/opencode-ollama.sh`) with surgical sub-block JSONC replacement (other providers untouched). Full config examples → **`references/providers.md`**.
 
 ### Providers: OpenCode Labs (Go + Zen twins — auto models, no proxy)
 
-Second billing account (**KπX Labs**), mirroring principal:
+Second billing account (** Labs**), mirroring principal:
 
 | Id | Display | Endpoint | Free |
 |----|---------|----------|------|
@@ -166,7 +166,7 @@ Keys via `/connect` / `opencode auth login` (Other → id). **Same Labs API key*
 3. Load plugin `opencode-account-discovery.js` in `plugin` array
 4. Verify: `opencode models <id>` — muse free must show `api.npm=@ai-sdk/openai`
 
-**Non-`:latest` tag bug (fixed 2026-08-27) + the `kr` reflex:** `opencode-ollama.sh` used to build its JSONC key via `name.split(":")[0]` unconditionally — safe ONLY for the `:latest` tag (Ollama resolves a bare name to `:latest` implicitly), but any other explicit tag (`:1.7b`, `:4b`, `:1b`, future `:14b`) got silently truncated, causing `model "X" not found, try pulling it first` even though the model was actually present, and **silent dict-key collisions** when two different tags of the same base model exist (`qwen3:4b` + `qwen3:1.7b` both stripped to `"qwen3"` → last one wins, the other vanishes from `opencode.jsonc` with zero error). Fixed: `model_id = name.split(":")[0] if name.endswith(":latest") else name` — full tag kept as key for any non-`:latest` pull, in both `opencode-ollama.sh` (local) and mirrored check confirmed already-correct in `k-dxo/scripts/opencode-ollama6.sh` + `k-windows/scripts/remote-server/opencode-ollama-server.sh` (both already used the full tag as key from the start, no bug there).
+**Non-`:latest` tag bug (fixed 2026-08-27) + the `kr` reflex:** `opencode-ollama.sh` used to build its JSONC key via `name.split(":")[0]` unconditionally — safe ONLY for the `:latest` tag (Ollama resolves a bare name to `:latest` implicitly), but any other explicit tag (`:1.7b`, `:4b`, `:1b`, future `:14b`) got silently truncated, causing `model "X" not found, try pulling it first` even though the model was actually present, and **silent dict-key collisions** when two different tags of the same base model exist (`qwen3:4b` + `qwen3:1.7b` both stripped to `"qwen3"` → last one wins, the other vanishes from `opencode.jsonc` with zero error). Fixed: `model_id = name.split(":")[0] if name.endswith(":latest") else name` — full tag kept as key for any non-`:latest` pull.
 
 **Editing a `.kshrc`-sourced function does NOT affect already-running shells.** Any interactive shell (tmux pane, TUI-embedded terminal, plain terminal) that was alive BEFORE the script edit keeps the OLD function body in memory — `ollama sync`/`ollama pull` run there will silently reproduce the old bug even though the file on disk is fixed. Restarting an unrelated systemd service (`opencode-web`, etc.) does **NOT** fix this unless that specific terminal is a child process of that exact service — never assume it does. **The correct fix, in that exact terminal:** run `kr` (existing `.kshrc` alias, l.341, does `unset __KSHRC_LOADED __KSHRC_INTERACTIVE_LOADED; . ~/.kshrc; cd back`) then re-run `ollama sync`/`ollama pull` — or simply close and reopen a fresh terminal (a brand-new shell process sources `.kshrc` cleanly with zero extra steps). See `k-zsh/SKILL.md` for the `kr` alias itself.
 
@@ -201,7 +201,7 @@ OpenCode integrates with Neovim via `nickjvandyke/opencode.nvim` (the active for
 
 ## OpenCode Web — 3 services, not 2 (systemd + Tailscale Serve)
 
-**`opencode-lens` is the day-to-day entry point (KπX uses this on the web, NOT raw `opencode-web`)** — a reverse proxy that strips CSP and injects the Web Voice plugin on top of the native backend. `opencode-web` is the underlying native OpenCode backend Lens proxies to (and can also be hit directly, unproxied — "Clean/Safe Mode"). **`opencode-web-shim` is a third, easy-to-forget middleware piece** — a dual-port terminal-URL shim sitting in FRONT of both, required to fix a real upstream OpenCode bug (PTY/terminal connection, issue #5844). All three are exposed via `tailscale serve`; the tailnet root route is NOT opencode — it proxies the **OpenClaw Gateway** (see `k-openclaw`).
+**`opencode-lens` is the day-to-day entry point ( uses this on the web, NOT raw `opencode-web`)** — a reverse proxy that strips CSP and injects the Web Voice plugin on top of the native backend. `opencode-web` is the underlying native OpenCode backend Lens proxies to (and can also be hit directly, unproxied — "Clean/Safe Mode"). **`opencode-web-shim` is a third, easy-to-forget middleware piece** — a dual-port terminal-URL shim sitting in FRONT of both, required to fix a real upstream OpenCode bug (PTY/terminal connection, issue #5844). All three are exposed via `tailscale serve`; the tailnet root route is NOT opencode — it proxies the **OpenClaw Gateway** (see `k-openclaw`).
 
 **The real request chain** (the port shown in `tailscale serve status` is the SHIM's port, never the backend's own port — a frequent source of confusion):
 ```
@@ -211,10 +211,10 @@ Tailscale :1443 → shim :4097 → opencode-web :40977                          
 
 | Service | Real port (local) | Reached via shim port | Tailscale Port | Ingress URL | Role |
 |---------|-------------------|------------------------|-----------------|--------------|------|
-| **`opencode-lens`** | `30001` | `3000` | `2443` | `https://kpihx-ubuntu.tail2527bd.ts.net:2443/` | **Lens Proxy + Injected Voice UI — the one actually used day-to-day (Interactive Mode)**. Proxies to `opencode-web` at `40977` (plugins at `scripts/plugins/web/`). |
-| `opencode-web` | `40977` | `4097` | `1443` | `https://kpihx-ubuntu.tail2527bd.ts.net:1443/` | Native OpenCode backend — both the direct target for Clean/Safe Mode AND what Lens itself proxies to underneath. |
+| **`opencode-lens`** | `30001` | `3000` | `2443` | `https://workstation.tail2527bd.ts.net:2443/` | **Lens Proxy + Injected Voice UI — the one actually used day-to-day (Interactive Mode)**. Proxies to `opencode-web` at `40977` (plugins at `scripts/plugins/web/`). |
+| `opencode-web` | `40977` | `4097` | `1443` | `https://workstation.tail2527bd.ts.net:1443/` | Native OpenCode backend — both the direct target for Clean/Safe Mode AND what Lens itself proxies to underneath. |
 | `opencode-web-shim` | — (it IS the shim) | listens on `4097` + `3000` itself | — | — | **Middleware, not optional** — `terminal-url-shim.js`, dual-port (fixes upstream PTY/terminal connection bug #5844). This is what Tailscale `1443`/`2443` actually hit FIRST, before either backend. |
-| `openclaw-gateway` | `18789` | — | `443` (root) | `https://kpihx-ubuntu.tail2527bd.ts.net/` | OpenClaw Gateway — tailnet root route (not opencode; see `k-openclaw`) |
+| `openclaw-gateway` | `18789` | — | `443` (root) | `https://workstation.tail2527bd.ts.net/` | OpenClaw Gateway — tailnet root route (not opencode; see `k-openclaw`) |
 
 Systemd units tracked as `assets/opencode-lens.service` (lens proxy), `assets/opencode-web.service` (native backend), and `assets/opencode-web-shim.service` (terminal URL shim middleware — `scripts/terminal-url-shim.js`).
 
@@ -232,7 +232,7 @@ systemctl --user daemon-reload && systemctl --user restart opencode-lens  # relo
 
 ## Init & Connectivity
 
-OpenCode connects to the KπX kernel via:
+OpenCode connects to the  kernel via:
 
 ```bash
 ln -sf $HOME/.agents/AGENTS.md $HOME/.config/opencode/AGENTS.md
@@ -253,16 +253,15 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Script | Role |
 |--------|------|
-| `scripts/opencode-ollama.sh` | Ollama zsh wrapper + auto-sync models into `opencode.jsonc`. Sourced from `.kshrc`. Surgical sub-block replacement (preserves the other providers, e.g. `ollama6`). |
-| `k-dxo/scripts/opencode-ollama6.sh` | Ollama6 zsh wrapper + auto-sync deep-pc6 (ollama6) models into `opencode.jsonc`. Sourced from `.kshrc` — exact equivalent of `opencode-ollama.sh` for the `ollama6` provider (11436 tunnel). Wraps `ollama6 pull`/`rm`/`delete`; full model names as keys. `ollama6` stays core-only (k-dxo). |
+| `scripts/opencode-ollama.sh` | Ollama zsh wrapper + auto-sync models into `opencode.jsonc`. Sourced from `.kshrc`. Surgical sub-block replacement (preserves the other providers). |
 | `scripts/terminal-url-shim.js` | Terminal URL and SSE proxy shim to handle stream buffering, token injection, and origin matching. |
 
 ## References
 
 - `references/hooks-standard.md` — OpenCode Hooks & Plugins Standards: coding standards, mandatory `TARGET_AGENTS`, prompt/hook name matching, and helper library integrations
-- `references/plugins-architecture.md` — Three plugin systems, active lifecycle plugins, KπX sovereign hooks table, execution order, TUI plugin, slash commands
-- `references/plugin-watch.md` — Third-party ecosystem plugin research + install log (opencode-tasks, opencode-notifications active; Kagan purged 2026-08-27 per KπX directive — also exposed a rogue `git init` at `$HOME` footgun, see entry; Oh My OpenAgent tried, found a real `Explore`-agent-shadowing collision, purged — kept for flexibility per KπX), the `opencode-tasks` bunx install bug + workaround, the default-model breakage fix (`opencode/mimo-v2.5-free` + `Explore`→`google/gemini-3-flash-preview`), the `--pure`/`TARGET_AGENTS` hook run-mode scoping technique, and the CC Safety Net mechanism reference
-- `references/agent-system.md` — Agent & Subagent discovery, modes, YAML frontmatter pitfalls, full KπX agent roster
+- `references/plugins-architecture.md` — Three plugin systems, active lifecycle plugins,  sovereign hooks table, execution order, TUI plugin, slash commands
+- `references/plugin-watch.md` — Third-party ecosystem plugin research + install log (opencode-tasks, opencode-notifications active; Kagan purged 2026-08-27 per maintainer directive — also exposed a rogue `git init` at `$HOME` footgun, see entry; Oh My OpenAgent tried, found a real `Explore`-agent-shadowing collision, purged — kept for flexibility per ), the `opencode-tasks` bunx install bug + workaround, the default-model breakage fix (`opencode/mimo-v2.5-free` + `Explore`→`google/gemini-3-flash-preview`), the `--pure`/`TARGET_AGENTS` hook run-mode scoping technique, and the CC Safety Net mechanism reference
+- `references/agent-system.md` — Agent & Subagent discovery, modes, YAML frontmatter pitfalls, full  agent roster
 - `references/permissions.md` — Full permission architecture, bash zones, `.env`/auth protection, MCP overrides, `external_directory`
 - `references/mcp-config.md` — MCP config format (local/remote/bearer-token examples)
 - `references/sqlite-storage.md` — Session storage schema (SQLite) and query examples
@@ -278,13 +277,3 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - Update `$HOME/.agents/skills/k-opencode/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-10 | [LIVE] | v2.86.0 humanize gate: humanize-guard.js hard PROSE dash gate, check-dashes.sh extended. |
-| 2026-09-09 | [LIVE] | v2.85.x OpenCode Labs + AGY + Cursor providers, Copilot picker fix, account discovery, go-proxy purged. |
-| [SUMMARY] | -- | v2.82.x footer refonte . v2.81.0 startup capped . v2.80.0 tmux SSH opt-in . v2.79.x claude-auth purged + Go 2nd account . older in references/log.md |
-
-
-Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-lens.service` (day-to-day proxy), `assets/opencode-web.service` (native backend), and `assets/opencode-web-shim.service` (dual-port middleware — see `## OpenCode Web` for the full request chain) — all 3 symlink targets for `~/.config/systemd/user/`

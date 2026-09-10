@@ -7,8 +7,8 @@
 # of truth — no duplication). This file sources it so scripts/services/* can
 # use the shared configuration and infrastructure-resolution helpers.
 #
-# WHY JSONC: comments allowed → self-documenting. JSONC is the KπX config
-# standard (see kpihx-labs / k-project → Config Standard). .env holds secrets.
+# WHY JSONC: comments allowed → self-documenting. JSONC is the  config
+# standard (see <github-user> / k-project → Config Standard). .env holds secrets.
 # ============================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

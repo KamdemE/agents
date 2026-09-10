@@ -27,8 +27,3 @@ None — public.
 - Job pages load fast; description is above "At Datadog, we place value..." office-culture blurb.
 - Part of Early Careers page — the direct list is the fastest enumeration.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: Early Careers structure, Paris internships identified (Applied Science compatible / SWE dev not AI), Greenhouse ID pattern. |

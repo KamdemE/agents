@@ -4,7 +4,7 @@
 # Script Name: clean_snap.sh
 # Description: Advanced Snap cleanup tool (Refactored API)
 # API: --infos/-i, --safe/-s, --purge/-p, --system/-y, --specific
-# Author: Gemini-CLI / KpihX
+# Author: Gemini-CLI / 
 # ==============================================================================
 
 RED='\033[0;31m'
@@ -27,7 +27,7 @@ usage() {
     echo "  -s, --safe      Safe cleanup: Remove disabled revisions"
     echo "  -p, --purge     Purge cleanup: Remove all cache folders in ~/snap"
     echo "  -y, --system    System cleanup: Delete all Snapshots (sudo)"
-    echo "  --specific      Targeted cleanup for KpihX apps (Brave, Discord, etc.)"
+    echo "  --specific      Targeted cleanup for  apps (Brave, Discord, etc.)"
     echo "  -h, --help      Display this help"
     exit 0
 }

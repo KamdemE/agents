@@ -1,7 +1,7 @@
 """env_lib.py — shared .env helpers for .agents Python scripts.
 
 Central place for everything common to .agents Python scripts that deal with
-.env / .env.example files (secrets — KπX NEVER prints or returns values, only key
+.env / .env.example files (secrets — never print or return values, only key
 names + whether a value is present/empty). This mirrors libs/env/env_lib.sh
 EXACTLY, language apart — see libs/AGENTS.md for the "keep the 3 twins in
 sync" rule. Python callers import this module instead of re-implementing.

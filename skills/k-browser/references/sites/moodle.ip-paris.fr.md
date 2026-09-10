@@ -1,12 +1,12 @@
 # moodle.ip-paris.fr (Moodle IP Paris)
 
-**Category:** Academic course platform. **Account:** X24 student account. **Profile:** `default`.
+**Category:** Academic course platform. **Account:** student account. **Profile:** `default`.
 
 ## Login
 
 1. `https://moodle.ip-paris.fr/my/` may redirect a guest to `/?redirect=0`; use `login/index.php` if the dashboard does not load.
 2. Select **X - Ecole Polytechnique**. The shared Egide SSO session normally returns directly to `my/courses.php`.
-3. If Egide asks for a password, follow `synapses.polytechnique.fr.md` exactly: KπX handles the secret in the visible browser; never request it through `browser-ask-user`.
+3. If Egide asks for a password, follow `synapses.polytechnique.fr.md` exactly:  handles the secret in the visible browser; never request it through `browser-ask-user`.
 
 ## Structure / navigation
 
@@ -21,8 +21,3 @@
 - The first live 2A MIE recovery validated `IME_43031_EP - Fondamentaux des Organisations (2025-2026)`: eight sessions, course files, quizzes, assignments, and eight Nudgis resources. This is a navigation reference, not a permission to alter old course content.
 - Keep resource discovery read-only. Downloading a file/video is a separate explicit action and should use the browser-visible flow or the documented MediaServer preset.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-30 | Created after live default-profile navigation: Moodle IP Paris → X SSO → 2A MIE/IME course inventory → first Nudgis correction resource. |

@@ -12,7 +12,7 @@ sudo bash restore_pve.sh                # restore (auto-select newest source)
 
 ## Paths
 
-- HDD: `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3)
+- HDD: `/media/kpihx/-Backup/Backups/PVE/` (keep 3)
 - Cloud: `gdrive-x:Backups/PVE/` (keep 1)
 
 ## Permissions

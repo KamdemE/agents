@@ -1,6 +1,6 @@
 # k-clis — Purged CLIs (Archive)
 
-> **Purpose:** CLI tools that were installed and later **purged** (agent runtimes). Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per KπX directive to remove agent CLI runtimes and keep only active CLIs.
+> **Purpose:** CLI tools that were installed and later **purged** (agent runtimes). Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per maintainer directive to remove agent CLI runtimes and keep only active CLIs.
 
 ## Purged 2026-08-14
 
@@ -18,6 +18,6 @@
 
 | CLI | Skill | Notes |
 |-----|-------|-------|
-| `asciinema` | _(this skill)_ | Terminal recording (uv tool v2.4.0). Purged 2026-08-14 per KπX directive; removed from live `k-clis` Media/AI table. Archived here (GRAVÉ). |
+| `asciinema` | _(this skill)_ | Terminal recording (uv tool v2.4.0). Purged 2026-08-14 per maintainer directive; removed from live `k-clis` Media/AI table. Archived here (GRAVÉ). |
 
 > Related: `k-uv/references/purged.md` (uv tool purges) · `k-node/references/purged.md` (npm-global purges) · `k-ai` (purged runtimes note).

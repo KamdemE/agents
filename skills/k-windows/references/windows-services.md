@@ -1,6 +1,6 @@
 # k-windows — Windows Services: forcing a stubborn one to stay disabled
 
-> Generalized from a de-bloat pass on a specific machine (`k-blglaptop139`) — the *technique* here is company/machine-agnostic; the exact list of service names that needed it stays in that machine's own `references/debloat-log.md`.
+> Generalized from a de-bloat pass on a specific machine (`k-laptop`) — the *technique* here is company/machine-agnostic; the exact list of service names that needed it stays in that machine's own `references/debloat-log.md`.
 
 ## SCM `Start` value reference
 
@@ -92,8 +92,3 @@ Fully reversible (rename back) — unlike deleting the file. Standard technique 
 
 Two well-known Windows 11 registry values, unrelated to any specific vendor: the Widgets **service** policy (commonly `IsWidgetServiceOn` under `HKLM:\SOFTWARE\Policies\Microsoft\Dsh`, DWORD `0` to disable) and the taskbar Widgets **button** (`TaskbarDa` under `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, DWORD `0` to hide). Flagged here as generic OS-level toggles rather than bloatware-specific — the originating log only captured the two value *names*, not a verified full path, so double-check the exact key before relying on it.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Generalized from a de-bloat pass on `k-blglaptop139` (the 4-tier service-disable ladder, the `.exe.DEAD` rename fallback, the SCM Start-value mapping) — the exact list of service names stays in that machine's `references/debloat-log.md`. |

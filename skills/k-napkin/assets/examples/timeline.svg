@@ -388,7 +388,7 @@
 <g>
 <text transform="translate(245.265625, 19.0)" style="font-size:15px; font-family:'Roboto', napkin-fallback, sans-serif; white-space:pre;">
 <tspan x="-233.27" y="9" dominant-baseline="ideographic">MCP servers built and HTTP MCPs </tspan>
-<tspan x="-183.59" y="27" dominant-baseline="ideographic">deployed on kpihx-labs.com</tspan>
+<tspan x="-183.59" y="27" dominant-baseline="ideographic">deployed on <github-user>.com</tspan>
 </text>
 </g>
 </g>
@@ -584,7 +584,7 @@
 <g id="tx_kxhomela_1upx32gndqtqe-fill-merged" stroke="none" fill="#484848" fill-opacity="1.0">
 <g>
 <text transform="translate(194.5078125, 10.0)" style="font-size:25px; font-family:'Roboto', napkin-fallback, sans-serif; font-weight:bold; white-space:pre;">
-<tspan x="-182.51" y="30" dominant-baseline="ideographic">KπX Homelab Evolution Timeline</tspan>
+<tspan x="-182.51" y="30" dominant-baseline="ideographic"> Homelab Evolution Timeline</tspan>
 </text>
 </g>
 </g>

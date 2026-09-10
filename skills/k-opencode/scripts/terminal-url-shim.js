@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-// KπX terminal-url-shim (k-opencode) — 2026-08-16
+//  terminal-url-shim (k-opencode) — 2026-08-16
 //
 // Fixes opencode web's known upstream bug #5844
 // (github.com/anomalyco/opencode/issues/5844): when reached via a hostname
@@ -67,7 +67,7 @@ function createHandler(backend) {
       // for routing: `fetch(target, ...)` already connects to the correct
       // internal address via `target` itself (the URL, not the Host
       // header) — confirmed by curling `127.0.0.1:40977` directly with an
-      // explicit `Host: kpihx-ubuntu.tail2527bd.ts.net:1443` header and
+      // explicit `Host: workstation.tail2527bd.ts.net:1443` header and
       // getting a normal, correct response. But opencode's own
       // `connect-token` handler does an Origin/Host same-origin check
       // (`iI(origin, host, corsConfig)` in the compiled binary) — with

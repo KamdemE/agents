@@ -1,5 +1,5 @@
 # ###########################################################################
-# KπX .gitattributes — Line endings (executability via index modes, not attrs)
+#  .gitattributes — Line endings (executability via index modes, not attrs)
 # ###########################################################################
 #
 # Line endings are normalized to LF for portability.

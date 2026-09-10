@@ -3,7 +3,7 @@
 Research log + installed-state tracker for third-party OpenCode plugins evaluated
 and/or adopted beyond the sovereign hooks and auth plugins documented in
 `references/plugins-architecture.md`. Origin: 2026-08-27 web research pass
-(KπX request: "suggère-moi ce que je pourrais utiliser comme plugin OpenCode...
+( request: "suggère-moi ce que je pourrais utiliser comme plugin OpenCode...
 top 5... analyse et présente"), followed by a live install + debug session the
 same day.
 
@@ -31,33 +31,33 @@ same day.
 
 **What it was**: Cloud Code / Code Assist OAuth into OpenCode as `google/*` (Gemini CLI-family IDs). Thin catalog (Flash / 3.1 Pro-ish only — no Claude/GPT-OSS in picker). Errors like `403 SUBSCRIPTION_REQUIRED` `#3501` looked permanent; live diagnosis showed Gemini **weekly quota exhausted** while Claude still available on the AGY path.
 
-**Why replaced**: KπX wants Google One subscription models in OpenCode the Cursor way (real catalog + readable quotas). Swap → `@anthonyhaussman/opencode-agy-auth` + local `agy` CLI. Removed from `assets/opencode.jsonc` → `"plugin"`; Explore/help defaults moved off dead `google/gemini-3-*` pins to `opencode-go` / `cursor` fallbacks until Gemini weekly resets.
+**Why replaced**:  wants Google One subscription models in OpenCode the Cursor way (real catalog + readable quotas). Swap → `@anthonyhaussman/opencode-agy-auth` + local `agy` CLI. Removed from `assets/opencode.jsonc` → `"plugin"`; Explore/help defaults moved off dead `google/gemini-3-*` pins to `opencode-go` / `cursor` fallbacks until Gemini weekly resets.
 
 **Anti-repeat**: do not reinstall `opencode-antigravity-auth` / `opencode-gemini-auth` / forks that only hit Code Assist consumer OAuth without checking `agy -p '/quota'` first. Official `google-antigravity` Python SDK ≠ subscription OAuth (API key / Vertex only).
 
 ## Purged (same day, superseded by sovereign replacement)
 
-### opencode-notifications (`opencode-notifications`, pedrordgs, npm `1.0.0`) — removed 2026-08-27 (KπX directive: "desinstalle car j'aime pas")
+### opencode-notifications (`opencode-notifications`, pedrordgs, npm `1.0.0`) — removed 2026-08-27 ( directive: "desinstalle car j'aime pas")
 
 **What it was**: desktop notification (`notify-send`) fired ONLY when the terminal was NOT focused — dual check (X11 window focus + active tmux pane, via its own `X11FocusDetector`/`TmuxFocusDetector`/`AlwaysNotifyDetector` chain read from `dist/index.js`). Subscribed to `session.idle` (complete), `session.error`, `permission.updated`/`permission.asked`, `question.asked` events + the `permission.ask` hook. Config: optional `~/.config/opencode/opencode-notifications.json`.
 
-**Why purged**: explicit KπX directive — simple "I don't like it" removal, replaced same-day by the sovereign `opencode-notify` plugin (see `scripts/plugins/opencode-notify/`) which fires unconditionally (no focus-detection gate — KπX wanted a dead-simple ALWAYS-notify signal) and adds Telegram delivery (via the shared `libs/notif/notifier.sh`) + device/session-info-rich notification bodies, neither of which the third-party plugin had.
+**Why purged**: explicit  directive — simple "I don't like it" removal, replaced same-day by the sovereign `opencode-notify` plugin (see `scripts/plugins/opencode-notify/`) which fires unconditionally (no focus-detection gate —  wanted a dead-simple ALWAYS-notify signal) and adds Telegram delivery (via the shared `libs/notif/notifier.sh`) + device/session-info-rich notification bodies, neither of which the third-party plugin had.
 
 **Cleanup performed**: removed `"opencode-notifications"` from `assets/opencode.jsonc` → `"plugin"` array; removed `~/.cache/opencode/packages/opencode-notifications@latest/` (cached npm package); removed the orphan `~/.config/opencode/plugin/notificator.jsonc` (a DIFFERENT, unrelated dead config file found during the same cleanup pass — wrong filename for this plugin's actual config path, wrong directory `plugin/` singular which is not any OpenCode discovery path, zero references anywhere in the kernel via `grep`/`plocate` — a genuine orphan from an even earlier, unidentified experiment, not this plugin's own config). Post-purge `plocate -i notificator` clean.
 
 **Replacement — `opencode-notify` (sovereign, `scripts/plugins/opencode-notify/`)**: NOT a hook (read-only/observational plugin, see `scripts/plugins/AGENTS.md` → "Hooks vs Plugins"). `opencode-notify.js` subscribes to `event`/`session.idle` (finished), `event`/`session.error` (error), and the `"permission.ask"` hook callback (waiting for approval) — verified against the currently installed `@opencode-ai/sdk`'s `types.gen.d.ts`: `question.asked`/`permission.asked` (used by the old third-party plugin) do NOT exist as event types in this SDK version, only `permission.updated`/`permission.replied`/the `"permission.ask"` hook callback exist, so the replacement uses the real, currently-valid trigger set. Delivers via the sibling `opencode-notify.sh`, which sources `$HOME/.agents/libs/notif/notifier.sh` — never a private re-implementation of `notify-send`/Telegram logic. Every notification includes device hostname (`libs/device-info.js`, extracted out of `startup-context.js` to stop duplicating that logic), resolved agent name (`libs/agent-scope.js`), and session title + project directory (`client.session.get`).
 
-**Telegram delivery — STRICTLY the dedicated bot, no fallback (fixed 2026-08-27, real bug found live)**: `opencode-notify.sh` first called `notify_mixed`, which resolves its Telegram token via the shared `notify_tg_token()` — but that function's "explicit override" branch only short-circuits when `NOTIFY_TG_TOKEN` is **non-empty**; setting `NOTIFY_TG_TOKEN="${TELEGRAM_OPENCODE_TOKEN:-}"` while `TELEGRAM_OPENCODE_TOKEN` was still unset (bot didn't exist yet) left it empty, so `notify_tg_token()` silently fell through to its own generic chain (`TELEGRAM_PVE_TOKEN`→`UBUNTU_TOKEN`→...) and picked up `TELEGRAM_UBUNTU_TOKEN` — a live smoke test sent a real message through the Ubuntu bot instead of staying silent, exactly the "dedicated bot" guarantee KπX asked for, twice. **Fix**: `opencode-notify.sh` no longer calls `notify_mixed`/relies on the shared token-resolution chain at all — it calls `notify_system` unconditionally, then ONLY calls `notify_telegram` (with `NOTIFY_TG_TOKEN` forced to the exact `TELEGRAM_OPENCODE_TOKEN` value) inside an explicit `[ -n "${TELEGRAM_OPENCODE_TOKEN:-}" ]` guard. If the dedicated token is unset, Telegram delivery is skipped entirely (system notify still fires) — it can now NEVER borrow another skill's bot identity, verified live (single system-only log line, no Telegram attempt, with the token still unset).
+**Telegram delivery — STRICTLY the dedicated bot, no fallback (fixed 2026-08-27, real bug found live)**: `opencode-notify.sh` first called `notify_mixed`, which resolves its Telegram token via the shared `notify_tg_token()` — but that function's "explicit override" branch only short-circuits when `NOTIFY_TG_TOKEN` is **non-empty**; setting `NOTIFY_TG_TOKEN="${TELEGRAM_OPENCODE_TOKEN:-}"` while `TELEGRAM_OPENCODE_TOKEN` was still unset (bot didn't exist yet) left it empty, so `notify_tg_token()` silently fell through to its own generic chain (`TELEGRAM_PVE_TOKEN`→`UBUNTU_TOKEN`→...) and picked up `TELEGRAM_UBUNTU_TOKEN` — a live smoke test sent a real message through the Ubuntu bot instead of staying silent, exactly the "dedicated bot" guarantee  asked for, twice. **Fix**: `opencode-notify.sh` no longer calls `notify_mixed`/relies on the shared token-resolution chain at all — it calls `notify_system` unconditionally, then ONLY calls `notify_telegram` (with `NOTIFY_TG_TOKEN` forced to the exact `TELEGRAM_OPENCODE_TOKEN` value) inside an explicit `[ -n "${TELEGRAM_OPENCODE_TOKEN:-}" ]` guard. If the dedicated token is unset, Telegram delivery is skipped entirely (system notify still fires) — it can now NEVER borrow another skill's bot identity, verified live (single system-only log line, no Telegram attempt, with the token still unset).
 
 ## Purged
 
-### Kagan (`@kagan-sh/kagan`) — removed 2026-08-27 (KπX directive: "purge le plugin kagan")
+### Kagan (`@kagan-sh/kagan`) — removed 2026-08-27 ( directive: "purge le plugin kagan")
 
-**What it was**: Kanban/Jira-style board for agent tasks (Python CLI via `uv tool install kagan`, PyPI `kagan==0.18.0`) — each card ran in an isolated **git worktree** + session; `REVIEW → DONE` required human approval (non-bypassable gate). `kagan` (TUI) or `kagan web` (browser board) → `n` new card → review diff at `REVIEW` column → approve/send-back. Confirmed working live by KπX on 2026-08-27, same day it was installed, right after the default-model breakage fix documented below.
+**What it was**: Kanban/Jira-style board for agent tasks (Python CLI via `uv tool install kagan`, PyPI `kagan==0.18.0`) — each card ran in an isolated **git worktree** + session; `REVIEW → DONE` required human approval (non-bypassable gate). `kagan` (TUI) or `kagan web` (browser board) → `n` new card → review diff at `REVIEW` column → approve/send-back. Confirmed working live by the user on 2026-08-27, same day it was installed, right after the default-model breakage fix documented below.
 
-**Reason for purge**: explicit KπX directive, no root-cause bug reported (unlike Oh My OpenAgent below) — simple "don't want this one" removal, same session it was installed in.
+**Reason for purge**: explicit  directive, no root-cause bug reported (unlike Oh My OpenAgent below) — simple "don't want this one" removal, same session it was installed in.
 
-**Debris found and cleaned (worth flagging for any future re-adoption)**: while auditing state for the purge, discovered Kagan had `git init`'d a **rogue git repository directly at `$HOME` (`/home/kpihx/.git`)**, birth-timestamped 2026-08-27 01:42:50 (same minute as the plugin install), with one empty `chore: initial commit` (no files tracked, no secrets committed — verified via `git ls-tree -r --name-only HEAD` returning nothing) and a linked worktree at `~/.local/state/kagan/worktrees/f95233e41847499b` (Kagan's own card-isolation worktree). Root cause: Kagan was invoked at least once with `$HOME` itself as the working directory / "project", and since `$HOME` was not already a git repo, Kagan silently `git init`'d it to create its worktree-isolated card. This is a real footgun for anyone running Kagan from a non-project directory — it will happily turn `$HOME` into a git repo with no `.gitignore`, which could pick up untracked secrets on a later unaware `git add -A`. Cleanup performed: `git worktree remove --force` the Kagan worktree, then removed `/home/kpihx/.git` entirely via the trash-safe `rm` wrapper. Also removed (all via trash-safe `rm`): `~/.local/bin/{kagan,kg}` (via `uv tool uninstall kagan`), `~/.local/share/kagan/` (kagan.db + wal/shm), `~/.cache/kagan/` (update-check.json), `~/.local/state/kagan/` (log + worktrees), `~/.cache/opencode/packages/@kagan-sh/` (cached plugin package). Removed `"@kagan-sh/kagan"` from `assets/opencode.jsonc` → `"plugin"` array. Post-purge verification: `plocate -i kagan` + targeted `find ~ -iname "*kagan*"` both clean, `which kagan kg` both empty, `git -C /home/kpihx worktree list`/`ls -la /home/kpihx/.git` both confirm no residue.
+**Debris found and cleaned (worth flagging for any future re-adoption)**: while auditing state for the purge, discovered Kagan had `git init`'d a **rogue git repository directly at `$HOME` (`$HOME/.git`)**, birth-timestamped 2026-08-27 01:42:50 (same minute as the plugin install), with one empty `chore: initial commit` (no files tracked, no secrets committed — verified via `git ls-tree -r --name-only HEAD` returning nothing) and a linked worktree at `~/.local/state/kagan/worktrees/f95233e41847499b` (Kagan's own card-isolation worktree). Root cause: Kagan was invoked at least once with `$HOME` itself as the working directory / "project", and since `$HOME` was not already a git repo, Kagan silently `git init`'d it to create its worktree-isolated card. This is a real footgun for anyone running Kagan from a non-project directory — it will happily turn `$HOME` into a git repo with no `.gitignore`, which could pick up untracked secrets on a later unaware `git add -A`. Cleanup performed: `git worktree remove --force` the Kagan worktree, then removed `$HOME/.git` entirely via the trash-safe `rm` wrapper. Also removed (all via trash-safe `rm`): `~/.local/bin/{kagan,kg}` (via `uv tool uninstall kagan`), `~/.local/share/kagan/` (kagan.db + wal/shm), `~/.cache/kagan/` (update-check.json), `~/.local/state/kagan/` (log + worktrees), `~/.cache/opencode/packages/@kagan-sh/` (cached plugin package). Removed `"@kagan-sh/kagan"` from `assets/opencode.jsonc` → `"plugin"` array. Post-purge verification: `plocate -i kagan` + targeted `find ~ -iname "*kagan*"` both clean, `which kagan kg` both empty, `git -C $HOME worktree list`/`ls -la $HOME/.git` both confirm no residue.
 
 **If re-adopting later**: always launch `kagan`/`kagan web` from inside an actual project's git repo, never from `$HOME` or another non-project directory — Kagan does not warn before `git init`-ing its target.
 
@@ -71,7 +71,7 @@ Hephaestus (deep-agent solo mode), support subagents Oracle/Librarian/**Explore*
 Metis/Momus/Sisyphus-Junior, background parallel agents, category-based
 model routing (auto-picks cheap vs strong model per task type), `ultrawork`/
 `goal` autonomous continuation, own web dashboard (Hono/Express), own TUI
-overlay (opentui). Genuine differentiators vs the rest of the KπX stack:
+overlay (opentui). Genuine differentiators vs the rest of the  stack:
 Prometheus↔Atlas interactive planning workflow, and automatic model routing.
 
 **Why it was purged — confirmed root cause, not a guess**: OMO ships its own
@@ -86,7 +86,7 @@ WITHOUT oh-my-openagent        → "Explore (primary)" reappears immediately.
                                   `Explore · google/gemini-3-flash-preview` → "OK 🎯".
 ```
 
-KπX's primary agent `Explore` (capital, `mode: "primary"`, defined in
+the user's primary agent `Explore` (capital, `mode: "primary"`, defined in
 `opencode.jsonc` since long before this session) gets **silently shadowed and
 dropped from the registry** by OMO's bundled subagent of the same name
 (different case). Most likely mechanism (reasoned from the observed config-then-
@@ -95,23 +95,23 @@ confirmed by reading OpenCode's source): the agent registry keys are
 normalized case-insensitively (so `--agent explore`/`--agent Explore` resolve
 the same entry from the CLI's point of view), and since plugins register their
 agents at `init` time — after config parsing — OMO's `explore` overwrites
-KπX's `Explore` on that shared key, last-write-wins.
+the user's `Explore` on that shared key, last-write-wins.
 
 **Purge performed 2026-08-27**: removed from `assets/opencode.jsonc` plugin
 array; cleaned all state it created even without ever running its setup
 wizard — `~/.cache/opencode/packages/oh-my-openagent@latest/`, `~/.omo/`
-(codegraph, lsp-daemon, runtime), `~/KpihX-Labs/.omo/` (run-continuation),
+(codegraph, lsp-daemon, runtime), `~/Labs/.omo/` (run-continuation),
 `~/.cache/oh-my-opencode/` (connected-providers.json, model-capabilities.json
 ~1.3 MB, provider-models.json), `~/.local/share/oh-my-opencode/`
 (posthog-activity.json) — all via the trash-safe `rm` wrapper, verified gone.
 
-**Kept here deliberately, per KπX (2026-08-27): "je préfère avoir de la
+**Kept here deliberately, per  (2026-08-27): "je préfère avoir de la
 flexibilité, laisse quand même sa mention dans le skill au cas où"** — i.e.
 do NOT treat this as a closed case. Revisit if/when either becomes true:
 1. Upstream `oh-my-openagent` adds a way to disable/rename its own `explore`
    subagent (check their changelog/issues before retrying), OR
-2. KπX decides the Prometheus↔Atlas planning workflow or auto model-routing
-   is valuable enough to justify renaming KπX's own `Explore` agent kernel-wide
+2.  decides the Prometheus↔Atlas planning workflow or auto model-routing
+   is valuable enough to justify renaming the user's own `Explore` agent kernel-wide
    instead (large blast radius — referenced across AGENTS.md, rules, hooks,
    prompts, `k-context` — not undertaken lightly).
 
@@ -142,7 +142,7 @@ already-resolved model (Kagan-spawned sessions, `opencode run` with no
 normal interactive `Colab`/`claude-sonnet-5` session) never hit this path,
 which is why it went unnoticed until Kagan started spawning sessions.
 
-**Fix applied** (KπX directive — "partout sauf Lite le default model soit
+**Fix applied** ( directive — "partout sauf Lite le default model soit
 mimo 2.5 de opencode zen... mais pour Explore le défaut est le gemini 3 flash
 preview de google"):
 
@@ -155,7 +155,7 @@ preview de google"):
 
 Verified live: `opencode run "OK"` → `providerID=opencode modelID=mimo-v2.5-free`
 → response received. `opencode run --agent Explore "OK"` → `Explore ·
-gemini-3-flash-preview` → response received. KπX confirmed live that Kagan's
+gemini-3-flash-preview` → response received.  confirmed live that Kagan's
 kanban board works after this fix + the OMO purge.
 
 **Operational risk to remember**: `opencode zen` free-tier model IDs rotate
@@ -169,7 +169,7 @@ dump alone.
 
 ## Hook scoping technique for `opencode run` — discovered/documented 2026-08-27
 
-KπX asked whether hooks like `startup-context.js` can be made to skip firing
+ asked whether hooks like `startup-context.js` can be made to skip firing
 in `opencode run` (CLI) invocations. Checked the `@opencode-ai/plugin` type
 definitions (`Hooks` interface, `experimental.chat.messages.transform` input
 is a literal empty `{}`) — **no invocation-mode field (run/TUI/web) is exposed
@@ -177,7 +177,7 @@ to any hook by the plugin API.** Two existing mechanisms solve this without
 any code change:
 
 1. **`opencode run --pure "..."`** — built-in CLI flag, disables ALL plugins
-   (npm + every KπX sovereign hook) for that single invocation. Verified live:
+   (npm + every  sovereign hook) for that single invocation. Verified live:
    no `<startup-context>` injected, default model still resolved correctly.
 2. **`opencode run --agent <name-not-in-TARGET_AGENTS> "..."`** — scoped skip.
    `startup-context.js`'s `TARGET_AGENTS = ["Colab", "Agent", "Auto", "Build",
@@ -199,8 +199,8 @@ Captured from `opencode run --print-logs --log-level DEBUG` boot sequence
 |---|---|---|
 | Config (`opencode.jsonc`/`.json`) | Always | 6 candidate paths merged: `~/.config/opencode/{config.json,opencode.json,opencode.jsonc}` **and** the legacy `~/.opencode/{opencode.json,opencode.jsonc}` (distinct from `~/.config/opencode/`, previously undocumented in this skill) |
 | `AGENTS.md` | Always, even with `--pure` | Native OpenCode instructions mechanism (like CLAUDE.md), not a plugin — loads the kernel root (`~/.agents/AGENTS.md` via symlink) plus the run directory's local `AGENTS.md` |
-| Skills catalog (`<available_skills>`) | Always | Native indexing at `init` — name+description+path only, full content loads on-demand via the `skill` tool. Boot log showed ~85 raw scans (KπX's `~/.agents` symlink ↔ `~/KpihX-Labs/.agents` real path both scanned) deduplicated down to `init count=71` unique skills — cosmetic `WARN "duplicate skill name"` spam, not a functional bug, left unfixed (out of scope for this pass) |
-| `<startup-context>` (k-context dump + device + tmux) | Conditional — KπX's own hook, not native | `startup-context.js`, gated by `TARGET_AGENTS` — see scoping technique above |
+| Skills catalog (`<available_skills>`) | Always | Native indexing at `init` — name+description+path only, full content loads on-demand via the `skill` tool. Boot log showed ~85 raw scans (the user's `~/.agents` symlink ↔ `~/Labs/.agents` real path both scanned) deduplicated down to `init count=71` unique skills — cosmetic `WARN "duplicate skill name"` spam, not a functional bug, left unfixed (out of scope for this pass) |
+| `<startup-context>` (k-context dump + device + tmux) | Conditional — the user's own hook, not native | `startup-context.js`, gated by `TARGET_AGENTS` — see scoping technique above |
 
 ## Evaluated but not installed (honorable mentions / future candidates)
 
@@ -210,7 +210,7 @@ Captured from `opencode run --print-logs --log-level DEBUG` boot sequence
 | `kenryu42/cc-safety-net` | Destructive-command guard (static parser, zero LLM — see mechanism below) | Explicitly supports Hermes Agent + OpenClaw by name; not requested for install |
 | `@devtheops/opencode-plugin-otel` | Self-hosted OTel telemetry (cost/tokens/tool duration) | Needs an OTLP collector target decision (candidate: Grafana Alloy on `kpihx-pve-debian`) before wiring |
 | `opencode-worktree` (kdcokenny) | Zero-friction git worktrees, tmux-aware | Not requested for install |
-| Antigravity Multi-Auth fork (`NoeFabris`/`theblazehen`) | Multi-Google-account quota rotation | **Superseded 2026-09-09** by `@anthonyhaussman/opencode-agy-auth` + `agy` CLI; do not reinstall old Cloud Code OAuth forks without KπX feu vert |
+| Antigravity Multi-Auth fork (`NoeFabris`/`theblazehen`) | Multi-Google-account quota rotation | **Superseded 2026-09-09** by `@anthonyhaussman/opencode-agy-auth` + `agy` CLI; do not reinstall old Cloud Code OAuth forks without  feu vert |
 | Beads (`bd`, gastownhall) | Dependency-aware issue graph for agents | Standalone CLI, not an OpenCode plugin — evaluated as a Kanban-dashboard backend, not adopted |
 | `opencode-dynamic-context-pruning` | Token/context pruning | Cache-hit trade-off documented by maintainers (~65% vs ~95%); revisit only if telemetry shows real cost pressure |
 

@@ -3,7 +3,7 @@
 # restore.sh — Phoenix Protocol: bare-metal workstation restore
 # Usage: sudo ./restore.sh <backup.tar.zst> [USERNAME]
 #   USERNAME defaults to USER_BACKUP defined below, or prompts interactively.
-# Author: KpihX [CLAUDE]
+# Author:  [CLAUDE]
 # ==============================================================================
 
 set -euo pipefail
@@ -30,7 +30,7 @@ fi
 
 if [[ -z "$ARCHIVE_PATH" ]]; then
     echo "Usage: sudo $0 <path/to/backup.tar.zst> [username]"
-    echo "Example: sudo $0 /media/kpihx/KpihX-Backup/Backups/Ubuntu/backup-kpihx-ubuntu-2026-01-01.tar.zst kpihx"
+    echo "Example: sudo $0 /media/kpihx/-Backup/Backups/Ubuntu/backup-workstation-2026-01-01.tar.zst kpihx"
     exit 1
 fi
 

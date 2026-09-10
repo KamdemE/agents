@@ -1,6 +1,6 @@
 # k-windows — Silently uninstalling Windows software from a script
 
-> Generalized from a de-bloat pass on `k-blglaptop139` — the technique is generic; the exact app names/GUIDs stay in that machine's own `references/debloat-log.md`.
+> Generalized from a de-bloat pass on `k-laptop` — the technique is generic; the exact app names/GUIDs stay in that machine's own `references/debloat-log.md`.
 
 ## Two paths, depending on what you know
 
@@ -57,8 +57,3 @@ Missing any one of the three means some installed software becomes invisible to 
 
 **MSI vs. EXE detection:** `UninstallString` for an MSI-installed app always contains `msiexec`; branch on that and use the clean `/x {GUID} /quiet /norestart` form. For a non-MSI (EXE) installer, the vendor's own `UninstallString` is whatever it is — appending `/quiet /norestart` is a reasonable default but **not guaranteed to work** (silent-uninstall flags vary per vendor, some ignore them entirely and show a UI anyway).
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Generalized the `Uninstall-ByDisplayNamePattern` function (previously copy-pasted identically 3× across machine-specific scripts) and the GUID+cleanup pattern from a de-bloat pass on `k-blglaptop139`. |

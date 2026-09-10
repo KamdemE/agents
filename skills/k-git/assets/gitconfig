@@ -1,6 +1,6 @@
 [user]
-	email = kapoivha@gmail.com
-	name = KpihX
+	email = <primary@gmail.com>
+	name = 
 [core]
 	excludesFile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks

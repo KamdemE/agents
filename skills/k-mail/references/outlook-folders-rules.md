@@ -1,6 +1,6 @@
-# Outlook / Hotmail Folders & Rules Reference (`ivann.kamdem@hotmail.com`)
+# Outlook / Hotmail Folders & Rules Reference (`<personal@hotmail.com>`)
 
-**Status:** Updated **2026-09-09** · **Tool:** `m365` (Microsoft Graph API) · **Account:** `ivann.kamdem@hotmail.com`
+**Status:** Updated **2026-09-09** · **Tool:** `m365` (Microsoft Graph API) · **Account:** `<personal@hotmail.com>`
 
 ---
 
@@ -8,18 +8,18 @@
 
 Unlike Gmail labels, Outlook/Exchange uses real physical mail folders (`mailFolders`).
 
-> ⚠️ **Graph API Pitfall:** `POST /me/mailFolders` with `displayName: "KpihX-Labs/Ivann/In"` returns **HTTP 400 Bad Request**. Microsoft Graph prohibits `/` in folder display names because `/` is the Exchange hierarchy delimiter.
+> ⚠️ **Graph API Pitfall:** `POST /me/mailFolders` with `displayName: "Labs/You/In"` returns **HTTP 400 Bad Request**. Microsoft Graph prohibits `/` in folder display names because `/` is the Exchange hierarchy delimiter.
 
 ### Correct Creation Pattern: Nested `childFolders`
 
-To build a nested hierarchy (`KpihX-Labs` ▸ `Ivann` ▸ `In`), folders must be created recursively using `childFolders`:
+To build a nested hierarchy (`Labs` ▸ `You` ▸ `In`), folders must be created recursively using `childFolders`:
 
 ```bash
 # 1. Create root folder
-ROOT_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders" -m post -b '{"displayName":"KpihX-Labs"}' --content-type "application/json" -o json | jq -r .id)
+ROOT_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders" -m post -b '{"displayName":"Labs"}' --content-type "application/json" -o json | jq -r .id)
 
 # 2. Create subfolder under root
-IVANN_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders/$ROOT_ID/childFolders" -m post -b '{"displayName":"Ivann"}' --content-type "application/json" -o json | jq -r .id)
+IVANN_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders/$ROOT_ID/childFolders" -m post -b '{"displayName":"You"}' --content-type "application/json" -o json | jq -r .id)
 
 # 3. Create leaf folder under subfolder
 IN_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders/$IVANN_ID/childFolders" -m post -b '{"displayName":"In"}' --content-type "application/json" -o json | jq -r .id)
@@ -31,11 +31,11 @@ IN_ID=$(m365 request -u "https://graph.microsoft.com/v1.0/me/mailFolders/$IVANN_
 
 | Folder Path | Folder ID | Purpose |
 |-------------|-----------|---------|
-| `KpihX-Labs` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZjgAAAA==` | Root folder |
-| `KpihX-Labs/Ivann` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZjwAAAA==` | Subfolder Ivann |
-| `KpihX-Labs/Ivann/In` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkAAAAA==` | Inbound target for `ivann@kpihx-labs.com` |
-| `KpihX-Labs/KpihX` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkQAAAA==` | Subfolder KpihX |
-| `KpihX-Labs/KpihX/In` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkgAAAA==` | Inbound target for `kpihx@kpihx-labs.com` |
+| `Labs` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZjgAAAA==` | Root folder |
+| `Labs/Ivann` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZjwAAAA==` | Subfolder You |
+| `Labs/You/In` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkAAAAA==` | Inbound target for `personal@<yourdomain.com>` |
+| `Labs/` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkQAAAA==` | Subfolder  |
+| `Labs//In` | `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABUUtZkgAAAA==` | Inbound target for `mail@<yourdomain.com>` |
 
 ---
 
@@ -52,9 +52,9 @@ To keep incoming alias mails in `INBOX` while making a copy in the dedicated sub
 
 | Seq | Rule Display Name | Rule ID | Conditions | Actions |
 |-----|-------------------|---------|------------|---------| 
-| 1 | `KpihX inbound contact (inbox)` | `AQAAAREMtq0=` | `sentToAddresses: contact@kpihx-labs.com` | `moveToFolder: INBOX`, `stopProcessingRules: true` |
-| 2 | `KpihX inbound kpihx (inbox)` | `AQAAAREMtq4=` | `sentToAddresses: kpihx@kpihx-labs.com` | `moveToFolder: INBOX`, **`copyToFolder: KpihX-Labs/KpihX/In`**, `stopProcessingRules: true` |
-| 3 | `KpihX inbound ivann (inbox)` | `AQAAAREMtq8=` | `sentToAddresses: ivann@kpihx-labs.com` | `moveToFolder: INBOX`, **`copyToFolder: KpihX-Labs/Ivann/In`**, `stopProcessingRules: true` |
+| 1 | ` inbound contact (inbox)` | `AQAAAREMtq0=` | `sentToAddresses: contact@<yourdomain.com>` | `moveToFolder: INBOX`, `stopProcessingRules: true` |
+| 2 | ` inbound kpihx (inbox)` | `AQAAAREMtq4=` | `sentToAddresses: mail@<yourdomain.com>` | `moveToFolder: INBOX`, **`copyToFolder: Labs//In`**, `stopProcessingRules: true` |
+| 3 | ` inbound ivann (inbox)` | `AQAAAREMtq8=` | `sentToAddresses: personal@<yourdomain.com>` | `moveToFolder: INBOX`, **`copyToFolder: Labs/You/In`**, `stopProcessingRules: true` |
 
 #### Admins institutional copy rules (seq 4–15) — created 2026-09-09
 

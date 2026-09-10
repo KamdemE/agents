@@ -1,19 +1,19 @@
 ---
 name: k-cloudflare
 description: >
-  KπX Cloudflare — flarectl (DNS/zones) on workstation; tunnel connector on homelab server only.
-  Inbound @kpihx-labs.com Email Routing + Worker. Load for DNS, edge routing, or inbound mail ops.
+  Cloudflare — flarectl (DNS/zones) on workstation; tunnel connector on homelab server only.
+  Inbound @<yourdomain.com> Email Routing + Worker. Load for DNS, edge routing, or inbound mail ops.
 license: private
 metadata:
-  author: KpihX
-  version: "1.5.2"
+  author: 
+  version: "1.0.0"
   scope: operations
 allowed-tools: Bash(flarectl:*), Bash(curl:*)
 ---
 
-# KπX — Cloudflare
+#  — Cloudflare
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (flarectl setup on workstation) · `references/windows.md` (flarectl via WSL) · `references/debian.md` (cloudflared tunnel on server)
 
@@ -34,14 +34,14 @@ Registry map: `$HOME/.agents/skills/k-clis/references/cloud-hub.md` · load **`k
 
 | Item | Value / ID | Details |
 |------|------------|---------|
-| **Account ID** | `5d0ff5e40bbc37baed99d3c7aacd0741` | Cloudflare Account `KpihX-Labs` |
-| **Zone ID** | `255f60d9f77924ac016c194300dbeb3c` | Zone `kpihx-labs.com` |
-| **Tunnel ID** | `db6721cb-6bfe-4750-b55a-124e6dc74388` | Tunnel `kpihx-labs` (`remote_config: true`, **HEALTHY**) |
+| **Account ID** | `5d0ff5e40bbc37baed99d3c7aacd0741` | Cloudflare Account `Labs` |
+| **Zone ID** | `255f60d9f77924ac016c194300dbeb3c` | Zone `<github-user>.com` |
+| **Tunnel ID** | `db6721cb-6bfe-4750-b55a-124e6dc74388` | Tunnel `<github-user>` (`remote_config: true`, **HEALTHY**) |
 | **Access Policy** | `d6f8ccdd-6f8f-4780-b8ca-0756e7fb7415` | `Admins` policy (`session_duration: 24h`, allow 3 emails) |
 | **Google IdP** | `a4c9264c-5736-4a9d-9cb9-4dab305aae13` | Client `747851806672-ncbjr8e18gtdbonupcfgmh1j1d961q69...` |
 | **OTP IdP** | `a0756076-653c-4fb1-8747-626f216ac615` | Email 6-digit PIN fallback |
 
-**Protected Access Apps (6 self-hosted apps, 24h session):** `live.kpihx-labs.com`, `ai.kpihx-labs.com`, `mail.kpihx-labs.com`, `whats.kpihx-labs.com`, `tick.kpihx-labs.com`, `sentinel.kpihx-labs.com`.  
+**Protected Access Apps (6 self-hosted apps, 24h session):** `live.<github-user>.com`, `ai.<github-user>.com`, `mail.<github-user>.com`, `whats.<github-user>.com`, `tick.<github-user>.com`, `sentinel.<github-user>.com`.  
 **Architecture & SSO detail:** `references/access-sso-architecture.md`  
 **Tunnel Ingress & Traefik routing:** `references/tunnel-ingress-traefik.md`
 
@@ -57,14 +57,14 @@ Agents must copy a template to `/tmp/`, edit values, and launch via `with-env cu
 | `assets/templates/template-email-routing-rule.json` | Create Email Routing rule |
 | `assets/templates/template-dns-record.json` | Create CNAME / DNS record |
 
-## Inbound email (`@kpihx-labs.com`) — LIVE
+## Inbound email (`@<yourdomain.com>`) — LIVE
 
 | Item | Location |
 |------|----------|
 | **Ops / curl / MX / rules** | `references/email-routing-ops.md` |
 | **E2E verify (send matrix, traps)** | `references/inbound-email-e2e.md` |
 | **Outbound free (Send-as)** | `references/inbound-email-outbound-free.md` · live checklist `references/outbound-setup-status.md` |
-| **SOT + Worker bundle** | `assets/kpihx-labs-inbound-router/` |
+| **SOT + Worker bundle** | `assets/inbound-router/` |
 | **Rollout** | `scripts/deploy-inbound-email-full.sh` (prime → sync → deploy) |
 | **Deploy only** | `scripts/deploy-inbound-email-worker.sh` (wrangler deploy only) |
 | **Worker rules** | `scripts/apply-inbound-email-worker-rules.sh` |
@@ -73,16 +73,16 @@ Agents must copy a template to `/tmp/`, edit values, and launch via `with-env cu
 | **Archive E2E tests** | `scripts/archive-inbound-e2e-tests.sh` · manifest `references/email-e2e-test-manifest.md` |
 | **Outbound check** | `scripts/check-outbound-setup.sh` |
 | **Read-only check** | `scripts/verify-inbound-e2e.sh <TAG>` |
-| **Worker entry** | `assets/kpihx-labs-inbound-router.mjs` (bundle under `assets/kpihx-labs-inbound-router/`) |
+| **Worker entry** | `assets/inbound-router.mjs` (bundle under `assets/inbound-router/`) |
 
-**Live aliases (2026-05-25):** `kpihx@` → Hotmail + kapoivha · `contact@` → Labs + kapoivha · `ivann@` → Hotmail only.  
-**Mandatory:** `ensure-destination-prime-rules.sh` before Worker forwards. **Mailbox proof:** `k-mail` + `gws` + `m365` — see E2E doc (never Hotmail→`ivann@` self-test).
+**Live aliases:** `mail@` → Hotmail + primary Gmail · `contact@` → Labs Gmail + primary · `personal@` → Hotmail only.  
+**Mandatory:** `ensure-destination-prime-rules.sh` before Worker forwards. **Mailbox proof:** `k-mail` + `gws` + `m365` — see E2E doc (never Hotmail→`personal@` self-test).
 
 ## Active on workstation (Ubuntu dev)
 
 | Tool | Role | Verify / API usage |
 |------|------|--------------------|
-| **`flarectl`** | DNS + zones (`kpihx-labs.com`, ACME TXT, CNAME → tunnel ID) | **`with-env flarectl`** (always with `with-env` in tmux — `CF_API_TOKEN` is in Vault, not raw env) |
+| **`flarectl`** | DNS + zones (`<github-user>.com`, ACME TXT, CNAME → tunnel ID) | **`with-env flarectl`** (always with `with-env` in tmux — `CF_API_TOKEN` is in Vault, not raw env) |
 | **`curls`** | **REST API control** (Tunnel Ingress, Access Apps, Email Routing) | **`with-env curls -p cloudflare <url>`** — secure token injection via `k-clis` manifest |
 | **`wrangler`** | **Inbound Email Worker only** (`deploy-inbound-email-full.sh`) | `npx wrangler@3 --version` at deploy time |
 
@@ -107,7 +107,7 @@ Full future-use map: **`references/cloudflared-quarantine.md`**.
 
 | Item | Value |
 |------|--------|
-| Tunnel | **`kpihx-labs`** — Zero Trust **remote-managed**, **HEALTHY** |
+| Tunnel | **`<github-user>`** — Zero Trust **remote-managed**, **HEALTHY** |
 | Connector | `cloudflared tunnel run <token>` on **homelab / docker-host** only |
 | Ingress | Dashboard **or** API → `references/tunnel-routes-api.md` |
 | DNS from laptop | **`with-env flarectl`** (CNAME → `<tunnel-uuid>.cfargotunnel.com`) |
@@ -132,7 +132,7 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 
 | Task | Skill |
 |------|-------|
-| Traefik, Docker, tunnel on server | **`kpihx-labs`**, **`k-docker`** |
+| Traefik, Docker, tunnel on server | **`<github-user>`**, **`k-docker`** |
 | Internal mesh, ACL | **Tailscale**, **`ts-proxy`**, **`k-clis`** |
 | Inbox verification, What's up mail | **`k-mail`**, **`k-microsoft`**, **`k-google`** (gws) |
 | Secrets | local config / env (no longer injected via `k-bw` — purged 2026-08-14) |
@@ -143,10 +143,3 @@ Do **not** use **Add connector** on the dev laptop for prod. Internal admin → 
 - Update `$HOME/.agents/skills/k-cloudflare/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-04 | [LIVE] | v1.5.x — Wrangler tail procedure, 360° ZT audit (6 Apps, 24h session), `access-sso-architecture.md` + `tunnel-ingress-traefik.md`, `curls` REST guidance, deploy-inbound-email-worker.sh documented. |
-| 2026-05-25 | [CURSOR] | v1.4.x — E2E archive + outbound COMPLETE, DMARC, Inbound LIVE doc split + anti-spam + Worker deploy scope. |
-| [SUMMARY] | — | v1.4.1–v1.4.7 outbound/send-as/DMARC; v1.3.0 prime rules; v1.2.x tunnel + quarantine. |

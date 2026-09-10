@@ -14,4 +14,4 @@
 
 - **Links**
   - [GitHub](https://github.com/USERNAME/REPO)
-  - [GitLab](https://gitlab.com/USERNAME/REPO)
+  - [GitHub](https://github.com/USERNAME/REPO)

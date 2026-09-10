@@ -50,17 +50,17 @@ Authorization: Bearer $CF_API_TOKEN
   "config": {
     "ingress": [
       {
-        "hostname": "vaultwarden.kpihx-labs.com",
+        "hostname": "vaultwarden.<github-user>.com",
         "service": "http://127.0.0.1:8080",
         "originRequest": {
-          "httpHostHeader": "vaultwarden.kpihx-labs.com",
+          "httpHostHeader": "vaultwarden.<github-user>.com",
           "noTLSVerify": false,
           "connectTimeout": 30,
           "keepAliveConnections": 100
         }
       },
       {
-        "hostname": "sentinel.kpihx-labs.com",
+        "hostname": "sentinel.<github-user>.com",
         "service": "http://127.0.0.1:9000",
         "originRequest": {}
       },
@@ -88,7 +88,7 @@ Content-Type: application/json
 {
   "name": "Vaultwarden",
   "type": "self_hosted",
-  "domain": "vaultwarden.kpihx-labs.com",
+  "domain": "vaultwarden.<github-user>.com",
   "session_duration": "24h",
   "auto_redirect_to_identity": true,
   "allowed_idps": [],
@@ -100,7 +100,7 @@ Content-Type: application/json
 
 ```json
 {
-  "domain": "vaultwarden.kpihx-labs.com",
+  "domain": "vaultwarden.<github-user>.com",
   "type": "self_hosted",
   "session_duration": "24h"
 }
@@ -120,13 +120,13 @@ POST https://api.cloudflare.com/client/v4/accounts/{CF_ACCOUNT_ID}/access/polici
 
 ```json
 {
-  "name": "Allow KpihX email",
+  "name": "Allow  email",
   "decision": "allow",
   "precedence": 1,
   "include": [
     {
       "email": {
-        "email": ["kapoivha@gmail.com"]
+        "email": ["<primary@gmail.com>"]
       }
     }
   ],
@@ -171,7 +171,7 @@ Destructive policy/app changes → **HITL** in cf-proxy.
 ## 4) DNS (public hostname → tunnel)
 
 ```bash
-flarectl dns create --zone kpihx-labs.com \
+flarectl dns create --zone <github-user>.com \
   --name vaultwarden --type CNAME \
   --content "{TUNNEL_UUID}.cfargotunnel.com" --proxy
 ```
@@ -196,7 +196,7 @@ cf-proxy admin status
 cf-proxy do list-tunnel-routes '{}'
 cf-proxy do get-access-app '{"app_id":"..."}'
 cf-proxy do replace-tunnel-routes ./ingress.json   # HITL diff before PUT
-cf-proxy do create-access-policy '{"name":"Allow KpihX",...}'  # HITL
+cf-proxy do create-access-policy '{"name":"Allow ",...}'  # HITL
 ```
 
 **HITL:** PUT ingress, DELETE policy, DELETE DNS, PUT Access app — same dual-channel model as `ts-proxy` (web + TUI).

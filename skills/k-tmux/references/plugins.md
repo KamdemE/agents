@@ -41,4 +41,4 @@ Scope:
 - Does **not** restore terminal emulator tabs outside tmux.
 - Does **not** restore shell command history for arrow-key navigation; shell history remains owned by zsh (`$HOME/.zsh_history` or any future zsh history split).
 - Captured pane text can include sensitive terminal output; avoid displaying secrets before a save.
-- On Linux, `@continuum-boot on` would create `$HOME/.config/systemd/user/tmux.service`; **KπX keeps it off** (see `references/boot-recovery.md`).
+- On Linux, `@continuum-boot on` would create `$HOME/.config/systemd/user/tmux.service`; ** keeps it off** (see `references/boot-recovery.md`).

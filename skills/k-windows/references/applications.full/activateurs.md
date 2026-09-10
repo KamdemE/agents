@@ -1,6 +1,6 @@
 # Activateurs (31M)
 
-> Source: `KpihX-Datas/Applications/Activateurs/`
+> Source: `-Datas/Applications/Activateurs/`
 > Cracks Windows/Office — légalement douteux, purge candidate
 
 | Fichier | Type |

@@ -1,4 +1,4 @@
-# KpihX mnt-sync — pull REMOTE_ROOT -> LOCAL_ROOT (Windows, one-way, no delete).
+#  mnt-sync — pull REMOTE_ROOT -> LOCAL_ROOT (Windows, one-way, no delete).
 # Mirrors sync-pull.sh. Reads the same dirs.txt (blank/`#` lines ignored).
 param(
     [string]$RemoteRoot = "O:\REPLACE_ME",

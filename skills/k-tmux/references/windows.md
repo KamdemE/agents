@@ -1,7 +1,7 @@
 # k-tmux — Windows / WSL
 
 > **OS reference:** Windows (with WSL subsystem)  
-> **Applies to:** `k-blglaptop139` (blglaptop139) and any Windows machine running WSL
+> **Applies to:** `k-laptop` (laptop) and any Windows machine running WSL
 
 ---
 
@@ -24,7 +24,7 @@ sudo apt install openssh-server
 sudo service ssh start
 ```
 
-Then from Ubuntu: `ssh kapoivha@blglaptop139` (Tailscale SSH).
+Then from Ubuntu: `ssh kapoivha@laptop` (Tailscale SSH).
 
 ### Alias Pattern
 

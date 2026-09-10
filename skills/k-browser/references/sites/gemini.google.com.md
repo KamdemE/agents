@@ -1,6 +1,6 @@
 # gemini.google.com
 
-**Category:** AI chat + image generation (Gemini Flash/Pro). **Account:** kapoivha@gmail.com (Pro). **Profile:** `default`.
+**Category:** AI chat + image generation (Gemini Flash/Pro). **Account:** <primary@gmail.com> (Pro). **Profile:** `default`.
 
 ## Login
 
@@ -313,19 +313,14 @@ browser-proxy do page-evaluate '{"profile":"default","target_id":"<TARGET_ID>","
 
 Sessions logged here for full reopening if needed. Include Gemini conversation title + opencode session command.
 
-### Logos et fonds KπX, KπX-Labs, ScienCurious, TechSkills
+### Logos et fonds , -Labs, ScienCurious, TechSkills
 
 | Field | Value |
 |-------|-------|
 | **Date** | 2026-09-02 → 2026-09-03 |
-| **Gemini conversation** | "Logos et fonds KπX, KπX-Labs, ScienCurious, TechS…" |
+| **Gemini conversation** | "Logos et fonds , -Labs, ScienCurious, TechS…" |
 | **Resume opencode** | `opencode -s ses_f9c54b807ffehxrENU0l6YTiOz` |
-| **What was done** | Full logo generation session: uploaded 5 original images to Gemini, generated clean line art logos (KπX hooded figure on laptop, KπX-Labs lightbulb neural, ScienCurious cartoon character, TechSkills circuit lightbulb), generated abstract gradient banners for all 4 brands. Iterated on KπX logo (removed duplicate text, removed face features, corrected π sizing). Created comparison PDF. Installed bg removal tools (bgone, withoutbg, nobg, rembg). Generated 16 comparison images in `1/pure/`. Created k-browser Gemini site memory + 3 presets. |
+| **What was done** | Full logo generation session: uploaded 5 original images to Gemini, generated clean line art logos ( hooded figure on laptop, -Labs lightbulb neural, ScienCurious cartoon character, TechSkills circuit lightbulb), generated abstract gradient banners for all 4 brands. Iterated on  logo (removed duplicate text, removed face features, corrected π sizing). Created comparison PDF. Installed bg removal tools (bgone, withoutbg, nobg, rembg). Generated 16 comparison images in `1/pure/`. Created k-browser Gemini site memory + 3 presets. |
 | **Key learnings** | DataTransfer upload is the ONLY working method for Gemini file uploads. Enter key dispatch via JS is the ONLY send method. INFINITE-SCROLLER is the scrollable container. Canvas→base64 is the ONLY way to extract blob images. Gemini corrects accumulate context → start fresh conversation if too many rounds. One brand per message for clean generations. |
 | **Output** | `~/Downloads/Logos/{_/0/1/pure/}` — full logo archive with originals, phase 0, series 1, and bg removal comparison |
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-03 | Initial creation. Documented full interaction patterns learned from logo generation session: DataTransfer upload method, canvas→base64 extraction, Enter key send, INFINITE-SCROLLER navigation, conversation management. |

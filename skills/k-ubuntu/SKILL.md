@@ -1,30 +1,30 @@
 ---
 name: k-ubuntu
 description: >
-  KpihX-Ubuntu workstation — the machine running this kernel session (Intel
+  workstation workstation — the machine running this kernel session (Intel
   Core Ultra 7 155H, Ubuntu 26.04 LTS). Covers shell architecture, system
   services, directory layout, local MCP ecosystem, firewall, remote work
   VPN/RDP, and hardware. Load before any Ubuntu workstation-specific task.
 license: private
 metadata:
-  author: KpihX
-  version: "1.20.0"
+  author: 
+  version: "1.0.0"
   scope: workstation
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KpihX-Ubuntu — Workstation
+# workstation — Workstation
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-proxy) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `kpihx-labs` (kernel top reference)
+> **Related skills:** `k-infras` (master infrastructure map + setup checklist) · `k-zsh` (shell setup — .kshrc, .zshrc) · `k-ssh` (SSH config — canonical fragment, keys) · `k-nftables` (firewall — sub-skill) · `k-tailscale` (mesh VPN operations) · `k-optim` (Ubuntu optimization) · `k-docker` (generic container patterns) · `k-cloudflare` (flarectl DNS/API) · `k-bw` (bw-proxy) · `k-openclaw` (gateway service) · `k-rclone` (FUSE mounts) · `k-tmux` (shared interactive gate) · `<github-user>` (kernel top reference)
 > **SSH config source of truth:** `$HOME/.ssh/config`
 > **Tailscale live state:** `tailscale status --json`
 
 > **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
-> For `kpihx-ubuntu`, `k-ubuntu/assets/kshrc` is the source of truth for `~/.kshrc`.
+> For `workstation`, `k-ubuntu/assets/kshrc` is the source of truth for `~/.kshrc`.
 >
-> **Directory standard (1st op):** if absent, create `~/KpihX-Labs`; clone `git@github.com:kpihx-labs/agents.git` → `~/KpihX-Labs/.agents`; create `~/.agents` as a **symlink** → `~/KpihX-Labs/.agents`. See `k-infras` → New Infra Setup Checklist → Step 0.
+> **Directory standard (1st op):** if absent, create `~/Labs`; clone `git@github.com:KamdemE/agents.git` → `~/Labs/.agents`; create `~/.agents` as a **symlink** → `~/Labs/.agents`. See `k-infras` → New Infra Setup Checklist → Step 0.
 
 ---
 
@@ -32,9 +32,9 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Property | Value |
 |----------|-------|
-| Hostname | `KpihX-Ubuntu` |
+| Hostname | `workstation` |
 | Short name (tmux) | `ubuntu` |
-| Tailscale | `kpihx-ubuntu` (`100.82.95.70`) |
+| Tailscale | `workstation` (`100.82.95.70`) |
 | OS | Ubuntu 26.04 LTS (Resolute Raccoon) |
 | Kernel | Linux 7.0.0-28-generic x86_64 |
 | CPU | Intel Core Ultra 7 155H |
@@ -45,18 +45,18 @@ allowed-tools: Bash, Read, Write, Edit
 
 | Property | Value |
 |----------|-------|
-| Tailscale hostname | `KpihX-Ubuntu` |
-| DNS name | `kpihx-ubuntu.tail2527bd.ts.net.` |
+| Tailscale hostname | `workstation` |
+| DNS name | `workstation.tail2527bd.ts.net.` |
 | Tailscale IPv4 | `100.82.95.70` |
 | Tailscale IPv6 | `fd7a:115c:a1e0::b801:5f48` |
 | Physical IP | `129.104.235.226:41641` |
 | Bridge IPs (Docker/libvirt) | `172.17.0.1`, `172.17.21.27`, `192.168.122.1` |
-| Owner | `kapoivha@gmail.com` |
+| Owner | `<primary@gmail.com>` |
 | Tailscale version | `1.96.4` |
 | Node key expiry | `2026-12-22` |
 | WireGuard port | `41641/udp` |
-| Serve (OpenClaw) | `https://kpihx-ubuntu.tail2527bd.ts.net:443` → `127.0.0.1:18789` |
-| Serve (OpenCode) | `https://kpihx-ubuntu.tail2527bd.ts.net:1443` → `127.0.0.1:4097` |
+| Serve (OpenClaw) | `https://workstation.tail2527bd.ts.net:443` → `127.0.0.1:18789` |
+| Serve (OpenCode) | `https://workstation.tail2527bd.ts.net:1443` → `127.0.0.1:4097` |
 | accept-routes | ✅ `10.10.10.0/24` via `kpihx-pve` |
 | accept-dns | ✅ |
 | Operator | `kpihx` (no sudo for tailscale CLI) |
@@ -69,7 +69,7 @@ Hardware details (disk layout, BIOS/UEFI, dual-boot): **`k-infras`** (see `refer
 
 ## Firewall
 
-Ubuntu workstation firewall is managed via `k-nftables`. The canonical ruleset resides at `k-nftables/assets/nftables.conf`, is symlinked to `/etc/nftables.conf`, and is currently scoped in `links.jsonc` to `kpihx-ubuntu` + `kpihx-pve-debian` only.
+Ubuntu workstation firewall is managed via `k-nftables`. The canonical ruleset resides at `k-nftables/assets/nftables.conf`, is symlinked to `/etc/nftables.conf`, and is currently scoped in `links.jsonc` to `workstation` + `kpihx-pve-debian` only.
 
 > **Sub-skill:** Load `k-nftables` for ruleset reference, interface inventory, service management, and troubleshooting.
 
@@ -105,8 +105,8 @@ Shell setup follows the **`.kshrc` Universal Hub** pattern — see **`k-zsh`** f
 | `$HOME/Work/Homelab/` | Infrastructure (Traefik, Vaultwarden, Portainer, Ollama) — remote access |
 | `$HOME/Work/techskills/` | Ubuntu living KB — real fixes documented as they happen |
 | `$HOME/Work/Others/` | Miscellaneous / Non-project files / Transit zone |
-| `$HOME/Gdrive/` | Personal Google Drive via rclone (kapoivha@gmail.com) |
-| `$HOME/Gdrive_X/` | Pro/Academic Google Drive via rclone (ivann.kamdem-pouokam.2024@polytechnique.org) |
+| `$HOME/Gdrive/` | Personal Google Drive via rclone (<primary@gmail.com>) |
+| `$HOME/Gdrive/` | Pro/Academic Google Drive via rclone (<school@polytechnique.org>) |
 | `$HOME/go/` | Go workspace (GOPATH) |
 
 ### Centralized Scripts — `scripts/`
@@ -129,11 +129,11 @@ All workstation scripts are centralized in `scripts/` (this skill). Each is a st
 
 Full `ksh` dispatcher usage and Clean/Backup/PVE-backup module commands → **`references/scripts-modules.md`**.
 
-> **🔴 RULE — Scripts executed by systemd services that need `$HOME` resources (GRAVÉ):** system-level services do NOT export `$HOME` reliably — and units with an explicit `User=root` directive get `$HOME=/root` **preset by systemd**, so any bare `source "$HOME/.agents/..."` or path through `$HOME` silently misses the kernel (`/root/.agents` does not exist) or aborts under `set -u`. A `${HOME:-/home/kpihx}` fallback is NOT sufficient under `User=root` (the preset value is non-empty). **Every script that can be launched by a service must start with:**
+> **🔴 RULE — Scripts executed by systemd services that need `$HOME` resources (GRAVÉ):** system-level services do NOT export `$HOME` reliably — and units with an explicit `User=root` directive get `$HOME=/root` **preset by systemd**, so any bare `source "$HOME/.agents/..."` or path through `$HOME` silently misses the kernel (`/root/.agents` does not exist) or aborts under `set -u`. A `${HOME:-$HOME}` fallback is NOT sufficient under `User=root` (the preset value is non-empty). **Every script that can be launched by a service must start with:**
 >
 > ```bash
-> export HOME="${HOME:-/home/kpihx}"
-> [ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
+> export HOME="${HOME:-$HOME}"
+> [ -d "$HOME/.agents" ] || export HOME="$HOME"
 > ```
 >
 > placed BEFORE any `source "$HOME/.agents/..."`. This is the validated pattern from `scripts/backup_restore_pve/backup_pve.sh` (2026-08-23 incident: `clean.service` ran fine but its Telegram notification was silently skipped for months because `/root/.agents/libs/notif/notifier.sh` did not exist; fixed in `auto_clean.sh` + `restore_pve.sh`, E2E delivery verified on @k_ubuntu_bot the same night). Note: `pve-backup.service` only ever worked because it has NO `User=` line — systemd then leaves `$HOME` unset, so its fallback fires. Secrets need no unit-level `EnvironmentFile`: `libs/notif/notifier.sh` self-loads `$HOME/.agents/.env` via `libs/env/env_lib.sh` (`env_load`) once `$HOME` is correct. Prefer loud ERROR logging over silent best-effort skips in service-run notification tails.
@@ -142,7 +142,7 @@ Full `ksh` dispatcher usage and Clean/Backup/PVE-backup module commands → **`r
 
 | Path | Role |
 |------|------|
-| `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
+| `$HOME/.agents/` | Symlink → `$HOME/Labs/.agents/` (git root for the global agent kernel) |
 
 ### MIME Type Associations
 
@@ -186,7 +186,7 @@ Machine-installed system CLIs (fd, asciinema, k-whisper / k-piper via k-ai), Wav
 
 > **Source of truth — do not hardcode lists here:**
 > - Source code: `$HOME/Work/AI/MCPs/`
-> - HTTP endpoints: `<name>.kpihx-labs.com/mcp`
+> - HTTP endpoints: `<name>.<github-user>.com/mcp`
 > - Installed stdio binaries: `uv tool list` · `npm list -g` · `bun pm ls -g`
 > - Agent configs: read config files directly
 
@@ -194,20 +194,20 @@ Machine-installed system CLIs (fd, asciinema, k-whisper / k-piper via k-ai), Wav
 
 ---
 
-## Remote Work — DxO VPN + RDP
+## Remote Work — VPN + RDP (optional)
 
-> **DxO VPN:** see **`k-dxo`** skill for full setup — VPN (GlobalProtect via openconnect), RDP via Remmina, accounts, and Windows procedure.
+> Employer/cluster VPN (e.g. GlobalProtect via openconnect) and RDP via Remmina are per-machine setups — document them here when needed.
 
-### RDP (Remmina → BLGLAPTOP139 / deep-pc6)
+### RDP (Remmina)
 
 | Field | Value |
 |-------|-------|
 | Server (BLGLAPTOP139) | `BLGLAPTOP139.corp.dxo.com` |
-| Server (Deep PC6) | `deep-pc6.corp.dxo.com` |
+| Server (Deep PC6) | `server.corp.dxo.com` |
 | Username | `ikamdem` (no domain) |
 | Domain | `corp.dxo.com` |
 
-**Profile file:** `~/.local/share/remmina/group_rdp_dxo_blglaptop139-corp-dxo-com.remmina`
+**Profile file:** `~/.local/share/remmina/group_rdp_dxo_laptop-corp-dxo-com.remmina`
 
 **Audio:** `sound=local` + `microphone=local`
 
@@ -257,10 +257,3 @@ To correctly enforce a persistent battery charge limit (e.g., 75-80%), you must 
 - Update `$HOME/.agents/skills/k-ubuntu/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-26 | [CLAUDE] | v1.20.0 — Persistent SSH agent (gpg-agent ssh-emulation, socket-activated) added to `assets/kshrc` Section 1. See `k-zsh` v2.5.0 for the mechanism; mirrored here per the SYNC RULE. |
-| 2026-08-24 | [COLAB] | v1.19.0 — **clean.timer rescheduled (KπX order)**: `assets/clean/clean.timer` changed from `OnCalendar=*-*-1/2 21:30:00` (odd days) to `OnCalendar=Sat *-*-* 04:00:00` (every Saturday at 04:00); `Persistent=true` kept (catch-up on boot if the PC was off/asleep at trigger time). Applied live via tmux sudo gate (`daemon-reload` + `restart clean.timer`) — verified: `list-timers` shows NEXT Sat 2026-08-29 04:00:00. Docs aligned: `references/system-services.md` row, `references/scripts-modules.md` ×2, `scripts/clean/README.md`. |
-| [SUMMARY] | — | v1.18.0 root-run `$HOME` rule + clean notification fix · v1.17.0 clean-system rename (→ `references/log.md`) · v1.16.0 apps.md config-debris (→ `references/log.md`) · v1.15.0 and older in log.md |

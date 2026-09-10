@@ -1,17 +1,17 @@
-# Email Routing — live ops runbook (`kpihx-labs.com`)
+# Email Routing — live ops runbook (`<github-user>.com`)
 
 > **Validated 2026-05-25** · inbound **LIVE** (Worker + prime rules + Labs spam filters).  
 > **Provision:** `flarectl` + `curl` + `jq` below · **E2E verify:** `references/inbound-email-e2e.md` + `scripts/verify-inbound-e2e.sh`.  
-> **Outbound** `From: @kpihx-labs.com` → **`references/inbound-email-outbound-free.md`** (Gmail Send-as, SPF, optional Brevo).
+> **Outbound** `From: @<yourdomain.com>` → **`references/inbound-email-outbound-free.md`** (Gmail Send-as, SPF, optional Brevo).
 
-## IDs (zone `kpihx-labs.com`)
+## IDs (zone `<github-user>.com`)
 
 | Var | Value |
 |-----|--------|
 | `CF_ZONE_ID` | `255f60d9f77924ac016c194300dbeb3c` |
 | `CF_ACCOUNT_ID` | `5d0ff5e40bbc37baed99d3c7aacd0741` |
-| Public alias | `kpihx@kpihx-labs.com` (rule id `332137f5445a4b368e0759a357cef0f9`) |
-| Destinations (verify in CF account) | `kapoivha@gmail.com` · `ivann.kamdem@hotmail.com` · `kpihx.labs@gmail.com` |
+| Public alias | `mail@<yourdomain.com>` (rule id `332137f5445a4b368e0759a357cef0f9`) |
+| Destinations (verify in CF account) | `<primary@gmail.com>` · `<personal@hotmail.com>` · `<labs@gmail.com>` |
 | **Router** | `inbound-routes.json` + Worker `dfce70ed-…` — see **§ Evolutive inbound router** |
 | **Prime rules** | `_prime-labs@`, `_prime-kapoivha@`, `_prime-hotmail@` — **mandatory** for Worker `forward()` |
 
@@ -20,7 +20,7 @@
 | Scope | Permission | Enables |
 |-------|------------|---------|
 | Account | Email Routing Addresses **Edit** | `POST …/accounts/{id}/email/routing/addresses` |
-| Zone `kpihx-labs.com` | Email Routing Rules **Edit** | `GET/POST …/zones/{id}/email/routing/rules` |
+| Zone `<github-user>.com` | Email Routing Rules **Edit** | `GET/POST …/zones/{id}/email/routing/rules` |
 | Zone | Zone Settings **Edit** | `GET …/email/routing`, `POST …/enable` |
 | Zone | DNS **Edit** | `flarectl dns list` |
 
@@ -39,12 +39,12 @@ with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/zones/$CF_ZON
 with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/rules"
 with-env curls -p cloudflare "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/email/routing/addresses"
 
-flarectl zone list | rg kpihx-labs
+flarectl zone list | rg <github-user>
 
 curl -sS "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing" \
   -H "Authorization: Bearer $CF_API_TOKEN" | jq '{success,enabled:.result.enabled,status:.result.status}'
 
-flarectl dns list --zone kpihx-labs.com | rg -i 'MX|mx\.cloudflare|spf|_domainkey' || true
+flarectl dns list --zone <github-user>.com | rg -i 'MX|mx\.cloudflare|spf|_domainkey' || true
 ```
 
 ## Enable routing (adds MX + SPF + DKIM)
@@ -61,12 +61,12 @@ curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/r
 **Re-verify DNS:**
 
 ```bash
-flarectl dns list --zone kpihx-labs.com | rg 'MX|mx\.cloudflare|spf|_domainkey'
+flarectl dns list --zone <github-user>.com | rg 'MX|mx\.cloudflare|spf|_domainkey'
 ```
 
 Typical MX: `route1.mx.cloudflare.net` (prio 47), `route2` (25), `route3` (16).  
 SPF apex: `v=spf1 include:_spf.mx.cloudflare.net ~all`.  
-DKIM: `cf2024-1._domainkey.kpihx-labs.com`.
+DKIM: `cf2024-1._domainkey.<github-user>.com`.
 
 **Tunnel CNAMEs** (`sentinel`, apex, etc.) must stay unchanged — only mail DNS added.
 
@@ -76,7 +76,7 @@ DKIM: `cf2024-1._domainkey.kpihx-labs.com`.
 curl -sS -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/email/routing/addresses" \
   -H "Authorization: Bearer $CF_API_TOKEN" \
   -H "Content-Type: application/json" \
-  --data-raw '{"email":"kapoivha@gmail.com"}' \
+  --data-raw '{"email":"<primary@gmail.com>"}' \
   | jq '{success,email:.result.email,verified:.result.verified}'
 ```
 
@@ -105,9 +105,9 @@ Cloudflare **standard routing rules allow only one destination per custom addres
 export default {
   async email(message) {
     const dests = [
-      "kapoivha@gmail.com",
-      "kpihx.labs@gmail.com",
-      "ivann.kamdem@hotmail.com",
+      "<primary@gmail.com>",
+      "<labs@gmail.com>",
+      "<personal@hotmail.com>",
     ];
     for (const addr of dests) {
       await message.forward(addr);
@@ -118,7 +118,7 @@ export default {
 
 Then set the routing rule action `type: "worker"` (or dashboard: custom address → send to Worker). All `dests` must appear under **Destination addresses** and be **verified** first.
 
-## Routing rule — single destination (`kpihx@`)
+## Routing rule — single destination (`mail@`)
 
 **Create** (already done — use POST only for new aliases):
 
@@ -126,7 +126,7 @@ Then set the routing rule action `type: "worker"` (or dashboard: custom address 
 curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/rules" \
   -H "Authorization: Bearer $CF_API_TOKEN" \
   -H "Content-Type: application/json" \
-  --data-raw '{"name":"kpihx public forward","enabled":true,"priority":1,"matchers":[{"type":"literal","field":"to","value":"kpihx@kpihx-labs.com"}],"actions":[{"type":"forward","value":["kapoivha@gmail.com"]}]}' \
+  --data-raw '{"name":"kpihx public forward","enabled":true,"priority":1,"matchers":[{"type":"literal","field":"to","value":"mail@<yourdomain.com>"}],"actions":[{"type":"forward","value":["<primary@gmail.com>"]}]}' \
   | jq '{success,id:.result.id,enabled:.result.enabled}'
 ```
 
@@ -137,23 +137,23 @@ RULE_ID=332137f5445a4b368e0759a357cef0f9
 curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/rules/$RULE_ID" \
   -H "Authorization: Bearer $CF_API_TOKEN" \
   -H "Content-Type: application/json" \
-  --data-raw '{"name":"kpihx public forward","enabled":true,"priority":1,"matchers":[{"type":"literal","field":"to","value":"kpihx@kpihx-labs.com"}],"actions":[{"type":"forward","value":["ivann.kamdem@hotmail.com"]}]}' \
+  --data-raw '{"name":"kpihx public forward","enabled":true,"priority":1,"matchers":[{"type":"literal","field":"to","value":"mail@<yourdomain.com>"}],"actions":[{"type":"forward","value":["<personal@hotmail.com>"]}]}' \
   | jq '{success,actions:.result.actions}'
 ```
 
 **Add Hotmail + keep Gmail:** do **not** only PUT one email — use **Worker** (above) or pick one inbox in the rule.
 
-## Create a new `@kpihx-labs.com` alias
+## Create a new `@<yourdomain.com>` alias
 
-Example: `contact@kpihx-labs.com` → `kpihx.labs@gmail.com` **and** `kapoivha@gmail.com`.
+Example: `contact@<yourdomain.com>` → `<labs@gmail.com>` **and** `<primary@gmail.com>`.
 
 1. **Verify destinations** (repeat per inbox):
 
 ```bash
 curl -sS -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/email/routing/addresses" \
   -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
-  --data-raw '{"email":"kpihx.labs@gmail.com"}' | jq '{email:.result.email,verified:.result.verified}'
-# same for kapoivha@gmail.com if not already verified
+  --data-raw '{"email":"<labs@gmail.com>"}' | jq '{email:.result.email,verified:.result.verified}'
+# same for <primary@gmail.com> if not already verified
 ```
 
 Click each verification link in the target mailbox.
@@ -163,7 +163,7 @@ Click each verification link in the target mailbox.
 ```bash
 curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/rules" \
   -H "Authorization: Bearer $CF_API_TOKEN" -H "Content-Type: application/json" \
-  --data-raw '{"name":"contact to labs","enabled":true,"priority":2,"matchers":[{"type":"literal","field":"to","value":"contact@kpihx-labs.com"}],"actions":[{"type":"forward","value":["kpihx.labs@gmail.com"]}]}' \
+  --data-raw '{"name":"contact to labs","enabled":true,"priority":2,"matchers":[{"type":"literal","field":"to","value":"contact@<yourdomain.com>"}],"actions":[{"type":"forward","value":["<labs@gmail.com>"]}]}' \
   | jq '{success,id:.result.id}'
 ```
 
@@ -205,9 +205,9 @@ curl -sS "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/r
 
 | File | Role |
 |------|------|
-| `assets/kpihx-labs-inbound-router/inbound-routes.json` | **Source of truth** — aliases, priorities, `rule_id`, destination lists |
-| `assets/kpihx-labs-inbound-router/src/routes.mjs` | Mirror for Worker bundle (edit JSON → sync copy → deploy) |
-| `assets/kpihx-labs-inbound-router/src/index.mjs` | Generic sequential `message.forward()` + `console.log` / `console.error` |
+| `assets/<github-user>-inbound-router/inbound-routes.json` | **Source of truth** — aliases, priorities, `rule_id`, destination lists |
+| `assets/<github-user>-inbound-router/src/routes.mjs` | Mirror for Worker bundle (edit JSON → sync copy → deploy) |
+| `assets/<github-user>-inbound-router/src/index.mjs` | Generic sequential `message.forward()` + `console.log` / `console.error` |
 | `scripts/ensure-destination-prime-rules.sh` | **Required** — native `forward` on `_prime-*@` aliases (Worker verification workaround) |
 | `scripts/sync-inbound-email-routes.sh` | Upsert CF rules (`type: worker`) from JSON |
 | `scripts/deploy-inbound-email-worker.sh` | `wrangler deploy` |
@@ -227,9 +227,9 @@ curl -sS "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/r
 
 | Address | Destinations | CF rule |
 |---------|----------------|---------|
-| `kpihx@kpihx-labs.com` | Hotmail + kapoivha | worker |
-| `contact@kpihx-labs.com` | Labs + kapoivha | worker |
-| `ivann@kpihx-labs.com` | Hotmail only | worker (`41bb5f76…`) |
+| `mail@<yourdomain.com>` | Hotmail + kapoivha | worker |
+| `contact@<yourdomain.com>` | Labs + kapoivha | worker |
+| `personal@<yourdomain.com>` | Hotmail only | worker (`41bb5f76…`) |
 
 **Prime rules (internal, do not publish):** `_prime-labs@`, `_prime-kapoivha@`, `_prime-hotmail@` → native forward to each destination. Without these, Worker `message.forward()` can fail with `destination address not verified` even when the dashboard shows verified.
 
@@ -244,8 +244,8 @@ curl -sS "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/email/routing/r
 
 **Post-deploy:** Worker tail `forward ok` per destination; inbox proof → **`inbound-email-e2e.md`**.
 
-**Dashboard alternative:** Email → Email Workers → `kpihx-labs-inbound-router` → paste `assets/kpihx-labs-inbound-router/src/index.mjs`.
+**Dashboard alternative:** Email → Email Workers → `<github-user>-inbound-router` → paste `assets/<github-user>-inbound-router/src/index.mjs`.
 
 ## QMD keywords
 
-`email routing`, `kpihx@`, `contact@`, `ivann@`, `enable`, `MX route1`, `prime rules`, `kpihx-labs-inbound-router`, `verify-inbound-e2e`, `inbound-email-e2e`
+`email routing`, `mail@`, `contact@`, `personal@`, `enable`, `MX route1`, `prime rules`, `<github-user>-inbound-router`, `verify-inbound-e2e`, `inbound-email-e2e`

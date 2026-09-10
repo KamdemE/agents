@@ -1,7 +1,7 @@
 # k-rclone — Ubuntu
 
 > **OS reference:** Ubuntu (native)
-> **Applies to:** `k-ubuntu` (kpihx-ubuntu workstation)
+> **Applies to:** `k-ubuntu` (workstation workstation)
 
 ---
 
@@ -18,7 +18,7 @@ Google Drive mounts use FUSE via systemd user services:
 | Mount | Systemd service | Remote |
 |-------|----------------|--------|
 | `~/Gdrive/` | `rclone-gdrive.service` | `gdrive:` |
-| `~/Gdrive_X/` | _(manual)_ | `gdrive-x:` |
+| `~/Gdrive/` | _(manual)_ | `gdrive-x:` |
 
 Service templates: `assets/rclone-gdrive.service` in this skill.
 
@@ -28,4 +28,4 @@ Service templates: `assets/rclone-gdrive.service` in this skill.
 
 ## SFTP Remote
 
-`pve:` connects to `ivann@kpihx-labs` port 2222 via Tailscale. Requires SSH key access.
+`pve:` connects to `personal@<github-user>` port 2222 via Tailscale. Requires SSH key access.

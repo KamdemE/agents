@@ -1,6 +1,6 @@
 # Office
 
-Source: `KpihX-Datas/Applications/Office/`.
+Source: `-Datas/Applications/Office/`.
 
 | Folder / file | Application or content |
 |---|---|

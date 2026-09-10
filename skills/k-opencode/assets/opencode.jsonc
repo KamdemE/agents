@@ -1,12 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
-  // KπX sovereign wiring — source of truth: $HOME/.agents/skills/k-opencode/SKILL.md
+  //  sovereign wiring — source of truth: $HOME/.agents/skills/k-opencode/SKILL.md
   // v1.20.0 — .env protection (edit + read deny, .env.example allow) + raw-exec-guard.js .env bash enforcement
   "autoupdate": "notify",
   "shell": "zsh",
-  "model": "opencode-go/mimo-v2.5",
-  "small_model": "opencode-go/mimo-v2.5",
+  "model": "opencode/mimo-v2.5-free",
+  "small_model": "opencode/mimo-v2.5-free",
   "default_agent": "Live",
 
   // ──── GLOBAL permission — single source of truth ────
@@ -105,7 +105,7 @@
       // ──── ALLOW — Zone 2 : faible risque (network / navigation) ────
       "command *": "allow",
       "curl *": "allow",
-      // ──── DENY — POST to localhost (block HITL bypass — KπX 2026-09-01) ────
+      // ──── DENY — POST to localhost (block HITL bypass —  2026-09-01) ────
       "curl * -X POST * 127.0.0.1 *": "deny",
       "curl * -X POST * localhost *": "deny",
       "curl * -X POST * ::1 *": "deny",
@@ -271,17 +271,12 @@
       "/tmp/**": "allow",
       "~/Downloads/**": "allow",
       "~/Pictures/**": "allow",
-      "~/Gdrive_X/**": "allow",
-      "~/Gdrive/**": "allow",
-      "~/KpihX-Labs/**": "allow",
-      "~/KpihX-Labs/.agents/**": "ask",
+      "~/Labs/**": "allow",
+      "~/.agents/**": "ask",
       "~/.local/**": "ask",
       "~/.ssh/**": "deny",
       "~/.gnupg/**": "deny"
     },
-
-    // ──── MCP chrome-agent — all allow ────
-    "chrome-agent_*": "allow"
   },
 
   // ──── AGENT deltas — only overrides from global ────
@@ -384,7 +379,7 @@
     // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Explore can launch.
     "Explore": {
-      "model": "opencode-go/mimo-v2.5",
+      "model": "google/gemini-3-flash-preview",
       "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",
@@ -428,49 +423,6 @@
   // ──── Provider — auto-discovered + custom ────
   // ──── Provider — auto-discovered + custom ────
   "provider": {
-    "ollama6": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama6",
-      "options": {
-        "baseURL": "http://localhost:11436/v1"
-      },
-      "models": {
-        "R4C3R/mistral-7b-instruct-v0.3-heretic:q4_k_m": { "name": "R4C3R/mistral-7b-instruct-v0.3-heretic:q4_k_m (4.1 GB — deep-pc6)" },
-        "R4C3R/qwen2.5-coder-7b-instruct-heretic:q8_0": { "name": "R4C3R/qwen2.5-coder-7b-instruct-heretic:q8_0 (7.5 GB — deep-pc6)" },
-        "R4C3R/qwen3-8b-heretic:q4_k_m": { "name": "R4C3R/qwen3-8b-heretic:q4_k_m (4.7 GB — deep-pc6)" },
-        "byczech/glm-4.7-flash-uncensored-16G-AU-IQ3_M:30b": { "name": "byczech/glm-4.7-flash-uncensored-16G-AU-IQ3_M:30b (12.7 GB — deep-pc6)" },
-        "gemma3:27b": { "name": "gemma3:27b (16.2 GB — deep-pc6)" },
-        "gpt-oss:20b": { "name": "gpt-oss:20b (12.8 GB — deep-pc6)" },
-        "jikepjikep_16HEX/gemma-4-26b-nightshift-heretic-uncensored-a4b-moe-q4:latest": { "name": "jikepjikep_16HEX/gemma-4-26b-nightshift-heretic-uncensored-a4b-moe-q4:latest (16.8 GB — deep-pc6)" },
-        "ministral-3:8b": { "name": "ministral-3:8b (5.6 GB — deep-pc6)" },
-        "mistral-small3.1:24b": { "name": "mistral-small3.1:24b (14.4 GB — deep-pc6)" },
-        "mistral-small3.2:24b": { "name": "mistral-small3.2:24b (14.1 GB — deep-pc6)" },
-        "mistral-small:24b": { "name": "mistral-small:24b (13.3 GB — deep-pc6)" },
-        "mo-shakib/gemma4-e4b-uncensored:q4_k_m": { "name": "mo-shakib/gemma4-e4b-uncensored:q4_k_m (8.9 GB — deep-pc6)" },
-        "qwen3-vl:32b": { "name": "qwen3-vl:32b (19.5 GB — deep-pc6)" },
-        "qwen3-vl:8b": { "name": "qwen3-vl:8b (5.7 GB — deep-pc6)" },
-        "qwen3:30b": { "name": "qwen3:30b (17.3 GB — deep-pc6)" },
-        "sorc/qwen3.5-uncensored:9b": { "name": "sorc/qwen3.5-uncensored:9b (8.9 GB — deep-pc6)" },
-        "tripolskypetr/qwen3.6-uncensored-aggressive:latest": { "name": "tripolskypetr/qwen3.6-uncensored-aggressive:latest (19.7 GB — deep-pc6)" }
-      }
-    },
-    // Ollama local — auto-synced by opencode-ollama.sh
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (local)",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "llama3.2:3b": { "name": "llama3.2:3b (1.9 GB local)" },
-        "llama3.2:1b": { "name": "llama3.2:1b (1.2 GB local)" },
-        "granite4:3b": { "name": "granite4:3b (2.0 GB local)" },
-        "granite4:1b": { "name": "granite4:1b (3.0 GB local)" },
-        "qwen3:0.6b": { "name": "qwen3:0.6b (0.5 GB local)" },
-        "qwen3:4b": { "name": "qwen3:4b (2.3 GB local)" },
-        "qwen3:1.7b": { "name": "qwen3:1.7b (1.3 GB local)" }
-      }
-    },
     "openvino": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "OpenVINO (local)",
@@ -490,7 +442,7 @@
       }
     },
 
-    // ──── OpenCode Labs Go — 2nd Go account (KπX Labs billing, 2026-09-09) ────
+    // ──── OpenCode Labs Go — 2nd Go account ( Labs billing, 2026-09-09) ────
     // Twin of native `opencode-go`. Free models live on Labs Zen (below), not Go.
     // One Labs API key works for BOTH /zen/v1 and /zen/go/v1 — endpoint picks the catalog.
     // Auth id `opencode-labs` (OpenCode stores one key per provider id).
@@ -567,13 +519,13 @@
     // GitHub Copilot: ignore model_picker_enabled=false for all models (upstream #42083)
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-copilot-picker-fix.js",
     "@stablekernel/opencode-cursor@latest", // Cursor subscription via official SDK (route B, 2026-09-09 — key via auth.json or CURSOR_API_KEY)
-    // 2026-08-27 (KπX directive): ecosystem plugins — see references/plugin-watch.md for full research
-    // @kagan-sh/kagan purged 2026-08-27 (KπX directive) — see references/plugin-watch.md → Purged
-    // opencode-notifications purged 2026-08-27 (KπX directive) — replaced by the sovereign opencode-notify.js hook below (always-notify, system + Telegram)
+    // 2026-08-27 ( directive): ecosystem plugins — see references/plugin-watch.md for full research
+    // @kagan-sh/kagan purged 2026-08-27 ( directive) — see references/plugin-watch.md → Purged
+    // opencode-notifications purged 2026-08-27 ( directive) — replaced by the sovereign opencode-notify.js hook below (always-notify, system + Telegram)
     "opencode-tasks", // Cron scheduler daemon (systemd --user, 60s tick) + /loop in-session loops
-    // Runtime hooks — re-enabled 2026-08-09 (KπX directive). Order matters (see k-opencode/SKILL.md).
-    // 2026-08-16: hooks moved scripts/hooks → scripts/plugins/hooks (KπX restructure); tmux-notify.js was
-    // in scripts/plugins/tmux/, flattened directly into scripts/plugins/ same day (KπX: "plus besoin de
+    // Runtime hooks — re-enabled 2026-08-09 ( directive). Order matters (see k-opencode/SKILL.md).
+    // 2026-08-16: hooks moved scripts/hooks → scripts/plugins/hooks ( restructure); tmux-notify.js was
+    // in scripts/plugins/tmux/, flattened directly into scripts/plugins/ same day (user: "plus besoin de
     // dossier tmux, mets ce plugin directement dans plugins") — no more tmux/ subfolder.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/lite-instructions-swap.js",
@@ -584,11 +536,11 @@
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",
     // git-noverify-guard.js — blocks git commit/push/merge/rebase with --no-verify or -n bypass flags. Same pattern as make-check-guard.js (throw-only, no TARGET_AGENTS).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/git-noverify-guard.js",
-    // raw-exec-guard — technically enforces the tmux sudo Gate + no-manual-polling rules (2026-08-29, KπX):
+    // raw-exec-guard — technically enforces the tmux sudo Gate + no-manual-polling rules (2026-08-29, ):
     // blocks raw `sudo`/`sleep`/`wait`/`timeout` outside a compliant `tmux send-keys` call. Same pattern as
     // make-check-guard.js (throw-only, no TARGET_AGENTS — tool.execute.before has no messages to scope by).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/raw-exec-guard.js",
-    // humanize-guard — hard PROSE dash gate (2026-09-10, KπX): blocks em-dash (---, —), spaced en-dash ( – ) and markdown -- outside code; code whitelist via libs/humanize/humanize_lib.js (isCodeFile). Same throw-only GLOBAL pattern.
+    // humanize-guard — hard PROSE dash gate (2026-09-10, ): blocks em-dash (---, —), spaced en-dash ( – ) and markdown -- outside code; code whitelist via libs/humanize/humanize_lib.js (isCodeFile). Same throw-only GLOBAL pattern.
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/humanize-guard.js",
     // tmux-notify — relays tmux prompt events (precmd/PROMPT_COMMAND) to the agent (event + chat.message, not messages.transform).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",

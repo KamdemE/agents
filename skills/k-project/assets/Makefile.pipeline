@@ -1,4 +1,4 @@
-# KpihX Makefile template — Pipeline R&D archetype
+#  Makefile template — Pipeline R&D archetype
 # Copy to project root as `Makefile`. SHELL := /bin/zsh keeps fnm/Node + uv on PATH.
 SHELL := /bin/zsh
 UV := uv

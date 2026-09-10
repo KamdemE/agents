@@ -90,6 +90,6 @@ ksh backup-pve-admin install    # symlink units + enable timer (sudo)
 ksh backup-pve-admin purge      # remove symlinks (sudo)
 ```
 
-**Paths:** HDD `/media/kpihx/KpihX-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Backups/PVE/` (keep 1)
+**Paths:** HDD `/media/kpihx/-Backup/Backups/PVE/` (keep 3) · Cloud `gdrive-x:Backups/PVE/` (keep 1)
 
 **Systemd units** in `.agents/skills/k-ubuntu/assets/backup_restore_pve/`

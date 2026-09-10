@@ -1,6 +1,6 @@
-# KpihX-Ubuntu — Desktop Applications Registry
+# workstation — Desktop Applications Registry
 
-> **Scope:** complete inventory of the GUI/desktop applications installed on the KpihX-Ubuntu workstation (Intel Core Ultra 7 155H, Ubuntu 26.04 LTS). Source: `/usr/share/applications/*.desktop` (system), `~/.local/share/applications/*.desktop` (user), `/opt/*` (proprietary heavy clients), `snap list` (GUI snaps).
+> **Scope:** complete inventory of the GUI/desktop applications installed on the workstation workstation (Intel Core Ultra 7 155H, Ubuntu 26.04 LTS). Source: `/usr/share/applications/*.desktop` (system), `~/.local/share/applications/*.desktop` (user), `/opt/*` (proprietary heavy clients), `snap list` (GUI snaps).
 >
 > **Maintenance rule:** update this file whenever a desktop app is installed, removed, or purged. Log the change in `k-ubuntu/references/log.md`.
 >
@@ -32,7 +32,7 @@
 | App | Desktop file | Notes |
 |-----|--------------|-------|
 | Telegram Desktop | snap `telegram-desktop` | v7.0.9 (snap) |
-| Remmina | `org.remmina.Remmina.desktop` | RDP/VNC — DxO VPN (BLGLAPTOP139, deep-pc6) |
+| Remmina | `org.remmina.Remmina.desktop` | RDP/VNC — DxO VPN (BLGLAPTOP139, server) |
 | RustDesk | `rustdesk.desktop` / `rustdesk-link.desktop` | remote desktop |
 | GSConnect | `org.gnome.Shell.Extensions.GSConnect.desktop` (+ Preferences) | Android (S25) integration — user-level |
 | Bluetooth Transfer | `bluetooth-sendto.desktop` | send files over Bluetooth |

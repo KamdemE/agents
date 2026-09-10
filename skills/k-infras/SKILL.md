@@ -1,183 +1,85 @@
 ---
 name: k-infras
-description: >
-  KπX master infrastructure map — lists all equipment, Tailscale identities,
-  SSH access, and hierarchical relationships. Each infra entry maps to its
-  dedicated k-* skill. Load this skill first when dealing with any
-  infrastructure to get the full picture before diving into specifics.
-  Also documents the required init skills for setting up a new infra.
-license: private
+description: Single-machine infrastructure template — directory standard, setup checklist, platform skills map.
 metadata:
-  author: KpihX
-  version: "1.9.0"
-  scope: infrastructure
-allowed-tools: Bash, Read, Write, Edit
+  author:
+  version: "1.0.0"
 ---
 
-# KπX — Infrastructure Master Map
+# k-infras — Infrastructure (Single Machine)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Related skills:** `k-ubuntu` (workstation) · `k-pve` (hypervisor) · `k-pve-debian` (Debian VM) · `k-dockerhost` (Docker host) · `k-phones` (Android phones) · **`k-clis`** (CLI registry — routing to all per-CLI skills)
-> **Scope also covers:** low-level hardware (disk partitioning, BIOS/UEFI, filesystem recovery, dual-boot, interrupted ntfsresize recovery) — see `references/ntfs-shrink-dual-boot.md`. Firewall: `k-nftables`. Mesh VPN: `k-tailscale`.
-> **Init skills:** see **New Infra Setup Checklist** below — these apply to every infra skill.
-> This skill is the **implicit hierarchy** — not reflected in filesystem sub-folders. Skills are flat under `skills/`.
+> **Related skills:** `k-ubuntu` (Linux workstation) · `k-windows` (Windows/WSL, dormant) · `k-phones` (Android, dormant) · **`k-clis`** (CLI registry)
+> **Scope also covers:** low-level hardware (disk partitioning, BIOS/UEFI, filesystem recovery, dual-boot — see `references/ntfs-shrink-dual-boot.md`) — firewall: `k-nftables`. Optional mesh VPN: `k-tailscale`.
+> This skill is the **setup template** for the one machine this fork lives on. No fleet, no branches, no tailscale backbone required.
 
 ---
 
-## Equipment Inventory
+## Machine Identity
 
-Source of truth for live state: `tailscale status --json` or `tailscale status`.
-
-| Tailscale name | Tailscale IP | OS | Status | Skill | Notes |
-|---------------|-------------|----|--------|-------|-------|
-| Tailscale name | Short name | Tailscale IP | OS | Status | Skill | Notes |
-|---------------|-----------|-------------|----|--------|-------|-------|
-| `kpihx-ubuntu` | `ubuntu` | `100.82.95.70` | Linux | online | **`k-ubuntu`** | Primary workstation. |
-| `kpihx-pve` | `pve` | `100.123.81.21` | Linux (PVE) | idle | **`k-pve`** | Proxmox VE hypervisor. |
-| `kpihx-pve-debian` | `pve-debian` | `100.117.171.4` | Linux (Debian) | offline | **`k-pve-debian`** | Debian VM on PVE. |
-| `kpihx-pve-dockerhost` | `dockerhost` | — | Linux | — | **`k-dockerhost`** | Docker host VM on PVE. |
-| `kpihx-s25` | `s25` | `100.125.54.1` | Android | offline | **`k-phones`** | Samsung S25 phone. |
-| `kpihx-tablet` | — | `100.89.79.87` | Android | offline | **`k-phones`** | Tablet (not configured). |
+| Property | Value / Rule |
+|----------|--------------|
+| Identity source | `$AGENTS_INFRA` when exported, else lowercased `hostname` (see `libs/jsonc/jsonc_lib.sh:current_infra`) |
+| Platform skill | `k-ubuntu` (this machine) — `k-windows` / `k-phones` stay dormant unless needed |
+| Tmux session | `ubuntu` (see `k-tmux` → standard session) |
+| Work dir | `~/Labs/` (kernel at `~/Labs/.agents/`, symlinked as `~/.agents`) |
 
 ---
 
-## New Infra Setup Checklist
+## Setup Checklist (new machine)
 
-When setting up a **new infrastructure** (any equipment running a shell), an agent MUST load and follow these steps **in order** before writing any config:
-
-> **⚠️ Windows machine? Read `k-windows` FIRST, before Step 0.** Any infra that's a Windows box (with or without WSL) has generic setup knowledge (WSL bootstrap, `.wslconfig`, NTFS link mechanics, MSYS2, SSH-mount-as-a-drive) already written up there — load it before creating the new infra skill, and put anything generic you'd otherwise be tempted to write directly into the new infra skill there instead. See `k-windows` → "Pattern for a new Windows+WSL machine" and → "Child Windows-type infra skills" (add the new infra to that list once created).
-
-### Step 0 — Infrastructure Directory Standard (MANDATORY, first)
-
-**Before ANY other skill setup**, every new infra MUST bootstrap the KπX directory standard. Everything lives **exclusively and 100% inside `~/KpihX-Labs/`** by default — the kernel, all projects, all work. The only exception is transient/debug debris, which belongs in `/tmp` (never next to the original file, never in `~` root — see `rules/file-governance.md`):
-
-```bash
-mkdir -p ~/KpihX-Labs
-git clone git@github.com:kpihx-labs/agents.git ~/KpihX-Labs/.agents   # real repo lives HERE
-ln -sfn ~/KpihX-Labs/.agents ~/.agents                            # ~/.agents is a symlink, never a standalone clone
-# ── Branch per infra (MANDATORY — never work on master, see below; ubuntu excepted) ──
-cd ~/KpihX-Labs/.agents
-INFRA=$(hostname | tr '[:upper:]' '[:lower:]')   # or: source libs/jsonc/jsonc_lib.sh && INFRA=$(current_infra)
-# Windows machines in WSL mode append -wsl to the infra name (e.g. blglaptop139-wsl)
-if [ "$INFRA" = "kpihx-ubuntu" ]; then git switch master   # ubuntu = sole infra on master
-elif git show-ref --verify --quiet "refs/heads/$INFRA"; then git switch "$INFRA"
-elif git ls-remote --heads github "$INFRA" | grep -q "$INFRA"; then git fetch github "$INFRA" && git switch "$INFRA"
-else git switch -c "$INFRA" && git push -u github "$INFRA"
-fi
-```
-
-Rules:
-- `~/KpihX-Labs/.agents/` is the **real git clone** (source of truth, single canonical copy).
-- `~/.agents/` is **always a symlink** → `~/KpihX-Labs/.agents/`. Never a real directory, never a second clone.
-- All projects are created inside `~/KpihX-Labs/` (`~/KpihX-Labs/<project>/`), never outside it.
-- Only `/tmp`-scoped debris may live outside `~/KpihX-Labs/`.
-- **Workspace shortcuts (GRAVÉ):** `~k`, `$KLABS`, `$KHOME`, `$LABS` all designate `~/KpihX-Labs/` (defined in every `.kshrc`). Agents are always launched from there — when KπX references a file/project without a path, the 1st reflex is to search in `~k` (`ls ~k`, `plocate`, `rg`).
-- **Verify before proceeding:** `readlink ~/.agents` must resolve to `~/KpihX-Labs/.agents`, and `git -C ~/.agents status` must work.
-- **Branch guard:** immediately after clone+symlink, switch to your infra branch (branch name = infra short name from `assets/infras_skills.jsonc`; Windows/WSL appends `-wsl`). Never stay on `master` — sole exception: `kpihx-ubuntu`, which works directly on `master`.
-
-Then continue with the ordered checklist below.
+Clone + wire, in order. Steps marked optional are genuinely optional.
 
 | Order | Skill | Purpose |
 |-------|-------|---------|
-| 1 | **`k-zsh`** | Shell setup: 5 shared files (zshrc, zshenv, zprofile, bashrc, profile) symlinked from `k-zsh/assets/`. PATH, env vars, hub pattern. |
-| 1b | **Infra skill** | **`~/.kshrc`** source of truth = `assets/kshrc` in the infra skill (e.g. `k-ubuntu/assets/kshrc`). Infra skills have ONLY `kshrc` — the 5 other files are shared from `k-zsh`. If infra skill has no `assets/kshrc`, copy `kshrc.base`, customize, then symlink. **Windows+WSL infra:** additionally add a `source` line for `k-windows/assets/kshrc` near the very top of the new `assets/kshrc`, before its own Section 1 body — that file is SOURCED, never copied (SSH-agent + `$HOMEW`/`$USERW`/`~w`; see `k-windows/SKILL.md` → `` `assets/kshrc` ``). |
-| 2 | **`k-tailscale`** | Mesh VPN: install, authenticate, verify connectivity. |
-| 3 | **`k-tmux`** | Tmux session per equipment: standard 3-window layout (agents/default/tmp), shared interactive gate. |
-| 4 | **`k-ssh`** | SSH config: canonical `assets/ssh.conf`, key generation, Bitwarden agent, passphrase rules. |
-| 5 | **`k-clis`** | CLI registry: which CLIs to install on this infra type. |
-| 6 | **`k-nvim`** | Neovim config (when applicable — skip if Termux/headless). |
-| 7 | **`k-opencode`** | OpenCode runtime (when applicable — does not run on Termux). |
+| 0 | **(this checklist)** | Directory standard below — first, always |
+| 1 | **`k-zsh`** | Shell hub: rc files symlinked from `k-zsh/assets/`, PATH, env vars |
+| 2 | **Platform skill** | `~/.kshrc` source of truth = `assets/kshrc` in the platform skill |
+| 3 | **`k-tmux`** | Tmux session: standard layout, shared interactive gate |
+| 4 | **`k-ssh`** | SSH config, key generation, agent setup |
+| 5 | **`k-clis`** | CLI registry: which CLIs to install |
+| 6 | **`k-nvim`** | Editor config (when applicable) |
+| 7 | **`k-opencode`** | Agent runtime (when applicable) |
+| 8 | `k-tailscale` | *(optional)* mesh VPN for multi-machine reachability |
 
-**Exception:** Termux/Android phones (`k-phones`) skip `k-nvim` and `k-opencode` — they do not run on Termux.
+### Step 0 — Directory Standard (MANDATORY, first)
 
-### Tmux session name — short name convention
+```bash
+mkdir -p ~/Labs
+git clone git@github.com:KamdemE/agents.git ~/Labs/.agents   # real repo lives HERE
+ln -sfn ~/Labs/.agents ~/.agents                            # ~/.agents is a symlink, never a standalone clone
+cd ~/Labs/.agents
+```
 
-Every infra skill MUST document both the **Tailscale name** (e.g. `kpihx-ubuntu`) and the **short name** (e.g. `ubuntu`) in its `## Host Identity` table. The short name is the tmux session name (see `k-tmux` → Standard session per equipment).
+Rules:
+- `~/Labs/.agents/` is the **real git clone** (source of truth, single canonical copy).
+- `~/.agents/` is **always a symlink** → `~/Labs/.agents/`. Never a real directory, never a second clone.
+- All projects live inside `~/Labs/` (`~/Labs/<project>/`), never outside it.
+- Only `/tmp`-scoped debris may live outside `~/Labs/`.
+- **Workspace shortcuts:** `~k`, `$KLABS`, `$KHOME`, `$LABS` → `~/Labs/` (defined in every `.kshrc`).
+- **Verify:** `readlink ~/.agents` must resolve to `~/Labs/.agents`.
 
-| Equipment | Tailscale name | Short name (tmux session) |
-|-----------|---------------|--------------------------|
-| Workstation | `kpihx-ubuntu` | `ubuntu` |
-| Internship laptop | `blglaptop139` | `blglaptop139` |
-| DxO server | — | `deep-pc6` |
-| PVE hypervisor | `kpihx-pve` | `pve` |
-| Debian VM | `kpihx-pve-debian` | `pve-debian` |
-| Docker host | — | `dockerhost` |
-| S25 phone | `kpihx-s25` | `s25` |
-
-When setting up `kshrc.base` → `~/.kshrc`, the agent reads the infra skill to find the **short name** and replaces `<INFRA_SESSION>` in the auto-tmux block with that value.
+Then continue with `make set-links && make check-links`, then the checklist above.
 
 ---
 
-## Git Branch per Infra — Never on `master` (GRAVÉ)
-
-> Full rule: `rules/git-branch-per-infra.md` — authoritative. Summary here.
-
-**Branch = infra short name** (see `assets/infras_skills.jsonc` + inventory above); Windows machines in WSL mode append `-wsl` (e.g. `blglaptop139-wsl`). `master` is read-only for every infra EXCEPT `kpihx-ubuntu` — the sole infra authorized to commit on `master`. After clone+symlink (Step 0) immediately `git switch <infra>` (ubuntu: stay on `master`). Before every push/PR: `git fetch github` + `git rebase github/master` if `master` moved (other infras' PRs). Push only your branch (`make push` → `github`+`gitlab`, NEVER `origin`), PR to `master`. Detect infra via `hostname` / `current_infra` (`libs/jsonc/jsonc_lib.sh`) / `tailscale status`.
-
----
-
-## Implicit Hierarchy
+## Platform Skills Map
 
 ```
-kpihx-labs (kernel top reference)
-│
-├── k-context    (HOT context — session log, active projects)
-├── k-infras     (this skill — master map)
-│   ├── k-ubuntu          (Ubuntu workstation)
-│   ├── k-pve             (Proxmox VE hypervisor)
-│   │   ├── k-pve-debian     (Debian VM)
-│   │   └── k-dockerhost (Docker host VM)
-│   └── k-phones      (Android phones)
-│
-├── k-clis       (CLI registry — routes to all skills)
-└── [all other top skills]
+k-infras (this skill — setup template)
+├── k-ubuntu     (Linux workstation — active here)
+├── k-windows    (Windows/WSL — dormant)
+└── k-phones     (Android — dormant)
 ```
+
+Shared components: `k-tailscale` (optional mesh) · `k-nftables` (firewall reference).
 
 ---
 
 ## SSH Access Map
 
-Source of truth: `$HOME/.ssh/config`. Each infra skill documents its own SSH specifics.
-
-| Alias | Target | Route | Skill |
-|-------|--------|-------|-------|
-| `pve` | `pve.local:2222` | LAN (mDNS) | `k-pve` |
-| `kpihx-pve` | `kpihx-pve:2222` | Tailscale | `k-pve` |
-| `pve-ui` | `pve.local:2222` + port forwards | LAN | `k-pve` |
-| `kpihx-pve-ui` | `kpihx-pve:2222` + port forwards | Tailscale | `k-pve` |
-| `homelab` | `10.10.10.10` via `kpihx-pve` | LAN jump | `k-pve-debian` |
-| `kpihx-cloud` | `10.10.10.10` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
-| `pve-debian` | `10.10.10.101` via `pve` | LAN jump | `k-pve-debian` |
-| `kpihx-pve-debian` | `10.10.10.101` via `kpihx-pve` | Tailscale jump | `k-pve-debian` |
-| `kpihx-s25` | `kpihx-s25:8022` | Tailscale | `k-phones` |
-
----
-
-## PVE Network Topology
-
-Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (current) and `k-pve`.
-
-| Interface | Subnet | Role |
-|-----------|--------|------|
-| `vmbr0` | DHCP (WAN) | Public, campus network |
-| `vmbr1` | `10.10.10.1/24` | Private LAN, NAT (masquerade) |
-| Port forwards | TCP 80, 443, 9443 → `10.10.10.10` | Traefik/Portainer ingress |
-
-| PVE internal host | LAN IP | SSH alias |
-|-------------------|--------|-----------|
-| Docker host (CT 100) | `10.10.10.10` | `homelab` / `kpihx-cloud` |
-| Debian VM | `10.10.10.101` | `pve-debian` / `kpihx-pve-debian` |
-
----
-
-## Servies Exposure
-
-| Service | Domain | Access |
-|---------|--------|--------|
-| Vaultwarden | `vault.kpihx-labs.com` | Tailscale only |
-| Traefik dashboard | Via port forward | LAN / Tailscale tunnel |
-| Portainer | Via port forward | LAN / Tailscale tunnel |
+Source of truth: `$HOME/.ssh/config`. Document machine-specific SSH access in the platform skill.
 
 ---
 
@@ -189,22 +91,14 @@ Defined in `k-pve` (this is a summary reference). Full details in `kpihx-labs` (
 
 ## Shared Libs Reflex (MANDATORY)
 
-When writing or editing **any infra-skill script** (check, service, link, notifier, config) — **check `$HOME/.agents/libs/` first** before creating a local helper:
+When writing or editing **any skill script** (check, service, link, notifier, config) — **check `$HOME/.agents/libs/` first** before creating a local helper:
 
 - `.env` handling → source `libs/env/env_lib.sh`
 - JSONC config parsing → source `libs/jsonc/jsonc_lib.sh`
-- Notifications (Telegram/system) → source `libs/notif/notifier.sh` (define `NOTIFY_TG_TOKEN` in the skill's `.env`)
+- Notifications (Telegram/system) → source `libs/notif/notifier.sh`
 
-Never inline a private copy of these helpers in an infra skill. If a concern is missing from `libs/`, add the twin set there and expose it via a check in `scripts/`. See `libs/AGENTS.md` → Reflex for the full rule.
+Never inline a private copy of these helpers in a skill. If a concern is missing from `libs/`, add the twin set there and expose it via a check in `scripts/`. See `libs/AGENTS.md` → Reflex for the full rule.
 
 **Full function index + guard mapping:** see `references/libs.md` — the single
 orientation point for the three shared libs (`env`/`jsonc`/`notif`), their
 functions, and the checks/guards that consume them.
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-31 | [LIVE] | v1.9.0 — Workspace shortcuts + default reflex in Setup Checklist. |
-| 2026-08-26 | [COLAB] | v1.8.0 Windows/WSL setup-checklist additions. v1.7.1 Branch-per-infra integration corrections (PR #1 merge). |
-| [SUMMARY] | — | v1.7.0 Git branch per infra (GRAVÉ) · v1.6.4 `blglaptop139-wsl` · v1.6.3 check-skills audit rotation · v1.6.2 renamed Android infra skill to `k-phones` · v1.6.1 references/libs.md · v1.6.0 Shared Libs Reflex · v1.5.0 Setup Standard · v1.4.0 k-infra merger · v1.1.0–v1.3.0 Setup Checklist · v1.0.0 master map |

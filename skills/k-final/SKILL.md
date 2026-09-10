@@ -5,22 +5,22 @@ description: >
   sync, versioning, git (submodules order), CI/CD watch, deploy log check,
   local install, build/publish, then `.agents/` kernel sync (k-context, check,
   push). Every phase is obligatory when it applies - no silent skips. Load when
-  finishing a feature or release pass on any KpihX project.
+  finishing a feature or release pass on any  project.
 license: private
 metadata:
-  author: KpihX
-  version: "1.9.0"
+  author: 
+  version: "1.0.0"
   scope: project-lifecycle
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KpihX — Project Finalization (`k-final`)
+#  — Project Finalization (`k-final`)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Related skills:** `k-project` (structure, Makefile, config pattern, Pipeline R&D archetype → `references/pipeline-archetype.md`) · `k-git` (remotes, `make push`, global hook gates) · `k-docker` + `kpihx-labs` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
+> **Related skills:** `k-project` (structure, Makefile, config pattern, Pipeline R&D archetype → `references/pipeline-archetype.md`) · `k-git` (remotes, `make push`, global hook gates) · `k-docker` + `<github-user>` (deployed services) · `k-git-pages` (Docsify) · `k-context` (kernel updates in Phase K)
 > **Static rules:** `rules/audit-commands.md` (make check, uv, make push, post-work checklist) · `rules/k-context-hygiene.md` (session log, active projects)
-> **Resume token:** if execution stops on a blocker, KπX says **`continue`** → re-read this skill from the top and resume from the failed phase.
+> **Resume token:** if execution stops on a blocker,  says **`continue`** → re-read this skill from the top and resume from the failed phase.
 
 ## Role
 
@@ -43,7 +43,7 @@ Mandatory **closing pass** after substantive work on a repo: you **must** execut
 
 1. Extend `tests/` (or project test command) for **new behavior** not yet covered.
 2. Run `make check` (lint + format-check + type-check + `smoke` + tests — prefer this over ad-hoc `uv run pytest`/`bun test` so nothing is skipped).
-3. Fix code until **all tests pass**. If a failure is ambiguous, **stop**, list hypotheses + options, wait for KπX validation before large rewrites.
+3. Fix code until **all tests pass**. If a failure is ambiguous, **stop**, list hypotheses + options, wait for  validation before large rewrites.
 
 ## Phase B — Codebase hygiene
 
@@ -68,7 +68,7 @@ Refresh **every** present doc in scope:
 
 1. `.gitignore` / `.dockerignore` — align with actual tree (artifacts, secrets, `.agents/`).
 2. `Dockerfile`*, `docker-compose*` — sync with app entrypoints, env, labels; load `k-docker` if homelab deploy.
-3. CI config (`.gitlab-ci.yml`, GitHub Actions) — matches Makefile commands and deploy paths.
+3. CI config (GitHub Actions) — matches Makefile commands and deploy paths.
 
 ## Phase E — Version bump (semver)
 
@@ -87,25 +87,18 @@ Keep a single coherent version across monorepo packages if the repo defines that
 1. **Docs submodule first** (if `docs/` is a separate repo): commit + `make push` **inside** `docs/`, then return to parent.
 2. Parent repo: commit all applicable changes (never stage `.agents/` if gitignored).
 3. **All remotes:** `make push` (never push a single remote alone) — `k-git`.
-4. **Missing remotes are not a stop condition:** if required remotes are absent, create them first (SSH only, standard names `github` and `gitlab`), then run `make push`.
+4. **Missing remote is not a stop condition:** if `origin` is absent, create it first (SSH only), then run `make push`.
    - GitHub bootstrap: create repo and wire `github` remote.
-   - GitLab bootstrap: create repo and wire `gitlab` remote.
+   - GitHub bootstrap: create repo (`gh repo create`) and wire `origin` remote.
    - Do not continue closure with only one remote configured.
-4. **SSH / Bitwarden:** if push fails with auth, **stop** — remind KπX to unlock **Bitwarden Desktop** + approve SSH; retry after `continue`.
+4. **SSH / Bitwarden:** if push fails with auth, **stop** — remind  to unlock **Bitwarden Desktop** + approve SSH; retry after `continue`.
 
 ## Phase G — CI/CD (deployed projects)
 
 **Obligatory** if `.gitlab-ci.yml` and/or GitHub Actions exists — until fully verified you do **not** call the project “done”.
 
-1. **GitLab (`glab`) — pipelines *and* jobs:** `glab pipeline list --repo <group>/<project>` is **insufficient by itself** (it often shows “No pipelines” while CI still ran). You **must**:
-   - `glab ci status --repo <group>/<project>` (or resolve the latest pipeline for the pushed `ref` via API),
-   - then **list every job** on that pipeline and confirm **each required job** is `success` (deploy stages included — e.g. `deploy_homelab`):
-   ```bash
-   glab ci status --repo <group>/<repo>
-   glab api "projects/<group>%2F<repo>/pipelines/<PIPELINE_ID>/jobs"
-   ```
-   Parse job names + `status`; **do not skip** deploy jobs when they exist in `.gitlab-ci.yml`.
-2. **GitHub Actions:** `gh run watch` / `gh run list` for the branch you pushed; every required workflow must be green.
+1. **GitHub Actions:** `gh run list --repo <user>/<project>` for the branch you pushed, then `gh run view <run-id>` — confirm **each required job** is `success` (deploy stages included). `gh run list` alone is **insufficient** (it can hide failed jobs); always inspect jobs.
+2. Workflows must be green before calling the project done.
 3. On any failure: fix, recommit, `make push`, re-run this phase until **all** required jobs pass.
 
 ## Phase H — Runtime verification (after deploy)
@@ -132,7 +125,7 @@ For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 
 1. **Root-Immutable Install**:
    - Use `make install` to deploy in `/opt/$(PKG_NAME)` with `root:root` ownership.
    - **Infrastructure Hardening**: Use `REAL_USER` and `REAL_HOME` detection in the `Makefile` so paths resolve correctly under elevation.
-   - **Internal Hygiene**: Remove redundant `sudo` from Makefile targets; KπX runs privileged install steps via **shared tmux** (`k-tmux`) — **`sui` is deprecated** for agents.
+   - **Internal Hygiene**: Remove redundant `sudo` from Makefile targets;  runs privileged install steps via **shared tmux** (`k-tmux`) — **`sui` is deprecated** for agents.
    - Use the template from **`k-final/assets/Makefile.security.[uv|bun]`**.
    - **Requirement**: The agent MUST merge the security targets from `k-final` into the project's standard `Makefile` (from `k-project`).
 2. **AppArmor Jailing**:
@@ -152,7 +145,7 @@ For tools managing secrets (like `bw-proxy` — `bw-mcp`/`bw-admin` were purged 
 2. `make uv-publish` / `make bun-publish` (each depends on its own `*-build` target, so `make release` alone runs the whole chain: `check → push → publish → push-tags` — see project Makefile).
    - **Requirement**: `UV_PUBLISH_TOKEN` / `NPM_TOKEN` must be in the environment before running `make`. The agent calls `with-env make bun-publish` (or `with-env make uv-publish`) from a tmux ops pane — `with-env` loads `$HOME/.agents/.env` and exports `NPM_TOKEN`/`UV_PUBLISH_TOKEN` into a subshell. The Makefile targets themselves reference `$(NPM_TOKEN)` / `$(UV_PUBLISH_TOKEN)` directly (2026-09-02: confirmed for whats-proxy — `npm config set //registry.npmjs.org/:_authToken "$(NPM_TOKEN)"` pattern).
    - If package name is unavailable on PyPI/npm, apply the fallback policy from `k-project` in order: `k-<name>` → `k-<name>-x` → `kpihx-<name>`.
-3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `with-env` — see `AGENTS.md` kernel → Security — or `~/.agents/.env`). If missing or invalid → **stop**; tell KπX to export tokens; say **`continue`** to retry.
+3. **Secrets:** `UV_PUBLISH_TOKEN`, `NPM_TOKEN` / `BUN_AUTH_TOKEN` via env vars (loaded via `with-env` — see `AGENTS.md` kernel → Security — or `~/.agents/.env`). If missing or invalid → **stop**; tell  to export tokens; say **`continue`** to retry.
 4. On publish success, tag if the project uses release tags (`k-git` / `k-project` versioning section).
 
 ## Contract coherence gate (before closure decision)
@@ -169,14 +162,14 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 **Obligatory** after any project closure pass. See `rules/k-context-hygiene.md` and `rules/audit-commands.md` for the full contracts; this is the project-specific enforcement:
 
 1. **k-context** (`skills/k-context/SKILL.md`): update `## Active Projects` (status, next step) and `## Session Log` (agent tag, version, folder path). Obey limits: max 10 rows → rotate overflow to `references/log.md`.
-2. **kpihx-labs** or **k-context** only if new durable workspace facts were revealed.
+2. **<github-user>** or **k-context** only if new durable workspace facts were revealed.
 3. **`make check`** from `$HOME/.agents/` → repeat until `ALL_OK`.
 4. **Commit + `make push`** on all `.agents/` remotes.
 
 ## Blocker protocol
 
-- **Any** hard stop (tests flaky, permission denied, unclear product choice): present **issues + propositions**; wait for KπX validation.
-- After resolution, KπX replies **`continue`** → agent **re-opens `k-final`** and resumes from the blocked phase.
+- **Any** hard stop (tests flaky, permission denied, unclear product choice): present **issues + propositions**; wait for  validation.
+- After resolution,  replies **`continue`** → agent **re-opens `k-final`** and resumes from the blocked phase.
 
 ## Insights Discipline (mandatory)
 
@@ -184,9 +177,3 @@ Before calling a repository "finalized", verify contract coherence explicitly:
 - Update `$HOME/.agents/skills/k-final/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-02 | [LIVE] | v1.9.0 — **Phase J publish pattern clarified**: documented `with-env make bun-publish` / `with-env make uv-publish` as the standard agent-initiated publish flow. Makefile targets reference `$(NPM_TOKEN)` / `$(UV_PUBLISH_TOKEN)` directly; agent handles secret loading via `with-env` from tmux ops pane. |
-| [SUMMARY] | — | v1.8.0 Makefile target names + root AGENTS.md aligned · v1.7.0 config.yaml/ConfigManager purged · v1.6.x make check gates + rename · v1.4.0–v1.5.0 Phase K simplified · v1.3.x MIE/Sovereign · older → `references/log.md` |

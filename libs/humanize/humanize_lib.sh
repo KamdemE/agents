@@ -8,7 +8,7 @@
 # language apart — see libs/AGENTS.md for the mandatory
 # "keep the 3 twins in sync" rule.
 #
-# Validated by KπX — 4 PROSE regex (Tier PROSE bloquant):
+# Validated by the user — 4 PROSE regex (Tier PROSE bloquant):
 #   EM_DASH_TRIPLE     = /---/            LaTeX em-dash
 #   EM_DASH_UNICODE    = /\u2014/         — U+2014
 #   EN_DASH_SPACED     = / \u2013 /       – U+2013 spaced (blocked)
@@ -30,7 +30,7 @@
 #
 # Source:  $HOME/.agents/libs/humanize/humanize_lib.sh
 # Caller:  scripts/*/lib.sh (via source), hooks via JS twin
-# Reference: KπX validated — single source of truth for PROSE dash
+# Reference:  validated — single source of truth for PROSE dash
 # ============================================================
 
 # --- Tier PROSE bloquant patterns (literal UTF-8 chars) ---

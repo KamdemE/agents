@@ -1,22 +1,22 @@
 ---
 name: k-ssh
 description: >
-  KpihX centralized SSH configuration management — canonical Host fragment,
+  centralized SSH configuration management — canonical Host fragment,
   standardized key naming, SSH agent strategy (gcr vs Bitwarden), key generation,
   and passphrase management for all equipment across all infrastructures.
 license: private
 metadata:
-  author: KpihX
-  version: "1.5.0"
+  author: 
+  version: "1.0.0"
   scope: cross-infra
 allowed-tools: Bash(ssh:*), Bash(ssh-keygen:*), Bash(scp:*), Bash(Include:*)
 ---
 
-# KpihX — SSH Centralized Management
+#  — SSH Centralized Management
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Cross-infra skill:** applies to all KpihX equipment running OpenSSH
+> **Cross-infra skill:** applies to all  equipment running OpenSSH
 > (Ubuntu workstation, PVE Debian, WSL, Termux Android).
 > **OS references:** OS-specific SSH setup (socket paths) in
 > `k-bw/references/ubuntu.md` and `k-bw/references/windows.md`.
@@ -44,8 +44,8 @@ Include ~/.agents/skills/k-ssh/assets/ssh.conf
 | **PVE Dockerhost LXC** | dockerhost, kpihx-dockerhost, homelab, kpihx-cloud | Docker LXC (10.10.10.10) |
 | **PVE Debian VM** | pve-debian, kpihx-pve-debian | Debian VM (10.10.10.101) |
 | **Android** | kpihx-s25, s25 | Samsung Galaxy S25 over Tailscale |
-| **Ubuntu (from phone)** | ubuntu, kpihx-ubuntu | Workstation reachable from phone |
-| **DxO Internship** | deep-pc6 | DxO office server |
+| **Ubuntu (from phone)** | ubuntu, workstation | Workstation reachable from phone |
+| **DxO Internship** | server | DxO office server |
 
 ### Distribution
 
@@ -53,7 +53,7 @@ Include ~/.agents/skills/k-ssh/assets/ssh.conf
 |---------|--------|
 | **Ubuntu workstation** | `Include ~/.agents/skills/k-ssh/assets/ssh.conf` (direct, `.agents` is local) |
 | **PVE Debian** | Same Include if `.agents` is cloned; otherwise copy file to `~/.ssh/ssh.conf` |
-| **WSL (blglaptop139)** | Same Include (`.agents` is shared via Windows filesystem mount) |
+| **WSL (laptop)** | Same Include (`.agents` is shared via Windows filesystem mount) |
 | **Phone (Termux)** | `scp ~/.agents/skills/k-ssh/assets/ssh.conf s25:~/storage/shared/kpihx-ssh/ssh.conf` then Include from there |
 
 ## Key Naming Convention
@@ -76,19 +76,19 @@ All keys in `~/.ssh/`:
 
 | Key file | Suffix (target) | Comment (source) | Purpose |
 |----------|-----------------|-------------------|---------|
-| `id_ed25519_github` | `github` | `KpihX-Ubuntu` | GitHub authentication |
-| `id_ed25519_gitlab` | `gitlab` | `KpihX-Ubuntu` | GitLab authentication |
-| `id_ed25519_pve` | `pve` | `KpihX-Ubuntu` | Proxmox host + Debian VM access |
-| `id_ed25519_homelab` | `homelab` | `KpihX-Ubuntu` | Dockerhost LXC (legacy naming) |
-| `id_ed25519_s25` | `s25` | `KpihX-Ubuntu` | Samsung S25 phone (Termux sshd) |
+| `id_ed25519_github` | `github` | `workstation` | GitHub authentication |
+| `id_ed25519_gitlab` | `gitlab` | `workstation` | GitLab authentication |
+| `id_ed25519_pve` | `pve` | `workstation` | Proxmox host + Debian VM access |
+| `id_ed25519_homelab` | `homelab` | `workstation` | Dockerhost LXC (legacy naming) |
+| `id_ed25519_s25` | `s25` | `workstation` | Samsung S25 phone (Termux sshd) |
 | `id_ed25519_deep_pc6` | `deep_pc6` | `IKamdem Ubuntu` | DxO internship server |
-| `id_ed25519_x` | `x` | `ivann.kamdem-pouokam.@polytechnique.edu` | (unknown service — polytechnique email) |
+| `id_ed25519_x` | `x` | `<school@polytechnique.edu>` | (unknown service — polytechnique email) |
 
 ### Examples of key generation
 
 ```bash
 # Generate a new key for a target service/infrastructure
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<target> -C "KpihX-Ubuntu"
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<target> -C "workstation"
 
 # Real examples from history:
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_deep_pc6 -C "IKamdem Ubuntu"
@@ -113,7 +113,7 @@ ssh-add ~/.ssh/id_ed25519_<target>
 
 Passphrase asked once, then instant. No conflicts.
 
-**Gotcha (found 2026-08-26, deep-pc6):** `gcr-ssh-agent.service` is gated behind
+**Gotcha (found 2026-08-26, server):** `gcr-ssh-agent.service` is gated behind
 `graphical-session-pre.target`, which is only reached under an actual GNOME
 session. On a tty-only / headless box (`XDG_SESSION_TYPE=tty` — SSH+tmux, no
 desktop), that target never fires, the agent never starts, and every git-over-ssh
@@ -125,7 +125,7 @@ Use the tty/headless strategy below on that class of machine instead.
 
 `gpg-agent`'s SSH-agent emulation is socket-activated independently of any
 graphical target — confirmed running continuously for 54+ days across tmux
-reconnects on `deep-pc6` with zero manual intervention:
+reconnects on `server` with zero manual intervention:
 
 ```bash
 systemctl --user status gpg-agent-ssh.socket   # Active (listening), enabled
@@ -156,7 +156,7 @@ either, create `~/.gnupg/gpg-agent.conf` with `default-cache-ttl-ssh <N>` /
 **Canonical config asset:** `~/.gnupg/gpg-agent.conf` is a **symlink** to
 `k-ssh/assets/gpg-agent.conf` (registered `gpg-agent-conf` in
 `assets/links.jsonc`). It sets `default-cache-ttl-ssh`/`max-cache-ttl-ssh`
-explicitly and `min-passphrase-len 0` — **found 2026-08-26 (deep-pc6):**
+explicitly and `min-passphrase-len 0` — **found 2026-08-26 (server):**
 GnuPG's compiled-in default `min-passphrase-len 8` makes gpg-agent's ssh
 import REJECT an empty internal protection passphrase, even for a source
 `~/.ssh/id_ed25519_*` key file that is itself completely unencrypted
@@ -228,7 +228,7 @@ See `k-infras` → New Infra Setup Checklist → step 1b.
 
 When a new infrastructure is added:
 
-1. Generate the key: `ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<target> -C "KpihX-Ubuntu"`
+1. Generate the key: `ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<target> -C "workstation"`
 2. Add to `assets/ssh.conf`: create a new `Host` block with `IdentityFile`
 3. Copy to target's `authorized_keys`: `ssh-copy-id -i ~/.ssh/id_ed25519_<target>.pub user@host`
 4. Store in Bitwarden vault as SSH key item
@@ -249,10 +249,3 @@ When a new infrastructure is added:
 - `k-phones` — phone-specific SSH details (Termux sshd, autostart)
 - `k-git` — Git authentication via SSH
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-26 | [COLAB] | v1.5.0 — **Global `Host *` standard added** to `assets/ssh.conf` (KπX request: generalize instead of a single-host fix), appended LAST per `ssh_config`'s documented first-match-wins rule (verified `man ssh_config`) so every existing specific `Host` block keeps priority automatically — zero rewrite of prior blocks. `ControlMaster auto` + `ControlPath ~/.ssh/control-%C` + `ControlPersist 10m` (one TCP connection reused per host across every `ssh`/`scp`/`git` call; unlocks `ssh -O forward -R/-L ...` to add ad-hoc tunnels to an already-open connection). `RemoteForward 2222 localhost:22` (every remote host gets a reverse tunnel back to the connecting machine's own sshd — `scp -P 2222 <file> <you>@localhost:~/dest` from inside any remote session). Excludes `github.com`/`gitlab.com` (negated `Host * !github.com !gitlab.com`, verified via `man ssh_config` negation syntax) since their restricted `git-shell` refuses port forwarding. Verified live with `ssh -F ssh.conf -G <host>` (resolved option dump, no connection attempt) on both `deep-pc6` (all 3 directives present) and `github.com` (correctly excluded, `controlmaster false`). Native Windows OpenSSH client does NOT support `ControlMaster`/`ControlPath` (confirmed via upstream `PowerShell/Win32-OpenSSH#1328`/`#405`, tracked unimplemented since 2016) — moot for KπX's actual usage pattern since tmux (the universal interface) requires a Unix-like shell (WSL on Windows), so the real invoked `ssh` client is never the native Win32 one. |
-| 2026-08-26 | [COLAB] | v1.4.0 — **Canonical `gpg-agent.conf` asset created** (`assets/gpg-agent.conf`, symlinked at `~/.gnupg/gpg-agent.conf`, registered in `assets/links.jsonc` as `gpg-agent-conf`): sets `min-passphrase-len 0` after diagnosing a real incident on `deep-pc6` — `ssh-add` of the unencrypted `id_ed25519_github` key was silently rejected (`Bad Passphrase`) by GnuPG's compiled-in `min-passphrase-len 8` policy when the internal protection passphrase was left empty, producing a confusing downstream `agent refused operation` on every git push. Also made `default-cache-ttl-ssh`/`max-cache-ttl-ssh` explicit (previously only documented, not enforced by a real file). Companion **zombie-`pinentry` pattern** documented in `references/insights.md`: a freshly spawned `pinentry` process can spin at 70-95% CPU holding the agent's pinentry lock (`failed to acquire the pinentry lock: Timeout` in `journalctl --user -u gpg-agent`) instead of rendering its curses dialog — `kill -9 <pid>` immediately unblocks a clean, correctly rendering dialog on the next attempt. |
-| [SUMMARY] | — | v1.3.0 tty/headless SSH agent strategy added (`gcr-ssh-agent` gated behind `graphical-session-pre.target`, never starts tty-only — `gpg-agent` ssh-emulation documented as PREFERRED for that class of machine, wired in `k-zsh` v2.5.0) · v1.2.2 corrected generic phone shell source path to `k-phones/assets/kshrc` · v1.2.1 Android cross-references for `k-phones` rename + S25-specific shell asset · v1.1.0 SSH agent strategy refactor; v1.0.0 created k-ssh |

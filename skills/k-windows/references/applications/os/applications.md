@@ -1,6 +1,6 @@
 # OS
 
-Source: `/run/media/kpihx/KpihX-Datas/Applications/OS/` — 38G.
+Source: `/run/media/kpihx/-Datas/Applications/OS/` — 38G.
 
 ## Maintenance (26G)
 

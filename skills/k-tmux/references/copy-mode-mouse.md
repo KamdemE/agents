@@ -8,7 +8,7 @@ Enter copy-mode to scroll the tmux buffer (not the shell prompt history).
 |------|--------|
 | `[` | Enter copy-mode |
 | `q` / `Esc` | Cancel copy-mode (no copy) |
-| `PgUp` / wheel up | Scroll up (wheel enters copy-mode via KπX config) |
+| `PgUp` / wheel up | Scroll up (wheel enters copy-mode via  config) |
 | `PgDn` / wheel down | Scroll down |
 | `/` / `?` | Search (vi copy-mode) |
 | `v` | Begin keyboard selection (vi) |
@@ -16,7 +16,7 @@ Enter copy-mode to scroll the tmux buffer (not the shell prompt history).
 | `Enter` | Same as `y` (copy + exit) |
 | `]` | Paste tmux buffer |
 
-## Mouse copy (KπX default — `mode-keys vi`)
+## Mouse copy ( default — `mode-keys vi`)
 
 | Action | Result |
 |--------|--------|
@@ -30,7 +30,7 @@ Clipboard pipe: `xclip` (XWayland) with `wl-copy` fallback — on pure Wayland i
 
 Reload after config change: `tmux source-file $HOME/.tmux.conf`
 
-## Mouse (KπX Config)
+## Mouse ( Config)
 
 With `mouse on` and wheel bindings:
 

@@ -13,7 +13,7 @@ Traefik, Vaultwarden, Portainer deployed. Docker stack established.
 Claude Code starts. Gemini CLI installed. Codex CLI experiments.
 
 ## Late 2024 - MCP Ecosystem
-First MCP servers built. HTTP MCPs on kpihx-labs.com domain.
+First MCP servers built. HTTP MCPs on <github-user>.com domain.
 
 ## Early 2025 - Agent Kernel
 AGENTS.md created. Skills system standardized. k-* naming adopted.

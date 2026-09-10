@@ -1,12 +1,12 @@
 // raw-exec-guard.js — technically enforces two long-standing PROSE-ONLY rules
-// (KπX, 2026-08-29, following the tmux-notify TMUX_ADJUST work in this same
+// (, 2026-08-29, following the tmux-notify TMUX_ADJUST work in this same
 // session): `rules/tool-discipline.md` → `## tmux sudo Gate` ("never run raw
 // sudo in agent tool shells") and the 5th tmux-notify root cause fix
 // ("self-backgrounding" — never manually `sleep`/`wait`/`timeout`-poll a
 // command instead of routing it through tmux). Both were documented, NEVER
 // technically blocked — an agent could always just run them directly.
 //
-// Architecture (KπX, 2026-09-04): two-tier check system.
+// Architecture (, 2026-09-04): two-tier check system.
 //   Tier 1 — SECURITY CHECKS: always run on the full command string, even
 //     inside tmux send-keys / ssh / bash -c payloads. Patterns find their
 //     target ANYWHERE in the string — no wrapper exemption. Covers: .env
@@ -22,26 +22,26 @@
 // propagate, upstream opencode issue #31680), so the enforcement is a
 // `throw new Error(...)` that aborts the tool call before it runs.
 //
-// Scope decision (KπX, 2026-08-29): explicitly LIMITED to these two static,
+// Scope decision (, 2026-08-29): explicitly LIMITED to these two static,
 // pre-execution checks. A 3rd idea (kill any raw command once it exceeds
 // 30s and relaunch the agent) was proposed and explicitly REJECTED as
 // out-of-scope for this pass — it is not achievable anyway with the current
-// plugin API (no PID access, no reliable command rewriting), and KπX chose
+// plugin API (no PID access, no reliable command rewriting), and  chose
 // to keep this hook simple and verifiably correct rather than add a
 // reactive mechanism that could only ever be an after-the-fact reminder.
 //
-// Duration threshold (KπX, 2026-08-30): `sleep` and `timeout` are only
+// Duration threshold (, 2026-08-30): `sleep` and `timeout` are only
 // blocked when their duration exceeds POLL_THRESHOLD_SECS (20s). Short
 // sleeps/timeouts (<20s) are allowed as quick inline polls. The `wait`
 // bash builtin is ALWAYS blocked — it has no duration parameter and is
 // inherently an indeterminate hang.
 //
-// False-positive guard (KπX, 2026-08-30): the `wait` pattern uses a
+// False-positive guard (, 2026-08-30): the `wait` pattern uses a
 // negative lookbehind `(?<![a-zA-Z-])` so that flags like `--wait-for-cdp`
 // or `--wait-for-something` are NOT blocked — only the bare `wait` bash
 // builtin (preceded by space, quote, or start-of-string) triggers.
 //
-// Secret-file protection (KπX, 2026-09-01, v1.21.0): blocks secret access
+// Secret-file protection (, 2026-09-01, v1.21.0): blocks secret access
 // at 3 layers: (1) direct file paths for ALL secret-like patterns (.env,
 // .secret, .credentials, .token, .auth + .json/.env/no-extension variants),
 // (2) runtime secret loading (Python dotenv, bash source, Node dotenv),
@@ -49,17 +49,17 @@
 // SECRET_FILE_PATTERN replaces the original ENV_FILE_PATTERN to cover the
 // full spectrum of secret-file naming conventions.
 //
-// Proxy pipe protection (KπX, 2026-09-01): blocks any `*-proxy do*` command
+// Proxy pipe protection (, 2026-09-01): blocks any `*-proxy do*` command
 // piped into jq/python/etc. to prevent overloading the proxy server with
 // repeated calls. Agent must call proxy ONCE (autosave in /tmp/*-proxy-autosave/),
 // then read the saved file for parsing.
 //
-// False-positive fix (KπX, 2026-09-02): the pipe check now strips quoted
+// False-positive fix (, 2026-09-02): the pipe check now strips quoted
 // substrings before testing for `|`.  A `|` inside a single-quoted JSON
 // payload or double-quoted JS expression is a literal character, NOT a
 // shell pipe operator — only naked `|` outside quotes triggers the block.
 //
-// Proxy stderr suppression (KπX, 2026-09-01): blocks `2>/dev/null` on any
+// Proxy stderr suppression (, 2026-09-01): blocks `2>/dev/null` on any
 // `*-proxy` command. The 100% Transparency mantra demands that proxy errors
 // are NEVER silenced — agents MUST see failures, diagnostics, and status
 // output. This covers tg-proxy, tick-proxy, whats-proxy, mail-proxy,
@@ -100,7 +100,7 @@
 
 import { SEND_KEYS_REGEX } from "../libs/tmux-patterns.js";
 
-// ──── Env var disclosure protection (KπX, 2026-09-04) ────
+// ──── Env var disclosure protection (, 2026-09-04) ────
 // Blocks 5 categories of environment variable leakage:
 //   1. Sensitive env var expansion: echo $API_KEY, printf "%s" $TOKEN, etc.
 //   2. Filtered env extraction: env | grep TOKEN, printenv | grep SECRET, etc.
@@ -137,7 +137,7 @@ const CREDENTIAL_KEYWORD_PATTERN = /credential.*\./i; // = *credential*.*
 const TOKEN_KEYWORD_PATTERN = /token.*\./i;        // = *token*.*
 const AUTH_KEYWORD_PATTERN = /auth.*\./i;          // = *auth*.*
 
-// ──── Env var disclosure patterns (KπX, 2026-09-04) ────
+// ──── Env var disclosure patterns (, 2026-09-04) ────
 // Blocks 5 categories of environment variable leakage:
 //   1. Sensitive env var expansion: echo $API_KEY, printf "%s" $TOKEN, etc.
 //   2. Filtered env extraction: env | grep TOKEN, printenv | grep SECRET, etc.
@@ -391,7 +391,7 @@ export default async function () {
         );
       }
 
-      // ──── Env var disclosure protection (KπX, 2026-09-04) ────
+      // ──── Env var disclosure protection (, 2026-09-04) ────
 
       // 1. Sensitive env var expansion: block $API_KEY, ${SECRET_TOKEN}, etc.
       if (SENSITIVE_ENV_VAR_PATTERN.test(cmd)) {
@@ -500,7 +500,7 @@ export default async function () {
       // curls DELETE: block curls with DELETE
       if (CURLS_DELETE.test(cmd)) {
         throw new Error(
-          "🔒 curls DELETE blocked — ask KπX to do it via the dashboard.\n\n" +
+          "🔒 curls DELETE blocked — ask the user to do it via the dashboard.\n\n" +
             `Blocked command: ${cmd}`,
         );
       }
@@ -509,7 +509,7 @@ export default async function () {
       if (CURL_MUTATE.test(cmd)) {
         throw new Error(
           "🔒 curl is forbidden — use `curls` instead.\n" +
-            "Launch in tmux (k-tmux) for KπX approval or for secret injection with `with-env`.\n" +
+            "Launch in tmux (k-tmux) for  approval or for secret injection with `with-env`.\n" +
             "Read `k-clis/assets/providers.json` to find the right provider name.\n\n" +
             "Examples:\n" +
             "  curls https://api.example.com/public          (no secret)\n" +

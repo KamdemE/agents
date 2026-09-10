@@ -32,7 +32,7 @@ Benefits: Post 1 drives clicks via OG card, Post 2 drives engagement via images.
 
 ### HITL approval flow (2026-09-07)
 
-`post-create-full` opens browser HITL editor. Payload keys `text`, `url`, `title`, `description`, `media`, `visibility` are all editable inline. `edited` flag in response confirms if KπX touched anything. Always wait for HITL before assuming sent.
+`post-create-full` opens browser HITL editor. Payload keys `text`, `url`, `title`, `description`, `media`, `visibility` are all editable inline. `edited` flag in response confirms if  touched anything. Always wait for HITL before assuming sent.
 
 ### URL card + custom OG metadata pattern (2026-09-08)
 

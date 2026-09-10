@@ -41,7 +41,7 @@ Remote bearer token via env variable:
   "mcp": {
     "n8n_homelab": {
       "type": "remote",
-      "url": "https://n8n.kpihx-labs.com/mcp",
+      "url": "https://n8n.<github-user>.com/mcp",
       "headers": {
         "Authorization": "Bearer {env:N8N_HOMELAB_API_KEY}"
       },

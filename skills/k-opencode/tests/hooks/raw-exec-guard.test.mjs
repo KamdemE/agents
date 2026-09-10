@@ -1,5 +1,5 @@
 // Test for raw-exec-guard.js — simulates tool.execute.before calls.
-// Five static checks (KπX, 2026-08-29 / 2026-09-01 / 2026-09-02):
+// Five static checks (, 2026-08-29 / 2026-09-01 / 2026-09-02):
 //   1. raw `sudo` outside tmux — blocked
 //   2. raw `sleep`/`wait`/`timeout` used as manual polling outside tmux — blocked (>20s)
 //   3. secret file access (.env, .secret, .credentials, .token, .auth) — blocked unless .example*
@@ -9,10 +9,10 @@
 //   5. proxy stderr suppression (`*-proxy` + `2>/dev/null`) — blocked
 // All are EXEMPT when the command is already a compliant `tmux send-keys -t ...`
 // call (the quoted payload runs IN the pane, never in the agent's own shell).
-// Duration threshold (KπX, 2026-08-30): sleep/timeout only blocked when
+// Duration threshold (, 2026-08-30): sleep/timeout only blocked when
 // duration > 20s (POLL_THRESHOLD_SECS). `wait` always blocked (indeterminate).
 // False-positive guard: `--wait-for-cdp` and similar flags are NOT blocked.
-// Secret-file protection (KπX, 2026-09-01, v1.21.0): commands referencing
+// Secret-file protection (, 2026-09-01, v1.21.0): commands referencing
 // secret-like files blocked unless path matches *.example*. Covers .env,
 // .secret, .credentials, .token, .auth + .json/.env/no-extension variants.
 // Word-boundary after keyword prevents false positives on substrings.
@@ -86,7 +86,7 @@ const cases = [
   // --- non bash tool → pass ---
   ["non bash tool (passe)", "sudo anything", false, "read"],
 
-  // --- .env file protection (KπX, 2026-09-01) ---
+  // --- .env file protection (, 2026-09-01) ---
   // .env files → blocked
   ["cat .env (bloqué)", "cat ~/.config/mail-proxy/.env", true, "bash"],
   ["cat /foo/.env (bloqué)", "cat /foo/.env", true, "bash"],
@@ -176,21 +176,21 @@ const cases = [
   ["rg TOKEN token-setup.md (bloqué — search pattern 'TOKEN' has keyword)", "rg TOKEN /foo/token-setup.md", true, "bash"],
   ["cat ~/docs/secret-patterns.md (passe — .md exception)", "cat ~/docs/secret-patterns.md", false, "bash"],
 
-  // --- Real-world secret files (KπX, 2026-09-03) ---
+  // --- Real-world secret files (, 2026-09-03) ---
   // Google Cloud application default credentials
   ["cat application_default_credentials.json (bloqué — gcloud ADC)", "cat $HOME/.config/gcloud/application_default_credentials.json", true, "bash"],
   ["python3 load gcloud ADC (bloqué)", "python3 -c \"import json; d=json.load(open('$HOME/.config/gcloud/application_default_credentials.json')); print(d)\"", true, "bash"],
   // YouTube / GWS tokens
-  ["cat youtube_token.json (bloqué)", "cat $HOME/.config/gws/kpihx-labs/youtube_token.json", true, "bash"],
-  ["ls + cat youtube_token.json (bloqué — chain)", "ls -la $HOME/.config/gws/kpihx-labs/youtube_token.json 2>&1; cat $HOME/.config/gws/kpihx-labs/youtube_token.json", true, "bash"],
+  ["cat youtube_token.json (bloqué)", "cat $HOME/.config/gws/<github-user>/youtube_token.json", true, "bash"],
+  ["ls + cat youtube_token.json (bloqué — chain)", "ls -la $HOME/.config/gws/<github-user>/youtube_token.json 2>&1; cat $HOME/.config/gws/<github-user>/youtube_token.json", true, "bash"],
   // Client secrets
   ["cat client_secret.json (bloqué)", "cat $HOME/.config/gws/kpihx/client_secret.json", true, "bash"],
-  ["cat client_secret.json labs (bloqué)", "cat $HOME/.config/gws/kpihx-labs/client_secret.json", true, "bash"],
+  ["cat client_secret.json labs (bloqué)", "cat $HOME/.config/gws/<github-user>/client_secret.json", true, "bash"],
   // Multi-path secret access
-  ["diff two secret files (bloqué)", "diff $HOME/.config/gws/kpihx/client_secret.json $HOME/.config/gws/kpihx-labs/client_secret.json", true, "bash"],
+  ["diff two secret files (bloqué)", "diff $HOME/.config/gws/kpihx/client_secret.json $HOME/.config/gws/<github-user>/client_secret.json", true, "bash"],
   // rg/grep on secret files
   ["rg in application_default_credentials.json (bloqué)", "rg client_id $HOME/.config/gcloud/application_default_credentials.json", true, "bash"],
-  ["grep in youtube_token.json (bloqué)", "grep refresh_token $HOME/.config/gws/kpihx-labs/youtube_token.json", true, "bash"],
+  ["grep in youtube_token.json (bloqué)", "grep refresh_token $HOME/.config/gws/<github-user>/youtube_token.json", true, "bash"],
   ["cat credentials_manager.py (bloqué — '_' is a separator, not a word char)", "cat /foo/credentials_manager.py", true, "bash"],
 
   // .env inside tmux send-keys → allowed (payload runs in pane, not agent shell)
@@ -277,7 +277,7 @@ const cases = [
     "bash",
   ],
 
-  // --- proxy stderr suppression (KπX, 2026-09-01) ---
+  // --- proxy stderr suppression (, 2026-09-01) ---
   [
     "tg-proxy 2>/dev/null (bloqué)",
     "tg-proxy do send-message '{\"chat_id\": 123}' 2>/dev/null",
@@ -327,7 +327,7 @@ const cases = [
     "bash",
   ],
 
-  // --- env var disclosure protection (KπX, 2026-09-04) ---
+  // --- env var disclosure protection (, 2026-09-04) ---
 
   // 1. Sensitive env var expansion
   ["echo $API_KEY (bloqué)", "echo $API_KEY", true, "bash"],

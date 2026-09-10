@@ -4,14 +4,14 @@
     {
       "type": "literal",
       "field": "to",
-      "value": "<ALIAS>@kpihx-labs.com"
+      "value": "<ALIAS>@<yourdomain.com>"
     }
   ],
   "actions": [
     {
       "type": "worker",
       "value": [
-        "kpihx-labs-inbound-router"
+        "<github-user>-inbound-router"
       ]
     }
   ],

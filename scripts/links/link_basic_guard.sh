@@ -63,7 +63,7 @@ link_basic_guard() {
   # Strict by default (counts as failure). "allow-reversed": true tolerates an
   # outward target but still reports it (informational), not counted as failure.
   case "$resolved" in
-    "$AGENTS_DIR"/*|"$HOME/KpihX-Labs/.agents"/*) ;;
+    "$AGENTS_DIR"/*|"$HOME/Labs/.agents"/*) ;;
     *)
       if [ "$allow_reversed" = "true" ]; then
         echo "  ⚠ ALLOWED-REVERSED (allow-reversed=true): $src -> $resolved"

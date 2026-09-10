@@ -26,7 +26,7 @@ skills/k-<name>/
 | Windows/WSL-specific (winget, named pipes, PowerShell) | `references/windows.md` |
 | Proxmox-specific (qm, pct, ZFS) | `references/pve.md` |
 | macOS-specific (brew, launchd) | `references/macos.md` |
-| Device/infra specific (kblglaptop139, deep-pc6) | `references/<infra>.md` |
+| Device/infra specific (klaptop, server) | `references/<infra>.md` |
 
 ## How to reference
 

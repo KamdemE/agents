@@ -1,6 +1,6 @@
 # Search Tool Preference — plocate
 
-**Scope:** All agents interacting with the KπX filesystem
+**Scope:** All agents interacting with the  filesystem
 
 ## Mandate
 
@@ -23,13 +23,13 @@
 ## When NOT to use plocate (fall back to `find`)
 
 - **Real-time**: files created or renamed since last `updatedb` won't appear (run `sudo updatedb` in tmux (k-tmux) if the database seems out of date, especially after massive filesystem restructures, moves `mv`, or copies `cp`)
-- **Very recent files**: prefer `find` with narrow scope (e.g. `find /home/kpihx/Work/`)
+- **Very recent files**: prefer `find` with narrow scope (e.g. `find $HOME/Work/`)
 - **Readability edge**: `plocate` respects file permissions
 
-## FUSE Mounts / Remote Drives Warning (`~/Gdrive_X`, rclone, SSHFS, external drives)
+## FUSE Mounts / Remote Drives Warning (`~/Gdrive`, rclone, SSHFS, external drives)
 
-🔴 **NEVER run recursive `find` on `~/Gdrive_X` or any FUSE/rclone/network mount.**
-- FUSE and rclone mounts execute remote network calls for directory traversals; running `find` on `~/Gdrive_X` triggers thousands of API calls, taking minutes and causing severe latency/timeouts.
+🔴 **NEVER run recursive `find` on `~/Gdrive` or any FUSE/rclone/network mount.**
+- FUSE and rclone mounts execute remote network calls for directory traversals; running `find` on `~/Gdrive` triggers thousands of API calls, taking minutes and causing severe latency/timeouts.
 - **Always prefer**: `ls`, `tree -L <depth>`, targeted path navigation (`Read`), or `plocate` for indexed local files.
 
 ## Setup
@@ -47,13 +47,13 @@ In addition to `plocate` for file search, agents MUST use the following code ana
 | **opencode-ast_get_definitions** | Get definitions of all symbols at a location | Plugin |
 | **opencode-ast_references** | Find references to a symbol in the same file | Plugin |
 | **loom** | Cross-session code references on GIT repos ONLY (never non-git dirs): callgraph ("who calls X"), blast-radius before refactors, dead-code sweeps | CLI ONLY (`loom query/callers/callees/blast-radius/dead-code` — see `k-loom`; needs `loom analyze .` first). NO MCP — loom-mcp removed 2026-08-24 (RAM cost), see `k-loom/references/mcp.md` |
-| **qmd** / **qmdr** | Search KπX knowledge base (past sessions, skills, configs) + semantic/textual md content | CLI (see `k-qmd` skill) |
+| **qmd** / **qmdr** | Search  knowledge base (past sessions, skills, configs) + semantic/textual md content | CLI (see `k-qmd` skill) |
 
 ## Loom reflex on git projects (MANDATORY)
 
-🔴 **Loom is GIT-PROJECTS-ONLY (KπX directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` or query a non-git directory.** On any GIT project containing code, agents MUST use the Loom layer via the **`loom` CLI ONLY** — not just grep/read. 🔴 **NO loom MCP** (removed from opencode.jsonc 2026-08-24 — 16 stdio instances ≈ 790M RAM; CLI = 0 resident RAM). MCP→CLI equivalents: `k-loom/references/mcp.md`.
+🔴 **Loom is GIT-PROJECTS-ONLY ( directive 2026-08-24): it applies to GIT repos EXCLUSIVELY — NEVER `loom analyze` or query a non-git directory.** On any GIT project containing code, agents MUST use the Loom layer via the **`loom` CLI ONLY** — not just grep/read. 🔴 **NO loom MCP** (removed from opencode.jsonc 2026-08-24 — 16 stdio instances ≈ 790M RAM; CLI = 0 resident RAM). MCP→CLI equivalents: `k-loom/references/mcp.md`.
 
-🔴 **ALWAYS CHECK BEFORE QUERYING (KπX directive 2026-08-24): in EVERY git project, before ANY loom query/callers/blast-radius, check index existence + freshness and update first — quitte à lancer l'indexation si absente.** Sequence obligatoire :
+🔴 **ALWAYS CHECK BEFORE QUERYING ( directive 2026-08-24): in EVERY git project, before ANY loom query/callers/blast-radius, check index existence + freshness and update first — quitte à lancer l'indexation si absente.** Sequence obligatoire :
 
 ```bash
 DB=~/.loom/projects/$(basename $(git rev-parse --show-toplevel)).db
@@ -73,7 +73,7 @@ loom sync                               # ~2-5s ; uncommitted edits need this to
 
 ## Semantic / Know-how questions → `qmd query` (MANDATORY)
 
-🔴 **For SEMANTIC questions — understanding the KπX ecosystem, its history, past sessions/passes, or "how did we do X before" WITHOUT clear keywords — agents MUST use `qmd query` (or `qmdr`).**
+🔴 **For SEMANTIC questions — understanding the  ecosystem, its history, past sessions/passes, or "how did we do X before" WITHOUT clear keywords — agents MUST use `qmd query` (or `qmdr`).**
 
 | Situation | Tool |
 |-----------|------|

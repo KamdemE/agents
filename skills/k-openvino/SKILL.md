@@ -11,16 +11,16 @@ description: >
   or reasoning in OpenCode.
 license: private
 metadata:
-  author: KpihX
-  version: "1.1.0"
+  author: 
+  version: "1.0.0"
   scope: ai-engine
 ---
 
 # OpenVINO GenAI — Local LLM Serving
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> Project: `$HOME/KpihX-Labs/AI/openvino/` (uv package `k-openvino`, binary `openvino`). Server: FastAPI OpenAI-compatible, port `11437`, systemd user service `openvino.service`. Published to PyPI as [`k-openvino`](https://pypi.org/project/k-openvino/) (v0.2.0 live, dual remotes `github`+`gitlab` under `kpihx-labs/openvino`).
+> Project: `$HOME/Labs/AI/openvino/` (uv package `k-openvino`, binary `openvino`). Server: FastAPI OpenAI-compatible, port `11437`, systemd user service `openvino.service`. Published to PyPI as [`k-openvino`](https://pypi.org/project/k-openvino/) (v0.2.0 live, single remote `origin` under `<user>/openvino`).
 > See also **`k-ai`** (AI hub registry entry + cross-domain insight) · **`k-ollama`** (Ollama, historical comparison baseline — deactivated) · **`k-opencode`** (custom provider config in `opencode.jsonc`).
 
 ---
@@ -69,11 +69,3 @@ A 0.6B model does perfect real tool-calling (verified live in OpenCode's interac
 - `references/benchmark.md` — OpenVINO vs IPEX-LLM vs Vulkan (Ollama) GPU inference speed comparison
 - `references/insights.md` — durable lessons
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-29 | [LIVE] | v1.1.0 — Project finalized through `make release` v0.2.0: committed tool-calling/subprocess-cancellation work, PyPI publish (`k_openvino-0.1.0`→`0.2.0`), stale port `11436`→`11437` fixed, CHANGELOG backfilled, systemd service verified. |
-| 2026-08-29 | [LIVE] | v1.0.0 — Initial skill: OpenVINO OpenAI-compatible tool-calling protocol (`tools=`/`enable_thinking` wiring, `_StreamParser`, `reasoning_content`, anti-loop fallback, dynamic capability discovery via `/v1/model/info`). |
-| [SUMMARY] | — | v1.1.0 finalized + PyPI published · v1.0.0 initial skill with full tool-calling protocol. |
-</content>

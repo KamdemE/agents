@@ -1,6 +1,6 @@
 # k-ubuntu Workstation Insights
 
-Purpose: durable operational memory for KpihX-Ubuntu workstation (Dell 7640).
+Purpose: durable operational memory for the workstation.
 
 ## Governance (mandatory)
 

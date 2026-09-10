@@ -3,7 +3,7 @@
 # Script Name: clean_ai.sh
 # Description: AI Models and Caches cleanup (Ollama, HuggingFace)
 # API: --infos/-i, --safe/-s, --purge/-p
-# Author: Gemini-CLI / KpihX
+# Author: Gemini-CLI / 
 # ==============================================================================
 RED='\033[0;31m'
 GREEN='\033[0;32m'

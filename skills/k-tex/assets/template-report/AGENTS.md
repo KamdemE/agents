@@ -1,6 +1,6 @@
 # AGENTS.md — template-report (k-tex asset)
 
-You are inside the canonical KπX report template:
+You are inside the canonical  report template:
 `~/.agents/skills/k-tex/assets/template-report/`
 (source of truth — full doc → `k-tex` SKILL.md § Canonical Report Archetypes).
 

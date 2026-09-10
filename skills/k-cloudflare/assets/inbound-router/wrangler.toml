@@ -1,0 +1,4 @@
+name = "<github-user>-inbound-router"
+main = "src/index.mjs"
+compatibility_date = "2024-09-23"
+account_id = "5d0ff5e40bbc37baed99d3c7aacd0741"

@@ -1,18 +1,18 @@
 ---
 name: k-nvim
-description: KπX Neovim hub — config, plugins, LSP, and daily workflow map.
+description:  Neovim hub — config, plugins, LSP, and daily workflow map.
 agent: [OPCODE]
 created: "2026-05-28"
-updated: "2026-09-08"
+updated: "2026-09-10"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.9.1
+  version: 1.0.0
 ---
 
-# KπX — Neovim
+#  — Neovim
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Quick Reference
 
@@ -27,7 +27,7 @@ metadata:
 
 ## Architecture — Centralized Config
 
-The canonical source for all KπX Neovim config is `k-nvim/assets/`.
+The canonical source for all  Neovim config is `k-nvim/assets/`.
 `~/.config/nvim/` is a **symlink tree** pointing into it — edit either path, the file is the same.
 
 ```
@@ -43,12 +43,15 @@ k-nvim/assets/                        ← SOURCE OF TRUTH (edit here)
 
 k-nvim/assets/                        ← Config + supporting assets (edit here)
 ├── uv-nvim/
-    └── pyproject.toml                ← Python host venv definition (see Python Provider reference)
+│   └── pyproject.toml                ← Python host venv definition (see Python Provider reference)
+└── vimrc                             ← Vim fallback config (see Vim fallback section)
 
 ~/.config/nvim/                       ← SYMLINKS (read by nvim)
 ├── init.lua           → k-nvim/assets/init.lua
 ├── lazy-lock.json     → k-nvim/assets/lazy-lock.json
 └── lua/kpihx/         → k-nvim/assets/lua/kpihx/
+
+~/.vimrc               → k-nvim/assets/vimrc  (Vim fallback config)
 
 ~/.local/share/nvim/uv-nvim/          ← RUNTIME (venv created by uv)
 ├── pyproject.toml    → k-nvim/assets/uv-nvim/pyproject.toml  (symlink)
@@ -61,7 +64,7 @@ k-nvim/assets/                        ← Config + supporting assets (edit here)
 |-------|------|
 | Neovim config (canonical) | `$HOME/.agents/skills/k-nvim/assets/` |
 | Neovim config (runtime) | `$HOME/.config/nvim/` (symlinks to canonical) |
-| Vim config | `$HOME/.vimrc` |
+| Vim config | `$HOME/.vimrc` → `k-nvim/assets/vimrc` (symlink) |
 | Vim autoload | `$HOME/.vim/autoload/plug.vim` (vim-plug) |
 | Plugin data | `$HOME/.local/share/nvim/lazy/` (Lazy-managed, read-only) |
 | Undo history | `$HOME/.local/share/nvim/undo/` |
@@ -69,7 +72,7 @@ k-nvim/assets/                        ← Config + supporting assets (edit here)
 
 > **Rule:** `~/.local/share/nvim/lazy/` contains plugin code managed by Lazy.nvim.
 > Do NOT modify files there — all changes get wiped on `:Lazy update`.
-> KπX only owns `k-nvim/assets/`. Plugin healthcheck false positives are ignored.
+>  only owns `k-nvim/assets/`. Plugin healthcheck false positives are ignored.
 
 ## Installed Plugins
 
@@ -179,7 +182,7 @@ Reload: Ctrl+A r (kills process, relaunches from shell history)
 
 ## Healthcheck Governance (MANDATORY)
 
-After ANY modification to Neovim config files, the agent MUST run `:checkhealth` live in tmux, fix errors from KπX config only (ignore plugin-side false positives), reload nvim autonomously, and update this SKILL.md. Full governance rules, agent-autonomy mandate, the exact post-modification verification command, and the known-false-positives list → **`references/healthcheck-protocol.md`**.
+After ANY modification to Neovim config files, the agent MUST run `:checkhealth` live in tmux, fix errors from the user config only (ignore plugin-side false positives), reload nvim autonomously, and update this SKILL.md. Full governance rules, agent-autonomy mandate, the exact post-modification verification command, and the known-false-positives list → **`references/healthcheck-protocol.md`**.
 
 ## Post-Install Shell Wiring
 
@@ -192,7 +195,7 @@ export EDITOR=nvim
 This ensures `git commit`, `crontab -e`, `visudo`, and all env-respecting tools use Neovim.
 Verify: `echo $EDITOR` → `nvim`.
 
-> **Source of truth:** `~/.kshrc` line 45 on KπX-Ubuntu. For new machines, add to `kshrc.base` template.
+> **Source of truth:** `~/.kshrc` line 45 on -Ubuntu. For new machines, add to `kshrc.base` template.
 
 ## Trash System — FreeDesktop Integration
 
@@ -207,12 +210,4 @@ Verify: `echo $EDITOR` → `nvim`.
 | `references/healthcheck-protocol.md` | Healthcheck governance, agent autonomy, post-modification protocol, known false positives |
 | `references/trash-system.md` | FreeDesktop trash integration mechanism, coverage, and CLI reference |
 | `references/healthcheck-audit-2026-05-30.md` | Historical healthcheck audit log |
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-08 | [LIVE] | v3.9.1 — **gc/gC fix + symlink consolidation:** `gc` opens the file under cursor in Oil (`oil.get_cursor_entry()`) or the current buffer file in VS Code; `gC` opens the current directory (Oil first, then buffer dir). Both use `vim.fn.jobstart({ CODE, path })` — same pattern. Added `CODE` constant for editor fork portability. Neutralized vim 0.11+ default `o gc`/`x gc` (comment textobject) so `n gc` fires. **Symlink fix:** `~/.config/nvim/lua/kpihx/` was a real directory → now a proper symlink to `k-nvim/assets/lua/kpihx/`. |
-| 2026-09-05 | [LIVE] | v3.9.0 — **VS Code integration:** `gc` opens current file in VS Code (with cursor position via `-g line:col`), `gC` opens Oil directory in VS Code. |
-| [SUMMARY] | -- | v3.8.0 . v3.7.1 check-skills audit rotation · v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
 

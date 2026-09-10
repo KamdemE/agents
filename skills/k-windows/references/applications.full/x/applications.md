@@ -1,6 +1,6 @@
 # X
 
-Source: `KpihX-Datas/Applications/X/` (160M).
+Source: `-Datas/Applications/X/` (160M).
 
 - `eduroam-W10-Ecole_Polytechnique.exe`
 - `GlobalProtect64.msi`

@@ -39,4 +39,4 @@
 journalctl --user -u tmux.service -b 0 --no-pager | tail -30
 ```
 
-**Config (2026-05-25):** `@continuum-boot off` + `systemctl --user disable tmux.service`. Restore happens when KπX runs step 2. Forensics: `references/insights.md`.
+**Config (2026-05-25):** `@continuum-boot off` + `systemctl --user disable tmux.service`. Restore happens when  runs step 2. Forensics: `references/insights.md`.

@@ -57,8 +57,8 @@
 
 | This skill | References | Is referenced by |
 |------------|-----------|-----------------|
-| **k-ai** (hub + registry) | k-context, kpihx-labs, k-opencode, k-hermes, k-clis, k-optim, k-final | k-context, AGENTS.md, every agent |
-| **k-context** | k-ai, kpihx-labs, k-opencode | AGENTS.md (auto-injected for Colab/Build), every agent |
+| **k-ai** (hub + registry) | k-context, <github-user>, k-opencode, k-hermes, k-clis, k-optim, k-final | k-context, AGENTS.md, every agent |
+| **k-context** | k-ai, <github-user>, k-opencode | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-infras** | k-ai, k-project, k-git | AGENTS.md (auto-injected for Colab/Build), every agent |
 | **k-opencode** | k-ai, `scripts/plugins/hooks/` | AGENTS.md (mandatory rules) |
 | **k-hermes** | k-ai, k-opencode | Hermes config, k-context |
@@ -88,9 +88,9 @@ The Curator daemon (`agents/curator/agent.md`) reads this skill to know:
 The agent kernel lives at `$HOME/.agents/`:
 | Path | Role |
 |------|------|
-| `$HOME/.agents/` | Symlink → `$HOME/KpihX-Labs/.agents/` (git root for the global agent kernel) |
+| `$HOME/.agents/` | Symlink → `$HOME/Labs/.agents/` (git root for the global agent kernel) |
 | `$HOME/.agents/AGENTS.md` | Canonical AGENTS kernel — always edit this file |
-| `$HOME/KpihX-Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` (workspace-root convenience) |
+| `$HOME/Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` (workspace-root convenience) |
 | `$HOME/.openclaw/workspace/AGENTS.md` | Symlink → `.agents/AGENTS.md` (legacy OpenClaw template dir) |
 
 **Do not** hard-link or maintain a second copy of `AGENTS.md`. Full routing: `$HOME/.agents/AGENTS.md`.

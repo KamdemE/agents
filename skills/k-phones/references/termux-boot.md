@@ -1,6 +1,6 @@
 # Termux SSHD and Termux:Boot Manual Setup
 
-This is the literal, adaptable procedure for any KπX Android phone. Replace
+This is the literal, adaptable procedure for any  Android phone. Replace
 `<PHONE_ALIAS>` and `<PHONE_TAILSCALE_IP>` with the device being configured.
 
 ## 1. Prepare Termux

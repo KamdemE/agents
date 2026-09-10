@@ -2,7 +2,7 @@
  * Shared regex: does a bash command string already look like a compliant
  * `tmux send-keys -t <target> ...` call?
  *
- * Single source of truth (KπX, 2026-08-29) — this exact pattern used to be
+ * Single source of truth (, 2026-08-29) — this exact pattern used to be
  * duplicated THREE times (twice inside `tmux-notify.js`'s own `.before`/
  * `.after`, and would have been a 3rd copy in `raw-exec-guard.js`). Any drift
  * between copies (e.g. supporting a new tmux target syntax) would silently
@@ -20,7 +20,7 @@
 export const SEND_KEYS_REGEX =
   /tmux\s+send-keys\s+(?:-l\s+|-p\s+)?-t\s+([%$@\w.:-]+)/;
 
-// Opt-in SSH bypass (KπX, 2026-09-05): a pane whose foreground process is an
+// Opt-in SSH bypass (, 2026-09-05): a pane whose foreground process is an
 // interactive `ssh`/`mosh` client is idle-shell-unknown from the local side
 // (local metadata only ever sees `ssh`). By default such panes stay BLOCKED
 // (fail-closed). Prefixing the SAME send-keys call with `TMUX_ALLOW_SSH=1`

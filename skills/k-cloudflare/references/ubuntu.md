@@ -1,7 +1,7 @@
 # k-cloudflare — Ubuntu
 
 > **OS reference:** Ubuntu (native)
-> **Applies to:** `k-ubuntu` (kpihx-ubuntu workstation)
+> **Applies to:** `k-ubuntu` (workstation workstation)
 
 ---
 
@@ -24,7 +24,7 @@ flarectl requires `CF_API_TOKEN` environment variable. Always run via `with-env`
 Common operations:
 ```bash
 with-env flarectl zone list
-with-env flarectl dns records list --zone kpihx-labs.com
+with-env flarectl dns records list --zone <github-user>.com
 ```
 
 ## Wrangler (Inbound Email Worker only)

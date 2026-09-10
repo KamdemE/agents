@@ -36,7 +36,7 @@ In the past, alternative AI-native terminals were evaluated:
 - **WaveTerm**: Evaluated and completely purged in August 2026. Configuration was originally at `$HOME/.config/waveterm/` with custom widgets.
 - **Warp Terminal**: Evaluated as an alternative AI shell.
 
-**Current Status**: Purged. KπX no longer uses these dedicated AI shells because the combination of **`tmux` + `opencode` + `nvim`** is much more flexible, lightweight, and offers superior developer control.
+**Current Status**: Purged.  no longer uses these dedicated AI shells because the combination of **`tmux` + `opencode` + `nvim`** is much more flexible, lightweight, and offers superior developer control.
 
 ## npm-global prefix
 

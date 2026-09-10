@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # ============================================================
-# .kshrc.base — KπX Universal Shell Hub (Base)
+# .kshrc.base — Universal Shell Hub (Base)
 # ============================================================
 #
 # ╔══════════════════════════════════════════════════════════════╗
@@ -117,13 +117,13 @@ if [ -z "$__KSHRC_LOADED" ]; then
   [ -z "$SSH_AUTH_SOCK" ] && [ -S "$_gpg_ssh_sock" ] && export SSH_AUTH_SOCK="$_gpg_ssh_sock"
   unset _gpg_ssh_sock
 
-  # ── KπX workspace shortcut variables ─────────────────────────
+  # ── workspace shortcut variables ─────────────────────────
   # Available everywhere (scripts, cron, make, SSH, terminals).
-  export KHOME="$HOME/KpihX-Labs"
-  export KLABS="$HOME/KpihX-Labs"
-  export LABS="$HOME/KpihX-Labs"
-  export AGENTS="$HOME/KpihX-Labs/.agents"
-  export EXPLORE="$HOME/KpihX-Labs/Explore"
+  export KHOME="$HOME/Labs"
+  export KLABS="$HOME/Labs"
+  export LABS="$HOME/Labs"
+  export AGENTS="$HOME/Labs/.agents"
+  export EXPLORE="$HOME/Labs/Explore"
 
   # ══ >>> ADD NEW UNIVERSAL EXPORTS HERE <<< ════════════════════
   # They will be available in ALL shells: scripts, cron, make,
@@ -173,10 +173,6 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
   # stdout silenced ("OK" noise at every shell open); stderr visible.
   command -v gpg-connect-agent >/dev/null 2>&1 \
     && gpg-connect-agent updatestartuptty /bye >/dev/null
-
-  # ── Workspace entry ─────────────────────────────────────────
-  # cd to KpihX-Labs; create it on first boot if missing.
-  cd "$HOME/KpihX-Labs" 2>/dev/null || { mkdir -p "$HOME/KpihX-Labs" && cd "$HOME/KpihX-Labs"; }
 
   # ── History ─────────────────────────────────────────────────
   HISTCONTROL=ignoreboth
@@ -262,9 +258,9 @@ if [ -z "$__KSHRC_INTERACTIVE_LOADED" ]; then
     # ── Named directories: ~k / ~e / ~a / ~d ────────────────────
     # Shell shortcuts: cd ~k, ls ~k, pushd ~k — zsh only (hash -d).
     # Equivalent env vars ($KHOME/$KLABS/$LABS/$AGENTS/$EXPLORE) are in Section 1.
-    hash -d k="$HOME/KpihX-Labs"
-    hash -d e="$HOME/KpihX-Labs/Explore"
-    hash -d a="$HOME/KpihX-Labs/.agents"
+    hash -d k="$HOME/Labs"
+    hash -d e="$HOME/Labs/Explore"
+    hash -d a="$HOME/Labs/.agents"
     hash -d d="$HOME/Downloads"
 
     # ══ >>> ADD ZSH-SPECIFIC INTERACTIVE SETTINGS HERE <<< ═══

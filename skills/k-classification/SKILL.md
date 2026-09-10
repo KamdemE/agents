@@ -6,14 +6,14 @@ description: >
   identity, structural nesting, and deterministic control.
 license: private
 metadata:
-  author: KpihX
+  author: 
   version: "1.0.0"
   scope: architecture-governance
 ---
 
-# KπX Classification — Sovereign Framework
+#  Classification — Sovereign Framework
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Core Philosophy
 
@@ -50,9 +50,3 @@ Classification is an **interface cognitive** between the architect and his data.
 - **Lexical Control:** Standardize naming conventions early to avoid structural drift.
 - **Reference:** Read `references/insights.md` for durable classification lessons.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-04-26 | [ANTIGRAVITY] | v1.0.0 — Created k-classification skill. Formalized the Semantic/Structural/Integrity pillars and the high-fidelity workflow. |
-| [SUMMARY] | — | Initial version |

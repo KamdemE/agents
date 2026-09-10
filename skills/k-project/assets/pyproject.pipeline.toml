@@ -1,4 +1,4 @@
-# KpihX uv WORKSPACE template — Pipeline R&D archetype
+#  uv WORKSPACE template — Pipeline R&D archetype
 # ─────────────────────────────────────────────────────
 # Use this instead of assets/pyproject.toml when the project is a multi-stage
 # R&D/ML pipeline that will grow reusable domain code — don't let src/ become
@@ -25,7 +25,7 @@
 name        = "PROJECT_NAME"
 version     = "VERSION"
 description = "DESCRIPTION"
-authors     = [{ name = "KAMDEM Ivann", email = "kapoivha@gmail.com" }]
+authors     = [{ name = "Your Name", email = "<primary@gmail.com>" }]
 readme      = "README.md"
 license     = { text = "MIT" }
 requires-python = ">=3.12"

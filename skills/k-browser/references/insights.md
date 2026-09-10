@@ -44,7 +44,7 @@ After any structural change (`window-create`, `tab-update`, `group-*`), re-read 
 
 ## Edge start already gives you a usable tab
 
-`browser-proxy admin profile start <profile>` starts the managed, always-visible Edge instance with a bootstrap tab; live inventory of `default` exposed `edge://newtab/` (not a guaranteed literal `about:blank`). Inspect `window-list` before creating anything, then navigate that existing tab. `window-create` is only for a separate window explicitly requested by KπX — never create one merely because the bootstrap tab is empty.
+`browser-proxy admin profile start <profile>` starts the managed, always-visible Edge instance with a bootstrap tab; live inventory of `default` exposed `edge://newtab/` (not a guaranteed literal `about:blank`). Inspect `window-list` before creating anything, then navigate that existing tab. `window-create` is only for a separate window explicitly requested by the user — never create one merely because the bootstrap tab is empty.
 
 ## Large files: choose native CDP input injection, not base64
 
@@ -66,10 +66,3 @@ The old `page-screenshot` applied `document.body.style.transform = 'translateZ(0
 
 `page-press` uses `Input.dispatchKeyEvent` (`keyDown` + `keyUp`), which is the real CDP input pipeline. Unlike `page-evaluate` + `new KeyboardEvent().dispatchEvent()` (which only fires in the JS event system and may be ignored by the page's internal handlers), `page-press` goes through the compositor-level input path that the browser treats as a real user keystroke. Use it for play/pause (`Space`), navigation (`ArrowDown`/`Enter`), and any keyboard shortcut on complex SPAs. (Added 2026-08-31.)
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-31 | Root cause of YT Music layout breakage identified: `page-screenshot`'s `translateZ(0)` hack, NOT DOM clicks. Hack removed (now optional `force_repaint`). Added `page-press` action (CDP `Input.dispatchKeyEvent`). Updated `music.youtube.com.md` and `insights.md` with corrected understanding. |
-| 2026-08-30 | Live Moodle/Nudgis/AI Studio pass: documented native large-file CDP injection and the `blob:`-vs-direct-HLS distinction; a cloud-model internal error became a local `k-whisper` transcript fallback rather than a dead end. |
-| 2026-08-30 | Full rewrite for the browser-proxy era — purged all MCP-era content (`chrome-agent-mcp`, `browser-mcp`, Playwright, Edge Tab Groups Explorer extension — all retired 2026-08-26), migrated site-specific entries to `references/sites/`, added 8 new durable lessons from a live full-registry test sweep (cookie/storage backend splits, `data:` URL content-script restriction, page-evaluate serialization fallback, captcha CDP escalation, dismiss-overlays/combobox heuristic honesty, drop-file mechanism distinction, active-tab footgun). |

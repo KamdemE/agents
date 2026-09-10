@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Idempotent YouTube Data API bootstrap on GCP project kpihx-labs (read-only checks + enable API).
+# Idempotent YouTube Data API bootstrap on GCP project <github-user> (read-only checks + enable API).
 set -euo pipefail
 
-PROJECT="${GCP_PROJECT:-kpihx-labs}"
-GWS_CFG="${GWS_LABS_CONFIG:-$HOME/.config/gws/kpihx-labs}"
+PROJECT="${GCP_PROJECT:-<github-user>}"
+GWS_CFG="${GWS_LABS_CONFIG:-$HOME/.config/gws/<github-user>}"
 
 echo "=== Project ==="
 gcloud projects describe "$PROJECT" --format='table(projectId,name,projectNumber,lifecycleState)'
@@ -29,10 +29,10 @@ else
   echo "WARN: missing $GWS_CFG/client_secret.json — create OAuth client in console"
 fi
 
-echo "=== Console links (KπX manual) ==="
+echo "=== Console links ( manual) ==="
 echo "API enabled:  https://console.cloud.google.com/apis/library/youtube.googleapis.com?project=${PROJECT}"
 echo "Consent:      https://console.cloud.google.com/auth/branding?project=${PROJECT}"
 echo "Credentials:  https://console.cloud.google.com/apis/credentials?project=${PROJECT}"
 echo "Quotas:       https://console.cloud.google.com/apis/api/youtube.googleapis.com/quotas?project=${PROJECT}"
 
-echo "OK: gcloud bootstrap done — next: consent scopes + OAuth re-auth (see k-media/references/youtube-kpihx-labs.md)"
+echo "OK: gcloud bootstrap done — next: consent scopes + OAuth re-auth (see k-media/references/youtube-<github-user>.md)"

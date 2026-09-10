@@ -2,9 +2,9 @@
 
 ## Overview
 
-Plugin `@kpihx/opencode-voice` (`kpihx-labs/opencode-voice` `v0.4.1-kpihx.1`, fork de `renjfk/opencode-voice`) enables **Speech-to-Text** (Whisper) and
+Plugin `@kpihx/opencode-voice` (`<github-user>/opencode-voice` `v0.4.1-kpihx.1`, fork de `renjfk/opencode-voice`) enables **Speech-to-Text** (Whisper) and
 **Text-to-Speech** (Piper) directement en TUI. All processing is local —
-no external API calls. Source: `skills/k-opencode/scripts/plugins/opencode-voice` (submodule `k-opencode/plugins/opencode-voice`, `github`+`gitlab`).
+no external API calls. Source: `skills/k-opencode/scripts/plugins/opencode-voice` (submodule `k-opencode/plugins/opencode-voice`, `origin`).
 
 ## Configuration
 
@@ -13,7 +13,7 @@ Defined in `~/.config/opencode/tui.json` (not `opencode.jsonc`, source `skills/k
 ```jsonc
 {
   "$schema": "https://opencode.ai/tui.json",
-  "plugin": [["file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {}]]
+  "plugin": [["file://$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {}]]
 }
 ```
 
@@ -41,7 +41,7 @@ Optional LLM endpoint for normalization (skipped if omitted → raw whisper text
 
 ## Per-Machine Deployment — Links Are Not Enough (GRAVÉ)
 
-> **Registering the plugin in `tui.json` (or symlinking it) only loads the JS glue into the TUI.** The plugin shells out to external binaries and model files that **MUST exist on each machine** that runs the voice stack. A missing binary gives the exact symptom seen 2026-08-25 on blglaptop139-wsl: the keybind fires and shows `Recording in progress`, but nothing is captured or transcribed (`rec`/`whisper-cli`/`piper` not found at spawn time).
+> **Registering the plugin in `tui.json` (or symlinking it) only loads the JS glue into the TUI.** The plugin shells out to external binaries and model files that **MUST exist on each machine** that runs the voice stack. A missing binary gives the exact symptom seen 2026-08-25 on laptop-wsl: the keybind fires and shows `Recording in progress`, but nothing is captured or transcribed (`rec`/`whisper-cli`/`piper` not found at spawn time).
 
 Run this checklist **on every machine** where the voice plugin is expected to work — not just the machine where `tui.json` was created:
 
@@ -58,7 +58,7 @@ Fix per machine — apt packages via tmux ops pane (sudo gate, see `k-tmux`):
 sudo apt install sox libsox-fmt-pulse pulseaudio-utils build-essential cmake ffmpeg mpv
 ```
 
-User-space binaries/models go to `~/.local/bin` + `~/.local/share/*` (sovereign wrappers `k-whisper`/`k-piper` in `k-ai`). WSL-specific audio routing → `k-blglaptop139`. GPU backend for `whisper-cli` depends on the vendor present on the machine — Vulkan (Intel iGPU, see `k-ai/references/whisper.md`) or CUDA (NVIDIA discrete GPU — `nvidia-cuda-toolkit` via apt, does not touch the existing driver package; arch code from the GPU family table in the plugin's own `README.md` → Prerequisites → CUDA build).
+User-space binaries/models go to `~/.local/bin` + `~/.local/share/*` (sovereign wrappers `k-whisper`/`k-piper` in `k-ai`). WSL-specific audio routing → `k-laptop`. GPU backend for `whisper-cli` depends on the vendor present on the machine — Vulkan (Intel iGPU, see `k-ai/references/whisper.md`) or CUDA (NVIDIA discrete GPU — `nvidia-cuda-toolkit` via apt, does not touch the existing driver package; arch code from the GPU family table in the plugin's own `README.md` → Prerequisites → CUDA build).
 
 ## Plugin Install (fresh machine)
 
@@ -163,16 +163,16 @@ wget -P ~/.local/share/piper-voices/ \
 
 Press `/tts-voice` and select from the dialog.
 
-## Sovereign patches (intégrés dans `kpihx-labs/opencode-voice` `v0.4.1-kpihx.1`)
+## Sovereign patches (intégrés dans `<github-user>/opencode-voice` `v0.4.1-kpihx.1`)
 
-Fork `kpihx-labs/opencode-voice` basé sur `renjfk/opencode-voice` `main` (`c7a3d2c`) + KπX patches (plus de `~/.cache` éphémère):
+Fork `<github-user>/opencode-voice` basé sur `renjfk/opencode-voice` `main` (`c7a3d2c`) +  patches (plus de `~/.cache` éphémère):
 
 - `lib/stt.js` `keybind: "ctrl+r"` → `"<leader>r"` (avoid TUI rename conflict, `registerSTT` `stt.record`)
 - `lib/stt.js` remove `toast("Normalizing...")` pré-LLM
 - `lib/tts.js` `TTS_VOICES` `+ siwis: fr_FR-siwis-medium.onnx` + labels `Ryan (EN, high)` / `Bryce (EN, medium)`
 - `lib/tts.js` `normalizeForSpeech` fallback `const spokenText = llmResult.text || result.text` (auto + manual) — on parle le brut si LLM fail, on ne coupe pas le son
 
-Upstream sync: `git -C scripts/plugins/opencode-voice fetch upstream` → `git merge upstream/main` → bump `package.json` → `git push github+gitlab`.
+Upstream sync: `git -C scripts/plugins/opencode-voice fetch upstream` → `git merge upstream/main` → bump `package.json` → `git push origin`.
 
 ## Commands
 
@@ -195,7 +195,7 @@ Instead of local `whisper-cli`, use an OpenAI-compatible endpoint:
 
 ```jsonc
 {
-  "plugin": [["file:///home/kpihx/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {
+  "plugin": [["file://$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-voice", {
     "sttEndpoint": "http://127.0.0.1:8000/v1",
     "sttModel": "whisper-large-v3-turbo",
     "sttApiKeyEnv": "MY_STT_API_KEY"

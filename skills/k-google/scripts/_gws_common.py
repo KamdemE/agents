@@ -14,14 +14,14 @@ def _cfg(subdir: str) -> str:
 
 PROFILES: dict[str, dict[str, str]] = {
     "kpihx": {
-        "label": "KpihX (kapoivha)",
+        "label": " (kapoivha)",
         "config_dir": _cfg("kpihx"),
         "project_id": "kpihx-489121",
     },
     "labs": {
-        "label": "KpihX-Labs (kpihx.labs)",
-        "config_dir": _cfg("kpihx-labs"),
-        "project_id": "kpihx-labs",
+        "label": "Labs (kpihx.labs)",
+        "config_dir": _cfg("<github-user>"),
+        "project_id": "<github-user>",
     },
 }
 

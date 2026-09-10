@@ -1,25 +1,25 @@
 ---
 name: k-browser
-description: KπX Edge Automation via browser-proxy — the sovereign JSON-RPC daemon that is the agent's window onto the external world (web UIs with no native tool/MCP). Load before ANY browser-driving task, or whenever a headless/curl approach gets stuck and a web UI is the only remaining path.
+description:  Edge Automation via browser-proxy — the sovereign JSON-RPC daemon that is the agent's window onto the external world (web UIs with no native tool/MCP). Load before ANY browser-driving task, or whenever a headless/curl approach gets stuck and a web UI is the only remaining path.
 license: private
 metadata:
-  author: KpihX
-  version: "5.7.0"
+  author: 
+  version: "1.0.0"
   scope: agent-tooling
   cli: browser-proxy
 ---
 
-# KπX Browser Automation — browser-proxy
+#  Browser Automation — browser-proxy
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 **⚠️ EDIT SOURCE — not generated.** Update header version + footer changelog on every edit.
 
-**Source code:** `$HOME/KpihX-Labs/Proxies/browser-proxy/src/browser_proxy/` — key files: `actions.py` (all action handlers), `cdp.py` (CDP protocol), `cli.py` (CLI entry), `models.py` (envelope/response models). Service: `services/browser-proxy-profile@.service`.
+**Source code:** `$HOME/Labs/Proxies/browser-proxy/src/browser_proxy/` — key files: `actions.py` (all action handlers), `cdp.py` (CDP protocol), `cli.py` (CLI entry), `models.py` (envelope/response models). Service: `services/browser-proxy-profile@.service`.
 
 ## What this is — read this first
 
-`browser-proxy` is not "a browser tool" — it is the **cornerstone that gives the agent eyes on KπX's external world**, the same family as `tg-proxy`/`tick-proxy`/`ts-proxy`/`mail-proxy`: one sovereign CLI, one daemon, zero magic. Almost everything today has a web version (LinkedIn, mail, banking, academic portals, …) — when no native tool/MCP/API covers a task, or a headless/curl attempt gets stuck, **browser-proxy is the ultimate recourse**, not a last-ditch hack. Reach for it deliberately.
+`browser-proxy` is not "a browser tool" — it is the **cornerstone that gives the agent eyes on the user's external world**, the same family as `tg-proxy`/`tick-proxy`/`ts-proxy`/`mail-proxy`: one sovereign CLI, one daemon, zero magic. Almost everything today has a web version (LinkedIn, mail, banking, academic portals, …) — when no native tool/MCP/API covers a task, or a headless/curl attempt gets stuck, **browser-proxy is the ultimate recourse**, not a last-ditch hack. Reach for it deliberately.
 
 **Full reflex + escalation rule:** `rules/proxies-reflex.md` (root kernel rule, loaded every turn).
 
@@ -33,37 +33,37 @@ metadata:
 
 | Profile | Account | Notes |
 |---|---|---|
-| `default` | kapoivha@gmail.com (KπX main) | Primary profile, always-visible Edge window (`browser-proxy-profile@default.service`) |
+| `default` | <primary@gmail.com> ( main) | Primary profile, always-visible Edge window (`browser-proxy-profile@default.service`) |
 | `smoke` | — | Test-only profile, never used for real tasks |
 
-**Edge Workspaces** are Microsoft's own grouping-of-windows feature — Edge exposes **no API** for it; `window-list`/`tab-list` can never tell you which window belongs to which Workspace. **Only KπX can tell you.** Known Workspaces on `default`: **`X`** and **`KpihX-Labs`**. When KπX says "this window is on workspace X", trust it as ground truth and remember it for the rest of the session.
+**Edge Workspaces** are Microsoft's own grouping-of-windows feature — Edge exposes **no API** for it; `window-list`/`tab-list` can never tell you which window belongs to which Workspace. **Only  can tell you.** Known Workspaces on `default`: **`X`** and **`Labs`**. When  says "this window is on workspace X", trust it as ground truth and remember it for the rest of the session.
 
-**Extreme caution inside a Workspace window:** never touch a pre-existing tab/group in a Workspace window without KπX's explicit request — these are KπX's own long-lived tabs, not test scaffolding. Tabs/windows/groups the AGENT itself creates are the agent's own responsibility to keep tidy (close them, no orphaned `about:blank`/test windows left behind at the end of a session).
+**Extreme caution inside a Workspace window:** never touch a pre-existing tab/group in a Workspace window without the user's explicit request — these are the user's own long-lived tabs, not test scaffolding. Tabs/windows/groups the AGENT itself creates are the agent's own responsibility to keep tidy (close them, no orphaned `about:blank`/test windows left behind at the end of a session).
 
 ### Startup tab is the working tab — never duplicate windows
 
 `browser-proxy admin profile start <profile>` already starts the profile's **one real visible Edge window** with a bootstrap tab (normally `edge://newtab/`; do not assume the literal URL is `about:blank`). **Use that tab directly**: navigate it with `page-navigate`; do not create an additional window just to begin work.
 
-Before any `window-create` or `tab-create`, always inspect `browser-proxy do window-list '{"profile":"<profile>"}'`. Reuse the existing managed window and its bootstrap tab when suitable. **Only call `window-create` when KπX explicitly asks for a separate window.** Never blindly create a second window because an empty/new-tab page is already available.
+Before any `window-create` or `tab-create`, always inspect `browser-proxy do window-list '{"profile":"<profile>"}'`. Reuse the existing managed window and its bootstrap tab when suitable. **Only call `window-create` when the user explicitly asks for a separate window.** Never blindly create a second window because an empty/new-tab page is already available.
 
 ## Secrets & Bitwarden — auto-fill reflex, GRAVÉ boundary on `browser-ask-user`
 
-KπX uses Bitwarden for secrets. On any form/site needing KπX's info: **first** check BOTH the `kpihx` skill (identity, transport, academic path — `references/identity.md`, `references/legal.md`) AND the `kpihx-labs` skill (kernel/project context) for every NON-secret field (name, email, X-number, addresses, …) and fill those automatically — KπX should only ever need to type the password/2FA/confidential field itself.
+ uses Bitwarden for secrets. On any form/site needing the user's info: **first** check this skill's own site memory for every NON-secret field already learned (name, email, addresses, …) and fill those automatically —  should only ever need to type the password/2FA/confidential field itself.
 
-🔴 **`browser-ask-user` is NEVER for passwords, tokens, or any secret (KπX, GRAVÉ 2026-08-30): "je ne vais jamais mettre mon password dedans, browser-ask c'est pour des infos autre que password/clés."** It exists for non-secret clarifications and confirmations only. For a password/secret field: **notify KπX** (system + Telegram notification — reuse the existing `opencode-notify`/`notifier.sh` infra) that the field is waiting; **re-notify if KπX takes time**; never collect the secret's value through any overlay, any tool, any chat message.
+🔴 **`browser-ask-user` is NEVER for passwords, tokens, or any secret (, GRAVÉ 2026-08-30): "je ne vais jamais mettre mon password dedans, browser-ask c'est pour des infos autre que password/clés."** It exists for non-secret clarifications and confirmations only. For a password/secret field: **notify ** (system + Telegram notification — reuse the existing `opencode-notify`/`notifier.sh` infra) that the field is waiting; **re-notify if  takes time**; never collect the secret's value through any overlay, any tool, any chat message.
 
-If KπX corrects a non-secret value the agent auto-filled wrong (or an info evolved), that correction updates the `kpihx`/`kpihx-labs` skill directly — **k-browser never edits those skills**, it only **proposes** a correction and waits (see `## Propose ≠ Act`, root `AGENTS.md`). k-browser's own proactive maintenance target is its OWN site memory files (below), never `kpihx`/`kpihx-labs`.
+If  corrects a non-secret value the agent auto-filled wrong (or an info evolved), that correction updates this skill's site memory directly (see `## Propose ≠ Act`, root `AGENTS.md` for cross-skill changes).
 
 ## Never stall — clarify, don't guess
 
-If genuinely blocked, unsure, or missing info after checking `kpihx` + `kpihx-labs` (and this skill's own site memory) and still hesitating: **always** call `browser-ask-user` to clarify — never advance in doubt. The agent never simply stops mid-task:
+If genuinely blocked, unsure, or missing info after checking this skill's own site memory and still hesitating: **always** call `browser-ask-user` to clarify — never advance in doubt. The agent never simply stops mid-task:
 - **Non-secret question** → call `browser-ask-user` (it already blocks ~15–20s waiting for a real answer). If it times out, call it again — that retry IS the "renewable wait", never a manual `sleep` loop in your own shell (see `rules/tool-discipline.md` → tmux/self-backgrounding gate).
 - **Secret field waiting** → notify (see above), then keep making progress elsewhere or re-check task state via a normal quick action (`cookie-list`/`tab-get`/`page-evaluate` on a URL/DOM change) rather than idly sleeping.
 - Only after several retries/re-notifications with no reaction may the agent stop and leave a clear message in chat — never silently.
 
 ## Site memory registry (`references/sites/`)
 
-Created **only** on genuine, particular insight (login mechanism, real quirks, useful navigation shortcuts) — never automatically for every site visited. Update in place when something new is learned; never duplicate what already lives in `kpihx`/`kpihx-labs` (identity/personal facts stay there).
+Created **only** on genuine, particular insight (login mechanism, real quirks, useful navigation shortcuts) — never automatically for every site visited. Update in place when something new is learned; never store secrets; personal facts live here only when  provided them for the task.
 
 | Site | What it captures |
 |---|---|
@@ -75,10 +75,10 @@ Created **only** on genuine, particular insight (login mechanism, real quirks, u
 | `sites/mediaserver.ip-paris.fr.md` | Nudgis/Ubicast iframe-to-HLS recovery: inspect the live player state, then download/mux its separate tracks |
 | `sites/www.polytechnique.edu.md` | Official student space: authenticated Cycle ingénieur → 3ème année → Planning des cours navigation |
 | `sites/gargantua.polytechnique.fr.md` | SIATEL document links: shared Egide SSO, inline-PDF behavior, and the transparent same-origin download sequence |
-| `sites/linkedin.com.md` | Primary account ivann.kamdem@hotmail.com (not the Google SSO), feed/infinite-scroll parsing, messaging UI, InMail vs Message distinction, LinkedIn notification emails in Outlook |
+| `sites/linkedin.com.md` | Primary account <personal@hotmail.com> (not the Google SSO), feed/infinite-scroll parsing, messaging UI, InMail vs Message distinction, LinkedIn notification emails in Outlook |
 | `sites/outlook.live.com.md` | Passwordless Authenticator login (cross-origin iframe gotcha), Focused/Other inbox split, coordinate-click-only for login form |
-| `sites/lebara.fr.md` | Primary account kapoivha@gmail.com (MSISDN 0605957785), Redux state architecture (activityHistory, plans), DOM selectors, historical stats (June–Sept 2026), and offline GSM/USSD workflows |
-| `sites/impots.gouv.fr.md` | Direction Générale des Finances Publiques — Espace Particulier: Numéro Fiscal 3072492439184, FranceConnect auth, RFR 0 €, PDF archives in ~/Gdrive_X/KpihX/Fr/, annual TickTick tasks, Admins mail integration |
+| `sites/lebara.fr.md` | Primary account <primary@gmail.com> (MSISDN 0605957785), Redux state architecture (activityHistory, plans), DOM selectors, historical stats (June–Sept 2026), and offline GSM/USSD workflows |
+| `sites/impots.gouv.fr.md` | Direction Générale des Finances Publiques — Espace Particulier: Numéro Fiscal 3072492439184, FranceConnect auth, RFR 0 €, PDF archives in ~/Gdrive//Fr/, annual TickTick tasks, Admins mail integration |
 
 **Job-hunt site memory (`references/pro/`)** — created 2026-09-09 for the 3A internship campaign (profile: 6-month AI research stage starting end of March 2027). Same imposed structure as `sites/`, plus per-file offer/status sections.
 
@@ -217,13 +217,13 @@ browser-proxy do raw '{"profile":"default","protocol":"cdp-browser","method":"Ta
 
 ## Window/tab/group hygiene
 
-Before finishing any session: close every tab/window/group the agent itself created for testing — `window-close` (by `window_id`) or `tab-close` (by `target_ids`) to verify. Never touch KπX's pre-existing tabs, and never leave orphaned test artifacts behind. Violation = the session is not complete.
+Before finishing any session: close every tab/window/group the agent itself created for testing — `window-close` (by `window_id`) or `tab-close` (by `target_ids`) to verify. Never touch the user's pre-existing tabs, and never leave orphaned test artifacts behind. Violation = the session is not complete.
 
 ## Full action catalog
 
 Never memorize the 71 actions — the categorized `browser-proxy do --help` output IS the catalog (Profiles/Windows/Tabs/Groups/Bookmarks/Extensions/Navigation/Interaction/Inspection/Dialogs/Cookies/Storage/HumanInTheLoop/Advanced). Two categories deserve a mental note:
 - **HumanInTheLoop** (7 actions: `browser-ask-user`, `browser-dismiss-overlays`, `browser-solve-captcha`, `browser-set-date`, `browser-set-combobox`, `browser-drop-file`, `browser-get-new-tab`) — the overlay/interaction itself IS the mechanism, no separate approval gate.
-- **`@require_approval`-gated actions** (mutating/destructive: `cookie-set`/`cookie-remove`, `storage-local-set`/`remove`/`clear`, `bookmark-*` writes, `group-*` writes, `window-close`/`tab-close`/`window-sync`, `extension-disable`) — KπX must click Approve/Reject in the Edge popup before these run.
+- **`@require_approval`-gated actions** (mutating/destructive: `cookie-set`/`cookie-remove`, `storage-local-set`/`remove`/`clear`, `bookmark-*` writes, `group-*` writes, `window-close`/`tab-close`/`window-sync`, `extension-disable`) —  must click Approve/Reject in the Edge popup before these run.
 
 ## References
 
@@ -233,12 +233,4 @@ Never memorize the 71 actions — the categorized `browser-proxy do --help` outp
 | `references/scraping.md` | Generic scraping methodology: browser-proxy + CLI hybrid for bulk extraction (AJAX pagination, cookie management, rate-limit strategy, InPrivate sessions, URL encoding, semantic filtering) |
 | `references/sites/*.md` | Per-site memory — see registry above |
 | `scripts/presets/*` | Long/frequent command sequences — see registry above |
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-09 | [LIVE] | v5.7.0 Added `references/pro/` job-hunt site memory: 13 site files (LinkedIn Jobs, JobTeaser X, AX, XStage, Google Careers, Mistral/Ashby, HF/Workable, Datadog, WTTJ, Meta, Orange, X-JobBoard, Hi! PARIS) with the standard site-file structure, from the 3A AI-research internship campaign. |
-| 2026-09-06 | [LIVE] | v5.6.0 Added impots.gouv.fr.md site memory (Fiscal number 3072492439184, RFR 0 €, Gdrive_X PDF archive path, TickTick annual tasks, Admins mail integration). |
-| [SUMMARY] | -- | v5.5.0 . v5.4.0 . v5.3.0 . v5.2.0 InPrivate limitation documentation · v5.1.0 InPrivate section enriched · v5.0.0 InPrivate refactoring · v4.3.0 generic scraping methodology · v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation · v4.1.x page-click-eval strategy + YouTube Music interaction · v4.0.5 LinkedIn + Outlook site memories · v4.0.4 Bootstrap-tab reuse rule · v4.0.3 Official Polytechnique 3A... |
 

@@ -16,7 +16,7 @@ your normal prompt back) while changing nothing.
 (see `k-tmux/SKILL.md` → `## Stateful Integration`) depends on a `precmd`
 hook added to the INTERACTIVE section of `kshrc.base`. Two long-lived tmux
 panes (`ubuntu:1.0` and `ubuntu:3.0`) had opened their shell **before** that
-hook was added. KπX manually ran `source ~/.kshrc` in one of them expecting
+hook was added.  manually ran `source ~/.kshrc` in one of them expecting
 it to pick up the new hook — it did NOT: the pane returned to its prompt
 several times afterward (confirmed via full scrollback read), yet
 `/tmp/tmux-pane-done.log` never received a single entry for that pane,
@@ -82,8 +82,8 @@ if [ -z "$TMUX" ] && [ -z "$OPENCODE_TERMINAL" ] && command -v tmux >/dev/null 2
   ...
 fi
 ```
-Applied to `kshrc.base` and all 7 infra copies (`k-phones`, `k-blglaptop139`,
-`k-deep-pc6`, `k-dockerhost`, `k-pve`, `k-pve-debian`, `k-ubuntu`). opencode
+Applied to `kshrc.base` and all 7 infra copies (`k-phones`, `k-laptop`,
+`k-server`, `k-dockerhost`, `k-pve`, `k-pve-debian`, `k-ubuntu`). opencode
 web's terminal now behaves as its own standalone shell (as designed); every
 OTHER interactive shell (real SSH/local terminals) keeps the current
 auto-attach behavior untouched. Full incident + tmux `remain-on-exit`

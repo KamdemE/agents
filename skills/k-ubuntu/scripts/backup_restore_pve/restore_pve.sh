@@ -10,11 +10,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # kernel. Set it explicitly to the agent user home (where .agents lives) before
 # sourcing notifier.sh (same pattern as backup_pve.sh). ${HOME:-default} is
 # safe under `set -u`.
-export HOME="${HOME:-/home/kpihx}"
+export HOME="${HOME:-$HOME}"
 # Same guard as auto_clean.sh: explicit `User=root` services preset
 # $HOME=/root which misses the kernel — force the agent user home if needed.
-[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
-# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+[ -d "$HOME/.agents" ] || export HOME="$HOME"
+# shellcheck source=$HOME/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
@@ -29,7 +29,7 @@ if [[ $# -gt 0 ]]; then
 fi
 
 RCLONE_REMOTE="gdrive-x:Backups/PVE"
-HDD_DIR="/media/kpihx/KpihX-Backup/Backups/PVE"
+HDD_DIR="/media/kpihx/-Backup/Backups/PVE"
 RESTORE_DIR="/tmp/pve_restore"
 
 notify_telegram_wrapper() { local l=$1 m=$2

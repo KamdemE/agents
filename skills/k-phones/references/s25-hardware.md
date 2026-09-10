@@ -4,7 +4,7 @@
 > **Tailscale:** `kpihx-s25` · `100.125.54.1` · MagicDNS `kpihx-s25.tail2527bd.ts.net`  
 > **Last inventory:** 2026-05-26 (ADB + Termux SSH on workstation)
 
-Source of truth for agents deciding what the phone can run locally vs what must stay on **KpihX-Ubuntu** or homelab.
+Source of truth for agents deciding what the phone can run locally vs what must stay on **workstation** or homelab.
 
 ---
 
@@ -98,7 +98,7 @@ Long compute sessions on battery → expect **fast drain** and thermal throttlin
 
 ---
 
-## Remote access (KπX stack)
+## Remote access ( stack)
 
 | Channel | Endpoint | Role |
 |---------|----------|------|
@@ -123,7 +123,7 @@ Runbooks: `adb.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `termux-tmux.md`,
 | **proot-distro** | not in use (no guest distro listed) |
 | **llama.cpp / Ollama** | not installed by default |
 
-**Phone → PC:** Termux alias `ubuntu` → `tmux attach -t default` on **KpihX-Ubuntu** (PC session, not Termux server).
+**Phone → PC:** Termux alias `ubuntu` → `tmux attach -t default` on **workstation** (PC session, not Termux server).
 
 ---
 
@@ -136,7 +136,7 @@ Runbooks: `adb.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `termux-tmux.md`,
 | Sync, bots, capture relays | ✅ Yes | `k-tg`, Termux, Tailscale |
 | ADB file pull/push | ✅ Yes | raw `adb push` / `adb pull` |
 | Numeric / data crunch (medium) | ⚠️ Limited | 4 threads, swap, thermals |
-| **LLM inference (comfortable)** | 🔴 No | **KpihX-Ubuntu** Ollama IPEX (`127.0.0.1:11434`) or homelab |
+| **LLM inference (comfortable)** | 🔴 No | **workstation** Ollama IPEX (`127.0.0.1:11434`) or homelab |
 | **LLM inference (experimental)** | ⚠️ Tiny only | llama.cpp + **1–3B** Q4 GGUF; high latency |
 | NPU / Hexagon ML | 🔴 Not from Termux | System apps / Qualcomm SDK only |
 | Heavy training / large models | 🔴 No | Workstation or cloud |
@@ -144,7 +144,7 @@ Runbooks: `adb.md`, `s25-adb-vs-ssh.md`, `s25-termux-sshd.md`, `termux-tmux.md`,
 **Recommended pattern:**
 
 ```
-S25 (Termux/ADB)  ──Tailscale──►  KpihX-Ubuntu
+S25 (Termux/ADB)  ──Tailscale──►  workstation
   sensors · bots · light scripts      Ollama · agents · big compute
 ```
 
@@ -156,9 +156,9 @@ curl -s http://100.82.95.70:11434/api/tags   # example; verify IP + firewall
 
 ---
 
-## Comparison vs KpihX-Ubuntu (orientation)
+## Comparison vs workstation (orientation)
 
-| | **S25** | **KpihX-Ubuntu** (Dell 7640) |
+| | **S25** | **workstation** |
 |---|---------|------------------------------|
 | SoC | Snapdragon 8 Elite | Intel Core Ultra 7 **155H** |
 | RAM | ~11 GiB | **30 GiB** |

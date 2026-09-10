@@ -23,7 +23,7 @@
 
 ### 2026-08-26 — gcr-ssh-agent silently never starts on tty-only infra
 
-- Diagnosed on `deep-pc6`: `gcr-ssh-agent.service` depends on
+- Diagnosed on `server`: `gcr-ssh-agent.service` depends on
   `graphical-session-pre.target`. That target only fires under a real GNOME
   session — never on a machine reached purely via SSH+tmux
   (`XDG_SESSION_TYPE=tty`). The failure is silent: no error at boot, just an
@@ -50,7 +50,7 @@
 
 ### 2026-08-26 (bis) — gpg-agent "agent refused operation" on ssh-add → updatestartuptty
 
-- Symptom on `deep-pc6`: `SSH_AUTH_SOCK` correctly points at gpg-agent's ssh
+- Symptom on `server`: `SSH_AUTH_SOCK` correctly points at gpg-agent's ssh
   socket and `ssh-add -l` round-trips fine ("no identities"), but
   `ssh-add ~/.ssh/id_ed25519_gitlab` fails with `agent refused operation`
   AFTER the passphrase is accepted (the prompt comes from ssh-add decrypting

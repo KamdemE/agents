@@ -1,6 +1,6 @@
 # Emulators (2.2G)
 
-> Source: `KpihX-Datas/Applications/Emulators/`
+> Source: `-Datas/Applications/Emulators/`
 > VirtualBox, Wine, WSA, Cygwin, Memu — tous Windows
 
 ## Ubuntu

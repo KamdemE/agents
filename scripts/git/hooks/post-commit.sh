@@ -1,5 +1,5 @@
 #!/bin/sh
-# KπX post-commit hook — tracked source of truth.
+#  post-commit hook — tracked source of truth.
 # Symlink target for .git/hooks/post-commit.
 # Install: scripts/git/install-hooks.sh
 

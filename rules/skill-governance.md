@@ -1,9 +1,9 @@
 # Skill Governance
 
-> Rules for creating, editing, and maintaining KπX skills.
+> Rules for creating, editing, and maintaining  skills.
 
 ## Skills Are Never Deleted (MANDATORY)
-🔴 **SKILLS ARE NEVER DELETED. NEVER.** A skill is a permanent knowledge asset. When the application/tool/service a skill is linked to is removed from the system (purged, retired, deactivated), the skill itself is **MOVED** (not deleted, not merged, not dropped) to `skills/deactivate/`. This is automatic: any purge of an app that has a dedicated `k-*` skill must also move that skill to `skills/deactivate/`. The only exception is an explicit KπX instruction. Moving a skill preserves its full content (SKILL.md + references/ + assets/ + scripts/), keeping it available for re-activation. This rule overrides any cleanup that would delete a skill.
+🔴 **SKILLS ARE NEVER DELETED. NEVER.** A skill is a permanent knowledge asset. When the application/tool/service a skill is linked to is removed from the system (purged, retired, deactivated), the skill itself is **MOVED** (not deleted, not merged, not dropped) to `skills/deactivate/`. This is automatic: any purge of an app that has a dedicated `k-*` skill must also move that skill to `skills/deactivate/`. The only exception is an explicit  instruction. Moving a skill preserves its full content (SKILL.md + references/ + assets/ + scripts/), keeping it available for re-activation. This rule overrides any cleanup that would delete a skill.
 
 ## Post-Purge Verification (MANDATORY — plocate)
 🔴 **AFTER ANY PURGE, ALWAYS RUN `plocate` — even when you believe everything is removed.** Never assume a purge is complete without verifying with `plocate` (search the filesystem index for the purged name/path, including `~`, `~/.local`, `~/.config`, `~/.cache`, `/opt`, `/usr/bin`, systemd units, `.desktop` files). This catches residual debris that `apt purge` / `npm uninstall` / `rm -rf` miss. Only when `plocate` returns no relevant hits is the purge considered complete. Log the `plocate` command + output in the issue/session trace.
@@ -48,7 +48,7 @@ ls /usr/share/applications/*.desktop | grep -i D  # desktop launcher present?
 This JSONC registry is the single source of truth for `.agents`-owned symlinks; see `k-optim` → link/check-links methodology.
 
 ## Config Standard (JSONC) + Assets Update Mandate (MANDATORY)
-🔴 **KπX config standard is JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). Code projects prefer plain `config.py` / `config.ts` (no import needed); secrets always in `.env` (never committed). See `k-project` → Config Standard and `kpihx-labs` → Config & Assets.
+🔴 ** config standard is JSONC** (JSON with `//` comments) for `.agents/` config assets and any non-code config (self-documenting, single source of truth). Code projects prefer plain `config.py` / `config.ts` (no import needed); secrets always in `.env` (never committed). See `k-project` → Config Standard and `<github-user>` → Config & Assets.
 🔴 **Update mandate — whenever you create or change a `.agents` service or symlink, ALWAYS update the corresponding JSONC asset** so the checks stay accurate:
 - `.agents` service → update `assets/services.jsonc` (direct list grouped by skill; each entry `infras:[...]` or `*` = new MANDATORY).
 - `.agents` symlink → update `assets/links.jsonc` (direct list grouped by skill; each entry `{source,target,skill,infras:[...] or *}`, all sources in `$HOME/.agents/...`).
@@ -69,7 +69,7 @@ When the linked application/tool/service is removed from the system, move the sk
 | No duplicates | Never recopy identity tables or path lists in a second skill |
 | No desync | Same fact = one source file; others POINT (relative link or `$HOME/.agents/skills/...` path) |
 | Location | New skill `k-<domain>/` under `$HOME/.agents/skills/` + entry in `.skill-lock.json` |
-| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; **propose** `make check` before commit and run it only after KπX's explicit request or validation |
+| After edit | Bump `metadata.version` + `## Changelog` in the touched skill; **propose** `make check` before commit and run it only after the user's explicit request or validation |
 
 ## Cross-References (MANDATORY)
 🔴 **When editing a skill, MENTION the related skills instead of repeating the same information.** Every time you touch a skill, identify the other `k-*` skills that cover the same domain/tool/domain-adjacent knowledge and add a short pointer line to them (e.g. "See **`k-ai`** for the runtime registry", "MCP details → `k-ai/references/runtime-registry.md`"). Never duplicate an existing table, list, or fact that already lives in another skill — POINT to it. This keeps each skill compact and the kernel free of duplication.
@@ -79,22 +79,21 @@ Every `k-*` skill: `SKILL.md` at root (YAML frontmatter, `⚠️ WHEN EDITING...
 
 ## Skill Size Limits (MANDATORY)
 To keep the documentation clean, scannable, and maintainable, `SKILL.md` files must never exceed **300 lines**.
-- When a `SKILL.md` file approaches or exceeds this limit, agents must proactively **propose** synthesizing the content, extracting detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and wait for KπX's go-ahead before writing (exception: carte blanche/feu vert).
+- When a `SKILL.md` file approaches or exceeds this limit, agents must proactively **propose** synthesizing the content, extracting detailed installation guides, command references, and troubleshooting steps into standalone markdown files under the `references/` subdirectory of that skill, and wait for the user's go-ahead before writing (exception: carte blanche/feu vert).
 - **Harmonious Skill Compaction Rule:** When compacting a skill, agents must do so intelligently by identifying the least frequently or potentially used elements to move to references (preferring existing reference files if they fit, and only creating new ones if none fits). The main `SKILL.md` must retain a clear, coherent summary/reference of what was moved so the skill remains harmonious and readable.
 - No information must be lost: the creation of these reference files is mandatory to preserve details.
 - This limit is strictly enforced by the audit pipeline.
 - **Exception — `k-context`:** this flat 300-line target does NOT apply to `k-context/SKILL.md`. `k-context` already has its own dedicated capacity-management mechanism (see `rules/k-context-hygiene.md`): `## Session Log` capped at 10 explicit rows, `## Changelog` capped at 2 explicit rows, both rolling overflow to `references/log.md` — while `## Active Projects` and `## Active TODOs` are allowed to grow (append-only, condensed into `[ARCHIVE]`/removed only per k-context's own rules, never by a blanket line-count cutoff). The audit pipeline explicitly skips the 300-line check for `k-context`.
 
-## Changelog Rules
-- Newest-first. For all skills (except `k-context`), the `SKILL.md` changelog must contain at most 2 explicit rows before `[SUMMARY]`. Older entries are simply compressed/summarized directly in the `[SUMMARY]` row of the table itself (which acts as a resume of past versions); no separate `references/log.md` file is used or created for them. This direct `[SUMMARY]` compaction is the ONLY information-reduction mechanism authorized for non-`k-context` skills — no-information-loss always applies globally, but changelog ROTATION to `references/log.md` is EXCLUSIVE to `k-context`; never treat other skills like `k-context`.
-- Only `k-context` uses a dedicated `references/log.md` file for changelog and session log rotation.
-- Summary rows stay short; never replace real entries before the limit.
+## Changelog Rules (fresh fork — no history carried)
+- `SKILL.md` files carry NO changelog section and no `references/log.md` exists. Do not recreate them.
+- On every skill edit: bump `version:` (patch/minor) + set `updated:` to today. History lives in git, not in docs.
 
 ## Agent-Owned Runtime Memory
-Each agent owns its `k-<agent>/SKILL.md`. When you learn a new runtime fact, workaround, or config rule — PROPOSE the update in the same workstream and wait for KπX's go-ahead before writing (exception: carte blanche/feu vert). See `rules/tool-discipline.md` → `## Propose ≠ Act`.
+Each agent owns its `k-<agent>/SKILL.md`. When you learn a new runtime fact, workaround, or config rule — PROPOSE the update in the same workstream and wait for the user's go-ahead before writing (exception: carte blanche/feu vert). See `rules/tool-discipline.md` → `## Propose ≠ Act`.
 
 ## k-* Proactive Freshness (MANDATORY)
-After using any `k-*` skill: confirm the owning `SKILL.md` still matches reality. If wrong/incomplete → propose the patch (operational text + version bump + changelog) and wait for go-ahead before writing.
+After using any `k-*` skill: confirm the owning `SKILL.md` still matches reality. If wrong/incomplete → propose the patch (operational text + version bump) and wait for go-ahead before writing.
 
 ## Insights Governance
 Every skill domain maintains `references/insights.md`. Agents manage these files autonomously (add/update/restructure). If missing → create it immediately. After creating → mention it in SKILL.md.

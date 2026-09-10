@@ -23,17 +23,17 @@ OpenCode does **NOT** expand `$HOME` or `~` inside `opencode.jsonc` values (feat
 
 | Syntax | Expanded? | Behavior |
 |--------|-----------|----------|
-| `/home/kpihx/...` | ❌ hardcoded | Breaks on any machine whose user is not `kpihx` (e.g. `deep-pc6` = `ikamdem@corp.dxo.com`) — NEVER use |
+| `$HOME/...` | ❌ hardcoded | Breaks on any machine whose user is not `kpihx` (e.g. `server` = `<work-address>`) — NEVER use |
 | `~/...`, `$HOME/...`, `file://$HOME/...` | ❌ literal string | Plugin silently fails to load (no visible error) — NEVER use |
 | `file://{env:HOME}/...` | ✅ expanded | Official env-var substitution — portable across all infras — ALWAYS use |
 
-> **Incident 2026-08-25 (`deep-pc6`):** all 9 KπX hooks used `file:///home/kpihx/...`. After removing the `/home/kpihx` symlink, every hook silently stopped loading — no error line, only symptom was missing `<startup-context>` injection (`NO_TAG` on probe). Fixed by migrating to `file://{env:HOME}/...`; validated by probe returning `YES_TAG`. Same silent-failure applies to any wrong path — always validate hook loading with an explicit injection probe, never trust config alone.
+> **Incident 2026-08-25 (`server`):** all 9  hooks used `file://$HOME/...`. After removing the `$HOME` symlink, every hook silently stopped loading — no error line, only symptom was missing `<startup-context>` injection (`NO_TAG` on probe). Fixed by migrating to `file://{env:HOME}/...`; validated by probe returning `YES_TAG`. Same silent-failure applies to any wrong path — always validate hook loading with an explicit injection probe, never trust config alone.
 
 ### ⚠️ Lifecycle vs TUI plugin scope
 
 `opencode plugin install <pkg>` may auto-add the package to the **lifecycle** `"plugin"` array even for TUI-only plugins. A TUI plugin (e.g. `@kpihx/opencode-voice`) has no lifecycle export and then logs `failed to load plugin ... must default export an object with server()` on every start. TUI plugins belong ONLY in `tui.json` → `"plugin"` array; remove them from `opencode.jsonc` if the installer added them there.
 
-## Current KπX lifecycle plugins (npm auth/providers + hooks)
+## Current  lifecycle plugins (npm auth/providers + hooks)
 
 These are loaded from `opencode.jsonc` → `"plugin"` array (excerpt — full list in `assets/opencode.jsonc`):
 
@@ -52,11 +52,11 @@ These are loaded from `opencode.jsonc` → `"plugin"` array (excerpt — full li
 
 Provider blocks (minimal): `cursor` → `npm: @stablekernel/opencode-cursor`; `google-agy` → `npm: @ai-sdk/google` (auth plugin must NOT be the npm field). Recipes → `references/providers.md`.
 
-> **`opencode-context` is a git submodule** (`kpihx-labs/opencode-context`). After a fresh kernel clone run `make submodule-init` (or `git submodule update --init skills/k-opencode/scripts/plugins/opencode-context`) or the `context-usage.ts` path dangles. An orphan `node_modules/` directory in the path blocks submodule clone (`destination already exists`) — purge it first.
+> **`opencode-context` is a git submodule** (`<github-user>/opencode-context`). After a fresh kernel clone run `make submodule-init` (or `git submodule update --init skills/k-opencode/scripts/plugins/opencode-context`) or the `context-usage.ts` path dangles. An orphan `node_modules/` directory in the path blocks submodule clone (`destination already exists`) — purge it first.
 
-## KπX Managed — `scripts/plugins/hooks/` (file://)
+##  Managed — `scripts/plugins/hooks/` (file://)
 
-These are the **KπX sovereign hooks** — self-contained `.js` files in `skills/k-opencode/scripts/plugins/hooks/` (helper libs in `scripts/plugins/libs/`). Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed. Full standard: `references/hooks-standard.md`.
+These are the ** sovereign hooks** — self-contained `.js` files in `skills/k-opencode/scripts/plugins/hooks/` (helper libs in `scripts/plugins/libs/`). Each is listed via `file://` URL in the `"plugin"` array (order matters). No symlink needed. Full standard: `references/hooks-standard.md`.
 
 > **"Hook" ≠ "plugin" (see `scripts/plugins/AGENTS.md` → "Hooks vs Plugins" for the authoritative distinction and the CURRENT full inventory).** A hook actively shapes/injects/blocks what the agent sees or does. A non-hook plugin (`tmux-notify.js`, `scripts/plugins/opencode-context/`, `scripts/plugins/opencode-voice/`, `scripts/plugins/opencode-notify/`) only observes lifecycle events for a side effect (relay, slash command, TUI extension, notification) and never influences agent behavior — it lives in its own subdirectory directly under `scripts/plugins/`, never in `hooks/`, and does not declare `TARGET_AGENTS`. `tmux-notify.js` appears in the table below for historical/event-shape reasons but is itself a non-hook plugin, not a hook.
 

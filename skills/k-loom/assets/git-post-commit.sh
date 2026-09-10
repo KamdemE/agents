@@ -1,13 +1,13 @@
 #!/bin/sh
 # ============================================================================
-# KπX global git post-commit dispatcher
+#  global git post-commit dispatcher
 # ----------------------------------------------------------------------------
 # Source of truth : $HOME/.agents/skills/k-loom/assets/git-post-commit.sh
 # Deployed as     : $HOME/.config/git/hooks/post-commit (symlink)
 # Activated by    : git config --global core.hooksPath "$HOME/.config/git/hooks"
 #
 # WHY A DISPATCHER (and not a plain hook): `core.hooksPath` makes git IGNORE
-# repo-local hooks entirely. Many KπX repos carry their own post-commit hooks
+# repo-local hooks entirely. Many  repos carry their own post-commit hooks
 # (.agents kernel repo, k-qmd collections repos, loom-installed repos). This
 # dispatcher re-chains them so NOTHING regresses, then adds the global Loom
 # layer on top of every commit.

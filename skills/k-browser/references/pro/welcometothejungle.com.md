@@ -20,8 +20,3 @@ Required to unlock job listings (account with CV imported + preferences). Public
 - **Consent banner (Axeptio)**: `browser-dismiss-overlays` dismisses it; buttons "Non merci"/"OK pour moi" sit at y≈1014 (below fold on the shrunk window) — programmatic `.click()` on the button works once the overlay is detected.
 - Search query param is preserved in the URL but results depend on the logged-in state.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: confirmed the matching-only design (no listing without account), Axeptio consent handling via browser-dismiss-overlays, search URL pattern kept as entry point. |

@@ -3,16 +3,16 @@ name: k-tick
 description: tick-proxy — TickTick admin proxy CLI. Tasks, projects, habits, tags, queries, raw access.
 license: private
 metadata:
-  author: KpihX
-  version: "2.3.1"
+  author: 
+  version: "1.0.0"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
 
-# KπX — TickTick (`tick-proxy`)
+#  — TickTick (`tick-proxy`)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
-> **Project:** `$HOME/KpihX-Labs/Proxies/tick-proxy/` · **Repos:** GitHub + GitLab (tick-proxy)
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
+> **Project:** `$HOME/Labs/Proxies/tick-proxy/` · **Repos:** GitHub + GitLab (tick-proxy)
 > **Related:** `k-tg` (same ADN) · `k-tmux` (HITL shared gate) · `k-clis` (CLI registry)
 
 ## Identity
@@ -38,7 +38,7 @@ Autosave: `/tmp/tick-proxy-autosave/{action}_{timestamp}.jsonmap`.
 
 ### Install
 ```bash
-cd $HOME/KpihX-Labs/Proxies/tick-proxy && uv tool install --editable .
+cd $HOME/Labs/Proxies/tick-proxy && uv tool install --editable .
 tick-proxy admin setup      # HITL web form: paste the V1 token (+ session token)
 ```
 
@@ -98,7 +98,7 @@ All 8 destructive actions (`project-delete`, `task-delete`, `task-batch-delete`,
 
 ### HITL rule (CRITICAL)
 `raw` + all ✅ above open a **browser review form** on an OS-assigned free port.
-Run them from a **tmux ops pane** (`<session>:0.2`) so KπX can approve:
+Run them from a **tmux ops pane** (`<session>:0.2`) so  can approve:
 1. `tmux send-keys -t <ses>:0.2 "tick-proxy do task-delete '{...}'" Enter`
 2. **Poll with `sleep 5`** until the prompt returns
 3. **Use `raw` ONLY if no dedicated `do` action exists**
@@ -171,7 +171,7 @@ tick-proxy do project-list       # flat list (⚠️ groupId always null in V1)
 
 ## What's up — tick slice
 
-**When:** KπX asks *what's up* **tick**, *what's tick*, or the **fourth** step of the full *what's up* ladder (after context, mail, WhatsApp) — **this skill only** in that turn.
+**When:**  asks *what's up* **tick**, *what's tick*, or the **fourth** step of the full *what's up* ladder (after context, mail, WhatsApp) — **this skill only** in that turn.
 
 **CLI Commands (non-exhaustive):**
 - `tick-proxy do view-today` — today's calendar and active tasks
@@ -188,7 +188,7 @@ tick-proxy do project-list       # flat list (⚠️ groupId always null in V1)
 2. **Today — personal projects & other folders** — **`🛠️ Tech & Science`**, **`🖥️ Homelab`**, **`🌊 Flow`**, **`🏠 Persos`** (condense only if empty).
 3. **Overdue** — Every overdue task: age, project, suggested next step (one line each); **propose** rescheduling or completion.
 4. **Horizon — soon** — Buckets: **within a few hours**, **tomorrow**, **day after tomorrow**; include events (location, time zone Europe/Paris default) and tasks with due time.
-5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless KπX scoped only tick + already provided context.
+5. **Proactive layer** — Cross-link to mail/WhatsApp *What's up* findings from **previous turns** (if any in session): *« Suggested TickTick: … »*; **do not** bundle those other skills’ data fetches into **this** same generation unless  scoped only tick + already provided context.
 6. **Closure nudge** — List any task **explicitly discussed as done** in the session that is **still open** in TickTick; propose **`task-complete`** (or equivalent) before closing the slice.
 
 **Sequential ladder:** **AGENTS.md → What's up** — one domain per assistant response; **never** pair with `k-mail` or `k-whats` fetches in the same generation.
@@ -205,12 +205,4 @@ tick-proxy do project-list       # flat list (⚠️ groupId always null in V1)
 
 - Read `references/insights.md` before non-trivial work in this domain.
 - Update it at the end with durable lessons (mistakes to avoid, validated fixes).
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-07 | [LIVE] | v2.3.1 — Insights: `task-batch-create` uses raw fields (NOT ops), `task-move` requires `moves` array, large NOTE via `task-create` OK. |
-| 2026-08-15 | [COLAB] | **v2.3.0 — Project path updated** (`$HOME/KpihX-Labs/tick_proxy/` → `$HOME/KpihX-Labs/Proxies/tick-proxy/`) after tick-proxy was moved into `proxies/` and aligned to the kebab-case naming convention. |
-| [SUMMARY] | -- | v1.0.4 . v1.0.3 task-create/update HITL unconditional (→ `references/log.md`) · v1.0.2 TickTick refresh recovery → `references/log.md` · v1.0.1 TICK_EMAIL rename → `references/log.md`. v1.0.0 — Skill created for **`tick-proxy` v1.0.0**, the non-MCP CLI that replaces the old TickTick MCP entirely. 52 `do` actions + 3 `admin` commands, `meta`+`data` envelope with no `verified` field, `@always_verify` decorator on the 6 silent-failure writes, HITL on the 7 destructive actions + `raw`, recurring ... |
 

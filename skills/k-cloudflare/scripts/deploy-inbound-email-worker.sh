@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Deploy kpihx-labs-inbound-router Email Worker (requires CF token with Workers Scripts Edit).
+# Deploy <github-user>-inbound-router Email Worker (requires CF token with Workers Scripts Edit).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/../assets/kpihx-labs-inbound-router" && pwd)"
+ROOT="$(cd "$(dirname "$0")/../assets/<github-user>-inbound-router" && pwd)"
 
 if [[ -z "${CF_API_TOKEN:-}" && -z "${CLOUDFLARE_API_TOKEN:-}" ]]; then
   echo "ERROR: set CF_API_TOKEN or CLOUDFLARE_API_TOKEN (needs Account → Workers Scripts Edit)" >&2

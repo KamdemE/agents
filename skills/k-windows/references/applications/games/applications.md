@@ -1,6 +1,6 @@
 # Games
 
-Source: `/run/media/kpihx/KpihX-Datas/Applications/Games/` — 7.1G.
+Source: `/run/media/kpihx/-Datas/Applications/Games/` — 7.1G.
 
 | Path | Application / collection |
 |---|---|

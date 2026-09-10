@@ -1,4 +1,4 @@
-# X (Twitter) API — KπX setup (`X Dev`)
+# X (Twitter) API —  setup (`X Dev`)
 
 > **Skill:** `k-x` · **Registry:** `k-clis/references/social-dev-platforms.md` · **Vault item:** **X Dev**
 
@@ -20,7 +20,7 @@ uv run python x_cli.py --creds-file "$HOME/.config/kpihx/x/credentials.json" me
 
 **CLI:** `"$HOME/.agents/skills/k-x/scripts/README.md"`
 
-## Secrets — what KπX must do
+## Secrets — what the user must do
 
 ### Option A — Recommended (no JSON file)
 
@@ -70,7 +70,7 @@ uv run python x_cli.py --creds-file "$HOME/.config/kpihx/x/credentials.json" me
 - Do not duplicate into repo, chat, or `GLOBAL_ENV_VARS` plaintext in git-tracked files.
 - `X_LOGIN` / `X_PASS` (if present) = **human login**, not API — do not use in scripts.
 
-## KπX manual — recharger les crédits X (402 CreditsDepleted)
+##  manual — recharger les crédits X (402 CreditsDepleted)
 
 X API = **pay-per-use** (pas d’abonnement fixe obligatoire). Sans crédits → `POST /2/tweets` et beaucoup de reads → **402**.
 
@@ -90,7 +90,7 @@ Docs : https://docs.x.com/x-api/getting-started/pricing · https://docs.x.com/fu
 
 ```bash
 cd "$HOME/.agents/skills/k-x/scripts"
-uv run python x_cli.py --creds-file "$HOME/.config/kpihx/x/credentials.json" tweet "KpihX smoke — delete me"
+uv run python x_cli.py --creds-file "$HOME/.config/kpihx/x/credentials.json" tweet " smoke — delete me"
 ```
 
 Until credits: **`me` works** (profile verify); **posting and timeline read fail with 402**.

@@ -28,13 +28,8 @@ Signed in via Polytechnique SSO in the `default` Edge profile (persistent sessio
 
 ## Known quirks
 
-- **UI search mandatory:** SSR ignores `?query=`; `page-type` fills the field but the React autocomplete menu does not open via CDP (no observable XHR endpoint beyond the Algolia suggestions call). → manual typing required from KπX (type keyword, click the suggestion).
+- **UI search mandatory:** SSR ignores `?query=`; `page-type` fills the field but the React autocomplete menu does not open via CDP (no observable XHR endpoint beyond the Algolia suggestions call). → manual typing required from the user (type keyword, click the suggestion).
 - **Default list:** shows "recommended for you" offers (the same ~20) until a search is executed.
 - **Check offer type on the page:** some internships start outside the target window (e.g. BNP Data Scientist = starts October 2026, excluded from the 3A March 2027 filter).
 - "Offre partenaire / Offre ciblée" (partner / targeted offers) are flagged on the offer page.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: Algolia discovery (app WS3ZUW0BOJ, suggestion index), SSR `?query=` block, captured keyword suggestions, compatibility triage (start dates / 6-month internship type). |

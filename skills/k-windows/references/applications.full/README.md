@@ -1,6 +1,6 @@
-# KpihX-Datas Applications — Structured Inventory
+# -Datas Applications — Structured Inventory
 
-Snapshot of `$HOME`'s `KpihX-Datas/Applications/` inventory, captured on 2026-08-29 before cleanup. Its only purpose is recoverability: preserve the exact product/installer names after future removal from Datas.
+Snapshot of `$HOME`'s `-Datas/Applications/` inventory, captured on 2026-08-29 before cleanup. Its only purpose is recoverability: preserve the exact product/installer names after future removal from Datas.
 
 ## Source tree
 

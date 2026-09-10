@@ -1,7 +1,7 @@
 # k-bw — Windows / WSL
 
 > **OS reference:** Microsoft Windows (with WSL subsystem)
-> **Applies to:** `k-blglaptop139` (blglaptop139)
+> **Applies to:** `k-laptop` (laptop)
 
 ---
 
@@ -38,7 +38,7 @@ winget install Bitwarden.CLI
 
 ## Vault Access
 
-The vault URL `https://vault.kpihx-labs.com` is Tailscale-only. The Windows machine must have Tailscale connected to access it — same as any other machine.
+The vault URL `https://<vault-host>` is Tailscale-only. The Windows machine must have Tailscale connected to access it — same as any other machine.
 
 ## Bitwarden Desktop SSH Agent — WSL Bridge
 

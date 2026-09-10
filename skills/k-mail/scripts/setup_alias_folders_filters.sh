@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# setup_alias_folders_filters.sh — Idempotent setup for @kpihx-labs.com folders & filters across Gmail and Outlook
+# setup_alias_folders_filters.sh — Idempotent setup for @<yourdomain.com> folders & filters across Gmail and Outlook
 # Usage: setup_alias_folders_filters.sh [--provider gmail|hotmail|all]
 
 set -euo pipefail
@@ -12,13 +12,13 @@ GWS="$HOME/.npm-global/bin/gws"
 
 setup_gmail_kapoivha() {
   echo "=========================================="
-  echo "=== SETUP GMAIL: kapoivha@gmail.com ==="
+  echo "=== SETUP GMAIL: <primary@gmail.com> ==="
   echo "=========================================="
   export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws/kpihx"
   export GOOGLE_WORKSPACE_PROJECT_ID="kpihx-489121"
 
   declare -A LABEL_IDS=()
-  for lbl in "KpihX-Labs/Ivann/In" "KpihX-Labs/Ivann/Out" "KpihX-Labs/KpihX/In" "KpihX-Labs/KpihX/Out" "KpihX-Labs/Contact/In"; do
+  for lbl in "Labs/You/In" "Labs/You/Out" "Labs//In" "Labs//Out" "Labs/Contact/In"; do
     ID=$("$GWS" gmail users labels list --params '{"userId":"me"}' 2>/dev/null | awk '/^\{/{p=1} p' | python3 -c "
 import sys,json
 d=json.load(sys.stdin)
@@ -37,7 +37,7 @@ for l in (d.get('labels') or []):
 
   echo "--- Filters ---"
   # Create filters if missing
-  for pair in "to:ivann@kpihx-labs.com:KpihX-Labs/Ivann/In" "to:kpihx@kpihx-labs.com:KpihX-Labs/KpihX/In" "to:contact@kpihx-labs.com:KpihX-Labs/Contact/In" "from:ivann@kpihx-labs.com:KpihX-Labs/Ivann/Out" "from:kpihx@kpihx-labs.com:KpihX-Labs/KpihX/Out"; do
+  for pair in "to:you@<yourdomain.com>:Labs/You/In" "to:mail@<yourdomain.com>:Labs//In" "to:contact@<yourdomain.com>:Labs/Contact/In" "from:you@<yourdomain.com>:Labs/You/Out" "from:mail@<yourdomain.com>:Labs//Out"; do
     IFS=':' read -r field val lbl <<< "$pair"
     target_id="${LABEL_IDS[$lbl]:-}"
     if [ -n "$target_id" ]; then
@@ -62,13 +62,13 @@ for f in (d.get('filter') or []):
 
 setup_gmail_labs() {
   echo "=========================================="
-  echo "=== SETUP GMAIL: kpihx.labs@gmail.com ==="
+  echo "=== SETUP GMAIL: <labs@gmail.com> ==="
   echo "=========================================="
-  export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws/kpihx-labs"
-  export GOOGLE_WORKSPACE_PROJECT_ID="kpihx-labs"
+  export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws/<github-user>"
+  export GOOGLE_WORKSPACE_PROJECT_ID="<github-user>"
 
   declare -A LABEL_IDS=()
-  for lbl in "KpihX-Labs/Contact/In" "KpihX-Labs/Contact/Out"; do
+  for lbl in "Labs/Contact/In" "Labs/Contact/Out"; do
     ID=$("$GWS" gmail users labels list --params '{"userId":"me"}' 2>/dev/null | awk '/^\{/{p=1} p' | python3 -c "
 import sys,json
 d=json.load(sys.stdin)
@@ -86,7 +86,7 @@ for l in (d.get('labels') or []):
   done
 
   echo "--- Filters ---"
-  for pair in "to:contact@kpihx-labs.com:KpihX-Labs/Contact/In" "from:contact@kpihx-labs.com:KpihX-Labs/Contact/Out"; do
+  for pair in "to:contact@<yourdomain.com>:Labs/Contact/In" "from:contact@<yourdomain.com>:Labs/Contact/Out"; do
     IFS=':' read -r field val lbl <<< "$pair"
     target_id="${LABEL_IDS[$lbl]:-}"
     if [ -n "$target_id" ]; then
@@ -111,24 +111,24 @@ for f in (d.get('filter') or []):
 
 setup_hotmail() {
   echo "=========================================="
-  echo "=== SETUP OUTLOOK: ivann.kamdem@hotmail.com ==="
+  echo "=== SETUP OUTLOOK: <personal@hotmail.com> ==="
   echo "=========================================="
-  echo "--- Checking folder hierarchy KpihX-Labs ---"
+  echo "--- Checking folder hierarchy Labs ---"
   
   # Ensure root
   ROOT_ID=$(m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders" --method get --output json 2>/dev/null | python3 -c "
 import sys,json
 d=json.load(sys.stdin)
 for f in (d.get('value') or []):
-    if f.get('displayName')=='KpihX-Labs': print(f.get('id'))
+    if f.get('displayName')=='Labs': print(f.get('id'))
 " 2>/dev/null || true)
 
   if [ -z "$ROOT_ID" ]; then
-    echo "  [+] Creating root folder KpihX-Labs..."
-    echo '{"displayName":"KpihX-Labs"}' > /tmp/_f_root.json
+    echo "  [+] Creating root folder Labs..."
+    echo '{"displayName":"Labs"}' > /tmp/_f_root.json
     ROOT_ID=$(m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders" --method post --body @/tmp/_f_root.json --content-type "application/json" --output json 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('id',''))" 2>/dev/null || true)
   else
-    echo "  [✓] Root folder KpihX-Labs exists (id: ${ROOT_ID:0:20}...)"
+    echo "  [✓] Root folder Labs exists (id: ${ROOT_ID:0:20}...)"
   fi
 
   # Helper for child folder
@@ -151,19 +151,19 @@ for f in (d.get('value') or []):
     echo "$cid"
   }
 
-  IVANN_DIR=$(get_or_create_child "$ROOT_ID" "Ivann")
+  IVANN_DIR=$(get_or_create_child "$ROOT_ID" "You")
   IVANN_IN=$(get_or_create_child "$IVANN_DIR" "In")
 
-  KPIHX_DIR=$(get_or_create_child "$ROOT_ID" "KpihX")
+  KPIHX_DIR=$(get_or_create_child "$ROOT_ID" "")
   KPIHX_IN=$(get_or_create_child "$KPIHX_DIR" "In")
 
   echo "--- Inbox rules ---"
   # Rule ivann (seq 3)
-  echo "{\"displayName\":\"KpihX inbound ivann (inbox)\",\"isEnabled\":true,\"sequence\":3,\"conditions\":{\"sentToAddresses\":[{\"emailAddress\":{\"address\":\"ivann@kpihx-labs.com\"}}]},\"actions\":{\"moveToFolder\":\"AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAAAAgEMAAAA\",\"copyToFolder\":\"$IVANN_IN\",\"stopProcessingRules\":true}}" > /tmp/_rule_iv.json
+  echo "{\"displayName\":\" inbound ivann (inbox)\",\"isEnabled\":true,\"sequence\":3,\"conditions\":{\"sentToAddresses\":[{\"emailAddress\":{\"address\":\"personal@<yourdomain.com>\"}}]},\"actions\":{\"moveToFolder\":\"AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAAAAgEMAAAA\",\"copyToFolder\":\"$IVANN_IN\",\"stopProcessingRules\":true}}" > /tmp/_rule_iv.json
   m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules/AQAAAREMtq8=" --method patch --body @/tmp/_rule_iv.json --content-type "application/json" --output json 2>/dev/null >/dev/null && echo "  [✓] Rule ivann patched (copyToFolder + moveToFolder)"
 
   # Rule kpihx (seq 2)
-  echo "{\"displayName\":\"KpihX inbound kpihx (inbox)\",\"isEnabled\":true,\"sequence\":2,\"conditions\":{\"sentToAddresses\":[{\"emailAddress\":{\"address\":\"kpihx@kpihx-labs.com\"}}]},\"actions\":{\"moveToFolder\":\"AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAAAAgEMAAAA\",\"copyToFolder\":\"$KPIHX_IN\",\"stopProcessingRules\":true}}" > /tmp/_rule_kp.json
+  echo "{\"displayName\":\" inbound kpihx (inbox)\",\"isEnabled\":true,\"sequence\":2,\"conditions\":{\"sentToAddresses\":[{\"emailAddress\":{\"address\":\"mail@<yourdomain.com>\"}}]},\"actions\":{\"moveToFolder\":\"AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAAAAgEMAAAA\",\"copyToFolder\":\"$KPIHX_IN\",\"stopProcessingRules\":true}}" > /tmp/_rule_kp.json
   m365 request --url "https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messageRules/AQAAAREMtq4=" --method patch --body @/tmp/_rule_kp.json --content-type "application/json" --output json 2>/dev/null >/dev/null && echo "  [✓] Rule kpihx patched (copyToFolder + moveToFolder)"
 }
 

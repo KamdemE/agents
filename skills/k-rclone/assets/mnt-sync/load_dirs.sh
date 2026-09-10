@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KpihX mnt-sync — shared dirs.txt loader (Linux).
+#  mnt-sync — shared dirs.txt loader (Linux).
 # Source this from every sync-*.sh script: `source "$(dirname "$0")/load_dirs.sh"`
 # Populates the SYNC_DIRS bash array from dirs.txt next to this file (or
 # $MNT_SYNC_DIRS_FILE if set), ignoring blank lines and # comments.

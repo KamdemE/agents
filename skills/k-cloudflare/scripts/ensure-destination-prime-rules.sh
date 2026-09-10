@@ -28,7 +28,7 @@ prime_rule() {
 }
 
 echo "=== Prime destinations for Worker forward() ==="
-prime_rule "_prime-labs@kpihx-labs.com" "kpihx.labs@gmail.com" 10
-prime_rule "_prime-kapoivha@kpihx-labs.com" "kapoivha@gmail.com" 11
-prime_rule "_prime-hotmail@kpihx-labs.com" "ivann.kamdem@hotmail.com" 12
+prime_rule "_prime-labs@<yourdomain.com>" "<labs@gmail.com>" 10
+prime_rule "_prime-primary@<yourdomain.com>" "<primary@gmail.com>" 11
+prime_rule "_prime-hotmail@<yourdomain.com>" "<personal@hotmail.com>" 12
 echo "OK: prime rules ensured"

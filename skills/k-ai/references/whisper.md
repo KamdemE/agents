@@ -31,7 +31,7 @@ To run transcription in real-time on Intel GPUs (like the Intel Arc iGPU on Core
 
 ## Installation & Compilation (CUDA GPU Acceleration — NVIDIA)
 
-On machines with a discrete NVIDIA GPU (e.g. `deep-pc6`, 2× RTX 3090), compile with CUDA instead of Vulkan — up to ~100× faster encode on `medium`/`large` models:
+On machines with a discrete NVIDIA GPU (e.g. `server`, 2× RTX 3090), compile with CUDA instead of Vulkan — up to ~100× faster encode on `medium`/`large` models:
 
 1. **Toolkit (apt, sudo, via tmux ops pane):**
    ```bash
@@ -63,7 +63,7 @@ On machines with a discrete NVIDIA GPU (e.g. `deep-pc6`, 2× RTX 3090), compile 
    cp ~/opt/whisper.cpp/build/bin/whisper-cli ~/.local/bin/whisper-cli
    cp ~/opt/whisper.cpp/build/bin/libwhisper.so* ~/opt/whisper.cpp/build/bin/libggml*.so* ~/.local/lib/
    ```
-   Verify: `LD_LIBRARY_PATH="$HOME/.local/lib" whisper-cli -m <model> -f <audio>` must print `ggml_cuda_init: found N CUDA devices` and `whisper_backend_init_gpu: using CUDA0 backend`. Measured on deep-pc6 (2026-08-26): `large-v3-turbo-q5_0` encode ≈ 911ms for a 4.8s clip on RTX 3090.
+   Verify: `LD_LIBRARY_PATH="$HOME/.local/lib" whisper-cli -m <model> -f <audio>` must print `ggml_cuda_init: found N CUDA devices` and `whisper_backend_init_gpu: using CUDA0 backend`. Measured on server (2026-08-26): `large-v3-turbo-q5_0` encode ≈ 911ms for a 4.8s clip on RTX 3090.
    Never build both Vulkan and CUDA on the same machine unless intentional — whichever `whisper-cli` lands in `~/.local/bin` last wins (PATH precedence over `/usr/local/bin`).
 
 ## Wrapper CLI (`k-whisper`)

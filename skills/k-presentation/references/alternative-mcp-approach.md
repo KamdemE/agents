@@ -3,9 +3,9 @@
 > **🔴 PURGED 2026-08-26:** the `powerpoint` uv tool (`~/.local/bin/powerpoint`,
 > `~/.local/share/uv/tools/powerpoint/`) has been fully uninstalled
 > (`uv tool uninstall powerpoint`) and its stale registry row removed from
-> `k-clis/SKILL.md`. It no longer exists on any KπX machine. This file remains
+> `k-clis/SKILL.md`. It no longer exists on any  machine. This file remains
 > as the historical record only (zero-information-loss) — do not attempt to
-> reinstall without KπX's explicit request.
+> reinstall without the user's explicit request.
 
 Before this skill's "decks as code" doctrine (`deckkit.py` / `figkit.py` /
 `slides.py` / `render.py`) became the standard, an earlier lineage of this
@@ -19,7 +19,7 @@ tool still has a place, or chasing one of its surviving lessons.
 
 ## Why it was retired
 
-- **External dependency.** The fork is not KπX-owned or maintained; its
+- **External dependency.** The fork is not -owned or maintained; its
   capabilities, and its continued existence, are outside our control.
 - **Fixed, hard-coded layout indices** — `title=0`, `title_and_content=1`,
   `section_header=2`, `comparison=4`, `title_only=5`, `picture_with_caption=8`

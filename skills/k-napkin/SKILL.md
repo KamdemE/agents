@@ -7,8 +7,8 @@ description: >
   diagrams, infographics, or any visual communication from text or markdown content.
 license: private
 metadata:
-  author: KpihX
-  version: "1.1.5"
+  author: 
+  version: "1.0.0"
   scope: tool-integration
   api-version: v0.10.5
 allowed-tools: Bash
@@ -16,7 +16,7 @@ allowed-tools: Bash
 
 # k-napkin
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Strategy:** skill-only (no MCP) — API in developer preview, occasional use.
 > Claude calls the API directly via `curl` + `python3`. Zero overhead when not in use.
@@ -185,10 +185,3 @@ $HOME/Pictures/Napkin/
 - Update `$HOME/.agents/skills/k-napkin/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-14 | [COLAB] | v1.1.5 — **assets/examples/list.svg updated**: removed `bw-mcp` (purged 2026-08-14); text now reads "bw-proxy for Bitwarden access (bw-mcp purged)". |
-| 2026-04-13 | [CODEX] | v1.1.4 — Standardized insights discipline and autonomous maintenance hooks for this skill. |
-| [SUMMARY] | — | v1.1.3 scrubbed retired-runtime references (→ `references/log.md`) · +1 older changelog entries kept in file history; condensed for table limits |

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ============================================================
-# tailscale/set-tailscale.sh — converge Tailscale to KπX desired state
+# tailscale/set-tailscale.sh — converge Tailscale to  desired state
 # ============================================================
 # Idempotent: ensures tailscaled is active, then brings Tailscale up with
-# the canonical KπX flags:
+# the canonical  flags:
 #   --accept-dns --accept-routes --operator=<user>
 # (long form: --accept-dns=true --accept-routes=true --operator=<user>)
 #

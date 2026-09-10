@@ -1,6 +1,6 @@
 # Microsoft.PowerShell_profile.ps1 — GENERIC TEMPLATE (k-windows)
 #
-# Copy this into the owning machine's own infra skill (e.g. k-blglaptop139)
+# Copy this into the owning machine's own infra skill (e.g. k-laptop)
 # scripts/, personalize the marked REPLACE_ME spots, then deploy at
 # Documents\PowerShell\Microsoft.PowerShell_profile.ps1 on that machine.
 # See k-windows/SKILL.md -> "Pattern for a new Windows+WSL machine".
@@ -27,12 +27,12 @@ Import-Module -Name Microsoft.WinGet.CommandNotFound
 # "windows" default.
 function tx {
     param([string]$Session = "windows")
-    & "$env:USERPROFILE\KpihX-Labs\REPLACE_ME\tmux-sessions.ps1"
+    & "$env:USERPROFILE\Labs\REPLACE_ME\tmux-sessions.ps1"
     tmux attach -t $Session
 }
 
-# KπX workspace convention: every new shell lands in ~/KpihX-Labs
-Set-Location ~/KpihX-Labs
+# workspace convention: every new shell lands in ~/Labs
+Set-Location ~/Labs
 
 function Get-FullHistory { Get-Content (Get-PSReadLineOption).HistorySavePath }
 Remove-Item Alias:h -ErrorAction SilentlyContinue

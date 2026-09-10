@@ -1,18 +1,18 @@
 ---
 name: k-pdf
 description: >
-  KπX PDF toolkit — classic tools (pdftotext, pdftoppm, pdfinfo, pdffonts),
+  PDF toolkit — classic tools (pdftotext, pdftoppm, pdfinfo, pdffonts),
   Docling (JSON/MD/images), font audit, and structural analysis scripts.
   Load when touching any PDF: understand, extract, audit, compare.
 metadata:
-  author: KpihX
+  author: 
   version: "1.0.0"
   scope: operations
 ---
 
-# KπX — PDF Toolkit
+#  — PDF Toolkit
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Reflex:** When an agent touches a PDF, load k-pdf FIRST. Choose the right tool for the job.
 
@@ -278,9 +278,3 @@ pdfinfo rapport.pdf | grep Pages
 
 ---
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v1.0.0 — Initial: classic tools, Docling, scripts pdf-structure + pdf-fonts, examples |
-| [SUMMARY] | — | v1.0.0 is the initial release — no older entries. |

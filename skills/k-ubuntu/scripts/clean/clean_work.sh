@@ -4,7 +4,7 @@
 # Script Name: clean_work.sh
 # Description: Development workspace cleanup (git, venv, node_modules)
 # API: --infos/-i, --safe/-s, --purge/-p, --top N
-# Author: Gemini-CLI / KpihX
+# Author: Gemini-CLI / 
 # ==============================================================================
 
 RED='\033[0;31m'

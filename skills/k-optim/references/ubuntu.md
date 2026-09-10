@@ -1,7 +1,7 @@
 # k-optim — Ubuntu
 
 > **OS reference:** Ubuntu (native)
-> **Applies to:** `k-ubuntu` (kpihx-ubuntu workstation)
+> **Applies to:** `k-ubuntu` (workstation workstation)
 
 ---
 
@@ -76,7 +76,7 @@ Ubuntu workstation optimization — local storage, project artifacts, caches, ho
 | Dir | Policy |
 |-----|--------|
 | `Downloads/` | Install artifacts immediately → delete. Backups → Gdrive. |
-| `Documents/` | No permanent storage. Docs → Gdrive_X/ or Gdrive/. |
+| `Documents/` | No permanent storage. Docs → Gdrive/ or Gdrive/. |
 | `Pictures/` | Screenshots are transit → review → keepers to Gdrive/ or $HOME/Work/ → empty. |
 | `Videos/` | Keep empty — recordings go to Gdrive/ directly. |
 | `Music/` | Keep empty. |
@@ -96,5 +96,5 @@ Ubuntu workstation optimization — local storage, project artifacts, caches, ho
    ```
 2. **Broken (not-found)** → `systemctl mask` (no purge)
 3. **Useless but enabled**: categorize as Replaced / No hardware / Orphaned / Condition never met
-4. **Validate with KπX** before disable/purge
+4. **Validate with ** before disable/purge
 5. **Final report**: running count before/after, RAM freed, units eliminated

@@ -1,11 +1,11 @@
-// opencode-notify.js — notify KπX (GUI + Telegram, always both) in EXACTLY
-// 2 cases: (1) the agent's turn genuinely ends and it's waiting on KπX, or
+// opencode-notify.js — notify  (GUI + Telegram, always both) in EXACTLY
+// 2 cases: (1) the agent's turn genuinely ends and it's waiting on , or
 // (2) it's paused needing a tool-call/permission decision. Nothing else.
 //
 // NOT A HOOK (see scripts/plugins/AGENTS.md → "Hooks vs Plugins") — a
 // read-only/observational plugin, own subdirectory, no TARGET_AGENTS.
 //
-// FULL REWRITE 2026-08-27 (KπX: "je ne veux pas de patch, un code unifié
+// FULL REWRITE 2026-08-27 (user: "je ne veux pas de patch, un code unifié
 // ultra compact") — the previous version trusted `session.idle` directly,
 // which is WRONG: confirmed via web research against OpenCode's own upstream
 // (github.com/anomalyco/opencode issues #3815, #3744, #16626, #2021) that
@@ -16,14 +16,14 @@
 // (types.gen.d.ts) and an OpenCode maintainer's own workaround (issue
 // #3815): the LAST assistant message's `finish` reason.
 //   - finish === "stop"        -> the agent genuinely finished ITS turn
-//                                 (includes it asking KπX a question and
+//                                 (includes it asking  a question and
 //                                 waiting — same bucket, no separate signal
 //                                 needed for that case).
 //   - finish === "tool-calls"  -> still mid-loop, about to call more tools —
 //                                 NOT a real stop, never notify.
 //   - error.name ===
-//     "MessageAbortedError"    -> KπX's own Escape-Escape abort — explicitly
-//                                 excluded per KπX ("si moi j'arrête ça ne
+//     "MessageAbortedError"    -> the user's own Escape-Escape abort — explicitly
+//                                 excluded per  ("si moi j'arrête ça ne
 //                                 compte pas").
 // Tool-call/permission decisions use the real "permission.ask" hook
 // (confirmed to exist and fire before the human is even asked).
@@ -46,7 +46,7 @@ const NOTIFY_SCRIPT = path.join(
 // it, while a genuinely human-facing request remains pending and notifies.
 const PERMISSION_GRACE_MS = 250;
 const pendingPermissions = new Map(); // permission id -> timeout handle
-// Diagnostic trail (2026-08-27, KπX directive: "va tester totalement jusqu'à
+// Diagnostic trail (2026-08-27,  directive: "va tester totalement jusqu'à
 // garantir 100%") — the prior rewrite silently swallowed every dispatch
 // failure with zero trace anywhere, making a real "why didn't it fire"
 // impossible to answer. This is intentionally kept (not scaffolding to
@@ -189,10 +189,10 @@ export default async function ({ client }) {
       const errName = last?.error?.name;
       trace(`event session.idle sessionID=${sessionID} finish=${finish} error=${errName}`);
       if (!last) return;
-      if (errName === "MessageAbortedError") return; // KπX's own abort
+      if (errName === "MessageAbortedError") return; // the user's own abort
       if (finish !== "stop") return; // mid-loop (tool-calls) — not a real stop
-      // Full: include the actual final assistant text (what KπX sees on screen),
-      // untruncated — KπX explicit: no truncation (2026-08-27).
+      // Full: include the actual final assistant text (what the user sees on screen),
+      // untruncated —  explicit: no truncation (2026-08-27).
       const lastEntry = lastAssistantEntry(entries);
       const fullText = extractText(lastEntry);
       await notify("OK", "✅ Finished — waiting for you", sessionID, fullText, "", entries);

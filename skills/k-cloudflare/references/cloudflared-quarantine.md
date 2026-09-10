@@ -1,6 +1,6 @@
-# cloudflared — quarantined on KπX workstation
+# cloudflared — quarantined on  workstation
 
-> **Prod connector:** homelab server only (tunnel `kpihx-labs`, Zero Trust remote-managed).  
+> **Prod connector:** homelab server only (tunnel `<github-user>`, Zero Trust remote-managed).  
 > **Workstation (Ubuntu dev):** **`cloudflared` not installed** — by design.  
 > **Active CLI here:** **`flarectl`** + `CF_API_TOKEN` (DNS / zones).
 
@@ -9,7 +9,7 @@
 | Need | Path |
 |------|------|
 | **Internal** homelab / LAN / admin | **Tailscale** (+ **`ts-proxy`** for API/HITL) — prefer over exposing services on the public internet |
-| **Public** homelab services (`*.kpihx-labs.com`) | **Cloudflare Tunnel** connector on **server** — already operational |
+| **Public** homelab services (`*.<github-user>.com`) | **Cloudflare Tunnel** connector on **server** — already operational |
 | **DNS** edits from laptop | **`flarectl`** on workstation |
 
 Do **not** install a second prod connector on a laptop (sleep, mobility, duplicate tunnel noise).
@@ -21,14 +21,14 @@ Optional **dev-only** scenarios — reinstall only for the session, then remove 
 | Scenario | Command pattern | vs prod tunnel |
 |----------|-----------------|----------------|
 | **Expose local dev server** to the internet (webhook test, demo, share WIP) | `cloudflared tunnel --url http://127.0.0.1:<port>` | **Quick tunnel** — random `*.trycloudflare.com` URL, ephemeral |
-| **Preview** app before homelab deploy | Same quick tunnel | Not `kpihx-labs` |
+| **Preview** app before homelab deploy | Same quick tunnel | Not `<github-user>` |
 | **Second connector** to prod tunnel | `cloudflared tunnel run eyJ…` from dashboard **Add connector** | Only on an **always-on** host (server), not laptop |
-| **Locally-managed** tunnel project | `cloudflared tunnel login` + `tunnel create` | Separate from Zero Trust `kpihx-labs` |
+| **Locally-managed** tunnel project | `cloudflared tunnel login` + `tunnel create` | Separate from Zero Trust `<github-user>` |
 
 ### Quick tunnel example (localhost → internet)
 
 ```bash
-# Ephemeral — no kpihx-labs, no DNS change
+# Ephemeral — no <github-user>, no DNS change
 cloudflared tunnel --url http://127.0.0.1:8787
 ```
 
@@ -56,4 +56,4 @@ Or official Cloudflare package docs. Prefer **quick tunnel** over prod `tunnel r
 
 ## QMD / search keywords
 
-`cloudflared`, `quick tunnel`, `localhost public`, `trycloudflare`, `tunnel run`, `kpihx-labs`, `homelab connector`, `flarectl only workstation`, `Tailscale internal`
+`cloudflared`, `quick tunnel`, `localhost public`, `trycloudflare`, `tunnel run`, `<github-user>`, `homelab connector`, `flarectl only workstation`, `Tailscale internal`

@@ -9,9 +9,10 @@
 # This checker is read-only: it never changes Tailscale state. When it detects
 # drift, it reports the exact remediation command appropriate to that state.
 #
-# Tailscale is the capital backbone for EVERY KπX device — a broken tailscale
-# breaks everything (SSH, mesh, drive mounts, services). This check is wired
-# into `make check` via `make check-tailscale`.
+# Tailscale is OPTIONAL in this fork — a mesh VPN used only when the operator
+# wants multi-machine reachability. When the binary is absent the check
+# reports SKIP (exit 0) and `make check` stays green. When present but broken,
+# it still fails with the remediation, as before.
 #
 # Source:  .agents/scripts/tailscale/check-tailscale.sh
 # Caller:  make check-tailscale   (joined into `make check`)
@@ -24,9 +25,8 @@ echo "  ├─ 🧩 1/5 Binary availability"
 
 # --- 0. Is tailscaled present / status reachable? ---
 if ! command -v tailscale >/dev/null 2>&1; then
-  echo "  ✗ ERROR: 'tailscale' binary not found in PATH."
-  echo "    → Install Tailscale (see skills/k-tailscale/SKILL.md) — it is MANDATORY on every infra."
-  exit 1
+  echo "  ○ 'tailscale' binary not found in PATH — optional component, skipping (see skills/k-tailscale/SKILL.md to install it)."
+  exit 0
 fi
 
 echo "  ├─ 🔌 2/5 Daemon connection"

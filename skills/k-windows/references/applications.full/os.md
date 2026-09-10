@@ -1,6 +1,6 @@
 # OS
 
-Source: `KpihX-Datas/Applications/OS/`.
+Source: `-Datas/Applications/OS/`.
 
 |---|---|
 | `Linux_Kernel/linux-5.11.22.tar.xz` | Linux kernel 5.11.22 source |

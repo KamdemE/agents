@@ -1,6 +1,6 @@
 # k-ai — Purged AI Runtimes (Archive)
 
-> **Purpose:** AI runtimes that were installed and later **purged** from the workstation. Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per KπX directive (agent CLI purge; only `*-proxy` CLIs kept). This file keeps the purge details OUT of the compact `k-ai/SKILL.md`.
+> **Purpose:** AI runtimes that were installed and later **purged** from the workstation. Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per maintainer directive (agent CLI purge; only `*-proxy` CLIs kept). This file keeps the purge details OUT of the compact `k-ai/SKILL.md`.
 
 ## Purged 2026-08-14
 

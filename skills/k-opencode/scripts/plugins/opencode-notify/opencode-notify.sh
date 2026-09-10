@@ -19,7 +19,7 @@
 #
 # Delivery:
 #   - System (notify-send) — best effort, silently no-op if notify-send is
-#     absent (headless servers: deep-pc6, pve, dockerhost). Works out of the
+#     absent (headless servers: server, pve, dockerhost). Works out of the
 #     box on any GUI machine (Ubuntu, WSL with WSLg + libnotify-bin).
 #   - Telegram — STRICTLY the dedicated OpenCode bot (TELEGRAM_OPENCODE_TOKEN,
 #     see .env.example) — NEVER any other skill's bot. If TELEGRAM_OPENCODE_TOKEN
@@ -28,7 +28,7 @@
 #     fallback chain here (fixed 2026-08-27 — real bug: an empty
 #     NOTIFY_TG_TOKEN override still falls through notify_tg_token()'s own
 #     PVE/UBUNTU/... loop, so a live smoke test silently sent through the
-#     Ubuntu bot before this bot's token existed — KπX caught it live).
+#     Ubuntu bot before this bot's token existed —  caught it live).
 #
 # Source: $HOME/.agents/skills/k-opencode/scripts/plugins/opencode-notify/opencode-notify.sh
 # Caller: scripts/plugins/opencode-notify/opencode-notify.js (execFile, sibling file)

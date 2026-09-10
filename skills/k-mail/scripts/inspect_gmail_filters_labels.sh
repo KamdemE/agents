@@ -21,7 +21,7 @@ import sys,json
 d=json.load(sys.stdin)
 for l in (d.get('labels') or []):
     n=l.get('name','')
-    if 'KpihX' in n or 'Contact' in n or 'Ivann' in n:
+    if '' in n or 'Contact' in n or 'You' in n:
         print(f\"  [label] {l.get('id'):<12} | {n:<24} | total={l.get('messagesTotal')} unread={l.get('messagesUnread')}\")
 " 2>&1 || echo "  (failed to list labels)"
 
@@ -43,11 +43,11 @@ case "$PROFILE" in
     inspect_profile "kapoivha" "kpihx" "kpihx-489121"
     ;;
   labs)
-    inspect_profile "labs" "kpihx-labs" "kpihx-labs"
+    inspect_profile "labs" "<github-user>" "<github-user>"
     ;;
   both|*)
     inspect_profile "kapoivha" "kpihx" "kpihx-489121"
     echo ""
-    inspect_profile "labs" "kpihx-labs" "kpihx-labs"
+    inspect_profile "labs" "<github-user>" "<github-user>"
     ;;
 esac

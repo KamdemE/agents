@@ -1,10 +1,10 @@
 # Google Antigravity (AGY)
 
-> **Source of truth** for the four-product Antigravity stack on KπX workstations (2026 I/O split). Install: `scripts/agy/install_agy_components.sh`.
+> **Source of truth** for the four-product Antigravity stack on  workstations (2026 I/O split). Install: `scripts/agy/install_agy_components.sh`.
 
 ## Ecosystem — four pillars
 
-| Pillar | Role | Install path | **KπX command** | Google binary / compat |
+| Pillar | Role | Install path | ** command** | Google binary / compat |
 |--------|------|--------------|-----------------|-------------------------|
 | **Hub 2.0** | Agent-first desktop orchestrator | `$HOME/.local/share/antigravity-hub/` | **`agy-hub`** · `agy-hub.desktop` | `antigravity` · `antigravity-hub` |
 | **IDE** | VS Code-fork pair programmer | `$HOME/.local/share/antigravity-ide/` | **`agy-ide`** · `agy-ide.desktop` · Open Cloud | `antigravity-ide` |
@@ -95,7 +95,7 @@ Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher)
 | Config | `$HOME/.gemini/settings.json`, `$HOME/Work/AI/gemini_mcps/` | Official install; shared AGY settings |
 | MCP | `gemini mcp add` + `gemini-extension.json` | GUI: `$HOME/.gemini/antigravity/mcp_config.json` — see `references/mcp/agy.md` |
 
-**KπX:** keep `gemini` for existing MCP flows; prefer **`agy`** for new terminal work. Do not mix MCP install procedures.
+**user:** keep `gemini` for existing MCP flows; prefer **`agy`** for new terminal work. Do not mix MCP install procedures.
 
 ## Cache cleanup
 
@@ -132,7 +132,7 @@ Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher)
         "**/Documents/**": true,
         "**/Pictures/**": true,
         "**/Videos/**": true,
-        "**/Gdrive_X/**": true,
+        "**/Gdrive/**": true,
         "**/Gdrive/**": true,
         "**/.npm-global/**": true,
         "**/Work/Others/**": true,
@@ -147,4 +147,4 @@ Refresh icons/menu: **`refresh_agy_menu.sh`** (also removes stale gear launcher)
 }
 ```
 
-Use `$HOME` literally in the live file per KπX path rules in synced settings.
+Use `$HOME` literally in the live file per  path rules in synced settings.

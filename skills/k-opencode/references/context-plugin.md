@@ -41,9 +41,9 @@ cd ~/.config/opencode/.opencode/plugin && npm install \
 # restart OpenCode → /context available everywhere
 ```
 
-## KπX source-of-truth install (`.agents` + symlinks)
+##  source-of-truth install (`.agents` + symlinks)
 
-Per KπX governance, the plugin source lives in `.agents` (versioned) and is
+Per  governance, the plugin source lives in `.agents` (versioned) and is
 symlinked into the runtime discovery paths.
 
 **Source of truth:** `skills/k-opencode/scripts/plugins/opencode-context/`

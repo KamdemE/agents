@@ -24,12 +24,12 @@
 //      moment the send-keys command actually finished. Fires for EVERY
 //      stateful send-keys, whether or not the agent added TMUX_TIMEOUT/
 //      TMUX_LINES (defaults still arm it). This is the CURRENT anti-"manual
-//      capture-pane" mechanism (KπX, 2026-08-16) — a REACTIVE `throw`-based
+//      capture-pane" mechanism (, 2026-08-16) — a REACTIVE `throw`-based
 //      block used to exist here but was REMOVED per explicit directive: never
 //      intercept `capture-pane`, the agent may legitimately need it if this
 //      very plugin malfunctions (log not written, watcher stuck, etc.).
 //
-// Timeout self-adjustment (KπX, 2026-08-29): a watchdog used to re-fire on
+// Timeout self-adjustment (, 2026-08-29): a watchdog used to re-fire on
 // the SAME `timeoutSecs` forever with an identical, vague message ("Continue
 // your task directly with this result") — no guidance, no way for the agent
 // to say "this is a heavy process, check less often" without literally
@@ -100,7 +100,7 @@ function debug(message) {
 // (never a vague "some lines" — it reflects `TMUX_LINES`/`TMUX_MAX_LINES`,
 // capped by however many lines the pane actually had).
 //
-// `watchdogCount` (KπX, 2026-08-29 — REWRITTEN same day, 2nd pass: KπX caught
+// `watchdogCount` (, 2026-08-29 — REWRITTEN same day, 2nd pass:  caught
 // that even the escalating version above still left an agent unable to
 // decide, cycling on vague "Understood, I will follow these instructions"
 // acknowledgements instead of acting): every watchdog message MUST make the
@@ -295,7 +295,7 @@ export default async function ({ client }) {
     // Resolve the current agent and gate BEFORE draining anything.
     // The old order (drain first, gate second) PERMANENTLY DESTROYED queued
     // notifications whenever the resolved agent was outside TARGET_AGENTS
-    // (real case 2026-08-25 on blglaptop139: session running as `build`
+    // (real case 2026-08-25 on laptop: session running as `build`
     // while TARGET_AGENTS was ["Colab","Agent"] — every tmux notification
     // was silently eaten). A rejected gate now leaves everything queued for
     // a later delivery point (session.idle / chat.message retry naturally).
@@ -456,7 +456,7 @@ export default async function ({ client }) {
       // fallback in case a specific opencode build also surfaces it there.
       const cmd = output?.args?.command || input.input || "";
 
-      // NOTE (KπX, 2026-08-16): `capture-pane` is intentionally NEVER
+      // NOTE (, 2026-08-16): `capture-pane` is intentionally NEVER
       // intercepted or blocked here. A REACTIVE `throw`-based guard used to
       // live in this exact spot, but was explicitly REMOVED: the agent may
       // legitimately need a manual `capture-pane` if THIS plugin itself
@@ -467,7 +467,7 @@ export default async function ({ client }) {
       // `send-keys` tool call's own result (see `tool.execute.after` below),
       // not by rejecting a later `capture-pane` call.
 
-      // Timeout self-adjustment (KπX, 2026-08-29): `: TMUX_ADJUST <pane> <secs>`
+      // Timeout self-adjustment (, 2026-08-29): `: TMUX_ADJUST <pane> <secs>`
       // is a pure META marker — `:` is the bash no-op builtin, it NEVER touches
       // the target pane (no send-keys involved at all). Anchored on the WHOLE
       // trimmed command so it can only ever be a deliberate, standalone call,
@@ -553,14 +553,14 @@ export default async function ({ client }) {
             }
           }
 
-          // Layer 2 (KπX, 2026-08-16): layer 1 above only catches panes WE
-          // armed. A pane busy for any OTHER reason (KπX typing directly in
+          // Layer 2 (, 2026-08-16): layer 1 above only catches panes WE
+          // armed. A pane busy for any OTHER reason (the user typing directly in
           // it, an agent bypassing our interception, a leftover foreground
           // process) is invisible to the registry check alone. tmux exposes
           // the pane's foreground process natively — pure metadata, no
           // `capture-pane` / content read needed — so query it and block if
           // it's not a known idle shell.
-          // SSH exception (KπX, 2026-09-05): an interactive ssh/mosh pane may
+          // SSH exception (, 2026-09-05): an interactive ssh/mosh pane may
           // still hold an IDLE remote shell — invisible locally (only `ssh`
           // is seen). Fail-closed by default, but `TMUX_ALLOW_SSH=1` on the
           // SAME send-keys call explicitly accepts degraded notifications
@@ -617,7 +617,7 @@ export default async function ({ client }) {
     // after the real command has actually run. Fires for EVERY stateful
     // send-keys, whether or not the agent added TMUX_TIMEOUT/TMUX_LINES
     // (defaults still armed it in `tool.execute.before` above). This is the
-    // CURRENT anti-"manual capture-pane" mechanism (KπX, 2026-08-16),
+    // CURRENT anti-"manual capture-pane" mechanism (, 2026-08-16),
     // replacing the earlier reactive `throw`-on-capture-pane guard (removed —
     // see the note in `tool.execute.before`).
     "tool.execute.after": async (input, output) => {

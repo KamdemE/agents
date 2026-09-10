@@ -3,7 +3,7 @@
 # Script Name: clean_cache.sh
 # Description: Global Cache cleanup tool (uv, npm, pnpm, browsers, trash, root)
 # API: --infos/-i, --safe/-s, --purge/-p, --system/-y
-# Author: Gemini-CLI / KpihX
+# Author: Gemini-CLI / 
 # ==============================================================================
 RED='\033[0;31m'
 GREEN='\033[0;32m'

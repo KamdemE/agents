@@ -1,6 +1,6 @@
 # Local Background Removal
 
-KπX sovereign local workflow for removing image backgrounds without cloud APIs.
+ sovereign local workflow for removing image backgrounds without cloud APIs.
 
 **Two tools retained**, each filling a distinct niche:
 
@@ -95,7 +95,7 @@ This is not a minor edge case. It is the dominant failure mode for line-art logo
 | **Retained** | ❌ No — purged |
 
 **Why rejected:**
-- On the four tested KπX logos, `rembg` with `isnet-anime` produced black/incorrect masks.
+- On the four tested  logos, `rembg` with `isnet-anime` produced black/incorrect masks.
 - Lost meaningful content: text labels, fine details, and interior elements were removed or corrupted.
 - The `isnet-anime` model is optimized for anime-style illustrations, not line-art logos on white backgrounds.
 - Other models (`u2net`, `u2netp`) may perform differently but were not tested in this comparison.
@@ -119,12 +119,12 @@ This is not a minor edge case. It is the dominant failure mode for line-art logo
 
 ## 3. Visual Benchmark — Four Logos, Four Methods
 
-The comparison was performed on 4 Gemini-generated logos for the KπX ecosystem:
+The comparison was performed on 4 Gemini-generated logos for the  ecosystem:
 
 | # | Logo | Description | Background |
 |---|------|-------------|-----------|
-| 1 | **KπX** | Hooded figure with laptop, "KπX" text on screen | White (`#ffffff`), near-uniform |
-| 2 | **KπX-Labs** | Lightbulb with neural network inside + "KπX-Labs" text | White (`#ffffff`), near-uniform |
+| 1 | **** | Hooded figure with laptop, "" text on screen | White (`#ffffff`), near-uniform |
+| 2 | **-Labs** | Lightbulb with neural network inside + "-Labs" text | White (`#ffffff`), near-uniform |
 | 3 | **ScienCurious** | Cartoon child scientist with beakers + "ScienCurious" text | Light grey gradient (not perfectly uniform) |
 | 4 | **TechSkills** | Lightbulb with circuit board pattern + "TechSkills" text | White (`#ffffff`), near-uniform |
 
@@ -132,8 +132,8 @@ The comparison was performed on 4 Gemini-generated logos for the KπX ecosystem:
 
 | Logo | `bgone` | `nobg` (FeyNobg) | `rembg` (isnet-anime) | `withoutbg` |
 |------|---------|-------------------|----------------------|-------------|
-| **KπX** | ⚠️ Removed outer white, but also removed white fills inside hoodie and laptop. Dark outlines remain on black. Rainbow fringing on anti-aliased edges. | ✅ Clean cutout. Hoodie, laptop, text all preserved. Transparent background. No fringing. | ❌ Background not removed — output identical to original. Near-white bg retained. | ⚠️ Background not removed — output identical to original. Near-white bg retained. |
-| **KπX-Labs** | ⚠️ Removed outer white AND white inside lightbulb glass. Network lines and text partially visible on black. Heavy chromatic artifacts (yellow/cyan/magenta fringing). | ✅ Clean cutout. Lightbulb, network, screw base, text all preserved. Transparent. No fringing. | ❌ Background not removed. Output identical to original. | ❌ Background not removed. Output identical to original. |
+| **** | ⚠️ Removed outer white, but also removed white fills inside hoodie and laptop. Dark outlines remain on black. Rainbow fringing on anti-aliased edges. | ✅ Clean cutout. Hoodie, laptop, text all preserved. Transparent background. No fringing. | ❌ Background not removed — output identical to original. Near-white bg retained. | ⚠️ Background not removed — output identical to original. Near-white bg retained. |
+| **-Labs** | ⚠️ Removed outer white AND white inside lightbulb glass. Network lines and text partially visible on black. Heavy chromatic artifacts (yellow/cyan/magenta fringing). | ✅ Clean cutout. Lightbulb, network, screw base, text all preserved. Transparent. No fringing. | ❌ Background not removed. Output identical to original. | ❌ Background not removed. Output identical to original. |
 | **ScienCurious** | ❌ Failed to isolate subject. Near-white background retained. Rainbow ring artifacts around character edges. Dark background appeared. | ✅ Clean cutout. Character, beakers, liquid colors, text all preserved. Transparent. No fringing. | ❌ Background not removed. Output identical to original. | ⚠️ Background partially removed, but heavy colored ring artifacts (green/blue/orange fringing) around character. Subject preserved but edges severely degraded. |
 | **TechSkills** | ⚠️ Removed outer white, but also removed white inside lightbulb glass. Circuit pattern and text partially visible on black. | ✅ Clean cutout. Lightbulb, circuit traces, text all preserved. Transparent. No fringing. | ❌ Background not removed. Output identical to original. | ❌ Background not removed. Output identical to original. |
 
@@ -311,7 +311,7 @@ for img_path in images:
 
 ### 4.3 Performance Benchmark (Measured)
 
-Benchmark performed on 4 logos (1024×1024 PNG) from the KπX ecosystem.
+Benchmark performed on 4 logos (1024×1024 PNG) from the  ecosystem.
 
 **bgone** (Rust, CPU, Intel Core Ultra 7 155H):
 

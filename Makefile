@@ -17,13 +17,13 @@ SHELL = /bin/zsh
 help: ## Show available targets
 	@awk 'BEGIN {FS = ": ## "}; /^[a-zA-Z0-9_.-]+: ## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-push: ## Push to all configured remotes
-	git push github $(BRANCH) && git push gitlab $(BRANCH)
+push: ## Push to the configured remote (origin)
+	git push origin $(BRANCH)
 
 push-sub: ## Commit (if dirty) + push EVERY submodule to ALL its remotes (rebase on remote-ahead, loud failures)
 	@bash $(HOME)/.agents/scripts/git/push-submodules.sh
 
-pr: ## Open PR (github) + MR (gitlab) for the current branch against master [override: make pr BASE=dev]
+pr: ## Open a GitHub PR for the current branch against master [override: make pr BASE=dev]
 	@bash $(HOME)/.agents/scripts/git/create-pr.sh $(BASE)
 
 check-skills: ## Run .agents structural skills audit
@@ -62,8 +62,8 @@ check-services: ## Verify .agents-owned systemd services (from assets/services.j
 	@echo "🔍 [check-services] Systemd service contract"
 	@bash $(HOME)/.agents/scripts/services/check-services.sh
 
-check-tailscale: ## Verify Tailscale is up (--accept-dns --accept-routes) + local node online + operator (no sudo)
-	@echo "🔍 [check-tailscale] Tailscale backbone"
+check-tailscale: ## Verify Tailscale if installed (optional — skips cleanly when absent)
+	@echo "🔍 [check-tailscale] Tailscale (optional)"
 	@bash $(HOME)/.agents/scripts/tailscale/check-tailscale.sh
 
 set-tailscale: ## Converge Tailscale to desired state (--accept-dns --accept-routes --operator=$$USER) — use via tmux ops pane if sudo prompts
@@ -89,11 +89,11 @@ check-jsonc: ## Verify .agents JSONC config assets parse cleanly (via libs/jsonc
 	@echo "🔍 [check-jsonc] JSONC configuration"
 	@bash $(HOME)/.agents/scripts/jsonc/check-jsonc.sh
 
-check-remotes: ## Verify kernel repo + EVERY submodule have EXACTLY github+gitlab (exact URLs, live joinable, branch present)
+check-remotes: ## Verify kernel repo + EVERY submodule have exactly origin (exact URL, live joinable, branch present)
 	@echo "🔍 [check-remotes] Git remotes contract (kernel + submodules)"
 	@bash $(HOME)/.agents/scripts/remotes/check-remotes.sh
 
-set-remotes: ## Enforce github+gitlab remotes on kernel repo + EVERY submodule (kpihx-labs namespace, remove e.g. origin)
+set-remotes: ## Enforce the single origin remote on kernel repo + EVERY submodule
 	@bash $(HOME)/.agents/scripts/remotes/set-remotes.sh
 
 check: check-remotes check-py check-sh check-js check-services check-links check-exec check-tailscale check-skills check-env check-jsonc ## Run all validations (Remotes, Ruff, Pyright, Shellcheck, JS, Services, Symlinks, Executability, Tailscale, Skills, Env, JSONC)
@@ -112,9 +112,8 @@ chmod: ## Normalize execute permissions on all kernel scripts (scripts/exec/chmo
 submodule-init: ## Init + checkout the plugin submodules (opencode-context, opencode-lens, opencode-web-voice)
 	git submodule init && git submodule update --init --recursive
 
-submodule-update: ## Fetch latest from the plugin submodule remotes (github+gitlab)
-	git submodule foreach 'git remote get-url github >/dev/null 2>&1 && git pull github main || echo "SKIP: no github remote"'
-	git submodule foreach 'git remote get-url gitlab >/dev/null 2>&1 && git pull gitlab main || echo "SKIP: no gitlab remote"'
+submodule-update: ## Fetch latest from the plugin submodule remotes (origin)
+	git submodule foreach 'git remote get-url origin >/dev/null 2>&1 && git pull origin main || echo "SKIP: no origin remote"'
 
 submodule-upstream: ## Fetch latest from the upstream origin repos (Flickwire/IgorWarzocha) and merge into main
 	git submodule foreach 'git remote get-url upstream >/dev/null 2>&1 && git fetch upstream && git merge upstream/main || echo "SKIP: no upstream remote"'

@@ -1,4 +1,4 @@
-# KπX central ruff config for .agents/ Python scripts
+#  central ruff config for .agents/ Python scripts
 # See: https://docs.astral.sh/ruff/settings/
 
 # Target Python version

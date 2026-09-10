@@ -1,6 +1,6 @@
 # Daemon-Based CLI — Architecture Patterns
 
-Reusable recipe for background-daemon CLI tools (verified in `whats-proxy` v0.2.0, `~/KpihX-Labs/proxies/whats-proxy/`). Any future "CLI that owns a long-lived session/connection" should follow this. The critical patterns below were each root-caused with empirical proof — do not "simplify" them back into broken forms.
+Reusable recipe for background-daemon CLI tools (verified in `whats-proxy` v0.2.0, `~/Labs/proxies/whats-proxy/`). Any future "CLI that owns a long-lived session/connection" should follow this. The critical patterns below were each root-caused with empirical proof — do not "simplify" them back into broken forms.
 
 ## 1. Single-owner daemon lock: O_CREAT|O_EXCL, NEVER the socket
 

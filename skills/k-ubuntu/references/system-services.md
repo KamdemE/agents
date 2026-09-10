@@ -1,10 +1,10 @@
 # System Services — Full Inventory (enabled, verified)
 
-All services listed below are **active and running** (verified 2026-07-25). Source of truth is within `.agents/` with a symlink to the OS location. For custom services, the `Source (.agents/)` column shows the canonical file path; for KπX-managed configs, the symlink target is listed.
+All services listed below are **active and running** (verified 2026-07-25). Source of truth is within `.agents/` with a symlink to the OS location. For custom services, the `Source (.agents/)` column shows the canonical file path; for -managed configs, the symlink target is listed.
 
 | Service | Role | Statut | Source (.agents/) | Symlink |
 |---------|------|--------|-------------------|---------|
-| `nftables.service` | Firewall | ✅ enabled + active | `k-nftables/assets/nftables.conf` (shared canonical config; scoped to `kpihx-ubuntu` + `kpihx-pve-debian`) | ✅ `/etc/nftables.conf` |
+| `nftables.service` | Firewall | ✅ enabled + active | `k-nftables/assets/nftables.conf` (shared canonical config; scoped to `workstation` + `kpihx-pve-debian`) | ✅ `/etc/nftables.conf` |
 | `docker.service` | Container runtime | ✅ enabled + active | — (system default) | — |
 | `tailscaled.service` | Tailscale mesh VPN | ✅ enabled + active | — (system default) | — |
 | `ssh.service` | SSH daemon | ✅ enabled + active | — (system default) | — |
@@ -16,9 +16,9 @@ All services listed below are **active and running** (verified 2026-07-25). Sour
 | | | | | |
 | **User services** (systemctl --user) | | | | |
 | `opencode-web.service` | OpenCode Web server | ✅ enabled + active | `k-opencode/assets/opencode-web.service` | ✅ `~/.config/systemd/user/opencode-web.service` |
-| `rclone-gdrive.service` | Gdrive (kapoivha@gmail.com → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive.service` | ✅ `~/.config/systemd/user/rclone-gdrive.service` |
-| `rclone-gdrive-x.service` | Gdrive_X (X account → ~/Gdrive_X) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive-x.service` | ✅ `~/.config/systemd/user/rclone-gdrive-x.service` |
-| `rclone-deep-pc6.service` | Deep-PC6 mount | 🔴 DEACTIVATED 2026-09-01 (DxO internship ended) | `deactive/k-dxo/assets/rclone-deep-pc6.service` | removed |
+| `rclone-gdrive.service` | Gdrive (<primary@gmail.com> → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive.service` | ✅ `~/.config/systemd/user/rclone-gdrive.service` |
+| `rclone-gdrive-x.service` | Gdrive (X account → ~/Gdrive) | ✅ enabled + active | `k-rclone/assets/rclone-gdrive-x.service` | ✅ `~/.config/systemd/user/rclone-gdrive-x.service` |
+| *(none)* | No remote-mount services on this machine | — | — | — |
 | | | | | |
 | **Timers** (system) | | | | |
 | `clean.timer` | System cleanup (Sat 04:00) | ✅ enabled + active | `k-ubuntu/assets/clean/clean.service` + `.timer` | ✅ `/etc/systemd/system/clean.*` |

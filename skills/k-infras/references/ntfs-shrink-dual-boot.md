@@ -34,7 +34,7 @@ sudo parted /dev/nvme0n1 unit s print free
 df -h /mnt/datas
 ```
 
-Identify target partition (e.g. `p3` = KpihX-Datas on `nvme0n1`).
+Identify target partition (e.g. `p3` = -Datas on `nvme0n1`).
 
 ### 2. Unmount
 
@@ -241,8 +241,3 @@ sudo efibootmgr -v
 
 ---
 
-## Changelog
-
-| Date | Notes |
-|------|-------|
-| 2026-06-11 | Initial doc from KpihX-Ubuntu dual-boot prep session (interrupted ntfsresize recovery + parted shrink) |

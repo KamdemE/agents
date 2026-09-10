@@ -2,276 +2,117 @@
   // ============================================================================
   // links.jsonc — the single source of truth for .agents-owned symlinks
   // ============================================================================
-  // WHY JSONC: comments allowed → self-documenting. JSONC is the KπX standard
-  // for config files (see kpihx-labs / k-project → Config Standard). .env holds
-  // secrets.
+  // Single-machine fork: entries use ["*"] (this machine). Dormant platform
+  // links (phone, windows) keep their named scope so they never apply here
+  // but stay registered for machines that need them.
   //
   // WHO USES IT:
   //   - scripts/links/set-links.sh   (create/recreate every registered symlink)
   //   - scripts/links/check-links.sh (verify none is broken/reversed)
-  //   - scripts/links/lib.sh         (shared JSONC loader + validator)
   //
-  // APPROACH (2026-08-14): DIRECT list grouped by owning skill (each block is a
-  // `// --- <skill> ---` comment). Each link has an "infras" array ("*" = ALL
-  // infra = the new MANDATORY; a specific infra list = only those). The current
-  // infra comes from tailscale (see infras_skills.jsonc).
-  //
-  // KEY RULES (2026-08-14, per KπX):
-  //   1. systemd unit symlinks use "-service"/"-timer" (NOT ".service"/".timer")
-  //      as the key suffix. e.g. clean.service → "clean-service".
-  //   2. links owned by an INFRA skill (k-ubuntu, k-pve, k-dockerhost, k-phones, …)
-  //      get the infra suffix appended to the WHOLE key: e.g. "clean-service-ubuntu",
-  //      "kshrc-ubuntu", "ksh-dockerhost". Tool skills (k-opencode, k-hermes, …)
-  //      do NOT get an infra suffix (their links are shared → "*").
-  //   3. All service/timer unit assets under any skill MUST be registered here
-  //      (as symlinks) under their owning skill block — nothing forgotten.
-  //
-//   FIELDS per link:
-//   source : the OS-location symlink (e.g. $HOME/.config/opencode/...)
-//   target : the canonical $HOME/.agents/... source of truth
-//            (ALWAYS in $HOME/.agents/... format — never $HOME/KpihX-Labs/...)
-//   skill  : owning k-* skill
-//   infras : array of infra names that need this link, or ["*"]
-//   allow-reversed : OPTIONAL boolean (default false). When TRUE, the link's
-//            resolved target is allowed to live OUTSIDE $HOME/.agents (e.g. a
-//            vendored dependency pointing to the runtime install). The REVERSED
-//            check still REPORTS it in the logs, but does NOT count it as a
-//            failure. Only set to true for links that are deliberately outward.
-  //
-  // NOTE: systemd unit symlinks are listed UNDER their owning skill block here
-  // (they are links too); their SERVICE functionality is checked separately via
-  // assets/services.jsonc + scripts/services/check-services.sh.
+  // FIELDS per link:
+  //   source : the OS-location symlink (e.g. $HOME/.config/opencode/...)
+  //   target : the canonical $HOME/.agents/... source of truth
+  //   skill  : owning k-* skill
+  //   infras : always ["*"] on this fork
+  //   allow-reversed : OPTIONAL boolean (default false). Tolerates a resolved
+  //            target outside $HOME/.agents (reported, not a failure).
   // ============================================================================
 
   "links": {
 
-    // --- k-opencode -----------------------------------------------------------
-    "opencode-AGENTS-md": {
-      "source": "$HOME/.config/opencode/AGENTS.md",
-      "target": "$HOME/.agents/AGENTS.md",
-      "skill": "k-opencode",
-      "infras": ["*"]
-    },
-    "opencode-agents": {
-      "source": "$HOME/.config/opencode/agents",
-      "target": "$HOME/.agents/agents",
-      "skill": "k-opencode",
-      "infras": ["*"]
-    },
-    "opencode-opencode-jsonc": {
-      "source": "$HOME/.config/opencode/opencode.jsonc",
-      "target": "$HOME/.agents/skills/k-opencode/assets/opencode.jsonc",
-      "skill": "k-opencode",
-      "infras": ["*"]
-    },
-    "opencode-tui-json": {
-      "source": "$HOME/.config/opencode/tui.json",
-      "target": "$HOME/.agents/skills/k-opencode/assets/tui.json",
-      "skill": "k-opencode",
-      "infras": ["*"]
-    },
-    "opencode-context-command": {
-      "source": "$HOME/.config/opencode/commands/context.md",
-      "target": "$HOME/.agents/skills/k-opencode/assets/plugins/context/context.md",
-      "skill": "k-opencode",
-      "infras": ["*"]
-    },
-    // opencode-context-plugin-deps: @opencode-ai/plugin resolution for the /context tool plugin.
-    // MUST be an ANCESTOR (opencode-context/node_modules/), not vendor/node_modules/ — Node/Bun resolve bare
-    // imports up the tree. node_modules is gitignored, so this link is what makes the fix durable.
-    "opencode-context-plugin-deps": {
-      "source": "$HOME/.agents/skills/k-opencode/scripts/plugins/opencode-context/node_modules/@opencode-ai/plugin",
-      "target": "$HOME/.config/opencode/node_modules/@opencode-ai/plugin",
-      "skill": "k-opencode",
-      "infras": ["*"],
-      "allow-reversed": true
-    },
-    // opencode-context-plugin removed per Suggestion 2 (loaded via explicit file:// in opencode.jsonc to support 1.18.x non-recursive glob)
-    "opencode-web-service": {
-      "source": "$HOME/.config/systemd/user/opencode-web.service",
-      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-web.service",
-      "skill": "k-opencode",
-      "infras": ["kpihx-ubuntu"]
-    },
-    "opencode-web-enabled-service": {
-      "source": "$HOME/.config/systemd/user/default.target.wants/opencode-web.service",
-      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-web.service",
-      "skill": "k-opencode",
-      "infras": ["kpihx-ubuntu"]
-    },
-    // opencode-web-shim: fixes upstream #5844 (WebSocket URL malformed when
-    // reached via a non-localhost hostname, e.g. Tailscale) — sits between
-    // Tailscale Serve and opencode-web itself, 302-redirects the first page
-    // load to append ?url=<origin>, transparently proxies everything else.
-    "opencode-web-shim-service": {
-      "source": "$HOME/.config/systemd/user/opencode-web-shim.service",
-      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-web-shim.service",
-      "skill": "k-opencode",
-      "infras": ["kpihx-ubuntu"]
-    },
-    "opencode-lens-service": {
-      "source": "$HOME/.config/systemd/user/opencode-lens.service",
-      "target": "$HOME/.agents/skills/k-opencode/assets/opencode-lens.service",
-      "skill": "k-opencode",
-      "infras": ["kpihx-ubuntu"]
-    },
-    // --- k-zsh -----------------------------------------------------------------
-    "zshrc":    { "source": "$HOME/.zshrc",    "target": "$HOME/.agents/skills/k-zsh/assets/zshrc",    "skill": "k-zsh", "infras": ["*"] },
-    "zshenv":   { "source": "$HOME/.zshenv",   "target": "$HOME/.agents/skills/k-zsh/assets/zshenv",   "skill": "k-zsh", "infras": ["*"] },
-    "zprofile": { "source": "$HOME/.zprofile", "target": "$HOME/.agents/skills/k-zsh/assets/zprofile", "skill": "k-zsh", "infras": ["*"] },
-    "bashrc":   { "source": "$HOME/.bashrc",   "target": "$HOME/.agents/skills/k-zsh/assets/bashrc",   "skill": "k-zsh", "infras": ["*"] },
-    "profile":  { "source": "$HOME/.profile",  "target": "$HOME/.agents/skills/k-zsh/assets/profile",  "skill": "k-zsh", "infras": ["*"] },
+    // --- k-ai ---
+    "k-piper": {"source": "$HOME/.local/bin/k-piper", "target": "$HOME/.agents/skills/k-ai/scripts/k-piper.sh", "skill": "k-ai", "infras": ["*"]},
+    "k-translate": {"source": "$HOME/.local/bin/k-translate", "target": "$HOME/.agents/skills/k-ai/scripts/k-translate.sh", "skill": "k-ai", "infras": ["*"]},
+    "k-whisper": {"source": "$HOME/.local/bin/k-whisper", "target": "$HOME/.agents/skills/k-ai/scripts/k-whisper.sh", "skill": "k-ai", "infras": ["*"]},
 
-    // --- k-ubuntu (infra skill → -ubuntu suffix) --------------------------------
-    "kshrc-ubuntu":   { "source": "$HOME/.kshrc",           "target": "$HOME/.agents/skills/k-ubuntu/assets/kshrc",           "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "ksh-ubuntu":     { "source": "$HOME/.local/bin/ksh",  "target": "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh",           "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "mimeapps-ubuntu": { "source": "$HOME/.config/mimeapps.list", "target": "$HOME/.agents/skills/k-ubuntu/assets/mimeapps.list", "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "clean-service-ubuntu":  { "source": "/etc/systemd/system/clean.service",  "target": "$HOME/.agents/skills/k-ubuntu/assets/clean/clean.service",  "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "clean-timer-ubuntu":    { "source": "/etc/systemd/system/clean.timer",    "target": "$HOME/.agents/skills/k-ubuntu/assets/clean/clean.timer",    "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "backup-restore-service-ubuntu": { "source": "/etc/systemd/system/backup-restore.service", "target": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore/backup-restore.service", "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "backup-restore-timer-ubuntu":   { "source": "/etc/systemd/system/backup-restore.timer",   "target": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore/backup-restore.timer",   "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "pve-backup-service-ubuntu":     { "source": "/etc/systemd/system/pve-backup.service",     "target": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore_pve/pve-backup.service",     "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
-    "pve-backup-timer-ubuntu":       { "source": "/etc/systemd/system/pve-backup.timer",       "target": "$HOME/.agents/skills/k-ubuntu/assets/backup_restore_pve/pve-backup.timer",       "skill": "k-ubuntu", "infras": ["kpihx-ubuntu"] },
+    // --- k-clis ---
+    "curls": {"source": "$HOME/.local/bin/curls", "target": "$HOME/.agents/skills/k-clis/scripts/curls.sh", "skill": "k-clis", "infras": ["*"]},
+    "rm": {"source": "$HOME/.local/bin/rm", "target": "$HOME/.agents/skills/k-clis/assets/rm", "skill": "k-clis", "infras": ["*"]},
 
-    // --- k-tmux -----------------------------------------------------------------
-    "tmux-conf":  { "source": "$HOME/.tmux.conf", "target": "$HOME/.agents/skills/k-tmux/assets/tmux.conf", "skill": "k-tmux", "infras": ["*"] },
-    "tmux-init":  { "source": "$HOME/.local/bin/tmux-init", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-init.sh", "skill": "k-tmux", "infras": ["*"] },
-    "tmux-resurrect-restore": { "source": "$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-resurrect-restore.sh", "skill": "k-tmux", "infras": ["*"] },
-    "tmux-resurrect-save":    { "source": "$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh",    "target": "$HOME/.agents/skills/k-tmux/assets/tmux-resurrect-save.sh",    "skill": "k-tmux", "infras": ["*"] },
-    "tmux-continuum-save":    { "source": "$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-continuum-save.sh", "skill": "k-tmux", "infras": ["*"] },
+    // --- k-code ---
+    "code-chatLanguageModels": {"source": "$HOME/.config/Code/User/chatLanguageModels.json", "target": "$HOME/.agents/skills/k-code/assets/chatLanguageModels.json", "skill": "k-code", "infras": ["*"]},
+    "code-keybindings": {"source": "$HOME/.config/Code/User/keybindings.json", "target": "$HOME/.agents/skills/k-code/assets/keybindings.json", "skill": "k-code", "infras": ["*"]},
+    "code-mcp": {"source": "$HOME/.config/Code/User/mcp.json", "target": "$HOME/.agents/skills/k-code/assets/mcp.json", "skill": "k-code", "infras": ["*"]},
+    "code-profile-cpp": {"source": "$HOME/.config/Code/User/profiles/cpp.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/cpp.code-profile", "skill": "k-code", "infras": ["*"]},
+    "code-profile-general": {"source": "$HOME/.config/Code/User/profiles/general.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/general.code-profile", "skill": "k-code", "infras": ["*"]},
+    "code-profile-java": {"source": "$HOME/.config/Code/User/profiles/java.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/java.code-profile", "skill": "k-code", "infras": ["*"]},
+    "code-profile-latex": {"source": "$HOME/.config/Code/User/profiles/latex.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/latex.code-profile", "skill": "k-code", "infras": ["*"]},
+    "code-settings": {"source": "$HOME/.config/Code/User/settings.json", "target": "$HOME/.agents/skills/k-code/assets/settings.json", "skill": "k-code", "infras": ["*"]},
+    "cursor-chatLanguageModels": {"source": "$HOME/.config/Cursor/User/chatLanguageModels.json", "target": "$HOME/.agents/skills/k-code/assets/chatLanguageModels.json", "skill": "k-code", "infras": ["*"]},
+    "cursor-keybindings": {"source": "$HOME/.config/Cursor/User/keybindings.json", "target": "$HOME/.agents/skills/k-code/assets/keybindings.json", "skill": "k-code", "infras": ["*"]},
+    "cursor-mcp": {"source": "$HOME/.config/Cursor/User/mcp.json", "target": "$HOME/.agents/skills/k-code/assets/mcp.json", "skill": "k-code", "infras": ["*"]},
+    "cursor-settings": {"source": "$HOME/.config/Cursor/User/settings.json", "target": "$HOME/.agents/skills/k-code/assets/settings.json", "skill": "k-code", "infras": ["*"]},
 
-    // --- k-ssh --------------------------------------------------------------------
-    // gpg-agent.conf: relaxes min-passphrase-len to 0 so gpg-agent's ssh-emulation
-    // (tty/headless PREFERRED strategy) can import unencrypted OpenSSH keys without
-    // forcing an internal protection passphrase the key file never had. See
-    // k-ssh/assets/gpg-agent.conf header comment for the full incident (2026-08-26).
-    "gpg-agent-conf": { "source": "$HOME/.gnupg/gpg-agent.conf", "target": "$HOME/.agents/skills/k-ssh/assets/gpg-agent.conf", "skill": "k-ssh", "infras": ["*"] },
-
-    // --- k-git ------------------------------------------------------------------
-    "gitconfig":  { "source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"] },
-    // agents-pre-commit retired 2026-08-25: `make check` is now a GLOBAL pre-commit
-    // gate in git-hook-passthrough.sh (see k-git) — the .agents-local hook duplicated it.
-    "agents-post-commit": { "source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/hooks/post-commit.sh", "skill": "k-git", "infras": ["*"] },
-    // Global git excludesFile (XDG default) — secrets (.env etc.) never indexed/listed
-    "git-ignore-global": { "source": "$HOME/.config/git/ignore", "target": "$HOME/.agents/skills/k-git/assets/git-ignore-global", "skill": "k-git", "infras": ["*"] },
-    // Generic hook pass-throughs (one asset, N symlinks named after each hook type) —
-    // k-git owns ALL git hook plumbing; re-chains repo-local hooks that
-    // core.hooksPath would otherwise bypass. post-commit dispatcher stays in k-loom.
-    "git-hooks-pre-commit":         { "source": "$HOME/.config/git/hooks/pre-commit",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-commit-msg":         { "source": "$HOME/.config/git/hooks/commit-msg",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-prepare-commit-msg": { "source": "$HOME/.config/git/hooks/prepare-commit-msg", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-push":           { "source": "$HOME/.config/git/hooks/pre-push",           "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-rebase":         { "source": "$HOME/.config/git/hooks/pre-rebase",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-checkout":      { "source": "$HOME/.config/git/hooks/post-checkout",      "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-merge":         { "source": "$HOME/.config/git/hooks/post-merge",         "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-post-rewrite":       { "source": "$HOME/.config/git/hooks/post-rewrite",       "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-    "git-hooks-pre-applypatch":     { "source": "$HOME/.config/git/hooks/pre-applypatch",     "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"] },
-
-    // --- k-loom (global git hooks → Loom auto-sync on every repo) ---------------
-    // Activated via `git config --global core.hooksPath "$HOME/.config/git/hooks"`.
-    // The post-commit dispatcher re-chains repo-local hooks (nothing regresses),
-    // then runs `loom sync` when an index exists for the project.
-    "git-hooks-post-commit": { "source": "$HOME/.config/git/hooks/post-commit", "target": "$HOME/.agents/skills/k-loom/assets/git-post-commit.sh", "skill": "k-loom", "infras": ["*"] },
-
-    // --- k-presentation -------------------------------------------------------
-    // check-dashes.sh, Makefile are skill to skill symlinks to k-tex assets
-    // (single source of truth — never duplicated, see k-presentation SKILL.md).
-    "presentation-check-dashes": { "source": "$HOME/.agents/skills/k-presentation/scripts/check-dashes.sh", "target": "$HOME/.agents/skills/k-tex/scripts/check-dashes.sh", "skill": "k-presentation", "infras": ["*"] },
-    "presentation-Makefile": { "source": "$HOME/.agents/skills/k-presentation/assets/Makefile", "target": "$HOME/.agents/skills/k-tex/assets/Makefile", "skill": "k-presentation", "infras": ["*"] },
-
-    // --- k-phones (phones — infra skill → -s25 suffix) -------------------------
-    "kshrc-phones": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-phones/assets/kshrc", "skill": "k-phones", "infras": ["kpihx-s25"] },
-    "termux-boot-sshd-phones": { "source": "$HOME/.termux/boot/sshd", "target": "$HOME/.agents/skills/k-phones/assets/termux-boot-sshd", "skill": "k-phones", "infras": ["kpihx-s25"] },
-
-    // --- k-dockerhost (infra skill → -dockerhost suffix) -----------------------
-    "kshrc-dockerhost": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-dockerhost/assets/kshrc", "skill": "k-dockerhost", "infras": ["kpihx-dockerhost"] },
-    "ksh-dockerhost": { "source": "$HOME/.local/bin/ksh", "target": "$HOME/.agents/skills/k-dockerhost/scripts/ksh", "skill": "k-dockerhost", "infras": ["kpihx-dockerhost"] },
-    "vault-backup-service-dockerhost": { "source": "/etc/systemd/system/vault-backup.service", "target": "$HOME/.agents/skills/k-dockerhost/scripts/vault/systemd/vault-backup.service", "skill": "k-dockerhost", "infras": ["kpihx-dockerhost"] },
-    "vault-backup-timer-dockerhost":   { "source": "/etc/systemd/system/vault-backup.timer",   "target": "$HOME/.agents/skills/k-dockerhost/scripts/vault/systemd/vault-backup.timer",   "skill": "k-dockerhost", "infras": ["kpihx-dockerhost"] },
-
-    // --- k-pve (infra skill → -pve suffix) -------------------------------------
-    "kshrc-pve": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-pve/assets/kshrc", "skill": "k-pve", "infras": ["kpihx-pve"] },
-
-    // --- k-pve-debian (infra skill → -pve-debian suffix) ------------------------
-    "kshrc-pve-debian": { "source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-pve-debian/assets/kshrc", "skill": "k-pve-debian", "infras": ["kpihx-pve-debian"] },
-
-    // k-blglaptop139 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
-    // k-deep-pc6 DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/
-
-    // --- k-ai (voice) -------------------------------------------------------------
-    "k-piper":     { "source": "$HOME/.local/bin/k-piper",     "target": "$HOME/.agents/skills/k-ai/scripts/k-piper.sh",     "skill": "k-ai", "infras": ["kpihx-ubuntu"] },
-    "k-whisper":   { "source": "$HOME/.local/bin/k-whisper",   "target": "$HOME/.agents/skills/k-ai/scripts/k-whisper.sh",   "skill": "k-ai", "infras": ["kpihx-ubuntu"] },
-    "k-translate": { "source": "$HOME/.local/bin/k-translate", "target": "$HOME/.agents/skills/k-ai/scripts/k-translate.sh", "skill": "k-ai", "infras": ["kpihx-ubuntu"] },
-
-    // --- k-hermes -----------------------------------------------------------------
-    "hermes-gateway-service": { "source": "$HOME/.config/systemd/user/hermes-gateway.service", "target": "$HOME/.agents/skills/k-hermes/assets/hermes-gateway.service", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-config":         { "source": "$HOME/.hermes/config.yaml",       "target": "$HOME/.agents/skills/k-hermes/assets/config.yaml", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-profile-ollama": { "source": "$HOME/.hermes/profiles/ollama/config.yaml", "target": "$HOME/.agents/skills/k-hermes/assets/profiles/ollama/config.yaml", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-profile-opencode-go": { "source": "$HOME/.hermes/profiles/opencode-go/config.yaml", "target": "$HOME/.agents/skills/k-hermes/assets/profiles/opencode-go/config.yaml", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-SOUL":          { "source": "$HOME/.hermes/SOUL.md",          "target": "$HOME/.agents/AGENTS.md",              "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-memories-USER": { "source": "$HOME/.hermes/memories/USER.md", "target": "$HOME/.agents/skills/kpihx/SKILL.md", "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-    "hermes-SOUL-dir":      { "source": "$HOME/hermes/SOUL.md",          "target": "$HOME/.agents/AGENTS.md",              "skill": "k-hermes", "infras": ["kpihx-ubuntu"] },
-
-    // --- k-qmd --------------------------------------------------------------------
-    "qmdr":    { "source": "$HOME/.local/bin/qmdr", "target": "$HOME/.agents/skills/k-qmd/scripts/qmdr", "skill": "k-qmd", "infras": ["*"] },
-
-    // --- k-clis -------------------------------------------------------------------
-    "rm":      { "source": "$HOME/.local/bin/rm", "target": "$HOME/.agents/skills/k-clis/assets/rm", "skill": "k-clis", "infras": ["*"] },
-
-    // --- k-dxo DEACTIVATED 2026-09-01 (DxO internship ended) → skills/deactive/ ---
-
-    // --- k-openclaw ----------------------------------------------------------------
-    "openclaw-opencode": { "source": "$HOME/.local/bin/openclaw-opencode", "target": "$HOME/.agents/skills/k-openclaw/assets/openclaw-opencode", "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-    "openclaw-gateway-service": { "source": "$HOME/.config/systemd/user/openclaw-gateway.service", "target": "$HOME/.agents/skills/k-openclaw/assets/openclaw-gateway.service", "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-    "openclaw-override-conf": { "source": "$HOME/.config/systemd/user/openclaw-gateway.service.d/openclaw-override.conf", "target": "$HOME/.agents/skills/k-openclaw/assets/openclaw-override.conf", "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-    "openclaw-workspace-SOUL":      { "source": "$HOME/.openclaw/workspace/SOUL.md",      "target": "$HOME/.agents/AGENTS.md",                        "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-    "openclaw-workspace-USER":      { "source": "$HOME/.openclaw/workspace/USER.md",      "target": "$HOME/.agents/skills/kpihx/SKILL.md",            "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-    "openclaw-workspace-AGENTS":    { "source": "$HOME/.openclaw/workspace/AGENTS.md",    "target": "$HOME/.agents/AGENTS.md",                        "skill": "k-openclaw", "infras": ["kpihx-ubuntu"] },
-
-    // --- k-code (Code + Cursor) -----------------------------------------------------
-    "code-settings":             { "source": "$HOME/.config/Code/User/settings.json",             "target": "$HOME/.agents/skills/k-code/assets/settings.json",             "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-keybindings":          { "source": "$HOME/.config/Code/User/keybindings.json",          "target": "$HOME/.agents/skills/k-code/assets/keybindings.json",          "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-mcp":                  { "source": "$HOME/.config/Code/User/mcp.json",                  "target": "$HOME/.agents/skills/k-code/assets/mcp.json",                  "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-chatLanguageModels":   { "source": "$HOME/.config/Code/User/chatLanguageModels.json",   "target": "$HOME/.agents/skills/k-code/assets/chatLanguageModels.json",   "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-snippets":             { "source": "$HOME/.config/Code/User/snippets",                 "target": "$HOME/.agents/skills/k-code/assets/snippets",                 "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "cursor-settings":           { "source": "$HOME/.config/Cursor/User/settings.json",           "target": "$HOME/.agents/skills/k-code/assets/settings.json",           "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "cursor-keybindings":        { "source": "$HOME/.config/Cursor/User/keybindings.json",        "target": "$HOME/.agents/skills/k-code/assets/keybindings.json",        "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "cursor-mcp":                { "source": "$HOME/.config/Cursor/User/mcp.json",                "target": "$HOME/.agents/skills/k-code/assets/mcp.json",                "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "cursor-chatLanguageModels": { "source": "$HOME/.config/Cursor/User/chatLanguageModels.json", "target": "$HOME/.agents/skills/k-code/assets/chatLanguageModels.json", "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "cursor-snippets":           { "source": "$HOME/.config/Cursor/User/snippets",               "target": "$HOME/.agents/skills/k-code/assets/snippets",               "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-profile-java":         { "source": "$HOME/.config/Code/User/profiles/java.code-profile",    "target": "$HOME/.agents/skills/k-code/references/profiles/java.code-profile",    "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-profile-cpp":          { "source": "$HOME/.config/Code/User/profiles/cpp.code-profile",     "target": "$HOME/.agents/skills/k-code/references/profiles/cpp.code-profile",     "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-profile-general":      { "source": "$HOME/.config/Code/User/profiles/general.code-profile", "target": "$HOME/.agents/skills/k-code/references/profiles/general.code-profile", "skill": "k-code", "infras": ["kpihx-ubuntu"] },
-    "code-profile-latex":        { "source": "$HOME/.config/Code/User/profiles/latex.code-profile",   "target": "$HOME/.agents/skills/k-code/references/profiles/latex.code-profile",   "skill": "k-code", "infras": ["kpihx-ubuntu"] },
+    // --- k-git ---
+    "agents-post-commit": {"source": "$HOME/.agents/.git/hooks/post-commit", "target": "$HOME/.agents/scripts/git/hooks/post-commit.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-commit-msg": {"source": "$HOME/.config/git/hooks/commit-msg", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-post-checkout": {"source": "$HOME/.config/git/hooks/post-checkout", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-post-merge": {"source": "$HOME/.config/git/hooks/post-merge", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-post-rewrite": {"source": "$HOME/.config/git/hooks/post-rewrite", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-pre-applypatch": {"source": "$HOME/.config/git/hooks/pre-applypatch", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-pre-commit": {"source": "$HOME/.config/git/hooks/pre-commit", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-pre-push": {"source": "$HOME/.config/git/hooks/pre-push", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-pre-rebase": {"source": "$HOME/.config/git/hooks/pre-rebase", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-hooks-prepare-commit-msg": {"source": "$HOME/.config/git/hooks/prepare-commit-msg", "target": "$HOME/.agents/skills/k-git/scripts/git-hook-passthrough.sh", "skill": "k-git", "infras": ["*"]},
+    "git-ignore-global": {"source": "$HOME/.config/git/ignore", "target": "$HOME/.agents/skills/k-git/assets/git-ignore-global", "skill": "k-git", "infras": ["*"]},
+    "gitconfig": {"source": "$HOME/.gitconfig", "target": "$HOME/.agents/skills/k-git/assets/gitconfig", "skill": "k-git", "infras": ["*"]},
 
 
-    // --- k-clis ---------------------------------------------------------------------
-    "curls": { "source": "$HOME/.local/bin/curls", "target": "$HOME/.agents/skills/k-clis/scripts/curls.sh", "skill": "k-clis", "infras": ["*"] },
+    // --- k-loom ---
+    "git-hooks-post-commit": {"source": "$HOME/.config/git/hooks/post-commit", "target": "$HOME/.agents/skills/k-loom/assets/git-post-commit.sh", "skill": "k-loom", "infras": ["*"]},
 
-    // --- k-google ---------------------------------------------------------------------
 
-    // --- k-nvim -----------------------------------------------------------------------
-    "nvim-init":      { "source": "$HOME/.config/nvim/init.lua",      "target": "$HOME/.agents/skills/k-nvim/assets/init.lua",      "skill": "k-nvim", "infras": ["*"] },
-    "nvim-kpihx":     { "source": "$HOME/.config/nvim/lua/kpihx",     "target": "$HOME/.agents/skills/k-nvim/assets/lua/kpihx",     "skill": "k-nvim", "infras": ["*"] },
-    "nvim-lazy-lock": { "source": "$HOME/.config/nvim/lazy-lock.json", "target": "$HOME/.agents/skills/k-nvim/assets/lazy-lock.json", "skill": "k-nvim", "infras": ["*"] },
-    "nvim-uv-nvim-pyproject": { "source": "$HOME/.local/share/nvim/uv-nvim/pyproject.toml", "target": "$HOME/.agents/skills/k-nvim/assets/uv-nvim/pyproject.toml", "skill": "k-nvim", "infras": ["*"] },
+    // --- k-nvim ---
+    "nvim-init": {"source": "$HOME/.config/nvim/init.lua", "target": "$HOME/.agents/skills/k-nvim/assets/init.lua", "skill": "k-nvim", "infras": ["*"]},
+    "nvim-kpihx": {"source": "$HOME/.config/nvim/lua/kpihx", "target": "$HOME/.agents/skills/k-nvim/assets/lua/kpihx", "skill": "k-nvim", "infras": ["*"]},
+    "nvim-lazy-lock": {"source": "$HOME/.config/nvim/lazy-lock.json", "target": "$HOME/.agents/skills/k-nvim/assets/lazy-lock.json", "skill": "k-nvim", "infras": ["*"]},
+    "nvim-uv-nvim-pyproject": {"source": "$HOME/.local/share/nvim/uv-nvim/pyproject.toml", "target": "$HOME/.agents/skills/k-nvim/assets/uv-nvim/pyproject.toml", "skill": "k-nvim", "infras": ["*"]},
+    "vimrc": {"source": "$HOME/.vimrc", "target": "$HOME/.agents/skills/k-nvim/assets/vimrc", "skill": "k-nvim", "infras": ["*"]},
 
-    // --- k-rclone ----------------------------------------------------------------------
-    "rclone-gdrive-service":   { "source": "$HOME/.config/systemd/user/rclone-gdrive.service",   "target": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive.service",   "skill": "k-rclone", "infras": ["kpihx-ubuntu"] },
-    "rclone-gdrive-x-service": { "source": "$HOME/.config/systemd/user/rclone-gdrive-x.service", "target": "$HOME/.agents/skills/k-rclone/assets/rclone-gdrive-x.service", "skill": "k-rclone", "infras": ["kpihx-ubuntu"] },
 
-    // --- k-ollama DEACTIVATED 2026-09-01 (replaced by k-openvino) → skills/deactive/ ---
+    // --- k-opencode ---
+    "opencode-AGENTS-md": {"source": "$HOME/.config/opencode/AGENTS.md", "target": "$HOME/.agents/AGENTS.md", "skill": "k-opencode", "infras": ["*"]},
+    "opencode-agents": {"source": "$HOME/.config/opencode/agents", "target": "$HOME/.agents/agents", "skill": "k-opencode", "infras": ["*"]},
+    "opencode-context-command": {"source": "$HOME/.config/opencode/commands/context.md", "target": "$HOME/.agents/skills/k-opencode/assets/plugins/context/context.md", "skill": "k-opencode", "infras": ["*"]},
+    "opencode-opencode-jsonc": {"source": "$HOME/.config/opencode/opencode.jsonc", "target": "$HOME/.agents/skills/k-opencode/assets/opencode.jsonc", "skill": "k-opencode", "infras": ["*"]},
+    "opencode-tui-json": {"source": "$HOME/.config/opencode/tui.json", "target": "$HOME/.agents/skills/k-opencode/assets/tui.json", "skill": "k-opencode", "infras": ["*"]},
 
-    // --- k-tailscale --------------------------------------------------------------
-    // 2026-08-24: tailscaled.service + /etc/default/tailscaled DE-LINKED per KπX order —
-    // stock Tailscale-managed files, no KπX customization → live in /etc only, Tailscale governs them.
+    // --- k-presentation ---
+    "presentation-Makefile": {"source": "$HOME/.agents/skills/k-presentation/assets/Makefile", "target": "$HOME/.agents/skills/k-tex/assets/Makefile", "skill": "k-presentation", "infras": ["*"]},
+    "presentation-check-dashes": {"source": "$HOME/.agents/skills/k-presentation/scripts/check-dashes.sh", "target": "$HOME/.agents/skills/k-tex/scripts/check-dashes.sh", "skill": "k-presentation", "infras": ["*"]},
 
-    // --- k-nftables ---------------------------------------------------------------
-    "nftables-conf": { "source": "/etc/nftables.conf", "target": "$HOME/.agents/skills/k-nftables/assets/nftables.conf", "skill": "k-nftables", "infras": ["kpihx-ubuntu", "kpihx-pve-debian"] }
+    // --- k-phones (dormant here — phone scope never matches this machine) ---
+    "kshrc-phones": {"source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-phones/assets/kshrc", "skill": "k-phones", "infras": ["phone"]},
+    // --- k-windows (dormant here — windows scope never matches this machine) ---
+    "kshrc-windows": {"source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-windows/assets/kshrc", "skill": "k-windows", "infras": ["windows"]},
+    // --- k-qmd ---
+    "qmdr": {"source": "$HOME/.local/bin/qmdr", "target": "$HOME/.agents/skills/k-qmd/scripts/qmdr", "skill": "k-qmd", "infras": ["*"]},
+
+    // --- k-ssh ---
+    "gpg-agent-conf": {"source": "$HOME/.gnupg/gpg-agent.conf", "target": "$HOME/.agents/skills/k-ssh/assets/gpg-agent.conf", "skill": "k-ssh", "infras": ["*"]},
+
+    // --- k-tmux ---
+    "tmux-conf": {"source": "$HOME/.tmux.conf", "target": "$HOME/.agents/skills/k-tmux/assets/tmux.conf", "skill": "k-tmux", "infras": ["*"]},
+    "tmux-continuum-save": {"source": "$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-continuum-save.sh", "skill": "k-tmux", "infras": ["*"]},
+    "tmux-init": {"source": "$HOME/.local/bin/tmux-init", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-init.sh", "skill": "k-tmux", "infras": ["*"]},
+    "tmux-resurrect-restore": {"source": "$HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-resurrect-restore.sh", "skill": "k-tmux", "infras": ["*"]},
+    "tmux-resurrect-save": {"source": "$HOME/.tmux/plugins/tmux-resurrect/scripts/save.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-resurrect-save.sh", "skill": "k-tmux", "infras": ["*"]},
+
+    // --- k-ubuntu ---
+    "ksh-ubuntu": {"source": "$HOME/.local/bin/ksh", "target": "$HOME/.agents/skills/k-ubuntu/scripts/ksh.sh", "skill": "k-ubuntu", "infras": ["*"]},
+    "kshrc-ubuntu": {"source": "$HOME/.kshrc", "target": "$HOME/.agents/skills/k-ubuntu/assets/kshrc", "skill": "k-ubuntu", "infras": ["*"]},
+    "mimeapps-ubuntu": {"source": "$HOME/.config/mimeapps.list", "target": "$HOME/.agents/skills/k-ubuntu/assets/mimeapps.list", "skill": "k-ubuntu", "infras": ["*"]},
+
+    // --- k-zsh ---
+    "bashrc": {"source": "$HOME/.bashrc", "target": "$HOME/.agents/skills/k-zsh/assets/bashrc", "skill": "k-zsh", "infras": ["*"]},
+    "profile": {"source": "$HOME/.profile", "target": "$HOME/.agents/skills/k-zsh/assets/profile", "skill": "k-zsh", "infras": ["*"]},
+    "zprofile": {"source": "$HOME/.zprofile", "target": "$HOME/.agents/skills/k-zsh/assets/zprofile", "skill": "k-zsh", "infras": ["*"]},
+    "zshenv": {"source": "$HOME/.zshenv", "target": "$HOME/.agents/skills/k-zsh/assets/zshenv", "skill": "k-zsh", "infras": ["*"]},
+    "zshrc": {"source": "$HOME/.zshrc", "target": "$HOME/.agents/skills/k-zsh/assets/zshrc", "skill": "k-zsh", "infras": ["*"]}
   },
 
-  // --- Declarative completeness-audit surface -----------------------------------------
-  // Sources without max-depth are intentionally recursive; exclusions apply to every source.
+  // --- Declarative completeness-audit surface ---
   "audit": {
     "sources": [
       { "path": "$HOME", "max-depth": 1 },
@@ -281,8 +122,6 @@
     ],
     "exclusions": [
       "Gdrive",
-      "Gdrive_X",
-      "Deep-PC6",
       "Trash",
       ".venv",
       "node_modules",

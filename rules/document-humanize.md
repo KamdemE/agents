@@ -1,15 +1,15 @@
 # Document Humanize (GRAVE)
 
 **Status:** Kernel sovereignty for authored deliverables.  
-**Applies to:** ALL agents, ALL profiles, whenever producing or editing documents **for KpihX**.  
-**Engraved:** KpihX 2026-09-10 (ALTEN cover-letter pass) + prior prose dash gate 2026-09-09.  
+**Applies to:** ALL agents, ALL profiles, whenever producing or editing documents **for **.  
+**Engraved:**  2026-09-10 (ALTEN cover-letter pass) + prior prose dash gate 2026-09-09.  
 **Related tooling:** `libs/humanize/humanize_lib.{sh,py,js}`, `scripts/check-dashes.sh` (automated subset; this rule is stricter for deliverables).
 
 ---
 
 ## Scope (when this rule applies)
 
-Any agent-authored or agent-edited **deliverable** meant for KpihX to read, send, print, present, or submit:
+Any agent-authored or agent-edited **deliverable** meant for  to read, send, print, present, or submit:
 
 | Kind | Examples |
 |------|----------|
@@ -20,13 +20,13 @@ Any agent-authored or agent-edited **deliverable** meant for KpihX to read, send
 | Form / portal copy | JobTeaser, LinkedIn, Welcome to the Jungle, AX text fields |
 | Chat drafts for him | text he will paste elsewhere (mail body, LinkedIn Easy Apply message) |
 
-**Does NOT rewrite** historical kernel prose already committed (e.g. old `AGENTS.md` lines) unless KpihX asks. **Does apply** to every **new** sentence you write in those files and every **new** deliverable.
+**Does NOT rewrite** historical kernel prose already committed (e.g. old `AGENTS.md` lines) unless  asks. **Does apply** to every **new** sentence you write in those files and every **new** deliverable.
 
 ---
 
 ## The keyboard test (source of truth)
 
-> Before shipping a character, ask: **can KpihX type this instinctively on his keyboard (AZERTY FR / common US layout) without Compose, AltGr gymnastics, or copy-paste from Unicode tables?**
+> Before shipping a character, ask: **can  type this instinctively on his keyboard (AZERTY FR / common US layout) without Compose, AltGr gymnastics, or copy-paste from Unicode tables?**
 
 If no -> replace with a keyboard-native equivalent or rephrase with words.
 
@@ -69,7 +69,7 @@ These are not "unicode bans" but they produce **non-human / broken deliverables*
 
 1. **Pandoc definition-list trap:** a line like `Term: rest` can become a definition list (huge white gap). For `Re:` / titles, avoid a second bare `Title: subtitle` pattern; prefer `Re: Application for X (Y, id)` or escape deliberately.
 2. **PDF page spill:** a cover letter that should be 1 page must be verified (`pdfinfo` Pages=1, optional `pdftoppm` visual). Tighten margins/font or shorten; never ship a lonely orphan line on page 2 by accident.
-3. **docx vs pdf:** when KpihX asks for a document to send, default to **PDF** unless he asked for editable Word. Keep `.md` as source of truth; do not leave stale `.docx` beside a PDF you just produced.
+3. **docx vs pdf:** when  asks for a document to send, default to **PDF** unless he asked for editable Word. Keep `.md` as source of truth; do not leave stale `.docx` beside a PDF you just produced.
 4. **Fake typography in metrics:** write ASCII `macro-F1` (never unicode subscript digits); write `0.93` not glamorous fraction glyphs.
 5. **Invisible characters:** strip ZWSP/BOM; they break search, git diffs, and ATS parsers.
 6. **Over-bold / over-emoji in formal letters:** letters and CV-adjacent prose stay sober (no emoji, minimal bold).
@@ -106,7 +106,7 @@ FR accented letters stay allowed. Typography glyphs above do not. Prefer `EUR`/`
 | **This rule** | Full human keyboard standard for **deliverables** (stricter: even interval en-dashes become ASCII `-`; also quotes, ellipsis, subscripts, arrows, PDF hygiene). |
 | **`scripts/check-dashes.sh` + `libs/humanize/`** | Automated gate on git-tracked prose for a **subset** (triple `-`, `U+2014`, spaced `--`, spaced en-dash). Interval en-dash may still pass the script today. |
 
-If deliverable rule and script diverge, **the deliverable rule wins for anything you ship to KpihX**. Propose tightening `humanize_lib` / `check-dashes` when convenient (Propose != Act unless he asks).
+If deliverable rule and script diverge, **the deliverable rule wins for anything you ship to **. Propose tightening `humanize_lib` / `check-dashes` when convenient (Propose != Act unless he asks).
 
 ---
 
@@ -121,8 +121,3 @@ If deliverable rule and script diverge, **the deliverable rule wins for anything
 
 ---
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-10 | Created. Keyboard-human deliverable standard after ALTEN letter (no em/en dashes, ASCII F1, PDF 1-page). Broader bans: smart quotes, ellipsis, arrows, subscripts, nbsp, pandoc `Re:` trap, docx/pdf hygiene. |

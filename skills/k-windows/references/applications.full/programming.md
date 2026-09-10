@@ -1,6 +1,6 @@
 # Programming
 
-Source: `KpihX-Datas/Applications/Programming/`.
+Source: `-Datas/Applications/Programming/`.
 
 |---|---|
 | `Anaconda/Anaconda3-2024.10-1-Windows-x86_64.exe` | Anaconda 2024.10-1 (Windows) |

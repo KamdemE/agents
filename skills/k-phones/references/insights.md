@@ -8,7 +8,7 @@
 ## 2026-05-25 — [CURSOR] S25 ADB + SSH bootstrap
 
 - **SSH key:** `~/.ssh/config` referenced missing `id_ed25519_tel`; actual key is **`id_ed25519_s25`** — fixed in `k-ssh/assets/ssh.conf`.
-- **ADB over Tailscale:** Wireless debugging can show **`100.125.54.1:PORT`** (stable IP, **ephemeral port**). Pairing **`kpihx@KpihX-Ubuntu`** persists; only `adb connect` + port refresh needed.
+- **ADB over Tailscale:** Wireless debugging can show **`100.125.54.1:PORT`** (stable IP, **ephemeral port**). Pairing **`mail@workstation`** persists; only `adb connect` + port refresh needed.
 - **ADB connect failure** while TCP succeeds (`failed to connect` but port OPEN): wireless-debug **session stale** — port number on a **TG screenshot can match an old session** that no longer accepts ADB; toggle debug OFF/ON and use **live** port from phone screen (not archive photo).
 - **Termux SSH:** port **8022**; requires **`sshd` running** on phone (`Connection refused` if Termux not started or sshd stopped).
 - **Do not** use VS Code Remote SSH **into** Termux (bionic) — SSH **from** PC **to** Termux is correct.
@@ -24,7 +24,7 @@
 - **Pairing code:** always use a **fresh** 6-digit code from the pairing dialog — old codes fail silently or with protocol errors.
 - **Phone → PC tmux (2026-05-25):** Termux `ubuntu` = `ssh ubuntu -t tmux attach -t default` — join PC session **`default`**, never spawn session `ubuntu` on PC. Termux local `tmux` stays separate. Doc triad: `SKILL.md` + `phone-to-ubuntu.md` + `termux-tmux.md`.
 - **Termux deploy:** install **`termux-api`** for clipboard; use the canonical `k-tmux` configuration rather than a local deployment wrapper.
-- **Phone `ubuntu` → password (2026-05-25):** Termux SSH showed `kpihx-ubuntu (129.104.201.11)` — **campus/public IP**, not Tailscale **`100.82.95.70`**. Host-key churn + password prompt = wrong resolver and/or pubkey not offered (`IdentityFile` missing). Fix: Tailscale app **Connected** on S25, then `HostName 100.82.95.70` in Termux `~/.ssh/config` + `IdentityFile ~/.ssh/id_ed25519_ubuntu`; verify `termux-s25` on PC `authorized_keys`. **`ping kpihx-ubuntu` can succeed while SSH still uses a bad resolver** — prefer explicit Tailscale IP in `HostName`.
+- **Phone `ubuntu` → password (2026-05-25):** Termux SSH showed `workstation (129.104.201.11)` — **campus/public IP**, not Tailscale **`100.82.95.70`**. Host-key churn + password prompt = wrong resolver and/or pubkey not offered (`IdentityFile` missing). Fix: Tailscale app **Connected** on S25, then `HostName 100.82.95.70` in Termux `~/.ssh/config` + `IdentityFile ~/.ssh/id_ed25519_ubuntu`; verify `termux-s25` on PC `authorized_keys`. **`ping workstation` can succeed while SSH still uses a bad resolver** — prefer explicit Tailscale IP in `HostName`.
 - **PC `ssh s25` → Connection refused (2026-05-25):** Usually **Termux `sshd` not running** (app closed / Android killed Termux), not DNS. MagicDNS → IP in `k-ssh/assets/ssh.conf` fixes wrong-host only. Persistence uses `scripts/k_phones_sshd_autostart.sh` and `~/.termux/boot/sshd`; autostart uses **`pgrep -x sshd`**. Termux:Boot may need `verifier_verify_adb_installs=0` before `pm install` on Samsung. Never save a wireless-debug port.
 
 ## 2026-08-20 — [COLAB] Phone interface transition

@@ -43,7 +43,7 @@ Wildcard allows all, specific destructive tools override to `ask` (last match wi
 
 ## `external_directory` — 11 paths allow
 
-`~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive_X/**`, `~/Gdrive/**`, `~/KpihX-Labs/**`, `~/Work/**`, `~/.config/nvim/**`, `~/.local/share/nvim/**`
+`~/.agents/**`, `~/.config/opencode/**`, `/tmp/**`, `~/Downloads/**`, `~/Pictures/**`, `~/Gdrive/**`, `~/Gdrive/**`, `~/Labs/**`, `~/Work/**`, `~/.config/nvim/**`, `~/.local/share/nvim/**`
 
 ## Usage
 

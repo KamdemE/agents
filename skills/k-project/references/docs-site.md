@@ -1,4 +1,4 @@
-# KπX — Project docs/ Site
+#  — Project docs/ Site
 
 > **Standalone docs site (blog, KB, tutos)?** → load `k-git-pages` directly. This file covers only the `docs/` subdirectory pattern for a project that also has source code.
 > **Templates + Docsify setup + link rules** → `k-git-pages`.

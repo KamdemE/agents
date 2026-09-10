@@ -1,7 +1,7 @@
 // env_lib.js — shared .env helpers for .agents JS scripts (hooks).
 //
 // Central place for everything common to .agents Node scripts that deal with
-// .env / .env.example files (secrets — KπX NEVER prints or returns values, only key
+// .env / .env.example files (secrets — never print or return values, only key
 // names + whether a value is present/empty). This mirrors libs/env/env_lib.sh
 // EXACTLY, language apart — see libs/AGENTS.md for the "keep the 3 twins in
 // sync" rule. Callers import this module instead of re-implementing.

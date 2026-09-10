@@ -61,7 +61,7 @@ tmux attach -t local
 
 | Symptom | Fix |
 |---------|-----|
-| Wheel browses shell history | Reload KπX config; verify wheel bindings in `~/.tmux.conf` |
+| Wheel browses shell history | Reload  config; verify wheel bindings in `~/.tmux.conf` |
 | Colors broken in neovim/htop | Set `default-terminal "tmux-256color"`, ensure `TERM` in shell |
 | `sessions should be nested` warning | Already inside tmux — use `tmux switch-client` or nested intentionally |
 | Cannot attach | `tmux ls` — session may be dead; check `tmux info` |

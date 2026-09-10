@@ -41,7 +41,7 @@ each function's contract.
 
 ## 2. `libs/jsonc/jsonc_lib.*` — JSONC helpers
 
-The KπX config standard is JSONC (JSON with `//` comments). These helpers parse
+The  config standard is JSONC (JSON with `//` comments). These helpers parse
 and match infra-scoped JSONC assets.
 
 | Function | Signature | Purpose |
@@ -49,11 +49,11 @@ and match infra-scoped JSONC assets.
 | `strip_jsonc` | (stdin → stdout) | Remove `//` and `/* */` comments, respecting string literals. |
 | `jsonc_valid` | `<file>` | Strip comments then strict JSON parse (via `python3 -m json.tool`). |
 | `load_jsonc` | `<file> <var>` | Eval to set `$var` to the JSON object string (or `'{}'` on failure). |
-| `current_infra` | — | Resolve current infra name from `tailscale status --json` (fallback `hostname`). |
+| `current_infra` | — | Resolve machine id (`$AGENTS_INFRA` override, else lowercased `hostname`). |
 | `infra_matches` | `<current> <infras-json-or-*>` | True if infra applies (`*` or `["*"]` = ALL). |
 
-Path constants exported: `AGENTS_DIR`, `ASSETS_DIR`, `INFRA_FILE`
-(`assets/infras_skills.jsonc`), `SERVICES_FILE` (`assets/services.jsonc`),
+Path constants exported: `AGENTS_DIR`, `ASSETS_DIR`,
+`SERVICES_FILE` (`assets/services.jsonc`),
 `LINKS_FILE` (`assets/links.jsonc`).
 
 Source of truth: `$HOME/.agents/libs/jsonc/jsonc_lib.sh`.

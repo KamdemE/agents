@@ -10,14 +10,14 @@ Purpose: autonomous runtime memory for this skill domain to avoid repeated mista
 
 ### 2026-08-26 — `rm -f` wrapper wasn't GNU-`rm`-compatible on nonexistent targets
 
-- Symptom on `deep-pc6`: every new zsh shell printed
+- Symptom on `server`: every new zsh shell printed
   `trash-put: cannot trash non existent '.zcompdump-DEEP-PC6-5.8.1.zwc.old'`.
   Traced to `~/.oh-my-zsh/oh-my-zsh.sh:151` (upstream, unmodified) running
   an unconditional `command rm -rf "$ZSH_COMPDUMP.zwc.old"
   "${ZSH_COMPDUMP}.lock"` on EVERY shell startup — completely standard OMZ
   behavior, an idempotent cleanup of files that only exist after a rare
   `zrecompile` rotation. `command rm` still resolves through `$PATH` to
-  the KpihX trash wrapper (only aliases/functions are bypassed by
+  the  trash wrapper (only aliases/functions are bypassed by
   `command`, not `$PATH` lookups).
 - Root cause: `/usr/bin/trash-put -f <missing-path>` does NOT silently
   no-op like GNU `rm -f` — it prints `cannot trash non existent '<path>'`

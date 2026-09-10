@@ -1,4 +1,4 @@
-// src/config.ts — Canonical KpihX configuration skeleton
+// src/config.ts — Canonical  configuration skeleton
 // =========================================================
 // Minimal, dependency-light config. No YAML loader, no ConfigManager
 // singleton — runtime values are plain constants declared directly here.

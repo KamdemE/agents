@@ -1,17 +1,17 @@
 ---
 name: k-phones
-description: KπX Android phones over Tailscale — Termux SSH, raw wireless ADB, and screen control. Load before phone SSH, ADB, or Termux work.
+description:  Android phones over Tailscale — Termux SSH, raw wireless ADB, and screen control. Load before phone SSH, ADB, or Termux work.
 license: private
 metadata:
-  author: KpihX
-  version: "3.1.1"
+  author: 
+  version: "1.0.0"
   scope: device-access
 allowed-tools: Bash(ssh:*), Bash(adb:*), Read, Write, Edit
 ---
 
-# KπX — Phones
+#  — Phones
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related:** `k-infras` (inventory and setup checklist) · `k-zsh` (shell hub) · `k-ssh` (canonical SSH fragment) · `k-tmux` (Termux tmux) · `k-tailscale` (mesh connectivity).
 > **MANDATORY — read `k-infras` → New Infra Setup Checklist FIRST** to understand the setup rule: everything lives in `.agents/` (single source of truth); `$HOME`/`/root` items are symlinks (`ln -sf`). Each infra has its own `assets/kshrc` (copied from `k-zsh/assets/kshrc.base` and customized).
@@ -63,10 +63,3 @@ boot payload deployment, and verification.
 - Read `$HOME/.agents/skills/k-phones/references/insights.md` before non-trivial phone work.
 - Update it with durable lessons at task end.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-26 | [COLAB] | v3.1.1 — **`kr()` reload helper propagated (KπX audit finding)**: mirrored from `k-ubuntu`'s already-fixed version — saves `$PWD` before re-sourcing `.kshrc`, `cd`s back after (was missing here, violating the k-zsh SYNC RULE; also a permanent no-op behavior-wise on Termux's shell, kept identical for consistency). |
-| 2026-08-26 | [CLAUDE] | v3.1.0 — Persistent SSH agent block mirrored into `assets/kshrc` Section 1 for consistency with the other 7 kshrc copies — Termux has no systemd, so the `[ -S "$_gpg_ssh_sock" ]` guard makes it a permanent no-op here; documented as such rather than excluded, so the block stays identical everywhere. See `k-zsh` v2.5.0 for the mechanism. |
-| [SUMMARY] | — | v3.0.4 k-infras setup note + Termux:Boot/tmux provenance coverage · v3.0.3 symlink deployment rule (`ln -sf` for `~/.kshrc`/boot sshd) · v3.0.2 Termux:Boot manual setup (→ `references/log.md`) · v3.0.1 shell asset rename (→ `references/log.md`) · v1.3.0 and older in log.md |

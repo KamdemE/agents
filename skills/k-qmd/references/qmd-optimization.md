@@ -159,4 +159,4 @@ Also distinguish two phases:
 | 2026-04-04 | [CODEX] | Reworked the shared `post-commit` hook for repo-name-derived collections and pointed `$HOME/Work/techskills/.git/hooks/post-commit` plus `$HOME/Work/Homelab/presentation/.git/hooks/post-commit` back to the shared template via symlink |
 | 2026-04-04 | [CODEX] | Switched QMD to hot-only indexing: raw `codex`, `gemini`, and `k-ai` histories removed from `$HOME/.config/qmd/index.yml`; index shrank from ~1.4GB to ~1003.5MB; active docs 536→270; vectors 115625→640 |
 | 2026-04-04 | [CODEX] | Purged stale archive vectors and inactive ghost documents directly from `$HOME/.cache/qmd/index.sqlite`, then ran `qmd cleanup` to vacuum the DB |
-| 2026-08-24 | [COLAB] | Correction: the three local hooks previously recorded as symlinks in the 2026-04-04 entry are now executable standalone copies by KπX order; no longer registered in `assets/links.jsonc`. |
+| 2026-08-24 | [COLAB] | Correction: the three local hooks previously recorded as symlinks in the 2026-04-04 entry are now executable standalone copies by maintainer decision; no longer registered in `assets/links.jsonc`. |

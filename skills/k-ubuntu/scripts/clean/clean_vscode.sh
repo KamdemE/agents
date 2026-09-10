@@ -3,7 +3,7 @@
 # Script Name: clean_vscode.sh
 # Description: VSCode cache cleanup (~/.config/Code/ — not ~/.cache/)
 # API: --infos/-i, --safe/-s, --purge/-p
-# Author: Claude / KpihX
+# Author: Claude / 
 # ==============================================================================
 RED='\033[0;31m'
 GREEN='\033[0;32m'

@@ -1,7 +1,7 @@
 # k-tailscale — Windows / WSL
 
 > **OS reference:** Microsoft Windows (with WSL subsystem)
-> **Applies to:** `k-blglaptop139` (blglaptop139)
+> **Applies to:** `k-laptop` (laptop)
 
 ---
 
@@ -30,7 +30,7 @@ When Tailscale is installed on Windows, WSL2 automatically routes through the Wi
 - WSL2 forwards `localhost` to Windows — Tailscale MagicDNS works inside WSL
 - `tailscale status` from WSL shows the **Windows host's** Tailscale identity (not a separate WSL identity)
 - The WSL instance shares the Windows Tailscale IP
-- For a separate WSL identity, install Tailscale **inside WSL** (needed whenever the WSL distro must be its own SSH/tmux/CLI-agent target — e.g. `blglaptop139-wsl`, see naming convention below)
+- For a separate WSL identity, install Tailscale **inside WSL** (needed whenever the WSL distro must be its own SSH/tmux/CLI-agent target — e.g. `laptop-wsl`, see naming convention below)
 
 ### Separate Tailscale in WSL (if needed)
 
@@ -48,12 +48,12 @@ When a machine runs Tailscale **both** natively on Windows AND inside WSL, the t
 
 | Node | Hostname pattern | Example |
 |------|-------------------|---------|
-| Native Windows | `<host>` | `blglaptop139` |
-| WSL (separate install) | `<host>-wsl` | `blglaptop139-wsl` |
+| Native Windows | `<host>` | `laptop` |
+| WSL (separate install) | `<host>-wsl` | `laptop-wsl` |
 
 - Set the WSL node's hostname explicitly at `tailscale up` time (`--hostname=<host>-wsl`), or rename after the fact with `sudo tailscale set --hostname=<host>-wsl`.
 - Without this, `tailscale status` is ambiguous about which OS/tmux-session/SSH-target a given tailnet entry actually reaches — the `-wsl` suffix makes the OS column (`linux` vs `windows`) redundant-but-confirmed at a glance.
-- Document both identities in the infra skill's `## Host Identity` table (see `k-blglaptop139`).
+- Document both identities in the infra skill's `## Host Identity` table (see `k-laptop`).
 
 ## CLI Access
 

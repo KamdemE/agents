@@ -3,16 +3,16 @@ name: k-tg
 description: tg-proxy — Telegram admin proxy CLI. Replaces old `tg` binary. Bot/user management, BotFather, raw access.
 license: private
 metadata:
-  author: KpihX
-  version: "4.5.0"
+  author: 
+  version: "1.0.0"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
 
-# KπX — Telegram (`tg-proxy`)
+#  — Telegram (`tg-proxy`)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
-> **Project:** `$HOME/KpihX-Labs/Proxies/tg-proxy/` · **Repos:** GitHub + GitLab (tg-proxy)
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
+> **Project:** `$HOME/Labs/Proxies/tg-proxy/` · **Repos:** GitHub + GitLab (tg-proxy)
 > **Related:** `k-tmux` (HITL shared gate) · `k-clis` (CLI registry)
 
 ## Identity
@@ -26,7 +26,7 @@ Config: `~/.config/tg-proxy/.env` (`TG_API_ID` + `TG_API_HASH` only). Tokens sto
 
 ### Install
 ```bash
-cd $HOME/KpihX-Labs/Proxies/tg-proxy && uv tool install --editable .
+cd $HOME/Labs/Proxies/tg-proxy && uv tool install --editable .
 ```
 
 ---
@@ -58,11 +58,11 @@ cd $HOME/KpihX-Labs/Proxies/tg-proxy && uv tool install --editable .
 ### `bot-info` extras
 Returns `about` + `description` (since v4.0.0) via `GetBotInfoRequest(lang_code="")`. If descriptions seem empty: check lang_code mismatch (BotAPI sets fallback, not "en").
 
-### 🔴 New bot setup checklist (GRAVÉ — KπX directive 2026-08-27, never skip)
+### 🔴 New bot setup checklist (GRAVÉ —  directive 2026-08-27, never skip)
 
 Creating a bot via `bot-create` is NOT a finished setup. Every new bot MUST also get:
 
-1. **Folder placement** — add it to the **`KpihX-Labs`** Telegram folder (`folder-set` is an UPSERT/**replace**, not additive — always pass the FULL current chat list from `folder-list` PLUS the new bot, never just the new bot alone, or the rest get silently dropped).
+1. **Folder placement** — add it to the **`Labs`** Telegram folder (`folder-set` is an UPSERT/**replace**, not additive — always pass the FULL current chat list from `folder-list` PLUS the new bot, never just the new bot alone, or the rest get silently dropped).
 2. **An icon (profile photo)** — every bot MUST have one, never left blank. No dedicated `do` action exists for uploading a photo (`bot-photo` only **downloads** an existing one) — the flow goes through BotFather's `/setuserpic` conversation, 3 steps:
    - `raw '{"method":"/setuserpic","protocol":"bf"}'` (✅ HITL, tmux) → BotFather asks "Choose a bot to change photo."
    - `chat-send` (❌ no HITL) to BotFather (ID `93372553`) with the bot's `@username` as plain text — continues the SAME BotFather conversation (state tracked server-side by BotFather, not by the API call).
@@ -73,30 +73,15 @@ Creating a bot via `bot-create` is NOT a finished setup. Every new bot MUST also
 
 ---
 
-## Bot Inventory (14 bots, all in `KpihX-Labs` folder)
+## Bot Inventory
 
-Ask `tg-proxy do bot-list` for live data. Quick reference:
+Ask `tg-proxy do bot-list` for live data. Quick reference (populate from live output):
 
 | @username | Display | ID | Ver | Webhook |
 |-----------|---------|----|:---:|:-------:|
-| @docker_host_kpihx_bot | Dockerhost | 8036146758 | 1 | ❌ |
-| @k_n8n_x_bot | N8N | 8724946664 | 1 | ❌ |
-| @k_opencode_bot | OpenCode | 8759560208 | 1 | ❌ |
-| @k_ubuntu_bot | Ubuntu | 8331655781 | 53 | ❌ |
-| @kflow_homelab_bot | Flow | 8723866455 | 1 | ❌ |
-| @kpihx_general_capture_bot | KpihX | 8089748360 | 1 | ❌ |
-| @kpihx_labs_bot | KpihX-Labs | 7975928900 | 1 | ❌ |
-| @kpihx_openclaw_bot | OpenClaw | 8948919586 | 159 | ❌ |
-| @kpihx_s25_bot | S25 | 8557838158 | 1 | ❌ |
-| @linkedin_homelab_bot | LinkedIn | 8662033588 | 1 | ❌ |
-| @mail_homelab_bot | Mail | 8385666882 | 1 | ❌ |
-| @sentinel_homelab_bot | PVE | 8589111784 | 6 | ❌ |
-| @tick_homelab_bot | Ticktick | 8357989597 | 1 | ❌ |
-| @whats_homelab_bot | Whatsapp | 8449692658 | 1 | ❌ |
+| `@<your-bot>` | Purpose | `<id>` | 1 | ❌ |
 
-13 of 14 have about+description set (2026-07-26) — `@k_opencode_bot` created 2026-08-27 via `tg-proxy do bot-create` (verified clean via `chat-read` on BotFather, group-join+inline disabled by the automated flow), about/description not yet set (optional polish, skipped to stay token-efficient — consumer: `opencode-notify` plugin, see `k-opencode/SKILL.md`). All tokens in `~/.config/tg-proxy/.env` (this one under `K_OPENCODE_BOT_TOKEN`) — the `.agents` kernel's own copy for the notification plugin lives separately in `~/.agents/.env` as `TELEGRAM_OPENCODE_TOKEN` (KπX adds it manually, secrets zero-touch). All webhooks empty (polling mode). Default capture bot: `@kpihx_general_capture_bot` (ID 8089748360).
-
-### Channels & BotFather
+## Channels & BotFather
 BotFather ID: **93372553**. Channels: RFI (32k unread), France24 (13k), V.Poutine (22k), Cameroon Desk, Jeune Afrique, Infos Concours, Telegram Tips, Nakanime, Nakastream. (No personal contacts listed.)
 
 ---
@@ -131,10 +116,3 @@ chmod 600 ~/.config/tg-proxy/.env ~/.config/tg-proxy/user.session
 | `references/log.md` | Operation log |
 | `references/insights.md` | Durable patterns |
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-27 | [COLAB] | v4.5.0 `@k_opencode_bot` setup + GRAVÉ checklist + doc bugs fixed. v4.4.0 `@k_opencode_bot` created (14th bot). |
-| 2026-08-15 | [COLAB] | v4.3.0 Project path updated to `Proxies/tg-proxy/` (kebab-case). |
-| [SUMMARY] | — | v4.2.0 Security section added. v4.0.0–v4.1.0 Full `tg` → `tg-proxy` rewrite. Earlier → `references/log.md`. |

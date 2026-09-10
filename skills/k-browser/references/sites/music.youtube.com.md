@@ -1,6 +1,6 @@
 # music.youtube.com (YouTube Music — Music streaming)
 
-**Category:** Entertainment/Music. **Account:** kapoivha@gmail.com (KπX main). **Profile:** `default`.
+**Category:** Entertainment/Music. **Account:** <primary@gmail.com> ( main). **Profile:** `default`.
 
 ## Login
 
@@ -17,7 +17,7 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 ### Library → Playlists
 
 - Grid layout with album art thumbnails
-- Each card shows: playlist title, owner (Ivann KAMDEM), track count ("XX titres")
+- Each card shows: playlist title, owner (Your Name), track count ("XX titres")
 - Sorting dropdown: "Enregistrés récemment" (Recently saved) — NO "most played" sort available
 - Automatic playlists: Musique "J'aime" (Liked Music), Nouveaux épisodes, Sons issus de Shorts
 - Filter chips at top: Podcasts, Énergie, Bonne humeur, Détente, Sport, Pour la route, Fête, Concentration, Romance, Triste, Sommeil
@@ -89,7 +89,7 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 - **Lazy loading** — playlist detail views load tracks in batches; always `window.scrollTo(0, document.body.scrollHeight)` before extracting track lists
 - **Player bar position** — player bar is fixed at the BOTTOM of the page (standard music app layout); shows current track, progress bar, play/pause, queue toggle. Note: the old `translateZ(0)` hack in `page-screenshot` used to shift it to the top — this was a side effect, not the real position.
 
-## Known playlists (KπX — as of 2026-08-31)
+## Known playlists ( — as of 2026-08-31)
 
 | Playlist | Tracks | Theme |
 |----------|--------|-------|
@@ -106,11 +106,3 @@ Authenticated via Google SSO on the default Edge profile. Cookie consent ("Befor
 | **Jurrivh** | 14 | — |
 | **Life** | 20 | — |
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-31 | Created after full YouTube Music library exploration: cookie consent flow, playlist inventory (60+ playlists), DOM extraction of track lists for top 3 playlists (o/./1), sorting limitation documented, "Réécouter" section identified as best "most played" proxy. |
-| 2026-08-31 | **Root cause identified & fixed:** the old `page-screenshot` hack (`translateZ(0)` on `document.body`) was breaking YT Music's SPA layout, NOT the DOM clicks themselves. Removed the hack (now optional via `force_repaint`). Added `page-press` action (CDP `Input.dispatchKeyEvent`) for reliable keyboard input. Corrected "player bar at top" — it was a side effect of the hack, real position is bottom. Simplified playback interaction docs. |
-| 2026-08-31 | Playlist counts corrected: grid view shows different numbers than detail view (o: 61, .: 38, 1: 28 — grid counts). Detail view lazy-loads more tracks. "Add to playlist" dialog uses `ytmusic-playlist-add-to-option-renderer` with inner `<button>` — clicking the `<button>` directly is required (clicking the outer element doesn't register). Toast confirms duplicate with "Ce titre figure déjà dans la playlist". |
-| 2026-08-31 | **Full player bar button inventory** documented (French labels). Loop toggle: `"Lecture en boucle désactivée"` → `"Tout lire en boucle"`. Play verification now uses button label (`"Mettre en pause"` = playing) instead of `.time-info` (unreliable). Complete "add to playlist" flow documented with DOM selectors. `page-press Space` unreliable for play — prefer `page-click-coordinates` or direct button click. Preset `add-to-playlist.sh` created. |

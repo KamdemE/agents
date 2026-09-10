@@ -1,20 +1,20 @@
 ---
 name: k-clis
 description: >
-  KπX key CLI registry — routes to dedicated k-* skills.
-  Covers only CLIs KπX added (no native linux/ubuntu tools).
+  key CLI registry — routes to dedicated k-* skills.
+  Covers only CLIs  added (no native linux/ubuntu tools).
   Merger of k-cloud-tools routing hub.
 metadata:
-  author: KpihX
-  version: 1.18.1
+  author: 
+  version: 1.0.0
   scope: operations
 ---
 
-# KπX — Key CLI Registry
+#  — Key CLI Registry
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-**⚠️ This skill lists only CLIs that KπX added manually (non-native to linux/ubuntu).**
+**⚠️ This skill lists only CLIs that  added manually (non-native to linux/ubuntu).**
 **When creating a new CLI skill, you MUST add an entry here.**
 
 > **⚠️ FIRST SKILL TO READ WHEN SETTING UP A NEW MACHINE:** **`k-zsh`** — shell foundation (.kshrc, zsh, oh-my-zsh) must be in place before any other CLI works correctly. Always load `k-zsh` first.
@@ -38,7 +38,7 @@ metadata:
 | CLI | Skill | Notes |
 |-----|-------|-------|
 | `gcloud` | **`k-google`** | GCP suite (container) |
-| `gws` (`gws-kpihx`/`gws-labs`) | **`k-google`** | Google Workspace content |
+| `gws` (`gws-primary`/`gws-labs`) | **`k-google`** | Google Workspace content |
 | `m365` | **`k-microsoft`** | MS365 Graph — sole Microsoft CLI (~~`az`~~ deactivated) |
 | `flarectl` | **`k-cloudflare`** | Cloudflare DNS/zones (workstation) |
 | `cloudflared` | **`k-cloudflare`** | Tunnel connector (homelab server only) |
@@ -97,7 +97,7 @@ metadata:
 |-----|-------|-------|
 | `git` / `gh` / `glab` | **`k-git`** | VCS — SSH protocol, Makefile push |
 | `uv` | **`k-uv`** · **`k-project`** | Python tool/venv/package management (k-uv) · Project init (k-project) |
-| `bun` | **`k-node`** · **`k-project`** | JS/TS runtime & package manager — sovereign choice for KpihX-owned projects |
+| `bun` | **`k-node`** · **`k-project`** | JS/TS runtime & package manager — sovereign choice for -owned projects |
 | `fnm` / `nvm` | **`k-node`** | Node version manager — `fnm` (Fast Node Manager, Rust). Dynamic PATH via `--use-on-cd`. nvm retained as fallback. |
 | `node` / `npm` | **`k-node`** | Node.js runtime & package manager — npm global prefix (`~/.npm-global`), EACCES prevention |
 | `latexmk` / `pdflatex` / `pdfunite` | **`k-tex`** | LaTeX compilation & lossless PDF merging (`pdfunite`) |
@@ -134,7 +134,7 @@ metadata:
 
 | Platform | Vault / Auth | Skill |
 |----------|-------------|-------|
-| YouTube | OAuth `kpihx-labs` | **`k-media`** + **`k-google`** |
+| YouTube | OAuth `<github-user>` | **`k-media`** + **`k-google`** |
 | Meta (WA + Graph) | Meta Dev vault | **`k-meta`** · WA → **`k-whats`** |
 | X | X Dev vault | **`k-x`** |
 | LinkedIn | — | **`k-link`** |
@@ -200,10 +200,3 @@ curls https://api.example.com/public/data                              # no auth
 - **Refs:** `references/cloud-hub.md` (routing hub), `references/token-gate.md` (Vault gate), `references/social-dev-platforms.md` (API registry)
 - **Enforcement:** `raw-exec-guard.js` blocks `curl -H "$TOKEN"` and suggests `curls --provider <name>`
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-04 | [LIVE] | v1.18.x — `curls` v1.0.0 (secure curl wrapper, provider-based secret injection); `providers.json` + `cloud-hub.md` migrated from k-cloud-tools; k-cloud-tools deactivated. |
-| 2026-09-03 | [LIVE] | v1.17.0 — `bgone` + `nobg` added; `browser-proxy` replaced `msedge-cdp`; CLI registry expanded. |
-| [SUMMARY] | — | v1.16.6 `rm` wrapper fix · v1.16.0 CLI expansion · v1.15.0 agent CLI purge · v1.14.0 whisper-cli Vulkan · older → `references/log.md` |

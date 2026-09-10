@@ -19,7 +19,7 @@
     "**/Documents/**": true,
     "**/Pictures/**": true,
     "**/Videos/**": true,
-    "**/Gdrive_X/**": true,
+    "**/Gdrive/**": true,
     "**/Gdrive/**": true,
     "**/.npm-global/**": true,
     "**/Work/Others/**": true,
@@ -45,7 +45,7 @@
   "chat.viewSessions.orientation": "stacked",
   "python.languageServer": "None",
   "remote.SSH.remotePlatform": {
-    "deep-pc6": "linux"
+    "server": "linux"
   },
   "diffEditor.codeLens": true,
   "remote.autoForwardPortsSource": "hybrid",

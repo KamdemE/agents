@@ -1,6 +1,6 @@
 # Maths
 
-Source: `KpihX-Datas/Applications/Maths/` (21G).
+Source: `-Datas/Applications/Maths/` (21G).
 
 ## GeoGebra
 - `Geogebra/GeoGebra-Linux-Portable-5-2-805-0.tar.bz2`

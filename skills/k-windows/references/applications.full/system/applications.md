@@ -1,6 +1,6 @@
 # System
 
-Source: `KpihX-Datas/Applications/System/` (524M).
+Source: `-Datas/Applications/System/` (524M).
 
 - `dll_Files/{d3dx9_42-32.zip,d3dx9_42.zip,xinput1_3.zip}`
 - `Drivers/RST/Intel-Rapid-Storage-Technology-Driver_3RHH7_WIN64_20.2.4.1019_A03.EXE` — plus `RST_EXTRACT/`

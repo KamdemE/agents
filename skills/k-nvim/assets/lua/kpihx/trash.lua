@@ -1,4 +1,4 @@
--- KπX Neovim trash — FreeDesktop Trash integration
+--  Neovim trash — FreeDesktop Trash integration
 -- dd/D/cc/C → ~/.local/share/Trash/{files,info}/
 -- Visible in: trash-cli, GNOME trash, Ubuntu trash, trash-list, trash-empty
 

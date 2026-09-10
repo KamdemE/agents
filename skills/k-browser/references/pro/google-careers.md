@@ -27,8 +27,3 @@ None — public.
 - PhD Interns (Research Scientist PhD, SWE PhD, Data Science PhD) dominate the "intern 2027" list — filter them out for 3A level.
 - Location: BS/MS 2027 programs are EMEA-wide; the offer page's "Minimum qualifications" is the ground truth for eligibility.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: 2027 intern program taxonomy (BS/MS EMEA = eligible; Summer = US-only; PhD = out of scope), slug extraction pattern, download of 3 compatible BS/MS offers. |

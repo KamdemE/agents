@@ -5,15 +5,15 @@ description: >
   Load before any X API or @KPIHX7 automation. Registry in k-clis.
 license: private
 metadata:
-  author: KpihX
-  version: "1.0.2"
+  author: 
+  version: "1.0.0"
   scope: operations
 allowed-tools: Bash(*)
 ---
 
-# KπX — X (Twitter)
+#  — X (Twitter)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 ## Role
 
@@ -43,9 +43,3 @@ X API operational memory — **not** duplicated in `k-clis` (registry only) or `
 - Read `references/insights.md` before non-trivial X API work.
 - Update `references/insights.md` after durable lessons.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-05-25 | [CURSOR] | v1.0.2 — JSON `me` OK; `sync_creds_from_env.py`; credits still 402 for tweet. |
-| [SUMMARY] | — | v1.0.0–v1.0.1 bootstrap + `references/x-dev-setup.md` |

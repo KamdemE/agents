@@ -4,7 +4,7 @@
 
 ## Capture bots
 
-- **Default bot (unspecified send):** when KπX says *send/envoi/forward to the bot* without naming one → **`@kpihx_general_capture_bot`** (display **KpihX**, alias `general`). **Issues** only when explicitly named.
+- **Default bot (unspecified send):** when  says *send/envoi/forward to the bot* without naming one → **`@kpihx_general_capture_bot`** (display ****, alias `general`). **Issues** only when explicitly named.
 - **Display names (Telegram):** **General** and **Issues** — `@kpihx_general_capture_bot` / `@kpihx_issues_capture_bot` are unchanged unless Bot Support renames handles.
 - **Vault:** store API tokens as **`TELEGRAM_GENERAL_TOKEN`** and **`TELEGRAM_ISSUES_TOKEN`** → `tg` aliases **`general`** and **`issues`** (auto-discovered).
 - **First DM:** use `@username` with `tg user send` (numeric bot id may not resolve until entity cache warms).
@@ -15,7 +15,7 @@
 - **`tg send` (SENSY / bot→user pushes) in Agent shells:** run `set -a; source "$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/.env"; set +a; tg send --bot ubuntu --plain "…"` so **tokens** `CHAT_ID` come from the Phoenix backup notifier config.
 - **`tg bots`** only lists bots with **`TELEGRAM_*_TOKEN`** present in the **current** environment; ensure tokens are loaded (via `.kshrc` or env source) so all aliases appear.
 - Homelab MCP bridges use **`@tick_homelab_bot`**, **`@whats_homelab_bot`**, **`@linkedin_homelab_bot`**, **`@mail_homelab_bot`** (see **`## Bot inventory`** in `SKILL.md`).
-- **OpenClaw Telegram** (2026-05-27): dedicated bot **`@kpihx_openclaw_bot`** (id **8948919586**). Gateway token = **`TELEGRAM_BOT_TOKEN`** in `$HOME/.config/openclaw/gateway.env`. Use **`dmPolicy: allowlist`** + **`allowFrom: [1397540599]`** — no pairing. Place the bot in the Telegram **folder** **KpihX-Labs** (filter id **11**) and **pin** the DM (not a new Telegram group). **`@k_ubuntu_bot`** = infra-only (`bot.py`).
+- **OpenClaw Telegram** (2026-05-27): dedicated bot **`@kpihx_openclaw_bot`** (id **8948919586**). Gateway token = **`TELEGRAM_BOT_TOKEN`** in `$HOME/.config/openclaw/gateway.env`. Use **`dmPolicy: allowlist`** + **`allowFrom: [1397540599]`** — no pairing. Place the bot in the Telegram **folder** **Labs** (filter id **11**) and **pin** the DM (not a new Telegram group). **`@k_ubuntu_bot`** = infra-only (`bot.py`).
 - **Openclaw Ubuntu** was retired — remove **`TELEGRAM_OPENCLAW_UBUNTU_TOKEN`** from any secret shell if it is still exported.
 
 ## Media
@@ -30,4 +30,4 @@
 
 ## What’s up — implementation gate
 
-- End the Telegram slice with **concrete** options and **pistes**; **never** apply fixes, file moves, TickTick/mail writes, or mutating infra actions **without** KπX **explicit** approval after the briefing.
+- End the Telegram slice with **concrete** options and **pistes**; **never** apply fixes, file moves, TickTick/mail writes, or mutating infra actions **without**  **explicit** approval after the briefing.

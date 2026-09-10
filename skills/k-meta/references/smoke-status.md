@@ -1,8 +1,8 @@
-# Meta smoke status (KπX)
+# Meta smoke status ()
 
 | Date | Layer | Result |
 |------|--------|--------|
-| 2026-05-25 | **Core** (app token + app `KpihX-Labs`) | ✅ HTTP 200 |
+| 2026-05-25 | **Core** (app token + app `Labs`) | ✅ HTTP 200 |
 | 2026-05-25 | **WA phone** (Graph on `wa_phone_number_id`) | ⚠️ HTTP 400 with **app** token — needs **System User** token |
 | 2026-05-25 | **Business** (`business_id`) | ⚠️ Skipped / 400 with app token — same token class |
 

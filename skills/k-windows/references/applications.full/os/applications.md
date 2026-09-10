@@ -1,6 +1,6 @@
 # OS
 
-Source: `KpihX-Datas/Applications/OS/` (38G).
+Source: `-Datas/Applications/OS/` (38G).
 
 - `Linux_Kernel/{linux-5.11.22.tar.xz,linux-6.5.3.tar.xz}`
 - `Maintenance/{HBCD_PE_x64.iso,systemrescue-10.02-amd64.iso}`

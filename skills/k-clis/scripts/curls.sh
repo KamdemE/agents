@@ -38,7 +38,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Interactive HITL: POST/PUT/PATCH require y/N confirmation on stdin (KπX only)
+# Interactive HITL: POST/PUT/PATCH require y/N confirmation on stdin ( only)
 METHOD="GET"
 for i in "${!URL_ARGS[@]}"; do
   [[ "${URL_ARGS[$i]}" == "-X" ]] && METHOD="${URL_ARGS[$((i+1))]}"
@@ -51,7 +51,7 @@ if [[ "$METHOD" =~ ^(POST|PUT|PATCH)$ ]]; then
     [yY])
       ;;
     *)
-      echo "❌ Mutation $METHOD cancelled — run in a tmux pane (k-tmux) for interactive KπX validation." >&2
+      echo "❌ Mutation $METHOD cancelled — run in a tmux pane (k-tmux) for interactive  validation." >&2
       exit 1
       ;;
   esac

@@ -1,6 +1,6 @@
 # webmail.polytechnique.fr (Zimbra — Polytechnique mail)
 
-**Category:** Webmail. **Account:** X24 student mailbox. **Profile:** `default`.
+**Category:** Webmail. **Account:** student mailbox. **Profile:** `default`.
 
 ## Login
 
@@ -20,8 +20,3 @@ Same Egide/Shibboleth ecosystem as SynapseS (see `synapses.polytechnique.fr.md`)
 
 - Zimbra is a legacy Ajax-heavy SPA — `page-snapshot` accessibility trees can be large/slow; prefer targeted `page-evaluate` DOM queries when only specific data (sender, subject, unread count) is needed.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-30 | Created after live inbox parsing (`page-evaluate` DOM scrape) + cookie/localStorage audit (`csrfToken` in localStorage explained: prevents automatic cross-site cookie replay). |

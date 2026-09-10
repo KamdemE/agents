@@ -1,21 +1,21 @@
 ---
 name: k-tmux
 description: >
-  KπX tmux reference — sessions, windows, panes, copy-mode, mouse scroll, config reload,
+  tmux reference — sessions, windows, panes, copy-mode, mouse scroll, config reload,
   and practical CLI/key shortcuts. Load before any tmux workflow, shared interactive shell,
-  or terminal multiplexing task on KπX workstations.
+  or terminal multiplexing task on  workstations.
   ⚠️ SUDO GATE — tmux is the ONLY channel for sudo/SSH/password elevation.
   Never raw sudo in agent shells. Use ops pane <session>:agents.2.
 metadata:
-  version: 1.32.0
-  author: KpihX
+  version: 1.0.0
+  author: 
   scope: terminal-multiplexer
 allowed-tools: Bash(tmux:*), Read, Write, Edit
 ---
 
-# KπX — tmux
+#  — tmux
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Related skills:** `k-ubuntu` (shell / workstation context) · `k-codex` (shared interactive tmux panes with password polling)
 > **OS references:** `references/windows.md` (WSL tmux setup and limitations)
@@ -29,8 +29,8 @@ Load this skill for:
 - splitting panes, resizing, zooming, or navigating layouts
 - scrolling history / copy-mode / mouse wheel behavior
 - editing or reloading tmux configuration
-- agents running long commands in a shared tmux pane with KπX
-- **`sudo`**, SSH passphrase, or any command that needs KπX approval (**`sui` is deprecated**)
+- agents running long commands in a shared tmux pane with 
+- **`sudo`**, SSH passphrase, or any command that needs  approval (**`sui` is deprecated**)
 
 ## Shared interactive gate (mandatory for agents)
 
@@ -38,7 +38,7 @@ Normative short form: **`AGENTS.md` → Tool Discipline** · **`k-context`** hea
 
 ### Triggers
 
-Use this gate when a command may require **KπX** interaction:
+Use this gate when a command may require **** interaction:
 
 - `sudo` / root elevation
 - SSH host key or passphrase prompts
@@ -56,11 +56,11 @@ retry the same raw command: send the exact same payload through
 `tmux send-keys` on the ops pane instead (see `### Run and get notified`
 below). Scope deliberately limited to these 2 static checks — no attempt to
 kill a command mid-execution past some duration (not achievable with the
-current OpenCode plugin API, and out of scope per KπX).
+current OpenCode plugin API, and out of scope per ).
 
 ### Standard session per equipment
 
-Every KπX equipment gets a tmux session named after itself (`ubuntu`, `pve`, `pve-debian`, `dockerhost`, `blglaptop139`, `s25`, `deep-pc6`). Full equipment gets 3 windows (`agents` 3-pane layout, `default`, `tmp`); phones get 2 (`default`, `tmp`). Full layout diagram + setup commands → **`references/session-layout.md`**.
+Every  equipment gets a tmux session named after itself (`ubuntu`, `pve`, `pve-debian`, `dockerhost`, `laptop`, `s25`, `server`). Full equipment gets 3 windows (`agents` 3-pane layout, `default`, `tmp`); phones get 2 (`default`, `tmp`). Full layout diagram + setup commands → **`references/session-layout.md`**.
 
 ### Session hygiene (non-`ubuntu` sessions)
 
@@ -76,7 +76,7 @@ Every KπX equipment gets a tmux session named after itself (`ubuntu`, `pve`, `p
 # Default long command — 30 seconds (NOT ms) timeout, 50 lines shown
 TMUX_TIMEOUT=30 TMUX_LINES=50 tmux send-keys -t SESSION:WIN.PANE 'your command here' Enter
 
-# Command that may need KπX action (sudo password, passphrase, 2FA) —
+# Command that may need  action (sudo password, passphrase, 2FA) —
 # SHORT timeout so you catch the prompt fast instead of sitting idle
 TMUX_TIMEOUT=20 TMUX_LINES=15 tmux send-keys -t SESSION:WIN.PANE 'sudo apt update' Enter
 ```
@@ -116,18 +116,18 @@ appended directly to the `send-keys` call's own result right after you send it
 (see `<tmux-armed>` above) — never by reactively rejecting a later
 `capture-pane` call.
 
-**KπX-approval flow (sudo/passphrase/2FA):** inspect the captured lines in the
-notification. If they show a password/passphrase/2FA prompt, message KπX
+**-approval flow (sudo/passphrase/2FA):** inspect the captured lines in the
+notification. If they show a password/passphrase/2FA prompt, message 
 directly (never type the secret yourself, never re-send the command) and wait
-for KπX to act in the pane. If they show real work progressing, no human
+for  to act in the pane. If they show real work progressing, no human
 action is needed — the real completion notification is already armed and will
 arrive on its own.
 
-The only case that still needs a manual chat handoff to KπX is a **visual**
+The only case that still needs a manual chat handoff to  is a **visual**
 human action the stateful system cannot detect from pane text (reading a QR
 code, clicking an OAuth consent page, scanning a code) — for that, one chat
 message with: (1) `tmux attach -t SESSION` (+ window if needed), (2) exact
-command running, (3) what KπX must do.
+command running, (3) what the user must do.
 
 ### Cleanup
 
@@ -136,7 +136,7 @@ When the task is **fully done** for that pane:
 - idle pane + no future reuse → `tmux kill-pane -t SESSION:WIN.PANE`
 - whole session obsolete → `tmux kill-session -t SESSION`
 
-Kill only when sure — not mid-command, not while KπX may still attach.
+Kill only when sure — not mid-command, not while  may still attach.
 
 ### Session vs window (quick)
 
@@ -167,7 +167,7 @@ Default prefix: **`Ctrl-a`** (press prefix, release, then the command key) - cus
 | `assets/tmux-continuum-save.sh` | Source of truth — `continuum_save.sh` in plugin dir symlinks to this |
 | `assets/tmux-init.sh` | Creates standard session per equipment (3 windows or 2 for phones) |
 
-Current KπX settings: `mouse on`, `focus-events on`, wheel → copy-mode scroll, `history-limit 50000`, `tmux-resurrect`/`tmux-continuum` auto-save every 5 min + auto-restore on boot (`@continuum-boot on` generates the systemd unit). Full plugin behavior/scope → **`references/plugins.md`**. Reboot recovery workflow (mandatory, `@continuum-boot` is OFF) → **`references/boot-recovery.md`**.
+Current  settings: `mouse on`, `focus-events on`, wheel → copy-mode scroll, `history-limit 50000`, `tmux-resurrect`/`tmux-continuum` auto-save every 5 min + auto-restore on boot (`@continuum-boot on` generates the systemd unit). Full plugin behavior/scope → **`references/plugins.md`**. Reboot recovery workflow (mandatory, `@continuum-boot` is OFF) → **`references/boot-recovery.md`**.
 
 Apply after edits:
 
@@ -196,7 +196,7 @@ Full CLI/keybind tables for creating/entering/switching/deleting **sessions**, t
 
 ## Copy-Mode, Scrolling & Mouse
 
-Copy-mode keys, KπX mouse-drag-to-copy behavior, wheel bindings, and synchronised panes → **`references/copy-mode-mouse.md`**.
+Copy-mode keys,  mouse-drag-to-copy behavior, wheel bindings, and synchronised panes → **`references/copy-mode-mouse.md`**.
 
 ## Send Keys & Capture Output
 
@@ -205,7 +205,7 @@ Copy-mode keys, KπX mouse-drag-to-copy behavior, wheel bindings, and synchronis
 # (see ### Run and get notified above) so completion is reported automatically.
 TMUX_TIMEOUT=30 TMUX_LINES=20 tmux send-keys -t SESSION:WIN.PANE 'ls -la' Enter
 
-# Manual capture-pane — NEVER blocked (KπX, 2026-08-16: an earlier reactive
+# Manual capture-pane — NEVER blocked (, 2026-08-16: an earlier reactive
 # block was tried, then explicitly REMOVED — the agent may legitimately need
 # this if the tmux-notify plugin itself malfunctions). Preferred practice:
 # rely on the automatic <tmux-armed>/<tmux-notify> messages instead of
@@ -225,7 +225,7 @@ NOT "check just in case" with a manual `capture-pane` right after sending a
 stateful command** — even framed as a one-off/one-shot look, this defeats the
 entire point of the reflex and is now blocked at the tool level for any pane
 still in the registry. Only fall back to a manual chat handoff for a
-**visual** KπX action the stateful system cannot detect from pane text (QR
+**visual**  action the stateful system cannot detect from pane text (QR
 code, OAuth consent click) — never for a command that will return to its own
 prompt.
 
@@ -287,10 +287,3 @@ This shows every pane across all sessions with the running command — no guessi
 - Update `$HOME/.agents/skills/k-tmux/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v1.32.0 SSH opt-in `TMUX_ALLOW_SSH=1` — interactive ssh/mosh panes armable en mode dégradé (watchdog-only, pas de `<tmux-notify>` auto), block message du hook avec hint + exemple. |
-| 2026-08-31 | [LIVE] | v1.31.0 TMUX_ADJUST clarity — must be typed in agent's own shell, not via send-keys. |
-| [SUMMARY] | — | v1.30.0 TMUX_LINES 20→50 + empty-result fallback · v1.29.0 sudo/sleep rules technically enforced · v1.28.1 orphan sentence fragment fixed · v1.28.0 watchdog A/B/C/D decision tree · v1.27.0 timeout self-adjustment + escalating watchdog · v1.26.0 owner-aware leases + interactive mode · v1.25.0 default TMUX_TIMEOUT 300→30s · v1.24.0 copy-mode mouse bindings fully reverted + Shift+drag real fix · v1.23.0 remote clipboard fix reverted · v1.22.0 self-backgrounding nohup+sleep · v1.21.0 native-OSC52 attempt · v1.20.x split-window hazard, busy-pane block · v1.19.0 dead-pane & terminal hijack · v1.18.0 capture-pane block removed · v1.17.0 technical block on capture-pane · v1.16.0 TMUX_TIMEOUT/TMUX_LINES generalized · v1.14.0 Stateful Integration · v1.13.0 SKILL size reduction · v1.12.0 symlink direction reversed · v1.11.0 phone exception · v1.9.0 SUDO GATE · v1.8.0 ubuntu session + sudo pane · v1.6.0 focus-events · v1.3.x–v1.5.0 plugins, mouse, continuum. |

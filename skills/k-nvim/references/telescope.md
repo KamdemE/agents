@@ -1,4 +1,4 @@
-# Telescope — KπX Quick Guide
+# Telescope —  Quick Guide
 
 ## Keymaps
 
@@ -43,7 +43,7 @@ require("telescope.builtin").find_files({
 ```
 
 - `--hidden` : includes dotfiles
-- `--follow` : follows symlinks (needed for `.agents/` → `~/KpihX-Labs/.agents/`)
+- `--follow` : follows symlinks (needed for `.agents/` → `~/Labs/.agents/`)
 - `--no-ignore-vcs` : ignores `.gitignore` (we want to see everything)
 - `--exclude` : fd filters at OS level before any results reach Telescope — prevents ballooning
 
@@ -65,7 +65,7 @@ After lazy-loading heavy plugins (VeryLazy) + harpoon (keys): **21 MB idle** (Lu
 - `fd` for `find_files` (`<leader>ff`/`<leader>fF`): `find_command = {"fd", …}` in `plugins.lua:85`. On Debian/Ubuntu the `fd-find` apt package ships as `fdfind` → **symlink required**: `ln -sf $(which fdfind) ~/.local/bin/fd` (`~/.local/bin` in `$PATH` via `.kshrc`).
 - `rg` (`ripgrep`) for `live_grep` (`<leader>fg`): `sudo apt install ripgrep`.
 
-Install (blglaptop139-wsl, 2026-08-25, forgotten at initial setup → `ff` showed 0 results): `sudo apt install fd-find ripgrep && ln -sf $(which fdfind) ~/.local/bin/fd`. Verify: `which fd && which rg && fd --version && rg --version`. Without both, Telescope is silent (filed 2026-08-25).
+Install (laptop-wsl, 2026-08-25, forgotten at initial setup → `ff` showed 0 results): `sudo apt install fd-find ripgrep && ln -sf $(which fdfind) ~/.local/bin/fd`. Verify: `which fd && which rg && fd --version && rg --version`. Without both, Telescope is silent (filed 2026-08-25).
 
 ## File
 
@@ -92,7 +92,7 @@ Config source: `~/.config/nvim/lua/kpihx/plugins.lua` (lines 85–177 for find_c
 
 | Directory | Why visible |
 |-----------|-------------|
-| `.agents/` | Symlink to `~/KpihX-Labs/.agents/` — core agent kernel: `AGENTS.md`, rules, skills, profiles. Followed via `--follow`. |
+| `.agents/` | Symlink to `~/Labs/.agents/` — core agent kernel: `AGENTS.md`, rules, skills, profiles. Followed via `--follow`. |
 | `.ts_proxy/`, `.ts-proxy/` | Tailscale proxy — VPN/service mesh state |
 | `.mcp-auth/` | MCP auth tokens/sessions |
 | `.mcps/` | MCP server data |

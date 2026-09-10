@@ -1,5 +1,5 @@
 """
-config.py — Canonical KpihX configuration skeleton
+config.py — Canonical  configuration skeleton
 ====================================================
 Minimal, dependency-light config. No YAML loader, no ConfigManager
 singleton — runtime values are plain constants or a frozen dataclass

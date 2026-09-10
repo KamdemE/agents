@@ -26,7 +26,7 @@ Top-level key is `servers`.
   "servers": {
     "example-http": {
       "type": "http",
-      "url": "https://example.kpihx-labs.com/mcp"
+      "url": "https://example.<github-user>.com/mcp"
     },
     "example-stdio--fallback": {
       "type": "stdio",
@@ -48,7 +48,7 @@ Use when the MCP has an HTTPS endpoint.
 ```json
 "name-mcp": {
   "type": "http",
-  "url": "https://name.kpihx-labs.com/mcp"
+  "url": "https://name.<github-user>.com/mcp"
 }
 ```
 

@@ -1,6 +1,6 @@
 # Multimedia (11G)
 
-> Source: `KpihX-Datas/Applications/Multimedia/`
+> Source: `-Datas/Applications/Multimedia/`
 > Adobe CC (7.4G, Windows crachs) + outils vidéo/image
 
 ## Adobe (7.4G)

@@ -1,21 +1,21 @@
 ---
 name: k-nftables
 description: >
-  KpihX nftables firewall — ruleset reference, interface inventory, service
+  nftables firewall — ruleset reference, interface inventory, service
   management, and troubleshooting. Load before any nftables, firewall, or
-  network security task on kpihx-ubuntu or kpihx-pve-debian.
+  network security task on workstation or kpihx-pve-debian.
 metadata:
-  version: 1.2.1
-  author: KpihX
+  version: 1.0.0
+  author: 
   scope: system-firewall
 ---
 
 # KpiX — nftables
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Canonical ruleset:** `assets/nftables.conf` — system `/etc/nftables.conf` is a symlink to it.
-> **Scoped deployment:** `links.jsonc` scopes `nftables-conf` to `kpihx-ubuntu` and `kpihx-pve-debian` only.
+> **Scoped deployment:** `links.jsonc` scopes `nftables-conf` to `workstation` and `kpihx-pve-debian` only.
 
 ---
 
@@ -24,37 +24,33 @@ metadata:
 ### File Layout
 
 ```
-/etc/nftables.conf                          # symlink → skill asset
-  └─> $HOME/.agents/skills/k-nftables/assets/nftables.conf  # SINGLE SOURCE OF TRUTH
-
-/etc/systemd/system/nftables.service.d/
-  └─ protect-home.conf                      # systemd drop-in override
+$HOME/.agents/skills/k-nftables/assets/nftables.conf  # reference ruleset (template)
 ```
 
-### Why a Symlink?
+The asset is a **reference template** — review and adapt it to the machine before
+applying. It is NOT symlinked to `/etc/nftables.conf` on this fork (the live
+firewall is managed per-machine; a mismatched ruleset would break networking).
+To adopt it: compare with the live config, adapt, then either copy into place
+or symlink + add the systemd drop-in below.
 
-The canonical ruleset lives in the skill asset so the skill is self-contained (versioned, portable, editable via OpenCode). The system `/etc/nftables.conf` is a **symlink** to `assets/nftables.conf` — single source of truth, no sync needed.
-
-### Why a systemd Drop-in?
+### systemd Drop-in (only if you symlink)
 
 nftables.service ships with `ProtectHome=true` (its ExecStart cannot read any file under `/home/`). A symlink under `/etc/` that resolves into `/home/` is blocked. The drop-in `/etc/systemd/system/nftables.service.d/protect-home.conf` overrides `ProtectHome=read-only` so systemd can follow the symlink.
 
 ### Edit Workflow
 
 ```bash
-# 1. Edit the asset directly
-#    (path is inside $HOME/.agents/skills/k-nftables/assets/nftables.conf)
+# 1. Compare asset vs live config first
+diff /etc/nftables.conf $HOME/.agents/skills/k-nftables/assets/nftables.conf
 
-# 2. Test syntax
-sudo nft -c -f /etc/nftables.conf           # resolves through symlink
+# 2. Test syntax (on the file you intend to load)
+sudo nft -c -f /etc/nftables.conf
 
 # 3. Apply
 sudo nft -f /etc/nftables.conf              # live reload (no systemctl restart needed)
 # OR
 sudo systemctl restart nftables             # full service restart
 ```
-
-**Never edit `/etc/nftables.conf` directly** — it will be overwritten if the symlink is recreated. Always edit `assets/nftables.conf`.
 
 ---
 
@@ -205,10 +201,3 @@ sudo journalctl -k -f -g "NFT DROP"
 
 ---
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.2.1 — **Check-skills audit**: rotated changelog to comply with structure rules; no log.md. |
-| 2026-08-24 | [COLAB] | v1.2.0 — Scoped the canonical `nftables-conf` link to `kpihx-ubuntu` + `kpihx-pve-debian` only, documented that deployment scope in the skill, and corrected stale canonical asset paths from `$HOME/.config/opencode/...` to `$HOME/.agents/...`. Audit result: no `services.jsonc` entry is needed because `nftables.service` remains a stock system service while only the config file is .agents-owned. |
-| [SUMMARY] | — | v1.1.0 Architecture & drop-ins · v1.0.0 created (→ `references/log.md`) |

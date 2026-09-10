@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Hooks Audit
-Single entry point to validate KπX hook wiring, KπX skill structure/content,
+Single entry point to validate hook wiring, skill structureure/content,
 and runtime config references across supported agent CLIs.
 """
 

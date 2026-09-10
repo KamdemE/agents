@@ -1,6 +1,6 @@
 # Multimedia
 
-Source: `KpihX-Datas/Applications/Multimedia/` (11G).
+Source: `-Datas/Applications/Multimedia/` (11G).
 
 ## Adobe
 - `Adobe/Adobe After Effects 2023 v23.6.0.62 (x64) Multilingual [FileCR].zip`

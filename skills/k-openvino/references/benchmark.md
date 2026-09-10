@@ -1,6 +1,6 @@
 # GPU Inference Backend Benchmark — Intel Arc iGPU
 
-Comparison shared by KπX (original source document not located in this filesystem at time of writing — re-link if found) of three local LLM serving backends on the same Intel Arc iGPU hardware (this workstation, Intel Core Ultra 7 155H):
+Comparison shared by the user (original source document not located in this filesystem at time of writing — re-link if found) of three local LLM serving backends on the same Intel Arc iGPU hardware (this workstation, Intel Core Ultra 7 155H):
 
 | Backend | Install | tok/s | Wall time | Load time |
 |---------|---------|-------|-----------|-----------|

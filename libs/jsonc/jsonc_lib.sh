@@ -3,7 +3,7 @@
 # jsonc_lib.sh — shared JSONC helpers for .agents scripts
 # ============================================================
 # Central place for everything common to .agents scripts that deal with
-# JSONC assets (config-with-comments — the KπX standard, see k-project).
+# JSONC assets (config-with-comments — the standard, see k-project).
 # The per-script lib.sh files (scripts/services/lib.sh, scripts/links/lib.sh)
 # source THIS file so they stay thin and non-duplicated.
 #
@@ -11,7 +11,7 @@
 #   strip_jsonc        : remove // and /* */ comments (JSONC standard)
 #   jsonc_valid        : verify a JSONC file parses (via python3 json)
 #   load_jsonc         : load a JSONC file's JSON object into a var
-#   current_infra      : resolve current infra from tailscale + infras_skills.jsonc
+#   current_infra      : resolve the machine id ($AGENTS_INFRA override, else hostname)
 #   infra_matches      : "*" or array contains current infra → true
 #   AGENTS_DIR / ASSETS_DIR / *_FILE path constants
 #
@@ -74,22 +74,22 @@ load_jsonc() {
   echo "export $var='$obj'"
 }
 
-# --- Resolve the CURRENT infra from tailscale + infras_skills.jsonc ---
-# Returns the infra name (e.g. "kpihx-ubuntu") or empty.
+# --- Resolve the CURRENT infra (single-machine fork) ---
+# $AGENTS_INFRA wins when exported (pin a stable name); otherwise the
+# lowercased hostname. No tailscale dependency — tailscale is optional here.
+# Every links.jsonc/services.jsonc entry uses ["*"], so this value only
+# matters for display and future per-machine scoping.
 current_infra() {
-  local hostname=""
-  hostname="$(tailscale status --json 2>/dev/null \
-    | python3 -c 'import sys,json
-try:
-  d=json.load(sys.stdin); print((d.get("Self",{}).get("DNSName","") or "").split(".")[0])
-except Exception: print("")' 2>/dev/null)"
-  [ -n "$hostname" ] || hostname="$(hostname | tr '[:upper:]' '[:lower:]')"
-  echo "$hostname"
+  if [ -n "${AGENTS_INFRA:-}" ]; then
+    printf '%s\n' "$AGENTS_INFRA"
+    return
+  fi
+  hostname | tr '[:upper:]' '[:lower:]'
 }
 
 # --- Does a service/link apply to the current infra? ---
 # infra_matches <current_infra> <infras-json-string-or-*>  → true if applies
-# infras may be the literal "*" (all), a JSON array string like ["kpihx-ubuntu"],
+# infras may be the literal "*" (all), a JSON array string like ["workstation"],
 # or a JSON array containing "*" like ["*"] (also ALL).
 infra_matches() {
   local current="$1" infras="$2"
@@ -106,6 +106,5 @@ infra_matches() {
 
 AGENTS_DIR="$HOME/.agents"
 ASSETS_DIR="$AGENTS_DIR/assets"
-INFRA_FILE="$ASSETS_DIR/infras_skills.jsonc"
 SERVICES_FILE="$ASSETS_DIR/services.jsonc"
 LINKS_FILE="$ASSETS_DIR/links.jsonc"

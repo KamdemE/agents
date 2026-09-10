@@ -24,4 +24,4 @@
 
 ## Exception
 
-Only if KπX explicitly authorizes it. Never assume.
+Only if the user explicitly authorizes it. Never assume.

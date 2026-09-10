@@ -6,7 +6,7 @@ Requires=opencode-web.service
 [Service]
 Type=simple
 WorkingDirectory=%h
-ExecStart=/home/kpihx/.bun/bin/bun run %h/.agents/skills/k-opencode/scripts/terminal-url-shim.js
+ExecStart=$HOME/.bun/bin/bun run %h/.agents/skills/k-opencode/scripts/terminal-url-shim.js
 Restart=on-failure
 RestartSec=5
 

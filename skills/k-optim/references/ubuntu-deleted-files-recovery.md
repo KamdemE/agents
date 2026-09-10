@@ -1,6 +1,6 @@
 # Ubuntu — Deleted file recovery (ext4, GNOME)
 
-> **Canonical reference** for KπX workstation image recovery after Trash empty / manual delete.
+> **Canonical reference** for  workstation image recovery after Trash empty / manual delete.
 > **Skill owner:** `k-optim` (Ubuntu scope). **Living copy / Docsify:** `$HOME/Work/techskills/ubuntu-deleted-files-recovery.md`.
 > **Validated:** 2026-05-26 — `Downloads/RAS` (VeniceAI PNG) + `Downloads/Telegram Desktop` (JPG), ~1–2 weeks after deletion.
 
@@ -44,7 +44,7 @@ original filenames        full resolution possible
 
 1. List deleted targets from xbel:
    ```bash
-   grep -oP 'file:///home/kpihx/Downloads/[^<"]+' \
+   grep -oP 'file://$HOME/Downloads/[^<"]+' \
      ~/.local/share/recently-used.xbel | sort -u
    ```
 
@@ -53,7 +53,7 @@ original filenames        full resolution possible
    import hashlib
    from pathlib import Path
 
-   uri = "file:///home/kpihx/Downloads/RAS/example.png"
+   uri = "file://$HOME/Downloads/RAS/example.png"
    h = hashlib.md5(uri.encode()).hexdigest()
    for size in ("x-large", "large", "normal"):
        p = Path.home() / ".cache/thumbnails" / size / f"{h}.png"
@@ -68,7 +68,7 @@ original filenames        full resolution possible
    # (automate via script — see session 2026-05-26 MANIFEST.txt)
    ```
 
-**KπX 2026-05-26 result:** **103 files** (~13 MiB) — **13/13** `VeniceAI_*.png` (RAS), **~90** `photo_2026-05-*.jpg` (Telegram Desktop). Quality: **previews only** (max edge ~512 px), not originals.
+** 2026-05-26 result:** **103 files** (~13 MiB) — **13/13** `VeniceAI_*.png` (RAS), **~90** `photo_2026-05-*.jpg` (Telegram Desktop). Quality: **previews only** (max edge ~512 px), not originals.
 
 **Limits:** No thumbnail if the file was never opened in a GNOME app; xbel entries expire; WebP/HEIC may only exist as PNG thumbs.
 
@@ -112,9 +112,9 @@ photorec /log /d "$PHOTO" /cmd "$PART" \
 
 **Output layout gotcha:** If `~/Recovery_.../photorec` already exists, PhotoRec writes to `photorec.1`, `photorec.2`, … — adjust `find` and `match_recovered.sh` to search `photorec*`, not only `photorec/`.
 
-**sudo + `$HOME`:** `sudo bash script.sh` sets `HOME=/root` unless overridden. Scripts must set `KPihX_HOME=/home/kpihx` explicitly for output paths.
+**sudo + `$HOME`:** `sudo bash script.sh` sets `HOME=/root` unless overridden. Scripts must set `KPihX_HOME=$HOME` explicitly for output paths.
 
-**KπX 2026-05-26 result:** Scan ~**1 min** on NVMe (partial freespace pass); **~1534** carved images under `photorec.1`–`photorec.3` (anonymous names). Cross-match with xbel + file size + visual review.
+** 2026-05-26 result:** Scan ~**1 min** on NVMe (partial freespace pass); **~1534** carved images under `photorec.1`–`photorec.3` (anonymous names). Cross-match with xbel + file size + visual review.
 
 **Duration:** Full-partition carve can take **30+ minutes to hours** depending on free space and disk activity.
 
@@ -181,8 +181,3 @@ tail -f ~/Recovery_PhotoRec_2026-05-26/recovery_photorec.log
 
 ---
 
-## Changelog
-
-| Date | Notes |
-|------|--------|
-| 2026-05-26 | Initial doc from RAS + Telegram Desktop recovery session |

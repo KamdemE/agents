@@ -4,9 +4,9 @@
 
 Generic MCP setup reference for `mail-mcp`.
 
-## Preferred: STDIO (KπX exception)
+## Preferred: STDIO ( exception)
 
-- **Use first** for normal agent work on KπX’s machine: **attachments**, local paths, and parity with **AGENTS.md → MCP Protocol → KπX exception — mail-mcp**.
+- **Use first** for normal agent work on ’s machine: **attachments**, local paths, and parity with **AGENTS.md → MCP Protocol →  exception — mail-mcp**.
 - Binary: `mail-mcp` (see `uv tool install k-mail-mcp` below).
 - command: `zsh`
 - args:
@@ -18,7 +18,7 @@ Generic MCP setup reference for `mail-mcp`.
 
 - Use when stdio is down or not wired in the runtime.
 - Works only on the Tailscale network.
-- URL: `https://mail.kpihx-labs.com/mcp`
+- URL: `https://mail.<github-user>.com/mcp`
 
 ## Install (PyPI / local binary)
 

@@ -2,7 +2,7 @@
 # ============================================================
 # check-jsonc.sh — verify .agents JSONC config assets parse cleanly
 # ============================================================
-# Enforces the KπX JSONC standard (comments allowed, single source of truth):
+# Enforces the  JSONC standard (comments allowed, single source of truth):
 #   - every registered JSONC asset (assets/*.jsonc) parses as valid JSON after
 #     comment-stripping (via libs/jsonc/jsonc_lib.sh jsonc_valid — the central
 #     logic, never re-implemented here)
@@ -42,8 +42,8 @@ if [ -d "$ASSETS_DIR" ]; then
 fi
 
 echo "  ├─ 🧭 2/2 Required registry presence"
-# --- 2. The three infra registers must exist (already parsed above) ----------
-for name in infras_skills services links; do
+# --- 2. The two registers must exist (already parsed above) ------------------
+for name in services links; do
   file="$ASSETS_DIR/$name.jsonc"
   if [ ! -f "$file" ]; then
     echo "  ✗ MISSING required JSONC register: $file"

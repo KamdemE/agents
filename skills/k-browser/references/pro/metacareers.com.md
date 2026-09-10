@@ -23,8 +23,3 @@ None — public.
 - The `te=INTERNSHIP` filter keeps PhD internships in the list — no BS/MS toggle; filter manually by "PhD" in titles.
 - 400 items default — page loads the first batch only; scroll loads more.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: confirmed PhD-only internship catalog, Paris master-level absent; documented as out-of-scope. |

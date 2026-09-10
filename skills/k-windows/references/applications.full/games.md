@@ -1,6 +1,6 @@
 # Games (15G)
 
-> Source: `KpihX-Datas/Applications/Games/`
+> Source: `-Datas/Applications/Games/`
 > ROMs/émulateurs Windows — tous inutilisables sur Ubuntu
 
 | Fichier | Type |

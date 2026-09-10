@@ -89,13 +89,13 @@ for exclusion in exclusions:
     [ -L "$ln" ] || continue
     resolved="$(readlink -f "$ln" || true)"
     case "$resolved" in
-      "$AGENTS_DIR"/*|"$HOME/KpihX-Labs/.agents"/*) ;;
+      "$AGENTS_DIR"/*|"$HOME/Labs/.agents"/*) ;;
       *) continue ;;
     esac
-    # Normalize: $HOME → placeholder, and the ~/.agents→~/KpihX-Labs/.agents
+    # Normalize: $HOME → placeholder, and the ~/.agents→~/Labs/.agents
     # indirection so both real paths map to the canonical $HOME/.agents/... form.
     cand="${resolved/#$HOME/\$HOME}"
-    cand="${cand//KpihX-Labs\/.agents/.agents}"
+    cand="${cand//Labs\/.agents/.agents}"
     if ! printf '%s\n' "$REG_TARGETS" | grep -Fxq -- "$cand"; then
       echo "  ✗ UNREGISTERED link into .agents: $ln -> $resolved (add to links.jsonc)"
       unreg=$((unreg + 1))

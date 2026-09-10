@@ -1,6 +1,6 @@
 # Google Drive (gdrive) — Corbeille & Manipulation
 
-Operational knowledge for manipulating KπX Google Drive remotes via rclone,
+Operational knowledge for manipulating  Google Drive remotes via rclone,
 with a focus on finding and emptying the Drive trash and avoiding quota errors.
 
 > Applies to `gdrive:` and `gdrive-x:` remotes. Configuration: `$HOME/.config/rclone/rclone.conf`

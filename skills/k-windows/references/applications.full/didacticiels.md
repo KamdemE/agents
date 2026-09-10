@@ -1,6 +1,6 @@
 # Didacticiels (53G)
 
-> Source: `KpihX-Datas/Applications/Didacticiels/`
+> Source: `-Datas/Applications/Didacticiels/`
 > Wikipedia ZIMs (52G) + bibles + GoldenDict
 
 ## Bibles (2.6M)

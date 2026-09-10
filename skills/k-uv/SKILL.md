@@ -1,23 +1,23 @@
 ---
 name: k-uv
 description: >
-  KπX UV/Python ecosystem — comprehensive inventory of uv tools, managed Python
+  UV/Python ecosystem — comprehensive inventory of uv tools, managed Python
   versions, virtual environments, and the uv-first philosophy governing all
   Python operations. Load before any Python install, uv tool management, venv
   audit, or Python environment debugging.
 metadata:
-  author: KpihX
-  version: "1.6.2"
+  author: 
+  version: "1.0.0"
   scope: operations
 ---
 
-# KπX — UV/Python Ecosystem
+#  — UV/Python Ecosystem
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **Rules that enforce uv-first:**
 > - `rules/uv-first.md` — All Python operations MUST use uv. Never pip. Never system Python.
-> - `rules/audit-commands.md` — `uv` not `pip`. For standalone `.agents` work, propose `make check`; never run that kernel check without KπX's explicit request or validation. Project checks follow their own workflow.
+> - `rules/audit-commands.md` — `uv` not `pip`. For standalone `.agents` work, propose `make check`; never run that kernel check without the user's explicit request or validation. Project checks follow their own workflow.
 > - `rules/file-governance.md` — Single source of truth, `.agents/` centralization.
 
 > **Related skills:** `k-project` (project init with uv) · `k-ubuntu` (uv tool table per machine) · `k-nvim` (uv-nvim Python provider venv) · `k-clis` (CLI registry routing) · `k-hermes` (uv tool hermes-agent extra deps) · `k-final` (`uv tool install --editable .` in closure)
@@ -105,7 +105,7 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 | Tool | Version | Binaries | Purpose |
 |------|---------|----------|---------|
 | `hermes-agent` | v0.15.2 | `hermes`, `hermes-acp`, `hermes-agent` | Persistent memory daemon, cron-driven |
-| `k-vpn` | v1.0.0 | `k-vpn` | VPN MCP server — KpihX-owned |
+| `k-vpn` | v1.0.0 | `k-vpn` | VPN MCP server — -owned |
 | `ts-proxy` | v1.1.0 | `ts-proxy` | Tailscale API + HITL proxy |
 
 > **Purged tools** (`desk-mcp`, `k-mail-mcp`, `mail-mcp`, `mistral-vibe`, `tick-mcp`): see `references/purged.md` (kept for the record, never deleted).
@@ -137,10 +137,10 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 
 | Project | Path | Status |
 |---------|------|--------|
-| `O/engine` | `~/KpihX-Labs/O/engine/.venv` | Empty (no pip packages) |
-| `Fluid/ts_proxy` | `~/KpihX-Labs/Fluid/ts_proxy/.venv` | Empty |
-| `colab` | `~/KpihX-Labs/colab/.venv` | Has deps via `uv sync` |
-| `test` | `~/KpihX-Labs/test/.venv` | Empty |
+| `O/engine` | `~/Labs/O/engine/.venv` | Empty (no pip packages) |
+| `Fluid/ts_proxy` | `~/Labs/Fluid/ts_proxy/.venv` | Empty |
+| `colab` | `~/Labs/colab/.venv` | Has deps via `uv sync` |
+| `test` | `~/Labs/test/.venv` | Empty |
 
 ### Dedicated venvs
 
@@ -151,19 +151,13 @@ All tools are installed via `uv tool install`. Each lives in `~/.local/share/uv/
 
 ### k-meta scripts venv
 
-`~/KpihX-Labs/.agents/skills/k-meta/scripts/.venv` — Python 3.12.12 via uv.
+`~/Labs/.agents/skills/k-meta/scripts/.venv` — Python 3.12.12 via uv.
 
 ---
 
 ## Migration History
 
-> **Full operation log with detailed tables:** `k-ubuntu/references/log.md`
-
-This skill is the **inventory** — what exists now. For the record of **what was removed, when, and why** (pip purges, tool migrations, apt removals), see the Ubuntu workstation's operation log at `k-ubuntu/references/log.md`.
-
-Key migrations:
-- **2026-07-24** — Global pip purge: manim, rich, google-antigravity/genai/auth, pynvim (apt), yt-dlp (→ uv tool). See `k-ubuntu/references/log.md` for full table.
-- **2026-05-31** — UV tool purge: 7 unused tools removed (grip, huggingface-hub, etc.) in k-optim pass. See `k-context/references/log.md`.
+This skill is the **inventory** — what exists now. History before the fork is not carried; git holds the record.
 
 ---
 
@@ -208,12 +202,12 @@ uv tool list --show-paths       # Verify all tools
 which <tool> && <tool> --version  # Check a specific tool
 uv python list --only-installed  # Verify Pythons
 # Check project venvs:
-for d in ~/KpihX-Labs/*/; do [ -f "$d/.venv/bin/python" ] && echo "$d"; done
+for d in ~/Labs/*/; do [ -f "$d/.venv/bin/python" ] && echo "$d"; done
 ```
 
 ### Package Publication (PyPI)
 
-Python packages inside the KpihX-Labs workspace are published using `uv publish`.
+Python packages inside the Labs workspace are published using `uv publish`.
 
 *   **If a Makefile exists:** Run the publication command inside a secure subshell using the `with-env` helper:
     ```bash
@@ -235,10 +229,3 @@ Python packages inside the KpihX-Labs workspace are published using `uv publish`
 
 ---
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [COLAB] | v1.6.2 — Scoped the explicit-approval policy to standalone `.agents` kernel work; project checks retain their own workflow. |
-| 2026-08-14 | [COLAB] | v1.6.0 — **MCP Servers table cleanup**: removed `bw-proxy` row (bw-mcp/bw-admin purged 2026-08-14; secrets no longer injected via bw). |
-| [SUMMARY] | — | v1.6.1 superseded broad approval-policy wording · v1.5.0 gnome-extensions-cli · v1.4.0 purged MCP tools · v1.3.0 legacy table removal (→ `references/log.md`) · v1.2.0 and older copied to `references/log.md` |

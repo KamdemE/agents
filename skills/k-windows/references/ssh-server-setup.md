@@ -1,6 +1,6 @@
 # k-windows — OpenSSH Server (Windows side) + Ubuntu client pairing
 
-> Generalized from live diagnosis on a specific machine (`k-blglaptop139`) — pure Windows/OpenSSH mechanism below, zero company-specific content (no hostname, no domain, no account name). The company-specific *target* (which machine, which domain, which account) belongs in that company's own skill (e.g. `k-dxo`).
+> Generalized from live diagnosis on a specific machine (`k-laptop`) — pure Windows/OpenSSH mechanism below, zero company-specific content (no hostname, no domain, no account name). The company-specific *target* (which machine, which domain, which account) belongs in that company's own skill (e.g. `k-dxo`).
 
 ## 1. Check what's actually installed — don't trust one signal alone
 
@@ -82,8 +82,3 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<target> -C "<source-machine>"
 ssh -i ~/.ssh/id_ed25519_<target> <user>@<hostname>
 ```
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-26 | [COLAB] | v1.0.0 — Created from live diagnosis on a real machine (`k-blglaptop139`): `Get-Service` vs `Get-WindowsCapability` FOD mismatch, firewall rule display-name false-negative, `administrators_authorized_keys` vs `authorized_keys` split, `DefaultShell` + AppLocker `pwsh` vs `powershell.exe` asymmetry, `AutoRun` footgun for non-interactive exec (considered and rejected). All content verified against a live session before being written — no guessed values. |

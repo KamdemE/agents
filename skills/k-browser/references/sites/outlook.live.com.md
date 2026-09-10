@@ -1,16 +1,16 @@
 # outlook.live.com (Microsoft Outlook — Hotmail inbox)
 
-**Category:** Webmail. **Account:** ivann.kamdem@hotmail.com (KπX personal). **Profile:** `default`.
+**Category:** Webmail. **Account:** <personal@hotmail.com> ( personal). **Profile:** `default`.
 
 ## Login
 
 Microsoft account with **passwordless authentication** (Microsoft Authenticator app). Login flow:
 1. Navigate to `outlook.live.com/mail/0/`
 2. Redirects to `login.microsoftonline.com` with `prompt=select_account`
-3. **Account picker** shows saved accounts — "Ivann KAMDEM" (kapoivha@gmail.com) may appear but is WRONG (Google account, not Microsoft)
-4. Click "Use another account" → enter `ivann.kamdem@hotmail.com` → click "Next"
+3. **Account picker** shows saved accounts — "Your Name" (<primary@gmail.com>) may appear but is WRONG (Google account, not Microsoft)
+4. Click "Use another account" → enter `<personal@hotmail.com>` → click "Next"
 5. **"Get a sign-in request"** → "Send request" → notification sent to Microsoft Authenticator on phone
-6. KπX must approve the sign-in request on their phone (number matching)
+6.  must approve the sign-in request on their phone (number matching)
 7. After approval → redirects to `outlook.live.com/mail/?deeplink=mail%2F0%2F`
 
 ### ⚠️ Auth gotcha
@@ -42,13 +42,8 @@ Microsoft account with **passwordless authentication** (Microsoft Authenticator 
 ## Known quirks
 
 - **Cross-origin login form** — the Microsoft login page (login.microsoftonline.com) renders its form in a way that blocks standard CSS selectors; coordinate-based clicking is the only reliable interaction method
-- **Passwordless accounts** — Microsoft Authenticator required; agent cannot enter a password (there is none). KπX must approve the sign-in on their phone
+- **Passwordless accounts** — Microsoft Authenticator required; agent cannot enter a password (there is none).  must approve the sign-in on their phone
 - **SPA navigation** — Outlook Web is a React SPA; `page-evaluate` DOM queries work but the DOM is large; prefer `document.body.innerText.substring(start, end)` for bulk text extraction
 - **"Other" tab button** — clicking it via `page-evaluate` sometimes fails with CDP_ERROR; use coordinate-based clicks instead
 - **Notification forwarding** — LinkedIn, job alerts, and other social notifications appear as emails in Outlook but are just notification forwards, not the actual messages (see `linkedin.com.md` for the real messaging UI)
 
-## Changelog
-
-| Date | Note |
-|------||------|
-| 2026-08-30 | Created after live Outlook session: passwordless Authenticator login flow (cross-origin iframe gotcha), Focused/Other inbox split, LinkedIn notification email pattern, DOM extraction approach for SPA. |

@@ -1,9 +1,9 @@
 # AGENTS.md — <project-name>
 
 > Project context for all AI agents working in this repository.
-> Loaded automatically by all KπX agents when present at project root.
+> Loaded automatically by all  agents when present at project root.
 
-## KπX Mantras
+##  Mantras
 
 **Exploration:** Problem First → Why before How → Visualization
 **Architecture:** 0 Trust · 100% Control | 0 Magic · 100% Transparency | 0 Hardcoding · 100% Flexibility
@@ -35,7 +35,7 @@
 
 ## Agent Output Before Validation
 
-**Until KπX validates something in this project, whatever the agent produces stays in `./tmp/`** — nothing lands in the tracked tree (`src/`, `libs/`, `scripts/`, etc.) before that. This applies to code, scripts, docs, anything. `tmp/` is gitignored and exists in every project for exactly this reason, even a small one.
+**Until  validates something in this project, whatever the agent produces stays in `./tmp/`** — nothing lands in the tracked tree (`src/`, `libs/`, `scripts/`, etc.) before that. This applies to code, scripts, docs, anything. `tmp/` is gitignored and exists in every project for exactly this reason, even a small one.
 
 ## scripts/ vs tmp/ Ownership
 
@@ -43,7 +43,7 @@
 |-----|-------|------|
 | `scripts/` | Human | Tracked, **meta** tooling unrelated to the project's own substance (sync scripts, one-off maintenance) — agents don't modify unless explicitly asked |
 | `tmp/scripts/` | Agent | Scratch, gitignored — the agent's own working scripts, pending validation |
-| Promotion | Human | Manual copy from `tmp/` → `scripts/`/`src/`/`libs/` only after KπX validates it; never auto-promoted |
+| Promotion | Human | Manual copy from `tmp/` → `scripts/`/`src/`/`libs/` only after  validates it; never auto-promoted |
 
 ## Delivery & Structure Pass (mandatory before calling work done)
 
@@ -63,7 +63,7 @@
 - New feature → update `TODO.md` first, propose before acting
 - Any significant change → update `AGENTS.md` (architecture/purpose drift), `README.md` (user-facing), and any relevant `.md` docs (tutorials, API reference, guides)
 - Breaking change → bump version in `pyproject.toml` / `package.json` + entry in `CHANGELOG.md`
-- Destructive / architectural changes → **stop and confirm with KπX first**
+- Destructive / architectural changes → **stop and confirm with  first**
 - **Makefile is the standard task runner** — use `make push` (not raw `git push`), `make release`, etc.; check available targets with `make help` before running ad-hoc commands
 - **Shell/systemd projects:** keep `scripts/install.sh` and `scripts/purge.sh` in sync with every new module, unit file, or directory the project introduces. These scripts are the contract for deploy and teardown — never let them drift from reality.
 - **Git hygiene is enforced globally, not per-project** — `k-git`'s `core.hooksPath` passthrough already blocks commits when `make check` fails and strips AI-agent attribution trailers from every commit message, for every repo. Never set `core.hooksPath` locally in this project.

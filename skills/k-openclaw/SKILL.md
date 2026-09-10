@@ -1,10 +1,10 @@
 ---
 name: k-openclaw
-description: OpenClaw runtime — install/config, Tailscale Serve access, and KπX kernel integration.
+description: OpenClaw runtime — install/config, Tailscale Serve access, and  kernel integration.
 license: private
 metadata:
-  author: KpihX
-  version: "3.12.1"
+  author: 
+  version: "1.0.0"
   scope: agent-runtime
   target-agent: openclaw
 allowed-tools: Bash, Read, Write, Edit
@@ -12,7 +12,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 # OpenClaw — Runtime (Active)
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (systemd service, gateway env) · `references/windows.md` (WSL setup, manual gateway)
 
@@ -28,28 +28,28 @@ allowed-tools: Bash, Read, Write, Edit
 - **OpenClaw agent state:** `$HOME/.openclaw/agents/`
 - **Gateway service:** `$HOME/.config/systemd/user/openclaw-gateway.service` (symlink → `assets/openclaw-gateway.service`)
 - **Gateway ExecStart override:** `~/.config/systemd/user/openclaw-gateway.service.d/openclaw-override.conf` (symlink → `assets/openclaw-override.conf`) — overrides `ExecStart` and `PATH` to use openclaw CLI + fnm node
-- **KπX global kernel (source + OpenClaw workspace):** `$HOME/.agents/` (= `$HOME/KpihX-Labs/.agents/` git root; `$HOME/.agents` → symlink)
+- ** global kernel (source + OpenClaw workspace):** `$HOME/.agents/` (= `$HOME/Labs/.agents/` git root; `$HOME/.agents` → symlink)
 - **OpenClaw workspace:** `agents.defaults.workspace = ~/.agents` — injects **`$HOME/.agents/AGENTS.md`** directly (no copy, no desync)
-- **Legacy mirror (symlink only):** `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/KpihX-Labs/.agents/AGENTS.md` (not used by gateway)
-- **Repo convenience:** `$HOME/KpihX-Labs/AGENTS.md` → `$HOME/KpihX-Labs/.agents/AGENTS.md`
-- **OpenClaw Telegram bot:** `@kpihx_openclaw_bot` (id **8948919586**) — **not** `@k_ubuntu_bot` (infra-only)
+- **Legacy mirror (symlink only):** `$HOME/.openclaw/workspace/AGENTS.md` → `$HOME/Labs/.agents/AGENTS.md` (not used by gateway)
+- **Repo convenience:** `$HOME/Labs/AGENTS.md` → `$HOME/Labs/.agents/AGENTS.md`
+- **OpenClaw Telegram bot:** `@<your-openclaw-bot>` (id **<bot-id>**) — use a dedicated bot, not a shared infra one
 
-## Telegram (KπX)
+## Telegram ()
 
 | Item | Value |
 |------|--------|
-| Bot | **OpenClaw** · `@kpihx_openclaw_bot` · id **8948919586** |
+| Bot | **OpenClaw** · `@<your-openclaw-bot>` · id **<bot-id>** |
 | Token env | `TELEGRAM_BOT_TOKEN` in `$HOME/.config/openclaw/gateway.env` |
 | Ephemeral export | `/tmp/claw.env` (chmod 600; import to Vault then delete) |
-| DM access | `channels.telegram.dmPolicy = allowlist` + `allowFrom: [1397540599]` — **no pairing** for owner |
-| Client folder | Telegram chat folder **KpihX-Labs** (filter id **11**) — bot DM pinned at top (not a Telegram group) |
-| Legacy | `@k_ubuntu_bot` — workstation infra (`bot.py`); do **not** point OpenClaw gateway at it |
+| DM access | `channels.telegram.dmPolicy = allowlist` + `allowFrom: [<owner-id>]` — **no pairing** for owner |
+| Client folder | Telegram chat folder **Labs** (filter id **11**) — bot DM pinned at top (not a Telegram group) |
+| Legacy | shared infra bots — do **not** point the OpenClaw gateway at them |
 
 ## Context injection — équivalent `GEMINI.md` (general, indépendant du CWD)
 
 OpenClaw **n'a pas** un seul fichier global type `~/.gemini/GEMINI.md`. Il injecte un **bundle workspace** configuré dans `~/.openclaw/openclaw.json` → `agents.defaults.workspace`.
 
-**KπX :** `agents.defaults.workspace = ~/.agents` — le kernel `$HOME/.agents/AGENTS.md` est la **source unique** injectée à chaque session. Pas de `cp` vers un autre workspace.
+** :** `agents.defaults.workspace = ~/.agents` — le kernel `$HOME/.agents/AGENTS.md` est la **source unique** injectée à chaque session. Pas de `cp` vers un autre workspace.
 
 Le gateway systemd lit cette config ; **le répertoire courant au lancement n'a aucun effet**.
 
@@ -70,7 +70,7 @@ Le gateway systemd lit cette config ; **le répertoire courant au lancement n'a 
 
 Docs : https://docs.openclaw.ai/concepts/agent-workspace · https://docs.openclaw.ai/concepts/system-prompt
 
-### Config KπX (limits + injection)
+### Config  (limits + injection)
 
 ```bash
 openclaw config set agents.defaults.workspace '~/.agents'
@@ -81,14 +81,14 @@ openclaw config set agents.defaults.bootstrapTotalMaxChars 150000
 openclaw gateway restart
 ```
 
-The native workspace `SOUL.md` and `USER.md` are registered links to `$HOME/.agents/AGENTS.md` and `skills/kpihx/SKILL.md`; no top-level OpenClaw asset directory is retained in the kernel.
+The native workspace `SOUL.md` is a registered link to `$HOME/.agents/AGENTS.md`; no top-level OpenClaw asset directory is retained in the kernel.
 
 ### Symlinks AGENTS (une seule source, zéro duplicate)
 
 | Chemin | Type |
 |--------|------|
 | `$HOME/.agents/AGENTS.md` | **Fichier réel** — éditer ici |
-| `$HOME/KpihX-Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` |
+| `$HOME/Labs/AGENTS.md` | Symlink → `.agents/AGENTS.md` |
 | `$HOME/.openclaw/workspace/AGENTS.md` | Symlink → `.agents/AGENTS.md` (legacy / éditeur) |
 
 **Ne jamais** `ln -sf "$HOME/.agents/AGENTS.md" "$HOME/.agents/AGENTS.md"` (boucle).
@@ -104,7 +104,7 @@ Les sessions Telegram gardent d'anciennes limites bootstrap tant qu'elles ne son
 
 ### Vérifier l'injection
 
-- Telegram : demander le `name:` du frontmatter YAML → attendu **`kpihx-agents`**
+- Telegram : demander le `name:` du frontmatter YAML → attendu **`agents`** (repo name)
 - Session store : `injectedWorkspaceFiles` → `AGENTS.md` `truncated: false`, `injectedChars` ≈ 37500+ (sans frontmatter)
 - Control UI / chat : commande **`/context list`**
 
@@ -132,7 +132,7 @@ Note: `openclaw mcp list` reads OpenClaw-managed servers only. Use `mcporter lis
   - `command -v openclaw`
   - `openclaw --version`
 
-## Recommended gateway topology (KπX)
+## Recommended gateway topology ()
 
 ### Goals
 
@@ -210,7 +210,7 @@ Preferred hardening path:
 - `openclaw secrets apply`
 - `openclaw secrets audit --check`
 
-Current KπX runtime baseline (2026-05-27):
+Current  runtime baseline (2026-05-27):
 
 - gateway and telegram/exa/whisper credentials are on env SecretRefs
 - auth profiles (`openai`) use env SecretRefs
@@ -219,13 +219,6 @@ Current KπX runtime baseline (2026-05-27):
   - `$HOME/.config/systemd/user/openclaw-gateway.service.d/env.conf` (additional environment overrides)
 - Local runtime daemon configuration/secrets (such as CLI or manual execution) are read from:
   - `$HOME/.openclaw/.env` (contains primary secrets like `OPENCODE_API_KEY`)
-  - `$HOME/.openclaw/gateway.systemd.env` (contains `OPENCODE_API_KEY` and `OPENCODE_ZEN_API_KEY`, referenced by the systemd service file `EnvironmentFile=-/home/kpihx/.openclaw/gateway.systemd.env`)
+  - `$HOME/.openclaw/gateway.systemd.env` (contains `OPENCODE_API_KEY` and `OPENCODE_ZEN_API_KEY`, referenced by the systemd service file `EnvironmentFile=-$HOME/.openclaw/gateway.systemd.env`)
 - keep `openclaw secrets audit` near-zero; if any plaintext remains, treat it as migration debt and clear it immediately
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-24 | [COLAB] | v3.12.1 — Removed the top-level kernel OpenClaw folder, retained native workspace SOUL/USER links, and renamed the service override asset. |
-| 2026-07-29 | [OPENCODE] | v3.12.0 — Removed Venice, Mistral, k-ai and OpenRouter from active auth profiles list to reflect configuration purge. |
-| [SUMMARY] | — | v3.11.0 systemd service documentation · v3.10.0 env files docs; v3.9.0–v3.8.0 Assets & Ecosystem Tools section (ClawHub, MCPorter, OpenClaw MCP, openclaw-opencode); v3.7.0 `resetOnExit: false`; v3.6.0 SSOT service file; v3.5.0 Port Tailscale 443→1443; v3.4.0 OpenClaw workspace kernel inject; v3.3.0 context injection; v3.2.0–v3.0.0 Telegram bot migration, secrets hardening. v2.x condensed. |

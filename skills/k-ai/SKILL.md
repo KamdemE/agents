@@ -1,20 +1,20 @@
 ---
 name: k-ai
-description: "KπX Sovereign AI Hub + Agent Runtime Registry — Central inventory of AI runtimes (OpenCode, Ollama, OpenClaw, Hermes, Cursor), and local AI tools/binaries/wrappers (whisper-cli/k-whisper, piper/k-piper, k-translate, k-com, tesseract/OCR, k-whisper STT) + local models. MANDATORY: before any agent executes a task it does NOT have natively (reading an image, voice/image/text transcription, translation, STT/TTS, OCR, NMT) — check k-ai FIRST to see if the right local tool exists and USE it. Compact registry — detailed runtime knowledge lives in each runtime skill. Purged runtimes → references/purged.md."
+description: " Sovereign AI Hub + Agent Runtime Registry — Central inventory of AI runtimes (OpenCode, Ollama, OpenClaw, Hermes, Cursor), and local AI tools/binaries/wrappers (whisper-cli/k-whisper, piper/k-piper, k-translate, k-com, tesseract/OCR, k-whisper STT) + local models. MANDATORY: before any agent executes a task it does NOT have natively (reading an image, voice/image/text transcription, translation, STT/TTS, OCR, NMT) — check k-ai FIRST to see if the right local tool exists and USE it. Compact registry — detailed runtime knowledge lives in each runtime skill. Purged runtimes → references/purged.md."
 license: private
 metadata:
-  author: KpihX
-  version: 3.8.0
+  author: 
+  version: 1.0.0
   scope: runtime-memory
   target-agent: k-ai
 allowed-tools: Read, Edit, Write
 ---
 
-# KπX Sovereign AI Hub
+# k-ai — Sovereign AI Hub
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-This skill is the compact central inventory for all Artificial Intelligence runtimes, models, and binaries configured on KπX infrastructures. Read this skill first to orient, then load the **runtime-specific skill** for deep details. Purged runtimes are archived in `references/purged.md` — never pollute this skill with purge details.
+This skill is the compact central inventory for all Artificial Intelligence runtimes, models, and binaries configured on managed infrastructures. Read this skill first to orient, then load the **runtime-specific skill** for deep details. Purged runtimes are archived in `references/purged.md` — never pollute this skill with purge details.
 
 ## AI Runtimes & Orchestrators
 
@@ -51,7 +51,7 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - **Whisper.cpp** (`whisper-cli` + wrapper `k-whisper` using `scripts/k-whisper.sh`) — STT local. Binaire `~/.local/bin/whisper-cli` (Vulkan GPU Arc), modèles `~/.local/share/whisper-cpp/`. → `references/whisper.md`
 - **Piper** (`piper` + wrapper `k-piper` using `scripts/k-piper.sh`) — TTS local. Binaire `~/.local/bin/piper` (ONNX Runtime), modèles `~/.local/share/piper-voices/`. → `references/piper.md`
 - **CTranslate2** (`k-translate` using `scripts/k-translate.sh`) — NMT local (int8). Wrapper `~/.local/bin/k-translate`, modèles `~/.local/share/ctranslate2/`. → `references/translate.md`
-- **K-Com Hub** (`k-com`) — Orchestrateur STT→Translate→TTS. Projet `~/KpihX-Labs/AI/k-com/` (100% uv), wrapper `~/.local/bin/k-com`. → `references/k-com.md`
+- **K-Com Hub** (`k-com`) — Orchestrateur STT→Translate→TTS. Projet `~/Labs/AI/k-com/` (100% uv), wrapper `~/.local/bin/k-com`. → `references/k-com.md`
 - **Tesseract** (`tesseract`) — OCR local. Binaire `/usr/bin/tesseract` (apt), langues `/usr/share/tesseract-ocr/5/tessdata/` (`eng`, `fra`, `osd`). CLI simple, **pas de wrapper** (usage direct `tesseract image stdout -l fra`). Consommé par l'extension GNOME `text-extractor` via le helper `~/.local/bin/text-extractor-ocr` (venv uv `text-extractor-ocr-venv`). → `references/tesseract.md`
   - **Keyboard shortcut** : `Super+Shift+T` — select a screen region, OCR in French, result copied to clipboard. Configured in GNOME extension `text-extractor@aditya190803` (language `fra`, notifications enabled).
   - **⚠️ Fix if shortcut stops responding** : the extension can silently lose its keybinding registration. Quick fix:
@@ -59,9 +59,9 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
     gnome-extensions disable text-extractor@aditya190803 && gnome-extensions enable text-extractor@aditya190803
     ```
     This forces the `enable()` call in `extension.js`, which re-runs `Main.wm.addKeybinding(...)`. No systemd, no service — the extension runs inside the `gnome-shell` process itself.
-- **QMD** (`qmd`/`qmdr`, package npm `@tobilu/qmd`) — Recherche de connaissances locale (BM25+vector hybride) sur les bases markdown KπX. **Embeddings 100% locaux en GGUF** (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), **indépendant d'Ollama** (runtime llama.cpp embarqué). Modèles `~/.cache/qmd/models/` (~2.1 GB), config `~/.config/qmd/index.yml`. → `k-qmd`
+- **QMD** (`qmd`/`qmdr`, package npm `@tobilu/qmd`) — Recherche de connaissances locale (BM25+vector hybride) sur les bases markdown . **Embeddings 100% locaux en GGUF** (embeddinggemma-300M + query-expansion-1.7B + reranker-0.6b), **indépendant d'Ollama** (runtime llama.cpp embarqué). Modèles `~/.cache/qmd/models/` (~2.1 GB), config `~/.config/qmd/index.yml`. → `k-qmd`
 - **Hugging Face Hub CLI** (`hf` nouveau standard, `huggingface-cli` déprécié, package `huggingface_hub` via `uv`/`pip`) — Auth + download Hub. **PAS un paquet `apt`** (`apt install huggingface-cli` → `Unable to locate package`). Install : `uv tool install huggingface_hub` → binaire `~/.local/bin/hf` (nouveau, `huggingface-cli` reste en alias déprécié). Token `HF_TOKEN` via `hf auth login` → `~/.cache/huggingface/token` ou `~/.agents/.env` (`HF_TOKEN`), évite `Warning: unauthenticated` et débloque le débit `pull` (ex: `openvino pull` passe de 1.49 à 78 MB/s). → `references/huggingface.md`
-- **Background removal** — retained local pair: `bgone` (Rust, CPU, ~0.2s/img 1024×1024) for deterministic solid-color backgrounds and `nobg` (FeyNobg, PyTorch, ~8.8s/img batch on Intel Arc XPU) for semantic alpha matting. Project: `$HOME/KpihX-Labs/AI/nobg/` (git: github+gitlab kpihx-labs/nobg, PyPI: `k-nobg`). Install: `uv tool install '.[gpu-intel]' -e` or `uv tool install k-nobg[gpu-intel]`. Full reference, comparison, and benchmark → `references/remove-bg.md`.
+- **Background removal** — retained local pair: `bgone` (Rust, CPU, ~0.2s/img 1024×1024) for deterministic solid-color backgrounds and `nobg` (FeyNobg, PyTorch, ~8.8s/img batch on Intel Arc XPU) for semantic alpha matting. Project: `$HOME/Labs/AI/nobg/` (git: `origin` under `<user>/nobg`, PyPI: `k-nobg`). Install: `uv tool install '.[gpu-intel]' -e` or `uv tool install k-nobg[gpu-intel]`. Full reference, comparison, and benchmark → `references/remove-bg.md`.
 
 ## Local Models Inventory (`~/.local/share/`)
 
@@ -80,19 +80,19 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 
 - **Envision Copilot** (`envision-copilot` + `envision-copilot-presentation`) — Graph-based RAG exploration & intelligent interactive copilot for Domain-Specific Languages (DSL case of Envision).
   - **GitHub Remotes**:
-    - Sovereign Code: `https://github.com/KpihX/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
-    - Docs & Presentation: `https://github.com/KpihX/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
+    - Sovereign Code: `https://github.com/<user>/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
+    - Docs & Presentation: `https://github.com/<user>/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
     - Upstream Reference: `https://github.com/ClementLokad/llm-DSL-info-extraction`
   - **GitLab Remotes**:
-    - Sovereign Code: `https://gitlab.com/kpihx-labs/ai/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
-    - Docs & Presentation: `https://gitlab.com/kpihx-labs/ai/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
+    - Sovereign Code: `https://github.com/<user>/envision-copilot` (default branch: `graph`, topics: `ai`, `rag`, `envision`, `copilot`)
+    - Docs & Presentation: `https://github.com/<user>/envision-copilot-presentation` (default branch: `main`, topics: `ai`, `rag`, `envision`, `copilot`, `presentation`)
 
 ## Project References
 
 | Resource | Path / URL |
 |----------|------------|
-| **GitHub** | https://github.com/KpihX/k-ai |
-| **GitLab** | https://gitlab.com/kpihx/k-ai |
+| **GitHub** | https://github.com/<user>/k-ai |
+| **GitHub** | https://github.com/KamdemE/agents (k-ai skill) |
 
 ## Notes
 
@@ -122,10 +122,3 @@ Standalone optimized binaries + sovereign shell wrappers, zero background memory
 - Update `$HOME/.agents/skills/k-ai/references/insights.md` at the end of the task with durable lessons.
 - Keep insights autonomous and evolutionary.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-05 | [LIVE] | v3.8.0 — Added Envision Copilot RAG project entry with GitHub (KpihX) and GitLab (kpihx-labs/ai) remotes + ClementLokad upstream reference. |
-| 2026-09-03 | [LIVE] | v3.7.3 — Added `nobg` project reference (`$HOME/KpihX-Labs/AI/nobg/`, PyPI `k-nobg`) with measured inference times (bgone ~0.2s CPU, nobg ~8.8s batch Intel Arc XPU). |
-| [SUMMARY] | — | v3.7.2 remove-bg.md rewrite (4-tool eval, benches, Arc+NVIDIA guides) · v3.7.1 Added bgone + nobg pair · v3.7.0 Text Extractor keyboard shortcut · v3.6.2 OpenVINO GenAI added + tool-wiring insight · v3.6.1 HF CLI standard · v3.6.0 Hugging Face Hub CLI · v3.5.0 CUDA whisper-cli · v3.4.0 QMD · v3.3.0 Description reinforced · v3.2.0 Tesseract OCR · v3.1.0 rewritten compact · v3.0.0 merged k-agents · v2.x and older → `references/log.md` |

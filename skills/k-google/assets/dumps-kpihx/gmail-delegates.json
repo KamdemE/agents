@@ -1,7 +1,0 @@
-{
-  "error": {
-    "code": 403,
-    "message": "Access restricted to service accounts that have been delegated domain-wide authority",
-    "reason": "forbidden"
-  }
-}

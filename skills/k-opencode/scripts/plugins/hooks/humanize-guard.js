@@ -16,7 +16,7 @@
 //     ` – ` U+2013 spaced). Interval `2024–2025` (alnum–alnum collé) is
 //     allowed; ` -- ` blocked only with spaces; `---` standalone HR allowed
 //     via check-dashes but blocked here if inside sentence/prose.
-//   - Hardened: also blocks escaped/encoded bypasses (KπX):
+//   - Hardened: also blocks escaped/encoded bypasses ():
 //     `\u2012`..`\u2015` / `\U00002012`.. (`\u`/`\U` case-insensitive),
 //     `\xE2\x80\x92`..`\xE2\x80\x95` (UTF-8 bytes), `\N{EM DASH}`/`\N{EN DASH}`
 //     (and FIGURE DASH/HORIZONTAL BAR), `chr(8210..8213)`/`chr(0x2012..)`

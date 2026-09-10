@@ -3,7 +3,7 @@
 # Script Name: clean_docker.sh
 # Description: Advanced Docker cleanup (Images, Volumes, Networks)
 # API: --infos/-i, --safe/-s, --purge/-p
-# Author: Gemini-CLI / KpihX
+# Author: Gemini-CLI / 
 # ==============================================================================
 RED='\033[0;31m'
 GREEN='\033[0;32m'

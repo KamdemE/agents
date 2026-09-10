@@ -1,4 +1,4 @@
-# KpihX mnt-sync — push LOCAL_ROOT -> REMOTE_ROOT (Windows, one-way, mirrors
+#  mnt-sync — push LOCAL_ROOT -> REMOTE_ROOT (Windows, one-way, mirrors
 # exactly — /MIR removes orphans on the remote side).
 # Mirrors sync-push.sh. Reads the same dirs.txt (blank/`#` lines ignored).
 param(

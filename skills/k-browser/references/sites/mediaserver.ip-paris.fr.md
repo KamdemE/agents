@@ -21,8 +21,3 @@ Moodle launches the player through its existing authenticated session. If MediaS
 - The direct CDN manifests can be blocked by browser-page CORS while still being fetchable by `yt-dlp`. This is a browser CORS boundary, not proof that the stream is inaccessible.
 - The validated first resource was **Correction du cas Opération Souvenir** (48m30): 720p video + audio became a 307 MB H.264/AAC MP4.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-30 | Created from the live MIE video recovery: Moodle wrapper → Ubicast iframe → loaded-player HLS inspection → separate 720p/audio download and lossless mux. |

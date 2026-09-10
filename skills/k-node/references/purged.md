@@ -1,6 +1,6 @@
 # k-node — Purged Tools (Archive)
 
-> **Purpose:** npm-global packages that were installed and later **purged**. Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per KπX directive to keep only `*-proxy` (real CLIs) and remove agent/MCP runtimes.
+> **Purpose:** npm-global packages that were installed and later **purged**. Kept for the historical record — never deleted (GRAVÉ). Purge date: 2026-08-14, per maintainer directive to keep only `*-proxy` (real CLIs) and remove agent/MCP runtimes.
 
 ## Purged 2026-08-14
 

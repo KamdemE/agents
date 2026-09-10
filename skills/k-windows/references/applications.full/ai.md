@@ -1,6 +1,6 @@
 # AI (112M)
 
-> Source: `KpihX-Datas/Applications/AI/`
+> Source: `-Datas/Applications/AI/`
 > Claude Desktop pour Windows — inutilisable sur Ubuntu
 
 | Fichier | Type |

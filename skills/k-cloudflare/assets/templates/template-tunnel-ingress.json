@@ -2,7 +2,7 @@
   "config": {
     "ingress": [
       {
-        "hostname": "<SUBDOMAIN>.kpihx-labs.com",
+        "hostname": "<SUBDOMAIN>.<github-user>.com",
         "service": "https://traefik:443",
         "originRequest": {
           "noTLSVerify": true

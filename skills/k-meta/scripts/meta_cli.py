@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Meta Graph API smoke — app token, WA phone, business (KπX Meta Dev)."""
+"""Meta Graph API smoke — app token, WA phone, business ( Meta Dev)."""
 
 from __future__ import annotations
 

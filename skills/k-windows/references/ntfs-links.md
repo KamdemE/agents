@@ -1,6 +1,6 @@
 # k-windows — NTFS Links (symlink / hardlink / junction)
 
-> **OS reference:** Windows 11 (any KπX Windows machine). General mechanics only — an *instance-specific* table of "which real file lives where, which path is a link to it" belongs to the skill that owns that file (e.g. a machine's own infra skill), not here.
+> **OS reference:** Windows 11 (any  Windows machine). General mechanics only — an *instance-specific* table of "which real file lives where, which path is a link to it" belongs to the skill that owns that file (e.g. a machine's own infra skill), not here.
 
 ## The three link types
 
@@ -20,7 +20,7 @@ New-Item: Administrator privilege required for this operation.
 ```
 Cause: `SeCreateSymbolicLinkPrivilege` is granted by default only to **Administrators** and (since Windows 10) accounts with **Developer Mode** on — neither applied to that shell session.
 
-Fallback used at the time: **hard links** for individual files, a **junction** for the one directory case (`C:\Users\<user>\.agents` → `KpihX-Labs\.agents`).
+Fallback used at the time: **hard links** for individual files, a **junction** for the one directory case (`C:\Users\<user>\.agents` → `Labs\.agents`).
 
 **Fix:** enable Developer Mode via `Settings → Privacy & security → For developers → Developer Mode`. The privilege becomes available immediately in **new** shell sessions — no reboot required. After enabling, every existing hard link/junction can be upgraded to a true symlink.
 
@@ -63,8 +63,3 @@ Prints the inode number per path — two hard-linked files (or two paths to the 
 
 Any file the OS expects at a fixed path — a PowerShell profile, a bootstrap script Windows/tmux expects at a specific location — has its real content tracked inside the owning skill's `assets/`, and the OS-mandated fixed path becomes a link back to it. Benefit: exactly one editable copy; the OS-required path still works unchanged. Same rule for duplicate copies across two skills: only one copy is real, the other becomes a symlink to it, to avoid silent drift (this is exactly how a stale independent copy of a session-bootstrap script was found and fixed on 2026-08-06 — see the owning machine's infra skill for that specific incident).
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Migrated verbatim from the unversioned Windows-side `k-windows` skill (mechanics, Developer Mode incident, probe/conversion snippets, source-of-truth convention). |

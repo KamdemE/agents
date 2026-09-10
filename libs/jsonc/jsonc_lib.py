@@ -1,7 +1,7 @@
 """jsonc_lib.py — shared JSONC helpers for .agents Python scripts.
 
 Central place for everything common to .agents Python scripts that deal with
-JSONC assets (config-with-comments — the KπX standard, see k-project and
+JSONC assets (config-with-comments — the standard, see k-project and
 `libs/jsonc_lib.sh` for the shell twin). Python callers import this module
 instead of re-implementing comment-stripping + loading.
 

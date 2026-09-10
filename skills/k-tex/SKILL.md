@@ -1,24 +1,24 @@
 ---
 name: k-tex
 description: >
-  KπX LaTeX architecture & compilation workflows — latexmk multi-pass, pdfunite merging,
+  LaTeX architecture & compilation workflows — latexmk multi-pass, pdfunite merging,
   two canonical report archetypes (envision-copilot-rapport & culling-rapport),
   and a dense revision-sheet template (template-revision/).
   Load when creating, editing, structuring, or building any LaTeX project or report —
   and ALWAYS when the task is making revision sheets (fiches de révision).
 metadata:
-  author: KpihX
-  version: "2.4.0"
+  author: 
+  version: "1.0.0"
   scope: templates-workflow
   target-agent: all
 allowed-tools: Bash, Read, Write, Edit
 ---
 
-# KπX — LaTeX Architecture & Workflows
+#  — LaTeX Architecture & Workflows
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
-> **Mandatory Agent Reflex:** Before creating, editing, or configuring ANY LaTeX project, agents MUST inspect the reference structures of KπX's canonical LaTeX repos (`Makefile`, `main.tex`, `assets/`, `polytechnique.sty`, `build/`). If absent on disk, clone temporarily to `/tmp/` to inspect structure and build patterns.
+> **Mandatory Agent Reflex:** Before creating, editing, or configuring ANY LaTeX project, agents MUST inspect the reference structures of the user's canonical LaTeX repos (`Makefile`, `main.tex`, `assets/`, `polytechnique.sty`, `build/`). If absent on disk, clone temporarily to `/tmp/` to inspect structure and build patterns.
 
 ---
 
@@ -36,7 +36,7 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Project Directory Standard
 
-Every KπX LaTeX project MUST obey this directory structure:
+Every  LaTeX project MUST obey this directory structure:
 
 ```
 <project-name>/
@@ -55,7 +55,7 @@ Every KπX LaTeX project MUST obey this directory structure:
 
 ## Canonical Report Archetypes
 
-KπX maintains two canonical reference archetypes for LaTeX documents:
+ maintains two canonical reference archetypes for LaTeX documents:
 
 ### Archetype 1: Modular Long-Form Report (`envision-copilot-rapport`)
 
@@ -67,9 +67,9 @@ KπX maintains two canonical reference archetypes for LaTeX documents:
   - Assets organized in `assets/x/` (official logos) and `assets/figures/`.
 - **Compilation**: `latexmk` multi-pass with BibTeX integration -> `build/main.pdf`.
 - **Reference Locations**:
-  - **Local**: `$HOME/KpihX-Labs/AI/envision/envision-copilot-rapport`
-  - **GitHub**: `https://github.com/KpihX/envision-copilot-rapport` (default: `main`)
-  - **GitLab**: `https://gitlab.com/kpihx-labs/ai/envision/envision-copilot-rapport` (default: `main`)
+  - **Local**: `$HOME/Labs/AI/envision/envision-copilot-rapport`
+  - **GitHub**: `https://github.com/<user>/envision-copilot-rapport` (default: `main`)
+  - **GitHub**: `https://github.com/<user>/envision-copilot-rapport` (default: `main`)
 
 ### Archetype 2: Compact Single-File Report (`culling-rapport`)
 
@@ -82,9 +82,9 @@ KπX maintains two canonical reference archetypes for LaTeX documents:
   - `latexmk` compiles `main.tex` into `build/main.pdf`.
   - `pdfunite` appends `assets/Fiche_Evaluation_*.pdf` to `build/main.pdf` without re-encoding or stripping form fields!
 - **Reference Locations**:
-  - **Local**: `$HOME/KpihX-Labs/Culling/culling-rapport`
-  - **GitHub**: `https://github.com/KpihX/culling-rapport` (default: `main`)
-  - **GitLab**: `https://gitlab.com/k-culling/culling-rapport` (default: `main`)
+  - **Local**: `$HOME/Labs/Culling/culling-rapport`
+  - **GitHub**: `https://github.com/<user>/culling-rapport` (default: `main`)
+  - **GitHub**: `https://github.com/<user>/culling-rapport` (default: `main`)
 
 ### Archetype 3: Modular Report Template (`assets/template-report/`)
 
@@ -107,9 +107,9 @@ KπX maintains two canonical reference archetypes for LaTeX documents:
 The single-file CV is the live reference for a LaTeX project with full CI/CD —
 read its `AGENTS.md` (style guide + tag/release lessons) before scaffolding:
 
-- **Local**: `$HOME/KpihX-Labs/cv`
-- **GitHub**: `https://github.com/KpihX/cv` (default: `master`)
-- **GitLab**: `https://gitlab.com/kpihx/cv` (default: `master`)
+- **Local**: `$HOME/Labs/cv`
+- **GitHub**: `https://github.com/<user>/cv` (default: `master`)
+- **GitHub**: `https://github.com/<user>/cv` (default: `master`)
 - **CI/CD**: GitHub Actions (build + preview commit + Release on date tag
   `YYYY-MM-DD`) + GitLab CI (PDF + preview artifacts, 1 year).
 - **Checks**: `make check` = `check-dashes` (em-dash gate, FIRST — never build
@@ -129,13 +129,13 @@ lists, grayscale `mybox` highlights — every square centimeter earns its place.
   (or write `1.tex` directly) → `make build` (single command, always rebuilds,
   double pdflatex pass into internal `build/`, PDF copied to root).
 - **Academic workflow**: after exploring a course's material, copy the template
-  into `~/KpihX-Labs/Explore/` (`~e`) adjusted per course.
+  into `~/Labs/Explore/` (`~e`) adjusted per course.
 
 ---
 
 ## Mandatory `check-dashes` (NEVER forget)
 Canonical copy now lives at `scripts/check-dashes.sh` (global, single source
-of truth, sources `libs/humanize/humanize_lib.sh`). Every KπX TeX-family
+of truth, sources `libs/humanize/humanize_lib.sh`). Every  TeX-family
 project MUST wire `scripts/check-dashes.sh` as the FIRST step of `make build`
 (via `check:` target, before any compilation) — it scans tracked
 `*.tex` + `*.md` + `*.txt` + `*.rst` + `*.adoc` for 4 blocked patterns:
@@ -170,8 +170,7 @@ build: check  ## Build (runs dashes check first) → build/main.pdf
 	latexmk -pdf -f -interaction=nonstopmode -output-directory=build main.tex || true
 
 push:  ## Push to remotes
-	git push github main
-	git push gitlab main
+	git push origin main
 ```
 
 For projects requiring external PDF appending (e.g. `culling-rapport` style),
@@ -224,12 +223,4 @@ In `main.tex`, graphics includes MUST reference `assets/figures/`:
 - Full operational memory (recurring mistakes, validated fixes) → `references/insights.md`.
 
 ---
-
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-09-10 | [LIVE] | v2.4.0 — humanize centralization: check-dashes moved to `scripts/check-dashes.sh` (global, extended to md/txt + unicode, HR + interval exemptions), lib `libs/humanize/humanize_lib.*` single source, hook `humanize-guard.js` hard gate at write-time, docs updated. |
-| 2026-09-07 | [LIVE] | v2.3.0 — `assets/template-report/` normalized: files lowercase (Main→main, Biblio→biblio, Preambule→preambule, TitlePage→titlepage, Introduction→introduction, Conclusion→conclusion), image paths fixed (`assets/bgs/`), build debris cleaned, added Makefile + `.gitignore` + `AGENTS.md` + `build/`, documented as Archetype 3 (general template, X projects → adapt culling-rapport instead). |
-| [SUMMARY] | -- | v2.2.0 . v2.1.0 . v2.0.0 full rewrite (latexmk, pdfunite, 2 archetypes) · v1.0.0 revision template init · older → `references/log.md` |
 

@@ -1,6 +1,6 @@
 # Tunnel published routes (ingress) — API vs tools
 
-> **Tunnel `kpihx-labs`:** routes like `vaultwarden`, `sentinel`, etc. = **ingress** on remote-managed tunnel.  
+> **Tunnel `<github-user>`:** routes like `vaultwarden`, `sentinel`, etc. = **ingress** on remote-managed tunnel.  
 > **Dashboard:** Zero Trust → tunnel → **Configure** / **Published application routes**.
 
 ## Can you avoid the dashboard?
@@ -12,12 +12,12 @@
 | **`flarectl`** | ❌ **No** — DNS/zones only | ✅ `flarectl dns *` |
 | **`cloudflared` CLI** | ❌ Not for remote-managed ingress (config in cloud) | — |
 | **Cursor Cloudflare MCP** | ❌ Workers/KV/D1 — not tunnel routes | ❌ |
-| **Terraform** | ✅ `cloudflare_zero_trust_tunnel_cloudflared_config` (KπX not using) | ✅ |
+| **Terraform** | ✅ `cloudflare_zero_trust_tunnel_cloudflared_config` ( not using) | ✅ |
 | **`cf-proxy` (future)** | Target for CLI+MCP+HITL | — |
 
 **Answer:** API is **open**. You do **not** need the dashboard for changes — but you need a **broader API token** than DNS-only and you must use **API or curl**, not `flarectl`, for routes.
 
-## API (remote-managed tunnel `kpihx-labs`)
+## API (remote-managed tunnel `<github-user>`)
 
 **Read current ingress:**
 
@@ -37,12 +37,12 @@ PUT /accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations
   "config": {
     "ingress": [
       {
-        "hostname": "sentinel.kpihx-labs.com",
+        "hostname": "sentinel.<github-user>.com",
         "service": "http://127.0.0.1:PORT",
         "originRequest": {}
       },
       {
-        "hostname": "vaultwarden.kpihx-labs.com",
+        "hostname": "vaultwarden.<github-user>.com",
         "service": "http://TRAEFIK_OR_ORIGIN:PORT",
         "originRequest": {}
       },
@@ -60,14 +60,14 @@ PUT /accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations
 **DNS** (if not auto-created by dashboard flow):
 
 ```bash
-flarectl dns create --zone kpihx-labs.com \
+flarectl dns create --zone <github-user>.com \
   --name sentinel --type CNAME \
   --content "<TUNNEL_UUID>.cfargotunnel.com" --proxy
 ```
 
-Use **Tunnel ID** (`db6721cb-…`) for CNAME target — not tunnel name `kpihx-labs`.
+Use **Tunnel ID** (`db6721cb-…`) for CNAME target — not tunnel name `<github-user>`.
 
-## KπX split (today)
+##  split (today)
 
 | Layer | Tool | Where |
 |-------|------|-------|
@@ -88,4 +88,4 @@ Use **Tunnel ID** (`db6721cb-…`) for CNAME target — not tunnel name `kpihx-l
 
 ## QMD keywords
 
-`tunnel routes`, `published application`, `ingress`, `kpihx-labs`, `cfd_tunnel configurations`, `flarectl DNS only`, `API tunnel write`, `vaultwarden`, `sentinel`, `email routing ops`
+`tunnel routes`, `published application`, `ingress`, `<github-user>`, `cfd_tunnel configurations`, `flarectl DNS only`, `API tunnel write`, `vaultwarden`, `sentinel`, `email routing ops`

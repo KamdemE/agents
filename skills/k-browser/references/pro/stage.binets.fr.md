@@ -21,8 +21,3 @@ None — public site. No authentication required.
 - Salaries seen (2026-09-09, IA sheets): Lazard €1800, Storyzy €1500, Safran €1330, HRflow €800, Sanofi €1050, Engie €1460.
 - The `?q=IA` query param stays in the URL when opening a sheet (used to keep the index filter context).
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: index/search structure (`find?q=`), view IDs, tutor contact extraction pattern, salary benchmarks from 18 open IA sheets. |

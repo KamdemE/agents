@@ -1,16 +1,16 @@
 ---
 name: "k-code"
-description: "KπX VS Code-family hub: Code user dir (settings, keybindings, MCP, chat models), storage.json registry, profile extensions, workspaceStorage + GitHub Copilot Chat JSONL, references/profiles snapshots, profile_update.py / profile_build.py, Cursor & Antigravity sync scripts + references/cursor.md & agy.md, .agents/skills/k-ubuntu/scripts/clean. Load for Code, Cursor, or AGY audits, profiles, forks, extensions, or Copilot history recovery."
+description: " VS Code-family hub: Code user dir (settings, keybindings, MCP, chat models), storage.json registry, profile extensions, workspaceStorage + GitHub Copilot Chat JSONL, references/profiles snapshots, profile_update.py / profile_build.py, Cursor & Antigravity sync scripts + references/cursor.md & agy.md, .agents/skills/k-ubuntu/scripts/clean. Load for Code, Cursor, or AGY audits, profiles, forks, extensions, or Copilot history recovery."
 license: "private"
 metadata:
-  author: "KpihX"
-  version: "4.5.1"
+  author: ""
+  version: "1.0.0"
 allowed-tools: "Bash(*), *"
 ---
 
-# KπX — VSCode Ecosystem
+#  — VSCode Ecosystem
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/windows.md` (Windows/WSL paths for VS Code, Cursor, AGY, Continue.dev, winget install)
 
@@ -56,7 +56,7 @@ allowed-tools: "Bash(*), *"
 
 **Built-in `__default__profile__`:**
 - VSCode internal fallback profile
-- Not KπX's main working profile
+- Not the user's main working profile
 - Avoid assigning workspaces to it when a custom profile should own them
 
 ## Where To Read What
@@ -146,10 +146,3 @@ Regarding editor cleanup and cache purging, all scripts reside centrally in your
 - Update `$HOME/.agents/skills/k-code/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-14 | [COLAB] | v4.5.1 — **User Snippets Integration**: Unified user snippets by moving the template directory to assets/snippets/ and symlinking both active editors directly to it. |
-| 2026-08-14 | [COLAB] | v4.5.0 — **Sovereign Configurations Integration**: Moved base settings, keybindings, mcp, and chatLanguageModels JSONs to assets/ and symlinked both VS Code and Cursor directly to them. Corrected double-symlink profile paths. |
-| [SUMMARY] | — | v4.4.0 moved to references/log.md; older → file history |

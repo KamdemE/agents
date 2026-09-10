@@ -1,8 +1,8 @@
 # k-git — Merge Workflow (ABSOLUTE — Read Before Handling Any Merge)
 
-**Status:** ABSOLUTE reference for every merge of a kernel branch (`deep-pc6`, `blglaptop139-wsl`, or any future infra). **MUST be loaded and followed in full before touching a single file.** No shortcut, no mental summary.
+**Status:** ABSOLUTE reference for every merge of a kernel branch (`server`, `laptop-wsl`, or any future infra). **MUST be loaded and followed in full before touching a single file.** No shortcut, no mental summary.
 
-> **Scope:** `.agents` kernel merges only (the `kpihx-labs/agents` repo, branch-per-infra workflow). Project repos follow `k-project`/`k-final` where applicable.
+> **Scope:** `.agents` kernel merges only (the `KamdemE/agents` repo, branch-per-infra workflow). Project repos follow `k-project`/`k-final` where applicable.
 > **Companion rule:** `rules/git-branch-per-infra.md` (authoritative branch policy). This document is its **operational companion** — the step-by-step execution manual.
 
 ---
@@ -11,7 +11,7 @@
 
 - A merge is **never** a blind `git merge && push`. It is a **governance act**: every hunk is inspected, every conflict is resolved coherently, every version is renumbered, every doc is rewritten for fluidity.
 - Two infras can implement the **same concept independently** (e.g. duplicate `check-remotes` contracts). Your job is to **absorb the surplus**, never delete it.
-- `ubuntu` (`kpihx-ubuntu`) is the **sole infra allowed on `master`** — every other infra owns its named branch (`deep-pc6`, `blglaptop139-wsl` on WSL). This exception is GRAVÉ.
+- `ubuntu` (`workstation`) is the **sole infra allowed on `master`** — every other infra owns its named branch (`server`, `laptop-wsl` on WSL). This exception is GRAVÉ.
 - `*.pdf`, `*.pptx`, `*.onnx`, `*.bin` are **binary** (`* binary` in `.gitattributes`) — never diffed as text.
 
 ---
@@ -20,26 +20,25 @@
 
 ```bash
 git status -sb | head -20                          # must be clean (or only k-context notes you will commit first)
-git rev-parse master github/master gitlab/master    # refs aligned?
-readlink ~/.agents                                  # → ~/KpihX-Labs/.agents (real repo), per Infrastructure Directory Standard
+git rev-parse master origin/master    # refs aligned?
+readlink ~/.agents                                  # → ~/Labs/.agents (real repo), per Infrastructure Directory Standard
 git fetch --all --prune
 git branch -a | head -30
-gh pr list -R kpihx-labs/agents --state all --limit 10
-glab mr list --repo kpihx-labs/agents
+gh pr list -R KamdemE/agents --state all --limit 10
 ```
 
-- VPN-dependent services (`vpn-dxo`, `ollama6-tunnel`) — if `vpn-dxo` is `failed` for >1h, expect `make check` to block commits. Fix via tmux ops pane `ubuntu:0.2` (see `k-tmux` + `k-dxo`) **before** committing.
+- VPN-dependent services — if a required VPN is down, expect `make check` to block commits. Fix via tmux ops pane (see `k-tmux`) **before** committing.
 
 ---
 
 ## 2. Full Read of the PR (Not a Summary)
 
 ```bash
-base=$(git merge-base master github/<branch>)
-git log --oneline --format='%h %ad %s' --date=short $base..github/<branch>
-git diff --name-status $base..github/<branch>
-git diff --stat $base..github/<branch> | sort -t'|' -k2 -rn | head -25
-git diff $base..github/<branch> > /tmp/opencode/pr-full.diff; wc -l /tmp/opencode/pr-full.diff
+base=$(git merge-base master origin/<branch>)
+git log --oneline --format='%h %ad %s' --date=short $base..origin/<branch>
+git diff --name-status $base..origin/<branch>
+git diff --stat $base..origin/<branch> | sort -t'|' -k2 -rn | head -25
+git diff $base..origin/<branch> > /tmp/opencode/pr-full.diff; wc -l /tmp/opencode/pr-full.diff
 ```
 
 - **Read the entire diff** — every file, line by line (`Read` tool in slices). For a 80k-line diff the PDF dominates; summarize it as binary, but read every other file.
@@ -47,7 +46,7 @@ git diff $base..github/<branch> > /tmp/opencode/pr-full.diff; wc -l /tmp/opencod
 
 ```bash
 git diff --name-only $base..master | sort > /tmp/a
-git diff --name-only $base..github/<branch> | sort > /tmp/b
+git diff --name-only $base..origin/<branch> | sort > /tmp/b
 grep -Fx -f /tmp/a /tmp/b          # true conflict candidates vs current master
 # also vs the other open PR if two are queued
 ```
@@ -56,9 +55,9 @@ grep -Fx -f /tmp/a /tmp/b          # true conflict candidates vs current master
 
 ---
 
-## 3. Elegant Presentation (So KπX Can Decide Without Re-Reading Code)
+## 3. Elegant Presentation (So  Can Decide Without Re-Reading Code)
 
-**Never modify before presenting.** Produce a single structured message in French (KπX's working language), with this exact skeleton — it is the one that lets him say "G1 je valide, G2 je valide, G8 option b…" in one pass:
+**Never modify before presenting.** Produce a single structured message in French (the user's working language), with this exact skeleton — it is the one that lets him say "G1 je valide, G2 je valide, G8 option b…" in one pass:
 
 ```
 # PR #N — <branch> · X commits · Y files (+A/−B)
@@ -88,7 +87,7 @@ Ma proposition : ✅ VALIDER / PATCH / FUSIONNER / REJETER
 1. ...
 ```
 
-**Grouping rule:** one `G` per coherent intent (often one commit, but a commit that touches 130 files like `blglaptop139-wsl: voice + k-windows + k-pptx` is split into thematic Gs: voice, k-windows, k-pptx, …). Keep `G` count ≤12, each with its own verdict.
+**Grouping rule:** one `G` per coherent intent (often one commit, but a commit that touches 130 files like `laptop-wsl: voice + k-windows + k-pptx` is split into thematic Gs: voice, k-windows, k-pptx, …). Keep `G` count ≤12, each with its own verdict.
 
 **For every G provide:**
 - What it brings (files + line counts + concrete behavior)
@@ -107,7 +106,7 @@ Ma proposition : ✅ VALIDER / PATCH / FUSIONNER / REJETER
 
 ---
 
-## 4. Await KπX Arbitrages (Question Tool)
+## 4. Await  Arbitrages (Question Tool)
 
 After the presentation, **stop**. Use the `question` tool for every ambiguity:
 
@@ -115,7 +114,7 @@ After the presentation, **stop**. Use the `question` tool for every ambiguity:
 - 4 new `references/log.md` vs rule "rotation exclusive à k-context" → Garder comme archives gelées vs Replier ?
 - `Mother_Mirror.pdf` → Sortir / Binary / Garder ?
 
-Never assume. KπX's answers are recorded as `G1 je valide`, `G8 option b`, etc. — treat them as locked arbitrages for the merge pass.
+Never assume. the user's answers are recorded as `G1 je valide`, `G8 option b`, etc. — treat them as locked arbitrages for the merge pass.
 
 ---
 
@@ -133,16 +132,16 @@ If the hook fails on `check-services` (vpn-dxo down), restart via tmux ops pane 
 ### 5.2 Merge (no-ff, no-commit for control)
 
 ```bash
-git merge github/<branch> --no-ff --no-commit
+git merge origin/<branch> --no-ff --no-commit
 git diff --name-only --diff-filter=U   # list conflicts
 for f in $(git diff --name-only --diff-filter=U); do echo "── $f ──"; grep -n '^<<<<<<< ' "$f"; done
 ```
 
 ### 5.3 Resolve Textually — MD Coherence First
 
-> **KπX rule:** for `.md` files, **never just concatenate blocks** — rewrite the section for fluidity from start to finish.
+> ** rule:** for `.md` files, **never just concatenate blocks** — rewrite the section for fluidity from start to finish.
 
-- `AGENTS.md` version bump: `3.7.0 → 3.8.0` (or next minor), keep ubuntu exception + `-wsl` note + `github`/`gitlab` never `origin` + `kpihx-labs/agents.git` URLs.
+- `AGENTS.md` version bump: `3.7.0 → 3.8.0` (or next minor), keep single-machine/single-`origin` rule + `KamdemE/agents.git` URL.
 - `rules/git-branch-per-infra.md` — rewrite **entirely** via `Write` (159 lines) to encode the locked arbitrages; do not patch line-by-line.
 - `skills/k-*/SKILL.md` changelogs: if a skill would exceed **2 explicit rows before [SUMMARY]**, rotate the oldest row into `[SUMMARY]` (copy-then-condense, per kernel Zero-Deletion).
 - `Makefile` duplicate targets: keep one `check-remotes` + `set-remotes` (the `scripts/remotes/` kebab version after absorption) + `pr` (from `create-pr.sh`).
@@ -163,7 +162,7 @@ Stage the deletions explicitly (`git rm -f`).
 
 ```bash
 grep -rln '^<<<<<<< ' --exclude-dir=.git . || echo 'AUCUN'
-grep -rn 'github.com:KpihX/agents' --exclude-dir=.git . || echo 'AUCUNE mauvaise URL'
+grep -rn 'github.com:/agents' --exclude-dir=.git . || echo 'AUCUNE mauvaise URL'
 bash -n scripts/remotes/*.sh; zsh -n skills/k-*/assets/kshrc*
 cat .gitattributes | grep -q '^\*\.pdf.*binary' && echo 'PDF binary ✓'
 git status --short | head -40
@@ -175,7 +174,7 @@ git status --short | head -40
 git add -A
 git commit -m "merge: PR #N <branch> — <one-line summary>
 
-Integration per KπX arbitrages:
+Integration per  arbitrages:
 - G1: ...
 - G2: scripts/remotes/ absorbed 4 bonuses, duplicates deleted
 - ...
@@ -195,9 +194,8 @@ Update `skills/k-context/SKILL.md` (version bump, Session Log row on top, Change
 ## 6. Push & Verify Auto-Close
 
 ```bash
-make push   # github + gitlab simultaneously
-gh pr view N -R kpihx-labs/agents --json state,mergedAt
-glab mr list --repo kpihx-labs/agents
+make push   # origin
+gh pr view N -R KamdemE/agents --json state,mergedAt
 ```
 
 Both the GH PR and the GitLab MR auto-close when `master` contains their commits.
@@ -206,7 +204,7 @@ Both the GH PR and the GitLab MR auto-close when `master` contains their commits
 
 ## 7. Post-Merge Hygiene
 
-- Notify the other infra(s) to rebase: `git fetch github && git rebase github/master`.
+- Notify collaborators to rebase: `git fetch origin && git rebase origin/master`.
 - If the merge introduced a new binary asset, confirm `git diff --cached --stat` shows `Bin 0 → N bytes` (not thousands of insertions).
 - Update `k-context` Active TODOs (remove or mark the merged PR).
 

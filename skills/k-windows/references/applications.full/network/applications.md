@@ -1,6 +1,6 @@
 # Network
 
-Source: `KpihX-Datas/Applications/Network/` (2.6G).
+Source: `-Datas/Applications/Network/` (2.6G).
 
 - `Browsers/Edge_Ubuntu/`; `Browsers/Google Chrome/{ChromeSetup.exe,google-chrome-stable_current_amd64.deb,_igetintopc.com_Google_Chrome_97_x64.rar,vgvChromeSetup.exe}`
 - `Browsers/Opera/{Opera_110.0.5130.39_Setup_x64.exe,opera-stable_106.0.4998.19_amd64.deb,vgvOperaSetup.exe,vOpera_98.0.4759.15_Setup_x64.exe}`

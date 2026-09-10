@@ -26,8 +26,3 @@ X (Polytechnique) SSO — session can expire (`login/index.php?err=3`); reauthen
 - DataTables search is client-side and instant; column sort by clicking header (e.g. "Posté le").
 - Age of the base makes it non-priority for 2026/2027 offers — recruiters use LinkedIn/JobTeaser/AX.
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: SSO auth requirement, DataTables search/triage, base audit (72 offers ≤2023, mostly 4A/M2), verdict non-priority. |

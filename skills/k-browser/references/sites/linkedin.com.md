@@ -1,10 +1,10 @@
 # linkedin.com (LinkedIn — Professional network)
 
-**Category:** Social/Professional Network. **Account:** ivann.kamdem@hotmail.com (KπX main). **Profile:** `default`.
+**Category:** Social/Professional Network. **Account:** <personal@hotmail.com> ( main). **Profile:** `default`.
 
 ## Login
 
-Primary account: `ivann.kamdem@hotmail.com`. `kapoivha@gmail.com` is registered as a Google SSO login option (used for convenience/passwordless) — NOT the primary LinkedIn email. The default Edge profile is usually already authenticated via SSO; no separate login needed unless the session expired.
+Primary account: `<personal@hotmail.com>`. `<primary@gmail.com>` is registered as a Google SSO login option (used for convenience/passwordless) — NOT the primary LinkedIn email. The default Edge profile is usually already authenticated via SSO; no separate login needed unless the session expired.
 
 ## Structure / navigation
 
@@ -38,8 +38,3 @@ Primary account: `ivann.kamdem@hotmail.com`. `kapoivha@gmail.com` is registered 
 - **LinkedIn notification emails in Outlook** are grouped under "Other Emails (X)" — they are notification forwards, NOT the actual messages; always check the real LinkedIn messaging UI for actual conversations
 - The "Focused" vs "Other" inbox split applies to both LinkedIn notifications and other low-priority emails
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-08-30 | Created after live LinkedIn session: feed parsing (infinite scroll, post extraction), messaging UI (Shuxian LI conversation), InMail vs Message distinction, LinkedIn notification emails in Outlook. |

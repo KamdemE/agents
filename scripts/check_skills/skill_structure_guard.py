@@ -1,4 +1,4 @@
-"""Core: structure validation for KπX-owned skill files."""
+"""Core: structure validation for -owned skill files."""
 
 from __future__ import annotations
 
@@ -53,61 +53,8 @@ def parse_table_rows(table_lines: list[str]) -> list[list[str]]:
     return rows
 
 
-def _validate_changelog_rows(rows: list[list[str]], skill_path: str) -> list[str]:
-    errors: list[str] = []
-    path = display_path(skill_path)
-
-    if len(rows) < 3:
-        return [
-            f"{path}: `## Changelog` must contain a header, separator, and body rows."
-        ]
-
-    body = rows[2:]
-    summary_indices = [
-        idx for idx, row in enumerate(body) if row and row[0] == "[SUMMARY]"
-    ]
-    if len(summary_indices) != 1:
-        return [
-            f"{path}: changelog must contain exactly one `[SUMMARY]` row "
-            f"(see {AGENTS_MD} → '### Provenance & Quality')."
-        ]
-
-    summary_idx = summary_indices[0]
-    if summary_idx != len(body) - 1:
-        errors.append(f"{path}: `[SUMMARY]` must be the last changelog row.")
-
-    explicit_rows = body[:summary_idx]
-    if len(explicit_rows) > 2:
-        errors.append(
-            f"{path}: changelog may contain at most 2 explicit rows before `[SUMMARY]`."
-        )
-
-    previous_date: str | None = None
-    for row in explicit_rows:
-        if len(row) < 3:
-            errors.append(
-                f"{path}: changelog rows must have 3 columns: Date, Agent, Action."
-            )
-            continue
-
-        date_value, agent_value = row[0], row[1]
-        if not _DATE_RE.match(date_value):
-            errors.append(
-                f"{path}: invalid changelog date `{date_value}`; expected `YYYY-MM-DD`."
-            )
-        if not _AGENT_TAG_RE.match(agent_value):
-            errors.append(
-                f"{path}: invalid agent provenance `{agent_value}`; expected `[AGENT]`."
-            )
-        if previous_date is not None and date_value > previous_date:
-            errors.append(f"{path}: changelog rows must be newest-first.")
-        previous_date = date_value
-
-    return errors
-
-
 def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
-    """Validate frontmatter and footer structure for one KπX-owned SKILL.md payload."""
+    """Validate frontmatter and footer structure for one -owned SKILL.md payload."""
     errors: list[str] = []
     skill_dir_name = os.path.basename(os.path.dirname(skill_path))
     if not skill_dir_name.startswith("k-"):
@@ -143,7 +90,7 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
         after_h1 = body[h1_match.end() :]
         reminder_match = re.match(
             r"\n\n\*\*⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER "
-            r"\(VERSION, ETC\.\) AND THE FOOTER \(CHANGELOG\)\.\*\*",
+            r"\(VERSION\)\.\*\*",
             after_h1,
         )
         if reminder_match is None:
@@ -151,12 +98,11 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
                 f"{path}: missing mandatory edit reminder directly under the H1 heading."
             )
 
-    changelog_table = extract_table_after_heading(text, "Changelog")
-    if not changelog_table:
-        errors.append(f"{path}: missing `## Changelog` footer table.")
-    else:
-        errors.extend(
-            _validate_changelog_rows(parse_table_rows(changelog_table), skill_path)
+    # Fresh fork: NO changelog sections anywhere (history lives in git).
+    # A stale ## Changelog heading is a violation, not a requirement.
+    if re.search(r"^## Changelog\s*$", text, re.MULTILINE):
+        errors.append(
+            f"{path}: stale `## Changelog` section — changelogs were removed fork-wide; delete it."
         )
 
     if skill_dir_name == "k-context":
@@ -203,12 +149,12 @@ def validate_skill_structure_text(skill_path: str, text: str) -> list[str]:
 
 
 def validate_skill_structure(skill_path: str) -> list[str]:
-    """Validate frontmatter and footer structure for one KπX-owned SKILL.md file."""
+    """Validate frontmatter and footer structure for one -owned SKILL.md file."""
     return validate_skill_structure_text(skill_path, _read_text(skill_path))
 
 
 def build_skill_structure_violation_report(skill_paths: list[str]) -> str:
-    """Return a human-readable report for all invalid KπX skill structures."""
+    """Return a human-readable report for all invalid skill structureures."""
     relevant = [
         path
         for path in skill_paths

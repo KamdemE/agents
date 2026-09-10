@@ -24,8 +24,3 @@ None — public.
 - Only the 2 internship listings above exist despite 17+ job links on the list page — other roles are full-time.
 - Duration is in the page text ("6 months") — verify per offer (fits the March 2027 6-month window).
 
-## Changelog
-
-| Date | Note |
-|------|------|
-| 2026-09-09 | Created after 3A hunt session: internship filter (`employmentType=Intern`), 2 existing internships captured (Applied Scientist 6 months, Forward Deployed ML). |

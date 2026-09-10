@@ -1,6 +1,6 @@
 # k-windows — Dual-GPU laptop: diagnosing and reducing dGPU idle load
 
-> Generalized from a specific machine (`k-blglaptop139`, Intel iGPU + NVIDIA dGPU) — the diagnostic method and mitigations below apply to any Windows laptop with two GPUs. Exact GPU model/VRAM/utilization numbers stay in that machine's `references/gpu.md`.
+> Generalized from a specific machine (`k-laptop`, Intel iGPU + NVIDIA dGPU) — the diagnostic method and mitigations below apply to any Windows laptop with two GPUs. Exact GPU model/VRAM/utilization numbers stay in that machine's `references/gpu.md`.
 
 ## Diagnosis: it's often a display-wiring problem, not a driver bug
 
@@ -47,8 +47,3 @@ Settings → System → Display → Graphics → pick the app → "Power saving"
 nvidia-smi -pm 1 -i <gpu-index>
 ```
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.0.0 — Created. Generalized the dual-GPU idle-load diagnosis and mitigations from `k-blglaptop139` (Intel iGPU + NVIDIA RTX 5070 Ti dGPU) — exact hardware numbers stay in that machine's `references/gpu.md`. |

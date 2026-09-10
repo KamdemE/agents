@@ -1,4 +1,4 @@
--- KπX tmux-navigator integration
+--  tmux-navigator integration
 -- Seamless Ctrl+h/j/k/l between Neovim splits and tmux panes
 -- Plugin is loaded via Lazy; this file is reserved for future overrides
 

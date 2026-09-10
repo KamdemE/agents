@@ -4,15 +4,15 @@
 # Usage: sudo ./backup.sh [DEST_DIR]
 #   DEST_DIR defaults to HDD_DEST_DIR (defined below) if not provided as arg.
 # Runs as root. Secrets sourced from ~/.agents/.env.
-# Author: KpihX [CLAUDE]
+# Author:  [CLAUDE]
 # ==============================================================================
 
 set -euo pipefail
 
 # ── Machine config (edit these per machine) ───────────────────────────────────
 USER_BACKUP="kpihx"
-PC_NAME="KpihX-Ubuntu"
-HDD_DEST_DIR="/media/kpihx/KpihX-Backup/Backups/Ubuntu"
+PC_NAME="workstation"
+HDD_DEST_DIR="/media/kpihx/-Backup/Backups/Ubuntu"
 KEEP_BACKUPS=2
 PREVIEW=0
 
@@ -21,9 +21,9 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # systemd services with explicit `User=root` preset $HOME=/root, which misses
 # the kernel (/root/.agents does not exist) — force the agent user home whenever
 # .agents is not reachable from the current value.
-export HOME="${HOME:-/home/kpihx}"
-[ -d "$HOME/.agents" ] || export HOME="/home/kpihx"
-# shellcheck source=/home/kpihx/.agents/libs/notif/notifier.sh
+export HOME="${HOME:-$HOME}"
+[ -d "$HOME/.agents" ] || export HOME="$HOME"
+# shellcheck source=$HOME/.agents/libs/notif/notifier.sh
 source "$HOME/.agents/libs/notif/notifier.sh"
 NOTIFY_TG_TOKEN="${TELEGRAM_UBUNTU_TOKEN:-}"
 
@@ -42,7 +42,7 @@ done
 TARGET_DIR="${TARGET_DIR:-${HDD_DEST_DIR}}"
 if [[ -z "$TARGET_DIR" ]]; then
     echo "❌ No destination provided. Set HDD_DEST_DIR at top of script or pass as argument." >&2
-    echo "   Usage: sudo $0 /media/$USER_BACKUP/KpihX-Backup/Backups/Ubuntu" >&2
+    echo "   Usage: sudo $0 /media/$USER_BACKUP/-Backup/Backups/Ubuntu" >&2
     exit 1
 fi
 
@@ -94,7 +94,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # ── Destination validation ─────────────────────────────────────────────────────
 PARENT_DIR="$(dirname "$TARGET_DIR")"
 if [[ ! -d "$PARENT_DIR" ]]; then
-    MSG="Drive NOT found at $PARENT_DIR. Please mount KpihX-Backup and run 'make run' in $SCRIPT_DIR."
+    MSG="Drive NOT found at $PARENT_DIR. Please mount -Backup and run 'make run' in $SCRIPT_DIR."
     echo "❌ $MSG" >&2
     alert "ERROR" "$MSG"
     exit 1

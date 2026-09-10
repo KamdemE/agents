@@ -1,6 +1,6 @@
 #Requires -Version 5.1
 <#
-  KpihX-Labs — tmux-sessions.ps1 (MSYS2 / Windows)
+  Labs — tmux-sessions.ps1 (MSYS2 / Windows)
 
   Generic, machine-agnostic tmux bootstrap for a Windows box running tmux
   via MSYS2. Mirrors k-tmux's standard equipment layout exactly (see
@@ -23,7 +23,7 @@
   Fixed vs. the original migration source (see k-windows/references/msys2.md
   for the full incident write-up): the original had THREE mutually
   contradictory session/window maps (a session named "dxo" that nothing
-  ever created, a "culling"/"deep-pc6"/"alienware" set of DxO- and
+  ever created, a "culling"/"server"/"alienware" set of DxO- and
   machine-specific sessions, and a script comment that called a local
   session "remote"). This version drops all of that — a generic skill
   should not carry one specific machine's historical bugs. DxO-specific

@@ -2,7 +2,7 @@
 # gws_dump_state.sh — dumps complete Google Workspace state to assets/dumps-<profile>/*.json
 # Usage: $HOME/.agents/skills/k-google/scripts/gws_dump_state.sh [kpihx|labs]
 # Run in tmux pane via k-tmux (requires gws auth active for kpihx / labs).
-# NOTE: gws-kpihx / gws-labs are functions defined in gws-profiles.sh — NOT available in
+# NOTE: gws-primary / gws-labs are functions defined in gws-profiles.sh — NOT available in
 # a bash subshell. This script therefore sets the env vars itself (same as gws-profiles.sh)
 # and calls the bare `gws` binary directly.
 
@@ -18,8 +18,8 @@ case "$PROFILE" in
     export GOOGLE_WORKSPACE_PROJECT_ID="kpihx-489121"
     ;;
   labs)
-    export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws/kpihx-labs"
-    export GOOGLE_WORKSPACE_PROJECT_ID="kpihx-labs"
+    export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$HOME/.config/gws/<github-user>"
+    export GOOGLE_WORKSPACE_PROJECT_ID="<github-user>"
     ;;
   *)
     echo "ERROR: unknown profile '$PROFILE' (use kpihx or labs)" >&2

@@ -1,18 +1,18 @@
 ---
 name: k-rclone
 description: >
-  KπX rclone — Google Drive remotes, FUSE mounts, systemd templates. Part of Google file layer
+  rclone — Google Drive remotes, FUSE mounts, systemd templates. Part of Google file layer
   (k-google → k-rclone → k-drive). Load for new remotes, mounts, or rclone troubleshooting.
 license: private
 metadata:
-  author: KpihX
-  version: "1.5.0"
+  author: 
+  version: "1.0.0"
 allowed-tools: Bash(rclone:*), Bash(systemctl:*), Bash(ls:*), Bash(cat:*)
 ---
 
-# KπX — rclone
+#  — rclone
 
-**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION, ETC.) AND THE FOOTER (CHANGELOG).**
+**⚠️ WHEN EDITING THIS FILE, YOU MUST ALSO UPDATE THE HEADER (VERSION).**
 
 > **OS references:** `references/ubuntu.md` (FUSE mounts, systemd services) · `references/windows.md` (WSL and native Windows rclone) · **`references/gdrive.md`** (Google Drive trash & manipulation — find/empty trash, `--drive-trashed-only`, `rclone cleanup`, quota-vs-trash)
 
@@ -27,10 +27,10 @@ Google **file layer** (not Gmail API): **`k-google`** → **this skill** → **`
 
 | Remote name | Type | Account | Mount path | Systemd service |
 |-------------|------|---------|------------|-----------------|
-| `gdrive-x:` | Google Drive | `ivann.kamdem-pouokam.2024@polytechnique.org` | `$HOME/Gdrive_X/` | `rclone-gdrive-x.service` |
-| `gdrive:` | Google Drive | `kapoivha@gmail.com` | `$HOME/Gdrive/` | `rclone-gdrive.service` |
-| `pve:` | SFTP | `ivann@kpihx-labs` (port 2222) | *(on-demand)* | — |
-| `deep-pc6:` | SFTP | `deep-pc6` (via SSH key) | `$HOME/Deep-PC6/` | `rclone-deep-pc6.service` (in `k-dxo`) |
+| `gdrive-x:` | Google Drive | `<school@polytechnique.org>` | `$HOME/Gdrive/` | `rclone-gdrive-x.service` |
+| `gdrive:` | Google Drive | `<primary@gmail.com>` | `$HOME/Gdrive/` | `rclone-gdrive.service` |
+| `pve:` | SFTP | `personal@<github-user>` (port 2222) | *(on-demand)* | — |
+| `server:` | SFTP | `server` (via SSH key) | `$HOME/Deep-PC6/` | `rclone-server.service` (in `k-dxo`) |
 
 ## Adding a New Google Drive Remote
 
@@ -74,7 +74,7 @@ team_drive =
 
 ## Mount Flags
 
-Standard KπX mount command:
+Standard  mount command:
 
 ```bash
 rclone mount <remote>: <mountpoint> \
@@ -123,8 +123,8 @@ Optional additional flags:
 | Service | Source of truth | Owner skill |
 |---------|---------------|-------------|
 | `rclone-gdrive.service` | `assets/rclone-gdrive.service` | `k-rclone` (workstation Gdrive) |
-| `rclone-gdrive-x.service` | `assets/rclone-gdrive-x.service` | `k-rclone` (workstation Gdrive_X) |
-| `rclone-deep-pc6.service` | `k-dxo/assets/rclone-deep-pc6.service` | `k-dxo` (Deep-PC6 remote) |
+| `rclone-gdrive-x.service` | `assets/rclone-gdrive-x.service` | `k-rclone` (workstation Gdrive) |
+| `rclone-server.service` | `k-dxo/assets/rclone-server.service` | `k-dxo` (Deep-PC6 remote) |
 
 ### Adding a new mount
 
@@ -178,10 +178,3 @@ After any new rclone remote + mount is confirmed working (`rclone lsd <remote>:`
 - Update `$HOME/.agents/skills/k-rclone/references/insights.md` at the end of the task with durable lessons (mistakes to avoid, validated fixes, and anti-repeat guidance).
 - Keep insights autonomous and evolutionary: add/refine/restructure entries proactively to prevent repeated errors.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-25 | [CLAUDE] | v1.5.0 — **Mount Sync section added** (renamed `assets-sync` → `mnt-sync` same day — generic mount-to-mount sync, not tied to "assets"): new `references/mnt-sync.md` + `assets/mnt-sync/{dirs.txt.example,load_dirs.sh,sync-pull.sh,sync-push.sh,sync-pull.ps1,sync-push.ps1}` (env vars `MNT_SYNC_*`) — generic rsync/robocopy mount-mirroring pattern (`dirs.txt` single source of truth, one script per direction) distilled from a real project's tooling, form only. `k-project` → Pipeline R&D archetype points here for heavy project-asset sync. |
-| 2026-08-16 | [COLAB] | v1.4.0 — **`references/gdrive.md` added (Drive trash & manipulation)**: how to find the Drive trash (`rclone about` → `Trashed` field, which counts against quota), list it (`--drive-trashed-only`, NOT `--trashed-only`), empty it (`rclone cleanup`), and delete permanently (`--drive-use-trash=false`). Documented the `storageQuotaExceeded`-caused-by-full-trash pattern and the backup-script anti-quota rule (permanent delete + cleanup after push). Also captured gotchas: glob-vs-sudo on remote hosts, shared client_id NOTICE. |
-| [SUMMARY] | — | v1.3.0 Gdrive services centralized (→ `references/log.md`) · v1.2.2 cloud-hub routing block · v1.2.0–v1.2.1 Sovereign Mount profile; bulk moves via Drive API; insights discipline. |

@@ -1,6 +1,6 @@
 # k-windows — Remote dev/GPU server access stack (generic template family)
 
-> Generalized from a real, working setup reaching a company-internal GPU server (`k-dxo` → `deep-pc6`) from two client machines (Ubuntu workstation + `k-blglaptop139`, Windows/WSL). **Zero company-specific values below** — no hostname, no IP, no domain, no VPN portal, no account name. The concrete DxO instance stays in `k-dxo`/`k-deep-pc6` (both disposable, purged at internship end); this doc + its templates are what survives that purge.
+> Generalized from a real, working setup reaching a company-internal GPU server (`k-dxo` → `server`) from two client machines (Ubuntu workstation + `k-laptop`, Windows/WSL). **Zero company-specific values below** — no hostname, no IP, no domain, no VPN portal, no account name. The concrete DxO instance stays in `k-dxo`/`k-server` (both disposable, purged at internship end); this doc + its templates are what survives that purge.
 >
 > **Why this exists as one doc, not scattered pieces:** the original setup is 6 small, individually-simple pieces (VPN → tunnel → tmux launcher → CLI proxy → OpenCode sync → drive mount) that only make sense together, as a stack. Documenting them separately would lose that shape. Read this top-to-bottom once; each piece links to its template.
 
@@ -89,8 +89,3 @@ systemctl --user start rclone-serve.service
 4. Pick local/remote ports for the tunnel, matching the remote service's actual listening address.
 5. Register the systemd units in that company/machine skill's own service registration (see `assets/services.jsonc`/`assets/links.jsonc` pattern documented in the root `AGENTS.md` → Config Management Standard) — never re-register a template file itself, only the personalized copy.
 
-## Changelog
-
-| Date | Agent | Action |
-|------|-------|--------|
-| 2026-08-27 | [COLAB] | v1.0.0 — Created. Generalized the full remote dev/GPU server access stack (VPN, SSH tunnel, tmux launcher, CLI proxy, OpenCode auto-sync, filesystem mount) from a real working setup (`k-dxo`/`k-deep-pc6`/`k-blglaptop139` — all three disposable, purged at internship end). Templates: `assets/remote-server/{vpn-intranet.service,tunnel-server.service,rclone-serve.service,mount-server.bat,unmount-server.bat}`, `scripts/remote-server/{tmux-server.sh,ollama-server.sh,opencode-ollama-server.sh}`, `assets/msys2/{tmux-server.cmd,ollama-server.cmd}` (renamed+regenericized from `tmux6.cmd`/`ollama6.cmd`, which hardcoded an alias/port with no override). Zero company-specific values verified via grep before writing. |

@@ -5,7 +5,7 @@ After=network.target local-fs.target
 [Service]
 Type=oneshot
 User=root
-ExecStart=/home/kpihx/.agents/skills/k-ubuntu/scripts/backup_restore/backup.sh
+ExecStart=$HOME/.agents/skills/k-ubuntu/scripts/backup_restore/backup.sh
 StandardOutput=journal
 StandardError=journal
 
