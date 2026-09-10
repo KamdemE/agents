@@ -3,11 +3,11 @@ name: k-nvim
 description: KπX Neovim hub — config, plugins, LSP, and daily workflow map.
 agent: [OPCODE]
 created: "2026-05-28"
-updated: "2026-09-05"
+updated: "2026-09-08"
 formatters: |
   Mason packages: prettierd, stylua, shfmt
 metadata:
-  version: 3.9.0
+  version: 3.9.1
 ---
 
 # KπX — Neovim
@@ -132,7 +132,8 @@ All Python dependencies required by nvim plugins live in a single uv-managed vir
 | `<leader>e` | Oil file explorer |
 | `..` | Oil: go to parent directory |
 | `<C-r>` (oil) | Oil: refresh directory |
-| `gc` / `gC` | Open current file or Oil directory in VS Code (auto-detect) |
+| `gc` | Open current **file** in VS Code at cursor position (`-g line:col`) |
+| `gC` | Open current **directory** in VS Code (Oil dir first, then buffer dir) |
 | `gx` (oil) | Oil: open file with system handler |
 | `:%O` | Oil: open all files with system handler |
 | `:2,4O` | Oil: open files line 2-4 with system handler |
@@ -211,6 +212,7 @@ Verify: `echo $EDITOR` → `nvim`.
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-08 | [LIVE] | v3.9.1 — **gc/gC fix + symlink consolidation:** `gc` opens the file under cursor in Oil (`oil.get_cursor_entry()`) or the current buffer file in VS Code; `gC` opens the current directory (Oil first, then buffer dir). Both use `vim.fn.jobstart({ CODE, path })` — same pattern. Added `CODE` constant for editor fork portability. Neutralized vim 0.11+ default `o gc`/`x gc` (comment textobject) so `n gc` fires. **Symlink fix:** `~/.config/nvim/lua/kpihx/` was a real directory → now a proper symlink to `k-nvim/assets/lua/kpihx/`. |
 | 2026-09-05 | [LIVE] | v3.9.0 — **VS Code integration:** `gc` opens current file in VS Code (with cursor position via `-g line:col`), `gC` opens Oil directory in VS Code. |
-| 2026-08-25 | [COLAB] | v3.8.0 — **Telescope backends fixed (blglaptop139-wsl, GRAVÉ):** `fd` (`0.1.8` `find_command = {"fd",…}`) shipped as `fdfind` on Debian/Ubuntu → `Space ff` showed 0 results; `rg` (`ripgrep`) missing → `Space fg` silent. Installed `ripgrep` + `ln -sf $(which fdfind) ~/.local/bin/fd`; documented both as mandatory in `references/telescope.md` → Dependency and `SKILL.md` table. |
-| [SUMMARY] | — | v3.7.1 check-skills audit rotation · v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
+| [SUMMARY] | -- | v3.8.0 . v3.7.1 check-skills audit rotation · v3.7.0 canonical `config/` → `assets/` move (→ `references/log.md`) · v3.6.0 SKILL.md size reduction (→ `references/log.md`) · v3.5.0 python provider uv (→ `references/log.md`) · v3.3.0-v3.4.0 expanded healthcheck protocol + molten fix · v3.2.0 added healthcheck section · v3.1.0 basedpyright via uv · v3.0.0 FreeDesktop Trash · v2.1.0 Post-Install Shell Wiring · v2.0.0 centralized config · v1.2.0–v1.7.0 RAM optimization (2.3GB→21MB) |
+

@@ -4,7 +4,7 @@ description: tick-proxy — TickTick admin proxy CLI. Tasks, projects, habits, t
 license: private
 metadata:
   author: KpihX
-  version: "2.3.0"
+  version: "2.3.1"
   scope: tool-memory
 allowed-tools: "Bash(*), Read(*), Glob(*), *"
 ---
@@ -210,6 +210,7 @@ tick-proxy do project-list       # flat list (⚠️ groupId always null in V1)
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-07 | [LIVE] | v2.3.1 — Insights: `task-batch-create` uses raw fields (NOT ops), `task-move` requires `moves` array, large NOTE via `task-create` OK. |
 | 2026-08-15 | [COLAB] | **v2.3.0 — Project path updated** (`$HOME/KpihX-Labs/tick_proxy/` → `$HOME/KpihX-Labs/Proxies/tick-proxy/`) after tick-proxy was moved into `proxies/` and aligned to the kebab-case naming convention. |
-| 2026-08-12 | [COLAB] | v1.0.4 — HITL port allocation now binds the actual HTTP server directly to port `0` and publishes its own bound address, eliminating the reserve-then-rebind race. Targeted local HTTP note-review tests and project `make check` remain green (**32 passed**). |
-| [SUMMARY] | — | v1.0.3 task-create/update HITL unconditional (→ `references/log.md`) · v1.0.2 TickTick refresh recovery → `references/log.md` · v1.0.1 TICK_EMAIL rename → `references/log.md`. v1.0.0 — Skill created for **`tick-proxy` v1.0.0**, the non-MCP CLI that replaces the old TickTick MCP entirely. 52 `do` actions + 3 `admin` commands, `meta`+`data` envelope with no `verified` field, `@always_verify` decorator on the 6 silent-failure writes, HITL on the 7 destructive actions + `raw`, recurring queries as JSON assets (no preset machinery), password never stored. |
+| [SUMMARY] | -- | v1.0.4 . v1.0.3 task-create/update HITL unconditional (→ `references/log.md`) · v1.0.2 TickTick refresh recovery → `references/log.md` · v1.0.1 TICK_EMAIL rename → `references/log.md`. v1.0.0 — Skill created for **`tick-proxy` v1.0.0**, the non-MCP CLI that replaces the old TickTick MCP entirely. 52 `do` actions + 3 `admin` commands, `meta`+`data` envelope with no `verified` field, `@always_verify` decorator on the 6 silent-failure writes, HITL on the 7 destructive actions + `raw`, recurring ... |
+

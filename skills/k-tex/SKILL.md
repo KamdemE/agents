@@ -8,7 +8,7 @@ description: >
   and ALWAYS when the task is making revision sheets (fiches de révision).
 metadata:
   author: KpihX
-  version: "2.2.0"
+  version: "2.4.0"
   scope: templates-workflow
   target-agent: all
 allowed-tools: Bash, Read, Write, Edit
@@ -30,6 +30,7 @@ allowed-tools: Bash, Read, Write, Edit
 | **`pdflatex`** | Underlying TeX compiler (called by `latexmk`) | Driven via `latexmk`; standalone only for single-pass dry runs |
 | **`pdfunite`** | Lossless PDF concatenation (`poppler-utils`) — appends external PDFs (form fields, signatures) without re-encoding | `pdfunite build/main.pdf assets/Fiche_Evaluation.pdf build/main_final.pdf && mv build/main_final.pdf build/main.pdf` |
 | **`pdfminer.six`** | Font audit (family, size, occurrences) via `k-pdf` | `uv run --with pdfminer.six python $HOME/.agents/skills/k-pdf/scripts/pdf-fonts.py build/main.pdf output.txt` |
+| **`libs/humanize`** | Centralized PROSE dash gate (single source of truth) — `libs/humanize/humanize_lib.sh` / `.js` / `.py` twins + `scripts/check-dashes.sh` + `skills/k-opencode/scripts/plugins/hooks/humanize-guard.js` (hard `tool.execute.before` gate) | Sourced by `scripts/check-dashes.sh`; JS twin used by `humanize-guard.js` at write-time |
 
 ---
 
@@ -85,6 +86,20 @@ KπX maintains two canonical reference archetypes for LaTeX documents:
   - **GitHub**: `https://github.com/KpihX/culling-rapport` (default: `main`)
   - **GitLab**: `https://gitlab.com/k-culling/culling-rapport` (default: `main`)
 
+### Archetype 3: Modular Report Template (`assets/template-report/`)
+
+- **Use Case**: General-purpose modular report template (10–30 pages) — works for any institution, project type, or language. Use as-is for generic reports.
+- **Structure**:
+  - `main.tex` entry point with `\include{}` for each sub-file.
+  - `preambule.tex` — packages, geometry, graphics path (`assets/bgs/`), bibliography.
+  - `titlepage.tex` — wallpaper background + title block.
+  - `introduction.tex`, `conclusion.tex` — content placeholders.
+  - `biblio.tex` / `biblio.bib` — bibliography.
+  - `assets/bgs/` — background images (Bg.png … Bg9.webp + Enspy.png).
+- **Compilation**: `latexmk` via `make build` → `build/main.pdf`.
+- **Asset**: `skills/k-tex/assets/template-report/`
+- **Polytechnique X adaptation**: for École Polytechnique projects/reports, do NOT use this template directly. Instead, adapt `culling-rapport` (Archetype 2) as the starting point — it carries `polytechnique.sty`, the official Poly logo paths (`assets/x/`), and the X typography stack (Arial via `helvet`, specific spacing). See `culling-rapport` for the Poly-specific Preambule, geometry, and `\subtitle` pattern.
+
 ---
 
 ## Canonical Live Example: `cv` (CI/CD reference project)
@@ -119,74 +134,56 @@ lists, grayscale `mybox` highlights — every square centimeter earns its place.
 ---
 
 ## Mandatory `check-dashes` (NEVER forget)
-Every KπX TeX-family project MUST wire `scripts/check-dashes.sh` (canonical
-copy lives here: `skills/k-tex/scripts/check-dashes.sh`, symlinked into
-`skills/k-presentation/scripts/`) as the FIRST step of its `make check` —
-before any build. It fails on any em-dash (`---`) outside `%` comments:
+Canonical copy now lives at `scripts/check-dashes.sh` (global, single source
+of truth, sources `libs/humanize/humanize_lib.sh`). Every KπX TeX-family
+project MUST wire `scripts/check-dashes.sh` as the FIRST step of `make build`
+(via `check:` target, before any compilation) — it scans tracked
+`*.tex` + `*.md` + `*.txt` + `*.rst` + `*.adoc` for 4 blocked patterns:
+`---`, `—` (U+2014), ` -- `, and spaced ` – ` (U+2013). Exemptions: TeX
+`%` comments (full-line `^[[:space:]]*%` in `.tex`), `^---$` HR/frontmatter
+(standalone `---` line, allowed), and interval `2024–2025` (`alnum–alnum`
+collé, allowed — only spaced ` – ` is blocked). The file is **copied** (not
+symlinked) into `scripts/check-dashes.sh` of every new project at creation
+from the central `scripts/check-dashes.sh`. The hook
+`skills/k-opencode/scripts/plugins/hooks/humanize-guard.js` (hard,
+`tool.execute.before`) provides the write-time gate using the same
+`libs/humanize/humanize_lib.js` lib (same 4 patterns, code-extension
+whitelist via `isCodeFile`).
 
+---
+
+## Standard Makefile & `.gitignore`
+
+Centralized in `skills/k-tex/assets/Makefile` and `skills/k-tex/assets/.gitignore`
+(copied into every new project at creation, not symlinked).
+Both templates (`template-revision/`, `template-report/`) symlink to these.
+
+**Makefile** — `check` gates `build` (calls copied central script FIRST, must pass before build), `push` is standalone:
 ```makefile
-check:  ## Dashes first (no build on failure), then build, then page gate
+SHELL := /bin/zsh
+.PHONY: check build push
+
+check:  ## Dashes gate — copy of central scripts/check-dashes.sh (must pass before build)
 	sh scripts/check-dashes.sh
-	$(MAKE) -s build
-	@test "$$(pdfinfo …)" = "1" || (echo "check FAILED" >&2; exit 1)
-```
 
----
-
-## Standard Makefile Pattern
-
-Every KπX LaTeX repository MUST carry a `Makefile` following this exact template:
-
-```makefile
-SHELL := /bin/zsh
-
-.PHONY: build push
-
-build:
+build: check  ## Build (runs dashes check first) → build/main.pdf
 	latexmk -pdf -f -interaction=nonstopmode -output-directory=build main.tex || true
 
-push:
+push:  ## Push to remotes
 	git push github main
 	git push gitlab main
 ```
 
-For projects requiring external PDF appending (e.g. `culling-rapport` style):
+For projects requiring external PDF appending (e.g. `culling-rapport` style),
+extend `build:` with `pdfunite` + `mv` after `latexmk`.
 
-```makefile
-SHELL := /bin/zsh
-
-.PHONY: build push
-
-build:
-	latexmk -pdf -f -interaction=nonstopmode -output-directory=build main.tex || true
-	pdfunite build/main.pdf assets/Fiche_Evaluation_*.pdf build/main_with_fiche.pdf
-	mv build/main_with_fiche.pdf build/main.pdf
-
-push:
-	git push github main
-	git push gitlab main
-```
-
----
-
-## Standard `.gitignore` Pattern
-
-LaTeX generates heavy build debris (`.aux`, `.log`, `.fls`, `.fdb_latexmk`, `.toc`, `.out`). The `.gitignore` MUST ignore all build debris while tracking the final PDF deliverable (`build/main.pdf`):
-
+**`.gitignore`** — build debris ignored, final PDF always committed:
 ```gitignore
-.venv/
-__pycache__/
-*.pyc
-
-# Ignore all build debris except final PDF deliverables
 build/*
 !build/*.pdf
 ```
-
-🔴 **Renders rule (NEVER forget):** always ignore `build/` debris, but NEVER
-ignore the final renders — `!build/*.pdf` stays, and the final PDF is ALWAYS
-committed. (Use `build/*`, never bare `build/`: a bare dir exclusion cannot be
-re-included by `!` negations.)
+🔴 **Renders rule:** `build/*` (not bare `build/`), and `!build/*.pdf` stays
+so the final PDF is ALWAYS committed.
 
 ---
 
@@ -232,6 +229,7 @@ In `main.tex`, graphics includes MUST reference `assets/figures/`:
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.2.0 — `assets/template-revision/` (8pt landscape 3-column fiches, single `make build` → internal `build/`, `build/*` + `!build/*.pdf` gitignore); skill desc routes all revision-sheet tasks here; academic workflow (per-course copies under `~e`). |
-| 2026-09-05 | [LIVE] | v2.1.0 — Renamed `k-latex` → `k-tex`; canonical live example `cv` (local + 2 remotes, CI/CD); mandatory `check-dashes` (canonical copy in `scripts/`, symlinked into k-presentation, FIRST in every `make check`); renders rule (`!build/*.pdf` always committed). |
-| [SUMMARY] | — | v2.0.0 full rewrite (latexmk, pdfunite, 2 archetypes) · v1.0.0 revision template init · older → `references/log.md` |
+| 2026-09-10 | [LIVE] | v2.4.0 — humanize centralization: check-dashes moved to `scripts/check-dashes.sh` (global, extended to md/txt + unicode, HR + interval exemptions), lib `libs/humanize/humanize_lib.*` single source, hook `humanize-guard.js` hard gate at write-time, docs updated. |
+| 2026-09-07 | [LIVE] | v2.3.0 — `assets/template-report/` normalized: files lowercase (Main→main, Biblio→biblio, Preambule→preambule, TitlePage→titlepage, Introduction→introduction, Conclusion→conclusion), image paths fixed (`assets/bgs/`), build debris cleaned, added Makefile + `.gitignore` + `AGENTS.md` + `build/`, documented as Archetype 3 (general template, X projects → adapt culling-rapport instead). |
+| [SUMMARY] | -- | v2.2.0 . v2.1.0 . v2.0.0 full rewrite (latexmk, pdfunite, 2 archetypes) · v1.0.0 revision template init · older → `references/log.md` |
+

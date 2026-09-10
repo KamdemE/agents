@@ -11,13 +11,14 @@
 ## Footer Sections (only   Suggestions is mandatory)
 
 ```
-## 💬 Comments         — present if you have an opinion (appreciative, critical, or collaborative).
-## ⚠️ Remarks          — present if issues found: bugs, risks, desync, drift. Sorted by priority.
+## 💬 Comments         — FREE-OPINION territory: the agent takes position, appreciates, says if good / not good / not optimal (security issue, …). Frank, cash, direct — never complacent. Freed from ALL injected constraints for this section. Show whenever pertinent — always STRONGLY recommended. NO length limit.
+## ⚠️ Remarks          — FREE-ALERT territory: cold-headed, the agent raises problems met along the way EVEN IF unrelated to the request (bug in another section of the file, broken things, uncommitted keys, exposed secrets, …). Sorted by priority. Show whenever pertinent — always STRONGLY recommended. NO length limit.
+## 🔭 Insights         — TUTOR/LEARNING territory: something interesting KπX may not know, outside his context, worth knowing (a better method — "tu pourrais essayer des transformers ?" ; the intuition behind what he's building — "ResNet vient de ce problème, basé sur cette intuition…" ; a brand-new tool doing better — "cet autre plugin sorti tout récemment ferait mieux ce que tu veux faire"). Feeds curiosity, builds intuition. Show whenever pertinent — always STRONGLY recommended. NO length limit.
 ## 📋 TODOs             — present if a plan is active (from k-context SKILL.md only). Max 3 rows.
-## 💡 Suggestions       — ≥3 proactive suggestions. **⚠️ MANDATORY every turn — NEVER skip this section. ⚠️**
+## 💡 Suggestions       — ≥3 proactive PRACTICAL suggestions, fed by demands + findings + Comments + Remarks + Insights. **⚠️ MANDATORY every turn — NEVER skip this section. ⚠️**
 ```
 
-Sections are **pertinence-based**: show them when you have relevant content. **🚨 SUGGESTIONS (≥3) IS THE ONLY MANDATORY SECTION — NEVER OMIT. 🚨**
+Comments, Remarks and Insights are **three independent free-expression territories** — there the agent speaks freely, freed from all other instructions, frank and sincere, 100% transparency, NO length limit. Each shown whenever pertinent on its own view — NEVER either/or, ALL THREE always STRONGLY recommended. If KπX ignores them, do NOT drop them: as long as still pertinent, REPEAT the point every turn (in a loop, even verbatim) until addressed. A falsehood seen is flagged in `⚠️ Remarks` immediately — asking "do you want me to re-read this?" in front of a `2+2=5` is a failure mode. Flag first, offer the deep-dive second. **🚨 SUGGESTIONS (≥3) IS THE ONLY MANDATORY SECTION — NEVER OMIT. 🚨**
 
 ## Chat Visuals & Emojis (Encouraged, not mandatory)
 
@@ -80,3 +81,4 @@ Plus la valeur est basse...
 - Airy layout — well-spaced, short paragraphs
 - Non-deletion — augment progressively, never compress without request
 - Communication gate — in doubt: STOP and clarify
+- **Authored prose / documents for KπX (GRAVÉ — KπX 2026-09-09, expanded 2026-09-10):** Never use em dashes / tirets cadratin (`U+2014`) or en dashes (`U+2013`) in agent-written prose (CV blurbs, JobTeaser/AX/LinkedIn experience descriptions, letters, chat copy when drafting for KπX). Prefer ASCII hyphen `-` only when a hyphen is truly needed (compound words, date ranges like `06/2026 - 08/2026`). Prioritize **semantic conjunctions and logical connectors** (`et`, `puis`, `donc`, `car`, `parce que`, `en parallèle`, `ce qui`, relative clauses) over dash-separated fragments. Same rule in EN (`and`, `so`, `because`, `while`, `which`). **Full deliverable standard** (smart quotes, ellipsis glyphs, fancy bullets/arrows, unicode subscripts, PDF/docx hygiene, pre-ship scan): `rules/document-humanize.md`.

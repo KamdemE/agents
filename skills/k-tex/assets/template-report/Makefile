@@ -1,0 +1,1 @@
+/home/kpihx/KpihX-Labs/.agents/skills/k-tex/assets/Makefile

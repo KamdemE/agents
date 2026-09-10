@@ -1,5 +1,8 @@
 -- KπX custom keymaps
 
+-- Editor binary — change this one constant to switch forks (cursor, agy, etc.)
+local CODE = "code"
+
 local opt = { noremap = true, silent = true }
 
 vim.keymap.set("n", "<leader>w", "<C-w>", opt) -- Window commands
@@ -65,36 +68,84 @@ end
 vim.keymap.set("n", "gx", gx_open, { desc = "Open file/URL with system app" })
 vim.keymap.set("n", "<leader>gx", gx_open, { desc = "Open file/URL with system app" })
 
--- Open current file/directory in VS Code
-local function open_in_vscode(target)
-  local path = target
+-- gX: open current DIRECTORY with system app (same as gC but with system handler)
+local function gX_open()
+  local path = nil
+  local ok, oil = pcall(require, "oil")
+  if ok then
+    local dir = oil.get_current_dir()
+    if dir then path = dir end
+  end
   if not path then
-    -- Try Oil directory first (we're in a file explorer)
-    local ok, oil = pcall(require, "oil")
-    if ok then
-      local dir = oil.get_current_dir()
-      if dir then path = dir end
-    end
-    -- Fallback: current buffer file
-    if not path then
-      local file = vim.fn.expand("%:p")
-      if file ~= "" then path = file end
-    end
+    local file = vim.fn.expand("%:p")
+    if file ~= "" then path = vim.fn.fnamemodify(file, ":h") end
   end
   if not path or path == "" then
-    vim.notify("No file or directory to open", vim.log.levels.WARN)
+    vim.notify("No directory to open", vim.log.levels.WARN)
     return
   end
-  local cmd = { "code" }
-  if vim.fn.isdirectory(path) == 1 then
-    table.insert(cmd, path)
-  else
-    table.insert(cmd, path)
-    table.insert(cmd, "-g")
-    table.insert(cmd, vim.fn.line(".") .. ":" .. vim.fn.col("."))
-  end
-  vim.fn.jobstart(cmd, { detach = true })
+  open_with_system(path)
 end
 
-vim.keymap.set("n", "gc", function() open_in_vscode() end, { desc = "Open in VS Code" })
-vim.keymap.set("n", "gC", function() open_in_vscode() end, { desc = "Open in VS Code" })
+vim.keymap.set("n", "gX", gX_open, { desc = "Open directory with system app" })
+
+-- gc: open current FILE in VS Code (goto position only for real files)
+local function gc_open()
+  local file = nil
+  local from_oil = false
+  -- In Oil: open the file under cursor (no goto — cursor line is meaningless)
+  local ok, oil = pcall(require, "oil")
+  if ok then
+    local entry = oil.get_cursor_entry()
+    if entry then
+      local dir = oil.get_current_dir()
+      if dir and entry.name then
+        file = dir .. entry.name
+        from_oil = true
+      end
+    end
+  end
+  -- Fallback: current buffer file (with goto)
+  if not file then
+    local buf = vim.fn.expand("%:p")
+    if buf ~= "" and vim.fn.isdirectory(buf) == 0 then
+      file = buf
+    end
+  end
+  if not file or file == "" then
+    vim.notify("No file to open (use gC for directory)", vim.log.levels.WARN)
+    return
+  end
+  if from_oil then
+    vim.fn.jobstart({ CODE, file })
+  else
+    local pos = vim.fn.line(".") .. ":" .. vim.fn.col(".")
+    vim.fn.jobstart({ CODE, "--goto", file .. ":" .. pos })
+  end
+end
+
+-- gC: open current DIRECTORY in VS Code (Oil dir first, then buffer dir)
+local function gC_open()
+  local path = nil
+  local ok, oil = pcall(require, "oil")
+  if ok then
+    local dir = oil.get_current_dir()
+    if dir then path = dir end
+  end
+  if not path then
+    local file = vim.fn.expand("%:p")
+    if file ~= "" then path = vim.fn.fnamemodify(file, ":h") end
+  end
+  if not path or path == "" then
+    vim.notify("No directory to open", vim.log.levels.WARN)
+    return
+  end
+  vim.fn.jobstart({ CODE, path })
+end
+
+vim.keymap.set("n", "gc", gc_open, { desc = "Open file in VS Code (cursor)" })
+vim.keymap.set("n", "gC", gC_open, { desc = "Open directory in VS Code" })
+-- Neutralize vim's default gc operator-pending/visual (comment textobject)
+-- so our normal-mode gc mapping actually fires
+vim.keymap.set("o", "gc", "<nop>", { desc = "Disabled — use gc in normal mode" })
+vim.keymap.set("x", "gc", "<nop>", { desc = "Disabled — use gc in normal mode" })

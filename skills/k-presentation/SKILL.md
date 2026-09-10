@@ -16,7 +16,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.2.0"
+  version: "3.7.0"
   scope: content-authoring
 allowed-tools: Bash, Read, Write, Edit
 ---
@@ -27,13 +27,25 @@ allowed-tools: Bash, Read, Write, Edit
 
 ## Why this exists
 
-Three artifacts in this skill's `assets/` (including `assets/fonts/` with Maven Pro + Roboto), plus two real canonical example decks built with this doctrine, are the evidence base — see **Example repositories** below for the two decks; if absent on a local machine, agents MUST clone them temporarily to `/tmp/` to inspect structure and build patterns:
+Three artifacts in this skill's `assets/` (including `assets/fonts/` with Maven Pro + Roboto), plus real canonical example decks built with this doctrine, are the evidence base — see **Example repositories** below for the two canonical decks; if absent on a local machine, agents MUST clone them temporarily to `/tmp/` to inspect structure and build patterns:
 
 - **`culling-presentation`** — 40 slides, full R&D professional presentation style, 16 figures, content-hash incremental cache (`DxO-Template.pptx`, Maven Pro + Roboto).
 - **`culling-presentation-x`** — 17 slides (12 main + 5 annexes), light X academic defence style, built on official Polytechnique template (`Template_X.pptx`, Georgia / Century Gothic) with a rule validator (`render check`).
-- `assets/Template_X.pptx`, `assets/Template_DxO.pptx` — both templates, emptied, with hidden help slides.
+- `assets/templates/Template_X.pptx`, `assets/templates/Template_DxO.pptx`, `assets/templates/Template_Dark_Tech.pptx`, `assets/templates/Template_Dark8tech2.pptx`, `assets/templates/Template_AI_Marketing_Slidesgo.pptx` — blank templates, emptied, with hidden help slides.
 - `assets/fonts/` — bundled font assets (MavenPro-*.ttf, Roboto-*.ttf).
-- `assets/Mother_Mirror.pdf` — 14 slides generated with NotebookLM. The best looking deck here, dissected in `references/visual-systems.md`.
+- `assets/exs/Presentation_Mother_Mirror.pdf` — 14 slides generated with NotebookLM. The best looking deck here, dissected in `references/visual-systems.md`.
+- `assets/exs/Presentation_YUPAYX_Soutenance_Johan_Touko.pptx` — 25 slides, licence pro defence style (Institut Universitaire Saint Jean / SESAME), platform management for YUPAYX payment aggregator. Reference for **professional programme defence** profile (not academic X, not R&D). Sections: Contexte → Problématique → Solutions existantes → Notre solution → Choix outils → Modélisation (UC, activités, classes) → Architecture → Démonstration → Conclusion.
+- `assets/exs/Presentation_ElGamal_Crypto_3GI_ENSPY.pptx` — 69 slides, ENSPY 3GI crypto course presentation (2023-2024). Full ElGamal coverage: historique, courbes elliptiques (addition de points, cas identiques/oppozés), principe chiffré/déchiffré, signature. Heavy use of animations, embedded diagrams, and step-by-step mathematical walkthroughs. Reference for **dense technical/academic course** profile.
+- `assets/exs/Album_Photo_Bapteme_KpihX_Lyse.pptx` — 12 slides, personal photo album of KπX's first communion and cousin Lyse's baptism. Reference for **personal/nostalgic photo album** profile. Also cross-referenced in `kpihx/SKILL.md` under Visual Assets.
+- `assets/exs/Presentation_Au_Dela_Du_Binaire_Kibib_Mebib_ENSPY.pptx` — 3.2 MB, binary units (kibi, mebi) exposé ENSPY (2023). Reference for **technical vulgarisation** profile.
+- `assets/exs/Presentation_Binary_System_Unit_ENSPY.pptx` — 3.2 MB, binary system unit exposé ENSPY (2023). Pair with above.
+- `assets/exs/Presentation_Computers_ENSPY.pptx` — 4 MB, computers exposé ENSPY (2022). Reference for **IT general audience** profile.
+- `assets/exs/Presentation_Ethique_Milieu_Etudiantin_ENSPY.pptx` — 870 KB, ethics in student environment exposé ENSPY (2022). Reference for **short persuasive/narrative** profile.
+- `assets/exs/Presentation_TD_Electromagnetisme_MSP1_ENSPY_2021.pptx` — 2.6 MB, electromagnetism TD exposé ENSPY MSP1 (2021). Reference for **physics teaching** profile.
+- `assets/exs/Presentation_Fondements_Geometrie_ENSPY.pptx` — 11.5 MB, geometry foundations exposé (2022). Reference for **history of maths/science narrative** profile.
+- `assets/exs/Presentation_Importance_Informatique_LYBIBAF.pptx` — 1.1 MB, importance of CS exposé LY.BI.BAF (2022). Reference for **early-career persuasive** profile.
+- `assets/exs/Presentation_Innovation_IA_DevDurable_Femmes_DAAD_2024.pptx` — 27.5 MB, DAAD Women+AI event: innovation, sustainable development, and women in AI (2024). Reference for **academic conference** profile.
+- `assets/exs/Presentation_Modal_Verbs_ENSPY.pptx` — 2.5 MB, English modal verbs exposé ENSPY (2022). Reference for **language teaching** profile.
 
 ## The doctrine
 
@@ -172,7 +184,7 @@ arguing about density.
 | **Exec / status** | one takeaway per slide, stated first | numbering, date | rarely | one chart, one sentence |
 
 `presentation_x_v2` is the academic profile; `presentation` the technical one;
-`assets/Mother_Mirror.pdf` the narrative one.
+`assets/exs/Presentation_Mother_Mirror.pdf` the narrative one.
 
 ## Invariants `check` must enforce
 
@@ -198,25 +210,11 @@ not re-derive them.
 
 ## Mandatory `check-dashes` (NEVER forget)
 
-`scripts/check-dashes.sh` is a symlink to the canonical copy in
-`skills/k-tex/scripts/check-dashes.sh` — single source of truth, never a
-duplicate. Every deck project MUST run it FIRST in its own `make check`,
-before any build: it fails on any em-dash (`---`) in tracked `.tex` files
-(beamer/poster sources) outside `%` comments.
+Canonical is `scripts/check-dashes.sh` (global, single source, sources `libs/humanize/humanize_lib.sh` — not `skills/k-tex/assets/`). `scripts/check-dashes.sh` + `assets/Makefile` + `assets/.gitignore` are **copies** (not symlinks) of central `scripts/check-dashes.sh` + `skills/k-tex/assets/Makefile` / `.gitignore` into each new deck at scaffold. Every deck MUST run `sh scripts/check-dashes.sh` FIRST in `make build` (via `check:` target, must pass) — scans tracked `*.tex`+`*.md`+`*.txt`+`*.rst`+`*.adoc` for 4 blocked patterns `---`, `—` (U+2014), ` -- `, spaced ` – ` (U+2013). Exemptions: TeX `%` comments (`^[[:space:]]*%` in `.tex`), `^---$` HR/frontmatter (standalone `---`), interval `2024–2025` (`alnum–alnum` collé, only spaced ` – ` blocked). Makefile still calls `sh scripts/check-dashes.sh` first — script is a copy of central `scripts/check-dashes.sh`. Hook `skills/k-opencode/scripts/plugins/hooks/humanize-guard.js` (hard, `tool.execute.before`) provides write-time gate via same `libs/humanize/humanize_lib.js` (code whitelist `isCodeFile`).
 
-## Build debris vs renders (NEVER forget)
+## Standard Makefile & `.gitignore`
 
-`build/` debris is 100 % regenerable and stays untracked — but final renders
-are ALWAYS committed. Every deck repo `.gitignore` MUST carry:
-
-```gitignore
-build/*
-!build/*.pptx
-!build/*.pdf
-```
-
-(Use `build/*`, never bare `build/`: a bare dir exclusion cannot be
-re-included by `!` negations.)
+Centralized in `skills/k-presentation/assets/Makefile` + `skills/k-presentation/assets/.gitignore` (copies of central `skills/k-tex/assets/Makefile` / `.gitignore` + central `scripts/check-dashes.sh`; `check:` calls `sh scripts/check-dashes.sh` FIRST). `check` gates `build`, `push` standalone. Renders rule: `build/*`+`!build/*.pdf`+`!build/*.pptx`.
 
 ## Example repositories
 
@@ -254,11 +252,11 @@ If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide
 | `scripts/figkit.py` | matplotlib with inches as data units, plus duotone/tint/desaturate image treatments |
 | `scripts/preview.py` | pptx → PDF → PNG per slide + contact sheets |
 | `scripts/render.py` | entry-point skeleton: `figures \| deck \| preview \| check \| all` |
-| `scripts/check-dashes.sh` | symlink → canonical em-dash gate in `k-tex` (runs FIRST in `make check`) |
+| `scripts/check-dashes.sh` | copy of central `scripts/check-dashes.sh` (humanize, extended — 4 patterns, HR + interval exemptions, sources `libs/humanize/humanize_lib.js`; runs FIRST in `make build` via `check` target) |
 
 ## Assets
 
-`assets/AGENTS.md` documents bundled files (templates, reference deck, `assets/fonts/`). Templates are blank, carry hidden help slides, and are regenerable. `assets/fonts/` holds Maven Pro and Roboto fonts.
+`assets/AGENTS.md` documents bundled files (templates, reference deck, `assets/fonts/`). Templates are blank, carry hidden help slides, and are regenerable. `assets/fonts/` holds Maven Pro and Roboto fonts. `assets/exs/` holds example decks for reference.
 
 ## Insights Discipline (mandatory)
 
@@ -270,6 +268,7 @@ If absent on disk, agents MUST clone them to `/tmp/` to inspect structure, slide
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v3.2.0 — Mandatory `check-dashes` (symlink → k-tex canonical, FIRST in `make check`, NEVER forget) + renders rule (`build/*` + `!build/*.pptx` + `!build/*.pdf`, renders always committed) + scripts table row. |
-| 2026-09-05 | [LIVE] | v3.1.2 — Renamed `assets/README.md` → `assets/AGENTS.md`. |
-| [SUMMARY] | — | v3.1.1 k-pptx→k-presentation sweep · v3.1.0 k-pptx→k-presentation rename (fonts bundled, example repos) · v3.0.1 powerpoint uv tool purged · v1.1.0 first full execution under old MCP doctrine · v1.0.0 initial mapping · folded into v3.0.0. |
+| 2026-09-10 | [LIVE] | v3.7.0 — humanize centralization: check-dashes canonical now `scripts/check-dashes.sh` (global, extended to md/txt + unicode, HR + interval exemptions), copies (not symlinks) of central `scripts/check-dashes.sh` + `skills/k-tex/assets/Makefile/.gitignore` into each new deck, hook `humanize-guard.js` hard gate at write-time, docs updated. |
+| 2026-09-07 | [LIVE] | v3.6.1 — Standardized `Presentation_` prefix for all `exs/` files (except `Album_Photo_Bapteme`). All refs updated SKILL.md + AGENTS.md + 3 references/. 5 templates + 14 examples. |
+| [SUMMARY] | -- | v3.6.0 . v3.5.0 . v3.4.0 . v3.3.0 . v3.2.0 . v3.1.2 . v3.1.1 k-pptx→k-presentation sweep · v3.1.0 k-pptx→k-presentation rename (fonts bundled, example repos) · v3.0.1 powerpoint uv tool purged · v1.1.0 first full execution under old MCP doctrine · v1.0.0 initial mapping · folded into v3.0.0. |
+

@@ -6,7 +6,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "2.8.1"
+  version: "2.8.4"
   scope: personal-os
 ---
 
@@ -97,6 +97,7 @@ metadata:
 - **X-Reflex (Mandatory)**: Autonomously maintain `references/x.md` with every new institutional fact, academic decision, or medical procedure learned. Do not wait for explicit requests to consolidate X-specific knowledge.
 - **Forms & document discovery (Mandatory)**: Before filling any admin/web form or locating an official PDF (titre de séjour, Navigo, attestations), read `references/identity.md` (contacts, identifiers, transport) and `references/legal.md` (Drive paths). Verify values against documents; complete those files if something is missing — **never** duplicate identity tables in other skills (e.g. `k-browser` stays browser-mechanics only).
 - **Agent Self-Identification Rule (Mandatory)**: When introducing yourself to KπX in conversation, never self-identify as 'KπX' or 'KpihX' — those aliases refer exclusively to the human user (Ivann Harold KAMDEM POUOKAM). Refer to yourself as 'agent', 'assistant', 'tool', or by your specific runtime name (e.g. 'Hermes agent', 'this agent'). A phrase like "I am KπX, the agent of KpihX" is a framing error — the kernel already defines KπX as the user; correct form: "I am your agent running under the KπX kernel."
+- **Authored prose / expériences (Mandatory — KπX 2026-09-09):** When drafting CV, JobTeaser, AX, LinkedIn, or any experience description for KπX: **never** use tirets cadratin (`—`) or en dashes (`–`). Prefer semantic sentences with logical connectors (FR: `et` / `puis` / `donc` / `car` / `en parallèle` / relatives; EN: `and` / `so` / `because` / `while` / `which`). ASCII hyphen `-` only for true compounds or date ranges (`06/2026 - 08/2026`). Full rule also in `rules/response-format.md` → Interaction Style.
 
 ## Irreducible Axes
 
@@ -123,11 +124,15 @@ metadata:
 | `kpihx_logo-bgone.png` | KπX illustrated logo — bgone background removed |
 | `kpihx_logo-nobg.png` | KπX illustrated logo — nobg (FeyNobg) background removed |
 | `kpihx_signature.png` | KπX digital signature |
+| `k-presentation/assets/exs/Album_Photo_Bapteme_KpihX_Lyse.pptx` | Photo album of KπX's first communion and cousin Lyse's baptism (personal/nostalgic, cross-referenced from k-presentation) |
 
 ## Changelog
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-09 | [LIVE] | v2.8.4 — Operating Rule + `rules/response-format.md` : prose expériences **sans** tirets cadratin/en dash ; priorité conjonctions/connecteurs logiques (JobTeaser/AX/LinkedIn/CV). |
+| 2026-09-09 | [LIVE] | v2.8.3 — `references/4a-analysis-2026.md` : réponse Alice BERVILLE (AAC déc, cumul ≥615€/mois, FX≠DRI, Eiffel ❌) + SquarePoint 2400€/trim + contact Alice. |
+| 2026-09-06 | [LIVE] | v2.8.2 — Added `LyBiBaf` secondary textbooks archive location (`~/Gdrive_X/KpihX/Academic/LyBiBaf/`) in `references/academic.md`. |
 | 2026-09-05 | [LIVE] | v2.8.1 — Registered `cv_repo` (local `$HOME/KpihX-Labs/cv`, github `KpihX/cv`, gitlab `kpihx/cv`) in Sovereign Registry → `k-tex`. |
 | 2026-06-04 | [HERMES] | v2.8.0 — Agent Self-Identification Rule: agents must never conflate themselves with KπX. Added Operating Rule under # Operating Rules. |
 | 2026-05-26 | [CURSOR] | v2.7.5 — `x.md` § SynapseS (emploi du temps, groupes PC via ICS DESCRIPTION, liens Moodle). |

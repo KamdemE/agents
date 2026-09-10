@@ -30,3 +30,7 @@ fi
 #   - Aliases → .kshrc Section 2 or .bashrc/.zshrc
 #   - zsh-specific code → .zshenv/.zshrc
 # ════════════════════════════════════════════════════════════
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/kpihx/.local/bin:$PATH"

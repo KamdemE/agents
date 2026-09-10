@@ -2,6 +2,22 @@
 
 Purpose: detailed runtime execution log for WhatsApp operations (different from `SKILL.md` changelog).
 
+## 2026-09-09
+
+- **15:0x** `find-messages` "CAF" (global, account 33605957785) → 2 msgs in `ENSPY 2026 - France` (`120363419277624888@g.us`, 07/09/2026): Pluton tip (Acadomia/Anacours contracts + fiche de paie + Attestation de prolongation → APL renewal, his CAF just renewed) + Florette follow-up (advisor called, contract sent 2 months ago, going to CAF office).
+- **15:0x** `chat-read` ENSPY 2026-France (limit 100, 66 msgs) → full 07/09 discussion captured: Delano procedure Q, Florette law Q, Pluton voice note (20:57), Arthur legal explanation (law suspends automatic APL for foreigners, June decree, working foreigners recognized as boursiers), Florette confirmation.
+- **15:0x** `media-download` voice note `3EB0DC76DDF1447000BAFE` → `/home/kpihx/Downloads/Whats-Proxy/33605957785/*.ogg` (227 KB, opus) → transcribed via `k-whisper 1 -p` (large-v3-turbo, Vulkan Arc): go to CAF accueil with work contract (+2 docs), account unblocked + backpay days later.
+- **Lesson:** vague numeric refs (KπX "k-whats 336") resolve via global `find-messages`, never by guessing a JID prefix (actual group did NOT start with 336).
+
+## 2026-09-08
+
+- **21:10** `chat-read` Badminton X24 (`120363393577104884@g.us`, 30 msgs) — daily chat (verres, ecocups, blagues), no relevant content on first pass.
+- **21:10** `find-messages` queries: "nvlink"=0, "openai"=2 (Spam X24 + Info X24, hackathon announcement only), "nvidia"=0, "resolution"=0, "chip"=0, "gpu"=0, "bourse"=12 (various groups).
+- **21:12** `find-messages` "navier"=1 → **FOUND**: Paul Ruggeri @ 20:52 in Badminton X24: `https://openai.com/index/navier-stokes-solution/` + "OpenAI dit avoir résolu Navier Stokes 🤯🤯"
+- **21:12** `find-messages` "stokes"=1 → same message confirmed.
+- **Task:** Retrieved article, searched researcher reactions (Tao, Buckmaster/Alpöge, TNW, New Scientist, OfficeChai), drafted LinkedIn post, published via `link-proxy do post-create-full` → `urn:li:share:7503200532732289024` (PUBLIC, URL card + editorial body).
+- **Lesson:** "nvier et stock" = "Navier-Stokes" with phonetic typos. Always try both halves of compound terms separately + phonetic variants when `find-messages` returns 0.
+
 ## Entry Format
 
 | Timestamp (UTC) | Agent | Channel | Action | Inputs | Outcome | IDs / Links | Notes |

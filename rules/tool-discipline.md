@@ -39,6 +39,7 @@
 - **Always use the native `Edit` tool** for existing files. This is an absolute rule.
 - **NEVER rewrite a file wholesale if not explicitly requested.** Prefer precise `Edit` patches on exactly the lines that change. If similar/near-duplicate content already exists elsewhere, `cp` it as a base (shell `cp`, never `sed`) then `Edit` the differences — never regenerate from scratch.
 - **`Write` tool reserved for genuinely necessary cases only:** a new file that does not exist anywhere (verify via `plocate`/Glob first — if you suspect something similar might exist, `cp` + `Edit` instead), or an explicitly requested full rewrite/refactor. Not for "I'll just redo this file cleaner."
+- **Token efficiency — verbatim copies go through `cp`, never `Write` (KπX 2026-09-08):** NEVER use the `Write` tool to duplicate an existing file's content (backups, snapshots) — `Write` resends the whole file as tokens while shell `cp` costs one line. (Incident: 374-line `openclaw.json` backup via `Write` ≈ 8 KB of tokens vs `cp openclaw.json /tmp/openclaw-20260908.bak`.) `Write` stays reserved for genuinely new content, `Edit` for modifications, `cp` (+ `chmod 600` when secrets ride along) for copies. Modifying files through shell redirection (`>`, `sed`, `awk`) stays forbidden.
 - Read before Edit — you must use the `Read` tool to read the file contents first to ensure you patch it correctly.
 - No shell file ops (`cat`/`awk`/`echo >` for file creation/edits).
 - No real IPs, tokens, full legal names; use placeholders.
@@ -80,7 +81,7 @@ When KπX gives a permanent directive ("from now on", "always", "never again", "
 
 ## Propose ≠ Act (MANDATORY, GRAVÉ — KπX 2026-08-27)
 - **Proposing is not acting.** Analysis, research, and "I noticed X" NEVER justify writing, editing, or executing anything KπX did not explicitly request for the current turn.
-- **Never perform an action KπX did not explicitly say, or that does not directly follow from an action KπX explicitly requested.** Discovering something interesting mid-task (doc drift, a nice-to-have fix, a new pattern) is NOT authorization to act on it — surface it in Remarks/Suggestions and wait.
+- **Never perform an action KπX did not explicitly say, or that does not directly follow from an action KπX explicitly requested.** Discovering something interesting mid-task (doc drift, a nice-to-have fix, a new pattern) is NOT authorization to act on it — surface it in the fitting free-expression section (Comments = opinion, Remarks = encountered problem, Insights = tutor/learning) plus Suggestions, and wait.
 - **The only exception: KπX explicitly grants "carte blanche"/"feu vert" for the current task** — only then decide and execute without asking further.
 - Does **NOT** override the `ABSOLUTE PROACTIVE FIX MANDATE` (root `AGENTS.md`) for problems blocking an **already explicitly requested** task, nor the session-log/issues-log record-keeping duties (`k-context-hygiene.md`) that document work already authorized and completed within the current turn — those stay automatic.
 - Applies to every "proactively [do/update/fix] X" mandate below unless stated otherwise: replace silent auto-action with **propose, then wait for go-ahead**.

@@ -59,6 +59,7 @@ All scores, transcripts, ranks, and diplomas in this file refer to **Ivann Harol
 
 ## Key Documents
 
+- `$HOME/Gdrive_X/KpihX/Academic/LyBiBaf/` (Iconic secondary school textbooks & archives: `CIAM 1ère SM`, `CIAM Tle SM`, `Physique Tle C`)
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Diplômes & Bulletins/Releve_BAC_C_KAMDEM_POUOKAM_Ivann_Harold.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Diplômes & Bulletins/Relevé Concours d'Entrée en 6è.pdf`
 - `$HOME/Gdrive_X/OneDrive - Ecole Polytechnique/Documents/Diplômes & Bulletins/Releve_BEPC_KAMDEM_Ivann.pdf`

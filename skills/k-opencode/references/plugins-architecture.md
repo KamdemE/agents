@@ -14,7 +14,7 @@ OpenCode has **four separate extension systems**, configured or injected differe
 | Type | Format | Example | When to use |
 |------|--------|---------|-------------|
 | **npm package** | `"package-name"` | `"opencode-dir"` | Official or published npm plugins (auto-installed by OpenCode) |
-| **npm with version** | `"package-name@version"` | `"opencode-antigravity-auth@latest"` | Pin a specific version or track `@latest` |
+| **npm with version** | `"package-name@version"` | `"@anthonyhaussman/opencode-agy-auth@latest"` | Pin a specific version or track `@latest` |
 | **Local file** | `"file://{env:HOME}/absolute/path.js"` | `"file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js"` | Custom/private plugins tracked in `.agents` git repo |
 
 ### 🔴 Path resolution in config — `{env:VAR}` is the ONLY expansion mechanism
@@ -33,27 +33,24 @@ OpenCode does **NOT** expand `$HOME` or `~` inside `opencode.jsonc` values (feat
 
 `opencode plugin install <pkg>` may auto-add the package to the **lifecycle** `"plugin"` array even for TUI-only plugins. A TUI plugin (e.g. `@kpihx/opencode-voice`) has no lifecycle export and then logs `failed to load plugin ... must default export an object with server()` on every start. TUI plugins belong ONLY in `tui.json` → `"plugin"` array; remove them from `opencode.jsonc` if the installer added them there.
 
-## Current KπX lifecycle plugins (14)
+## Current KπX lifecycle plugins (npm auth/providers + hooks)
 
-These are loaded from `opencode.jsonc` → `"plugin"` array:
+These are loaded from `opencode.jsonc` → `"plugin"` array (excerpt — full list in `assets/opencode.jsonc`):
 
 ```jsonc
 "plugin": [
-  "opencode-dir",                           // Type 1: npm — directory navigation
-  "opencode-ssh-session",                   // Type 1: npm — persistent SSH sessions
-  "opencode-ast",                           // Type 1: npm — AST code structure (outline, symbol, definitions, references)
-  "opencode-antigravity-auth@latest",        // Type 2: npm@version — Claude + Gemini via Google OAuth (free)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/startup-context.js",      // Type 3: file:// — KπX startup context injection
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-lite.js",   // Type 3: file:// — KπX enforcement block (Agent only, after real user msg)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/prompt-enforcer-strict.js", // Type 3: file:// — KπX enforcement block (strict)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/stop-enforcer.js",          // Type 3: file:// — KπX stop enforcer (Agent only)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/make-check-guard.js",       // Type 3: file:// — KπX make check gate
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",                 // Type 3: file:// — KπX tmux→agent notification (event + chat.message)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/math-enforcer.js",          // Type 3: file:// — KπX math formatting rule (Explore only)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",      // Type 3: file:// — KπX format reminder (MUST run last)
-  "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-context/context-usage.ts" // Type 3: file:// — /context token usage tool (git submodule kpihx-labs/opencode-context)
+  "opencode-dir",
+  "opencode-ssh-session",
+  "opencode-ast",
+  "@anthonyhaussman/opencode-agy-auth@latest", // Google One via local agy CLI → provider google-agy (replaces opencode-antigravity-auth 2026-09-09)
+  "opencode-models-discovery@latest",
+  "@stablekernel/opencode-cursor@latest",     // Cursor subscription via official @cursor/sdk → provider cursor
+  // … sovereign file:// hooks (startup-context, prompt-enforcers, stop-enforcer, make-check-guard,
+  //    tmux-notify, math-enforcer, suggestions-check last, opencode-context, …)
 ]
 ```
+
+Provider blocks (minimal): `cursor` → `npm: @stablekernel/opencode-cursor`; `google-agy` → `npm: @ai-sdk/google` (auth plugin must NOT be the npm field). Recipes → `references/providers.md`.
 
 > **`opencode-context` is a git submodule** (`kpihx-labs/opencode-context`). After a fresh kernel clone run `make submodule-init` (or `git submodule update --init skills/k-opencode/scripts/plugins/opencode-context`) or the `context-usage.ts` path dangles. An orphan `node_modules/` directory in the path blocks submodule clone (`destination already exists`) — purge it first.
 

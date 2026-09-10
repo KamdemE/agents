@@ -41,3 +41,7 @@
 #   - Aliases, completions → .kshrc Section 2 or .zshrc
 #   - Everything else → .kshrc (the hub handles it)
 # ════════════════════════════════════════════════════════════
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/kpihx/.local/bin:$PATH"

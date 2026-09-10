@@ -6,7 +6,7 @@ No hosted generator gives you that.
 
 There are still three situations where reaching outside is the right call, and
 one artifact in this skill proves the quality is real:
-`assets/Mother_Mirror.pdf` was generated with Google NotebookLM and is the best
+`assets/exs/Presentation_Mother_Mirror.pdf` was generated with Google NotebookLM and is the best
 looking deck in the repo. Study it (`visual-systems.md`), and be honest about
 what produced it.
 

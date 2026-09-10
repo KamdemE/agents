@@ -40,7 +40,7 @@
     "import bigframes",
     "%load_ext bigframes",
     "bigframes.options.bigquery.project = \"kpihx-489121\"",
-    "bigframes.options.bigquery.application_name = \"datacloud.cursor\""
+    "bigframes.options.bigquery.application_name = \"datacloud.visual studio code\""
   ],
   "chat.viewSessions.orientation": "stacked",
   "python.languageServer": "None",

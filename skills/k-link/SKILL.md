@@ -5,7 +5,7 @@ description: >
 license: private
 metadata:
   author: KpihX
-  version: "3.0.1"
+  version: "3.1.0"
 allowed-tools: Bash(*), *
 ---
 
@@ -120,6 +120,7 @@ Single rule: if the answer needs a logged-in page (feed, messaging, profile, sta
 
 | Date | Agent | Action |
 |------|-------|--------|
+| 2026-09-07 | [LIVE] | v3.1.0 — 2-post pattern validated (URL card + multi-image thread); insights: `post-create-full` with `url` only = OG card, with `media` only = image post, never mix. |
 | 2026-09-05 | [LITE] | v3.0.1 — reference post URN + KπX style rules (hook title, mystery, problem-first, terms-after-presentation) + `url`+`media` incompatibility note. |
-| 2026-09-05 | [LITE] | v3.0.0 — **link-proxy rewrite**: skill renamed `k-linkedin` → `k-link`; old transport archived to `references/mcp.md` (legacy); transport = `link-proxy` (10 actions, `do`+`admin` tables); `--help`-first rule (never read code); `post-create-full` default for posts; scope limits → `k-browser` + `references/sites/linkedin.com.md`; live refs updated (k-clis, kpihx-labs, AGENTS.md, skill-lock, k-napkin). |
-| [SUMMARY] | — | v2.0.9 transport purge annotation · v2.0.8 cloud-hub block + compact layout · v2.0.7 insights discipline; API limits table; transport naming; publishing style. |
+| [SUMMARY] | -- | v3.0.0 . v2.0.9 transport purge annotation · v2.0.8 cloud-hub block + compact layout · v2.0.7 insights discipline; API limits table; transport naming; publishing style. |
+

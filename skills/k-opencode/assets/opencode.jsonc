@@ -6,7 +6,7 @@
   "autoupdate": "notify",
   "shell": "zsh",
   "model": "opencode-go/mimo-v2.5",
-  "small_model": "opencode/mimo-v2.5-free",
+  "small_model": "opencode-go/mimo-v2.5",
   "default_agent": "Live",
 
   // ──── GLOBAL permission — single source of truth ────
@@ -384,7 +384,7 @@
     // Explore 🔵 — exploration mode. Inherits global (bash 3-zone, edit ask).
     // Delta: task — which sub-agents Explore can launch.
     "Explore": {
-      "model": "google/gemini-3-flash-preview",
+      "model": "opencode-go/mimo-v2.5",
       "description": "Exploration agent — teaches, researches, verifies. Intuitio-formel narrative style for learning.",
       "mode": "primary",
       "color": "#2196F3",
@@ -490,23 +490,45 @@
       }
     },
 
-    // ──── OpenCode Go — 2nd account (KπX, 2026-09-03) ────
-    // Custom provider pointing to same API as opencode-go, with its own key in auth.json.
-    // Usage: "model": "opencode-go-2/<model-name>"
-    // Local proxy needed because modelsDiscovery plugin strips path from baseURL
-    // (buildAPIURL uses origin only → /zen/go/v1 lost). Proxy at localhost:4999
-    // rewrites /v1/* → https://opencode.ai/zen/go/v1/*.
-    "opencode-go-2": {
+    // ──── OpenCode Labs Go — 2nd Go account (KπX Labs billing, 2026-09-09) ────
+    // Twin of native `opencode-go`. Free models live on Labs Zen (below), not Go.
+    // One Labs API key works for BOTH /zen/v1 and /zen/go/v1 — endpoint picks the catalog.
+    // Auth id `opencode-labs` (OpenCode stores one key per provider id).
+    // Discovery+npm owned by opencode-account-discovery.js (any Nth OpenCode account).
+    // Do NOT enable opencode-models-discovery here — race left muse on openai-compatible → 500.
+    "opencode-labs": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "OpenCode Go (2nd)",
+      "name": "OpenCode Labs Go",
       "options": {
-        "baseURL": "http://localhost:4999/v1",
-        "modelsDiscovery": {
-          "enabled": true,
-          "filterNonChat": true,
-          "smartModelName": true
-        }
+        "baseURL": "https://opencode.ai/zen/go/v1",
+        "opencodeAccountDiscovery": true
       }
+    },
+    // ──── OpenCode Labs Zen — same Labs key, Zen endpoint (free + paid Zen) ────
+    // muse/luna get per-model provider.npm=@ai-sdk/openai (/v1/responses) via account-discovery.
+    "opencode-labs-zen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenCode Labs Zen",
+      "options": {
+        "baseURL": "https://opencode.ai/zen/v1",
+        "opencodeAccountDiscovery": true
+      }
+    },
+    // ──── Cursor — subscription via official SDK (route B, 2026-09-09) ────
+    // The @stablekernel/opencode-cursor plugin injects this block automatically ; declared here for explicit control.
+    // Auth resolution (plugin default, do NOT pin apiKey explicitly — it kills the stored-credential fallback,
+    // fixed 2026-09-09: explicit "{env:CURSOR_API_KEY}" caused "Cursor API key missing" in TUI despite auth.json key):
+    // stored `opencode auth login` credential first, CURSOR_API_KEY env fallback, never hardcoded.
+    "cursor": {
+      "npm": "@stablekernel/opencode-cursor",
+      "name": "Cursor"
+    },
+    // ──── Google AGY — Antigravity CLI OAuth (Google One / AI Pro) via @anthonyhaussman/opencode-agy-auth ────
+    // Plugin injects auth + models. npm MUST stay @ai-sdk/google (NOT the auth plugin — that breaks init).
+    // Auth: `opencode auth login --provider google-agy` (OAuth, no API key). Optional: options.projectId / OPENCODE_AGY_PROJECT_ID.
+    "google-agy": {
+      "npm": "@ai-sdk/google",
+      "name": "Google AGY"
     },
   },
 
@@ -537,8 +559,14 @@
     "opencode-dir",
     "opencode-ssh-session",
     "opencode-ast",
-    "opencode-antigravity-auth@latest",
+    "@anthonyhaussman/opencode-agy-auth@latest", // AGY CLI bridge (Google One) — replaces opencode-antigravity-auth 2026-09-09
     "opencode-models-discovery@latest",
+    // AFTER models-discovery: copy per-model provider.npm from models.dev (muse/luna → @ai-sdk/openai)
+    // Extra OpenCode accounts (2nd/Nth): GET /models + exact models.dev npm (muse → @ai-sdk/openai)
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-account-discovery.js",
+    // GitHub Copilot: ignore model_picker_enabled=false for all models (upstream #42083)
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-copilot-picker-fix.js",
+    "@stablekernel/opencode-cursor@latest", // Cursor subscription via official SDK (route B, 2026-09-09 — key via auth.json or CURSOR_API_KEY)
     // 2026-08-27 (KπX directive): ecosystem plugins — see references/plugin-watch.md for full research
     // @kagan-sh/kagan purged 2026-08-27 (KπX directive) — see references/plugin-watch.md → Purged
     // opencode-notifications purged 2026-08-27 (KπX directive) — replaced by the sovereign opencode-notify.js hook below (always-notify, system + Telegram)
@@ -560,6 +588,8 @@
     // blocks raw `sudo`/`sleep`/`wait`/`timeout` outside a compliant `tmux send-keys` call. Same pattern as
     // make-check-guard.js (throw-only, no TARGET_AGENTS — tool.execute.before has no messages to scope by).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/raw-exec-guard.js",
+    // humanize-guard — hard PROSE dash gate (2026-09-10, KπX): blocks em-dash (---, —), spaced en-dash ( – ) and markdown -- outside code; code whitelist via libs/humanize/humanize_lib.js (isCodeFile). Same throw-only GLOBAL pattern.
+    "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/humanize-guard.js",
     // tmux-notify — relays tmux prompt events (precmd/PROMPT_COMMAND) to the agent (event + chat.message, not messages.transform).
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/tmux-notify.js",
     // opencode-notify — sovereign always-on system+Telegram notification (session.idle/session.error/permission.ask). NOT a hook (read-only/observational, never influences agent behavior — same category as tmux-notify.js/opencode-context/opencode-voice), lives in its own scripts/plugins/opencode-notify/ subdirectory. Replaces opencode-notifications.
@@ -567,10 +597,9 @@
     // opencode-help — durable, explicitly parent-controlled root peer sessions. The first ordered model is the default; callers may explicitly choose only another model listed here. Provider/quota failures are transparent: parent archives/reopens with another listed model, never automatic fallback.
     ["file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/opencode-help/src/index.ts", {
       "models": [
-        "google/gemini-3-flash-preview",
-        "google/gemini-3.1-pro-preview",
         "opencode-go/mimo-v2.5",
-        "opencode-go/deepseek-v4-flash"
+        "opencode-go/deepseek-v4-flash",
+        "cursor/composer-2.5"
       ]
     }],
     "file://{env:HOME}/.agents/skills/k-opencode/scripts/plugins/hooks/suggestions-check.js",
@@ -583,6 +612,7 @@
     "prune": true
   },
   "disabled_providers": [
-    "k-ai"
+    "k-ai",
+    "ollama6"
   ]
 }

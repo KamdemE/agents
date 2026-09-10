@@ -8,7 +8,7 @@ Read this when the goal is not merely "correct" but *beautiful and coherent* —
 a narrative deck, a keynote, a subject that deserves atmosphere.
 
 The worked example is real and shipped with the skill:
-**`assets/Mother_Mirror.pdf`** — 14 slides on Winnicott's mirror role,
+**`assets/exs/Presentation_Mother_Mirror.pdf`** — 14 slides on Winnicott's mirror role,
 generated with Google NotebookLM. It is the highest-quality reference in this
 repo. Open it before designing anything.
 

@@ -21,8 +21,18 @@ Purpose: durable behavioral memory to improve proactive drafting and reduce user
 - `whats-proxy` daemon manages Baileys socket, store persistence, and reconnection — one daemon per account with O_EXCL lock.
 - For deterministic reuse across tools, prefer the canonical Baileys auth/state directory managed by `whats-proxy` rather than trying to share browser internals.
 
+## Search Pitfalls
+
+- **Phonetic/typo variants matter:** When searching for compound terms like "Navier-Stokes", try both halves separately ("navier", "stokes") AND phonetic typos ("nvier", "stock") — WhatsApp messages often contain misspellings. Example: "nvier et stock" = "Navier-Stokes" with typos.
+- `find-messages` with a misspelled term can still match if the substring exists (e.g., "nvier" matched "janvier" in a different chat) — always verify the match is semantically relevant, not just a substring hit.
+
 ## Open Behavior Rules
 
 - Always read this file before composing any significant WhatsApp reply.
 - After each WhatsApp task, append any new reusable pattern (tone, correction, workflow preference, recurring contacts, recurring topics).
+
+## Investigation Pipeline (2026-09-09)
+
+- Vague chat refs from KπX ("k-whats 336") resolve with a global `find-messages` keyword search first — never assume a JID prefix (the ENSPY CAF thread was NOT in the 336-prefixed group).
+- Voice notes: `media-download` by message ID → `~/Downloads/Whats-Proxy/<phone>/` → `k-whisper 1 -p <file>` (transcript auto-saved next to audio). Set `lang` correctly for French-accented speech; default `en` still yields a usable gist for Franglais.
 

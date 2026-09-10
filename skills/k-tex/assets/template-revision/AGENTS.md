@@ -17,8 +17,8 @@ minimal pages. Robust build (`|| true`) — a PDF always comes out.
    (`~e`) — one copy per course, adjusted as needed. Never build here.
 2. **Content**: Markdown → `pandoc revision.md -o 1.tex`, or write `1.tex`
    directly (`\section`, `\subsection`, `mybox`, short bullets, bold key terms).
-3. **Build**: `make build` — the ONLY command (always rebuilds, double
-   pdflatex pass into internal `build/`, PDF copied to root).
+3. **Build**: `make build` — always rebuilds, double pdflatex pass into
+   internal `build/`, PDF copied to root. Runs `check-dashes` first.
 4. **Renders rule**: `build/` debris ignored except the final PDF
    (`.gitignore`: `build/*` + `!build/*.pdf`) — always commit the final PDF.
 
@@ -26,5 +26,6 @@ minimal pages. Robust build (`|| true`) — a PDF always comes out.
 
 - `main.tex` — formatting + `\input{1}` (3-column layout, placeholder content)
 - `1.tex` — content file (replace with the course material)
-- `Makefile` — `make build` (+ `help`), nothing else
+- `Makefile` — `make check` (dashes gate), `make build` (check + compile), `make push`
+- `scripts/check-dashes.sh` — symlink → k-tex canonical em-dash gate
 - `.gitignore` — build debris except final PDF

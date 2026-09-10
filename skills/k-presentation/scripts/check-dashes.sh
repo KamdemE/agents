@@ -1,1 +1,1 @@
-../../k-tex/scripts/check-dashes.sh
+/home/kpihx/.agents/skills/k-tex/scripts/check-dashes.sh

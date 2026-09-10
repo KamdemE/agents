@@ -145,15 +145,6 @@
       "infras": ["kpihx-ubuntu"],
       "expect-active": true
     },
-    "opencode-go-proxy-service": {
-      "unit": "opencode-go-proxy.service",
-      "type": "user",
-      "path": "$HOME/.agents/skills/k-opencode/assets/opencode-go-proxy.service",
-      "skill": "k-opencode",
-      "infras": ["kpihx-ubuntu"],
-      "expect-active": true
-    },
-
     // --- k-rclone (generic, NOT infra) → no suffix ------------------------------
     "rclone-gdrive-service": {
       "unit": "rclone-gdrive.service",

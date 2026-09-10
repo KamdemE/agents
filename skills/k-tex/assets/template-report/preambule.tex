@@ -1,0 +1,110 @@
+\usepackage[utf8]{inputenc} % This line sets the input encoding to "utf8" for proper handling of special characters
+\usepackage[T1]{fontenc} % This line sets the font encoding to "T1"
+\usepackage[french]{babel} % This line sets the default language to French
+\usepackage{enumitem} % This line imports the "enumitem" package for customizing lists
+%\usepackage{multicol} % This line imports the "multicol" package for multi-column layout
+\usepackage{underscore} % This line imports the "underscore" package for handling underscores in text
+%\usepackage{lipsum} % Import du package lipsum pour générer du texte fictif (lorem ipsum)
+\usepackage[autolanguage]{numprint} % This line imports the "numprint" package with the option "autolanguage" for automatic language detection in number formatting
+\usepackage{fancyvrb} % This line imports the "fancyvrb" package for customizing verbatim environments
+\usepackage{xcolor} % This line imports the "xcolor" package for custom colors
+%\usepackage{wallpaper} % This line imports the "wallpaper" package for adding background images
+\usepackage{mdframed} % This line imports the "mdframed" package for creating framed boxes
+\usepackage{wallpaper}
+
+%%% Line spacing
+\usepackage{setspace} % This line imports the "setspace" package for controlling line spacing
+%\onehalfspacing % Sets the line spacing to 1.5
+
+%%% Maths
+%\usepackage{amsmath} % Import du package amsmath pour les commandes mathématiques avancées
+%\usepackage{amsfonts} % Import du package amsfonts pour les polices mathématiques supplémentaires
+%\usepackage{amsthm} % Import du package amsthm pour les environnements de théorème et de preuve
+
+%%% Bibliography
+\usepackage{biblatex} % This line is commented out and imports the "biblatex" package for bibliography management
+\addbibresource{biblio.bib} % This line is commented out and adds the bibliography resource file "fin.bib" for citation management
+
+%%% Graphics
+\usepackage{graphicx} % Import du package graphicx pour l'insertion et la manipulation d'images
+\usepackage{tikz} % This line imports the "tikz" package for creating graphics and diagrams
+\graphicspath{ {assets/bgs/} }
+
+%%% HyperLinks
+\usepackage{xurl} % pour casser les URL longs
+\usepackage{hyperref} % pour rendre les URL cliquables
+\hypersetup{
+	colorlinks=true, % Sets the hyperlinks to be colored
+	linkcolor=blue, % Sets the color for internal links
+	urlcolor=red, % Sets the color for URLs
+}
+
+%%% Geometry
+%\usepackage{geometry} % Import du package geometry pour la personnalisation de la géométrie de la page
+%\geometry{
+%	paper=a4paper, % Sets the paper size to A4
+%	inner=1cm, % Sets the inner margin to 1cm
+%	outer=1cm, % Sets the outer margin to 1cm
+	%bindingoffset=.5cm, % Sets the binding offset to 0.5cm (extra space on the left side for binding)
+%	top=1.5cm, % Sets the top margin to 1cm
+%	bottom=1.5cm, % Sets the bottom margin to 1cm
+	%showframe, % Uncomment to show how the type block is set on the page
+%}
+\usepackage[a4paper, margin=2cm]{geometry}
+%%% Lists / Codes
+% \usepackage{listings} % This line imports the "listings" package for typesetting source code
+% \lstdefinestyle{c}{
+% 	language=c, % Sets the language to C for proper syntax highlighting
+% 	basicstyle=\ttfamily\small, % Sets the basic font style to monospace and small size
+% 	commentstyle=\color{green!40!black}, % Sets the style for comments to green color
+% 	keywordstyle=\color{blue}, % Sets the style for keywords to blue color
+% 	numberstyle=\tiny\color{gray}, % Sets the style for line numbers to tiny size and gray color
+% 	numbers=left, % Positions the line numbers on the left side
+% 	stepnumber=1, % Sets the step size for line numbers to 1
+% 	numbersep=5pt, % Sets the distance between line numbers and code to 5pt
+% 	backgroundcolor=\color{white}, % Sets the background color of the code block to white
+% 	frame=single, % Adds a frame around the code block
+% 	breaklines=true, % Enables automatic line breaking
+% 	breakatwhitespace=true, % Breaks lines at any whitespace
+% 	showspaces=false, % Hides spaces with special characters
+% 	showstringspaces=false, % Hides spaces within strings
+% 	showtabs=false, % Hides tab characters
+% 	morekeywords={True, False}, % Adds additional keywords to be highlighted
+% 	literate={ê}{{\^e}}1 {é}{{'e}}1 {è}{{e}}1 {à}{{a}}1 {ç}{{\c c}}1 {ï}{{i}}1 {ï}{{i}}1 {î}{{\c i}}1 {ï}{{`i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {â}{{\^a}}1 {ë}{{"e}}1 {ö}{{"o}}1 {ü}{{"u}}1 {ä}{{"a}}1 {_}{\_}1, % Allows special characters to be displayed correctly
+% }
+
+%%% Chapters
+% \usepackage{emptypage} % This line imports the "emptypage" package to avoid numbering empty pages
+% \usepackage{fancyhdr} % This line imports the "fancyhdr" package for custom page headers and footers
+% \usepackage{etoolbox} % This line imports the "etoolbox" package for patching commands
+% \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{} % This line patches the command for chapter headings to use the "fancy" page style instead of the "plain" style
+
+%%% Chapters titles
+% \usepackage{titlesec} % This line imports the "titlesec" package for customizing section and chapter titles
+% \titleformat
+% 	{\chapter} % This line defines the "chapter" environment as a chapter
+% 	[display] % This line defines the "display" style for the chapter title
+% 	{\bfseries\Large\itshape} % This line sets the font style and size for the chapter title
+% 	{\begin{center}\vspace{-2cm}Partie \thechapter\end{center} } % This line sets the label for the chapter title
+% 	{-0.5cm} % This line sets the spacing between the chapter title and the label
+% 	% {vspace{0.5ex}} % This line sets the vertical spacing between the chapter title and the label
+% 	{
+% 		\rule{\textwidth}{0.5pt} % Adds a horizontal rule with a thickness of 0.5pt
+% 		%\vspace{0.25ex} % Adds vertical space of 0.25ex
+% 		\centering % Centers the chapter title
+% 	} % before-code
+% 	[
+% 		\vspace{-0.5ex} % Removes vertical space of 0.5ex
+% 		\rule{\textwidth}{0.05pt} % Adds a thin horizontal rule with a thickness of 0.05pt
+% 	] % after-code
+
+%%% Sections & Subsections numbering
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+
+%%% Theorems
+%\usepackage[most]{tcolorbox} % This line is commented out and imports the "tcolorbox" package for creating colored boxes
+%\newtcbtheorem{theo}% % This line is commented out and defines a new theorem-like environment called "theo"
+%{Test for convergence}{}{theorem} % The environment name is "theo", the heading is "Test for convergence", and the counter is labeled as "theorem"
+
+\date{} % Sets the date to empty

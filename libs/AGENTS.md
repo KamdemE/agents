@@ -49,6 +49,7 @@ twin-name parity across the `.sh`/`.py`/`.js` triplets. Full kernel-wide rule:
 |--------|---------|-------|
 | `libs/env/` | `.env` / `.env.example` helpers (keys + presence, never values) | `env_lib.sh` / `env_lib.py` / `env_lib.js` |
 | `libs/jsonc/` | JSONC strip/validate/load + infra helpers | `jsonc_lib.sh` / `jsonc_lib.py` / `jsonc_lib.js` |
+| `libs/humanize/` | PROSE dash humanization — 4 blocked patterns (---, —, -- , spaced –) + interval 2024–2025 exemption + code whitelist | `humanize_lib.sh` / `humanize_lib.py` / `humanize_lib.js` |
 | `libs/notif/` | Notifications (Telegram token + emoji + levels + telegram/system/mixed + homelab lock) | `notifier.sh` (sh only) |
 
 ## Reflex

@@ -7,7 +7,7 @@ description: >
   Registry in k-clis.
 license: private
 metadata:
-  version: 2.80.0
+  version: 2.86.0
   author: KpihX
   scope: agent-runtime
   target-agent: opencode
@@ -88,6 +88,13 @@ opencode debug config
 opencode mcp list
 opencode providers list
 opencode models
+opencode models cursor
+opencode models google-agy
+opencode auth list
+# Quotas — Google One (AGY): agy -p '/quota' --output-format text --print-timeout 30s
+#          OpenCode TUI: /agyquotasummary · /agyquota
+#          OpenCode local cost: opencode stats --days 7 --models
+#          Cursor plan: https://cursor.com/dashboard/usage (no IDE `cursor quota`)
 ```
 
 ## Operational Rules (KπX)
@@ -105,7 +112,7 @@ opencode models
 ## Plugins & Hooks — Four Systems
 
 OpenCode and its environment are extended via four distinct systems:
-1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS/TS modules). 19 active plugins (6 npm, 13 local: 9 hooks + 4 non-hooks). `opencode-claude-auth` purged totally 2026-09-05 (KπX order, Claude unused). See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, and coding standards in **`references/hooks-standard.md`**.
+1. **Lifecycle plugins:** (`opencode.jsonc` → `"plugin"`, npm or local `file://{env:HOME}` JS/TS modules). Active npm auth/providers include `@anthonyhaussman/opencode-agy-auth@latest` (Google One → `google-agy`) and `@stablekernel/opencode-cursor@latest` (Cursor SDK → `cursor`). `opencode-antigravity-auth` replaced 2026-09-09; `opencode-claude-auth` purged 2026-09-05. See **`references/plugins-architecture.md`**, ecosystem research + install log in **`references/plugin-watch.md`**, provider recipes in **`references/providers.md`**, and coding standards in **`references/hooks-standard.md`**.
 2. **TUI plugins:** (`tui.json` → `"plugin"`, `file://` sovereign fork) for console interface features (voice STT/TTS via `@kpihx/opencode-voice` `v0.4.1-kpihx.1` fork de `renjfk`). ⚠️ **Config/link registration ≠ runtime readiness (GRAVÉ):** registering a plugin (config array, `tui.json` symlink, `file://` path) only loads its JS glue — every external binary, service, or model file the plugin invokes MUST ALSO be installed and verified **per machine** (e.g. voice: `sox`/`whisper-cli`/`piper`; hooks: `tmux` CLI; web voice: lens proxy). Run the owning skill's dependency checks before declaring the feature working. Per-machine deployment checklist → **`references/voice.md`**.
 3. **Slash commands:** (`.opencode/commands/*.md` auto-discovered markdown files) for interactive shortcuts (like `/context`). See **`references/context-plugin.md`**.
 4. **Web UI plugins:** Injected via the `opencode-lens` proxy to extend the browser-based UI (e.g. `opencode-web-voice` Web Speech mic, `opencode-web-model-line` model-selector own-line fix). See **`### Web UI plugins (opencode-lens proxy)`** below.
@@ -131,23 +138,33 @@ Durable, explicitly parent-controlled peer sessions. Source: `scripts/plugins/op
 
 Two OpenAI-compatible providers auto-synced from local/remote Ollama servers: `ollama` (port 11434, via `scripts/opencode-ollama.sh`) and `ollama6` (port 11436 through the DxO tunnel, via `k-dxo/scripts/opencode-ollama6.sh`). Both do surgical sub-block JSONC replacement (other providers untouched). Full config examples → **`references/providers.md`**.
 
-### Providers: OpenCode Go 2nd account (custom provider + proxy)
+### Providers: OpenCode Labs (Go + Zen twins — auto models, no proxy)
 
-Custom provider `opencode-go-2` for a 2nd OpenCode Go subscription with separate billing. Key in `auth.json` (`~/.local/share/opencode/auth.json["opencode-go-2"]`), never hardcoded in JSONC.
+Second billing account (**KπX Labs**), mirroring principal:
 
-**⚠️ `modelsDiscovery` URL path bug (2026-09-03):** The `opencode-models-discovery` plugin's `buildAPIURL()` uses `new URL(endpoint, new URL(baseURL).origin)` — this strips the path from `baseURL`. For OpenCode Go (`https://opencode.ai/zen/go/v1`), origin = `https://opencode.ai`, so discovery hits `https://opencode.ai/v1/models` (missing `/zen/go/` prefix). **Fix:** local reverse proxy at `localhost:4999` rewrites `/v1/*` → `https://opencode.ai/zen/go/v1/*`. Provider `baseURL` points to proxy.
+| Id | Display | Endpoint | Free |
+|----|---------|----------|------|
+| `opencode-labs` | OpenCode Labs Go | `/zen/go/v1` | No |
+| `opencode-labs-zen` | OpenCode Labs Zen | `/zen/v1` | Yes (`*-free`, …) |
 
-- **Proxy script:** `scripts/opencode-go-proxy.js` — Node.js, reads API key from `auth.json`, rewrites paths.
-- **Systemd service:** `opencode-go-proxy.service` — source of truth in `assets/`, symlinked to `$HOME/.config/systemd/user/`, registered in `assets/services.jsonc` + `assets/links.jsonc`.
-- **Usage:** `"model": "opencode-go-2/mimo-v2.5"` or `"small_model": "opencode-go-2/deepseek-v4-flash"`.
-- **34 models discovered** via `opencode models` (auto-fetched from `/v1/models`).
+Keys via `/connect` / `opencode auth login` (Other → id). **Same Labs API key** can be pasted for both ids (endpoint picks catalog). Never hardcode keys or model lists.
+
+**Architecture (no middleware):**
+- Direct `baseURL` (`…/zen/v1` or `…/zen/go/v1`)
+- Plugin `scripts/plugins/opencode-account-discovery.js` — flag `opencodeAccountDiscovery: true` on any Nth OpenCode account provider
+- Owns `GET {baseURL}/models` + **exact** models.dev match for name/cost/`provider.npm` (muse/luna → `@ai-sdk/openai` / `/v1/responses`)
+- Do **not** use `opencode-models-discovery` on these providers (race → muse stuck on openai-compatible → 500)
+- Do **not** use `modelInfoFormat: models.dev` (fuzzy free→paid names)
+
+**Legacy purged 2026-09-09:** `opencode-go-proxy` (:4999) + systemd + services/links (bak `/tmp/`).
+
+**Principal:** `opencode/*` (Zen) + `opencode-go/*` (Go). **Labs:** same catalogs, separate billing.
 
 **Adding a custom provider (general pattern):**
-1. Run `opencode auth login -p <custom-id> -m api-key` → stores key in `auth.json["<custom-id>"]`
-2. Add provider block in `opencode.jsonc` with `"npm": "@ai-sdk/openai-compatible"`, `"options": { "baseURL": "..." }`
-3. If `baseURL` has a non-trivial path (not just `/v1`), the `modelsDiscovery` plugin will strip it — use a local proxy or add models manually
-4. If clean `/v1` endpoint → add `"modelsDiscovery": { "enabled": true }` for auto-discovery
-5. Verify: `opencode models 2>&1 | grep "<custom-id>"`
+1. Run `opencode auth login` → Other → custom id → API key → `auth.json["<id>"]`
+2. Provider block: `"npm": "@ai-sdk/openai-compatible"`, `"options": { "baseURL": "https://opencode.ai/zen/v1" | "…/zen/go/v1", "opencodeAccountDiscovery": true }`
+3. Load plugin `opencode-account-discovery.js` in `plugin` array
+4. Verify: `opencode models <id>` — muse free must show `api.npm=@ai-sdk/openai`
 
 **Non-`:latest` tag bug (fixed 2026-08-27) + the `kr` reflex:** `opencode-ollama.sh` used to build its JSONC key via `name.split(":")[0]` unconditionally — safe ONLY for the `:latest` tag (Ollama resolves a bare name to `:latest` implicitly), but any other explicit tag (`:1.7b`, `:4b`, `:1b`, future `:14b`) got silently truncated, causing `model "X" not found, try pulling it first` even though the model was actually present, and **silent dict-key collisions** when two different tags of the same base model exist (`qwen3:4b` + `qwen3:1.7b` both stripped to `"qwen3"` → last one wins, the other vanishes from `opencode.jsonc` with zero error). Fixed: `model_id = name.split(":")[0] if name.endswith(":latest") else name` — full tag kept as key for any non-`:latest` pull, in both `opencode-ollama.sh` (local) and mirrored check confirmed already-correct in `k-dxo/scripts/opencode-ollama6.sh` + `k-windows/scripts/remote-server/opencode-ollama-server.sh` (both already used the full tag as key from the start, no bug there).
 
@@ -249,7 +266,7 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 - `references/permissions.md` — Full permission architecture, bash zones, `.env`/auth protection, MCP overrides, `external_directory`
 - `references/mcp-config.md` — MCP config format (local/remote/bearer-token examples)
 - `references/sqlite-storage.md` — Session storage schema (SQLite) and query examples
-- `references/providers.md` — Ollama & Ollama6 provider config examples
+- `references/providers.md` — Ollama, Ollama6, OpenVINO, Cursor (`@stablekernel/opencode-cursor`) & Google AGY (`@anthonyhaussman/opencode-agy-auth` + local `agy`) — auth, npm pitfalls, quota commands
 - `references/android-termux.md` — Android/Termux incompatibility: root cause, workarounds tested, and build-from-source guide for ARM64 devices
 - `references/voice.md` — STT/TTS via the sovereign `@kpihx/opencode-voice` fork and Web Voice Plugin: model install, Web Speech configuration, and browser integrations
 - OpenCode Go Models — Always check the official site [opencode.ai/go](https://opencode.ai/go) and live catalog [opencode.ai/zen/go/v1/models](https://opencode.ai/zen/go/v1/models) (references/go.md removed as obsolete)
@@ -265,8 +282,9 @@ ln -sf $HOME/.agents/skills/k-opencode/assets/tui.json $HOME/.config/opencode/tu
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.80.0 tmux-notify SSH opt-in (KπX order): `TMUX_ALLOW_SSH=1` prefix arms a lease on an interactive `ssh`/`mosh` pane (fail-closed by default, block message now names the flag with an example). SSH leases are `viaSsh` degraded: watchdog-only, no auto `<tmux-notify>` (remote prompt never writes the local log), `<tmux-armed-ssh>` reminder + watchdog SSH note. Shared `ALLOW_SSH_REGEX` + `SSH_WRAPPER_CMDS` in `libs/tmux-patterns.js`. NOTE: running opencode process must reload/restart to pick up the new hook code. |
-| 2026-09-05 | [LIVE] | v2.79.1 `opencode-claude-auth` purged totally (KπX order, Claude unused): dead commented line removed from `assets/opencode.jsonc` + `references/plugins-architecture.md`, prose updated, `~/.cache/opencode/packages/opencode-claude-auth*` trashed (~126 MB). |
-| [SUMMARY] | — | v2.79.0 OpenCode Go 2nd account + opencode-go-proxy + Claude purge · v2.78.0 claude-auth deactivated + full Claude purge (~606 MB) · v2.77.0 opencode-help v0.4.0 model allowlist · v2.77.0 opencode-help v0.4.0 model allowlist · v2.76.0 opencode-help v0.3.0 native delegation · v2.75.0 opencode-help v0.2.0 explicit defaults · v2.74.0 opencode-help structured SDK prompt diagnostics · v2.73.0 opencode-help v0.1.1 activation · v2.72.0 raw-exec-guard runtime `.env` loading protection · v2.71.0 file-path `.env` protection · v2.69.0 raw-exec duration threshold + false-positive fix · v2.68.0 tmux-notify capture depth 20→50 · v2.67.0 raw-exec guard technical enforcement · v2.66.0 tmux-notify A/B/C/D decision tree · v2.65.0 timeout self-adjustment + escalating watchdog · v2.64.0 owner-aware pane leases · v2.63.0 openvino auto-discovery · v2.62.0 opencode-notify auto mode + Telegram hardening · v2.61.0 `opencode-web-model-line` plugin · v2.60.0 Lite compact kernel + non-`:latest` tag fix · v2.59.x live TUI test pane discipline + opencode-notify rewrite · v2.58.0 Lens/Web/Shim restructure + abort-suppression + notifier formatting · v2.57.x Telegram fallback fix + sovereign `opencode-notify` plugin · v2.56.0 Live symlinks de-duplicated + k-context gate · v2.55.0 Live added to TARGET_AGENTS · v2.54.0 Kagan plugin purged · v2.53.0 ecosystem plugins pass · v2.52.0 config-link ≠ runtime-ready · v2.51.0 Build added to TARGET_AGENTS · v2.48.x voice fork + context submodule · v2.47.0 anti-wait block purged · v2.46.0 and older in `references/log.md` |
+| 2026-09-10 | [LIVE] | v2.86.0 humanize gate: humanize-guard.js hard PROSE dash gate, check-dashes.sh extended. |
+| 2026-09-09 | [LIVE] | v2.85.x OpenCode Labs + AGY + Cursor providers, Copilot picker fix, account discovery, go-proxy purged. |
+| [SUMMARY] | -- | v2.82.x footer refonte . v2.81.0 startup capped . v2.80.0 tmux SSH opt-in . v2.79.x claude-auth purged + Go 2nd account . older in references/log.md |
+
 
 Bundled: `assets/opencode.jsonc` (single source of truth — symlink target for `~/.config/opencode/opencode.jsonc`) · `assets/opencode.jsonc~` (preserved configuration backup) · `assets/opencode-lens.service` (day-to-day proxy), `assets/opencode-web.service` (native backend), and `assets/opencode-web-shim.service` (dual-port middleware — see `## OpenCode Web` for the full request chain) — all 3 symlink targets for `~/.config/systemd/user/`

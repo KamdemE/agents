@@ -86,3 +86,7 @@ zstyle ':omz:plugins:alias-finder' cheaper yes
 #   - with-env, auto-tmux → .kshrc Section 2
 #   - bash/shopt → .bashrc
 # ════════════════════════════════════════════════════════════
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/kpihx/.local/bin:$PATH"

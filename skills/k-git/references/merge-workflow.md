@@ -80,7 +80,7 @@ Ma proposition : ✅ VALIDER / PATCH / FUSIONNER / REJETER
 | Fichier | côté master | côté PR | Résolution proposée |
 ...
 
-## REMARQUES (tout, y compris pré-existant)
+## 💬 COMMENTS + ⚠️ REMARQUES + 🔭 INSIGHTS (territoire libre de l'agent — avis franc / alertes même hors demande et pré-existant / mode tuteur — sans limite de longueur, les 3 toujours recommandées, répétées tant que pertinentes si ignorées)
 1. ...
 2. ...
 
@@ -232,7 +232,7 @@ Proposition : ✅ ...
 |---|---|---|---|
 | ... | ... | ... | Union → ... |
 
-## REMARQUES
+## 💬 COMMENTS + ⚠️ REMARQUES + 🔭 INSIGHTS (territoire libre — les 3 recommandées, sans limite, répétées si ignorées)
 1. ...
 
 💡 SUGGESTIONS

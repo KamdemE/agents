@@ -298,7 +298,7 @@ const CURL_MUTATE = /\bcurl\b.*(?:POST|PUT|PATCH|DELETE|-H)/i;
 const CURLS_DELETE = /curls.*DELETE/i;
 
 // send-keys confirmation injection: block y/Y/yes/o/oui/ok payloads
-const SEND_KEYS_CONFIRM = /tmux\s+send-keys.*(?:\b[yo]\b|\byes\b|\boui\b|\bok\b)/i;
+const SEND_KEYS_CONFIRM = /tmux\s+send-keys.*\s+['"](?:y|yes|o|oui|ok)['"]\s+Enter/i;
 
 export default async function () {
   return {

@@ -4,7 +4,7 @@ description: KπX Edge Automation via browser-proxy — the sovereign JSON-RPC d
 license: private
 metadata:
   author: KpihX
-  version: "5.4.0"
+  version: "5.7.0"
   scope: agent-tooling
   cli: browser-proxy
 ---
@@ -77,6 +77,26 @@ Created **only** on genuine, particular insight (login mechanism, real quirks, u
 | `sites/gargantua.polytechnique.fr.md` | SIATEL document links: shared Egide SSO, inline-PDF behavior, and the transparent same-origin download sequence |
 | `sites/linkedin.com.md` | Primary account ivann.kamdem@hotmail.com (not the Google SSO), feed/infinite-scroll parsing, messaging UI, InMail vs Message distinction, LinkedIn notification emails in Outlook |
 | `sites/outlook.live.com.md` | Passwordless Authenticator login (cross-origin iframe gotcha), Focused/Other inbox split, coordinate-click-only for login form |
+| `sites/lebara.fr.md` | Primary account kapoivha@gmail.com (MSISDN 0605957785), Redux state architecture (activityHistory, plans), DOM selectors, historical stats (June–Sept 2026), and offline GSM/USSD workflows |
+| `sites/impots.gouv.fr.md` | Direction Générale des Finances Publiques — Espace Particulier: Numéro Fiscal 3072492439184, FranceConnect auth, RFR 0 €, PDF archives in ~/Gdrive_X/KpihX/Fr/, annual TickTick tasks, Admins mail integration |
+
+**Job-hunt site memory (`references/pro/`)** — created 2026-09-09 for the 3A internship campaign (profile: 6-month AI research stage starting end of March 2027). Same imposed structure as `sites/`, plus per-file offer/status sections.
+
+| Site | What it captures |
+|---|---|
+| `pro/linkedin.com-jobs.md` | LinkedIn Jobs side: search URL filters (`f_JT=I` internships, `f_TPR=r2592000` 30d), 7-card SSR limit + infinite scroll, `f_C=` ignored, per-offer triage (type/date/candidates), company-page SSR empty |
+| `pro/polytechnique.jobteaser.com.md` | JobTeaser X: Algolia (app `WS3ZUW0BOJ`, index `job_ads_search_query_suggestions`), SSR `?query=` ignored, UI autocomplete mandatory, captured keyword suggestions, offer fields (type/salary/start date) |
+| `pro/ax.polytechnique.org.md` | AX alumni jobboard: 576 offers/48 pages, AlumnForce v-autocomplete automation block, ignored URL params, CDI vs stage triage |
+| `pro/stage.binets.fr.md` | XStage: `find?q=` index, view IDs, tutor contacts (X alumni emails), salary benchmarks (Lazard 1800€, Storyzy 1500€, Safran 1330€...) |
+| `pro/google-careers.md` | Google Careers: 2027 intern taxonomy (BS/MS EMEA = eligible "penultimate year"; Summer = US-only; PhD = out), slug extraction from HTML |
+| `pro/jobs.ashbyhq.com.md` | Mistral via Ashby: Intern filter (`employmentType=Intern`), only 2 internships exist (Applied Scientist 6mo Paris/London, Forward Deployed ML Paris) |
+| `pro/apply.workable.com.md` | Hugging Face via Workable: no internships (all senior full-time), "Clear filters" before judging catalog |
+| `pro/careers.datadoghq.com.md` | Datadog: Early Careers page, Greenhouse `gh_jid`, Applied Science Intern Paris (AI — compatible), SWE Intern Paris (dev — non-compat) |
+| `pro/welcometothejungle.com.md` | WTTJ: 2026 matching redesign (no anonymous listings), Axeptio consent via browser-dismiss-overlays, search URL pattern |
+| `pro/metacareers.com.md` | Meta: internship catalog nearly all PhD (Research Scientist Intern), no master-level Paris AI intern — out of scope |
+| `pro/orange.jobs.md` | Orange: root redirects to /gb/en, jobs.orange.com unreachable (timeout), LinkedIn company SSR empty — manual |
+| `pro/x-jobboard.polytechnique.fr.md` | X-Job Board: X SSO session, DataTables search (`#dt-search-0`), 72 offers all ≤2023 (mostly 4A/M2), non-priority |
+| `pro/hi-paris.fr.md` | HI! PARIS: `/recruitment/` (legacy `/careers/` 404s), Taleez ATS, ML Research Engineer = 36-month CDD (non-compat) |
 
 **Imposed structure for a new site file:** `Category`/`Account`/`Profile` header line → `## Login` → `## Structure / navigation` → `## Known quirks` → `## Changelog` (site-level). Keep it free of long inline commands — extract those into `scripts/presets/` and link them instead (see below). **MANDATORY:** You MUST list the known critical DOM selectors and their fallbacks for each site; update them immediately when one breaks.
 
@@ -218,6 +238,7 @@ Never memorize the 71 actions — the categorized `browser-proxy do --help` outp
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-03 | [LIVE] | v5.4.0 `group-create` now requires `window_id` — prevents wrong-window grouping; InPrivate docs clarified. browser-proxy v0.8.1 published. |
-| 2026-09-03 | [LIVE] | v5.3.0 Added gemini.google.com.md site memory (DataTransfer upload, canvas extraction, conversation patterns). Added 3 Gemini presets: gemini-upload.py, gemini-extract-images.py, gemini-batch-upload.sh. |
-| [SUMMARY] | — | v5.2.0 InPrivate limitation documentation · v5.1.0 InPrivate section enriched · v5.0.0 InPrivate refactoring · v4.3.0 generic scraping methodology · v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation · v4.1.x page-click-eval strategy + YouTube Music interaction · v4.0.5 LinkedIn + Outlook site memories · v4.0.4 Bootstrap-tab reuse rule · v4.0.3 Official Polytechnique 3A document flow · Earlier versions → `references/log.md`. |
+| 2026-09-09 | [LIVE] | v5.7.0 Added `references/pro/` job-hunt site memory: 13 site files (LinkedIn Jobs, JobTeaser X, AX, XStage, Google Careers, Mistral/Ashby, HF/Workable, Datadog, WTTJ, Meta, Orange, X-JobBoard, Hi! PARIS) with the standard site-file structure, from the 3A AI-research internship campaign. |
+| 2026-09-06 | [LIVE] | v5.6.0 Added impots.gouv.fr.md site memory (Fiscal number 3072492439184, RFR 0 €, Gdrive_X PDF archive path, TickTick annual tasks, Admins mail integration). |
+| [SUMMARY] | -- | v5.5.0 . v5.4.0 . v5.3.0 . v5.2.0 InPrivate limitation documentation · v5.1.0 InPrivate section enriched · v5.0.0 InPrivate refactoring · v4.3.0 generic scraping methodology · v4.2.x page-click-eval default, YouTube Music interaction/inventory/playlist lessons, page-screenshot root-cause fix, InPrivate/Incognito navigation · v4.1.x page-click-eval strategy + YouTube Music interaction · v4.0.5 LinkedIn + Outlook site memories · v4.0.4 Bootstrap-tab reuse rule · v4.0.3 Official Polytechnique 3A... |
+

@@ -32,7 +32,7 @@ When editing `k-context/SKILL.md`: update `## Session Log` + review `## Active P
 - TODOs in k-context: Only KπX adds; agents execute + remove
 
 ## Issue Surfacing Mandate
-Any detected bug, risk, stale reference, duplication, desync → surface in `Remarques` immediately. Repeat until addressed.
+Any opinion on the work (good, bad, suboptimal, security) → surface in `Commentaires` (FREE OPINION, frank, no length limit). Any detected bug, risk, stale reference, duplication, desync → surface in `Remarques` (FREE ALERT, cold-headed, even off-request). Anything worth knowing outside KπX's context (better method, intuition behind the build, new tool) → surface in `Insights` (TUTOR mode, feeds curiosity). Three independent free-expression territories — each whenever pertinent, never either/or, ALL strongly recommended, NO length limit. If ignored, keep repeating every turn (even verbatim) while still pertinent, until addressed. A seen falsehood is flagged in `Remarques` immediately — never ask permission to flag. Flag first, offer the deep-dive second.
 
 ## Brainstorm Registry
 Long-lived ideas go in `references/`. Add a `.md` file when a brainstorm should survive sessions. Register each file in `## Brainstorm Registry`.

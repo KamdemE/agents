@@ -7,6 +7,7 @@
 | File | Covers | Read when |
 |------|--------|-----------|
 | `response-format.md` | Footer sections, emoji-led format, interaction style | EVERY response you send |
+| `document-humanize.md` | Keyboard-native deliverable prose (md/pdf/pptx/letters); bans non-human unicode typography | ANY document produced for KπX |
 | `file-governance.md` | EN-only files, `$HOME` paths, single source of truth | ANY file operation |
 | `audit-commands.md` | `make check`, `uv`, never `pip` | BEFORE finalizing any work |
 | `tool-discipline.md` | tmux sudo gate, read-before-edit, no shell file ops, **help reflex** (stuck/spinning → open a peer via `help_open` for a **second opinion**, NOT for task delegation), **question tool reflex** (any doubt → ask KπX) | ANY bash/tool usage |
@@ -24,8 +25,8 @@
 | Agent | Must read |
 |-------|-----------|
 | **Colab** (primary) | All rules (enforced through checker) |
-| **Explore** (primary) | `response-format`, `file-governance` |
-| **executor** | `file-governance`, `audit-commands`, `tool-discipline` |
+| **Explore** (primary) | `response-format`, `file-governance`, `document-humanize` |
+| **executor** | `file-governance`, `audit-commands`, `tool-discipline`, `document-humanize` |
 | **pragmatic-checker** | **ALL listed rules** — mandatory before every check pass |
 | **curator** | `agent-registry`, `skill-governance`, `k-context-hygiene` |
 | **intent-guardian** | `k-context-hygiene` |

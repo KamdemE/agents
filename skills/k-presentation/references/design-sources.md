@@ -71,7 +71,7 @@ another deck. It will be better and it will be yours.
 
 ## Looking at good decks
 
-- Read `assets/Mother_Mirror.pdf` in this skill first — it is dissected in
+- Read `assets/exs/Presentation_Mother_Mirror.pdf` in this skill first — it is dissected in
   `visual-systems.md`.
 - Conference talk decks from people who present for a living, published slide
   archives from research groups, and investor-deck teardowns are more useful

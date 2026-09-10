@@ -1,6 +1,6 @@
 # Outlook / Hotmail Folders & Rules Reference (`ivann.kamdem@hotmail.com`)
 
-**Status:** Updated **2026-09-04** · **Tool:** `m365` (Microsoft Graph API) · **Account:** `ivann.kamdem@hotmail.com`
+**Status:** Updated **2026-09-09** · **Tool:** `m365` (Microsoft Graph API) · **Account:** `ivann.kamdem@hotmail.com`
 
 ---
 
@@ -46,13 +46,38 @@ To keep incoming alias mails in `INBOX` while making a copy in the dedicated sub
 > ⚠️ **Sequence Pitfall:** When creating rules via Graph API, omitting `sequence` causes **HTTP 400 (`MessageRuleValidationError: Field Sequence Value '0'`)**. Always supply an explicit `sequence: N`.
 > ⚠️ **StopProcessing Pitfall:** Rules with `stopProcessingRules: true` halt processing for subsequent rules. If a rule moves to INBOX and stops at `sequence: 1`, rules `4` and `5` will **never execute**. `copyToFolder` must be merged directly into the matching rule actions.
 
-### Current Live Rules (2026-09-04)
+### Current Live Rules (2026-09-09)
+
+#### Alias routing rules (seq 1–3)
 
 | Seq | Rule Display Name | Rule ID | Conditions | Actions |
-|-----|-------------------|---------|------------|---------|
+|-----|-------------------|---------|------------|---------| 
 | 1 | `KpihX inbound contact (inbox)` | `AQAAAREMtq0=` | `sentToAddresses: contact@kpihx-labs.com` | `moveToFolder: INBOX`, `stopProcessingRules: true` |
 | 2 | `KpihX inbound kpihx (inbox)` | `AQAAAREMtq4=` | `sentToAddresses: kpihx@kpihx-labs.com` | `moveToFolder: INBOX`, **`copyToFolder: KpihX-Labs/KpihX/In`**, `stopProcessingRules: true` |
 | 3 | `KpihX inbound ivann (inbox)` | `AQAAAREMtq8=` | `sentToAddresses: ivann@kpihx-labs.com` | `moveToFolder: INBOX`, **`copyToFolder: KpihX-Labs/Ivann/In`**, `stopProcessingRules: true` |
+
+#### Admins institutional copy rules (seq 4–15) — created 2026-09-09
+
+> **Design:** `copyToFolder: Admins` + `stopProcessingRules: false` — mail stays in Inbox AND gets copied to Admins. Mirrors Gmail filter `ANe1BmjBAHPqNX8ssOZKEjFbfjn178UOWxTGpg` (k-mail v3.3.0).
+
+| Seq (live) | Rule Display Name | Rule ID | `senderContains` | Entity |
+|------------|-------------------|---------|-----------------|--------|
+| 4 | `Admins: DGFiP` | `AQAAAVfbCvM=` | `dgfip.finances.gouv.fr` | Impôts / DGFiP |
+| 5 | `Admins: impots.gouv.fr` | `AQAAAVfbCvQ=` | `impots.gouv.fr` | Impôts (portail + OTP) |
+| 6 | `Admins: Ameli` | `AQAAAVfbCvU=` | `ameli.fr` | Assurance Maladie / CPAM |
+| 7 | `Admins: CROUS` | `AQAAAVfbCvY=` | `lescrous.fr` | CROUS / bourses / logement |
+| 8 | `Admins: Izly` | `AQAAAVfbCvc=` | `izly.fr` | Izly (CROUS paiement) |
+| 9 | `Admins: Solidarité Transport` | `AQAAAVfbCvg=` | `solidaritetransport.fr` | AST / Navigo solidarité |
+| 10 | `Admins: IDF Mobilités` | `AQAAAVfbCvk=` | `idfmobilites.fr` | IDF Mobilités / Navigo |
+| 11 | `Admins: SG notificationsclients` | `AQAAAVfbCvo=` | `notificationsclients.socgen.com` | Société Générale (notifs) |
+| 12 | `Admins: SG societegenerale.fr` | `AQAAAVfbCvs=` | `societegenerale.fr` | Société Générale (officiel) |
+| 13 | `Admins: Lebara` | `AQAAAVfbCvw=` | `lebara.` | Lebara (lebara.fr + lebara.com) |
+| 14 | `Admins: Heyme` | `AQAAAVfbCv0=` | `heyme.care` | Heyme mutuelle santé |
+| 15 | `Admins: MesServices etudiant` | `AQAAAVfbCv4=` | `messervices.etudiant.gouv.fr` | MesServices / CVEC / étudiant gouv |
+
+**Admins folder ID:** `AQMkADAwATY3ZmYAZS02MWU0LTUyNTctMDACLTAwCgAuAAADmibqTsfad0qK5sBO56rVlAEAeLz9KL3gtEmFaLEVzkpkLAABVkDn8gAAAA==`
+
+> **Note:** Graph API normalizes `senderContains` values to uppercase internally — functionally case-insensitive. `lebara.` (with trailing dot) covers both `lebara.fr` and `lebara.com` in one rule.
 
 ---
 

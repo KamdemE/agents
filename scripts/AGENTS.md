@@ -15,12 +15,13 @@ kernel (`make check`, `make set-links`, `make reload-services`, …). It follows
   - `scripts/links/`    → symlink registry: `set-links.sh`, `check-links.sh`, `link_*_guard.sh`, `lib.sh`
   - `scripts/remotes/`  → kernel git remotes contract: `check-remotes.sh`, `set-remotes.sh`, `lib.sh`
   - `scripts/check_skills/` → skills audit (Python, modular guards)
-  - `scripts/exec/`     → executability (`check-exec.sh`, `chmod.sh`)
+   - `scripts/exec/`     → executability (`check-exec.sh`, `chmod.sh`)
+   - `scripts/check-dashes.sh` → PROSE dash humanization gate (single flat executable, sources `libs/humanize/humanize_lib.sh`)
   - `scripts/git/`      → git hooks (`hooks/post-commit.sh`, `hooks/pre-commit.sh`) + install/push scripts
   - `scripts/tailscale/` → backbone check (`check-tailscale.sh`, `set-tailscale.sh`)
 
 - **Shared logic lives in `libs/`, NEVER re-implemented in a check.** JSONC →
-  `libs/jsonc/`, `.env` → `libs/env/`. A check must be **thin**: it calls the
+  `libs/jsonc/`, `.env` → `libs/env/`, PROSE dashes → `libs/humanize/`. A check must be **thin**: it calls the
   libs and reports; it does not parse/validate itself.
 
 - **Main check = orchestrator only.** The check that `make` calls

@@ -26,6 +26,12 @@
 - **Very recent files**: prefer `find` with narrow scope (e.g. `find /home/kpihx/Work/`)
 - **Readability edge**: `plocate` respects file permissions
 
+## FUSE Mounts / Remote Drives Warning (`~/Gdrive_X`, rclone, SSHFS, external drives)
+
+🔴 **NEVER run recursive `find` on `~/Gdrive_X` or any FUSE/rclone/network mount.**
+- FUSE and rclone mounts execute remote network calls for directory traversals; running `find` on `~/Gdrive_X` triggers thousands of API calls, taking minutes and causing severe latency/timeouts.
+- **Always prefer**: `ls`, `tree -L <depth>`, targeted path navigation (`Read`), or `plocate` for indexed local files.
+
 ## Setup
 
 Install + DB setup: `skills/k-clis/references/plocate.md`

@@ -4,7 +4,7 @@ description: "KπX Git workflow — SSH protocol, remote naming convention, Make
 license: private
 metadata:
   author: KpihX
-  version: "2.17.0"
+  version: "2.17.4"
 allowed-tools: Bash(git:*), Bash(make:*), Bash(gh:*), Bash(glab:*), Bash(ssh:*)
 ---
 
@@ -160,6 +160,7 @@ This ensures that a successful push translates to a successful deployment.
 
 | Date | Agent | Action |
 |------|-------|--------|
-| 2026-09-05 | [LIVE] | v2.17.0 — **Subgroup convention** (`kpihx-labs/<subgroup>/<project>`, GitHub-flat note) + move/topic command recipes (GitLab transfer async, `topics=a,b` single-field) + init-checklist subgroup variant (KπX order, proxies migration). |
-| 2026-09-05 | [LIVE] | v2.16.1 — **Root `AGENTS.md` comment fix in global excludesFile**: `assets/git-ignore-global` §10 header now reads `AGENTS.md convention (repo root, …)` instead of `.agents/AGENTS.md`. Ignore rules unchanged. |
-| [SUMMARY] | — | v2.16.0 root-owned refs insight · v2.15.0 ABSOLUTE merge-workflow.md reference (PR #1+#2 proven pipeline) · v2.14.0 passthrough relocated to skill scripts (KπX order) · v2.13.0 `make pr` (blglaptop139-wsl, KπX order): NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo); LOUD glab gate never silent · v2.12.0 NO BYPASS vars purge (`KPIHX_ALLOW_*`/`SKIP_*`/`KEEP_*` all removed from `git-hook-passthrough.sh` + `push-submodules.sh`; checks ARE the code) + remote-pair contract bonus checks (submodule coverage, live `ls-remote` joinability, branch presence) absorbed into `scripts/remotes/` · v2.11.0 pre-push gate banner-proof remote SHA extraction (fixed false-positive submodule blocks) · v2.10.1 GIT_DIR/etc cleared before per-submodule `git -C` calls (ENOTDIR fix) · v2.10.0 remotes contract + check-remotes/set-remotes (`scripts/remotes/`, origin pruning) · v2.9.1 check-skills audit rotation (no log.md) · v2.9.0 hook plumbing ownership Prop A (`assets/git-hook-passthrough.sh` + 9 hook symlinks, k-git owns ALL git hook plumbing) · v2.8.0 global excludesFile · v2.7.0 global excludesFile (→ `references/log.md`) · v2.6.5 insights · v2.6.4 k-final (→ `references/log.md`) · v2.6.3 and older in history |
+| 2026-09-08 | [LIVE] | v2.17.4 — `references/merge-workflow.md` : insistance (KπX order) — 3 territoires répétés tant que pertinents si ignorés. |
+| 2026-09-08 | [LIVE] | v2.17.3 — `references/merge-workflow.md` : 3 territoires libres (KπX order) — gabarits `💬 COMMENTS + ⚠️ REMARQUES + 🔭 INSIGHTS`, sans limite, les 3 recommandées. |
+| [SUMMARY] | -- | v2.17.2 . v2.17.1 . v2.17.0 . v2.16.1 . v2.16.0 root-owned refs insight · v2.15.0 ABSOLUTE merge-workflow.md reference (PR #1+#2 proven pipeline) · v2.14.0 passthrough relocated to skill scripts (KπX order) · v2.13.0 `make pr` (blglaptop139-wsl, KπX order): NEW `scripts/git/create-pr.sh` + Makefile target — opens PR (`gh`, github) + MR (`glab`, gitlab) for the current branch against master; title/body from last commit; slugs parsed from remote URLs (any repo); LOUD glab gate never silent · v2... |
+
