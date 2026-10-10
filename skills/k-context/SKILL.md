@@ -4,7 +4,7 @@ description: " HOT context - auto-injected by hooks for Colab/Build. Active TODO
 license: "private"
 metadata:
   author: ""
-  version: "1.0.0"
+  version: "1.1.0"
   sciencurious-lab-banner: "920x420"
 allowed-tools: "Bash(*), *"
 ---
@@ -57,7 +57,7 @@ allowed-tools: "Bash(*), *"
 
 | Project | Status | Path |
 |---------|--------|------|
-| *(none)* | | |
+| Soutenance X2025 deck (Kamdem Kouam) | build + QA green, docs written, staged for commit, awaiting user decisions | `~/Labs/soutenance-x` |
 
 ## Brainstorm Registry
 
@@ -84,6 +84,7 @@ Do **not** fold mail/WhatsApp/TickTick/Telegram into this same response when the
 
 | Date | Agent | Entry |
 |------|-------|-------|
+| 2026-10-08 | [COLAB] | Soutenance deck `~/Labs/soutenance-x` finalization: layout QA green (pdfminer bbox scan, 0 flags on the 12 plates, footer contrast 4.67:1 over the p11 photo), 3 defects fixed (proof-copy font substitution for the x2t Georgia fallback `ISS-20261008-001`, speaker notes finally written into the `.pptx` `ISS-20261008-006`, annex table rows compacted because x2t ignores `anchor="ctr"` `ISS-20261008-007`), added `README.md` + `RULES.md`, `.gitignore` aligned to the skill rule, `git init` + staging (74 files), deck gate `make check` green. Open: image reads serve stale bytes `ISS-20261008-005`, guard session cache `ISS-20261008-002`, `RIPGREP_CONFIG_PATH` `ISS-20261008-003`, `make check` pipe guard `ISS-20261008-004`. Next: user decisions on commit, `_slides_init.py` cleanup, skill updates, kernel `make check`. |
 | 2026-09-10 | [AGENT] | *(fork point — no entries yet)* |
 
 ## References

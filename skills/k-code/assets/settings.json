@@ -50,4 +50,5 @@
   "diffEditor.codeLens": true,
   "remote.autoForwardPortsSource": "hybrid",
   "chat.mcp.gallery.enabled": true,
+  "js/ts.experimental.useTsgo": true,
 }

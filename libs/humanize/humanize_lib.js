@@ -178,8 +178,20 @@ export function containsBlockedDash(text) {
   if (esc) return esc;
 
   let m;
-  m = text.match(EM_DASH_TRIPLE_RE);
-  if (m) return { blocked: true, pattern: "EM_DASH_TRIPLE", snippet: m[0] };
+  // EM_DASH_TRIPLE: a `---` INSIDE a line is the LaTeX em-dash (blocked);
+  // a line that IS exactly `---` is the YAML front-matter delimiter /
+  // markdown HR (allowed) — mirrors the standalone-HR exemption that
+  // scripts/check-dashes.sh already applies line by line. Fixed 2026-08-08:
+  // the raw /---/ match used to block every YAML front-matter block.
+  const tripleInline = String(text)
+    .split(/\r?\n/)
+    .find(
+      (line) =>
+        line.trim() !== EM_DASH_TRIPLE && line.includes(EM_DASH_TRIPLE)
+    );
+  if (tripleInline !== undefined) {
+    return { blocked: true, pattern: "EM_DASH_TRIPLE", snippet: EM_DASH_TRIPLE };
+  }
 
   m = text.match(EM_DASH_UNICODE_RE);
   if (m) return { blocked: true, pattern: "EM_DASH_UNICODE", snippet: m[0] };

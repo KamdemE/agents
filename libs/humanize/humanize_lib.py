@@ -283,9 +283,18 @@ def contains_blocked_dash(text: str) -> dict:
     if esc:
         return esc
 
-    m = _EM_DASH_TRIPLE_RE.search(text)
-    if m:
-        return {"blocked": True, "pattern": "EM_DASH_TRIPLE", "snippet": m.group(0)}
+    # EM_DASH_TRIPLE: a `---` INSIDE a line is the LaTeX em-dash (blocked);
+    # a line that IS exactly `---` is the YAML front-matter delimiter /
+    # markdown HR (allowed) — mirrors the standalone-HR exemption that
+    # scripts/check-dashes.sh already applies line by line. Fixed 2026-08-08:
+    # the raw regex used to block every YAML front-matter block.
+    for line in text.splitlines():
+        if line.strip() != EM_DASH_TRIPLE and EM_DASH_TRIPLE in line:
+            return {
+                "blocked": True,
+                "pattern": "EM_DASH_TRIPLE",
+                "snippet": EM_DASH_TRIPLE,
+            }
 
     m = _EM_DASH_UNICODE_RE.search(text)
     if m:
@@ -376,6 +385,13 @@ if __name__ == "__main__":
     assert is_allowed_en_dash("a–b") is True  # alpha interval → allowed
 
     assert contains_blocked_dash("hello --- world")["pattern"] == "EM_DASH_TRIPLE"
+    # YAML front-matter delimiter / markdown HR: a line that IS `---` is allowed
+    fm = "-" * 3
+    fm_block = fm + "\nlayout: X\npart: Y\n" + fm + "\nbody text"
+    assert contains_blocked_dash(fm_block)["blocked"] is False
+    assert contains_blocked_dash(fm)["blocked"] is False
+    # inline triple (any line containing it, but not equal to it) stays blocked
+    assert contains_blocked_dash(fm + " inline")["pattern"] == "EM_DASH_TRIPLE"
     assert contains_blocked_dash("hello — world")["pattern"] == "EM_DASH_UNICODE"
     assert contains_blocked_dash("hello -- world")["pattern"] == "DOUBLE_DASH_SPACED"
     assert contains_blocked_dash("hello – world")["pattern"] == "EN_DASH_SPACED"

@@ -215,9 +215,21 @@ contains_blocked_dash() {
     return 0
   fi
 
-  if [[ "$text" == *"$HUMANIZE_EM_DASH_TRIPLE"* ]]; then
-    snippet="$(printf '%s' "$text" | grep -o -m1 -- '---' || printf '---')"
-    printf 'EM_DASH_TRIPLE|%s\n' "$snippet"
+  # EM_DASH_TRIPLE: a `---` INSIDE a line is the LaTeX em-dash (blocked);
+  # a line that IS exactly "---" is the YAML front-matter delimiter /
+  # markdown HR (allowed) — mirrors the standalone-HR exemption that
+  # scripts/check-dashes.sh already applies line by line. Fixed 2026-08-08:
+  # the raw substring match used to block every YAML front-matter block.
+  local hline htrim triple_inline=0
+  while IFS= read -r hline || [ -n "$hline" ]; do
+    htrim="$(printf '%s' "$hline" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+    if [ "$htrim" != "$HUMANIZE_EM_DASH_TRIPLE" ] && [[ "$hline" == *"$HUMANIZE_EM_DASH_TRIPLE"* ]]; then
+      triple_inline=1
+      break
+    fi
+  done <<< "$text"
+  if [ "$triple_inline" = 1 ]; then
+    printf 'EM_DASH_TRIPLE|%s\n' "$HUMANIZE_EM_DASH_TRIPLE"
     return 0
   fi
   if [[ "$text" == *"$HUMANIZE_EM_DASH_UNICODE"* ]]; then

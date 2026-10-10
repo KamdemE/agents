@@ -1,6 +1,10 @@
 [user]
-	email = <primary@gmail.com>
-	name = 
+	email = kamdemezechiel177@gmail.com
+	name = KamdemE
 [core]
 	excludesFile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
+[init]
+	defaultBranch = main
+[credential]
+	helper = store
