@@ -214,7 +214,7 @@ Canonical is `scripts/check-dashes.sh` (global, single source, sources `libs/hum
 
 ## Standard Makefile & `.gitignore`
 
-Centralized in `skills/k-presentation/assets/Makefile` + `skills/k-presentation/assets/.gitignore` (copies of central `skills/k-tex/assets/Makefile` / `.gitignore` + central `scripts/check-dashes.sh`; `check:` calls `sh scripts/check-dashes.sh` FIRST). `check` gates `build`, `push` standalone. Renders rule: `build/*`+`!build/*.pdf`+`!build/*.pptx`.
+Centralized in `skills/k-presentation/assets/Makefile` + `skills/k-presentation/scripts/check-dashes.sh`, both registered symlinks to `skills/k-tex/assets/Makefile` / `skills/k-tex/scripts/check-dashes.sh`. `skills/k-presentation/assets/.gitignore` is the deck-specific file (`build/*` + `!build/*.pdf` + `!build/*.pptx` + `__pycache__/` + `*.pyc`), copied into each new deck at scaffold with the Makefile. `check:` calls `sh scripts/check-dashes.sh` FIRST and gates `build`; `push` is standalone.
 
 ## Example repositories
 

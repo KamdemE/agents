@@ -1,0 +1,5 @@
+build/*
+!build/*.pdf
+!build/*.pptx
+__pycache__/
+*.pyc

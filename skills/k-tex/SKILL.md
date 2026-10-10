@@ -156,7 +156,7 @@ whitelist via `isCodeFile`).
 
 Centralized in `skills/k-tex/assets/Makefile` and `skills/k-tex/assets/.gitignore`
 (copied into every new project at creation, not symlinked).
-Both templates (`template-revision/`, `template-report/`) symlink to these.
+Both templates (`template-revision/`, `template-report/`) symlink to the `Makefile` (relative) and to `scripts/check-dashes.sh` (relative).
 
 **Makefile** — `check` gates `build` (calls copied central script FIRST, must pass before build), `push` is standalone:
 ```makefile

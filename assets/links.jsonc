@@ -92,6 +92,12 @@
     // --- k-ssh ---
     "gpg-agent-conf": {"source": "$HOME/.gnupg/gpg-agent.conf", "target": "$HOME/.agents/skills/k-ssh/assets/gpg-agent.conf", "skill": "k-ssh", "infras": ["*"]},
 
+    // ===== k-tex =====
+    "tex-template-report-Makefile": {"source": "$HOME/.agents/skills/k-tex/assets/template-report/Makefile", "target": "$HOME/.agents/skills/k-tex/assets/Makefile", "skill": "k-tex", "infras": ["*"]},
+    "tex-template-report-check-dashes": {"source": "$HOME/.agents/skills/k-tex/assets/template-report/scripts/check-dashes.sh", "target": "$HOME/.agents/skills/k-tex/scripts/check-dashes.sh", "skill": "k-tex", "infras": ["*"]},
+    "tex-template-revision-Makefile": {"source": "$HOME/.agents/skills/k-tex/assets/template-revision/Makefile", "target": "$HOME/.agents/skills/k-tex/assets/Makefile", "skill": "k-tex", "infras": ["*"]},
+    "tex-template-revision-check-dashes": {"source": "$HOME/.agents/skills/k-tex/assets/template-revision/scripts/check-dashes.sh", "target": "$HOME/.agents/skills/k-tex/scripts/check-dashes.sh", "skill": "k-tex", "infras": ["*"]},
+
     // --- k-tmux ---
     "tmux-conf": {"source": "$HOME/.tmux.conf", "target": "$HOME/.agents/skills/k-tmux/assets/tmux.conf", "skill": "k-tmux", "infras": ["*"]},
     "tmux-continuum-save": {"source": "$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh", "target": "$HOME/.agents/skills/k-tmux/assets/tmux-continuum-save.sh", "skill": "k-tmux", "infras": ["*"]},
